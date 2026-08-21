@@ -25,10 +25,11 @@ down, `N` away from the noon sun, `E`/`W` along the sunrise.
 uses — so a run's colour tells you which way it goes.*
 
 <p>
-<img src="bore/trumpet-coiled_parts.jpg" alt="The cut bore parts loose on concrete in sunlight: fifty flat plywood plates, every edge combed with finger joints, most of them long straight strips and several stepped into L and Z shapes where a section turns" width="620">
+<a href="bore/trumpet-coiled_parts.jpg"><img src="bore/trumpet-coiled_parts_web.jpg" alt="The cut bore parts loose on concrete in sunlight: fifty flat plywood plates, every edge combed with finger joints, most of them long straight strips and several stepped into L and Z shapes where a section turns" width="620"></a>
 </p>
 
-*The whole bore, cut and not yet glued — 50 plates across 8 sections. **Every edge is a
+*The whole bore, cut and not yet glued — 50 plates across 8 sections. Click it for the
+full-size photograph. **Every edge is a
 finger joint and every face is flat.** The stepped pieces are where the bore turns: a
 section carries its own corner, so nothing here is an elbow.*
 
