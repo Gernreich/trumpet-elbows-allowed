@@ -156,8 +156,8 @@ the 67-ring, because its sheet is hand-nested rather than laid out by the genera
 
 *10, 14, 17 and 67 rings — the same Bessel profile sampled at four resolutions.*
 
-The four files are a **Bessel horn**, gamma about 0.7 — the standard model for a trumpet
-bell — opening from a 31mm throat. The ply is 3mm so a ring rises 3mm; fewer rings means
+The four files follow a **Bessel profile**, gamma about 0.7 — the standard model for a
+trumpet bell — opening from a 31mm throat. The ply is 3mm so a ring rises 3mm; fewer rings means
 each ring is several identical laminations glued into a single band.
 
 They are not four samplings of one fixed length. A whole number of rings at each rise lands
