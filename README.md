@@ -13,6 +13,17 @@ The **bell** and the **mouthpiece** live in
 [octagonal trumpet](https://github.com/Gernreich/trumpet-octagonal). Neither is touched by
 the way the bore turns, so only the tube belongs to an instrument.
 
+The bore was designed **in Minecraft**, laid out block by block and coloured by direction —
+which is where the notation comes from, and why the axes match the game's: `U`/`D` up and
+down, `N` away from the noon sun, `E`/`W` along the sunrise.
+
+<p>
+<img src="bore/trumpet-coiled_minecraft.png" alt="The bore built in Minecraft from translucent coloured glass blocks, each run a different colour: long blue runs heading north, a green run east, an orange run south, purple runs west, and short grey and red columns where the bore drops and climbs" width="420">
+</p>
+
+*The same walk, built in glass. Each colour is one direction, the same palette the viewer
+uses — so a run's colour tells you which way it goes.*
+
 <p>
 <img src="bore/trumpet-coiled_parts.jpg" alt="The cut bore parts loose on concrete in sunlight: fifty flat plywood plates, every edge combed with finger joints, most of them long straight strips and several stepped into L and Z shapes where a section turns" width="620">
 </p>
@@ -48,9 +59,7 @@ N N3 U6 W5 N10 E5 D3 S8 W3 D3 N12 N
 
 The first letter is the way in, the last is the way out, and each term between them turns
 where you stand and then travels *n* blocks. The bore is **1 + the sum of the numbers** —
-59 blocks, 1829mm of centreline. Axes match Minecraft, where the shape was laid out block
-by block: `U`/`D` are up and down, `N` is away from the noon sun, `E`/`W` follow the
-sunrise.
+59 blocks, 1829mm of centreline.
 
 That single line is the entire specification. It is stored in the viewer page, and the cut
 files regenerate from it.
@@ -147,18 +156,6 @@ python3 bore_split.py --no-write "N N3 U6 W5 N10 E5 D3 S8 W3 D3 N12 N"
 The generator is [bore-generator](https://github.com/Gernreich/bore-generator), which
 builds the nets on top of **boxes.py** (Florian Festi, GPL 3.0,
 <https://www.festi.info/boxes.py/>).
-
-## A warning about Minecraft
-
-The shape is designed in Minecraft, and Minecraft **cannot check it**. It fills cells, and
-filling a cell that is already full is a no-op — no warning, no sound, nothing — so a walk
-that runs back through itself still builds into a connected tunnel that looks correct from
-every angle.
-
-That is fatal here and harmless there. In Minecraft the cells are scenery; in a bore they
-are the air path, and a cell filled twice is a junction where the air arrives with two ways
-out. There is no box section with an opening in four sides, so the crossing cannot be cut
-at all. A walk that builds cleanly in Minecraft may still be impossible.
 
 ## Files
 
