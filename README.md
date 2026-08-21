@@ -1,18 +1,15 @@
 # Coiled trumpet
 
 A trumpet bore in 25 × 25mm square section that **coils flat and drops twice**, built from
-eight box sections with **no elbows at all**. It replaces the
-[curved trumpet](https://github.com/Gernreich/trumpet-curved), which wandered through space
-in nine right angles turned by single-block elbows; this one turns inside the sections, so
+eight box sections with **no elbows at all** — every turn happens inside a section, so
 every joint is a flat face glued to a flat face. Companion to the
 [octagonal trumpet](https://github.com/Gernreich/trumpet-octagonal) and the
 [octagonal torus](https://github.com/Gernreich/torus-octagonal), which share the same
 25 × 25mm channel. Cut from 3mm Baltic birch plywood, millimetre-true at
 `1 user unit = 1mm`, so it prints and cuts at real size.
 
-The **bell** and the **mouthpiece** live here too, moved across from that repository
-because neither is changed by the elbow question — the flare and the cup are the same
-parts either way.
+The **bell** and the **mouthpiece** are here too — neither is touched by the way the bore
+turns, so the flare and the cup are the same parts whatever shape the tube takes.
 
 **[Turn the bore around in your browser](trumpet-coiled.html)** — drag to rotate,
 colour it by direction or by section, and step through the blocks one at a time.
