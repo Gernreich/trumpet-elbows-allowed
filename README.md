@@ -50,8 +50,8 @@ files regenerate from it.
 A block is 25 × 25 × 25mm of sound space wrapped in **3mm of wall**, so its outside is
 31mm. Coring it out for the bore to pass through does not shrink it — the four walls stay
 and the block still takes up 31mm. **A run of N blocks is 31N mm long.** Getting this
-wrong shortens every section by 6mm, and it is the error that invalidated the original
-build sheet on the elbow version.
+wrong shortens every section by 6mm, and it is the error that invalidated the first build
+sheet drawn for this instrument.
 
 ## When a turn is free, and when it costs
 
@@ -142,8 +142,10 @@ the bore widens at every joint and the wall varies with the flare.
 10-ring bell is 7 laminations a ring: 7 passes, 70 pieces, glued into ten 21mm bands. Cut
 it once and you get a 30mm bell instead of a 210mm one. Only the 67-ring file is one pass.
 
-All four come to 67–70 pieces, so a coarse bell is not less cutting — it is smaller sheets,
-about 0.49 m² of 3mm ply against the 67-ring's 0.69 m².
+All four come to 67–70 pieces, so a coarse bell is not less cutting. It is less material,
+and by very different amounts: 0.49 m² of 3mm ply for the 10-ring and 0.50 for the 14-ring,
+against the 67-ring's 0.69. The 17-ring is the outlier at **0.18 m²**, barely a quarter of
+the 67-ring, because its sheet is hand-nested rather than laid out by the generator.
 
 <p>
 <img src="bell/bell-trumpet-10rings-view.jpg" alt="The 10-ring bell assembled" width="200">
@@ -152,11 +154,15 @@ about 0.49 m² of 3mm ply against the 67-ring's 0.69 m².
 <img src="bell/bell-trumpet-67rings-view.jpg" alt="The 67-ring bell assembled, a true curve that necks inward before turning out to the rim" width="200">
 </p>
 
-*10, 14, 17 and 67 rings — the same 201mm Bessel horn sampled at four resolutions.*
+*10, 14, 17 and 67 rings — the same Bessel profile sampled at four resolutions.*
 
 The four files are a **Bessel horn**, gamma about 0.7 — the standard model for a trumpet
-bell — from a 31mm throat over 201mm. The ply is 3mm so a ring rises 3mm; fewer rings means
+bell — opening from a 31mm throat. The ply is 3mm so a ring rises 3mm; fewer rings means
 each ring is several identical laminations glued into a single band.
+
+They are not four samplings of one fixed length. A whole number of rings at each rise lands
+somewhere slightly different, so the four come out **210, 210, 204 and 201mm** long, and the
+67-ring reaches a wider rim than the other three.
 
 Counter-intuitively, **coarser is better at the throat and worse at the rim**: at 12mm of
 rise a 2mm minimum wall is 2.8°, where at 3mm it is stuck at 9.5°. The 17-ring is the
