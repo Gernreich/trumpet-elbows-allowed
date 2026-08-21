@@ -183,9 +183,11 @@ cd mouthpiece && python3 mouthpiece-view.py
 `bell-section.py` miscounts a hand-labelled sheet — engraved digits register as ring
 subpaths, so it reads 25 rings in the 17-ring file. Do not regenerate that section.
 
-**Previews** are display-only renderings (thicker stroke, light ground, low-contrast inks
-darkened). `previews/` is flat while the bell and mouthpiece parts are in subdirectories,
-so pass an explicit output path:
+**Previews** — display-only renderings with a thickened stroke, a light ground and the
+lightest inks darkened — are not kept in this repository. They exist to illustrate a
+writeup, there is no writeup here yet, and `make-preview.py` regenerates one in a second.
+When they come back, note that a flat `previews/` alongside parts held in subdirectories
+means the output path has to be given explicitly:
 
 ```sh
 python3 $G/make-preview.py bell-trumpet-rings/bell-trumpet-17rings.svg \

@@ -239,7 +239,7 @@ ring sizes, the 1.5mm lap, nesting order and overlapping cuts.
 `bell-section.py`; the assembled views `bell-trumpet-10rings-view.jpg`,
 `bell-trumpet-14rings-view.jpg`, `bell-trumpet-17rings-view.jpg`,
 `bell-trumpet-67rings-view.jpg` and `mouthpiece-view.jpg`, from `bell-view.py` and
-`mouthpiece-view.py`; and everything under `previews/`.
+`mouthpiece-view.py`.
 
 Released under [CC0 1.0](LICENSE).
 
