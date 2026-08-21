@@ -131,12 +131,12 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <pre><code>blocksize 31mm   thickness 3mm   burn 0.1   spacing 0.5   inner corners: corner</code></pre>
 <h2 id="regenerating">Regenerating</h2>
 <p>The walk lives in the viewer page, so the page is a complete record of the design and the cut files come back from it alone:</p>
-<pre><code>cd ../octomino-snakes/generator
-python3 bore_split.py ../../trumpet-coiled/bore/bore.html \
-    --write ../../trumpet-coiled/bore</code></pre>
+<pre><code>cd ../../octomino-snakes/generator
+python3 bore_split.py ../../GIT/trumpet-coiled/bore/bore.html \
+    --write ../../GIT/trumpet-coiled/bore</code></pre>
 <p>That rewrites every file in this directory and runs the full gate as it goes — 253 checks on this design, none failing. To try a change without writing anything:</p>
 <pre><code>python3 bore_split.py --no-write "N N3 U6 W5 N10 E5 D3 S8 W3 D3 N12 N"</code></pre>
-<p>The generator is <a href="https://github.com/Gernreich/octomino-snakes">octomino-snakes</a>, which builds the nets on top of <strong>boxes.py</strong> (Florian Festi, GPL 3.0, <a href="https://www.festi.info/boxes.py/">https://www.festi.info/boxes.py/</a>).</p>
+<p>The generator is <a href="https://github.com/Gernreich/octomino-snakes">octomino-snakes</a> — now archived, and kept above <code>GIT</code> — which builds the nets on top of <strong>boxes.py</strong> (Florian Festi, GPL 3.0, <a href="https://www.festi.info/boxes.py/">https://www.festi.info/boxes.py/</a>).</p>
 <h2 id="a-warning-about-minecraft">A warning about Minecraft</h2>
 <p>The shape is designed in Minecraft, and Minecraft <strong>cannot check it</strong>. It fills cells, and filling a cell that is already full is a no-op — no warning, no sound, nothing — so a walk that runs back through itself still builds into a connected tunnel that looks correct from every angle.</p>
 <p>That is fatal here and harmless there. In Minecraft the cells are scenery; in a bore they are the air path, and a cell filled twice is a junction where the air arrives with two ways out. There is no box section with an opening in four sides, so the crossing cannot be cut at all. A walk that builds cleanly in Minecraft may still be impossible.</p>

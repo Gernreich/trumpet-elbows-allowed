@@ -190,9 +190,9 @@ The walk lives in the viewer page, so the page is a complete record of the desig
 cut files come back from it alone:
 
 ```sh
-cd ../octomino-snakes/generator
-python3 bore_split.py ../../trumpet-coiled/bore/bore.html \
-    --write ../../trumpet-coiled/bore
+cd ../../octomino-snakes/generator
+python3 bore_split.py ../../GIT/trumpet-coiled/bore/bore.html \
+    --write ../../GIT/trumpet-coiled/bore
 ```
 
 That rewrites every file in this directory and runs the full gate as it goes — 253 checks
@@ -202,9 +202,9 @@ on this design, none failing. To try a change without writing anything:
 python3 bore_split.py --no-write "N N3 U6 W5 N10 E5 D3 S8 W3 D3 N12 N"
 ```
 
-The generator is [octomino-snakes](https://github.com/Gernreich/octomino-snakes), which
-builds the nets on top of **boxes.py** (Florian Festi, GPL 3.0,
-<https://www.festi.info/boxes.py/>).
+The generator is [octomino-snakes](https://github.com/Gernreich/octomino-snakes) — now
+archived, and kept above `GIT` — which builds the nets on top of **boxes.py** (Florian
+Festi, GPL 3.0, <https://www.festi.info/boxes.py/>).
 
 ## A warning about Minecraft
 
