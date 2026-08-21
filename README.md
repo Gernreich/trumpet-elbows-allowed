@@ -15,6 +15,9 @@ of the bore. A trumpet is a mouthpiece, a length of tube and a bell; only the tu
 
 Millimetre-true at `1 user unit = 1mm`, so everything prints and cuts at real size.
 
+**[Read the writeup](https://gernreich.github.io/trumpet-parts/)** — the same text as this
+page, set for reading, with a table of contents.
+
 Built for **[LaserMadeMusic](https://www.youtube.com/@LaserMadeMusic)**, where the cutting
 and the playing are shown.
 
