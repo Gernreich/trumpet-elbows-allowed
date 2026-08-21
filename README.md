@@ -13,6 +13,14 @@ The **bell** and the **mouthpiece** live in
 [octagonal trumpet](https://github.com/Gernreich/trumpet-octagonal). Neither is touched by
 the way the bore turns, so only the tube belongs to an instrument.
 
+<p>
+<img src="bore/trumpet-coiled_parts.jpg" alt="The cut bore parts loose on concrete in sunlight: fifty flat plywood plates, every edge combed with finger joints, most of them long straight strips and several stepped into L and Z shapes where a section turns" width="620">
+</p>
+
+*The whole bore, cut and not yet glued — 50 plates across 8 sections. **Every edge is a
+finger joint and every face is flat.** The stepped pieces are where the bore turns: a
+section carries its own corner, so nothing here is an elbow.*
+
 **[Turn the bore around in your browser](bore/bore.html)** — drag to rotate,
 colour it by direction or by section, and step through the blocks one at a time.
 
