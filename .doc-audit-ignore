@@ -19,3 +19,5 @@ doc-audit.py
 md2html.py
 make-preview.py
 svg-stroke-check.py
+
+RegularBox.svg
