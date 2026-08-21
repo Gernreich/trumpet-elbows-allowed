@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trumpet parts</title>
+<style>
+:root{--bg:#fbfbfa;--fg:#1a1c1e;--mut:#5b6067;--line:#e2e4e7;--card:#fff;--accent:#1d4ed8;
+--codebg:#f4f5f7;--thbg:#f0f1f3;--mark:#fff8c4}
+@media (prefers-color-scheme:dark){:root{--bg:#15171a;--fg:#e6e8ea;--mut:#9aa1a9;--line:#2b2f34;
+--card:#1b1e22;--accent:#7aa2f7;--codebg:#22262b;--thbg:#23272c;--mark:#4a411c}}
+:root[data-theme=dark]{--bg:#15171a;--fg:#e6e8ea;--mut:#9aa1a9;--line:#2b2f34;--card:#1b1e22;
+--accent:#7aa2f7;--codebg:#22262b;--thbg:#23272c;--mark:#4a411c}
+:root[data-theme=light]{--bg:#fbfbfa;--fg:#1a1c1e;--mut:#5b6067;--line:#e2e4e7;--card:#fff;
+--accent:#1d4ed8;--codebg:#f4f5f7;--thbg:#f0f1f3;--mark:#fff8c4}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:16px/1.62 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+-webkit-text-size-adjust:100%}
+.wrap{display:grid;grid-template-columns:250px minmax(0,1fr);gap:44px;max-width:1180px;
+margin:0 auto;padding:40px 28px 96px}
+nav{position:sticky;top:28px;align-self:start;max-height:calc(100vh - 56px);overflow:auto;
+border-right:1px solid var(--line);padding-right:16px;font-size:13.5px;line-height:1.45}
+nav b{display:block;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--mut);
+margin:0 0 12px}
+nav a{display:block;color:var(--mut);text-decoration:none;padding:3px 0;border-radius:4px}
+nav a:hover{color:var(--accent)}
+nav a.l1{color:var(--fg);font-weight:640;margin-top:11px}
+nav a.l2{padding-left:12px}
+main{min-width:0}
+h1{font-size:1.62rem;line-height:1.25;letter-spacing:-.015em;margin:2.4em 0 .5em;
+padding-bottom:.32em;border-bottom:2px solid var(--line)}
+main>h1:first-child{margin-top:0;border-bottom:none;font-size:1.95rem}
+h2{font-size:1.16rem;margin:2em 0 .5em;letter-spacing:-.01em}
+h3{font-size:1.02rem;font-weight:650;margin:1.7em 0 .45em}
+p{margin:.85em 0}
+ul,ol{margin:.85em 0;padding-left:1.35em}
+li{margin:.3em 0}
+hr{border:0;border-top:1px solid var(--line);margin:2.6em 0}
+figure{margin:1.6em 0}
+figure svg,figure img{display:block;width:100%;max-width:100%;height:auto;
+border:1px solid var(--line);border-radius:10px}
+a{color:var(--accent)}
+code{font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+background:var(--codebg);padding:.1em .32em;border-radius:4px;
+border:1px solid color-mix(in srgb,var(--line) 70%,transparent)}
+pre{background:var(--codebg);border:1px solid var(--line);border-radius:9px;
+padding:14px 16px;overflow-x:auto;margin:1.1em 0}
+pre code{background:none;border:0;padding:0;font-size:12.8px;line-height:1.62;white-space:pre}
+blockquote{margin:1.15em 0;padding:.7em 1.1em;border-left:4px solid var(--accent);
+background:var(--codebg);border-radius:0 7px 7px 0}
+blockquote p{margin:0}
+.tw{overflow-x:auto;margin:1.15em 0;border:1px solid var(--line);border-radius:9px;
+background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:8px 13px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+/* honour align="center" on gallery cells: a presentation attribute loses to any
+   CSS rule, so the line above would silently left-align every thumbnail caption */
+td[align=center],th[align=center]{text-align:center}
+th{background:var(--thbg);font-weight:630;white-space:nowrap;font-size:13px;
+letter-spacing:.01em}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:color-mix(in srgb,var(--thbg) 45%,transparent)}
+td code,th code{white-space:nowrap}
+.tog{position:fixed;top:14px;right:14px;z-index:9;background:var(--card);color:var(--mut);
+border:1px solid var(--line);border-radius:7px;padding:6px 11px;font-size:12.5px;cursor:pointer}
+.tog:hover{color:var(--accent)}
+@media (max-width:900px){.wrap{grid-template-columns:1fr;gap:20px;padding:26px 18px 72px}
+nav{position:static;max-height:none;border-right:0;border-bottom:1px solid var(--line);
+padding:0 0 16px;columns:2;column-gap:20px}}
+@media print{nav,.tog{display:none}.wrap{display:block;max-width:none;padding:0}
+pre,.tw{break-inside:avoid}h1{break-after:avoid}}
+</style>
+</head>
+<body>
+<button class="tog" type="button">theme</button>
+<div class="wrap">
+<nav><b>Contents</b><a class="l1" href="#trumpet-parts">Trumpet parts</a><a class="l2" href="#what-fits-what">What fits what</a><a class="l2" href="#the-mouthpiece">The mouthpiece</a><a class="l2" href="#the-bell">The bell</a><a class="l2" href="#colour-is-the-cut-order">Colour is the cut order</a><a class="l2" href="#before-you-cut">Before you cut</a><a class="l2" href="#files">Files</a></nav>
+<main>
+<h1 id="trumpet-parts">Trumpet parts</h1>
+<p>The <strong>bell</strong> and the <strong>mouthpiece</strong>, shared by every trumpet in these repositories. Both are built on the same <strong>25 × 25mm channel</strong> — 31mm outside in 3mm Baltic birch plywood — so either fits any bore cut to it:</p>
+<ul><li><strong><a href="https://github.com/Gernreich/trumpet-coiled">Coiled trumpet</a></strong> — a bore that coils flat and drops twice, with no elbows.</li><li><strong><a href="https://github.com/Gernreich/trumpet-octagonal">Octagonal trumpet</a></strong> — a curved octagonal bore, the trumpet form of the <a href="https://github.com/Gernreich/torus-octagonal">octagonal torus</a>.</li></ul>
+<p>They live here rather than inside one instrument because neither is changed by the shape of the bore. A trumpet is a mouthpiece, a length of tube and a bell; only the tube differs.</p>
+<p>Millimetre-true at <code>1 user unit = 1mm</code>, so everything prints and cuts at real size.</p>
+<p>Built for <strong><a href="https://www.youtube.com/@LaserMadeMusic">LaserMadeMusic</a></strong>, where the cutting and the playing are shown.</p>
+<p><strong><a href="https://github.com/Gernreich/trumpet-parts/archive/refs/heads/main.zip">Download everything as a ZIP</a></strong></p>
+<h2 id="what-fits-what">What fits what</h2>
+<p>The bore is cylindrical — constant section end to end — and the only part of a trumpet that flares is the bell. That is why these two parts are interchangeable across bores:</p>
+<div class='tw'><table><thead><tr><th></th><th>dimension</th><th>mates with</th></tr></thead><tbody><tr><td>Bore, outside</td><td>31mm square</td><td>the bell's ø31 throat</td></tr><tr><td>Bore, air channel</td><td>25mm square</td><td>the mouthpiece's 25mm station</td></tr><tr><td>Mouthpiece station one</td><td>31mm square plate</td><td>the end face of any bore section</td></tr></tbody></table></div>
+<h2 id="the-mouthpiece">The mouthpiece</h2>
+<p><strong><code>mouthpiece/mouthpiece-parts.svg</code></strong> — 23 rings, 69mm stacked. <strong>The 31mm square plate joins the bore</strong>, so from the lip end the profile is: a <strong>cup</strong> of 16 rings narrowing 10.06 -&gt; 4.06mm over 48mm, the <strong>throat</strong> at 3.66mm (a #27 drill, the standard trumpet size), then a <strong>backbore</strong> of 6 rings opening 5 -&gt; 25mm over 18mm.</p>
+<p><strong>These rings stack; they do not telescope.</strong> The wall is 3.00mm at every one of the 23 stations, the throat included, so what varies is the shared face: 2.80mm per side through the cup, 2.33 across the throat, 1.00 at the five 4mm steps. No ring can drop through the one below. The bell inverts it — a fixed 1.5mm lap and a wall that varies with the flare.</p>
+<p>
+<img src="mouthpiece/mouthpiece-view.jpg" alt="The mouthpiece assembled from its stacked rings, the cup narrowing to the throat and opening again into the backbore" width="260">
+</p>
+<p><code>mouthpiece/mouthpiece-section.svg</code> is the axial section; both it and the view above are display drawings, not cut files. <code>mouthpiece.py</code> generates the parts and <code>mouthpiece-view.py</code> the view.</p>
+<p><strong>A note on its variable names.</strong> <code>mouthpiece.py</code> calls the 25 -&gt; 5mm run <code>cup</code> and the 3.66 -&gt; 10.06mm run <code>backbore</code>, which is the reverse of the anatomy: the cup is at the lip and the backbore opens into the instrument. The numbers are right and the parts are right; the names inside the script are not, and the <code>&lt;desc&gt;</code> it writes into the SVG repeats them.</p>
+<h2 id="the-bell">The bell</h2>
+<p>Four bells. <strong>The rings telescope</strong>: each ring's aperture is the one below it plus the radius gained, lapped by a fixed 1.5mm for glue, so the bore widens at every joint and the wall varies with the flare.</p>
+<div class='tw'><table><thead><tr><th>File</th><th>Rings</th><th>Build</th><th>Pieces</th><th>Rim diameter</th><th>Angle</th><th>Sheet, per pass</th></tr></thead><tbody><tr><td><code>bell-trumpet-10rings.svg</code></td><td>10</td><td>7 ply</td><td><strong>70</strong></td><td>126.0</td><td>2.9° -&gt; 30.0°</td><td>265 × 262mm</td></tr><tr><td><code>bell-trumpet-14rings.svg</code></td><td>14</td><td>5 ply</td><td><strong>70</strong></td><td>126.0</td><td>2.8° -&gt; 36.8°</td><td>307 × 326mm</td></tr><tr><td><code>bell-trumpet-17rings.svg</code></td><td>17</td><td>4 ply</td><td><strong>68</strong></td><td>126.0</td><td>2.8° -&gt; 38.8°</td><td>347 × 133mm</td></tr><tr><td><code>bell-trumpet-67rings.svg</code></td><td>67</td><td>1 ply</td><td><strong>67</strong></td><td>145.7</td><td>9.5° -&gt; 50.8°</td><td>995 × 693mm</td></tr></tbody></table></div>
+<p><strong>Each file draws every ring once — cut it as many times as the <code>Build</code> column says.</strong> The 10-ring bell is 7 laminations a ring: 7 passes, 70 pieces, glued into ten 21mm bands. Cut it once and you get a 30mm bell instead of a 210mm one. Only the 67-ring file is one pass.</p>
+<p>All four come to 67–70 pieces, so a coarse bell is not less cutting. It is less material, and by very different amounts: 0.49 m² of 3mm ply for the 10-ring and 0.50 for the 14-ring, against the 67-ring's 0.69. The 17-ring is the outlier at <strong>0.18 m²</strong>, barely a quarter of the 67-ring, because its sheet is hand-nested rather than laid out by the generator.</p>
+<p>
+<img src="bell/bell-trumpet-10rings-view.jpg" alt="The 10-ring bell assembled" width="200">
+<img src="bell/bell-trumpet-14rings-view.jpg" alt="The 14-ring bell assembled" width="200">
+<img src="bell/bell-trumpet-17rings-view.jpg" alt="The 17-ring bell assembled" width="200">
+<img src="bell/bell-trumpet-67rings-view.jpg" alt="The 67-ring bell assembled, a true curve that necks inward before turning out to the rim" width="200">
+</p>
+<p><em>10, 14, 17 and 67 rings — the same Bessel profile sampled at four resolutions.</em></p>
+<p>The four files follow a <strong>Bessel profile</strong>, gamma about 0.7 — the standard model for a trumpet bell — opening from a 31mm throat. The ply is 3mm so a ring rises 3mm; fewer rings means each ring is several identical laminations glued into a single band.</p>
+<p>They are not four samplings of one fixed length. A whole number of rings at each rise lands somewhere slightly different, so the four come out <strong>210, 210, 204 and 201mm</strong> long, and the 67-ring reaches a wider rim than the other three.</p>
+<p>Counter-intuitively, <strong>coarser is better at the throat and worse at the rim</strong>: at 12mm of rise a 2mm minimum wall is 2.8°, where at 3mm it is stuck at 9.5°. The 17-ring is the balance, and its nested sheet fits a 400mm bed with room to spare. <code>bell.py</code> generates all four. <code>bell-section.py</code> draws the axial sections — <code>bell-trumpet-10rings-section.svg</code>, <code>bell-trumpet-14rings-section.svg</code>, <code>bell-trumpet-17rings-section.svg</code> and <code>bell-trumpet-67rings-section.svg</code> — <code>bell-view.py</code> the assembled views, <code>ramp_bell.py</code> applies the cut-order colour, and <code>verify_bell.py</code> checks an edited sheet.</p>
+<h2 id="colour-is-the-cut-order">Colour is the cut order</h2>
+<p><strong>Blue engraves, then green -&gt; orange -&gt; cyan -&gt; black</strong>, with black always the cut that frees the part and violet always skip. That sequence is shared by every LaserMadeMusic repository.</p>
+<p><code>bell-trumpet-17rings.svg</code> is the exception, and its ordering is load-bearing: its rings ramp from <code>#000000</code> on the smallest to <code>#ff0000</code> on the rim, one stage per ring, so the cut runs smallest first and no nested part is freed before its own outline is cut. Its numbers are blue, engraved. Give it an explicit operation — a per-colour job silently skips any colour left unmapped.</p>
+<h2 id="before-you-cut">Before you cut</h2>
+<p><strong>Cut these in 3mm Baltic birch plywood.</strong> Ring thickness is ply thickness here: a bell ring rises 3mm because the sheet is 3mm, and the mouthpiece stacks 23 rings into 69mm the same way. Substituting 4mm stock does not scale the design, it breaks the profile.</p>
+<p><code>bell-trumpet-17rings.svg</code> is <strong>hand-nested and hand-labelled</strong>. Regenerating it from <code>bell.py</code> discards that work. Check an edited sheet with <code>verify_bell.py</code> rather than diffing path data — once paths are converted to curves, a byte diff says nothing.</p>
+<h2 id="files">Files</h2>
+<p><strong>The bell</strong>, in <code>bell/</code> — <code>bell-trumpet-10rings.svg</code>, <code>bell-trumpet-14rings.svg</code>, <code>bell-trumpet-17rings.svg</code>, <code>bell-trumpet-67rings.svg</code>, generated by <code>bell.py</code>. <code>ramp_bell.py</code> applies the cut-order colour; <code>verify_bell.py</code> checks an edited sheet for ring sizes, the 1.5mm lap, nesting order and overlapping cuts.</p>
+<p><strong>The mouthpiece</strong>, in <code>mouthpiece/</code> — <code>mouthpiece-parts.svg</code>, generated by <code>mouthpiece.py</code>.</p>
+<p><strong>Display only, never cut</strong> — the axial sections <code>bell-trumpet-10rings-section.svg</code>, <code>bell-trumpet-14rings-section.svg</code>, <code>bell-trumpet-17rings-section.svg</code>, <code>bell-trumpet-67rings-section.svg</code> and <code>mouthpiece-section.svg</code>, drawn by <code>bell-section.py</code>; and the assembled views <code>bell-trumpet-10rings-view.jpg</code>, <code>bell-trumpet-14rings-view.jpg</code>, <code>bell-trumpet-17rings-view.jpg</code>, <code>bell-trumpet-67rings-view.jpg</code> and <code>mouthpiece-view.jpg</code>, from <code>bell-view.py</code> and <code>mouthpiece-view.py</code>.</p>
+<p>Released under <a href="LICENSE">CC0 1.0</a>.</p>
+</main>
+</div>
+<script>
+var r=document.documentElement,b=document.querySelector('.tog');
+function set(t){r.setAttribute('data-theme',t);try{localStorage.setItem('ctg-theme',t)}catch(e){}
+b.textContent=t==='dark'?'\u2600 light':'\u263e dark';}
+var saved=null;try{saved=localStorage.getItem('ctg-theme')}catch(e){}
+set(saved||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));
+b.addEventListener('click',function(){set(r.getAttribute('data-theme')==='dark'?'light':'dark')});
+</script>
+</body>
+</html>
