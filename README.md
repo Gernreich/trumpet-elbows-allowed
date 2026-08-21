@@ -8,8 +8,10 @@ every joint is a flat face glued to a flat face. Companion to the
 25 × 25mm channel. Cut from 3mm Baltic birch plywood, millimetre-true at
 `1 user unit = 1mm`, so it prints and cuts at real size.
 
-The **bell** and the **mouthpiece** are here too — neither is touched by the way the bore
-turns, so the flare and the cup are the same parts whatever shape the tube takes.
+The **bell** and the **mouthpiece** live in
+**[trumpet-parts](https://github.com/Gernreich/trumpet-parts)**, shared with the
+[octagonal trumpet](https://github.com/Gernreich/trumpet-octagonal). Neither is touched by
+the way the bore turns, so only the tube belongs to an instrument.
 
 **[Turn the bore around in your browser](bore/bore.html)** — drag to rotate,
 colour it by direction or by section, and step through the blocks one at a time.
@@ -105,83 +107,11 @@ The section names describe the shape as a run of moves across the flat plate —
 `08_bend_LDDDDDDDDDDDD` is one step left and then twelve down — so a file name and
 the part it cuts are the same description.
 
-## The mouthpiece
-
-**`mouthpiece/mouthpiece-parts.svg`** — 23 rings, 69mm stacked. **The 31mm square plate
-joins the bore**, so from the lip end the profile is: a **cup** of 16 rings narrowing
-10.06 -> 4.06mm over 48mm, the **throat** at 3.66mm (a #27 drill, the standard trumpet
-size), then a **backbore** of 6 rings opening 5 -> 25mm over 18mm.
-
-**These rings stack; they do not telescope.** The wall is 3.00mm at every one of the 23
-stations, the throat included, so what varies is the shared face: 2.80mm per side through
-the cup, 2.33 across the throat, 1.00 at the five 4mm steps. No ring can drop through the
-one below. The bell inverts it — a fixed 1.5mm lap and a wall that varies with the flare.
-
-<p>
-<img src="mouthpiece/mouthpiece-view.jpg" alt="The mouthpiece assembled from its stacked rings, the cup narrowing to the throat and opening again into the backbore" width="260">
-</p>
-
-`mouthpiece/mouthpiece-section.svg` is the axial section; both it and the view above are
-display drawings, not cut files. `mouthpiece.py` generates the parts and
-`mouthpiece-view.py` the view.
-
-## The bell
-
-Four bells, all fitting over the tube's 31mm outside. **The rings telescope**: each ring's
-aperture is the one below it plus the radius gained, lapped by a fixed 1.5mm for glue, so
-the bore widens at every joint and the wall varies with the flare.
-
-| File | Rings | Build | Pieces | Rim diameter | Angle | Sheet, per pass |
-| --- | ---: | --- | ---: | ---: | --- | --- |
-| `bell-trumpet-10rings.svg` | 10 | 7 ply | **70** | 126.0 | 2.9° -> 30.0° | 265 × 262mm |
-| `bell-trumpet-14rings.svg` | 14 | 5 ply | **70** | 126.0 | 2.8° -> 36.8° | 307 × 326mm |
-| `bell-trumpet-17rings.svg` | 17 | 4 ply | **68** | 126.0 | 2.8° -> 38.8° | 347 × 133mm |
-| `bell-trumpet-67rings.svg` | 67 | 1 ply | **67** | 145.7 | 9.5° -> 50.8° | 995 × 693mm |
-
-**Each file draws every ring once — cut it as many times as the `Build` column says.** The
-10-ring bell is 7 laminations a ring: 7 passes, 70 pieces, glued into ten 21mm bands. Cut
-it once and you get a 30mm bell instead of a 210mm one. Only the 67-ring file is one pass.
-
-All four come to 67–70 pieces, so a coarse bell is not less cutting. It is less material,
-and by very different amounts: 0.49 m² of 3mm ply for the 10-ring and 0.50 for the 14-ring,
-against the 67-ring's 0.69. The 17-ring is the outlier at **0.18 m²**, barely a quarter of
-the 67-ring, because its sheet is hand-nested rather than laid out by the generator.
-
-<p>
-<img src="bell/bell-trumpet-10rings-view.jpg" alt="The 10-ring bell assembled" width="200">
-<img src="bell/bell-trumpet-14rings-view.jpg" alt="The 14-ring bell assembled" width="200">
-<img src="bell/bell-trumpet-17rings-view.jpg" alt="The 17-ring bell assembled" width="200">
-<img src="bell/bell-trumpet-67rings-view.jpg" alt="The 67-ring bell assembled, a true curve that necks inward before turning out to the rim" width="200">
-</p>
-
-*10, 14, 17 and 67 rings — the same Bessel profile sampled at four resolutions.*
-
-The four files follow a **Bessel profile**, gamma about 0.7 — the standard model for a
-trumpet bell — opening from a 31mm throat. The ply is 3mm so a ring rises 3mm; fewer rings means
-each ring is several identical laminations glued into a single band.
-
-They are not four samplings of one fixed length. A whole number of rings at each rise lands
-somewhere slightly different, so the four come out **210, 210, 204 and 201mm** long, and the
-67-ring reaches a wider rim than the other three.
-
-Counter-intuitively, **coarser is better at the throat and worse at the rim**: at 12mm of
-rise a 2mm minimum wall is 2.8°, where at 3mm it is stuck at 9.5°. The 17-ring is the
-balance, and its nested sheet fits a 400mm bed with room to spare. `bell.py` generates all
-four. `bell-section.py` draws the axial sections — `bell-trumpet-10rings-section.svg`,
-`bell-trumpet-14rings-section.svg`, `bell-trumpet-17rings-section.svg` and
-`bell-trumpet-67rings-section.svg` — `bell-view.py` the assembled views, `ramp_bell.py`
-applies the cut-order colour, and `verify_bell.py` checks an edited sheet.
-
 ## Cutting
 
 **Colour is the cut order**, shared across all these repositories: **blue engraves, black
-cuts.** In the bore nets, blue lays the section number onto every part first and black
-frees it.
-
-`bell-trumpet-17rings.svg` is the exception — its rings ramp from `#000000` on the smallest
-to `#ff0000` on the rim, one stage per ring, so the cut runs smallest first and no nested
-part is freed before its own outline is cut. Its numbers are blue, engraved. Give it an
-explicit operation: a per-colour job silently skips any colour left unmapped.
+cuts.** Blue lays the section number onto every part first and black frees it. Nothing
+here uses the middle stages.
 
 Standard settings, and they must stay uniform across the set — mixing `burn` changes finger
 joint fit while every outside dimension still matches, which no drawing shows:
@@ -232,20 +162,8 @@ at all. A walk that builds cleanly in Minecraft may still be impossible.
 `06_bend_UUUUUUL.svg`, `07_bend_LD.svg`, `08_bend_LDDDDDDDDDDDD.svg`.
 `bore.html` sits beside them and holds the walk they are generated from.
 
-**The bell**, in `bell/` — `bell-trumpet-10rings.svg`, `bell-trumpet-14rings.svg`,
-`bell-trumpet-17rings.svg`, `bell-trumpet-67rings.svg`, generated by `bell.py`.
-`ramp_bell.py` applies the cut-order colour; `verify_bell.py` checks an edited sheet for
-ring sizes, the 1.5mm lap, nesting order and overlapping cuts.
-
-**The mouthpiece**, in `mouthpiece/` — `mouthpiece-parts.svg`, generated by `mouthpiece.py`.
-
-**Display only, never cut** — the axial sections `bell-trumpet-10rings-section.svg`,
-`bell-trumpet-14rings-section.svg`, `bell-trumpet-17rings-section.svg`,
-`bell-trumpet-67rings-section.svg` and `mouthpiece-section.svg`, drawn by
-`bell-section.py`; the assembled views `bell-trumpet-10rings-view.jpg`,
-`bell-trumpet-14rings-view.jpg`, `bell-trumpet-17rings-view.jpg`,
-`bell-trumpet-67rings-view.jpg` and `mouthpiece-view.jpg`, from `bell-view.py` and
-`mouthpiece-view.py`.
+The bell, the mouthpiece and their section drawings are in
+[trumpet-parts](https://github.com/Gernreich/trumpet-parts).
 
 Released under [CC0 1.0](LICENSE).
 
