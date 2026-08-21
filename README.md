@@ -59,9 +59,7 @@ files regenerate from it.
 
 A block is 25 × 25 × 25mm of sound space wrapped in **3mm of wall**, so its outside is
 31mm. Coring it out for the bore to pass through does not shrink it — the four walls stay
-and the block still takes up 31mm. **A run of N blocks is 31N mm long.** Getting this
-wrong shortens every section by 6mm, and it is the error that invalidated the first build
-sheet drawn for this instrument.
+and the block still takes up 31mm. **A run of N blocks is 31N mm long.**
 
 ## When a turn is free, and when it costs
 
