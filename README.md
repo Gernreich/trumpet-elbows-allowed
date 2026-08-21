@@ -41,6 +41,9 @@ colour it by direction or by section, and step through the blocks one at a time.
 Built for **[LaserMadeMusic](https://www.youtube.com/@LaserMadeMusic)**, where the cutting
 and the playing are shown.
 
+**[The rest of the build files](https://gernreich.github.io/)** — every instrument,
+generator and tool, indexed.
+
 ## Why no elbows
 
 An **elbow** is a single block that turns. It sounds like the cheap way to bend a bore and
