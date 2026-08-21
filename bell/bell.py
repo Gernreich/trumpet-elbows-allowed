@@ -4,14 +4,15 @@
     python3 bell.py                 # all four
     python3 bell.py 20              # one, at most 20 rings
 
-A trumpet bell is not a cone. Its radius follows roughly a Bessel horn,
+A trumpet bell is not a cone. Its radius follows roughly a Bessel profile,
 r = b (u + u0)^-gamma with u measured back from the rim and gamma near 0.7, so the wall
 runs nearly parallel to the axis at the throat and turns sharply at the rim.
 
 The ply is 3mm, so a ring rises 3mm. Fewer rings therefore means each ring is several
-identical laminations stacked -- PLIES below -- which coarsens the steps without shortening
-the bell. Ten rings of seven plies is the same 201mm horn as 67 rings of one, read at lower
-resolution.
+identical laminations stacked -- PLIES below -- which coarsens the steps. It does not hold
+the length fixed: a whole number of rings at each rise lands somewhere slightly different,
+so the four come out 210, 210, 204 and 201mm long. Ten rings of seven plies is the same
+profile as 67 rings of one, read at lower resolution and cut off at a different place.
 
 WALL is the radius gained plus LAP. Keeping them separate is what allows a shallow flare:
 if the wall had to equal the gain, a 2mm minimum ring would force a 34 degree minimum
