@@ -80,7 +80,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <h1 id="coiled-trumpet">Coiled trumpet</h1>
 <p>A trumpet bore in 25 × 25mm square section that <strong>coils flat and drops twice</strong>, built from eight box sections with <strong>no elbows at all</strong> — every turn happens inside a section, so every joint is a flat face glued to a flat face. Companion to the <a href="https://github.com/Gernreich/trumpet-octagonal">octagonal trumpet</a> and the <a href="https://github.com/Gernreich/torus-octagonal">octagonal torus</a>, which share the same 25 × 25mm channel. Cut from 3mm Baltic birch plywood, millimetre-true at <code>1 user unit = 1mm</code>, so it prints and cuts at real size.</p>
 <p>The <strong>bell</strong> and the <strong>mouthpiece</strong> are here too — neither is touched by the way the bore turns, so the flare and the cup are the same parts whatever shape the tube takes.</p>
-<p><strong><a href="trumpet-coiled.html">Turn the bore around in your browser</a></strong> — drag to rotate, colour it by direction or by section, and step through the blocks one at a time.</p>
+<p><strong><a href="bore/bore.html">Turn the bore around in your browser</a></strong> — drag to rotate, colour it by direction or by section, and step through the blocks one at a time.</p>
 <p>Built for <strong><a href="https://www.youtube.com/@LaserMadeMusic">LaserMadeMusic</a></strong>, where the cutting and the playing are shown.</p>
 <h2 id="why-no-elbows">Why no elbows</h2>
 <p>An <strong>elbow</strong> is a single block that turns. It sounds like the cheap way to bend a bore and it is the expensive one, because its opening frame has <strong>three sides, not four</strong>. The missing side has to be made up by the sections either side of it: both get a flattened plate to butt-glue against, both need a tongue to locate on, and a 3 × 3 × 25mm void is left unfilled inside the corner. Flat-to-flat gluing is the whole difficulty of building one of these, and every elbow adds three more of the worst kind.</p>
@@ -116,10 +116,10 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <p><strong>Each file draws every ring once — cut it as many times as the <code>Build</code> column says.</strong> The 10-ring bell is 7 laminations a ring: 7 passes, 70 pieces, glued into ten 21mm bands. Cut it once and you get a 30mm bell instead of a 210mm one. Only the 67-ring file is one pass.</p>
 <p>All four come to 67–70 pieces, so a coarse bell is not less cutting — it is smaller sheets, about 0.49 m² of 3mm ply against the 67-ring's 0.69 m².</p>
 <p>
-<img src="bell-trumpet-rings/bell-trumpet-10rings-view.jpg" alt="The 10-ring bell assembled" width="200">
-<img src="bell-trumpet-rings/bell-trumpet-14rings-view.jpg" alt="The 14-ring bell assembled" width="200">
-<img src="bell-trumpet-rings/bell-trumpet-17rings-view.jpg" alt="The 17-ring bell assembled" width="200">
-<img src="bell-trumpet-rings/bell-trumpet-67rings-view.jpg" alt="The 67-ring bell assembled, a true curve that necks inward before turning out to the rim" width="200">
+<img src="bell/bell-trumpet-10rings-view.jpg" alt="The 10-ring bell assembled" width="200">
+<img src="bell/bell-trumpet-14rings-view.jpg" alt="The 14-ring bell assembled" width="200">
+<img src="bell/bell-trumpet-17rings-view.jpg" alt="The 17-ring bell assembled" width="200">
+<img src="bell/bell-trumpet-67rings-view.jpg" alt="The 67-ring bell assembled, a true curve that necks inward before turning out to the rim" width="200">
 </p>
 <p><em>10, 14, 17 and 67 rings — the same 201mm Bessel horn sampled at four resolutions.</em></p>
 <p>The four files are a <strong>Bessel horn</strong>, gamma about 0.7 — the standard model for a trumpet bell — from a 31mm throat over 201mm. The ply is 3mm so a ring rises 3mm; fewer rings means each ring is several identical laminations glued into a single band.</p>
@@ -132,8 +132,8 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <h2 id="regenerating">Regenerating</h2>
 <p>The walk lives in the viewer page, so the page is a complete record of the design and the cut files come back from it alone:</p>
 <pre><code>cd ../octomino-snakes/generator
-python3 bore_split.py ../../trumpet-coiled/trumpet-coiled.html \
-    --write ../../trumpet-coiled</code></pre>
+python3 bore_split.py ../../trumpet-coiled/bore/bore.html \
+    --write ../../trumpet-coiled/bore</code></pre>
 <p>That rewrites every file in this directory and runs the full gate as it goes — 253 checks on this design, none failing. To try a change without writing anything:</p>
 <pre><code>python3 bore_split.py --no-write "N N3 U6 W5 N10 E5 D3 S8 W3 D3 N12 N"</code></pre>
 <p>The generator is <a href="https://github.com/Gernreich/octomino-snakes">octomino-snakes</a>, which builds the nets on top of <strong>boxes.py</strong> (Florian Festi, GPL 3.0, <a href="https://www.festi.info/boxes.py/">https://www.festi.info/boxes.py/</a>).</p>
@@ -141,9 +141,9 @@ python3 bore_split.py ../../trumpet-coiled/trumpet-coiled.html \
 <p>The shape is designed in Minecraft, and Minecraft <strong>cannot check it</strong>. It fills cells, and filling a cell that is already full is a no-op — no warning, no sound, nothing — so a walk that runs back through itself still builds into a connected tunnel that looks correct from every angle.</p>
 <p>That is fatal here and harmless there. In Minecraft the cells are scenery; in a bore they are the air path, and a cell filled twice is a junction where the air arrives with two ways out. There is no box section with an opening in four sides, so the crossing cannot be cut at all. A walk that builds cleanly in Minecraft may still be impossible.</p>
 <h2 id="files">Files</h2>
-<p><strong>The bore</strong> — nine nets, 8 sections, 50 pieces: <code>01_bend_DDDR.svg</code>, <code>02_bend_UUUUL.svg</code>, <code>03_bend_LLLDDDDDDDDDDR_1.svg</code>, <code>03_bend_LLLDDDDDDDDDDR_2.svg</code>, <code>04_bend_RRRD.svg</code>, <code>05_bend_LU.svg</code>, <code>06_bend_UUUUUUL.svg</code>, <code>07_bend_LD.svg</code>, <code>08_bend_LDDDDDDDDDDDD.svg</code>. <code>trumpet-coiled.html</code> holds the walk they are generated from.</p>
-<p><strong>The bell</strong> — <code>bell-trumpet-10rings.svg</code>, <code>bell-trumpet-14rings.svg</code>, <code>bell-trumpet-17rings.svg</code>, <code>bell-trumpet-67rings.svg</code>, generated by <code>bell.py</code>. <code>ramp_bell.py</code> applies the cut-order colour; <code>verify_bell.py</code> checks an edited sheet for ring sizes, the 1.5mm lap, nesting order and overlapping cuts.</p>
-<p><strong>The mouthpiece</strong> — <code>mouthpiece-parts.svg</code>, generated by <code>mouthpiece.py</code>.</p>
+<p><strong>The bore</strong>, in <code>bore/</code> — nine nets, 8 sections, 50 pieces: <code>01_bend_DDDR.svg</code>, <code>02_bend_UUUUL.svg</code>, <code>03_bend_LLLDDDDDDDDDDR_1.svg</code>, <code>03_bend_LLLDDDDDDDDDDR_2.svg</code>, <code>04_bend_RRRD.svg</code>, <code>05_bend_LU.svg</code>, <code>06_bend_UUUUUUL.svg</code>, <code>07_bend_LD.svg</code>, <code>08_bend_LDDDDDDDDDDDD.svg</code>. <code>bore.html</code> sits beside them and holds the walk they are generated from.</p>
+<p><strong>The bell</strong>, in <code>bell/</code> — <code>bell-trumpet-10rings.svg</code>, <code>bell-trumpet-14rings.svg</code>, <code>bell-trumpet-17rings.svg</code>, <code>bell-trumpet-67rings.svg</code>, generated by <code>bell.py</code>. <code>ramp_bell.py</code> applies the cut-order colour; <code>verify_bell.py</code> checks an edited sheet for ring sizes, the 1.5mm lap, nesting order and overlapping cuts.</p>
+<p><strong>The mouthpiece</strong>, in <code>mouthpiece/</code> — <code>mouthpiece-parts.svg</code>, generated by <code>mouthpiece.py</code>.</p>
 <p><strong>Display only, never cut</strong> — the axial sections <code>bell-trumpet-10rings-section.svg</code>, <code>bell-trumpet-14rings-section.svg</code>, <code>bell-trumpet-17rings-section.svg</code>, <code>bell-trumpet-67rings-section.svg</code> and <code>mouthpiece-section.svg</code>, drawn by <code>bell-section.py</code>; the assembled views <code>bell-trumpet-10rings-view.jpg</code>, <code>bell-trumpet-14rings-view.jpg</code>, <code>bell-trumpet-17rings-view.jpg</code>, <code>bell-trumpet-67rings-view.jpg</code> and <code>mouthpiece-view.jpg</code>, from <code>bell-view.py</code> and <code>mouthpiece-view.py</code>.</p>
 <p>Released under <a href="LICENSE">CC0 1.0</a>.</p>
 <p>Bore nets are generated by <a href="https://github.com/Gernreich/octomino-snakes">octomino-snakes</a> on top of <strong><a href="https://www.festi.info/boxes.py/">boxes.py</a></strong> by <strong>Florian Festi</strong> (GPL 3.0), <code>burn=0.1</code>, blocksize 31mm. The bells, the mouthpiece and the text are CC0.</p>

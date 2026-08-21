@@ -27,14 +27,14 @@ where you stand and then travels *n* blocks, so **the bore is 1 + the sum of the
 — 59 blocks here. Axes match Minecraft: `U`/`D` are +Y/−Y, `N` is −Z, `S` is +Z, `E` is
 +X, `W` is −X, so north is away from the sun at noon.
 
-**The walk is stored in the page**, in `trumpet-coiled.html` as a
+**The walk is stored in the page**, in `bore/bore.html` as a
 `<div class="walk">`. That makes the page a complete record of the design — the cut files
 regenerate from it and nothing else:
 
 ```sh
 cd ../octomino-snakes/generator
-python3 bore_split.py ../../trumpet-coiled/trumpet-coiled.html \
-    --write ../../trumpet-coiled
+python3 bore_split.py ../../trumpet-coiled/bore/bore.html \
+    --write ../../trumpet-coiled/bore
 ```
 
 Never hand-edit the walk in the page without regenerating, and never transcribe it from
@@ -134,7 +134,7 @@ concurrently modified:
 - **Stage by name.** Never `git add -A` or `git add .` — it will sweep up an in-progress
   Inkscape save.
 - **Never regenerate a cut file** the author has hand-edited (nesting, numbering, curve
-  conversion) without asking. `bell-trumpet-rings/bell-trumpet-17rings.svg` is hand-nested
+  conversion) without asking. `bell/bell-trumpet-17rings.svg` is hand-nested
   and hand-labelled; regenerating it from `bell.py` discards that work.
 - Verify a hand-edited bell with `verify_bell.py` rather than diffing path data — once
   paths are converted to Bézier curves, a byte diff says nothing.
@@ -151,8 +151,8 @@ S=../octomino-snakes/generator
 
 ```sh
 cd $S && python3 bore_split.py \
-    ../../trumpet-coiled/trumpet-coiled.html \
-    --write ../../trumpet-coiled
+    ../../trumpet-coiled/bore/bore.html \
+    --write ../../trumpet-coiled/bore
 ```
 
 **Test a walk without writing anything** — always do this before proposing a change:
@@ -166,16 +166,16 @@ cd $S && python3 bore_split.py --no-write "N N3 U6 W5 N10 E5 D3 S8 W3 D3 N12 N"
 ```sh
 python3 $G/svg-stroke-check.py --dir . --quiet     # stroke declared twice, disagreeing
 cd $S && python3 regress.py                        # every design in the library
-cd bell-trumpet-rings && python3 verify_bell.py bell-trumpet-17rings.svg
+cd bell && python3 verify_bell.py bell-trumpet-17rings.svg
 ```
 
 **Bell and mouthpiece generators** read hardcoded relative filenames — run each from its
 own directory:
 
 ```sh
-cd bell-trumpet-rings && python3 bell.py            # all four bells
-cd bell-trumpet-rings && python3 bell.py 20         # one, at most 20 rings
-cd bell-trumpet-rings && python3 bell-section.py bell-trumpet-17rings.svg
+cd bell && python3 bell.py            # all four bells
+cd bell && python3 bell.py 20         # one, at most 20 rings
+cd bell && python3 bell-section.py bell-trumpet-17rings.svg
 cd mouthpiece && python3 mouthpiece.py
 cd mouthpiece && python3 mouthpiece-view.py
 ```
@@ -190,7 +190,7 @@ When they come back, note that a flat `previews/` alongside parts held in subdir
 means the output path has to be given explicitly:
 
 ```sh
-python3 $G/make-preview.py bell-trumpet-rings/bell-trumpet-17rings.svg \
+python3 $G/make-preview.py bell/bell-trumpet-17rings.svg \
                            previews/bell-trumpet-17rings.svg
 ```
 
