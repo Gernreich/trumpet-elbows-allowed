@@ -32,6 +32,9 @@ uses — so a run's colour tells you which way it goes.*
 finger joint and every face is flat.** The stepped pieces are where the bore turns: a
 section carries its own corner, so nothing here is an elbow.*
 
+**[Read the writeup](https://gernreich.github.io/trumpet-coiled/)** — the same text as
+this page, set for reading, with a table of contents.
+
 **[Turn the bore around in your browser](bore/bore.html)** — drag to rotate,
 colour it by direction or by section, and step through the blocks one at a time.
 
