@@ -33,6 +33,7 @@ full-size photograph. **Every edge is a
 finger joint and every face is flat.** The stepped pieces are where the bore turns: a
 section carries its own corner, so nothing here is an elbow.*
 
+<!-- readme-only -->
 **[Read the writeup](https://gernreich.github.io/trumpet-coiled/)** — the same text as
 this page, set for reading, with a table of contents.
 
