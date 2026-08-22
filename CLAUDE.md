@@ -92,17 +92,22 @@ W3 D3 N12     3 axes, middle = 3    OK
 would be one flat coil into four pieces. It is elbow-free either way; it is the section
 count that moves — 8 here against 5 for a walk that stays in plane.
 
-## Minecraft cannot check a walk
+## Trust the build; check the notation
 
-The design is laid out in Minecraft first, and Minecraft **cannot show the one fault that
-matters**. It fills cells, and filling an occupied cell is a no-op — no warning, nothing —
-so a walk that runs back through itself still builds into a connected tunnel that looks
-right from every angle. A doubled cell is fatal here because the cells are the air path: a
-cell filled twice is a junction with two ways out, and no box section has an opening in
-four sides.
+The design is laid out in Minecraft first, floating in open space, and **that build is the
+check**. A section running into one laid down earlier is plainly visible while you are
+standing in it, so a build that looks right is evidence the bore works.
 
-`mcwalk.py` in the sibling repository draws a walk under Minecraft's rules and lights up
-every cell filled more than once. Use it when a walk is refused and the build looked fine.
+What goes wrong is the transcription. A walk is a long string of letters and numbers taken
+off a build by eye, and one wrong letter is enough — a job a human is bad at and a script
+is good at. When `bore_split.py` refuses a walk whose build was fine, suspect the writing
+down, and suspect a direction before a length: the known case was an `S3` where the build
+turned `D3`, and no adjustment of the numbers could fix it.
+
+A doubled cell is fatal because the cells are the air path: entered twice it is a junction
+with two ways out, and no box section has an opening in four sides. `mcwalk.py` in
+`../bore-generator` draws a refused walk under permissive rules and lights up every cell
+entered more than once, which the ordinary viewer cannot do.
 
 ## Colour is the cut order
 
