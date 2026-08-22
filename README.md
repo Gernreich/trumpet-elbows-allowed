@@ -337,16 +337,13 @@ you laid down earlier is plainly visible while you are standing in it. **A build
 looks right is evidence the bore works.**
 
 <p>
-<img src="minecraft/coiled_in_minecraft.png" alt="The coiled trumpet bore built in Minecraft from coloured glass, floating in open sky: long blue runs heading north, an orange run south, green east, purple west, and short red and grey columns where the bore climbs and drops" width="440">
-<img src="spiral_trumpet/spiral_directions.png" alt="The spiral trumpet drawn from six angles by bore_render.py, every block coloured by the direction it travels, with a legend giving the block count per direction" width="440">
+<img src="minecraft/coiled_in_minecraft.png" alt="The coiled trumpet bore built in Minecraft from coloured glass, floating in open sky: long blue runs heading north, an orange run south, green east, purple west, and short red and grey columns where the bore climbs and drops" width="520">
 </p>
 
-*The same palette in both: **N blue, S orange, E green, W purple, U red, D grey**, each
-block coloured by the way you travelled to reach it. On the left the
-[coiled trumpet](pages/coiled_trumpet.html) as built in Minecraft, floating in open sky
-with nothing else in frame; on the right the [spiral trumpet](spiral_trumpet/spiral_trumpet.html)
-as `bore_render.py` draws it. Building in the same colours you render in is what makes the
-two comparable at a glance.*
+*The [coiled trumpet](pages/coiled_trumpet.html) as built, floating in open sky with
+nothing else in frame. Every block is coloured by the way you travelled to reach it —
+**N blue, S orange, E green, W purple, U red, D grey** — the same palette the viewer and
+the renders use, so a build and a drawing can be compared at a glance.*
 
 What goes wrong afterwards is writing it down. A walk is a long string of letters and
 numbers transcribed from something you built by eye, and one wrong letter is enough —
