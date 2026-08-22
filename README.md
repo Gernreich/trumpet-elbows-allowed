@@ -337,13 +337,16 @@ you laid down earlier is plainly visible while you are standing in it. **A build
 looks right is evidence the bore works.**
 
 <p>
-<img src="minecraft/bore_in_glass_1.png" alt="A bore built in Minecraft from translucent glass blocks, floating in open sky: two long parallel runs joined at one end, with solid coloured blocks marking where the bore changes direction" width="440">
-<img src="minecraft/bore_in_glass_2.png" alt="The same bore from a second angle, showing the short link between the two long runs and the ends where the bore turns" width="380">
+<img src="minecraft/coiled_in_minecraft.png" alt="The coiled trumpet bore built in Minecraft from coloured glass, floating in open sky: long blue runs heading north, an orange run south, green east, purple west, and short red and grey columns where the bore climbs and drops" width="440">
+<img src="spiral_trumpet/spiral_directions.png" alt="The spiral trumpet drawn from six angles by bore_render.py, every block coloured by the direction it travels, with a legend giving the block count per direction" width="440">
 </p>
 
-*The same bore from two angles. Glass for the straight runs, a solid colour at every turn —
-and nothing else in frame, which is what makes a section running into an earlier one
-obvious rather than something you have to look for.*
+*The same palette in both: **N blue, S orange, E green, W purple, U red, D grey**, each
+block coloured by the way you travelled to reach it. On the left the
+[coiled trumpet](pages/coiled_trumpet.html) as built in Minecraft, floating in open sky
+with nothing else in frame; on the right the [spiral trumpet](spiral_trumpet/spiral_trumpet.html)
+as `bore_render.py` draws it. Building in the same colours you render in is what makes the
+two comparable at a glance.*
 
 What goes wrong afterwards is writing it down. A walk is a long string of letters and
 numbers transcribed from something you built by eye, and one wrong letter is enough —
