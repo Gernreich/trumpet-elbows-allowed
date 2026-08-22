@@ -423,8 +423,9 @@ the joint check reports the bore in two pieces.
 
 Every design folder carries a page you can turn around with the mouse, named
 for the folder - `first_trumpet/first_trumpet.html`,
-`spiral_trumpet/spiral_trumpet.html`, and `test_bore.html` for the nine-block
-walk that has no cut files. Open one in a browser; nothing is installed and
+`spiral_trumpet/spiral_trumpet.html` and the rest. Walks with no cut files have a
+page of their own instead; they are listed under [Loose pages](#loose-pages).
+Open one in a browser; nothing is installed and
 nothing is fetched but the fonts. Drag to turn, scroll to zoom, right-drag to
 pan, colour by direction or by section, click a legend row to isolate it, and
 drag the slider to follow the bore from the mouthpiece a block at a time.
@@ -446,16 +447,10 @@ shaded - which yellow can. Change them in `DIRCOL` at the top of
 `bore_render.py`; `viewer.py` takes them from there, so one edit moves both the
 pages and the still renders.
 
-The walks with no cut files sit loose in `test/`:
+The walks with no cut files sit loose in the repository root, listed under
+[Loose pages](#loose-pages) below.
 
-    test_bore.html          9 blocks    the walk the splitter was shaken out on
-    helix_rise2.html       29 blocks    square helix, rising two a corner
-    helix_rise1.html       25 blocks    rising one, so elbows meet back to back
-    helix_side6.html       47 blocks    six-block sides
-    stepped_coil.html      40 blocks    six loops marching diagonally, 26 sections
-    switchback_ramp.html   91 blocks    eight hairpins climbing, 17 sections, no elbows
-
-The last two are worth reading together. The [stepped coil](stepped_coil.html) is
+The stepped coil and the switchback ramp are worth reading together. The [stepped coil](stepped_coil.html) is
 `U1 W1 S2 E2` six times over and costs 116 parts for 40 blocks; the
 [switchback ramp](switchback_ramp.html) is the same idea with every leg widened,
 `U2 W3 S3 E3`, and costs 132 parts for 91. Same
@@ -477,15 +472,18 @@ two cannot drift apart. For a walk you are only looking at:
 
 ## Loose pages
 
-Three walks that got a viewer but never got cut. Each is a self-contained page — the
+Six walks that got a viewer but never got cut. Each is a self-contained page — the
 walk is baked into it, so `bore_split.py` will read the cut files back out of any of
-them. All three are in `bore-generator/walks/` as well.
+them.
 
-| walk | why it is kept |
-| --- | --- |
-| [`E E8 U3 S8 S`](three_block_turn.html) | the three-block minimum on its own: two long runs and the shortest leg that still turns without an elbow |
-| [`U U3 W3 N2 E1 E`](hook_check.html) | the smallest walk that ends on a single block, which is where the splitter used to strand a turn |
-| [a Hilbert cube with an eight-block riser](hilbert_snorkel.html) | the densest walk here, with the exit taken up and clear of the cube |
+| walk | blocks | sections | elbows | why it is kept |
+| --- | ---: | ---: | ---: | --- |
+| [`E E8 U3 S8 S`](three_block_turn.html) | 20 | 2 | 0 | the three-block minimum on its own: two long runs and the shortest leg that still turns without an elbow |
+| [`U U3 W3 N2 E1 E`](hook_check.html) | 10 | 2 | 0 | the smallest walk that ends on a single block, which is where the splitter used to strand a turn |
+| [`U U1 W1 S2 E2` × 6](stepped_coil.html) | 40 | 26 | 18 | six loops marching diagonally, every leg as tight as it goes |
+| [`U U2 W3 S3 E3` × 8](switchback_ramp.html) | 91 | 17 | **0** | the same idea with every leg widened: eight hairpins climbing |
+| [the tightest coil](tightest_coil.html) | 22 | 20 | 18 | single-block legs throughout — 20 sections for 22 blocks, the worst ratio here |
+| [a Hilbert cube with an eight-block riser](hilbert_snorkel.html) | 138 | 48 | 24 | the densest walk here, with the exit taken up and clear of the cube |
 
 The snorkel's walk is 60 terms and does not fit a table cell; it is on
 [its own page](hilbert_snorkel.html), and in full here:
