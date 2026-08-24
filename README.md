@@ -478,6 +478,20 @@ two cannot drift apart. For a walk you are only looking at:
 
     python3 viewer.py "<walk>" --out ../test/<name>.html --title "<Name> Bore"
 
+## A hand-nested sheet
+
+`small_trumpet.svg` is 209 × 254mm carrying 24 finger-jointed plates, nested by hand
+rather than by `nest.py`, with sections 2 and 5 engraved in blue. Nesting by hand is what
+the generator's own sheets do not do — it lays each section out on its own sheet, so two
+small sections that would share one are cut on two.
+
+**It is not ready to cut.** Twelve of its twenty-four paths declare a stroke twice and the
+two declarations disagree: `#ff0000` in a style property against `#000000` in a
+presentation attribute. Inkscape and a browser take the style and show red; an importer
+reading the attribute takes black. Red is not one of the cut stages, so a per-colour job
+skips those twelve silently — half the sheet, unmarked. `svg-stroke-check.py` names every
+one.
+
 ## Loose pages
 
 Six walks that got a viewer but never got cut. Each is a self-contained page — the

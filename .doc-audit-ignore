@@ -1,6 +1,7 @@
 # The shared documentation tooling lives in ../GIT/lasermade-tools.
 
 md2html.py
+svg-stroke-check.py
 
 # The generator lives in the sibling repository ../GIT/bore-generator. These are
 # named in the commands here and are not files in this one.
