@@ -12,8 +12,14 @@ page, set for reading, with a table of contents.
 **[The rest of the build files](https://gernreich.github.io/)** — every instrument,
 generator and tool, indexed.
 
+Built for **[LaserMadeMusic](https://www.youtube.com/@LaserMadeMusic)**, where the cutting
+and the playing are shown.
+
+**[Download everything as a ZIP](https://github.com/Gernreich/bore-designs/archive/refs/heads/main.zip)**
+— every design, its cut files and its page.
+
 **The bore being built is the coiled trumpet:**
-[`N N3 U6 W5 N10 E5 D3 S8 W3 D3 N12 N`](pages/coiled_trumpet.html) — 59 blocks, 1829 mm,
+[`N N3 U6 W5 N10 E5 D3 S8 W3 D3 N12 N`](pages/coiled_trumpet.html) — 59 blocks, 1829mm,
 8 sections, **no elbows anywhere**. Its cut files and writeup are in
 [trumpet-coiled](https://github.com/Gernreich/trumpet-coiled). Everything below is how
 that design was arrived at, starting from a first trumpet that used elbows and worked out
@@ -47,7 +53,7 @@ which is what the rest of this page goes on to price. Compare it against the
 [coiled trumpet](pages/coiled_trumpet.html), which does the same job with none.
 
 [`N N10 U2 W2 S7 U2 E4 N9 W2 D2 N4 N`](first_trumpet/first_trumpet.html) — 45 blocks,
-1395 mm of centreline. **Every walk on this page is a link**: follow one and the bore
+1395mm of centreline. **Every walk on this page is a link**: follow one and the bore
 opens in a page you can turn around with the mouse, colour by direction or by section,
 and step through block by block.
 
@@ -56,7 +62,7 @@ blue east, red west, orange up, green down, each block coloured by the way you
 travelled to reach it.
 
 Eight sections, numbered along the bore from the mouthpiece. Every part is
-engraved with its section number and nothing else, about 1.7 mm tall — enough
+engraved with its section number and nothing else, about 1.7mm tall — enough
 to tell a loose part which section it belongs to, which is what gets lost on
 the bench.
 
@@ -68,8 +74,8 @@ than spares, and on sections 1, 3, 4, 6 and 8 they genuinely differ, one having
 a coupling the other does not. The plate whose seam edge has no notch or tab is
 the one that faces the elbow.
 
-44 flat parts, 3 mm stock, 25 mm square bore throughout, every sheet inside the
-xTool P2S bed of 600 x 308 mm.
+44 flat parts, 3mm stock, 25mm square bore throughout, every sheet inside the
+xTool P2S bed of 600 x 308mm.
 
 **Couplings kept, six sides flattened.** An elbow's opening frame has three
 sides — the fourth is its other opening — so at every seam with an elbow, one
@@ -91,7 +97,7 @@ Nested, the lot is two sheets. Sections 2 and 7 are the same shape but are cut
 separately so each carries its own number.
 
 Sections 2, 5 and 7 are one-cell elbows, which is where the bore changes plane.
-Each leaves its 3 x 3 x 25 mm corner open on the inside of the bend — sealed
+Each leaves its 3 x 3 x 25mm corner open on the inside of the bend — sealed
 from outside by the surrounding walls and plates, so a notch in the bore rather
 than a leak.
 
@@ -191,7 +197,7 @@ each, and the two-block leg has one straight block to give. One turn takes it,
 the other is left bare. The nine-block legs either side do not help - the
 problem is between the turns, not outside them - and no context rescued it:
 alone, mid-walk, with a turn before, with a turn after, always one elbow. `N3`
-makes it two 11-block Ls for 31 mm more bore.
+makes it two 11-block Ls for 31mm more bore.
 
 So: **if three consecutive terms name three different axes, the middle one must
 be 3.** If two of them share an axis it is a fold, and can be as tight as you
@@ -264,7 +270,7 @@ being built is one of those:
 
 A **flat** is a plate whose coupling was dropped because it faced an elbow's
 missing side: no tab, no notch, nothing to locate against. Two smooth faces
-held square by eye while the glue grabs. A **tongue** is a wall run 3 mm past
+held square by eye while the glue grabs. A **tongue** is a wall run 3mm past
 the joint to fill the inside of a bend, glued the same way and having to clear
 the elbow's face as it goes. A **void** is the corner nobody could fill.
 
@@ -296,12 +302,12 @@ way by 9 the other**, measured on the piece's bounding box in its own plane,
 not on its block count. An L of 19 by 9 is 27 blocks and fits; a square of 10
 by 10 is 19 blocks and does not.
 
-    19 x 31 mm + tab + burn = 592 mm  against the 600 mm bed
-     9 x 31 mm + tab + burn = 282 mm  against the 308 mm
+    19 x 31mm + tab + burn = 592mm  against the 600mm bed
+     9 x 31mm + tab + burn = 282mm  against the 308mm
 
 `bore_split.py --no-write` prints the plate size of every piece and flags any
 that will not fit, so a design can be checked before anything is drawn. The
-size is read off the walk, exact on the long axis and 3 mm pessimistic on the
+size is read off the walk, exact on the long axis and 3mm pessimistic on the
 short one - it never says a piece fits when it does not.
 
 A run longer than that is not an error: the splitter puts a turn's worth of it
@@ -382,12 +388,12 @@ was cut and thrown away:
 | check | what it caught |
 |---|---|
 | part is one closed piece | a plate all but severed by a port hole |
-| no feature under 1.5 mm | 0.5 mm and 0.1 mm slivers on three plates |
-| the two plates are one part mirrored | a plate drawn a cell short, its fingers 2 mm out of phase |
+| no feature under 1.5mm | 0.5mm and 0.1mm slivers on three plates |
+| the two plates are one part mirrored | a plate drawn a cell short, its fingers 2mm out of phase |
 | no wall finger left unengaged | section 5's closed-end wall, hanging off one plate |
-| both sides agree on bore and tab size | an elbow tab sitting 1.5 mm off the centreline |
+| both sides agree on bore and tab size | an elbow tab sitting 1.5mm off the centreline |
 | seam has no port | a port opening a face that carries a joint |
-| sheet fits the bed | a nested sheet 2 mm over |
+| sheet fits the bed | a nested sheet 2mm over |
 | no two parts overlap | parts sharing a cut line on a nested sheet |
 | engraving on material | labels placed in the notch of an L-shaped plate |
 | the section closes round its bore | a port, or any face left open |
