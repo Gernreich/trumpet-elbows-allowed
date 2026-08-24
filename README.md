@@ -397,8 +397,10 @@ was cut and thrown away:
 | bore volume matches the walk | the assembly not being the bore you asked for |
 | part count, part fits the bed, seam gender | — |
 
-Run it with ports turned on and 13 checks fail, naming the three sections and
-their seams — so it is known to fail when it should.
+Run it with ports turned on and **16 checks fail** across five names, naming the three
+ported sections and all four seams — so it is known to fail when it should. Those five:
+the two plates are one part mirrored, the section closes round its bore, no wall finger
+left unengaged, seam is one tab side and one slot side, and seam has no port.
 
 It does fold each section up in 3D. `assemble.py` builds the section as a
 solid - plates over both faces, walls the full depth of the tube along every
