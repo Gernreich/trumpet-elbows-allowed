@@ -43,6 +43,10 @@ colour it by direction or by section, and step through the blocks one at a time.
 Built for **[LaserMadeMusic](https://www.youtube.com/@LaserMadeMusic)**, where the cutting
 and the playing are shown.
 
+**[Download everything as a ZIP](https://github.com/Gernreich/trumpet-coiled/archive/refs/heads/main.zip)**
+— the nine bore nets and the page they regenerate from. GitHub builds it from `main` on
+every push, so it is never out of date.
+
 **[The rest of the build files](https://gernreich.github.io/)** — every instrument,
 generator and tool, indexed.
 

@@ -70,6 +70,9 @@ letter-spacing:.01em}
 tbody tr:last-child td{border-bottom:0}
 tbody tr:hover{background:color-mix(in srgb,var(--thbg) 45%,transparent)}
 td code,th code{white-space:nowrap}
+/* A walk inside a link is one token: breaking it mid-walk put "N" at the end of one
+   line and "N5 U" at the start of the next, which reads as two things. */
+a code{white-space:nowrap}
 .tog{position:fixed;top:14px;right:14px;z-index:9;background:var(--card);color:var(--mut);
 border:1px solid var(--line);border-radius:7px;padding:6px 11px;font-size:12.5px;cursor:pointer}
 .tog:hover{color:var(--accent)}
@@ -99,6 +102,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <p><em>The whole bore, cut and not yet glued — 50 plates across 8 sections. Click it for the full-size photograph. <strong>Every edge is a finger joint and every face is flat.</strong> The stepped pieces are where the bore turns: a section carries its own corner, so nothing here is an elbow.</em></p>
 <p><strong><a href="bore/bore.html">Turn the bore around in your browser</a></strong> — drag to rotate, colour it by direction or by section, and step through the blocks one at a time.</p>
 <p>Built for <strong><a href="https://www.youtube.com/@LaserMadeMusic">LaserMadeMusic</a></strong>, where the cutting and the playing are shown.</p>
+<p><strong><a href="https://github.com/Gernreich/trumpet-coiled/archive/refs/heads/main.zip">Download everything as a ZIP</a></strong> — the nine bore nets and the page they regenerate from. GitHub builds it from <code>main</code> on every push, so it is never out of date.</p>
 <p><strong><a href="https://gernreich.github.io/">The rest of the build files</a></strong> — every instrument, generator and tool, indexed.</p>
 <h2 id="why-no-elbows">Why no elbows</h2>
 <p>An <strong>elbow</strong> is a single block that turns. It sounds like the cheap way to bend a bore and it is the expensive one, because its opening frame has <strong>three sides, not four</strong>. The missing side has to be made up by the sections either side of it: both get a flattened plate to butt-glue against, both need a tongue to locate on, and a 3 × 3 × 25mm void is left unfilled inside the corner. Flat-to-flat gluing is the whole difficulty of building one of these, and every elbow adds three more of the worst kind.</p>
