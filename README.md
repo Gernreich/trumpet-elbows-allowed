@@ -489,11 +489,12 @@ knowing about while the glue is still a choice.
 It is also nested by hand rather than by `nest.py`, which lays each section out on its
 own sheet — two small sections that would share one sheet get cut on two.
 
-**Check its colours before cutting.** Twelve of its paths declare a stroke twice and the
-two declarations disagree: `#ff0000` in a style property against `#000000` in an
-attribute. Inkscape and a browser take the style and draw red; an importer reading the
-attribute takes black. Red is not one of the cut stages here, so a per-colour job skips
-those twelve without saying anything.
+One cut stage: every outline black, the section numbers engraved blue. It was drawn with
+half the plates stroked red in a style property while carrying a black attribute, so it
+showed red in Inkscape and would have cut black through an importer that reads the
+attribute — and red is not a stage anything here maps, so a per-colour job would have
+skipped those twelve in silence. The reds are now black and the duplicate attributes are
+gone; `svg-stroke-check.py` reports nothing.
 
 ## Loose pages
 
