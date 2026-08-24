@@ -478,6 +478,23 @@ two cannot drift apart. For a walk you are only looking at:
 
     python3 viewer.py "<walk>" --out ../test/<name>.html --title "<Name> Bore"
 
+## A sheet for airtightness testing
+
+`small_trumpet.svg` is a hand-nested sheet, 209 × 254mm, carrying 24 finger-jointed
+plates with sections 2 and 5 engraved. It exists for a job the generator does not do:
+**its entrance and exit are flat**, so the assembled bore can be sealed at both ends and
+checked for leaks before it is committed to. A bore that whistles at a seam is worth
+knowing about while the glue is still a choice.
+
+It is also nested by hand rather than by `nest.py`, which lays each section out on its
+own sheet — two small sections that would share one sheet get cut on two.
+
+**Check its colours before cutting.** Twelve of its paths declare a stroke twice and the
+two declarations disagree: `#ff0000` in a style property against `#000000` in an
+attribute. Inkscape and a browser take the style and draw red; an importer reading the
+attribute takes black. Red is not one of the cut stages here, so a per-colour job skips
+those twelve without saying anything.
+
 ## Loose pages
 
 Six walks that got a viewer but never got cut. Each is a self-contained page — the
