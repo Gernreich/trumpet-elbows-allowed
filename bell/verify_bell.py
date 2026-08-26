@@ -83,17 +83,38 @@ def span(pts):
     return max(x1 - x0, y1 - y0)
 
 
+HUE = re.compile(r"stroke\s*[:=]\s*.?(#[0-9a-fA-F]{6})")
+
+
 def read(path):
-    """(rings, marks). A ring is a path holding two big concentric squares."""
+    """(rings, marks). A ring is a path holding two big concentric squares.
+
+    Colour is taken from the path or, failing that, from the group around it. A sheet saved
+    out of Inkscape carries a stroke on every path; one straight from a generator carries it
+    once on the <g>. Reading only the path meant every generated sheet came back as a single
+    stage of None, and then the labels -- also None -- looked like they shared it."""
     src = pathlib.Path(path).read_text()
     rings, marks = [], []
-    for i, attrs in enumerate(re.findall(r"<path\b([^>]*)>", src)):
+    gstroke, stack, i = None, [], -1
+    for m in re.finditer(r"<g\b[^>]*>|</g\s*>|<path\b[^>]*>", src):
+        el = m.group(0)
+        if el.startswith("</g"):
+            gstroke = stack.pop() if stack else None
+            continue
+        if el.startswith("<g"):
+            stack.append(gstroke)
+            hit = HUE.search(el)
+            if hit:
+                gstroke = hit.group(1).lower()
+            continue
+        i += 1
+        attrs = el[5:-1]
         d = re.search(r'\bd="([^"]+)"', attrs)
         if not d:
             continue
         sp = subpaths(d.group(1))
-        stroke = re.search(r"stroke\s*[:=]\s*.?(#[0-9a-fA-F]{6})", attrs)
-        colour = stroke.group(1).lower() if stroke else None
+        stroke = HUE.search(attrs)
+        colour = stroke.group(1).lower() if stroke else gstroke
         big = sorted([p for p in sp if span(p) >= RING_MIN], key=span)
         if len(big) == 2:
             rings.append({"i": i, "outer": box(big[1]), "ap": box(big[0]),

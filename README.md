@@ -36,27 +36,61 @@ that flares is the bell. That is why these two parts are interchangeable across 
 | --- | --- | --- |
 | Bore, outside | 31mm square | the bell's ø31 throat |
 | Bore, air channel | 25mm square | the mouthpiece's 25mm station |
-| Mouthpiece station one | 31mm square plate | the end face of any bore section |
+| Mouthpiece station one | 31mm square plate, 25mm square aperture | the end face of any bore section |
 
 ## The mouthpiece
 
-**`mouthpiece/mouthpiece-parts.svg`** — 23 rings, 69mm stacked. **The 31mm square plate
-joins the bore**, so from the lip end the profile is: a **cup** of 16 rings narrowing
-10.06 -> 4.06mm over 48mm, the **throat** at 3.66mm (a #27 drill, the standard trumpet
-size), then a **backbore** of 6 rings opening 5 -> 25mm over 18mm.
+**`mouthpiece/mouthpiece-round-parts.svg`** — 26 rings, 78mm stacked, square where it meets
+the bore and round by the throat. **Station one is a sharp 25mm square aperture in a sharp
+31mm square plate**, matching the bore corner for corner; the corners round away going up
+and the section is a true circle from the ø7.5mm station on, 21mm from the joint. So from
+the lip end the profile is a **cup** of 16 rings narrowing 10.06 -> 4.06mm, the **throat**
+at 3.66mm (a #27 drill, the standard trumpet size), then a **backbore** of 9 rings opening
+5 -> 25mm and squaring off as it goes.
 
-**These rings stack; they do not telescope.** The wall is 3.00mm at every one of the 23
+**These rings stack; they do not telescope.** The wall is 3.00mm at every one of the 26
 stations, the throat included, so what varies is the shared face: 2.80mm per side through
-the cup, 2.33 across the throat, 1.00 at the five 4mm steps. No ring can drop through the
-one below. The bell inverts it — a fixed 1.5mm lap and a wall that varies with the flare.
+the cup and 1.00mm at the tightest backbore joint. No ring can drop through the one below,
+at the corners any more than across the flats. The bell inverts it — a fixed 1.5mm lap and
+a wall that varies with the flare.
+
+**The backbore steps 2.5mm, not 4mm, and that is what makes the square end possible.** A
+ring's outer is its aperture offset by the wall, so the seat the next ring lands on is the
+wall minus how far the two apertures differ in that direction. Across the flats that is
+half the aperture step, and the old 4mm steps left 3.00 − 2.00 = 1.00mm. Through the corners
+of a *sharp* square the same step costs 2.83mm, leaving 0.17mm — and rounding a corner pulls
+the diagonal in further still, which takes it negative. **A square mouthpiece cannot be built
+on a 4mm taper at all.** At 2.5mm the corner seat is 1.23mm with room to round. It is the
+same 25 -> 5mm cone either way, sampled finer: three more rings, 9mm more mouthpiece, and no
+change to the profile the air sees.
+
+Roundness is not scheduled. Each station takes the largest corner radius that still leaves
+1.00mm of seat in both directions, so the part rounds as fast as its own geometry permits
+and no faster.
+
+**Its rings carry engraved hex numbers too, 0 on the bore plate through 19 on the lip.**
+They matter more here than on the bell: the sixteen cup rings differ by 0.40mm and are
+indistinguishable by eye. **The numbering runs in assembly order, not by size** — the
+airway narrows to the throat and opens again, so the backbore and the cup pass through the
+same diameters and sorting by size would shuffle one into the other. `number_rings.py`
+refuses to guess on a profile that doubles back; `--order=document` numbers them as the
+file lists them, which is assembly order. b and d are lower case because on seven segments
+an upper-case B is the same shape as 8 and an upper-case D the same shape as 0.
 
 <p>
-<img src="mouthpiece/mouthpiece-view.jpg" alt="The mouthpiece assembled from its stacked rings, the cup narrowing to the throat and opening again into the backbore" width="260">
+<img src="mouthpiece/mouthpiece-view.jpg" alt="The previous 23-ring mouthpiece assembled from its stacked rings, the cup narrowing to the throat and opening again into the backbore" width="260">
 </p>
 
-`mouthpiece/mouthpiece-section.svg` is the axial section; both it and the view above are
-display drawings, not cut files. `mouthpiece.py` generates the parts and
-`mouthpiece-view.py` the view.
+`mouthpiece-round-parts-section.svg` is the axial section of the part above, drawn by
+`bell-section.py`. It is a display drawing, not a cut file.
+
+**The previous mouthpiece is still here.** `mouthpiece.py` generates it —
+23 rings, 69mm, a 4mm backbore taper, and a 25mm *round* aperture in the square plate, so
+the joint threw away the bore's corners and 21% of the airway stepped out of the channel at
+station one. `mouthpiece-section.svg` and the view above are drawings of that design.
+`mouthpiece-view.py` draws it and only it: it takes every ring for a circle apart from a
+hardcoded square plate with a round bore, so pointing it at the square-to-round part would
+produce a confident picture of the wrong object.
 
 **A note on its variable names.** `mouthpiece.py` calls the 25 -> 5mm run `cup` and the
 3.66 -> 10.06mm run `backbore`, which is the reverse of the anatomy: the cup is at the lip
@@ -69,11 +103,11 @@ Four bells. **The rings telescope**: each ring's aperture is the one below it pl
 radius gained, lapped by a fixed 1.5mm for glue, so the bore widens at every joint and the
 wall varies with the flare.
 
-| File | Rings | Build | Pieces | Rim diameter | Angle | Sheet, per pass |
+| File | Rings | Build | Pieces | Rim diameter | Angle, throat → steepest | Sheet, per pass |
 | --- | ---: | --- | ---: | ---: | --- | --- |
 | `bell-trumpet-10rings.svg` | 10 | 7 ply | **70** | 126.0 | 2.9° -> 30.0° | 265 × 262mm |
 | `bell-trumpet-14rings.svg` | 14 | 5 ply | **70** | 126.0 | 2.8° -> 36.8° | 307 × 326mm |
-| `bell-trumpet-17rings.svg` | 17 | 4 ply | **68** | 126.0 | 2.8° -> 38.8° | 347 × 133mm |
+| `bell-trumpet-17rings.svg` | 17 | 4 ply | **68** | 126.0 | 2.8° -> 38.8° | 378 × 326mm |
 | `bell-trumpet-67rings.svg` | 67 | 1 ply | **67** | 145.7 | 9.5° -> 50.8° | 995 × 693mm |
 
 **Each file draws every ring once — cut it as many times as the `Build` column says.** The
@@ -81,9 +115,14 @@ wall varies with the flare.
 it once and you get a 30mm bell instead of a 210mm one. Only the 67-ring file is one pass.
 
 All four come to 67–70 pieces, so a coarse bell is not less cutting. It is less material,
-and by very different amounts: 0.49 m² of 3mm ply for the 10-ring and 0.50 for the 14-ring,
-against the 67-ring's 0.69. The 17-ring is the outlier at **0.18 m²**, barely a quarter of
-the 67-ring, because its sheet is hand-nested rather than laid out by the generator.
+and not by much: 0.49 m² of 3mm ply for the 10-ring, 0.50 for the 14-ring and 0.49 for the
+17-ring, against the 67-ring's 0.69.
+
+**Nesting is where the real saving is, and it is hand work.** The 17-ring sheet was once
+nested by hand into 347 × 133mm — **0.18 m²**, barely a quarter of the 67-ring — against the
+378 × 326mm the generator lays out. The generator drops each ring in a grid and never puts a
+small ring inside a big one's aperture, so three quarters of every sheet is the hole in the
+middle of a ring. That is 0.31 m² of ply an afternoon in Inkscape buys you.
 
 <p>
 <img src="bell/bell-trumpet-10rings-view.jpg" alt="The 10-ring bell assembled" width="200">
@@ -102,13 +141,104 @@ They are not four samplings of one fixed length. A whole number of rings at each
 somewhere slightly different, so the four come out **210, 210, 204 and 201mm** long, and the
 67-ring reaches a wider rim than the other three.
 
+Where a bell overshoots the 201mm profile its **rim ring flares less than the ring below**.
+That ring is still a full lamination stack tall — it is `plies` pieces of 3mm ply like every
+other — and simply has less curve left to draw. It shows on the 14-ring, whose steepest ring
+is 36.8° and whose rim ring is 24.6°; the angle above is the steepest, which is why that
+column and the last number `bell.py` prints are not always the same ring.
+
 Counter-intuitively, **coarser is better at the throat and worse at the rim**: at 12mm of
 rise a 2mm minimum wall is 2.8°, where at 3mm it is stuck at 9.5°. The 17-ring is the
-balance, and its nested sheet fits a 400mm bed with room to spare. `bell.py` generates all
+balance, and its sheet fits a 400mm bed at 378mm even unnested. `bell.py` generates all
 four. `bell-section.py` draws the axial sections — `bell-trumpet-10rings-section.svg`,
 `bell-trumpet-14rings-section.svg`, `bell-trumpet-17rings-section.svg` and
 `bell-trumpet-67rings-section.svg` — `bell-view.py` the assembled views, `ramp_bell.py`
 applies the cut-order colour, and `verify_bell.py` checks an edited sheet.
+
+## The square-to-round bell
+
+The four above are square end to end. `bell-round.py` is the alternative: the same Bessel
+profile, the same 3mm ply and the same 1.5mm lap, but **the section morphs from the bore's
+square to a round rim**. Station one is the same 31mm square that closes onto the bore; the
+corners are rounded away up the horn until the rim is a true circle.
+
+| File | Rings | Build | Pieces | Rim diameter | Sheet, per pass |
+| --- | ---: | --- | ---: | ---: | --- |
+| `bell-round-10rings.svg` | 10 | 7 ply | **70** | ø141.8 | 279 × 285mm |
+| `bell-round-14rings.svg` | 14 | 5 ply | **70** | ø141.8 | 329 × 353mm |
+| `bell-round-17rings.svg` | 17 | 4 ply | **68** | ø141.8 | 405 × 353mm |
+| `bell-round-67rings.svg` | 67 | 1 ply | **67** | ø164.0 | 870 × 887mm |
+
+**Every ring is a rounded square** — a square of half-width `h` with its corners rounded to
+radius `c`. At `c = 0` that is exactly the square that meets the bore; at `c = h` it is
+exactly a circle. Nothing is approximated at either end of the morph.
+
+**These rings stack; they do not telescope**, and that is what fixes the seat. Each ring's
+outer contour is the *next* ring's aperture offset outward by 1.5mm, and offsetting a
+rounded square by `d` gives another rounded square — half-width `h+d`, corner radius `c+d`
+— so the gap between the two is exactly `d` in every direction, corners included. Every
+joint seats on 1.5mm per side however square or however round the two rings happen to be.
+
+**Area, not width, is held to the profile.** A circle inscribed in a square has 21% less
+area, so rounding the corners at constant width would choke the horn at the very place it
+should be opening. Each station is widened instead to enclose the area the square bell
+would have had — by nothing at the throat, by 12.8% at the round rim. That is why the rim
+comes to ø141.8mm where the square 17-ring bell's is 126.0mm square. `--law=width` turns
+that off and follows the half-width instead.
+
+`--morph` sets the schedule: `linear` rounds evenly along the length, `flare` tracks the
+radius gained so the section stays squarer through the long slow throat and turns over the
+last third, `early` is circular by mid-horn. Nothing about the joint changes between them.
+
+`bell-section.py` sections these through the flats as it does any bell. `bell-view.py`
+reads the corner radius out of the arcs the corners are drawn with, so the assembled view
+rounds where the part rounds; it used to draw every ring as a square, which was true of
+`bell.py`'s four and of nothing else.
+
+The generator checks the seat, the wall and the bore before it writes anything, because
+`verify_bell.py` will not: it reads an arc as proof it is looking at the mouthpiece and
+skips these sheets. **The 17-ring sheet is 405mm wide**, five millimetres over a 400mm bed
+— like the square 17-ring it wants hand-nesting.
+
+## A smaller bell
+
+**A bell cannot be scaled.** The throat is 31mm because the bore is 31mm outside, and a ring
+rises 3mm because the ply is 3mm — neither number is ours to halve. What is free is the
+profile, so a smaller bell is a **shorter length** with **whatever rim you want** at the end
+of it, and the flare between them steepens to suit.
+
+Both generators take the same three options: `--length` in mm, `--rim` the bore's diameter
+at the rim before the wall is added, and `--gamma` the Bessel exponent.
+
+**`bell-round-99mm-11rings.svg` is one, kept in the repository.** It comes from
+`bell-round.py 11 --length=99 --rim=80`: eleven rings of 3 ply, 99mm long, a 31mm square
+throat opening to a ø93.3 round rim, 33 pieces off a 251 × 207mm sheet at 0.16 m², walls
+2.0 to 9.2mm. Half the length of the standard bell and under a third of its material, and
+99mm divides evenly by its 9mm rise, so there is no flat collar at the rim.
+
+**Its rings carry engraved hex numbers, 0 on the smallest through A on the rim.** Eleven
+rings glued in the wrong order is eleven rings unglued, and consecutive rings here differ
+by about two millimetres — nothing you can judge by eye once the parts are off the bed.
+`number_rings.py` puts the index inside each ring in engraving blue, sized to that ring's
+wall: 1.60mm on ring 0 where the wall is 2.29mm, up to a 4mm cap on the rim. The digits are
+seven-segment line strokes rather than text, so no font has to survive the trip into the
+laser software, and each one is grown to the largest size where every point of it still
+lands between that ring's aperture and its outer edge.
+
+**Bring the rim down with the length.** Asking for a 99mm bell and leaving the rim at 123mm
+is legal but steep: the flare has half the distance to cover, so the wall runs to 21mm at
+the rim and the sheet grows rather than shrinks.
+
+**Pick a length the rings divide into.** A whole number of rings rarely lands on the
+profile, and the leftover is a flat collar — the rim ring is a full lamination stack tall
+but draws only what curve was left. At 201mm that is cosmetic; at 100mm the same few
+millimetres can leave the rim ring nearly cylindrical. Both generators report the overshoot
+and name a length that would have divided evenly. 99mm is a good one: 33 × 3mm, 11 × 9mm or
+3 × 33mm.
+
+**A non-default profile carries its length in the filename** — `bell-round-99mm-11rings.svg`
+— so a short bell that happens to land on the same ring count can never overwrite one of the
+standard sheets.
 
 ## Colour is the cut order
 
@@ -116,10 +246,12 @@ applies the cut-order colour, and `verify_bell.py` checks an edited sheet.
 frees the part and violet always skip. That sequence is shared by every LaserMadeMusic
 repository.
 
-`bell-trumpet-17rings.svg` is the exception, and its ordering is load-bearing: its rings
-ramp from `#000000` on the smallest to `#ff0000` on the rim, one stage per ring, so the cut
-runs smallest first and no nested part is freed before its own outline is cut. Its numbers
-are blue, engraved. Give it an explicit operation — a per-colour job silently skips any
+**A nested sheet needs more than that.** Where a small ring sits inside a big one's
+aperture, the small one has to be cut first or it is freed along with the waste it sits in,
+and one black stage cannot say so. `ramp_bell.py` answers that with a **black → red ramp**,
+one stage per ring by size, so the cut runs smallest first. None of the sheets here are
+nested today, so all of them cut in a single black stage with their numbers in blue. Give
+a ramped sheet an explicit operation per colour — a per-colour job silently skips any
 colour left unmapped.
 
 ## Before you cut
@@ -128,23 +260,34 @@ colour left unmapped.
 ring rises 3mm because the sheet is 3mm, and the mouthpiece stacks 23 rings into 69mm the
 same way. Substituting 4mm stock does not scale the design, it breaks the profile.
 
-`bell-trumpet-17rings.svg` is **hand-nested and hand-labelled**. Regenerating it from
-`bell.py` discards that work. Check an edited sheet with `verify_bell.py` rather than
-diffing path data — once paths are converted to curves, a byte diff says nothing.
+Check an edited sheet with `verify_bell.py` rather than diffing path data — once paths
+have been through an editor and converted to curves, a byte diff says nothing.
 
 ## Files
 
 **The bell**, in `bell/` — `bell-trumpet-10rings.svg`, `bell-trumpet-14rings.svg`,
 `bell-trumpet-17rings.svg`, `bell-trumpet-67rings.svg`, generated by `bell.py`.
-`ramp_bell.py` applies the cut-order colour; `verify_bell.py` checks an edited sheet for
-ring sizes, the 1.5mm lap, nesting order and overlapping cuts.
+`ramp_bell.py` applies the cut-order colour, `number_rings.py` engraves each ring's hex
+index — smallest ring 0, in engraving blue, added without touching a single cut path —
+and `verify_bell.py` checks an edited sheet for ring sizes, the 1.5mm lap, nesting order
+and overlapping cuts.
 
-**The mouthpiece**, in `mouthpiece/` — `mouthpiece-parts.svg`, generated by
-`mouthpiece.py`.
+**The square-to-round bell**, in `bell/` — `bell-round-10rings.svg`,
+`bell-round-14rings.svg`, `bell-round-17rings.svg`, `bell-round-67rings.svg`, and the
+half-size `bell-round-99mm-11rings.svg`, generated by `bell-round.py`, which checks its own
+sheets rather than leaving it to `verify_bell.py`.
+
+**The mouthpiece**, in `mouthpiece/` — `mouthpiece-round-parts.svg`, generated by
+`mouthpiece-round.py`, which checks every joint in both directions before it writes, and
+numbered by `bell/number_rings.py`. Its
+predecessor is not kept as a sheet any more; `mouthpiece.py` still writes it on demand.
 
 **Display only, never cut** — the axial sections `bell-trumpet-10rings-section.svg`,
 `bell-trumpet-14rings-section.svg`, `bell-trumpet-17rings-section.svg`,
-`bell-trumpet-67rings-section.svg` and `mouthpiece-section.svg`, drawn by
+`bell-trumpet-67rings-section.svg`, `bell-round-10rings-section.svg`,
+`bell-round-14rings-section.svg`, `bell-round-17rings-section.svg`,
+`bell-round-67rings-section.svg`, `bell-round-99mm-11rings-section.svg`,
+`mouthpiece-round-parts-section.svg` and `mouthpiece-section.svg`, drawn by
 `bell-section.py`; and the assembled views `bell-trumpet-10rings-view.jpg`,
 `bell-trumpet-14rings-view.jpg`, `bell-trumpet-17rings-view.jpg`,
 `bell-trumpet-67rings-view.jpg` and `mouthpiece-view.jpg`, from `bell-view.py` and

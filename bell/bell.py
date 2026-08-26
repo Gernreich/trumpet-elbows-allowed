@@ -3,6 +3,8 @@
 
     python3 bell.py                 # all four
     python3 bell.py 20              # one, at most 20 rings
+    python3 bell.py --length=100    # a 100mm bell, same throat and rim
+    python3 bell.py --length=100 --rim=80    # ... and a narrower rim to suit
 
 A trumpet bell is not a cone. Its radius follows roughly a Bessel profile,
 r = b (u + u0)^-gamma with u measured back from the rim and gamma near 0.7, so the wall
@@ -17,14 +19,44 @@ profile as 67 rings of one, read at lower resolution and cut off at a different 
 WALL is the radius gained plus LAP. Keeping them separate is what allows a shallow flare:
 if the wall had to equal the gain, a 2mm minimum ring would force a 34 degree minimum
 angle, and a trumpet spends most of its bell below that.
+
+THE ANGLE REPORTED IS THE STEEPEST RING, NOT THE LAST. The profile is defined over L, but
+a whole number of rings at each rise usually overshoots it: the 14-ring bell is 14 x 15 =
+210mm against a 201mm curve. A ring past L is still a full `step` tall -- it is `plies`
+laminations of 3mm ply like every other -- and simply has less curve left to draw, so it
+flares less than the ring below it. The 14-ring's steepest ring is 36.8 degrees and its rim
+ring 24.6. Reporting the last one made that bell look like the shallowest of the four when
+it is the second steepest, so both are printed and the steepest is the headline.
 """
 import sys, math, pathlib
 
 RISE, LAP, MINWALL = 3.0, 1.5, 2.0
 GAMMA, RT, RIM, L  = 0.7, 15.5, 61.5, 201.0     # ø31 throat, trumpet-scale rim, 201mm long
+
+# A bell cannot be scaled. The throat is ø31 because the bore is 31mm outside, and a ring
+# rises 3mm because the ply is 3mm: neither number is ours to halve. What is free is the
+# profile, so a smaller bell is a shorter L and whatever rim you want at the end of it, and
+# the flare between them steepens to suit. --rim is the bore's diameter AT the rim; the cut
+# ring's outer edge lands a wall further out, which is the figure the report prints.
+_args = [a for a in sys.argv[1:] if not a.startswith("--")]
+_opts = dict(a[2:].split("=", 1) for a in sys.argv[1:] if a.startswith("--") and "=" in a)
+for k in _opts:
+    if k not in ("length", "rim", "gamma"):
+        sys.exit(f"unknown option --{k}: length, rim or gamma")
+L     = float(_opts.get("length", L))
+RIM   = float(_opts.get("rim", RIM*2)) / 2.0
+GAMMA = float(_opts.get("gamma", GAMMA))
+if L < 2*RISE:  sys.exit(f"--length must be at least two rings, {2*RISE:g}mm")
+if RIM <= RT:   sys.exit(f"--rim must open past the ø{2*RT:.0f}mm throat")
+
 U0 = L / ((RIM/RT)**(1/GAMMA) - 1)
 b  = RT*(L+U0)**GAMMA
 rad = lambda z: b*((L-z)+U0)**(-GAMMA)
+
+# A non-default profile gets its length into the filename. Without that a 100mm bell that
+# happened to land on 17 rings would quietly overwrite bell-trumpet-17rings.svg, which is
+# hand-nested and hand-labelled and not reproducible from this script.
+STEM = "bell-trumpet" if (L, 2*RIM, GAMMA) == (201.0, 123.0, 0.7) else f"bell-trumpet-{L:.0f}mm"
 
 def rings(plies):
     step = RISE*plies
@@ -62,14 +94,30 @@ def emit(rs, plies, step, path):
         f'  <g fill="none" stroke="#000000" stroke-width="0.1">\n' + "\n".join(lines) + "\n  </g>\n</svg>\n")
     return W, H
 
-budgets = [int(sys.argv[1])] if len(sys.argv) > 1 else [67, 20, 15, 10]
+budgets = [int(_args[0])] if _args else [67, 20, 15, 10]
 for want in budgets:
     plies = 1
     while True:
         rs, step = rings(plies)
         if len(rs) <= want: break
         plies += 1
-    W, H = emit(rs, plies, step, f"bell-trumpet-{len(rs)}rings.svg")
-    print(f"  bell-trumpet-{len(rs)}rings.svg  {len(rs):>2} rings x {plies} ply ({step:g}mm rise)  "
-          f"ø{rs[0][0]:.0f}->ø{rs[-1][1]:.1f}mm  {rs[0][3]:.1f}°->{rs[-1][3]:.1f}°  "
+    name = f"{STEM}-{len(rs)}rings.svg"
+    W, H = emit(rs, plies, step, name)
+    angles = [r[3] for r in rs]
+    steep = max(angles)
+    rim = "" if abs(steep - angles[-1]) < 0.05 else f" (rim ring {angles[-1]:.1f}°)"
+    print(f"  {name}  {len(rs):>2} rings x {plies} ply ({step:g}mm rise)  "
+          f"ø{rs[0][0]:.0f}->ø{rs[-1][1]:.1f}mm  {min(angles):.1f}°->{steep:.1f}°{rim}  "
           f"wall {min(r[2] for r in rs):.1f}-{max(r[2] for r in rs):.1f}mm  sheet {W:.0f}x{H:.0f}mm")
+
+    # A whole number of rings rarely lands on L, and the leftover is a flat collar at the
+    # rim: the last ring is a full step tall but only draws what curve was left. At 201mm
+    # that is cosmetic. On a short bell the same few millimetres are a large fraction of
+    # the profile, and the rim ring can come out nearly cylindrical -- so say so, and say
+    # which length would have divided evenly.
+    over = len(rs)*step - L
+    if over > 0.01:
+        near = min((abs(L - m*step), m*step) for m in (len(rs) - 1, len(rs)) if m)[1]
+        hint = "" if over <= step/2 else f"   --length={near:g} divides evenly"
+        print(f"      {len(rs)*step:g}mm of rings on a {L:g}mm profile: the rim ring is "
+              f"{step:g}mm tall and draws {step-over:g}mm of curve{hint}")
