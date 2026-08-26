@@ -41,14 +41,17 @@ before anything is written.
 """
 import sys, math, pathlib
 
-RISE, LAP, MINWALL = 3.0, 1.5, 2.0
-GAMMA, RT, RIM, L  = 0.7, 15.5, 61.5, 201.0     # 31mm square throat, trumpet-scale, 201mm
+RISE, LAP, MINWALL = 3.0, 3.0, 2.0
+GAMMA, RT, RIM, L  = 0.7, 12.5, 61.5, 201.0     # 25mm square throat = the bore's channel
+BORE     = 25.0      # the bore's air channel; the horn continues it, it does not step
+PLATE    = 31.0      # the bore's outside. Ring 0 has to cover this whole face
+OVERHANG = 3.0       # and stand proud of it, to glue against and to locate the joint
 
 args  = [a for a in sys.argv[1:] if not a.startswith("--")]
 opts  = dict(a[2:].split("=", 1) for a in sys.argv[1:] if a.startswith("--") and "=" in a)
 for k in opts:
-    if k not in ("morph", "law", "length", "rim", "gamma"):
-        sys.exit(f"unknown option --{k}: morph, law, length, rim or gamma")
+    if k not in ("morph", "law", "length", "rim", "gamma", "lap", "overhang"):
+        sys.exit(f"unknown option --{k}: morph, law, length, rim, gamma, lap or overhang")
 morph = opts.get("morph", "linear")
 law   = opts.get("law", "area")
 if morph not in ("linear", "flare", "early"): sys.exit(f"--morph: linear, flare or early, not {morph!r}")
@@ -59,7 +62,9 @@ if law   not in ("area", "width"):            sys.exit(f"--law: area or width, n
 # the end of it. --rim is the bore's width AT the rim, before the wall is added.
 L     = float(opts.get("length", L))
 RIM   = float(opts.get("rim", RIM*2)) / 2.0
-GAMMA = float(opts.get("gamma", GAMMA))
+GAMMA    = float(opts.get("gamma", GAMMA))
+LAP      = float(opts.get("lap", LAP))
+OVERHANG = float(opts.get("overhang", OVERHANG))
 if L < 2*RISE:  sys.exit(f"--length must be at least two rings, {2*RISE:g}mm")
 if RIM <= RT:   sys.exit(f"--rim must open past the {2*RT:.0f}mm throat")
 
@@ -126,6 +131,14 @@ def stations(plies, morph, law):
             "oh": hs[k+1] + LAP,  "oc": cs[k+1] + LAP,          # outer: next aperture + lap
             "gain": hs[k+1] - hs[k], "rise": rise,
         })
+
+    # Ring 0 is the flange onto the bore, and the one ring whose outer is not the next
+    # station offset. The bore ends in a square annulus of ply 3mm wide -- ø25 inside, ø31
+    # out -- and the flange has to cover all of it and stand proud, or there is nothing to
+    # glue to but the outside of the tube. It stays a SHARP square for the same reason: the
+    # face it lands on is square.
+    rings[0]["oh"] = max(rings[0]["oh"], PLATE/2.0 + OVERHANG)
+    rings[0]["oc"] = 0.0
     return rings, step
 
 
@@ -133,15 +146,26 @@ def check(rings):
     """Everything that has to be true before this is worth cutting."""
     notes, fails = [], []
 
-    # A ring's outer is the next ring's aperture offset by LAP, so the seat the next ring
-    # lands on is the width of that offset. Measured, not assumed: the claim that a
-    # rounded square offsets to a rounded square is the whole basis of the joint.
-    seats = {round(support(r["oh"], r["oc"], s)
-                   - support(r["oh"] - LAP, r["oc"] - LAP, s), 3)
-             for r in rings for s in (1.0, DIAG)}
-    if seats != {LAP}:
-        fails.append(f"seat is not {LAP}mm at every joint and every angle: {sorted(seats)}")
-    notes.append(f"seat        {sorted(seats)}mm per side, flats and corners alike")
+    # Measured between the real contours, not assumed from the offset identity: ring 0 is
+    # a flange and breaks that identity, and a seat is the one number a gap shows up in.
+    seats = [support(a["oh"], a["oc"], s) - support(b["ah"], b["ac"], s)
+             for a, b in zip(rings, rings[1:]) for s in (1.0, DIAG)]
+    if min(seats) < LAP - 1e-6:
+        fails.append(f"a joint seats on {min(seats):.2f}mm, under the {LAP:g}mm lap")
+    notes.append(f"seat        {min(seats):.2f}-{max(seats):.2f}mm per side, "
+                 f"flats and corners alike")
+
+    # The flange has to cover the bore's end face completely. This is the joint that was
+    # wrong: a ø31 aperture sat entirely outside the ø25-ø31 face and touched nothing.
+    proud = rings[0]["oh"] - PLATE/2.0
+    if rings[0]["ah"] > BORE/2.0 + 1e-9:
+        fails.append(f"the flange aperture is ø{2*rings[0]['ah']:.1f}, wider than the "
+                     f"ø{BORE:g} bore — it would not cover the end face")
+    if proud < 0:
+        fails.append(f"the flange is ø{2*rings[0]['oh']:.1f}, inside the ø{PLATE:g} bore "
+                     f"outside — it would not cover the end face")
+    notes.append(f"flange      ø{2*rings[0]['ah']:.0f} aperture in a ø{2*rings[0]['oh']:.0f} "
+                 f"square: covers the bore's {BORE:g}-{PLATE:g} face, {proud:.1f}mm proud")
 
     walls = [(support(r["oh"], r["oc"], s) - support(r["ah"], r["ac"], s), s)
              for r in rings for s in (1.0, DIAG)]

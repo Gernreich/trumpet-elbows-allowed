@@ -30,8 +30,11 @@ it is the second steepest, so both are printed and the steepest is the headline.
 """
 import sys, math, pathlib
 
-RISE, LAP, MINWALL = 3.0, 1.5, 2.0
-GAMMA, RT, RIM, L  = 0.7, 15.5, 61.5, 201.0     # ø31 throat, trumpet-scale rim, 201mm long
+RISE, LAP, MINWALL = 3.0, 3.0, 2.0
+GAMMA, RT, RIM, L  = 0.7, 12.5, 61.5, 201.0     # 25mm throat = the bore's channel, 201mm
+BORE     = 25.0      # the bore's air channel; the horn continues it rather than stepping
+PLATE    = 31.0      # the bore's outside. Ring 0 has to cover this whole end face
+OVERHANG = 3.0       # and stand proud of it, to glue against and to locate the joint
 
 # A bell cannot be scaled. The throat is ø31 because the bore is 31mm outside, and a ring
 # rises 3mm because the ply is 3mm: neither number is ours to halve. What is free is the
@@ -41,11 +44,13 @@ GAMMA, RT, RIM, L  = 0.7, 15.5, 61.5, 201.0     # ø31 throat, trumpet-scale rim
 _args = [a for a in sys.argv[1:] if not a.startswith("--")]
 _opts = dict(a[2:].split("=", 1) for a in sys.argv[1:] if a.startswith("--") and "=" in a)
 for k in _opts:
-    if k not in ("length", "rim", "gamma"):
-        sys.exit(f"unknown option --{k}: length, rim or gamma")
+    if k not in ("length", "rim", "gamma", "lap", "overhang"):
+        sys.exit(f"unknown option --{k}: length, rim, gamma, lap or overhang")
 L     = float(_opts.get("length", L))
 RIM   = float(_opts.get("rim", RIM*2)) / 2.0
 GAMMA = float(_opts.get("gamma", GAMMA))
+LAP      = float(_opts.get("lap", LAP))
+OVERHANG = float(_opts.get("overhang", OVERHANG))
 if L < 2*RISE:  sys.exit(f"--length must be at least two rings, {2*RISE:g}mm")
 if RIM <= RT:   sys.exit(f"--rim must open past the ø{2*RT:.0f}mm throat")
 
@@ -65,6 +70,14 @@ def rings(plies):
         g = max(rad(min(z+step, L)) - rad(z), MINWALL-LAP)
         out.append((2*r, 2*(r+g+LAP), g+LAP, math.degrees(math.atan(g/step))))
         r += g; z += step
+
+    # Ring 0 is the flange onto the bore, and the one ring whose outer is not set by the
+    # profile. The bore ends in a square annulus of ply 3mm wide -- 25mm inside, 31mm out --
+    # and the flange has to cover all of it and stand proud, or there is nothing to glue to
+    # but the outside of the tube and the joint opens up.
+    a0, o0, _, ang = out[0]
+    o0 = max(o0, PLATE + 2*OVERHANG)
+    out[0] = (a0, o0, (o0 - a0)/2.0, ang)
     return out, step
 
 def sq(cx, cy, s):

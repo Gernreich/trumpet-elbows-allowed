@@ -22,7 +22,8 @@ import pathlib
 
 NUM = re.compile(r"-?\d*\.?\d+(?:[eE][-+]?\d+)?")
 RING_MIN = 20.0                     # smallest ring is ø31; every digit is under 3mm
-LAP = 1.5                           # each ring overhangs the next aperture by this
+LAP = 3.0                           # each ring overhangs the next aperture by this;
+                                    # overridden by whatever the sheet states in its <desc>
 
 
 def subpaths(d):
@@ -160,13 +161,28 @@ def main():
     fails = []
     print(f"  rings {len(rings)}   other paths {len(marks)}")
 
-    order = sorted(rings, key=lambda r: r["o"])
-    print("\n  the 1.5mm lap, ring to ring:")
+    # Ordered by APERTURE, not by outer diameter. The airway only ever opens, so aperture
+    # order is assembly order on any sheet however it was nested -- which is what this tool
+    # promises. Outer order used to be the same thing and is not any more: ring 0 is a
+    # flange onto the bore and is wider than the rings just above it.
+    lap = LAP
+    m = re.search(r"(?:lapping the ring below by|seating on the ring below over)\s*([\d.]+)",
+                  pathlib.Path(sys.argv[1]).read_text())
+    if m:
+        lap = float(m.group(1))
+    order = sorted(rings, key=lambda r: r["a"])
+    print(f"\n  the {lap:g}mm lap, ring to ring:")
     laps = [round((order[i]["o"] - order[i + 1]["a"]) / 2, 3) for i in range(len(order) - 1)]
-    bad = [v for v in laps if abs(v - LAP) > 0.01]
+    # The flange joint is deliberately deeper than the rest, so the first one only has to
+    # be at least the lap; every other joint is an exact offset and must be exactly it.
+    bad = [v for v in laps[1:] if abs(v - lap) > 0.01]
+    if laps and laps[0] < lap - 0.01:
+        bad.insert(0, laps[0])
     print(f"    {sorted(set(laps))}mm per side" + ("" if not bad else f"   OFF: {bad}"))
     if bad:
-        fails.append("lap is not 1.5mm at every joint")
+        fails.append(f"lap is not {lap:g}mm at every joint")
+    elif laps and laps[0] > lap + 0.01:
+        print(f"    the flange joint is deeper, {laps[0]:g}mm — it covers the bore's end face")
 
     # Two legitimate schemes. One colour for every ring is a single cut stage. A ramp
     # is one stage per ring, and then the colour IS the cut order -- so what matters is

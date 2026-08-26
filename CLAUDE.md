@@ -25,6 +25,35 @@ the machine: the 10-ring bell is 7 ply, so 7 passes and 70 pieces. Cut once it y
 30mm bell instead of 210mm. Only the 67-ring file is a single pass. Counting shapes in the
 SVG answers a different question than "how many pieces".
 
+## Ring 0 is a flange, and the throat is the bore's channel
+
+The bore ends in a **square annulus of ply 3mm wide** — 25mm inside, 31mm out. Ring 0 has to
+cover all of it. It is a sharp 37mm square with a 25mm square hole: the one ring whose outer
+is not the next station offset, and **wider than the several rings above it**.
+
+This was wrong until 2026-08-26. The throat was 15.5 (ø31 — the bore's *outside*), so ring 0
+spanned radius 15.5 to 17.8 and did not overlap the ø25–ø31 end face **at all**; the only
+contact was the tube's outer wall against a 2.3mm lip, and the airway stepped 25 → 31 with a
+3mm shoulder per side. It was reported as gaps at the joint, which is exactly what it was.
+The mouthpiece had it right all along — its station one is a 25mm square hole in a 31mm
+plate — and the bell now does the same.
+
+**The lap is 3mm, not 1.5.** 1.5mm is the width of the glue land, and it left nothing for
+kerf or for a ring set down slightly off centre; joints opened up along the bell. `--lap`
+moves it.
+
+**Consequences that bite tooling:**
+
+- **Ring sizes are no longer monotonic**, because the flange is wider than the rings above
+  it. Anything recovering assembly order by sorting on the OUTER diameter is now wrong.
+  `verify_bell.py` sorts on the **aperture** instead — the airway only ever opens, so that
+  is assembly order on any sheet however it was nested. `number_rings.py` refuses and wants
+  `--order=document`.
+- **The minimum-wall floor no longer binds.** `wall = gain + LAP >= 3mm` on its own, so the
+  old `max(gain, MINWALL - LAP)` floor is inactive and the profile follows the Bessel curve
+  exactly instead of being inflated by it. That is why all four bells now reach the same
+  129.0mm rim where the 67-ring used to run out to 145.7.
+
 ## Two bell families
 
 `bell.py` makes four bells that are **square end to end**. `bell-round.py` makes four whose
@@ -33,7 +62,7 @@ corner radius 0 at station one and equal to the half-width at the rim.
 
 They differ in what is held to the Bessel profile. The square bells follow the half-width;
 the round ones follow the **area**, because a circle inscribed in a square has 21% less of
-it. That is why the round rim is ø141.8mm where the square one is 126.0mm square, and why
+it. That is why the round rim is ø144.8mm where the square one is 129.0mm square, and why
 the two rim numbers are not meant to match.
 
 `bell-round.py` checks its own sheets — the 1.5mm seat, the 2mm wall and the bore never

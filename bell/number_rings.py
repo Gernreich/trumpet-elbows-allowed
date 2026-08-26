@@ -248,11 +248,12 @@ def main():
     if order is None:
         order = "size" if rising else None
         if order is None:
-            sys.exit("  these rings are not in size order in the file, so this is a profile\n"
-                     "  that doubles back — a mouthpiece, or a hand-rearranged sheet. Numbering\n"
-                     "  by size would interleave the two runs. Pass --order=document to number\n"
-                     "  them as the file lists them, which is assembly order for a generated\n"
-                     "  sheet, or --order=size to confirm you meant smallest-first.")
+            sys.exit("  these rings are not in size order in the file. A mouthpiece doubles\n"
+                     "  back through the same diameters; a bell's flange ring is wider than the\n"
+                     "  rings just above it; a hand-nested sheet can be in any order at all.\n"
+                     "  Numbering by size would not be assembly order. Pass --order=document to\n"
+                     "  number them as the file lists them, which IS assembly order for a\n"
+                     "  generated sheet, or --order=size to confirm you meant smallest-first.")
     if order not in ("size", "document"):
         sys.exit(f"  --order: size or document, not {order!r}")
     if order == "size":
