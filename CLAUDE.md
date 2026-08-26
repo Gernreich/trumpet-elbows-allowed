@@ -150,6 +150,22 @@ circle, so there is no flat to sit a digit on, and a radius-by-angle lookup that
 the ends of a straight run reads the bottom of a square as its corner, 21.9mm instead of
 15.5mm. Sample `H` and `V`, not just their endpoints.
 
+## The mouthpiece has two layouts, and the default is the wrong one
+
+Both are 30 rings and 90mm. `--layout=trumpet` puts 75mm into the backbore and keeps a 12mm
+cup, which is how a real mouthpiece is proportioned. `--layout=asbuilt` — the default — has
+a 27mm backbore and 51mm of near-cylindrical entrance on the LIP side of the throat, close
+to inverted. **It is the default only because a mouthpiece exists to it and its rings are
+numbered for it.** Cut `trumpet` for anything new; do not change which is default without
+asking, and check `mouthpiece-round-parts.svg` still comes out byte-identical if you touch
+the profile code.
+
+**The wall is per-ring, not a constant.** The seat above a ring is the wall of whichever
+ring is narrow at that joint, less half the aperture step, so a step that big needs a wall
+to match: a trumpet cup runs ø3.66 to ø11.25 in one ring and wants 4.80mm. `Ws` is computed
+from the steps and the roundness bound reads the wall on the NARROW side of each joint —
+taking the smaller of the two refuses a cup the walls can actually hold.
+
 ## Two routes to the same mouthpiece
 
 `mouthpiece-round.py` writes the whole part — backbore, entrance, bowl — as 30 rings, 90mm.
