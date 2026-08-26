@@ -4,6 +4,7 @@
     python3 number_rings.py SHEET.svg
     python3 number_rings.py SHEET.svg --cap=3.0          # smaller digits than the wall allows
     python3 number_rings.py SHEET.svg --order=document   # a profile that doubles back
+    python3 number_rings.py SHEET.svg --start=26         # continue an existing stack
 
 Eleven rings glued in the wrong order is eleven rings unglued, and once the parts are off
 the bed nothing about a ring says where it belongs: consecutive rings differ by two
@@ -182,6 +183,12 @@ def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     opts = dict(a[2:].split("=", 1) for a in sys.argv[1:] if a.startswith("--") and "=" in a)
     cap = float(opts.get("cap", CAP))
+    # An extension sheet continues the stack it will be glued to, so its first ring is not
+    # ring 0. Numbering it from 0 would put a second "0" in the same mouthpiece.
+    start = int(opts.get("start", 0))
+    for k in opts:
+        if k not in ("cap", "order", "start"):
+            sys.exit(f"  unknown option --{k}: cap, order or start")
     src_path = pathlib.Path(args[0])
     src = src_path.read_text()
 
@@ -253,7 +260,7 @@ def main():
 
     marks, report, fails = [], [], []
     for i, r in enumerate(rings):
-        label = hexlabel(i)
+        label = hexlabel(start + i)
         down = math.pi/2                       # SVG y grows downward, so this is the bottom
         inner, outer = radius(r["ap"], down), radius(r["out"], down)
         placed = None
@@ -305,7 +312,7 @@ def main():
 
 
     src_path.write_text(out)
-    print(f"  {src_path.name}: {len(rings)} rings numbered 0-{report[-1][1]}, "
+    print(f"  {src_path.name}: {len(rings)} rings numbered {report[0][1]}-{report[-1][1]}, "
           f"{len(marks)} engraved strokes in {BLUE}")
     for i, label, o, wall, h in report:
         print(f"    ring {i:>2}  '{label}'  ø{o:>6.2f}  wall {wall:>5.2f}mm  digit {h:.2f}mm")

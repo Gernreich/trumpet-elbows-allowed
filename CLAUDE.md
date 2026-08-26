@@ -121,6 +121,17 @@ circle, so there is no flat to sit a digit on, and a radius-by-angle lookup that
 the ends of a straight run reads the bottom of a square as its corner, 21.9mm instead of
 15.5mm. Sample `H` and `V`, not just their endpoints.
 
+## mouthpiece-round.py still makes a cup-less mouthpiece
+
+Its cup run ends at ø10.06 opening 0.40mm a ring — a 3.8 degree half-angle, a tube. A
+trumpet rim is 16 to 17mm inside. `mouthpiece-cup.py` adds the missing bowl as four rings
+that stack on an already-glued part, numbered from 26 (`--start=26`) so they continue the
+count rather than repeating it.
+
+**Anyone cutting a fresh mouthpiece needs both sheets**, which is a trap. Folding the bowl
+into `mouthpiece-round.py` would renumber every ring in a part that has been cut, so it has
+not been done — ask before changing it.
+
 ## Known wrong, deliberately not fixed
 
 **`mouthpiece.py` names `cup` and `backbore` backwards.** Its `cup = [25.0 … 5.0]` is the
@@ -170,6 +181,8 @@ cd bell && python3 verify_bell.py bell-trumpet-17rings.svg
 cd bell && python3 number_rings.py bell-round-99mm-11rings.svg   # engrave 0..A
 cd bell && python3 number_rings.py ../mouthpiece/mouthpiece-round-parts.svg --order=document
 cd mouthpiece && python3 mouthpiece-round.py    # square on the bore, round by the throat
+cd mouthpiece && python3 mouthpiece-cup.py      # the bowl that stacks on its end
+cd mouthpiece && python3 ../bell/number_rings.py mouthpiece-cup-parts.svg --start=26
 cd mouthpiece && python3 mouthpiece.py          # the previous 23-ring design
 cd mouthpiece && python3 mouthpiece-view.py     # draws the previous design ONLY
 ```
