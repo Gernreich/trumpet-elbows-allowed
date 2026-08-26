@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
-"""Generate a mouthpiece that starts square on the bore and is round by the throat.
+"""Generate a whole mouthpiece: backbore, throat, entrance and cup, in one sheet.
 
     python3 mouthpiece-round.py [OUT.svg]
     python3 mouthpiece-round.py --taper=2.0     # finer steps down the bore-side run
     python3 mouthpiece-round.py --seat=1.25     # demand more seat, round more slowly
+    python3 mouthpiece-round.py --rim=17.0      # a wider rim
+    python3 mouthpiece-round.py --bowl=5        # a 15mm cup instead of 12mm
 
 `mouthpiece.py` puts a 25mm ROUND aperture in its 31mm square plate, so the joint that
 meets the bore throws away the bore's corners: a 25mm square channel opens into a 25mm
@@ -27,9 +29,25 @@ part therefore rounds as quickly as its own geometry permits and no quicker -- o
 default profile it reaches a true circle at the 7.5mm station, 24mm up from the bore, and
 the throat and the whole cup are round.
 
-DISPLAY NOTE: the anatomy in `mouthpiece.py` is named backwards and this file does not
-repeat the mistake. The 25 -> 5mm run is the BACKBORE, the end that meets the bore; the
-3.66 -> 10.06mm run is the CUP, the end that meets the lip.
+THE CUP IS A BOWL, NOT A CONE. This used to stop at ø10.06 opening 0.40mm a ring -- a 3.8
+degree half-angle, a tube, against the 16 to 17mm a trumpet rim is across inside. The bowl
+is an ellipse arc whose slope is zero at the rim, so the wall stands parallel to the axis
+where the lip sits and turns toward the throat going down; its first ring opens 3.21mm and
+its rim ring 0.33mm. A cone would meet the rim at an angle and feel like a funnel.
+
+The three runs are named for the anatomy, which `mouthpiece.py` gets backwards:
+
+    BACKBORE   25 -> 5mm, the end that closes onto the bore, square becoming round
+    ENTRANCE   the 3.66mm throat, then 0.40mm a ring out to 10.06 -- 48mm of it, which is
+               long for a mouthpiece and is where to look first if it plays stuffy
+    BOWL       10.06 -> 16.5mm over 12mm, the cup proper, ending at the rim
+
+A sheet from here is the same part as mouthpiece-round-parts.svg plus mouthpiece-cup.py's
+four rings, ring for ring, so both routes number identically. `mouthpiece-cup.py` stays for
+retrofitting a mouthpiece already glued without a bowl.
+
+The bowl is a staircase of 3mm ply. Sand or fill the steps and round the rim over before
+playing it; as cut the rim edge is a square corner and your lip will say so.
 """
 import sys, math
 
@@ -39,6 +57,8 @@ BORE    = 25.0       # the square bore this meets, corners and all
 NECK    = 5.0        # where the backbore run ends and the throat begins
 THROAT  = 3.66       # a #27 drill, the standard trumpet mouthpiece throat
 TAPER   = 2.5        # aperture step down the backbore run; 4.0 cannot be made square
+RIM     = 16.5       # the rim your lip sits on; a trumpet is 16 to 17mm inside
+BOWL    = 4          # rings of cup above the entrance: 4 x 3mm = a 12mm bowl
 MINSEAT = 1.0        # every joint, flats and corners alike
 GAP     = 2.0
 MARGIN  = 3.0
@@ -46,10 +66,12 @@ DIAG    = math.sqrt(2.0)
 
 opts = dict(a[2:].split("=", 1) for a in sys.argv[1:] if a.startswith("--") and "=" in a)
 for k in opts:
-    if k not in ("taper", "seat"):
-        sys.exit(f"unknown option --{k}: taper or seat")
+    if k not in ("taper", "seat", "rim", "bowl"):
+        sys.exit(f"unknown option --{k}: taper, seat, rim or bowl")
 TAPER   = float(opts.get("taper", TAPER))
 MINSEAT = float(opts.get("seat", MINSEAT))
+RIM     = float(opts.get("rim", RIM))
+BOWL    = int(opts.get("bowl", BOWL))
 out_path = next((a for a in sys.argv[1:] if not a.startswith("--")), "mouthpiece-round-parts.svg")
 
 
@@ -62,8 +84,17 @@ def support(h, c, s):
 # ── the profile, in assembly order from the bore ─────────────────────────────
 steps    = int(round((BORE - NECK)/TAPER))
 backbore = [BORE - TAPER*i for i in range(steps + 1)]          # 25 .. 5, the bore end
-cup      = [round(THROAT + 0.40*i, 3) for i in range(17)]      # 3.66 .. 10.06, the lip end
-profile  = backbore + cup
+entrance = [round(THROAT + 0.40*i, 3) for i in range(17)]      # the throat, then 3.66 .. 10.06
+
+# The bowl: an ellipse arc through the (depth, radius) plane, depth measured DOWN from the
+# rim. Its slope is -k d / r, which is zero at d = 0, so the wall stands parallel to the
+# axis where the lip sits and turns toward the throat going down. A cone would meet the rim
+# at an angle and feel like a funnel.
+r0, R, D = entrance[-1]/2.0, RIM/2.0, BOWL*WALL
+if RIM <= entrance[-1]:
+    sys.exit(f"--rim must open past the ø{entrance[-1]:g}mm the entrance reaches")
+bowl     = [2.0*math.sqrt(R*R - (R*R - r0*r0)*((D - WALL*(k+1))/D)**2) for k in range(BOWL)]
+profile  = backbore + entrance + bowl
 hs       = [a/2.0 for a in profile]
 
 # ── roundness: the largest corner radius each station can afford ─────────────
@@ -148,8 +179,8 @@ svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.3f}mm" height="{H:.3
        f'sharp {PLATE:g}mm square plate, matching the bore corner for corner. The corners '
        f'round away going up and the section is a true circle from the '
        f'{profile[round_at]:g}mm station on, so the {THROAT:g}mm throat and the whole cup '
-       f'are round. {len(backbore)} backbore rings in {TAPER:g}mm steps, then {len(cup)} cup '
-       f'rings in 0.40mm steps. Wall {WALL:g}mm, 3mm of rise a ring, stack '
+       f'are round. {len(backbore)} backbore rings in {TAPER:g}mm steps, {len(entrance)} entrance '
+       f'rings in 0.40mm steps, then {len(bowl)} bowl rings to a ø{RIM:g}mm rim. Wall {WALL:g}mm, 3mm of rise a ring, stack '
        f'{len(profile)*WALL:g}mm. Every joint seats on at least {min(seats):.2f}mm per side, '
        f'flats and corners alike. Rings stack; they do not telescope.</desc>\n'
        f'  <g fill="none" stroke="#000000" stroke-width="0.1">\n'
@@ -158,7 +189,9 @@ open(out_path, "w").write(svg)
 
 print(f"  {out_path}: {len(profile)} rings, {W:.1f} x {H:.1f}mm, stack {len(profile)*WALL:g}mm")
 print(f"    airway     {BORE:g}mm square -> {THROAT:g} throat -> ø{profile[-1]:g} lip")
-print(f"    backbore   {len(backbore)} rings in {TAPER:g}mm steps, cup {len(cup)} in 0.40mm")
+print(f"    backbore   {len(backbore)} rings in {TAPER:g}mm steps to the ø{NECK:g} neck")
+print(f"    entrance   {len(entrance)} rings, ø{THROAT:g} throat opening to ø{entrance[-1]:g}")
+print(f"    bowl       {len(bowl)} rings, ø{entrance[-1]:g} to a ø{RIM:g}mm rim over {D:g}mm")
 print(f"    round from station {round_at+1} (ø{profile[round_at]:g}mm), "
       f"{round_at*WALL:g}mm up from the bore")
 print(f"    seat       {min(seats):.2f}-{max(seats):.2f}mm per side, flats and corners alike")

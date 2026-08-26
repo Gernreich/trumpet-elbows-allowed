@@ -121,16 +121,16 @@ circle, so there is no flat to sit a digit on, and a radius-by-angle lookup that
 the ends of a straight run reads the bottom of a square as its corner, 21.9mm instead of
 15.5mm. Sample `H` and `V`, not just their endpoints.
 
-## mouthpiece-round.py still makes a cup-less mouthpiece
+## Two routes to the same mouthpiece
 
-Its cup run ends at ø10.06 opening 0.40mm a ring — a 3.8 degree half-angle, a tube. A
-trumpet rim is 16 to 17mm inside. `mouthpiece-cup.py` adds the missing bowl as four rings
-that stack on an already-glued part, numbered from 26 (`--start=26`) so they continue the
-count rather than repeating it.
+`mouthpiece-round.py` writes the whole part — backbore, entrance, bowl — as 30 rings, 90mm.
+`mouthpiece-cup.py` writes the bowl alone, four rings that stack on a mouthpiece glued
+before the bowl existed, numbered from 26 with `--start=26`.
 
-**Anyone cutting a fresh mouthpiece needs both sheets**, which is a trap. Folding the bowl
-into `mouthpiece-round.py` would renumber every ring in a part that has been cut, so it has
-not been done — ask before changing it.
+**The two routes must stay identical ring for ring**, and are: the unified sheet's first 26
+apertures match the old 26-ring part and its last 4 match the extension, so both number
+`0`..`19` then `1A`..`1d`. Both use the same ellipse arc for the bowl. Change one and check
+the other, or a part half-built by one route cannot be finished by the other.
 
 ## Known wrong, deliberately not fixed
 

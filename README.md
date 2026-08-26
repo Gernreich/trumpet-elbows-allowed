@@ -40,15 +40,19 @@ that flares is the bell. That is why these two parts are interchangeable across 
 
 ## The mouthpiece
 
-**`mouthpiece/mouthpiece-round-parts.svg`** — 26 rings, 78mm stacked, square where it meets
-the bore and round by the throat. **Station one is a sharp 25mm square aperture in a sharp
-31mm square plate**, matching the bore corner for corner; the corners round away going up
-and the section is a true circle from the ø7.5mm station on, 21mm from the joint. So from
-the lip end the profile is a **cup** of 16 rings narrowing 10.06 -> 4.06mm, the **throat**
-at 3.66mm (a #27 drill, the standard trumpet size), then a **backbore** of 9 rings opening
-5 -> 25mm and squaring off as it goes.
+**`mouthpiece/mouthpiece-round-parts.svg`** — 30 rings, 90mm stacked, the whole mouthpiece
+in one sheet: square where it meets the bore, round by the throat, and a cup at the lip.
+**Station one is a sharp 25mm square aperture in a sharp 31mm square plate**, matching the
+bore corner for corner; the corners round away going up and the section is a true circle
+from the ø7.5mm station on, 21mm from the joint. Three runs, from the bore:
 
-**These rings stack; they do not telescope.** The wall is 3.00mm at every one of the 26
+| | Rings | Airway |
+| --- | ---: | --- |
+| **Backbore** | 9 | 25 -> 5mm in 2.5mm steps, square becoming round |
+| **Entrance** | 17 | the 3.66mm **throat** (a #27 drill), then 0.40mm a ring out to 10.06 |
+| **Bowl** | 4 | 10.06 -> 16.5mm over 12mm — the cup, ending at the rim |
+
+**These rings stack; they do not telescope.** The wall is 3.00mm at every one of the 30
 stations, the throat included, so what varies is the shared face: 2.80mm per side through
 the cup and 1.00mm at the tightest backbore joint. No ring can drop through the one below,
 at the corners any more than across the flats. The bell inverts it — a fixed 1.5mm lap and
@@ -68,13 +72,17 @@ Roundness is not scheduled. Each station takes the largest corner radius that st
 1.00mm of seat in both directions, so the part rounds as fast as its own geometry permits
 and no faster.
 
-### The cup was missing, and these four rings are it
+### Retrofitting a cup onto one already glued
 
-**`mouthpiece/mouthpiece-cup-parts.svg`** — 4 rings, 12mm, ø10.06 to a **ø16.5mm rim**.
-The cup run above ends at ø10.06 opening 0.40mm a ring, which is a 3.8° half-angle: a tube,
-not a bowl. A trumpet rim is 16 to 17mm across inside, so the cup was not shallow, it was
-absent. **These rings stack on top of a mouthpiece that is already glued** — they replace
-nothing and nothing above needs recutting.
+**`mouthpiece/mouthpiece-cup-parts.svg`** — the bowl on its own, 4 rings, ø10.06 to a
+**ø16.5mm rim**. The sheet above used to stop at ø10.06 opening 0.40mm a ring, which is a
+3.8° half-angle: a tube, not a bowl. A trumpet rim is 16 to 17mm across inside, so the cup
+was not shallow, it was absent. **These rings stack on top of a mouthpiece already glued
+without one** — they replace nothing and nothing below needs recutting.
+
+A sheet from `mouthpiece-round.py` is that part plus these four rings, ring for ring, so
+both routes number identically: `0` to `19`, then `1A` to `1d`. Cut one sheet for a new
+mouthpiece; cut this one to rescue a mouthpiece already built.
 
 **A cup is a bowl, not a cone**, and the difference is where the wall stands up. The
 profile is an ellipse arc through the depth-radius plane whose slope is zero at the rim, so
