@@ -102,10 +102,11 @@ and nowhere else. Held at 3mm the cup would have had to be 36mm deep, which is n
 
 `mouthpiece-cup.py` writes the bowl on its own — 4 rings, ø10.06 to a **ø16.5mm rim**. No
 sheet is kept for it, because it rescues one particular mistake rather than being a part
-anyone sets out to cut; run the script when you need it. The sheet above used to stop at ø10.06 opening 0.40mm a ring, which is a
-3.8° half-angle: a tube, not a bowl. A trumpet rim is 16 to 17mm across inside, so the cup
-was not shallow, it was absent. **These rings stack on top of a mouthpiece already glued
-without one** — they replace nothing and nothing below needs recutting.
+anyone sets out to cut; run the script when you need it. The sheet above used to stop at
+ø10.06 opening 0.40mm a ring, which is a 3.8° half-angle: a tube, not a bowl. A trumpet rim
+is 16 to 17mm across inside, so the cup was not shallow, it was absent. **These rings stack
+on top of a mouthpiece already glued without one** — they replace nothing and nothing below
+needs recutting.
 
 A sheet from `mouthpiece-round.py` is that part plus these four rings, ring for ring, so
 both routes number identically: `0` to `19`, then `1A` to `1d`. Cut one sheet for a new
