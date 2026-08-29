@@ -88,13 +88,18 @@ A section can carry a turn internally only if it has a straight block on each si
 corner that its neighbours have not claimed. That gives one rule, and it has to be checked
 over **every window of three consecutive terms**:
 
-> If three consecutive terms name **three different axes**, the middle one must be **3 or
-> more**. If they name only two axes, the turn is a **fold** and costs nothing at any
-> spacing.
+> Take the window as outer *A*, middle *m*, outer *C*. If *A* and *C* run along the **same
+> axis in the same direction** the turn is a **step** and *m* may be **1**. If they run
+> along the **same axis opposed**, it is a **hairpin** and *m* must be **2 or more**. If
+> they name **three different axes**, it is a **coil** and *m* must be **3 or more**.
 
-Folds are free; coils are not. A run that stays in one plane can turn as often and as
-tightly as it likes and still come out as a single piece. The moment a third axis joins
-in, the middle leg needs three blocks — one arm each side and the corner between them.
+Steps are free, hairpins nearly so, coils are not. The moment a third axis joins in the
+middle leg needs three blocks — one arm each side and the corner between them.
+
+This document said until 2026-08-29 that any window on only two axes was "a fold" costing
+nothing at any spacing. That holds for a step but not for a hairpin: `U3 N1 D3` buys two
+elbows where `U3 N2 D3` buys none. It makes no difference to the walk below, whose only
+two-axis window is a hairpin around a leg of ten, but it would to a tighter one.
 
 For this walk:
 
@@ -102,7 +107,7 @@ For this walk:
 | --- | --- | --- |
 | `N3 U6 W5` | three | middle 6 — fine |
 | `U6 W5 N10` | three | middle 5 — fine |
-| `W5 N10 E5` | two | fold, free |
+| `W5 N10 E5` | two, opposed | hairpin, middle 10 — fine |
 | `N10 E5 D3` | three | middle 5 — fine |
 | `E5 D3 S8` | three | middle 3 — the minimum |
 | `D3 S8 W3` | three | middle 8 — fine |

@@ -68,19 +68,24 @@ A turn is free when a piece can carry it internally, which needs a straight bloc
 side that the neighbouring piece has not claimed. That gives one rule, and it is checked
 over **every window of three consecutive terms**, not once per walk:
 
-> If three consecutive terms name **three different axes**, the middle one must be **3 or
-> more**. If they name only two axes, the turn is a **fold** and costs nothing at any
-> spacing.
+> Take the window as outer *A*, middle *m*, outer *C*. **Step** — *A* and *C* on the same
+> axis, same direction: *m* >= 1. **Hairpin** — same axis, opposed: *m* >= 2. **Coil** —
+> three different axes: *m* >= 3.
 
-Folds are free, coils are not. That is why `W5 N10 E5` and the rest of a flat coil collapse
-into a single piece, and why every leg that changes plane is a 3.
+Steps are free and coils are not, which is why `W5 N10 E5` and the rest of a flat coil
+collapse into a single piece and why every leg that changes plane is a 3.
+
+This file said until 2026-08-29 that a window on two axes was a free fold at any spacing.
+That is true of a step and false of a hairpin — `U3 N1 D3` costs two elbows, `U3 N2 D3`
+none — and `W5 N10 E5` is a hairpin, free here only because its middle leg is 10. Treat
+`bore_split.py --no-write` as the authority.
 
 Checking the current walk by hand:
 
 ```
 N3 U6 W5      3 axes, middle = 6    OK
 U6 W5 N10     3 axes, middle = 5    OK
-W5 N10 E5     2 axes — fold, free
+W5 N10 E5     hairpin, middle = 10   OK
 N10 E5 D3     3 axes, middle = 5    OK
 E5 D3 S8      3 axes, middle = 3    OK
 D3 S8 W3      3 axes, middle = 8    OK
@@ -175,9 +180,8 @@ repository.
 **After editing either document** — regenerate the page, then audit both:
 
 ```sh
-python3 $G/md2html.py index.md index.html
-python3 $G/doc-audit.py README.md
-python3 $G/doc-audit.py index.md --html index.html
+python3 $G/md2html.py README.md index.html
+python3 $G/doc-audit.py README.md --html index.html
 ```
 
 **Read the audit output before pushing.** It ends with a pass/fail tally, and a tally with
