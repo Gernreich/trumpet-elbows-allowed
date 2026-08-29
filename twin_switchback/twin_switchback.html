@@ -173,7 +173,7 @@ input[type="range"]::-moz-range-thumb {
 
 <div class="rail" id="title-rail">
   <h1>Twin Switchback Bore</h1>
-  <div class="walk">N N1 W3 U2 E3 N3 D3 W2 U3 N2</div>
+  <div class="walk">N N1 W3 U2 E3 N3 D3 W2 U3 N1</div>
   <div class="stat" id="stat"></div>
 </div>
 
@@ -188,7 +188,7 @@ input[type="range"]::-moz-range-thumb {
   <div>
     <div class="label">Follow the bore</div>
     <div class="row">
-      <input type="range" id="reveal" min="1" max="23" value="23"
+      <input type="range" id="reveal" min="1" max="22" value="22"
              aria-label="Blocks shown, from the mouth">
       <span class="count" id="reveal-count"></span>
     </div>
@@ -212,7 +212,7 @@ input[type="range"]::-moz-range-thumb {
 </div>
 
 <script>
-const D = {"cells":[{"p":[0,0,0],"d":"N","s":0,"i0":0},{"p":[0,0,-1],"d":"W","s":0,"i0":1},{"p":[-1,0,-1],"d":"W","s":0,"i0":2},{"p":[-2,0,-1],"d":"W","s":1,"i0":3},{"p":[-3,0,-1],"d":"U","s":1,"i0":4},{"p":[-3,1,-1],"d":"U","s":1,"i0":5},{"p":[-3,2,-1],"d":"E","s":1,"i0":6},{"p":[-2,2,-1],"d":"E","s":1,"i0":7},{"p":[-1,2,-1],"d":"E","s":2,"i0":8},{"p":[0,2,-1],"d":"N","s":2,"i0":9},{"p":[0,2,-2],"d":"N","s":2,"i0":10},{"p":[0,2,-3],"d":"N","s":3,"i0":11},{"p":[0,2,-4],"d":"D","s":3,"i0":12},{"p":[0,1,-4],"d":"D","s":3,"i0":13},{"p":[0,0,-4],"d":"D","s":4,"i0":14},{"p":[0,-1,-4],"d":"W","s":4,"i0":15},{"p":[-1,-1,-4],"d":"W","s":4,"i0":16},{"p":[-2,-1,-4],"d":"U","s":4,"i0":17},{"p":[-2,0,-4],"d":"U","s":4,"i0":18},{"p":[-2,1,-4],"d":"U","s":5,"i0":19},{"p":[-2,2,-4],"d":"N","s":5,"i0":20},{"p":[-2,2,-5],"d":"N","s":5,"i0":21},{"p":[-2,2,-6],"d":"N","s":5,"i0":22}],"blocks":23,"mm":713,"dircol":{"N":"#2f6ea8","S":"#e08a2e","E":"#3f8f5e","W":"#9b4a9c","U":"#cf4433","D":"#8b9096"},"dirs":[{"k":"N","name":"north","n":7},{"k":"E","name":"east","n":3},{"k":"W","name":"west","n":5},{"k":"U","name":"up","n":5},{"k":"D","name":"down","n":3}],"sections":[{"col":"#2f6f4e","kind":"bend","n":3},{"col":"#b5563a","kind":"bend","n":5},{"col":"#3a5f8a","kind":"bend","n":3},{"col":"#8a6b2f","kind":"bend","n":3},{"col":"#6b3a7a","kind":"bend","n":5},{"col":"#2f7a7a","kind":"bend","n":4}],"openings":{"0:4":"IN","22:5":"OUT"},"inCol":"#1c1c20","outCol":"#e0457b"};
+const D = {"cells":[{"p":[0,0,0],"d":"N","s":0,"i0":0},{"p":[0,0,-1],"d":"W","s":0,"i0":1},{"p":[-1,0,-1],"d":"W","s":0,"i0":2},{"p":[-2,0,-1],"d":"W","s":1,"i0":3},{"p":[-3,0,-1],"d":"U","s":1,"i0":4},{"p":[-3,1,-1],"d":"U","s":1,"i0":5},{"p":[-3,2,-1],"d":"E","s":1,"i0":6},{"p":[-2,2,-1],"d":"E","s":1,"i0":7},{"p":[-1,2,-1],"d":"E","s":2,"i0":8},{"p":[0,2,-1],"d":"N","s":2,"i0":9},{"p":[0,2,-2],"d":"N","s":2,"i0":10},{"p":[0,2,-3],"d":"N","s":3,"i0":11},{"p":[0,2,-4],"d":"D","s":3,"i0":12},{"p":[0,1,-4],"d":"D","s":3,"i0":13},{"p":[0,0,-4],"d":"D","s":4,"i0":14},{"p":[0,-1,-4],"d":"W","s":4,"i0":15},{"p":[-1,-1,-4],"d":"W","s":4,"i0":16},{"p":[-2,-1,-4],"d":"U","s":4,"i0":17},{"p":[-2,0,-4],"d":"U","s":4,"i0":18},{"p":[-2,1,-4],"d":"U","s":5,"i0":19},{"p":[-2,2,-4],"d":"N","s":5,"i0":20},{"p":[-2,2,-5],"d":"N","s":5,"i0":21}],"blocks":22,"mm":682,"dircol":{"N":"#2f6ea8","S":"#e08a2e","E":"#3f8f5e","W":"#9b4a9c","U":"#cf4433","D":"#8b9096"},"dirs":[{"k":"N","name":"north","n":6},{"k":"E","name":"east","n":3},{"k":"W","name":"west","n":5},{"k":"U","name":"up","n":5},{"k":"D","name":"down","n":3}],"sections":[{"col":"#2f6f4e","kind":"bend","n":3},{"col":"#b5563a","kind":"bend","n":5},{"col":"#3a5f8a","kind":"bend","n":3},{"col":"#8a6b2f","kind":"bend","n":3},{"col":"#6b3a7a","kind":"bend","n":5},{"col":"#2f7a7a","kind":"bend","n":3}],"openings":{"0:4":"IN","21:5":"OUT"},"inCol":"#1c1c20","outCol":"#e0457b"};
 
 const cv = document.getElementById('c');
 const ctx = cv.getContext('2d');
