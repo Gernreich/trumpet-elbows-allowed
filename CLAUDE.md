@@ -227,7 +227,7 @@ cd bell && python3 number_rings.py bell-round-99mm-11rings.svg   # engrave 0..A
 cd bell && python3 number_rings.py ../mouthpiece/mouthpiece-round-parts.svg --order=document
 cd mouthpiece && python3 mouthpiece-round.py    # square on the bore, round by the throat
 cd mouthpiece && python3 mouthpiece-cup.py      # the bowl that stacks on its end
-cd mouthpiece && python3 ../bell/number_rings.py mouthpiece-cup-parts.svg --start=26
+cd mouthpiece && python3 ../bell/number_rings.py mouthpiece-cup-parts.svg --start=26  # not kept
 cd mouthpiece && python3 mouthpiece.py          # the previous 23-ring design
 cd mouthpiece && python3 mouthpiece-view.py     # draws the previous design ONLY
 ```
