@@ -13,6 +13,18 @@ Since 2026-08-31 there is a **second channel**: `../trumpet-final-youtube-candid
 at 10mm as well as 25, and `--bore` on the two square-to-round generators makes the parts
 to suit. See `--bore` is the channel, and only that below.
 
+**The candidate's sheets are not kept here, only the generators that make them.** That
+repository holds a whole instrument per size, and the four sheets it cuts moved out on
+2026-08-31 — `10mm/` got the bell and mouthpiece made with `--bore=10`, and `25mm/` got
+`bell-round-17rings.svg` and `mouthpiece-trumpet-parts.svg`. Nothing else cuts any of the
+four. This repository keeps the generators and the sheets that really are shared.
+
+**A bare `bell-round.py` writes the 17-ring sheet back into `bell/`.** It is one of the four
+standard budgets, so the loop still produces it; it just does not belong here any more. Pass
+a ring budget, or delete what lands rather than committing a second copy that nothing gates.
+The `--layout=trumpet` mouthpiece is safe by comparison: it is only written when its output
+path is named.
+
 Read `README.md` first — it carries the geometry. This file covers working on the code.
 
 ## The bore is cylindrical
@@ -36,9 +48,12 @@ the plate as **N + 6** — a 3mm wall each side, exactly as the tube is. Nothing
   what anything new is cut from. Do not add it to the other two without being asked; both
   have cut parts numbered against them.
 
-Filenames carry a non-default bore — `bell-round-152mm-bore10-13rings.svg`,
+Filenames carry a non-default bore — `bell-round-152mm-bore10-17rings.svg`,
 `mouthpiece-round-bore10-parts.svg` — because two parts of the same length on different
-bores are different parts and only one of them fits your tube. Both generators were checked
+bores are different parts and only one of them fits your tube. Those two names are what a
+`--bore=10` run writes into this directory; move them to the candidate repository rather
+than committing them here, and remember the generator writes no engraving — put the ring
+numbers back with `number_rings.py --order=document` before the sheet is cut. Both generators were checked
 after the change by regenerating at the default and diffing: **byte-identical**.
 
 ## `--mouth` is the hole; `--rim` is the square bell's width
@@ -265,7 +280,7 @@ cd bell && python3 bell-round.py --length=99 --rim=80   # a half-size bell
 cd bell && python3 bell-round.py --bore=10 --length=152 --mouth=80   # the 10mm bell
 cd mouthpiece && python3 mouthpiece-round.py --bore=10 --rim=17 --layout=trumpet
 cd bell && python3 bell-section.py bell-trumpet-17rings.svg
-cd bell && python3 bell-view.py bell-round-17rings.svg
+cd bell && python3 bell-view.py bell-round-14rings.svg
 cd bell && python3 verify_bell.py bell-trumpet-17rings.svg
 cd bell && python3 number_rings.py bell-round-99mm-11rings.svg   # engrave 0..A
 cd bell && python3 number_rings.py ../mouthpiece/mouthpiece-round-parts.svg --order=document

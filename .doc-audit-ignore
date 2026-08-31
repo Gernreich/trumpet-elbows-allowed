@@ -1,3 +1,8 @@
 # Named in prose; not files in this repository.
 
 boxes.py
+
+# Moved to ../trumpet-final-youtube-candidate on 2026-08-31; still named in prose
+# because this is where the generator that writes them lives.
+
+mouthpiece-trumpet-parts.svg

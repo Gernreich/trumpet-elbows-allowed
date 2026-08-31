@@ -84,8 +84,12 @@ and no faster.
 
 ### A real mouthpiece: `--layout=trumpet`
 
-**`mouthpiece/mouthpiece-trumpet-parts.svg`** — the same 30 rings and the same 90mm, with
-the length where a trumpet actually puts it.
+The same 30 rings and the same 90mm, with the length where a trumpet actually puts it.
+**The sheet is no longer kept here** — the only instrument cutting it is the build-video
+candidate, so it lives in
+**[trumpet-final-youtube-candidate](https://github.com/Gernreich/trumpet-final-youtube-candidate)**
+under `25mm/mouthpiece/`. Write a fresh one by naming the output path:
+`python3 mouthpiece-round.py --layout=trumpet mouthpiece-trumpet-parts.svg`.
 
 | | Backbore | Entrance | Cup |
 | --- | ---: | ---: | ---: |
@@ -247,8 +251,13 @@ circle.
 | --- | ---: | --- | ---: | ---: | --- |
 | `bell-round-10rings.svg` | 10 | 7 ply | **70** | ø144.8 | 262 × 276mm |
 | `bell-round-14rings.svg` | 14 | 5 ply | **70** | ø144.8 | 302 × 340mm |
-| `bell-round-17rings.svg` | 17 | 4 ply | **68** | ø144.8 | 371 × 340mm |
+| *17 rings* | 17 | 4 ply | **68** | ø144.8 | 371 × 340mm |
 | `bell-round-67rings.svg` | 67 | 1 ply | **67** | ø144.8 | 674 × 675mm |
+
+**The 17-ring sheet is not kept here.** It is the one the build-video candidate cuts, so it
+lives in that repository under `25mm/bell/` with the rest of that instrument. `bell-round.py`
+still writes it — and a bare run writes it *here*, where it does not belong; pass a ring
+budget, or delete what lands.
 
 **Every ring is a rounded square** — a square of half-width `h` with its corners rounded to
 radius `c`. At `c = 0` that is exactly the square that meets the bore; at `c = h` it is
@@ -302,11 +311,12 @@ throat opening to a ø96.3 round rim, 33 pieces off a 248 × 202mm sheet at 0.15
 3.6 to 11.8mm. Half the length of the standard bell and under a third of its material, and
 99mm divides evenly by its 9mm rise, so there is no flat collar at the rim.
 
-**Its rings carry engraved hex numbers, 0 on the smallest through A on the rim.** Eleven
-rings glued in the wrong order is eleven rings unglued, and consecutive rings here differ
-by about two millimetres — nothing you can judge by eye once the parts are off the bed.
-`number_rings.py` puts the index inside each ring in engraving blue, sized to that ring's
-wall: 1.60mm on ring 0 where the wall is 2.29mm, up to a 4mm cap on the rim. The digits are
+**Every bell here carries engraved hex numbers now**, 0 on the smallest through to the rim
+— on this one, 0 through A. That was true of the mouthpieces from the start and of no bell
+until 2026-08-31, which is one way to lose a bell: rings glued in the wrong order is rings
+unglued, and consecutive rings differ by about two millimetres, nothing you can judge by
+eye once the parts are off the bed. `number_rings.py` puts the index inside each ring in
+engraving blue, sized to that ring's wall: 1.60mm on ring 0 where the wall is 2.29mm, up to a 4mm cap on the rim. The digits are
 seven-segment line strokes rather than text, so no font has to survive the trip into the
 laser software, and each one is grown to the largest size where every point of it still
 lands between that ring's aperture and its outer edge.
@@ -334,10 +344,17 @@ generators therefore take **`--bore`**, which sets the air channel and the plate
 — **the channel plus a 3mm wall each side** — and nothing else. The ply is still 3mm and a
 ring still rises 3mm; that part genuinely cannot be scaled.
 
+**The 10mm sheets are not kept here.** Nothing but that one instrument uses them, so they
+live in
+**[trumpet-final-youtube-candidate](https://github.com/Gernreich/trumpet-final-youtube-candidate)**
+under `10mm/`, alongside the bore they belong to. This repository keeps the generators and
+the 25mm sheets, which really are shared. The commands below are still how the 10mm parts
+are made; copy the result across.
+
 `bell.py` and `mouthpiece.py` do **not** take `--bore`. Only the square-to-round pair does,
 because those are the two anything new is cut from.
 
-### The mouthpiece — `mouthpiece/mouthpiece-round-bore10-parts.svg`
+### The 10mm mouthpiece
 
     python3 mouthpiece-round.py --bore=10 --rim=17 --layout=trumpet
 
@@ -356,25 +373,16 @@ point of it.
 keeps a 12mm cup, which is how a real mouthpiece is proportioned. The `asbuilt` default is
 kept only for the one that has already been glued.
 
-### The bell — `bell/bell-round-152mm-bore10-*.svg`
+### The 10mm bell
 
     python3 bell-round.py --bore=10 --length=152 --mouth=80
 
 A **10mm square throat opening to ø80 of air over 152mm**, flange ø10 in a ø22 square,
-covering the bore's 10–16 end face 3mm proud. Four lamination schedules of the same bell —
-**cut one, not four**:
-
-| file | rings | ply | rise | stack | passes | pieces | sheet |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| `bell-round-152mm-bore10-51rings.svg` | 51 | 1 | 3mm | 153mm | 1 | 51 | 305 x 345mm |
-| `bell-round-152mm-bore10-17rings.svg` | 17 | 3 | 9mm | 153mm | 3 | 51 | 187 x 192mm |
-| `bell-round-152mm-bore10-13rings.svg` | 13 | 4 | 12mm | 156mm | 4 | 52 | 198 x 154mm |
-| `bell-round-152mm-bore10-9rings.svg` | 9 | 6 | 18mm | 162mm | 6 | 54 | 163 x 178mm |
-
-All four end at the same ø80 mouth; they differ in how finely the curve is sampled and how
-many times the sheet goes through the machine. **The 51- and 17-ring files land closest**,
-153mm against the 152 asked for. 152 divides by neither 3 nor 9, so every one of them
-overshoots — see [A smaller bell](#a-smaller-bell); 153mm would have divided evenly by both.
+covering the bore's 10–16 end face 3mm proud. Drop the ring budget and you get four
+lamination schedules of the same bell; the **17-ring** is the one that was kept, 17 x 3 ply
+for a 153mm stack off a 187 x 192mm sheet in 3 passes. 152 divides by neither 3 nor 9, so
+every schedule overshoots a little — see [A smaller bell](#a-smaller-bell); 153mm would
+have divided evenly by both.
 
 ### `--mouth` is the hole, `--rim` is not
 
@@ -420,17 +428,14 @@ and `verify_bell.py` checks an edited sheet for ring sizes, the lap it states, n
 and overlapping cuts.
 
 **The square-to-round bell**, in `bell/` — `bell-round-10rings.svg`,
-`bell-round-14rings.svg`, `bell-round-17rings.svg`, `bell-round-67rings.svg`, and the
-half-size `bell-round-99mm-11rings.svg`, generated by `bell-round.py`, which checks its own
-sheets rather than leaving it to `verify_bell.py`.
+`bell-round-14rings.svg`, `bell-round-67rings.svg` and the half-size
+`bell-round-99mm-11rings.svg`, generated by `bell-round.py`, which checks its own sheets
+rather than leaving it to `verify_bell.py`. The 17-ring sheet of that set, and the
+`--layout=trumpet` mouthpiece, are cut only by the build-video candidate and are kept
+there.
 
-**The 10mm bell**, in `bell/` — `bell-round-152mm-bore10-51rings.svg`,
-`bell-round-152mm-bore10-17rings.svg`, `bell-round-152mm-bore10-13rings.svg` and
-`bell-round-152mm-bore10-9rings.svg`, the same bell at four lamination schedules. Cut one.
-
-**The mouthpiece**, in `mouthpiece/` — `mouthpiece-round-parts.svg`,
-`mouthpiece-trumpet-parts.svg` and, for the 10mm bore,
-`mouthpiece-round-bore10-parts.svg`, all generated by `mouthpiece-round.py`, which checks
+**The mouthpiece**, in `mouthpiece/` — `mouthpiece-round-parts.svg`, generated by
+`mouthpiece-round.py`, which checks
 every joint in both directions before it writes, and numbered by `bell/number_rings.py`.
 `mouthpiece-cup.py` writes, on demand, the cup that stacks on the end of one built before
 the bowl existed. Its
@@ -439,15 +444,9 @@ predecessor is not kept as a sheet any more; `mouthpiece.py` still writes it on 
 **Display only, never cut** — the axial sections `bell-trumpet-10rings-section.svg`,
 `bell-trumpet-14rings-section.svg`, `bell-trumpet-17rings-section.svg`,
 `bell-trumpet-67rings-section.svg`, `bell-round-10rings-section.svg`,
-`bell-round-14rings-section.svg`, `bell-round-17rings-section.svg`,
+`bell-round-14rings-section.svg`,
 `bell-round-67rings-section.svg`, `bell-round-99mm-11rings-section.svg`,
-`bell-round-152mm-bore10-51rings-section.svg`,
-`bell-round-152mm-bore10-17rings-section.svg`,
-`bell-round-152mm-bore10-13rings-section.svg`,
-`bell-round-152mm-bore10-9rings-section.svg`,
-`mouthpiece-round-parts-section.svg`, `mouthpiece-trumpet-parts-section.svg`,
-`mouthpiece-round-bore10-parts-section.svg`,
-and `mouthpiece-section.svg`, drawn by
+`mouthpiece-round-parts-section.svg`, and `mouthpiece-section.svg`, drawn by
 `bell-section.py`; and the assembled views `bell-trumpet-10rings-view.jpg`,
 `bell-trumpet-14rings-view.jpg`, `bell-trumpet-17rings-view.jpg`,
 `bell-trumpet-67rings-view.jpg` and `mouthpiece-view.jpg`, from `bell-view.py` and
