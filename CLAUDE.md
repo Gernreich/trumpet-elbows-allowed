@@ -9,13 +9,48 @@ than owned by one of them. `../trumpet-coiled` and `../trumpet-octagonal` both b
 same 25 × 25mm channel, so both take the same bell and the same mouthpiece; only the tube
 between them differs.
 
+Since 2026-08-31 there is a **second channel**: `../trumpet-final-youtube-candidate` is cut
+at 10mm as well as 25, and `--bore` on the two square-to-round generators makes the parts
+to suit. See `--bore` is the channel, and only that below.
+
 Read `README.md` first — it carries the geometry. This file covers working on the code.
 
 ## The bore is cylindrical
 
-Constant 25 × 25mm section end to end, 31mm outside in 3mm ply. **The only part of a
-trumpet that flares is the bell.** Do not describe a bore, a band or a tube as flaring;
-say curved if it curves.
+Constant 25 × 25mm section end to end, 31mm outside in 3mm ply — or 10 × 10mm inside 16 on
+the small candidate. **The only part of a trumpet that flares is the bell.** Do not
+describe a bore, a band or a tube as flaring; say curved if it curves.
+
+## `--bore` is the channel, and only that
+
+`bell-round.py --bore=N` and `mouthpiece-round.py --bore=N` set the air channel and derive
+the plate as **N + 6** — a 3mm wall each side, exactly as the tube is. Nothing else moves:
+
+- **The ply is still 3mm and a ring still rises 3mm.** That was never scalable and is not
+  now. A smaller bore does not buy thinner laminations.
+- **The mouthpiece throat stays ø3.66.** A #27 drill is a real trumpet throat, and a
+  mouthpiece is sized by the lip at one end and the drill at the other. `--rim` likewise:
+  16–17mm is a trumpet rim whatever it is bolted to. The 10mm mouthpiece is therefore a
+  full-size mouthpiece on a quarter-size horn, deliberately.
+- **`bell.py` and `mouthpiece.py` do not take it.** Only the square-to-round pair, which is
+  what anything new is cut from. Do not add it to the other two without being asked; both
+  have cut parts numbered against them.
+
+Filenames carry a non-default bore — `bell-round-152mm-bore10-13rings.svg`,
+`mouthpiece-round-bore10-parts.svg` — because two parts of the same length on different
+bores are different parts and only one of them fits your tube. Both generators were checked
+after the change by regenerating at the default and diffing: **byte-identical**.
+
+## `--mouth` is the hole; `--rim` is the square bell's width
+
+`--rim` feeds the profile, and the area law then opens the section out by `2/√π` where it
+is a circle, so **`--rim=80` delivers a ø90.3 mouth**. `--mouth=80` inverts that in closed
+form and gives 80. The outer diameter is 6mm larger again — the rim ring's 3mm lap each
+side — and the `section` line prints both, so a wall floor biting at the rim would show up
+rather than pass as the number that was asked for.
+
+The README's **"Rim diameter" column is the outer**, and always has been. `bell-round.py`
+reports `rim = 2*rings[-1]["oh"]`, which is the outer too. Neither is the hole.
 
 ## A bell file is cut more than once
 
@@ -94,6 +129,13 @@ These have been cut. Treat every SVG as concurrently modified in Inkscape:
 - **`bell.py` with no argument rewrites all four sheets.** Pass a ring budget to regenerate
   one — `python3 bell.py 20` writes only the 17-ring — or the numbering on the other three
   is silently discarded.
+- **A generator run destroys the engraving.** The sheets in this repository carry a
+  `<g id="ring-numbers">` that `number_rings.py` added *after* the generator wrote them, so
+  regenerating throws it away and the run says nothing about it — `mouthpiece-round.py`
+  with no arguments cost `mouthpiece-round-parts.svg` its numbering on 2026-08-31 and it
+  was restored from git. **These scripts have no `--help`**; a bare run to see the options
+  IS a run. Read the docstring, or write to a scratch path. After any deliberate
+  regenerate, put the numbers back with `number_rings.py --order=document`.
 - Verify a hand-edited bell with `verify_bell.py` rather than diffing path data — once
   paths are converted to Bézier curves, a byte diff says nothing.
 
@@ -220,6 +262,8 @@ cd bell && python3 bell.py 20         # one, at most 20 rings
 cd bell && python3 bell-round.py      # all four square-to-round bells
 cd bell && python3 bell-round.py 67 --morph=flare --law=width
 cd bell && python3 bell-round.py --length=99 --rim=80   # a half-size bell
+cd bell && python3 bell-round.py --bore=10 --length=152 --mouth=80   # the 10mm bell
+cd mouthpiece && python3 mouthpiece-round.py --bore=10 --rim=17 --layout=trumpet
 cd bell && python3 bell-section.py bell-trumpet-17rings.svg
 cd bell && python3 bell-view.py bell-round-17rings.svg
 cd bell && python3 verify_bell.py bell-trumpet-17rings.svg

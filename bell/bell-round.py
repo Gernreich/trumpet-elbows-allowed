@@ -7,6 +7,7 @@
     python3 bell-round.py 67 --law=width      # follow the half-width, not the area
     python3 bell-round.py --length=100        # a 100mm bell, same throat and rim
     python3 bell-round.py --length=100 --rim=80   # ... and a narrower rim to suit
+    python3 bell-round.py --length=152 --mouth=80 --bore=10   # the 10mm trumpet's bell
 
 The four bells bell.py makes are square end to end: a square bore opening into a square
 rim. This one keeps the square only where it has to. Station one is the same 31mm square
@@ -50,21 +51,40 @@ OVERHANG = 3.0       # and stand proud of it, to glue against and to locate the 
 args  = [a for a in sys.argv[1:] if not a.startswith("--")]
 opts  = dict(a[2:].split("=", 1) for a in sys.argv[1:] if a.startswith("--") and "=" in a)
 for k in opts:
-    if k not in ("morph", "law", "length", "rim", "gamma", "lap", "overhang"):
-        sys.exit(f"unknown option --{k}: morph, law, length, rim, gamma, lap or overhang")
+    if k not in ("morph", "law", "length", "rim", "mouth", "gamma", "lap", "overhang",
+                 "bore"):
+        sys.exit(f"unknown option --{k}: morph, law, length, rim, mouth, gamma, lap, "
+                 f"overhang or bore")
+if "rim" in opts and "mouth" in opts:
+    sys.exit("--rim and --mouth both set the same thing from different ends; pick one")
 morph = opts.get("morph", "linear")
 law   = opts.get("law", "area")
 if morph not in ("linear", "flare", "early"): sys.exit(f"--morph: linear, flare or early, not {morph!r}")
 if law   not in ("area", "width"):            sys.exit(f"--law: area or width, not {law!r}")
 
 # The throat is 31mm square because the bore is, and a ring rises 3mm because the ply does.
-# Neither is ours to scale, so a smaller bell is a shorter L with whatever rim you want at
-# the end of it. --rim is the bore's width AT the rim, before the wall is added.
+# The RISE is still not ours to scale -- the ply is 3mm whatever the horn does -- but the
+# throat is, if the bore itself changed: --bore is the air channel this closes onto, and
+# the plate around it is that plus a 3mm wall each side, exactly as the tube is. It exists
+# for the 10mm trumpet; leave it alone for the 25mm one and nothing moves.
+# --rim is the bore's width AT the rim, before the wall is added.
+BORE  = float(opts.get("bore", BORE))
+PLATE = BORE + 6.0
+RT    = BORE / 2.0
 L     = float(opts.get("length", L))
 RIM   = float(opts.get("rim", RIM*2)) / 2.0
 GAMMA    = float(opts.get("gamma", GAMMA))
 LAP      = float(opts.get("lap", LAP))
 OVERHANG = float(opts.get("overhang", OVERHANG))
+
+# --mouth is the airway at the rim: the hole, the number a rule across the bell's mouth
+# reads. --rim is the SQUARE bell's width there, which the area law then opens out by
+# 2/sqrt(pi) to enclose the same area once the section is a circle -- so --rim=80 lands a
+# ø90.3 hole, and asking for --mouth=80 is how you get 80. Inverted here in closed form;
+# every bell still prints the aperture it actually reached, so a wall floor biting at the
+# rim would show up rather than pass as the number you asked for.
+if "mouth" in opts:
+    RIM = float(opts["mouth"]) / 2.0 * (math.sqrt(math.pi)/2.0 if law == "area" else 1.0)
 if L < 2*RISE:  sys.exit(f"--length must be at least two rings, {2*RISE:g}mm")
 if RIM <= RT:   sys.exit(f"--rim must open past the {2*RT:.0f}mm throat")
 
@@ -74,7 +94,10 @@ rad = lambda z: B*((L-z)+U0)**(-GAMMA)
 
 # A non-default profile carries its length in the filename, so a short bell that happens to
 # land on the same ring count never overwrites one of the four standard sheets.
-STEM = "bell-round" if (L, 2*RIM, GAMMA) == (201.0, 123.0, 0.7) else f"bell-round-{L:.0f}mm"
+# The bore joins the length in the filename, because two bells of the same length on
+# different bores are different parts and only one of them fits your tube.
+STEM = ("bell-round" if (L, 2*RIM, GAMMA, BORE) == (201.0, 123.0, 0.7, 25.0)
+        else f"bell-round-{L:.0f}mm" + (f"-bore{BORE:g}" if BORE != 25.0 else ""))
 
 DIAG = math.sqrt(2.0)                           # across the corners, against 1 across the flats
 
@@ -264,11 +287,13 @@ for want in ([int(args[0])] if args else [67, 20, 15, 10]):
     # throat is the aperture, rim is the outer edge — the same two the README's
     # "ø31 throat" and "Rim diameter" columns mean for the square bells
     ap, rim = 2*rings[0]["ah"], 2*rings[-1]["oh"]
+    mouth = rim - 2*LAP                      # the hole, not the outside of the rim ring
     a0 = math.degrees(math.atan(rings[0]["gain"]/rings[0]["rise"]))
     a1 = math.degrees(math.atan(rings[-1]["gain"]/rings[-1]["rise"]))
     print(f"\n  {name}  {len(rings)} rings x {plies} ply ({step:g}mm rise), "
           f"{morph} morph, holding {law}")
-    print(f"    section     {ap:.0f}mm square -> ø{rim:.1f}mm round over {len(rings)*step:.0f}mm")
+    print(f"    section     {ap:.0f}mm square -> ø{rim:.1f}mm round over "
+          f"{len(rings)*step:.0f}mm   (ø{mouth:.1f} of air at the mouth)")
     print(f"    flat angle  {a0:.1f}° -> {a1:.1f}°   (against the ring's own rise, "
           f"{rings[-1]['rise']:g}mm at the rim)")
     for n in notes:

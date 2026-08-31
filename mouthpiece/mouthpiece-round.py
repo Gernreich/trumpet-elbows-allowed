@@ -93,8 +93,9 @@ DIAG    = math.sqrt(2.0)
 
 opts = dict(a[2:].split("=", 1) for a in sys.argv[1:] if a.startswith("--") and "=" in a)
 for k in opts:
-    if k not in ("taper", "seat", "rim", "bowl", "layout", "backbore", "power"):
-        sys.exit(f"unknown option --{k}: taper, seat, rim, bowl, layout, backbore or power")
+    if k not in ("taper", "seat", "rim", "bowl", "layout", "backbore", "power", "bore"):
+        sys.exit(f"unknown option --{k}: taper, seat, rim, bowl, layout, backbore, "
+                 f"power or bore")
 TAPER   = float(opts.get("taper", TAPER))
 MINSEAT = float(opts.get("seat", MINSEAT))
 RIM     = float(opts.get("rim", RIM))
@@ -102,9 +103,21 @@ BOWL    = int(opts.get("bowl", BOWL))
 LAYOUT  = opts.get("layout", LAYOUT)
 NBB     = int(opts.get("backbore", NBB))
 BACK_P  = float(opts.get("power", BACK_P))
+# --bore is the square air channel this closes onto; the plate around it is that plus a
+# 3mm wall each side, exactly as the tube is. It exists for the 10mm trumpet. The throat
+# does NOT follow it: 3.66mm is a #27 drill and a real trumpet throat, and a mouthpiece
+# is sized by the lip at one end and the drill at the other, not by the tube it feeds.
+BORE    = float(opts.get("bore", BORE))
+PLATE   = BORE + 6.0
+if BORE <= THROAT:
+    sys.exit(f"--bore must be wider than the ø{THROAT:g}mm throat")
 if LAYOUT not in ("asbuilt", "trumpet"):
     sys.exit(f"--layout: asbuilt or trumpet, not {LAYOUT!r}")
-out_path = next((a for a in sys.argv[1:] if not a.startswith("--")), "mouthpiece-round-parts.svg")
+# A non-default bore carries itself in the filename: the 25mm part has been cut and its
+# rings are numbered, and a 10mm one is not a variant of it, it is a different mouthpiece.
+_dflt = ("mouthpiece-round-parts.svg" if BORE == 25.0
+         else f"mouthpiece-round-bore{BORE:g}-parts.svg")
+out_path = next((a for a in sys.argv[1:] if not a.startswith("--")), _dflt)
 
 
 def support(h, c, s):
