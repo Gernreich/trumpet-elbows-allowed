@@ -1,8 +1,8 @@
 # Trumpet parts
 
-The **bell** and the **mouthpiece**, shared by every trumpet in these repositories. Most
-are built on the same **25 × 25mm channel** — 31mm outside in 3mm Baltic birch plywood —
-so either fits any bore cut to it:
+The **bell** and the **mouthpiece**: the generators that draw them, and the sheets that
+more than one trumpet cuts. Both are built on the same **25 × 25mm channel** — 31mm outside
+in 3mm Baltic birch plywood — so either fits any bore cut to it:
 
 - **[Coiled trumpet](https://github.com/Gernreich/trumpet-coiled)** — a bore that coils
   flat and drops twice, with no elbows.
@@ -10,10 +10,15 @@ so either fits any bore cut to it:
   octagonal bore, the trumpet form of the
   [octagonal torus](https://github.com/Gernreich/torus-octagonal).
 
+A third,
+**[the build-video candidate](https://github.com/Gernreich/trumpet-final-youtube-candidate)**,
+keeps a whole instrument per folder and so keeps its own copies; it is made with these
+generators but cuts no sheet from here.
+
 They live here rather than inside one instrument because neither is changed by the shape
 of the bore. A trumpet is a mouthpiece, a length of tube and a bell; only the tube differs.
 
-Since 2026-08-31 there is a **second channel, 10 × 25mm's little brother at 10 × 10mm**,
+Since 2026-08-31 there is a **second channel, 25 × 25mm's little brother at 10 × 10mm**,
 for the small version of the
 **[build-video candidate](https://github.com/Gernreich/trumpet-final-youtube-candidate)**.
 It is not a scaled copy of the 25mm parts — see [The 10mm trumpet](#the-10mm-trumpet).
@@ -379,8 +384,8 @@ kept only for the one that has already been glued.
 
 A **10mm square throat opening to ø80 of air over 152mm**, flange ø10 in a ø22 square,
 covering the bore's 10–16 end face 3mm proud. Drop the ring budget and you get four
-lamination schedules of the same bell; the **17-ring** is the one that was kept, 17 x 3 ply
-for a 153mm stack off a 187 x 192mm sheet in 3 passes. 152 divides by neither 3 nor 9, so
+lamination schedules of the same bell; the **17-ring** is the one that was kept, 17 × 3 ply
+for a 153mm stack off a 187 × 192mm sheet in 3 passes. 152 divides by neither 3 nor 9, so
 every schedule overshoots a little — see [A smaller bell](#a-smaller-bell); 153mm would
 have divided evenly by both.
 
