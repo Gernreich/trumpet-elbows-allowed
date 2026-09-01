@@ -13,7 +13,7 @@ Since 2026-08-31 there is a **second channel**: `../trumpet-switchback` is cut
 at 10mm as well as 25, and `--bore` on the two square-to-round generators makes the parts
 to suit. See `--bore` is the channel, and only that below.
 
-**The candidate's sheets are not kept here, only the generators that make them.** That
+**The switchback's sheets are not kept here, only the generators that make them.** That
 repository holds a whole instrument per size, and the four sheets it cuts moved out on
 2026-08-31 — `10mm/` got the bell and mouthpiece made with `--bore=10`, and `25mm/` got
 `bell-round-17rings.svg` and `mouthpiece-trumpet-parts.svg`. Nothing else cuts any of the
@@ -51,7 +51,7 @@ the plate as **N + 6** — a 3mm wall each side, exactly as the tube is. Nothing
 Filenames carry a non-default bore — `bell-round-152mm-bore10-17rings.svg`,
 `mouthpiece-round-bore10-parts.svg` — because two parts of the same length on different
 bores are different parts and only one of them fits your tube. Those two names are what a
-`--bore=10` run writes into this directory; move them to the candidate repository rather
+`--bore=10` run writes into this directory; move them to `../trumpet-switchback` rather
 than committing them here, and remember the generator writes no engraving — put the ring
 numbers back with `number_rings.py --order=document` before the sheet is cut. Both generators were checked
 after the change by regenerating at the default and diffing: **byte-identical**.

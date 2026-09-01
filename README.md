@@ -90,8 +90,7 @@ and no faster.
 ### A real mouthpiece: `--layout=trumpet`
 
 The same 30 rings and the same 90mm, with the length where a trumpet actually puts it.
-**The sheet is no longer kept here** — the only instrument cutting it is the build-video
-candidate, so it lives in
+**The sheet is no longer kept here** — the only instrument cutting it is the switchback trumpet, so it lives in
 **[trumpet-switchback](https://github.com/Gernreich/trumpet-switchback)**
 under `25mm/mouthpiece/`. Write a fresh one by naming the output path:
 `python3 mouthpiece-round.py --layout=trumpet mouthpiece-trumpet-parts.svg`.
