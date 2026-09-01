@@ -9,7 +9,7 @@ than owned by one of them. `../trumpet-coiled` and `../trumpet-octagonal` both b
 same 25 × 25mm channel, so both take the same bell and the same mouthpiece; only the tube
 between them differs.
 
-Since 2026-08-31 there is a **second channel**: `../trumpet-final-youtube-candidate` is cut
+Since 2026-08-31 there is a **second channel**: `../trumpet-switchback` is cut
 at 10mm as well as 25, and `--bore` on the two square-to-round generators makes the parts
 to suit. See `--bore` is the channel, and only that below.
 
