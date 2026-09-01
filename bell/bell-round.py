@@ -40,7 +40,7 @@ these sheets like any other. verify_bell.py does not -- it takes an arc as proof
 is looking at the mouthpiece -- so the checks it would have run are run here instead,
 before anything is written.
 """
-import sys, math, pathlib
+import sys, math, pathlib, subprocess
 
 RISE, LAP, MINWALL = 3.0, 3.0, 2.0
 GAMMA, RT, RIM, L  = 0.7, 12.5, 61.5, 201.0     # 25mm square throat = the bore's channel
@@ -52,9 +52,15 @@ args  = [a for a in sys.argv[1:] if not a.startswith("--")]
 opts  = dict(a[2:].split("=", 1) for a in sys.argv[1:] if a.startswith("--") and "=" in a)
 for k in opts:
     if k not in ("morph", "law", "length", "rim", "mouth", "gamma", "lap", "overhang",
-                 "bore"):
+                 "bore", "numbers"):
         sys.exit(f"unknown option --{k}: morph, law, length, rim, mouth, gamma, lap, "
-                 f"overhang or bore")
+                 f"overhang, bore or numbers")
+# Numbering is part of writing the sheet, not a step to remember afterwards. Rings differ
+# by a couple of millimetres and the sheet is laid out smallest-first, which is the order
+# they stop being in the moment someone lifts them off the bed. --numbers=no writes it bare.
+NUMBERS = opts.get("numbers", "yes")
+if NUMBERS not in ("yes", "no"):
+    sys.exit(f"--numbers: yes or no, not {NUMBERS!r}")
 if "rim" in opts and "mouth" in opts:
     sys.exit("--rim and --mouth both set the same thing from different ends; pick one")
 morph = opts.get("morph", "linear")
@@ -303,6 +309,19 @@ for want in ([int(args[0])] if args else [67, 20, 15, 10]):
     if fails:
         sys.exit(f"  {name} not written: {len(fails)} problem(s)")
     W, H = emit(rings, plies, step, name, morph, law)
+    # --order=document: a bell telescopes, so document order is already assembly order,
+    # and saying so keeps one invocation for every sheet this repository writes.
+    if NUMBERS == "yes":
+        _tool = pathlib.Path(__file__).resolve().parent / "number_rings.py"
+        _r = subprocess.run([sys.executable, str(_tool), name, "--order=document"],
+                            capture_output=True, text=True)
+        if _r.returncode:
+            # Leave nothing cuttable behind. A sheet on disk gets cut, and an unnumbered
+            # one is rings nobody can order -- discovered after the machine, not before.
+            pathlib.Path(name).unlink(missing_ok=True)
+            sys.exit(f"  {name} NOT written: the rings could not be numbered.\n"
+                     f"{_r.stdout}{_r.stderr}"
+                     f"  Fix that, or pass --numbers=no if you meant a bare sheet.")
     print(f"    sheet       {W:.0f} x {H:.0f}mm per pass, {plies} pass(es), "
           f"{len(rings)*plies} pieces, {W*H*plies/1e6:.2f} m2")
     # The leftover between a whole number of rings and L is a flat collar at the rim. On a
@@ -314,4 +333,7 @@ for want in ([int(args[0])] if args else [67, 20, 15, 10]):
         hint = "" if over <= step/2 else f", --length={near:g} divides evenly"
         print(f"    overshoot   {len(rings)*step:g}mm of rings on a {L:g}mm profile; the rim "
               f"ring is {step:g}mm tall and draws {step-over:g}mm of curve{hint}")
+    print(f"    numbers     " + ("each ring engraved with its hex index, 0 at the bore"
+                                   if NUMBERS == "yes" else
+                                   "NONE — --numbers=no; the rings carry nothing"))
     print(f"    ok, written")

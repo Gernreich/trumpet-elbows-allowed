@@ -52,9 +52,8 @@ Filenames carry a non-default bore — `bell-round-152mm-bore10-17rings.svg`,
 `mouthpiece-round-bore10-parts.svg` — because two parts of the same length on different
 bores are different parts and only one of them fits your tube. Those two names are what a
 `--bore=10` run writes into this directory; move them to `../trumpet-switchback` rather
-than committing them here, and remember the generator writes no engraving — put the ring
-numbers back with `number_rings.py --order=document` before the sheet is cut. Both generators were checked
-after the change by regenerating at the default and diffing: **byte-identical**.
+than committing them here. Both generators were checked after the change by regenerating
+at the default and diffing: **byte-identical**.
 
 ## `--mouth` is the hole; `--rim` is the square bell's width
 
@@ -144,13 +143,24 @@ These have been cut. Treat every SVG as concurrently modified in Inkscape:
 - **`bell.py` with no argument rewrites all four sheets.** Pass a ring budget to regenerate
   one — `python3 bell.py 20` writes only the 17-ring — or the numbering on the other three
   is silently discarded.
-- **A generator run destroys the engraving.** The sheets in this repository carry a
-  `<g id="ring-numbers">` that `number_rings.py` added *after* the generator wrote them, so
-  regenerating throws it away and the run says nothing about it — `mouthpiece-round.py`
-  with no arguments cost `mouthpiece-round-parts.svg` its numbering on 2026-08-31 and it
-  was restored from git. **These scripts have no `--help`**; a bare run to see the options
-  IS a run. Read the docstring, or write to a scratch path. After any deliberate
-  regenerate, put the numbers back with `number_rings.py --order=document`.
+- **`bell-round.py` and `mouthpiece-round.py` number their own rings**, calling
+  `number_rings.py --order=document` as the last step of writing the sheet, and they say so
+  in the run report. `--numbers=no` writes a bare sheet. If the numbering fails the sheet is
+  **deleted**, because a sheet left on disk gets cut and an unnumbered one is rings nobody
+  can order.
+
+  This was not always so: numbering used to be a separate command you had to remember, and
+  a regenerate silently threw the engraving away — `mouthpiece-round.py` with no arguments
+  cost `mouthpiece-round-parts.svg` its numbering on 2026-08-31, restored from git. Changing
+  the default was checked by regenerating all four sheets the switchback trumpet is cut from
+  and diffing against the cut files: **byte-identical**, numbering included.
+
+  **`bell.py`, `mouthpiece.py` and `mouthpiece-cup.py` still write bare** and need
+  `number_rings.py` afterwards. `mouthpiece-cup.py` is an extension sheet that continues an
+  existing stack, so it needs `--start=N` as well; numbering it from 0 would put a second
+  ring 0 in one mouthpiece.
+- **These scripts have no `--help`**; a bare run to see the options IS a run. Read the
+  docstring, or write to a scratch path.
 - Verify a hand-edited bell with `verify_bell.py` rather than diffing path data — once
   paths are converted to Bézier curves, a byte diff says nothing.
 

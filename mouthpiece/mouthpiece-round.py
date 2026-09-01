@@ -73,7 +73,7 @@ retrofitting a mouthpiece already glued without a bowl.
 The bowl is a staircase of 3mm ply. Sand or fill the steps and round the rim over before
 playing it; as cut the rim edge is a square corner and your lip will say so.
 """
-import sys, math
+import sys, math, pathlib, subprocess
 
 WALL    = 3.0        # ring width, and the ply is 3mm so a ring is as thick as it is wide
 PLATE   = 31.0       # station one, square, matching the bore's closing face
@@ -93,9 +93,10 @@ DIAG    = math.sqrt(2.0)
 
 opts = dict(a[2:].split("=", 1) for a in sys.argv[1:] if a.startswith("--") and "=" in a)
 for k in opts:
-    if k not in ("taper", "seat", "rim", "bowl", "layout", "backbore", "power", "bore"):
+    if k not in ("taper", "seat", "rim", "bowl", "layout", "backbore", "power", "bore",
+                 "numbers"):
         sys.exit(f"unknown option --{k}: taper, seat, rim, bowl, layout, backbore, "
-                 f"power or bore")
+                 f"power, bore or numbers")
 TAPER   = float(opts.get("taper", TAPER))
 MINSEAT = float(opts.get("seat", MINSEAT))
 RIM     = float(opts.get("rim", RIM))
@@ -109,6 +110,13 @@ BACK_P  = float(opts.get("power", BACK_P))
 # is sized by the lip at one end and the drill at the other, not by the tube it feeds.
 BORE    = float(opts.get("bore", BORE))
 PLATE   = BORE + 6.0
+# Numbering is part of writing the sheet, not a step to remember afterwards. Thirty rings
+# that pass through the same diameters twice are thirty anonymous discs the moment they
+# leave the bed, and a sheet cut without numbers cannot be numbered later -- the parts are
+# already loose. --numbers=no writes it bare.
+NUMBERS = opts.get("numbers", "yes")
+if NUMBERS not in ("yes", "no"):
+    sys.exit(f"--numbers: yes or no, not {NUMBERS!r}")
 if BORE <= THROAT:
     sys.exit(f"--bore must be wider than the ø{THROAT:g}mm throat")
 if LAYOUT not in ("asbuilt", "trumpet"):
@@ -263,6 +271,21 @@ svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.3f}mm" height="{H:.3
        + "\n".join(parts) + "\n  </g>\n</svg>\n")
 open(out_path, "w").write(svg)
 
+# --order=document, always: a mouthpiece narrows to the throat and opens again, so its
+# backbore and its cup pass through the same diameters. Sorting those by size interleaves
+# the two halves, which is the one thing a number on a ring must never do.
+if NUMBERS == "yes":
+    _tool = pathlib.Path(__file__).resolve().parent.parent / "bell" / "number_rings.py"
+    _r = subprocess.run([sys.executable, str(_tool), out_path, "--order=document"],
+                        capture_output=True, text=True)
+    if _r.returncode:
+        # Leave nothing cuttable behind. A sheet on disk gets cut, and an unnumbered one
+        # is 30 discs nobody can order -- discovered after the machine, not before it.
+        pathlib.Path(out_path).unlink(missing_ok=True)
+        sys.exit(f"  {out_path} NOT written: the rings could not be numbered.\n"
+                 f"{_r.stdout}{_r.stderr}"
+                 f"  Fix that, or pass --numbers=no if you meant a bare sheet.")
+
 print(f"  {out_path}: {len(profile)} rings, {W:.1f} x {H:.1f}mm, stack {len(profile)*WALL:g}mm")
 print(f"    airway     {BORE:g}mm square -> {THROAT:g} throat -> ø{profile[-1]:g} lip")
 print(f"    layout     {LAYOUT}")
@@ -279,4 +302,7 @@ print(f"    wall       {min(Ws):.2f}-{max(Ws):.2f}mm, thickest where the bowl tu
 print(f"    round from station {round_at+1} (ø{profile[round_at]:g}mm), "
       f"{round_at*WALL:g}mm up from the bore")
 print(f"    seat       {min(seats):.2f}-{max(seats):.2f}mm per side, flats and corners alike")
+print(f"    numbers    " + ("each ring engraved with its hex index, 0 at the bore"
+                            if NUMBERS == "yes" else
+                            "NONE — --numbers=no; the rings carry nothing"))
 print(f"    ok, written")
