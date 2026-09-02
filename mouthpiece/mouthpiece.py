@@ -15,7 +15,7 @@ the one below over an annulus of (WALL - step/2) per side, so the 4mm cup step g
 and the 0.4mm backbore step gives 2.80mm. Nothing may drop through the ring beneath it,
 which this checks before writing.
 """
-import sys, math
+import sys, math, pathlib, subprocess
 
 WALL   = 3.0        # ring width, mm — also the ply thickness, so a ring is as thick as it is wide
 PLATE  = 31.0       # station one, square, matching the elbow's closing face
@@ -69,7 +69,33 @@ svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.3f}mm" height="{H:.3
        f'  <g fill="none" stroke="#000000" stroke-width="0.1">\n'
        + "\n".join(parts) + "\n  </g>\n</svg>\n")
 
-out = sys.argv[1] if len(sys.argv) > 1 else "mouthpiece-parts.svg"
+# This script took sys.argv[1] as the output path with no option parsing at all, so
+# --numbers=no would have been written to a file of that name. Options are separated now.
+_opts = dict(a[2:].split("=", 1) for a in sys.argv[1:] if a.startswith("--") and "=" in a)
+for k in _opts:
+    if k != "numbers":
+        sys.exit(f"unknown option --{k}: numbers")
+NUMBERS = _opts.get("numbers", "yes")
+if NUMBERS not in ("yes", "no"):
+    sys.exit(f"--numbers: yes or no, not {NUMBERS!r}")
+out = next((a for a in sys.argv[1:] if not a.startswith("--")), "mouthpiece-parts.svg")
 open(out, "w").write(svg)
+
+# --order=document: this profile narrows to the throat and opens again, so it passes
+# through the same diameters twice and sorting the rings by size would interleave the two
+# halves. A sheet that cannot be numbered is removed rather than left on disk to be cut.
+if NUMBERS == "yes":
+    _tool = pathlib.Path(__file__).resolve().parent.parent / "bell" / "number_rings.py"
+    _r = subprocess.run([sys.executable, str(_tool), out, "--order=document"],
+                        capture_output=True, text=True)
+    if _r.returncode:
+        pathlib.Path(out).unlink(missing_ok=True)
+        sys.exit(f"  {out} NOT written: the rings could not be numbered.\n"
+                 f"{_r.stdout}{_r.stderr}"
+                 f"  Fix that, or pass --numbers=no if you meant a bare sheet.")
+
 print(f"  {out}: {len(profile)} rings, {W:.1f} x {H:.1f}mm, stack {len(profile)*WALL:g}mm")
 print(f"  apertures {profile[0]:g} -> {THROAT:g} -> {profile[-1]:g}mm")
+print(f"  numbers   " + (f"{len(profile)} rings engraved, 0 at the bore"
+                         if NUMBERS == "yes" else
+                         "NONE — --numbers=no; the rings carry nothing"))

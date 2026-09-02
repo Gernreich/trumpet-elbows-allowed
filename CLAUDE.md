@@ -140,12 +140,28 @@ hand-nested 17-ring sheet that needed it was deleted 2026-08-25 and regenerated 
 These have been cut. Treat every SVG as concurrently modified in Inkscape:
 
 - **Stage by name.** Never `git add -A` or `git add .`.
-- **`bell.py` with no argument rewrites all four sheets.** Pass a ring budget to regenerate
-  one — `python3 bell.py 20` writes only the 17-ring — or the numbering on the other three
-  is silently discarded.
-- **`bell-round.py` and `mouthpiece-round.py` number their own rings**, calling
-  `number_rings.py --order=document` as the last step of writing the sheet, and they say so
-  in the run report. `--numbers=no` writes a bare sheet. If the numbering fails the sheet is
+- **`bell.py` with no argument rewrites all four sheets.** Pass a ring budget to
+  regenerate one — `python3 bell.py 20` writes only the 17-ring. The other three used to
+  lose their numbering to a full run; they no longer do, but rewriting four sheets to
+  change one is still four files to review instead of one.
+- **Every label carries an orientation mark**, a short tick on the baseline right of the
+  last character. A ring is a circle, so nothing about the part says which way up it was
+  engraved — and turned over, `3` and `E` swap, and so do `6` and `9`. Find the tick and
+  every character identifies itself. `--mark=no` leaves it off.
+
+  **The shipped sheets do not have it, and that is deliberate.** Adding it renumbers
+  nothing — ring 6 still reads 6 — but it does change every file, and those files describe
+  rings already cut and glued. The mark starts with the next sheet that goes on the bed. A
+  ring without one is exactly as readable as it has always been, so a mixed stack is never
+  worse than what you have.
+
+  It costs one step of the fitting search on the tightest sheet in the repository, the
+  30-ring mouthpiece: smallest character 1.88mm becomes 1.78mm. The bells are limited by
+  their wall rather than by label width and do not move at all.
+- **Every sheet generator numbers its own rings** — `bell.py`, `bell-round.py`,
+  `mouthpiece.py`, `mouthpiece-round.py` and `mouthpiece-cup.py` all call
+  `number_rings.py --order=document` as the last step of writing a sheet, and say so in the
+  run report. `--numbers=no` writes a bare sheet. If the numbering fails the sheet is
   **deleted**, because a sheet left on disk gets cut and an unnumbered one is rings nobody
   can order.
 
@@ -155,10 +171,15 @@ These have been cut. Treat every SVG as concurrently modified in Inkscape:
   the default was checked by regenerating all four sheets the switchback trumpet is cut from
   and diffing against the cut files: **byte-identical**, numbering included.
 
-  **`bell.py`, `mouthpiece.py` and `mouthpiece-cup.py` still write bare** and need
-  `number_rings.py` afterwards. `mouthpiece-cup.py` is an extension sheet that continues an
-  existing stack, so it needs `--start=N` as well; numbering it from 0 would put a second
-  ring 0 in one mouthpiece.
+  **`mouthpiece-cup.py` continues a stack rather than starting one.** Its rings are glued
+  on top of a mouthpiece already numbered from 0, so it numbers from `--start`, which
+  defaults to **23** — `mouthpiece.py` writes rings 0 to 22 and ends at the ø10.06 the cup
+  stacks onto. Pass `--onto` and that no longer holds, so `--start` stops being optional and
+  the script refuses rather than guessing. Numbering a cup from 0 would put a second ring 0
+  in one mouthpiece, which is the confusion the numbers exist to prevent.
+
+  `mouthpiece.py` had no option parsing at all — `sys.argv[1]` was the output path — so it
+  would have written a file called `--numbers=no`. Options are separated from the path now.
 - **These scripts have no `--help`**; a bare run to see the options IS a run. Read the
   docstring, or write to a scratch path.
 - Verify a hand-edited bell with `verify_bell.py` rather than diffing path data — once

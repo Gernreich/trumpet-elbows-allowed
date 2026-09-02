@@ -28,7 +28,7 @@ flares less than the ring below it. The 14-ring's steepest ring is 36.8 degrees 
 ring 24.6. Reporting the last one made that bell look like the shallowest of the four when
 it is the second steepest, so both are printed and the steepest is the headline.
 """
-import sys, math, pathlib
+import sys, math, pathlib, subprocess
 
 RISE, LAP, MINWALL = 3.0, 3.0, 2.0
 GAMMA, RT, RIM, L  = 0.7, 12.5, 61.5, 201.0     # 25mm throat = the bore's channel, 201mm
@@ -44,8 +44,33 @@ OVERHANG = 3.0       # and stand proud of it, to glue against and to locate the 
 _args = [a for a in sys.argv[1:] if not a.startswith("--")]
 _opts = dict(a[2:].split("=", 1) for a in sys.argv[1:] if a.startswith("--") and "=" in a)
 for k in _opts:
-    if k not in ("length", "rim", "gamma", "lap", "overhang"):
-        sys.exit(f"unknown option --{k}: length, rim, gamma, lap or overhang")
+    if k not in ("length", "rim", "gamma", "lap", "overhang", "numbers"):
+        sys.exit(f"unknown option --{k}: length, rim, gamma, lap, overhang or numbers")
+# Numbering is part of writing the sheet. Every sheet this run writes gets its own rings
+# numbered from 0 -- each is a complete bell, not a continuation of the one before.
+NUMBERS = _opts.get("numbers", "yes")
+if NUMBERS not in ("yes", "no"):
+    sys.exit(f"--numbers: yes or no, not {NUMBERS!r}")
+
+
+def number(path, count):
+    """Engrave each ring's index, or write nothing at all.
+
+    --order=document: a bell telescopes, so the order it is written in is the order it is
+    glued in. A sheet left on disk gets cut, so a sheet that cannot be numbered is removed
+    rather than handed over as rings nobody can put in order."""
+    if NUMBERS != "yes":
+        return "NONE — --numbers=no; the rings carry nothing"
+    tool = pathlib.Path(__file__).resolve().parent / "number_rings.py"
+    r = subprocess.run([sys.executable, str(tool), path, "--order=document"],
+                       capture_output=True, text=True)
+    if r.returncode:
+        pathlib.Path(path).unlink(missing_ok=True)
+        sys.exit(f"  {path} NOT written: the rings could not be numbered.\n"
+                 f"{r.stdout}{r.stderr}"
+                 f"  Fix that, or pass --numbers=no if you meant a bare sheet.")
+    return f"{count} rings engraved, 0 at the bore"
+
 L     = float(_opts.get("length", L))
 RIM   = float(_opts.get("rim", RIM*2)) / 2.0
 GAMMA = float(_opts.get("gamma", GAMMA))
@@ -116,12 +141,14 @@ for want in budgets:
         plies += 1
     name = f"{STEM}-{len(rs)}rings.svg"
     W, H = emit(rs, plies, step, name)
+    numbered = number(name, len(rs))
     angles = [r[3] for r in rs]
     steep = max(angles)
     rim = "" if abs(steep - angles[-1]) < 0.05 else f" (rim ring {angles[-1]:.1f}°)"
     print(f"  {name}  {len(rs):>2} rings x {plies} ply ({step:g}mm rise)  "
           f"ø{rs[0][0]:.0f}->ø{rs[-1][1]:.1f}mm  {min(angles):.1f}°->{steep:.1f}°{rim}  "
           f"wall {min(r[2] for r in rs):.1f}-{max(r[2] for r in rs):.1f}mm  sheet {W:.0f}x{H:.0f}mm")
+    print(f"      numbers: {numbered}")
 
     # A whole number of rings rarely lands on L, and the leftover is a flat collar at the
     # rim: the last ring is a full step tall but only draws what curve was left. At 201mm

@@ -5,6 +5,27 @@
     python3 number_rings.py SHEET.svg --cap=3.0          # smaller digits than the wall allows
     python3 number_rings.py SHEET.svg --order=document   # a profile that doubles back
     python3 number_rings.py SHEET.svg --start=26         # continue an existing stack
+    python3 number_rings.py SHEET.svg --mark=no          # no orientation mark
+
+A RING HAS NO TOP. It is a circle, so nothing about the part says which way up its number
+was engraved -- and turned 180 degrees the seven segments map onto each other: the top bar
+becomes the bottom, upper-right becomes lower-left, upper-left becomes lower-right, the
+middle stays put. Most characters become a shape that is not in the alphabet, which is
+harmless: the reader sees nonsense and turns the part over. Two pairs become each other.
+`3` and `E` swap, and so do `6` and `9`, and neither the ring nor the sheet can tell you
+which one you are holding.
+
+So every label carries a mark: a short horizontal tick on the baseline, to the right of the
+last character. That is the seven-segment display's own answer -- those displays have always
+had an eighth element, and it is why `6.` and `9.` are unambiguous on a meter -- and it is
+the convention behind the underlined 6 and 9 on dice and dominoes. Find the tick and you
+know which way is up; every character then identifies itself.
+
+IT IS A TICK, NOT A DOT, because a dot would be a zero-length path and an engraver may draw
+nothing at all, leaving a datum that silently is not there. And it sits BESIDE the character
+rather than under it: the radial wall is the tight direction on every sheet here, and a mark
+that went below the glyph would eat the one dimension with nothing to give. Around the ring
+there are tens of millimetres to spare.
 
 Eleven rings glued in the wrong order is eleven rings unglued, and once the parts are off
 the bed nothing about a ring says where it belongs: consecutive rings differ by two
@@ -186,9 +207,12 @@ def main():
     # An extension sheet continues the stack it will be glued to, so its first ring is not
     # ring 0. Numbering it from 0 would put a second "0" in the same mouthpiece.
     start = int(opts.get("start", 0))
+    mark = opts.get("mark", "yes")
+    if mark not in ("yes", "no"):
+        sys.exit(f"  --mark: yes or no, not {mark!r}")
     for k in opts:
-        if k not in ("cap", "order", "start"):
-            sys.exit(f"  unknown option --{k}: cap, order or start")
+        if k not in ("cap", "order", "start", "mark"):
+            sys.exit(f"  unknown option --{k}: cap, order, start or mark")
     src_path = pathlib.Path(args[0])
     src = src_path.read_text()
 
@@ -271,13 +295,25 @@ def main():
             # bar of its cell, so a fixed gap leaves '10' reading as a stroke welded to
             # a nought once the digits shrink.
             gap = 0.34*h
-            w = 0.55*h*len(label) + gap*(len(label) - 1)
+            # The orientation mark, and its clearance from the last character. Both track
+            # the digit size for the same reason the gap does.
+            # 0.16 and 0.22 measured, not chosen: the fitting search steps in ~0.09mm
+            # increments, and every size at or below these costs exactly one step on the
+            # tightest sheet in the repository (the 30-ring mouthpiece, 1.88 -> 1.78mm).
+            # Bigger marks cost two steps; smaller ones buy nothing back.
+            mgap, mlen = (0.16*h, 0.22*h) if mark == "yes" else (0.0, 0.0)
+            w = 0.55*h*len(label) + gap*(len(label) - 1) + mgap + mlen
             mid = (inner + outer)/2.0
             x0, y0 = r["cx"] - w/2.0, r["cy"] + mid - h/2.0
             paths, xoff = [], x0
             for ch in label:
                 paths += digit(ch, xoff, y0, 0.55*h, h)
                 xoff += 0.55*h + gap
+            if mark == "yes":
+                # Baseline, clear of the last character. It goes through the same fitting
+                # test as the digits: a datum that runs off the material is not a datum.
+                mx, my = xoff - gap + mgap, y0 + h
+                paths.append(f"M {mx:.4f},{my:.4f} L {mx + mlen:.4f},{my:.4f}")
             ok = True
             for px, py in points_of(paths):
                 th = math.atan2(py - r["cy"], px - r["cx"])

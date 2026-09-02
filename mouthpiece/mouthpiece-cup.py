@@ -5,6 +5,14 @@
     python3 mouthpiece-cup.py --rim=17.0        # a wider rim
     python3 mouthpiece-cup.py --rings=5         # a deeper bowl, 15mm instead of 12
     python3 mouthpiece-cup.py --onto=10.06      # stack onto a different aperture
+    python3 mouthpiece-cup.py --start=23        # the number its first ring carries
+
+THE NUMBERS CONTINUE A STACK, THEY DO NOT START ONE. These rings are glued on top of a
+mouthpiece whose rings are already numbered 0 upward, so numbering these from 0 would put
+a second ring 0 in one mouthpiece -- the exact confusion the numbers exist to prevent.
+`--start` is where they carry on from: 23 by default, because `mouthpiece.py` writes 23
+rings (0 to 22) and its last aperture is the ø10.06 this stacks onto. Change `--onto` and
+that no longer holds, so `--start` becomes required rather than assumed.
 
 `mouthpiece-round.py` ends its cup run at ø10.06, opening 0.40mm a ring: a 3.8 degree
 half-angle, which is a tube with ambitions. A trumpet rim is 16 to 17mm across inside, so
@@ -29,7 +37,7 @@ onto the existing stack included, and nothing is written if one is short.
 Rings are 3mm ply and the bowl is a staircase of them. Sand or fill the steps and round the
 rim over before playing it; the rim edge as cut is a square corner and your lip will say so.
 """
-import sys, math
+import sys, math, pathlib, subprocess
 
 WALL    = 3.0        # ring width, and the ply thickness
 RISE    = 3.0        # one ring, one lamination
@@ -42,11 +50,26 @@ MARGIN  = 3.0
 
 opts = dict(a[2:].split("=", 1) for a in sys.argv[1:] if a.startswith("--") and "=" in a)
 for k in opts:
-    if k not in ("rim", "rings", "onto"):
-        sys.exit(f"unknown option --{k}: rim, rings or onto")
+    if k not in ("rim", "rings", "onto", "start", "numbers"):
+        sys.exit(f"unknown option --{k}: rim, rings, onto, start or numbers")
+NUMBERS = opts.get("numbers", "yes")
+if NUMBERS not in ("yes", "no"):
+    sys.exit(f"--numbers: yes or no, not {NUMBERS!r}")
 RIM   = float(opts.get("rim", RIM))
 ONTO  = float(opts.get("onto", ONTO))
 RINGS = int(opts.get("rings", RINGS))
+# Refuse to guess. The default holds only for the stack the default --onto describes;
+# a different aperture is a different mouthpiece with a different number of rings below.
+if "start" in opts:
+    START = int(opts["start"])
+elif "onto" in opts:
+    sys.exit("--onto given without --start: the ring below is not the one this assumes.\n"
+             "  --start is the number the first cup ring carries -- the ring count of the\n"
+             "  stack it goes onto. Pass it, or --numbers=no for a bare sheet.")
+else:
+    START = 23          # mouthpiece.py writes rings 0..22 and ends at the default ONTO
+if START < 0:
+    sys.exit("--start cannot be negative")
 out_path = next((a for a in sys.argv[1:] if not a.startswith("--")), "mouthpiece-cup-parts.svg")
 if RIM <= ONTO:
     sys.exit(f"--rim must open past the ø{ONTO:g}mm it stacks onto")
@@ -104,8 +127,23 @@ svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.3f}mm" height="{H:.3
        + "\n".join(parts) + "\n  </g>\n</svg>\n")
 open(out_path, "w").write(svg)
 
+# --order=document, and --start, because this sheet continues someone else's stack.
+if NUMBERS == "yes":
+    _tool = pathlib.Path(__file__).resolve().parent.parent / "bell" / "number_rings.py"
+    _r = subprocess.run([sys.executable, str(_tool), out_path,
+                         "--order=document", f"--start={START}"],
+                        capture_output=True, text=True)
+    if _r.returncode:
+        pathlib.Path(out_path).unlink(missing_ok=True)
+        sys.exit(f"  {out_path} NOT written: the rings could not be numbered.\n"
+                 f"{_r.stdout}{_r.stderr}"
+                 f"  Fix that, or pass --numbers=no if you meant a bare sheet.")
+
 print(f"  {out_path}: {RINGS} rings, {W:.1f} x {H:.1f}mm, adds {D:g}mm of cup")
 print(f"    stacks onto ø{ONTO:g} and opens to a ø{RIM:g}mm rim")
+print(f"    numbers     " + (f"{START} to {START+RINGS-1}, continuing the stack below"
+                             if NUMBERS == "yes" else
+                             "NONE — --numbers=no; the rings carry nothing"))
 half = math.degrees(math.atan(((apertures[0] - ONTO)/2)/RISE))
 print(f"    first ring opens {apertures[0]-ONTO:.2f}mm ({half:.0f}° half-angle), "
       f"the rim ring {apertures[-1]-apertures[-2] if RINGS > 1 else 0:.2f}mm — a bowl, not a cone")
