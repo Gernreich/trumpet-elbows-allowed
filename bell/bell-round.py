@@ -308,7 +308,7 @@ for want in ([int(args[0])] if args else [67, 20, 15, 10]):
         name = opts["out"]
     else:
         name = (f"bell-round{BORE:g}-{built:.0f}mm-{len(rings)}rings"
-                f"-x{plies}-rim{rimd:.0f}.svg")
+                f"-x{plies}-rim{rimd:.0f}-cut-files.svg")
     # throat is the aperture, rim is the outer edge — the same two the README's
     # "ø31 throat" and "Rim diameter" columns mean for the square bells
     ap, rim = 2*rings[0]["ah"], 2*rings[-1]["oh"]

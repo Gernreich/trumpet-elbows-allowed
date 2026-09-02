@@ -66,7 +66,7 @@ The three runs are named for the anatomy, which `mouthpiece.py` gets backwards:
                long for a mouthpiece and is where to look first if it plays stuffy
     BOWL       10.06 -> 16.5mm over 12mm, the cup proper, ending at the rim
 
-A sheet from here is the same part as mouthpiece-bore25-asbuilt-parts.svg plus mouthpiece-cup.py's
+A sheet from here is the same part as mouthpiece-bore25-asbuilt-parts-cut-files.svg plus mouthpiece-cup.py's
 four rings, ring for ring, so both routes number identically. `mouthpiece-cup.py` stays for
 retrofitting a mouthpiece already glued without a bowl.
 
@@ -126,7 +126,7 @@ if LAYOUT not in ("asbuilt", "trumpet"):
 # non-default one left the 25mm asbuilt sheet called mouthpiece-round-parts.svg and the
 # 25mm trumpet sheet with no way to say it was not that -- two different parts, and
 # nothing in either name to tell them apart.
-_dflt = f"mouthpiece-bore{BORE:g}-{LAYOUT}-parts.svg"
+_dflt = f"mouthpiece-bore{BORE:g}-{LAYOUT}-parts-cut-files.svg"
 out_path = next((a for a in sys.argv[1:] if not a.startswith("--")), _dflt)
 
 

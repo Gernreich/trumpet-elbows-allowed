@@ -62,14 +62,14 @@ cup short, as a real one does.
 
 | sheet | bore | layout | rim |
 |---|---:|---|---:|
-| [`mouthpiece-bore25-asbuilt-parts.svg`](mouthpiece/mouthpiece-bore25-asbuilt-parts.svg) | 25mm | asbuilt | ø16.5mm |
-| [`mouthpiece-bore25-trumpet-parts.svg`](mouthpiece/mouthpiece-bore25-trumpet-parts.svg) | 25mm | trumpet | ø16.5mm |
-| [`mouthpiece-bore10-trumpet-parts.svg`](mouthpiece/mouthpiece-bore10-trumpet-parts.svg) | 10mm | trumpet | ø17mm |
+| [`mouthpiece-bore25-asbuilt-parts-cut-files.svg`](mouthpiece/mouthpiece-bore25-asbuilt-parts-cut-files.svg) | 25mm | asbuilt | ø16.5mm |
+| [`mouthpiece-bore25-trumpet-parts-cut-files.svg`](mouthpiece/mouthpiece-bore25-trumpet-parts-cut-files.svg) | 25mm | trumpet | ø16.5mm |
+| [`mouthpiece-bore10-trumpet-parts-cut-files.svg`](mouthpiece/mouthpiece-bore10-trumpet-parts-cut-files.svg) | 10mm | trumpet | ø17mm |
 
 **Both parameters are in every name**, because the two 25mm sheets are different parts and
 until 2026-09-02 nothing in either filename or either `<title>` said so.
 
-**`mouthpiece/mouthpiece-bore25-asbuilt-parts.svg`** — the whole mouthpiece
+**`mouthpiece/mouthpiece-bore25-asbuilt-parts-cut-files.svg`** — the whole mouthpiece
 in one sheet: square where it meets the bore, round by the throat, and a cup at the lip.
 **Station one is a sharp 25mm square aperture in a sharp 31mm square plate**, matching the
 bore corner for corner; the corners round away going up and the section is a true circle
@@ -104,7 +104,7 @@ and no faster.
 ### A real mouthpiece: `--layout=trumpet`
 
 The same 30 rings and the same 90mm, with the length where a trumpet actually puts it.
-The sheet is [`mouthpiece-bore25-trumpet-parts.svg`](mouthpiece/mouthpiece-bore25-trumpet-parts.svg),
+The sheet is [`mouthpiece-bore25-trumpet-parts-cut-files.svg`](mouthpiece/mouthpiece-bore25-trumpet-parts-cut-files.svg),
 and there is a 10mm one beside it. Both are cut by the
 **[switchback trumpet](https://github.com/Gernreich/trumpet-switchback)** today, and the
 25mm one fits the coiled and octagonal trumpets equally — all three are the same 25mm
@@ -206,10 +206,10 @@ nothing to glue to but the tube wall.
 
 | File | Rings | Build | Pieces | Rim diameter | Angle, throat → steepest | Sheet, per pass |
 | --- | ---: | --- | ---: | ---: | --- | --- |
-| `bell-square25-210mm-10rings-x7-rim129.svg` | 10 | 7 ply | **70** | 129.0 | 2.4° -> 36.7° | 241 × 254mm |
-| `bell-square25-210mm-14rings-x5-rim129.svg` | 14 | 5 ply | **70** | 129.0 | 2.4° -> 41.4° | 283 × 314mm |
-| `bell-square25-204mm-17rings-x4-rim129.svg` | 17 | 4 ply | **68** | 129.0 | 2.3° -> 46.6° | 348 × 314mm |
-| `bell-square25-201mm-67rings-x1-rim129.svg` | 67 | 1 ply | **67** | 129.0 | 2.3° -> 59.3° | 767 × 534mm |
+| `bell-square25-210mm-10rings-x7-rim129-cut-files.svg` | 10 | 7 ply | **70** | 129.0 | 2.4° -> 36.7° | 241 × 254mm |
+| `bell-square25-210mm-14rings-x5-rim129-cut-files.svg` | 14 | 5 ply | **70** | 129.0 | 2.4° -> 41.4° | 283 × 314mm |
+| `bell-square25-204mm-17rings-x4-rim129-cut-files.svg` | 17 | 4 ply | **68** | 129.0 | 2.3° -> 46.6° | 348 × 314mm |
+| `bell-square25-201mm-67rings-x1-rim129-cut-files.svg` | 67 | 1 ply | **67** | 129.0 | 2.3° -> 59.3° | 767 × 534mm |
 
 **Each file draws every ring once — cut it as many times as the `Build` column says.** The
 10-ring bell is 7 laminations a ring: 7 passes, 70 pieces, glued into ten 21mm bands. Cut
@@ -269,12 +269,12 @@ circle.
 
 | File | Rings | Build | Pieces | Rim diameter | Sheet, per pass |
 | --- | ---: | --- | ---: | ---: | --- |
-| `bell-round25-210mm-10rings-x7-rim145.svg` | 10 | 7 ply | **70** | ø144.8 | 262 × 276mm |
-| `bell-round25-210mm-14rings-x5-rim145.svg` | 14 | 5 ply | **70** | ø144.8 | 302 × 340mm |
-| `bell-round25-204mm-17rings-x4-rim145.svg` | 17 | 4 ply | **68** | ø144.8 | 371 × 340mm |
-| `bell-round25-201mm-67rings-x1-rim145.svg` | 67 | 1 ply | **67** | ø144.8 | 674 × 675mm |
+| `bell-round25-210mm-10rings-x7-rim145-cut-files.svg` | 10 | 7 ply | **70** | ø144.8 | 262 × 276mm |
+| `bell-round25-210mm-14rings-x5-rim145-cut-files.svg` | 14 | 5 ply | **70** | ø144.8 | 302 × 340mm |
+| `bell-round25-204mm-17rings-x4-rim145-cut-files.svg` | 17 | 4 ply | **68** | ø144.8 | 371 × 340mm |
+| `bell-round25-201mm-67rings-x1-rim145-cut-files.svg` | 67 | 1 ply | **67** | ø144.8 | 674 × 675mm |
 
-**The 17-ring sheet is [`bell-round25-204mm-17rings-x4-rim145.svg`](bell/bell-round25-204mm-17rings-x4-rim145.svg)**,
+**The 17-ring sheet is [`bell-round25-204mm-17rings-x4-rim145-cut-files.svg`](bell/bell-round25-204mm-17rings-x4-rim145-cut-files.svg)**,
 the one the switchback trumpet is built with — and, being a 25mm throat, the one the coiled
 and octagonal trumpets can use too. A bare `bell-round.py` writes it along with the other
 three, so pass a ring budget when you only want one.
@@ -325,7 +325,7 @@ Both generators take `--length` in mm, `--rim` the bore's diameter at the rim be
 wall is added, and `--gamma` the Bessel exponent. `bell-round.py` also takes `--mouth`,
 which is `--rim` stated as the hole you actually want, and `--bore`.
 
-**`bell-round25-99mm-11rings-x3-rim96.svg` is one, kept in the repository.** It comes from
+**`bell-round25-99mm-11rings-x3-rim96-cut-files.svg` is one, kept in the repository.** It comes from
 `bell-round.py 11 --length=99 --rim=80`: eleven rings of 3 ply, 99mm long, a 31mm square
 throat opening to a ø96.3 round rim, 33 pieces off a 248 × 202mm sheet at 0.15 m², walls
 3.6 to 11.8mm. Half the length of the standard bell and under a third of its material, and
@@ -352,7 +352,7 @@ millimetres can leave the rim ring nearly cylindrical. Both generators report th
 and name a length that would have divided evenly. 99mm is a good one: 33 × 3mm, 11 × 9mm or
 3 × 33mm.
 
-**A non-default profile carries its length in the filename** — `bell-round25-99mm-11rings-x3-rim96.svg`
+**A non-default profile carries its length in the filename** — `bell-round25-99mm-11rings-x3-rim96-cut-files.svg`
 — so a short bell that happens to land on the same ring count can never overwrite one of the
 standard sheets.
 
@@ -365,8 +365,8 @@ generators therefore take **`--bore`**, which sets the air channel and the plate
 ring still rises 3mm; that part genuinely cannot be scaled.
 
 **The 10mm sheets are here too**, with everything else:
-[`mouthpiece-bore10-trumpet-parts.svg`](mouthpiece/mouthpiece-bore10-trumpet-parts.svg) and
-[`bell-round10-153mm-17rings-x3-rim86.svg`](bell/bell-round10-153mm-17rings-x3-rim86.svg). Only the
+[`mouthpiece-bore10-trumpet-parts-cut-files.svg`](mouthpiece/mouthpiece-bore10-trumpet-parts-cut-files.svg) and
+[`bell-round10-153mm-17rings-x3-rim86-cut-files.svg`](bell/bell-round10-153mm-17rings-x3-rim86-cut-files.svg). Only the
 switchback trumpet uses them today, which is the current lineup rather than a rule — a
 mouthpiece and a bell are not touched by the way a bore turns, so every one of them lives
 here and the instrument repositories hold only tube. The commands below are how they are
@@ -441,8 +441,8 @@ have been through an editor and converted to curves, a byte diff says nothing.
 
 ## Files
 
-**The bell**, in `bell/` — `bell-square25-210mm-10rings-x7-rim129.svg`, `bell-square25-210mm-14rings-x5-rim129.svg`,
-`bell-square25-204mm-17rings-x4-rim129.svg`, `bell-square25-201mm-67rings-x1-rim129.svg`, generated by `bell.py`.
+**The bell**, in `bell/` — `bell-square25-210mm-10rings-x7-rim129-cut-files.svg`, `bell-square25-210mm-14rings-x5-rim129-cut-files.svg`,
+`bell-square25-204mm-17rings-x4-rim129-cut-files.svg`, `bell-square25-201mm-67rings-x1-rim129-cut-files.svg`, generated by `bell.py`.
 `ramp_bell.py` applies the cut-order colour, and `verify_bell.py` checks an edited sheet
 for ring sizes, the lap it states, nesting order and overlapping cuts. `bell.py` numbers
 each sheet as it writes it, calling `number_rings.py` — the hex index, smallest ring 0, in
@@ -455,16 +455,16 @@ engraved — the same convention as a seven-segment display's decimal point, or 
 underlined 6 and 9 on dice. Sheets cut before this was added do not carry it; `--mark=no`
 writes a label without one.
 
-**The square-to-round bell**, in `bell/` — `bell-round25-210mm-10rings-x7-rim145.svg`,
-`bell-round25-210mm-14rings-x5-rim145.svg`, `bell-round25-201mm-67rings-x1-rim145.svg` and the half-size
-`bell-round25-99mm-11rings-x3-rim96.svg`, generated by `bell-round.py`, which checks its own sheets
+**The square-to-round bell**, in `bell/` — `bell-round25-210mm-10rings-x7-rim145-cut-files.svg`,
+`bell-round25-210mm-14rings-x5-rim145-cut-files.svg`, `bell-round25-201mm-67rings-x1-rim145-cut-files.svg` and the half-size
+`bell-round25-99mm-11rings-x3-rim96-cut-files.svg`, generated by `bell-round.py`, which checks its own sheets
 rather than leaving it to `verify_bell.py`, and numbers their rings itself. The two 17-ring
-sheets — `bell-round25-204mm-17rings-x4-rim145.svg` and `bell-round10-153mm-17rings-x3-rim86.svg` —
+sheets — `bell-round25-204mm-17rings-x4-rim145-cut-files.svg` and `bell-round10-153mm-17rings-x3-rim86-cut-files.svg` —
 are what the [switchback trumpet](https://github.com/Gernreich/trumpet-switchback) is built
 with, and the 25mm one fits the coiled and octagonal trumpets equally.
 
-**The mouthpieces**, in `mouthpiece/` — `mouthpiece-bore25-asbuilt-parts.svg`,
-`mouthpiece-bore25-trumpet-parts.svg` and `mouthpiece-bore10-trumpet-parts.svg`, generated by
+**The mouthpieces**, in `mouthpiece/` — `mouthpiece-bore25-asbuilt-parts-cut-files.svg`,
+`mouthpiece-bore25-trumpet-parts-cut-files.svg` and `mouthpiece-bore10-trumpet-parts-cut-files.svg`, generated by
 `mouthpiece-round.py`, which checks
 every joint in both directions before it writes, and engraves each ring's number itself by
 calling `bell/number_rings.py --order=document` as its last step. `--numbers=no` writes a

@@ -84,7 +84,7 @@ b  = RT*(L+U0)**GAMMA
 rad = lambda z: b*((L-z)+U0)**(-GAMMA)
 
 # A non-default profile gets its length into the filename. Without that a 100mm bell that
-# happened to land on 17 rings would quietly overwrite bell-square25-204mm-17rings-x4-rim129.svg, which is
+# happened to land on 17 rings would quietly overwrite bell-square25-204mm-17rings-x4-rim129-cut-files.svg, which is
 # hand-nested and hand-labelled and not reproducible from this script.
 # The name is built in the loop below: it carries the rim and the height as built,
 # and neither is known until the ring count is chosen.
@@ -145,7 +145,7 @@ for want in budgets:
     # arc. bell-round.py's are square at the throat and circular by the rim, which is what
     # "round" means there. Naming this one round was backwards and was fixed on 2026-09-02.
     name = (f"bell-square{rs[0][0]:.0f}-{len(rs)*step:.0f}mm-{len(rs)}rings"
-            f"-x{plies}-rim{rs[-1][1]:.0f}.svg")
+            f"-x{plies}-rim{rs[-1][1]:.0f}-cut-files.svg")
     W, H = emit(rs, plies, step, name)
     numbered = number(name, len(rs))
     angles = [r[3] for r in rs]
