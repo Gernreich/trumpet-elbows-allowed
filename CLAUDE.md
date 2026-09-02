@@ -48,7 +48,7 @@ the plate as **N + 6** — a 3mm wall each side, exactly as the tube is. Nothing
   what anything new is cut from. Do not add it to the other two without being asked; both
   have cut parts numbered against them.
 
-Filenames carry the bore — `bell-round-bore10-152mm-17rings.svg`,
+Filenames carry the bore — `bell-square10-153mm-17rings-x3-rim86.svg`,
 `mouthpiece-bore10-trumpet-parts.svg` — because two parts of the same length on different
 bores are different parts and only one of them fits your tube. Those two names are what a
 `--bore=10` run writes into this directory, which is where they belong — every mouthpiece
@@ -234,7 +234,7 @@ would have inherited the same miscount. Subpath counting cannot separate them; *
 can**, and here it already does — blue is engraving, never a part. A sheet that already
 carries blue is refused outright rather than given a second set of labels.
 
-**It reads only what the generators write** — `M`, `H`, `V`, `A`, `Z`. `bell-trumpet-201mm-17rings.svg`
+**It reads only what the generators write** — `M`, `H`, `V`, `A`, `Z`. `bell-round25-204mm-17rings-x4-rim129.svg`
 came back from Inkscape in relative commands and quadratic curves (`h l m q v z`), which this
 refuses by name rather than half-parsing into a plausible wrong answer.
 
@@ -288,7 +288,7 @@ than the "Rim diameter" the README tabulates.
 
 **Every filename states its length, and `bell-round`'s its bore as well** — the length
 used to appear only when it was not 201mm, so a 100mm bell landing on 17 rings would
-overwrite `bell-trumpet-201mm-17rings.svg`, which is hand-nested and not reproducible from
+overwrite `bell-round25-204mm-17rings-x4-rim129.svg`, which is hand-nested and not reproducible from
 the script. It also left `bell-round-67rings.svg` saying nothing about the tube it fits or
 how long it was, while `bell-round-99mm-11rings.svg` said one of the two. Both go in every
 name now, and in the `<title>`. Do not "tidy" `STEM` back.
@@ -320,10 +320,10 @@ cd bell && python3 bell-round.py 67 --morph=flare --law=width
 cd bell && python3 bell-round.py --length=99 --rim=80   # a half-size bell
 cd bell && python3 bell-round.py --bore=10 --length=152 --mouth=80   # the 10mm bell
 cd mouthpiece && python3 mouthpiece-round.py --bore=10 --rim=17 --layout=trumpet
-cd bell && python3 bell-section.py bell-trumpet-201mm-17rings.svg
-cd bell && python3 bell-view.py bell-round-bore25-201mm-14rings.svg
-cd bell && python3 verify_bell.py bell-trumpet-201mm-17rings.svg
-cd bell && python3 number_rings.py bell-round-bore25-99mm-11rings.svg   # engrave 0..A
+cd bell && python3 bell-section.py bell-round25-204mm-17rings-x4-rim129.svg
+cd bell && python3 bell-view.py bell-square25-210mm-14rings-x5-rim145.svg
+cd bell && python3 verify_bell.py bell-round25-204mm-17rings-x4-rim129.svg
+cd bell && python3 number_rings.py bell-square25-99mm-11rings-x3-rim96.svg   # engrave 0..A
 cd bell && python3 number_rings.py ../mouthpiece/mouthpiece-bore25-asbuilt-parts.svg --order=document
 cd mouthpiece && python3 mouthpiece-round.py    # square on the bore, round by the throat
 cd mouthpiece && python3 mouthpiece-cup.py      # the bowl that stacks on its end

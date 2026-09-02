@@ -84,13 +84,10 @@ b  = RT*(L+U0)**GAMMA
 rad = lambda z: b*((L-z)+U0)**(-GAMMA)
 
 # A non-default profile gets its length into the filename. Without that a 100mm bell that
-# happened to land on 17 rings would quietly overwrite bell-trumpet-201mm-17rings.svg, which is
+# happened to land on 17 rings would quietly overwrite bell-round25-204mm-17rings-x4-rim129.svg, which is
 # hand-nested and hand-labelled and not reproducible from this script.
-# Length always, not only when it is not the default -- see bell-round.py. There is no
-# --bore here and the throat is a fixed round ø25, so no bore goes in the name: writing
-# one would imply a parameter that does not exist, and would read as the same 25 as the
-# square throat next door, which it is not.
-STEM = f"bell-trumpet-{L:.0f}mm"
+# The name is built in the loop below: it carries the rim and the height as built,
+# and neither is known until the ring count is chosen.
 
 def rings(plies):
     step = RISE*plies
@@ -129,7 +126,8 @@ def emit(rs, plies, step, path):
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.3f}mm" height="{H:.3f}mm"\n'
         f'     viewBox="0 0 {W:.3f} {H:.3f}">\n'
         f'  <title>Trumpet-profile bell - {len(rs)} rings of {plies} ply, '
-        f'{L:g}mm profile, ø{rs[0][0]:.0f} to ø{rs[-1][1]:.1f}mm</title>\n'
+        f'{len(rs)*step:g}mm built on a {L:g}mm profile, '
+        f'ø{rs[0][0]:.0f} round throat to ø{rs[-1][1]:.1f}mm rim</title>\n'
         f'  <desc>1 user unit = 1mm. Bessel horn, gamma {GAMMA}, throat ø{2*RT:.0f} to rim '
         f'ø{rs[-1][1]:.1f}mm over {len(rs)*step:.0f}mm. Each ring is {plies} lamination(s) of '
         f'{RISE:g}mm ply, {step:g}mm of rise, lapping the ring below by {LAP}mm.</desc>\n'
@@ -143,7 +141,10 @@ for want in budgets:
         rs, step = rings(plies)
         if len(rs) <= want: break
         plies += 1
-    name = f"{STEM}-{len(rs)}rings.svg"
+    # Matches bell-round.py's scheme. round25 is a ROUND ø25 throat -- bell-round.py's
+    # square25 is a 25mm SQUARE one, and they are not interchangeable parts.
+    name = (f"bell-round{rs[0][0]:.0f}-{len(rs)*step:.0f}mm-{len(rs)}rings"
+            f"-x{plies}-rim{rs[-1][1]:.0f}.svg")
     W, H = emit(rs, plies, step, name)
     numbered = number(name, len(rs))
     angles = [r[3] for r in rs]

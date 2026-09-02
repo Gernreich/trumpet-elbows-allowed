@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Draw a bell as it looks built: rings stacked, seen from above the rim.
 
-    python3 bell-view.py bell-trumpet-201mm-17rings.svg [OUT.svg]
-    python3 bell-view.py bell-round-bore25-201mm-17rings.svg
+    python3 bell-view.py bell-round25-204mm-17rings-x4-rim129.svg [OUT.svg]
+    python3 bell-view.py bell-square25-204mm-17rings-x4-rim145.svg
 
 The section drawings show the profile; this shows the object. Isometric, throat at the
 back, rim at the front, drawn back to front so each ring occludes the one behind and you

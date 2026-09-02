@@ -100,11 +100,8 @@ rad = lambda z: B*((L-z)+U0)**(-GAMMA)
 
 # A non-default profile carries its length in the filename, so a short bell that happens to
 # land on the same ring count never overwrites one of the four standard sheets.
-# Bore and length, always, not only when they are not the default. Two bells of the same
-# ring count differ by these and by nothing else in the name, so hiding them at the default
-# left bell-round-67rings.svg saying nothing about the tube it fits or how long it is,
-# while bell-round-99mm-11rings.svg said one of the two. Every name now says both.
-STEM = f"bell-round-bore{BORE:g}-{L:.0f}mm"
+# The name is built in the loop below, not here: it carries the rim diameter and the
+# height as built, and neither is known until the ring count is chosen.
 
 DIAG = math.sqrt(2.0)                           # across the corners, against 1 across the flats
 
@@ -272,7 +269,8 @@ def emit(rings, plies, step, path, morph, law):
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.3f}mm" height="{H:.3f}mm"\n'
         f'     viewBox="0 0 {W:.3f} {H:.3f}">\n'
         f'  <title>Square-to-round trumpet bell - {len(rings)} rings of {plies} ply, '
-        f'{L:g}mm profile, {ap:.0f}mm square throat to ø{rim:.1f}mm round rim</title>\n'
+        f'{len(rings)*step:g}mm built on a {L:g}mm profile, {ap:.0f}mm square throat '
+        f'to ø{rim:.1f}mm round rim</title>\n'
         f'  <desc>1 user unit = 1mm. Bessel horn, gamma {GAMMA}, {ap:.0f}mm square throat '
         f'to ø{rim:.1f}mm round rim over {len(rings)*step:.0f}mm. The section morphs square '
         f'to round on the {morph} schedule, holding {law}. Each ring is {plies} '
@@ -295,13 +293,21 @@ for want in ([int(args[0])] if args else [67, 20, 15, 10]):
     # part needs to read. A repository that keeps one bell per size wants the size in
     # the name, and only the caller knows what it calls that size. One budget only:
     # naming four sheets with one string would write four bells over each other.
+    # Everything a builder needs to tell one sheet from another, in the name:
+    #   square25  a 25mm SQUARE throat -- the ROUND-throat bells are bell.py's
+    #   204mm     the height as BUILT, rings x rise, not the --length asked for
+    #   x4        how many times the sheet is cut; cutting once is the expensive mistake
+    #   rim145    the outer rim it opens to
+    built = len(rings) * step
+    rimd = 2 * rings[-1]["oh"]
     if "out" in opts:
         if len(([int(args[0])] if args else [67, 20, 15, 10])) > 1:
             sys.exit("  --out names one sheet; give a ring budget too, "
                      "or drop --out and take the generated names")
         name = opts["out"]
     else:
-        name = f"{STEM}-{len(rings)}rings.svg"
+        name = (f"bell-square{BORE:g}-{built:.0f}mm-{len(rings)}rings"
+                f"-x{plies}-rim{rimd:.0f}.svg")
     # throat is the aperture, rim is the outer edge — the same two the README's
     # "ø31 throat" and "Rim diameter" columns mean for the square bells
     ap, rim = 2*rings[0]["ah"], 2*rings[-1]["oh"]
