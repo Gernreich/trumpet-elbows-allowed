@@ -226,7 +226,7 @@ telescopes. On the mouthpiece they do not: the airway narrows 25 -> 5 then opens
 10.06, so the two runs share diameters and sorting by size interleaves them. The tool now
 refuses to guess when the sizes are not monotonic in the file — pass `--order=document`,
 which is assembly order for anything these generators write. `b` and `d` are lower case
-because seven-segment upper-case B is 8 and upper-case D is 0.
+in the seven-segment table this replaced, because there upper-case B was 8 and D was 0. The polyline glyphs share no shape, so hex is upper case throughout.
 
 **A ring is two concentric outlines — and so is an engraved 0, 4, 6, 8 or 9.** That is why
 `bell-section.py` reads 25 rings in the hand-labelled 17-ring sheet, and `number_rings.py`
@@ -238,7 +238,7 @@ carries blue is refused outright rather than given a second set of labels.
 came back from Inkscape in relative commands and quadratic curves (`h l m q v z`), which this
 refuses by name rather than half-parsing into a plausible wrong answer.
 
-**Digits are seven-segment strokes, not `<text>`**, and each is grown to the largest size
+**Digits are polyline outlines, not `<text>`** — the same sixteen `bore_split.py` puts on a bore section — and each is grown to the largest size
 that still lands on material — measured against the real curves, not assumed from the wall.
 That matters because the wall is not the room available: the rim ring's aperture is nearly a
 circle, so there is no flat to sit a digit on, and a radius-by-angle lookup that samples only
@@ -334,7 +334,7 @@ cd mouthpiece && python3 mouthpiece-view.py     # draws the previous design ONLY
 
 `bell-section.py` counts a path with two subpaths as a ring, so **outline** digits — a
 hand-drawn 0, 4, 6, 8 or 9 has a counter — register as rings and it read 25 in the old
-hand-labelled 17-ring sheet. `number_rings.py` draws single-stroke seven-segment digits
+hand-labelled 17-ring sheet. `number_rings.py` draws single-stroke polyline digits
 with no counters, so a sheet it numbers still counts correctly.
 
 **After editing either document** — regenerate the page, then audit both:

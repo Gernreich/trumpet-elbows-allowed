@@ -337,7 +337,7 @@ until 2026-08-31, which is one way to lose a bell: rings glued in the wrong orde
 unglued, and consecutive rings differ by about two millimetres, nothing you can judge by
 eye once the parts are off the bed. `number_rings.py` puts the index inside each ring in
 engraving blue, sized to that ring's wall: 1.60mm on ring 0 where the wall is 2.29mm, up to a 4mm cap on the rim. The digits are
-seven-segment line strokes rather than text, so no font has to survive the trip into the
+polyline outlines rather than text, so no font has to survive the trip into the
 laser software, and each one is grown to the largest size where every point of it still
 lands between that ring's aperture and its outer edge.
 

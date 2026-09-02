@@ -47,9 +47,18 @@ BLUE ENGRAVES, and this is the repository's blue: #0000ff, its own stage, writte
 the black that frees the part. Engraving after the cut is engraving on a part that has
 already dropped.
 
-THE DIGITS ARE STROKES, NOT TEXT. Seven-segment characters drawn as line paths, so nothing
-depends on a font being installed, on text-to-path conversion, or on an importer's idea of
-what <text> means. They are also single-stroke, which is what an engraver wants.
+THE DIGITS ARE STROKES, NOT TEXT. Drawn outlines as polylines, so nothing depends on a
+font being installed, on text-to-path conversion, or on an importer's idea of what <text>
+means. They are the same sixteen glyphs `bore_split.py` puts on a bore section, so every
+cut file in the family reads the same way.
+
+They replaced a seven-segment table on 2026-09-02, and the swap was measured rather than
+preferred. Condensed to the width the segments used, the fit is identical -- 1.78mm on the
+tightest mouthpiece ring either way -- while the engraving drops from 205 strokes to 98 on
+that sheet and from 596 to 242 on the 67-ring bell, because a 0 is one continuous polyline
+instead of six separate segments. No two of the sixteen share a shape, so hex is written
+the way hex is written, and only 6 and 9 turn into each other, where seven segments also
+confused 3 with E.
 
 FITTING IS MEASURED, NOT ASSUMED. The wall here runs from 2.29mm on ring 0 to 9.15mm on the
 rim, and the rim's aperture is nearly a circle, so there is no flat to sit a digit on and no
@@ -70,11 +79,10 @@ GROUP  = "ring-numbers"     # replaced wholesale if the sheet already has one
 NUM    = re.compile(r"-?\d*\.?\d+(?:[eE][-+]?\d+)?")
 TOK    = re.compile(r"([MmLlHhVvAaZz])([^A-Za-z]*)")
 
-# a b c d e f g, clockwise from the top bar then the middle
-SEG = {"0": "abcdef", "1": "bc",     "2": "abged",  "3": "abgcd",
-       "4": "fgbc",   "5": "afgcd",  "6": "afgecd", "7": "abc",
-       "8": "abcdefg", "9": "abcfgd", "A": "abcefg", "b": "fgecd",
-       "C": "afed",   "d": "bgcde",  "E": "afged",  "F": "afge"}
+# The hex alphabet, as polylines in a unit box: (0,0) bottom-left, (1,1) top-right.
+# Kept in step with bore_split.py's G table by hand -- the bore sections and the ring
+# stacks now draw the same sixteen characters, so a part off either bed reads the same.
+GLYPH = {'0': [[(0.5, 1), (0.85, 0.8), (0.85, 0.2), (0.5, 0), (0.15, 0.2), (0.15, 0.8), (0.5, 1)]], '1': [[(0.3, 0.78), (0.52, 1), (0.52, 0)], [(0.28, 0), (0.78, 0)]], '2': [[(0.1, 0.78), (0.3, 1), (0.7, 1), (0.9, 0.78), (0.9, 0.6), (0.1, 0), (0.9, 0)]], '3': [[(0.1, 1), (0.9, 1), (0.45, 0.55)], [(0.45, 0.55), (0.9, 0.55), (0.9, 0.16), (0.72, 0), (0.28, 0), (0.1, 0.16)]], '4': [[(0.7, 0), (0.7, 1), (0.12, 0.32), (0.92, 0.32)]], '5': [[(0.85, 1), (0.2, 1), (0.15, 0.55), (0.5, 0.62), (0.8, 0.5), (0.88, 0.28), (0.75, 0.06), (0.4, 0), (0.15, 0.12)]], '6': [[(0.82, 0.92), (0.55, 1), (0.25, 0.85), (0.15, 0.45), (0.15, 0.18), (0.35, 0), (0.62, 0), (0.85, 0.18), (0.85, 0.38), (0.62, 0.55), (0.3, 0.55), (0.15, 0.45)]], '7': [[(0.12, 1), (0.9, 1), (0.42, 0)]], '8': [[(0.5, 0.55), (0.22, 0.68), (0.22, 0.87), (0.5, 1), (0.78, 0.87), (0.78, 0.68), (0.5, 0.55), (0.18, 0.4), (0.18, 0.14), (0.5, 0), (0.82, 0.14), (0.82, 0.4), (0.5, 0.55)]], '9': [[(0.18, 0.08), (0.45, 0), (0.75, 0.15), (0.85, 0.55), (0.85, 0.82), (0.65, 1), (0.38, 1), (0.15, 0.82), (0.15, 0.62), (0.38, 0.45), (0.7, 0.45), (0.85, 0.55)]], 'A': [[(0.1, 0), (0.5, 1), (0.9, 0)], [(0.26, 0.4), (0.74, 0.4)]], 'B': [[(0.15, 0), (0.15, 1), (0.68, 1), (0.88, 0.83), (0.88, 0.68), (0.68, 0.55), (0.15, 0.55)], [(0.15, 0.55), (0.72, 0.55), (0.9, 0.4), (0.9, 0.16), (0.7, 0), (0.15, 0)]], 'C': [[(0.9, 0.8), (0.7, 1.0), (0.3, 1.0), (0.1, 0.8), (0.1, 0.2), (0.3, 0.0), (0.7, 0.0), (0.9, 0.2)]], 'D': [[(0.15, 0), (0.15, 1), (0.58, 1), (0.88, 0.74), (0.88, 0.26), (0.58, 0), (0.15, 0)]], 'E': [[(0.9, 1), (0.15, 1), (0.15, 0), (0.9, 0)], [(0.15, 0.5), (0.68, 0.5)]], 'F': [[(0.88, 1), (0.15, 1), (0.15, 0)], [(0.15, 0.52), (0.68, 0.52)]]}
 
 
 def flatten(d, per=64):
@@ -153,22 +161,28 @@ def radius(tab, th):
 
 
 def digit(ch, x, y, w, h):
-    """Seven-segment character, top-left at (x, y), as a list of line paths."""
-    L, R, T, M, B = x, x + w, y, y + h/2.0, y + h
-    seg = {"a": (L, T, R, T), "b": (R, T, R, M), "c": (R, M, R, B), "d": (L, B, R, B),
-           "e": (L, M, L, B), "f": (L, T, L, M), "g": (L, M, R, M)}
-    return [f"M {seg[s][0]:.4f},{seg[s][1]:.4f} L {seg[s][2]:.4f},{seg[s][3]:.4f}"
-            for s in SEG[ch]]
+    """One character as polylines, top-left at (x, y), emitted as SVG path data.
+
+    Path data rather than <polyline> so both the writer and the fitting test are
+    unchanged: each reads x,y pairs out of a string and does not care which element
+    they came from.
+    """
+    out = []
+    for st in GLYPH[ch]:
+        pts = [(x + px*w, y + (1.0 - py)*h) for px, py in st]
+        out.append("M " + " L ".join(f"{a:.4f},{b:.4f}" for a, b in pts))
+    return out
 
 
 def hexlabel(i):
-    """Ring index as seven-segment hex.
+    """Ring index in hex, upper case.
 
-    b and d are lower case and have to be: on seven segments an upper-case B is the same
-    shape as 8 and an upper-case D is the same shape as 0, so a sheet numbered in capitals
-    would have two pairs of rings wearing each other's labels."""
-    return f"{i:X}".translate(str.maketrans("BD", "bd")) if i < 16 \
-        else f"{i:02X}".translate(str.maketrans("BD", "bd"))
+    The seven-segment table this replaced had to write b and d in lower case, because on
+    seven segments an upper-case B is the same shape as 8 and a D the same as 0. These
+    glyphs are drawn outlines, so no two of the sixteen share a shape and hex reads the
+    way hex is written.
+    """
+    return f"{i:X}" if i < 16 else f"{i:02X}"
 
 
 def paths_with_stroke(src):
