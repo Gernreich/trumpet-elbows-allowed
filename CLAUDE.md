@@ -16,7 +16,7 @@ to suit. See `--bore` is the channel, and only that below.
 **The switchback's sheets are not kept here, only the generators that make them.** That
 repository holds a whole instrument per size, and the four sheets it cuts moved out on
 2026-08-31 — `10mm/` got the bell and mouthpiece made with `--bore=10`, and `25mm/` got
-`bell-round-17rings.svg` and `mouthpiece-trumpet-parts.svg`. Nothing else cuts any of the
+`bell-round-bore25-201mm-17rings.svg` and `mouthpiece-trumpet-parts.svg`. Nothing else cuts any of the
 four. This repository keeps the generators and the sheets that really are shared.
 
 **A bare `bell-round.py` writes the 17-ring sheet back into `bell/`.** It is one of the four
@@ -48,8 +48,8 @@ the plate as **N + 6** — a 3mm wall each side, exactly as the tube is. Nothing
   what anything new is cut from. Do not add it to the other two without being asked; both
   have cut parts numbered against them.
 
-Filenames carry a non-default bore — `bell-round-152mm-bore10-17rings.svg`,
-`mouthpiece-round-bore10-parts.svg` — because two parts of the same length on different
+Filenames carry the bore — `bell-round-bore10-152mm-17rings.svg`,
+`mouthpiece-bore10-trumpet-parts.svg` — because two parts of the same length on different
 bores are different parts and only one of them fits your tube. Those two names are what a
 `--bore=10` run writes into this directory; move them to `../trumpet-switchback` rather
 than committing them here. Both generators were checked after the change by regenerating
@@ -234,7 +234,7 @@ would have inherited the same miscount. Subpath counting cannot separate them; *
 can**, and here it already does — blue is engraving, never a part. A sheet that already
 carries blue is refused outright rather than given a second set of labels.
 
-**It reads only what the generators write** — `M`, `H`, `V`, `A`, `Z`. `bell-trumpet-17rings.svg`
+**It reads only what the generators write** — `M`, `H`, `V`, `A`, `Z`. `bell-trumpet-201mm-17rings.svg`
 came back from Inkscape in relative commands and quadratic curves (`h l m q v z`), which this
 refuses by name rather than half-parsing into a plausible wrong answer.
 
@@ -286,9 +286,12 @@ ours to scale. `--length`, `--rim` and `--gamma` on both generators move the pro
 `--rim` is the bore's diameter **at** the rim, before the wall, so it reads a wall smaller
 than the "Rim diameter" the README tabulates.
 
-**A non-default profile puts its length in the filename** — `bell-trumpet-99mm-11rings.svg`.
-Without that, a 100mm bell landing on 17 rings would overwrite `bell-trumpet-17rings.svg`,
-which is hand-nested and not reproducible from the script. Do not "tidy" `STEM` away.
+**Every filename states its length, and `bell-round`'s its bore as well** — the length
+used to appear only when it was not 201mm, so a 100mm bell landing on 17 rings would
+overwrite `bell-trumpet-201mm-17rings.svg`, which is hand-nested and not reproducible from
+the script. It also left `bell-round-67rings.svg` saying nothing about the tube it fits or
+how long it was, while `bell-round-99mm-11rings.svg` said one of the two. Both go in every
+name now, and in the `<title>`. Do not "tidy" `STEM` back.
 
 Short bells make the overshoot matter: 99mm divides evenly by 3, 9 and 33mm of rise, 100mm
 divides by none of them. Both generators report it and name a length that would have worked.
@@ -317,10 +320,10 @@ cd bell && python3 bell-round.py 67 --morph=flare --law=width
 cd bell && python3 bell-round.py --length=99 --rim=80   # a half-size bell
 cd bell && python3 bell-round.py --bore=10 --length=152 --mouth=80   # the 10mm bell
 cd mouthpiece && python3 mouthpiece-round.py --bore=10 --rim=17 --layout=trumpet
-cd bell && python3 bell-section.py bell-trumpet-17rings.svg
-cd bell && python3 bell-view.py bell-round-14rings.svg
-cd bell && python3 verify_bell.py bell-trumpet-17rings.svg
-cd bell && python3 number_rings.py bell-round-99mm-11rings.svg   # engrave 0..A
+cd bell && python3 bell-section.py bell-trumpet-201mm-17rings.svg
+cd bell && python3 bell-view.py bell-round-bore25-201mm-14rings.svg
+cd bell && python3 verify_bell.py bell-trumpet-201mm-17rings.svg
+cd bell && python3 number_rings.py bell-round-bore25-99mm-11rings.svg   # engrave 0..A
 cd bell && python3 number_rings.py ../mouthpiece/mouthpiece-bore25-asbuilt-parts.svg --order=document
 cd mouthpiece && python3 mouthpiece-round.py    # square on the bore, round by the throat
 cd mouthpiece && python3 mouthpiece-cup.py      # the bowl that stacks on its end

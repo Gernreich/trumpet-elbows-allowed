@@ -84,9 +84,13 @@ b  = RT*(L+U0)**GAMMA
 rad = lambda z: b*((L-z)+U0)**(-GAMMA)
 
 # A non-default profile gets its length into the filename. Without that a 100mm bell that
-# happened to land on 17 rings would quietly overwrite bell-trumpet-17rings.svg, which is
+# happened to land on 17 rings would quietly overwrite bell-trumpet-201mm-17rings.svg, which is
 # hand-nested and hand-labelled and not reproducible from this script.
-STEM = "bell-trumpet" if (L, 2*RIM, GAMMA) == (201.0, 123.0, 0.7) else f"bell-trumpet-{L:.0f}mm"
+# Length always, not only when it is not the default -- see bell-round.py. There is no
+# --bore here and the throat is a fixed round ø25, so no bore goes in the name: writing
+# one would imply a parameter that does not exist, and would read as the same 25 as the
+# square throat next door, which it is not.
+STEM = f"bell-trumpet-{L:.0f}mm"
 
 def rings(plies):
     step = RISE*plies
@@ -125,7 +129,7 @@ def emit(rs, plies, step, path):
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.3f}mm" height="{H:.3f}mm"\n'
         f'     viewBox="0 0 {W:.3f} {H:.3f}">\n'
         f'  <title>Trumpet-profile bell - {len(rs)} rings of {plies} ply, '
-        f'ø{rs[0][0]:.0f} to ø{rs[-1][1]:.1f}mm</title>\n'
+        f'{L:g}mm profile, ø{rs[0][0]:.0f} to ø{rs[-1][1]:.1f}mm</title>\n'
         f'  <desc>1 user unit = 1mm. Bessel horn, gamma {GAMMA}, throat ø{2*RT:.0f} to rim '
         f'ø{rs[-1][1]:.1f}mm over {len(rs)*step:.0f}mm. Each ring is {plies} lamination(s) of '
         f'{RISE:g}mm ply, {step:g}mm of rise, lapping the ring below by {LAP}mm.</desc>\n'

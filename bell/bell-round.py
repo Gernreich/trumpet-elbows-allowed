@@ -100,10 +100,11 @@ rad = lambda z: B*((L-z)+U0)**(-GAMMA)
 
 # A non-default profile carries its length in the filename, so a short bell that happens to
 # land on the same ring count never overwrites one of the four standard sheets.
-# The bore joins the length in the filename, because two bells of the same length on
-# different bores are different parts and only one of them fits your tube.
-STEM = ("bell-round" if (L, 2*RIM, GAMMA, BORE) == (201.0, 123.0, 0.7, 25.0)
-        else f"bell-round-{L:.0f}mm" + (f"-bore{BORE:g}" if BORE != 25.0 else ""))
+# Bore and length, always, not only when they are not the default. Two bells of the same
+# ring count differ by these and by nothing else in the name, so hiding them at the default
+# left bell-round-67rings.svg saying nothing about the tube it fits or how long it is,
+# while bell-round-99mm-11rings.svg said one of the two. Every name now says both.
+STEM = f"bell-round-bore{BORE:g}-{L:.0f}mm"
 
 DIAG = math.sqrt(2.0)                           # across the corners, against 1 across the flats
 
@@ -271,7 +272,7 @@ def emit(rings, plies, step, path, morph, law):
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.3f}mm" height="{H:.3f}mm"\n'
         f'     viewBox="0 0 {W:.3f} {H:.3f}">\n'
         f'  <title>Square-to-round trumpet bell - {len(rings)} rings of {plies} ply, '
-        f'{ap:.0f}mm square throat to ø{rim:.1f}mm round rim</title>\n'
+        f'{L:g}mm profile, {ap:.0f}mm square throat to ø{rim:.1f}mm round rim</title>\n'
         f'  <desc>1 user unit = 1mm. Bessel horn, gamma {GAMMA}, {ap:.0f}mm square throat '
         f'to ø{rim:.1f}mm round rim over {len(rings)*step:.0f}mm. The section morphs square '
         f'to round on the {morph} schedule, holding {law}. Each ring is {plies} '

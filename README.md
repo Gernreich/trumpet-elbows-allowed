@@ -190,10 +190,10 @@ nothing to glue to but the tube wall.
 
 | File | Rings | Build | Pieces | Rim diameter | Angle, throat → steepest | Sheet, per pass |
 | --- | ---: | --- | ---: | ---: | --- | --- |
-| `bell-trumpet-10rings.svg` | 10 | 7 ply | **70** | 129.0 | 2.4° -> 36.7° | 241 × 254mm |
-| `bell-trumpet-14rings.svg` | 14 | 5 ply | **70** | 129.0 | 2.4° -> 41.4° | 283 × 314mm |
-| `bell-trumpet-17rings.svg` | 17 | 4 ply | **68** | 129.0 | 2.3° -> 46.6° | 348 × 314mm |
-| `bell-trumpet-67rings.svg` | 67 | 1 ply | **67** | 129.0 | 2.3° -> 59.3° | 767 × 534mm |
+| `bell-trumpet-201mm-10rings.svg` | 10 | 7 ply | **70** | 129.0 | 2.4° -> 36.7° | 241 × 254mm |
+| `bell-trumpet-201mm-14rings.svg` | 14 | 5 ply | **70** | 129.0 | 2.4° -> 41.4° | 283 × 314mm |
+| `bell-trumpet-201mm-17rings.svg` | 17 | 4 ply | **68** | 129.0 | 2.3° -> 46.6° | 348 × 314mm |
+| `bell-trumpet-201mm-67rings.svg` | 67 | 1 ply | **67** | 129.0 | 2.3° -> 59.3° | 767 × 534mm |
 
 **Each file draws every ring once — cut it as many times as the `Build` column says.** The
 10-ring bell is 7 laminations a ring: 7 passes, 70 pieces, glued into ten 21mm bands. Cut
@@ -212,10 +212,10 @@ aperture, so most of every sheet is the hole in the middle of a ring. That is a 
 square metre of ply an afternoon in Inkscape buys you.
 
 <p>
-<img src="bell/bell-trumpet-10rings-view.jpg" alt="The 10-ring bell assembled" width="200">
-<img src="bell/bell-trumpet-14rings-view.jpg" alt="The 14-ring bell assembled" width="200">
-<img src="bell/bell-trumpet-17rings-view.jpg" alt="The 17-ring bell assembled" width="200">
-<img src="bell/bell-trumpet-67rings-view.jpg" alt="The 67-ring bell assembled, a true curve that necks inward before turning out to the rim" width="200">
+<img src="bell/bell-trumpet-201mm-10rings-view.jpg" alt="The 10-ring bell assembled" width="200">
+<img src="bell/bell-trumpet-201mm-14rings-view.jpg" alt="The 14-ring bell assembled" width="200">
+<img src="bell/bell-trumpet-201mm-17rings-view.jpg" alt="The 17-ring bell assembled" width="200">
+<img src="bell/bell-trumpet-201mm-67rings-view.jpg" alt="The 67-ring bell assembled, a true curve that necks inward before turning out to the rim" width="200">
 </p>
 
 *10, 14, 17 and 67 rings — the same Bessel profile sampled at four resolutions.*
@@ -238,9 +238,9 @@ column and the last number `bell.py` prints are not always the same ring.
 horn is nearly cylindrical, 36.7° against 59.3° at the rim, because a coarse ring averages
 across a stretch of curve the fine one resolves. The 17-ring is the balance, and its sheet
 fits a 400mm bed at 348mm even unnested. `bell.py` generates all
-four. `bell-section.py` draws the axial sections — `bell-trumpet-10rings-section.svg`,
-`bell-trumpet-14rings-section.svg`, `bell-trumpet-17rings-section.svg` and
-`bell-trumpet-67rings-section.svg` — `bell-view.py` the assembled views, `ramp_bell.py`
+four. `bell-section.py` draws the axial sections — `bell-trumpet-201mm-10rings-section.svg`,
+`bell-trumpet-201mm-14rings-section.svg`, `bell-trumpet-201mm-17rings-section.svg` and
+`bell-trumpet-201mm-67rings-section.svg` — `bell-view.py` the assembled views, `ramp_bell.py`
 applies the cut-order colour, and `verify_bell.py` checks an edited sheet.
 
 ## The square-to-round bell
@@ -253,10 +253,10 @@ circle.
 
 | File | Rings | Build | Pieces | Rim diameter | Sheet, per pass |
 | --- | ---: | --- | ---: | ---: | --- |
-| `bell-round-10rings.svg` | 10 | 7 ply | **70** | ø144.8 | 262 × 276mm |
-| `bell-round-14rings.svg` | 14 | 5 ply | **70** | ø144.8 | 302 × 340mm |
+| `bell-round-bore25-201mm-10rings.svg` | 10 | 7 ply | **70** | ø144.8 | 262 × 276mm |
+| `bell-round-bore25-201mm-14rings.svg` | 14 | 5 ply | **70** | ø144.8 | 302 × 340mm |
 | *17 rings* | 17 | 4 ply | **68** | ø144.8 | 371 × 340mm |
-| `bell-round-67rings.svg` | 67 | 1 ply | **67** | ø144.8 | 674 × 675mm |
+| `bell-round-bore25-201mm-67rings.svg` | 67 | 1 ply | **67** | ø144.8 | 674 × 675mm |
 
 **The 17-ring sheet is not kept here.** It is the one the switchback trumpet cuts, so it
 lives in that repository under `25mm/bell/` with the rest of that instrument. `bell-round.py`
@@ -309,7 +309,7 @@ Both generators take `--length` in mm, `--rim` the bore's diameter at the rim be
 wall is added, and `--gamma` the Bessel exponent. `bell-round.py` also takes `--mouth`,
 which is `--rim` stated as the hole you actually want, and `--bore`.
 
-**`bell-round-99mm-11rings.svg` is one, kept in the repository.** It comes from
+**`bell-round-bore25-99mm-11rings.svg` is one, kept in the repository.** It comes from
 `bell-round.py 11 --length=99 --rim=80`: eleven rings of 3 ply, 99mm long, a 31mm square
 throat opening to a ø96.3 round rim, 33 pieces off a 248 × 202mm sheet at 0.15 m², walls
 3.6 to 11.8mm. Half the length of the standard bell and under a third of its material, and
@@ -336,7 +336,7 @@ millimetres can leave the rim ring nearly cylindrical. Both generators report th
 and name a length that would have divided evenly. 99mm is a good one: 33 × 3mm, 11 × 9mm or
 3 × 33mm.
 
-**A non-default profile carries its length in the filename** — `bell-round-99mm-11rings.svg`
+**A non-default profile carries its length in the filename** — `bell-round-bore25-99mm-11rings.svg`
 — so a short bell that happens to land on the same ring count can never overwrite one of the
 standard sheets.
 
@@ -424,8 +424,8 @@ have been through an editor and converted to curves, a byte diff says nothing.
 
 ## Files
 
-**The bell**, in `bell/` — `bell-trumpet-10rings.svg`, `bell-trumpet-14rings.svg`,
-`bell-trumpet-17rings.svg`, `bell-trumpet-67rings.svg`, generated by `bell.py`.
+**The bell**, in `bell/` — `bell-trumpet-201mm-10rings.svg`, `bell-trumpet-201mm-14rings.svg`,
+`bell-trumpet-201mm-17rings.svg`, `bell-trumpet-201mm-67rings.svg`, generated by `bell.py`.
 `ramp_bell.py` applies the cut-order colour, and `verify_bell.py` checks an edited sheet
 for ring sizes, the lap it states, nesting order and overlapping cuts. `bell.py` numbers
 each sheet as it writes it, calling `number_rings.py` — the hex index, smallest ring 0, in
@@ -438,9 +438,9 @@ engraved — the same convention as a seven-segment display's decimal point, or 
 underlined 6 and 9 on dice. Sheets cut before this was added do not carry it; `--mark=no`
 writes a label without one.
 
-**The square-to-round bell**, in `bell/` — `bell-round-10rings.svg`,
-`bell-round-14rings.svg`, `bell-round-67rings.svg` and the half-size
-`bell-round-99mm-11rings.svg`, generated by `bell-round.py`, which checks its own sheets
+**The square-to-round bell**, in `bell/` — `bell-round-bore25-201mm-10rings.svg`,
+`bell-round-bore25-201mm-14rings.svg`, `bell-round-bore25-201mm-67rings.svg` and the half-size
+`bell-round-bore25-99mm-11rings.svg`, generated by `bell-round.py`, which checks its own sheets
 rather than leaving it to `verify_bell.py`, and numbers their rings itself. The 17-ring sheet of that set, and the
 `--layout=trumpet` mouthpiece, are cut only by the switchback trumpet and are kept
 there.
@@ -459,15 +459,15 @@ instead of assuming. Its
 predecessor is not kept as a sheet any more; `mouthpiece.py` still writes it on demand, and
 numbers it.
 
-**Display only, never cut** — the axial sections `bell-trumpet-10rings-section.svg`,
-`bell-trumpet-14rings-section.svg`, `bell-trumpet-17rings-section.svg`,
-`bell-trumpet-67rings-section.svg`, `bell-round-10rings-section.svg`,
-`bell-round-14rings-section.svg`,
-`bell-round-67rings-section.svg`, `bell-round-99mm-11rings-section.svg`,
+**Display only, never cut** — the axial sections `bell-trumpet-201mm-10rings-section.svg`,
+`bell-trumpet-201mm-14rings-section.svg`, `bell-trumpet-201mm-17rings-section.svg`,
+`bell-trumpet-201mm-67rings-section.svg`, `bell-round-bore25-201mm-10rings-section.svg`,
+`bell-round-bore25-201mm-14rings-section.svg`,
+`bell-round-bore25-201mm-67rings-section.svg`, `bell-round-bore25-99mm-11rings-section.svg`,
 `mouthpiece-bore25-asbuilt-parts-section.svg`, and `mouthpiece-section.svg`, drawn by
-`bell-section.py`; and the assembled views `bell-trumpet-10rings-view.jpg`,
-`bell-trumpet-14rings-view.jpg`, `bell-trumpet-17rings-view.jpg`,
-`bell-trumpet-67rings-view.jpg` and `mouthpiece-view.jpg`, from `bell-view.py` and
+`bell-section.py`; and the assembled views `bell-trumpet-201mm-10rings-view.jpg`,
+`bell-trumpet-201mm-14rings-view.jpg`, `bell-trumpet-201mm-17rings-view.jpg`,
+`bell-trumpet-201mm-67rings-view.jpg` and `mouthpiece-view.jpg`, from `bell-view.py` and
 `mouthpiece-view.py`.
 
 Released under [CC0 1.0](LICENSE).
