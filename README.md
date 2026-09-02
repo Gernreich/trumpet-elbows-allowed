@@ -104,10 +104,12 @@ and no faster.
 ### A real mouthpiece: `--layout=trumpet`
 
 The same 30 rings and the same 90mm, with the length where a trumpet actually puts it.
-**The sheet is no longer kept here** — the only instrument cutting it is the switchback trumpet, so it lives in
-**[trumpet-switchback](https://github.com/Gernreich/trumpet-switchback)**
-under `25mm/mouthpiece/`. Write a fresh one by naming the output path:
-`python3 mouthpiece-round.py --layout=trumpet mouthpiece-trumpet-parts.svg`.
+The sheet is [`mouthpiece-bore25-trumpet-parts.svg`](mouthpiece/mouthpiece-bore25-trumpet-parts.svg),
+and there is a 10mm one beside it. Both are cut by the
+**[switchback trumpet](https://github.com/Gernreich/trumpet-switchback)** today, and the
+25mm one fits the coiled and octagonal trumpets equally — all three are the same 25mm
+channel. Write a fresh one with `python3 mouthpiece-round.py --layout=trumpet`; the name
+follows from the bore and the layout.
 
 | | Backbore | Entrance | Cup |
 | --- | ---: | ---: | ---: |
@@ -269,13 +271,13 @@ circle.
 | --- | ---: | --- | ---: | ---: | --- |
 | `bell-round-bore25-201mm-10rings.svg` | 10 | 7 ply | **70** | ø144.8 | 262 × 276mm |
 | `bell-round-bore25-201mm-14rings.svg` | 14 | 5 ply | **70** | ø144.8 | 302 × 340mm |
-| *17 rings* | 17 | 4 ply | **68** | ø144.8 | 371 × 340mm |
+| `bell-round-bore25-201mm-17rings.svg` | 17 | 4 ply | **68** | ø144.8 | 371 × 340mm |
 | `bell-round-bore25-201mm-67rings.svg` | 67 | 1 ply | **67** | ø144.8 | 674 × 675mm |
 
-**The 17-ring sheet is not kept here.** It is the one the switchback trumpet cuts, so it
-lives in that repository under `25mm/bell/` with the rest of that instrument. `bell-round.py`
-still writes it — and a bare run writes it *here*, where it does not belong; pass a ring
-budget, or delete what lands.
+**The 17-ring sheet is [`bell-round-bore25-201mm-17rings.svg`](bell/bell-round-bore25-201mm-17rings.svg)**,
+the one the switchback trumpet is built with — and, being a 25mm throat, the one the coiled
+and octagonal trumpets can use too. A bare `bell-round.py` writes it along with the other
+three, so pass a ring budget when you only want one.
 
 **Every ring is a rounded square** — a square of half-width `h` with its corners rounded to
 radius `c`. At `c = 0` that is exactly the square that meets the bore; at `c = h` it is
@@ -362,12 +364,13 @@ generators therefore take **`--bore`**, which sets the air channel and the plate
 — **the channel plus a 3mm wall each side** — and nothing else. The ply is still 3mm and a
 ring still rises 3mm; that part genuinely cannot be scaled.
 
-**The 10mm sheets are not kept here.** Nothing but that one instrument uses them, so they
-live in
-**[trumpet-switchback](https://github.com/Gernreich/trumpet-switchback)**
-under `10mm/`, alongside the bore they belong to. This repository keeps the generators and
-the 25mm sheets, which really are shared. The commands below are still how the 10mm parts
-are made; copy the result across.
+**The 10mm sheets are here too**, with everything else:
+[`mouthpiece-bore10-trumpet-parts.svg`](mouthpiece/mouthpiece-bore10-trumpet-parts.svg) and
+[`bell-round-bore10-152mm-17rings.svg`](bell/bell-round-bore10-152mm-17rings.svg). Only the
+switchback trumpet uses them today, which is the current lineup rather than a rule — a
+mouthpiece and a bell are not touched by the way a bore turns, so every one of them lives
+here and the instrument repositories hold only tube. The commands below are how they are
+made.
 
 `bell.py` and `mouthpiece.py` do **not** take `--bore`. Only the square-to-round pair does,
 because those are the two anything new is cut from.
