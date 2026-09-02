@@ -144,6 +144,13 @@ These have been cut. Treat every SVG as concurrently modified in Inkscape:
   regenerate one — `python3 bell.py 20` writes only the 17-ring. The other three used to
   lose their numbering to a full run; they no longer do, but rewriting four sheets to
   change one is still four files to review instead of one.
+- **A mouthpiece sheet is named by its bore AND its layout**, and says both in its
+  `<title>`. Two 25mm mouthpieces exist — `asbuilt` and `trumpet` — with the same ring
+  count, bore, throat and rim, and until 2026-09-02 they carried character-for-character
+  identical titles while their profiles were nothing alike: 9 backbore rings plus 17
+  entrance rings against 26 backbore and none. Neither the filename nor the file itself
+  could tell you which part you had. Naming only the non-default parameter is what caused
+  it, so both now go in every name.
 - **Every label carries an orientation mark**, a short tick on the baseline right of the
   last character. A ring is a circle, so nothing about the part says which way up it was
   engraved — and turned over, `3` and `E` swap, and so do `6` and `9`. Find the tick and
@@ -167,7 +174,7 @@ These have been cut. Treat every SVG as concurrently modified in Inkscape:
 
   This was not always so: numbering used to be a separate command you had to remember, and
   a regenerate silently threw the engraving away — `mouthpiece-round.py` with no arguments
-  cost `mouthpiece-round-parts.svg` its numbering on 2026-08-31, restored from git. Changing
+  cost `mouthpiece-bore25-asbuilt-parts.svg` its numbering on 2026-08-31, restored from git. Changing
   the default was checked by regenerating all four sheets the switchback trumpet is cut from
   and diffing against the cut files: **byte-identical**, numbering included.
 
@@ -204,7 +211,7 @@ part that cannot stack — `--taper=4.0` exits with the reason.
 
 `mouthpiece-view.py` draws the OLD mouthpiece and only it: every ring a circle apart from a
 hardcoded square plate with a round bore, and "23 rings" in its label. Do not point it at
-`mouthpiece-round-parts.svg`. `bell-view.py` reads corner radii and would draw it, but calls
+`mouthpiece-bore25-asbuilt-parts.svg`. `bell-view.py` reads corner radii and would draw it, but calls
 whatever it is given a bell.
 
 ## Numbering a sheet
@@ -245,7 +252,7 @@ cup, which is how a real mouthpiece is proportioned. `--layout=asbuilt` — the 
 a 27mm backbore and 51mm of near-cylindrical entrance on the LIP side of the throat, close
 to inverted. **It is the default only because a mouthpiece exists to it and its rings are
 numbered for it.** Cut `trumpet` for anything new; do not change which is default without
-asking, and check `mouthpiece-round-parts.svg` still comes out byte-identical if you touch
+asking, and check `mouthpiece-bore25-asbuilt-parts.svg` still comes out byte-identical if you touch
 the profile code.
 
 **The wall is per-ring, not a constant.** The seat above a ring is the wall of whichever
@@ -314,7 +321,7 @@ cd bell && python3 bell-section.py bell-trumpet-17rings.svg
 cd bell && python3 bell-view.py bell-round-14rings.svg
 cd bell && python3 verify_bell.py bell-trumpet-17rings.svg
 cd bell && python3 number_rings.py bell-round-99mm-11rings.svg   # engrave 0..A
-cd bell && python3 number_rings.py ../mouthpiece/mouthpiece-round-parts.svg --order=document
+cd bell && python3 number_rings.py ../mouthpiece/mouthpiece-bore25-asbuilt-parts.svg --order=document
 cd mouthpiece && python3 mouthpiece-round.py    # square on the bore, round by the throat
 cd mouthpiece && python3 mouthpiece-cup.py      # the bowl that stacks on its end
 cd mouthpiece && python3 ../bell/number_rings.py mouthpiece-cup-parts.svg --start=26  # not kept

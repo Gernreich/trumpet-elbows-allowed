@@ -66,7 +66,7 @@ The three runs are named for the anatomy, which `mouthpiece.py` gets backwards:
                long for a mouthpiece and is where to look first if it plays stuffy
     BOWL       10.06 -> 16.5mm over 12mm, the cup proper, ending at the rim
 
-A sheet from here is the same part as mouthpiece-round-parts.svg plus mouthpiece-cup.py's
+A sheet from here is the same part as mouthpiece-bore25-asbuilt-parts.svg plus mouthpiece-cup.py's
 four rings, ring for ring, so both routes number identically. `mouthpiece-cup.py` stays for
 retrofitting a mouthpiece already glued without a bowl.
 
@@ -121,10 +121,12 @@ if BORE <= THROAT:
     sys.exit(f"--bore must be wider than the ø{THROAT:g}mm throat")
 if LAYOUT not in ("asbuilt", "trumpet"):
     sys.exit(f"--layout: asbuilt or trumpet, not {LAYOUT!r}")
-# A non-default bore carries itself in the filename: the 25mm part has been cut and its
-# rings are numbered, and a 10mm one is not a variant of it, it is a different mouthpiece.
-_dflt = ("mouthpiece-round-parts.svg" if BORE == 25.0
-         else f"mouthpiece-round-bore{BORE:g}-parts.svg")
+# Both parameters that make one sheet a different part from another go in the name:
+# the bore it closes onto and the layout it spends its length on. Naming only the
+# non-default one left the 25mm asbuilt sheet called mouthpiece-round-parts.svg and the
+# 25mm trumpet sheet with no way to say it was not that -- two different parts, and
+# nothing in either name to tell them apart.
+_dflt = f"mouthpiece-bore{BORE:g}-{LAYOUT}-parts.svg"
 out_path = next((a for a in sys.argv[1:] if not a.startswith("--")), _dflt)
 
 
@@ -257,8 +259,12 @@ parts = [f'  <path d="{rounded(cx, cy, OH[i], OC[i])} {rounded(cx, cy, hs[i], cs
 round_at = next((i for i in range(len(profile)) if abs(cs[i] - hs[i]) < 1e-6), None)
 svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.3f}mm" height="{H:.3f}mm"\n'
        f'     viewBox="0 0 {W:.3f} {H:.3f}">\n'
-       f'  <title>Square-to-round mouthpiece - {len(profile)} rings, {BORE:g}mm square bore '
-       f'to {THROAT:g}mm throat to ø{profile[-1]:g}mm lip</title>\n'
+       # The layout belongs here. Two 25mm mouthpieces exist -- asbuilt and trumpet --
+       # with the same ring count, bore, throat and rim, and without the layout their
+       # titles were identical while their profiles were not. A sheet has to say which
+       # part it is.
+       f'  <title>Square-to-round mouthpiece, {LAYOUT} layout - {len(profile)} rings, '
+       f'{BORE:g}mm square bore to {THROAT:g}mm throat to ø{profile[-1]:g}mm lip</title>\n'
        f'  <desc>1 user unit = 1mm. Station one is a sharp {BORE:g}mm square aperture in a '
        f'sharp {PLATE:g}mm square plate, matching the bore corner for corner. The corners '
        f'round away going up and the section is a true circle from the '
