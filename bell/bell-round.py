@@ -52,9 +52,9 @@ args  = [a for a in sys.argv[1:] if not a.startswith("--")]
 opts  = dict(a[2:].split("=", 1) for a in sys.argv[1:] if a.startswith("--") and "=" in a)
 for k in opts:
     if k not in ("morph", "law", "length", "rim", "mouth", "gamma", "lap", "overhang",
-                 "bore", "numbers"):
+                 "bore", "numbers", "out"):
         sys.exit(f"unknown option --{k}: morph, law, length, rim, mouth, gamma, lap, "
-                 f"overhang, bore or numbers")
+                 f"overhang, bore, numbers or out")
 # Numbering is part of writing the sheet, not a step to remember afterwards. Rings differ
 # by a couple of millimetres and the sheet is laid out smallest-first, which is the order
 # they stop being in the moment someone lifts them off the bed. --numbers=no writes it bare.
@@ -289,7 +289,18 @@ for want in ([int(args[0])] if args else [67, 20, 15, 10]):
         if len(rings) <= want: break
         plies += 1
     notes, fails = check(rings)
-    name = f"{STEM}-{len(rings)}rings.svg"
+    # --out names the sheet outright. The generated name says how the bell was made
+    # -- the generator, the length, the bore -- which is not what someone hunting for a
+    # part needs to read. A repository that keeps one bell per size wants the size in
+    # the name, and only the caller knows what it calls that size. One budget only:
+    # naming four sheets with one string would write four bells over each other.
+    if "out" in opts:
+        if len(([int(args[0])] if args else [67, 20, 15, 10])) > 1:
+            sys.exit("  --out names one sheet; give a ring budget too, "
+                     "or drop --out and take the generated names")
+        name = opts["out"]
+    else:
+        name = f"{STEM}-{len(rings)}rings.svg"
     # throat is the aperture, rim is the outer edge — the same two the README's
     # "ø31 throat" and "Rim diameter" columns mean for the square bells
     ap, rim = 2*rings[0]["ah"], 2*rings[-1]["oh"]
