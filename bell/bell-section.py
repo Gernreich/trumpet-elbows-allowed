@@ -44,12 +44,13 @@ def ring_sizes(path):
     s = pathlib.Path(path).read_text()
     out = []
     for d in re.findall(r'<path\b[^>]*\bd="([^"]+)"', s):
-        w = [abs(float(b) - float(a)) for a, _, b in
-             re.findall(r'M\s*(-?[\d.]+),(-?[\d.]+)\s*H\s*(-?[\d.]+)', d)]
-        if len(w) == 2:
-            out.append((min(w), max(w)))
-            continue
-        e = subpath_widths(d)                 # hand-drawn files use other commands
+        # Walk the path. There used to be a shortcut here that read the width straight out
+        # of "M x,y H x2", which is the full width of a SQUARE ring and only the flat
+        # between the corner arcs of a rounded one. Every square-to-round bell was measured
+        # short by two corner radii, and by more as the rings rounded: the 17-ring bell
+        # reported a 4.87mm throat where it has a 25mm one, and its section drawing showed
+        # a near-flat taper with the rim floating detached from it.
+        e = subpath_widths(d)
         if len(e) == 2:
             out.append((min(e), max(e)))
     out.sort()
