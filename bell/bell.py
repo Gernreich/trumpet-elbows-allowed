@@ -84,7 +84,7 @@ b  = RT*(L+U0)**GAMMA
 rad = lambda z: b*((L-z)+U0)**(-GAMMA)
 
 # A non-default profile gets its length into the filename. Without that a 100mm bell that
-# happened to land on 17 rings would quietly overwrite bell-round25-204mm-17rings-x4-rim129.svg, which is
+# happened to land on 17 rings would quietly overwrite bell-square25-204mm-17rings-x4-rim129.svg, which is
 # hand-nested and hand-labelled and not reproducible from this script.
 # The name is built in the loop below: it carries the rim and the height as built,
 # and neither is known until the ring count is chosen.
@@ -127,7 +127,7 @@ def emit(rs, plies, step, path):
         f'     viewBox="0 0 {W:.3f} {H:.3f}">\n'
         f'  <title>Trumpet-profile bell - {len(rs)} rings of {plies} ply, '
         f'{len(rs)*step:g}mm built on a {L:g}mm profile, '
-        f'ø{rs[0][0]:.0f} round throat to ø{rs[-1][1]:.1f}mm rim</title>\n'
+        f'{rs[0][0]:.0f}mm square throat to {rs[-1][1]:.1f}mm square rim</title>\n'
         f'  <desc>1 user unit = 1mm. Bessel horn, gamma {GAMMA}, throat ø{2*RT:.0f} to rim '
         f'ø{rs[-1][1]:.1f}mm over {len(rs)*step:.0f}mm. Each ring is {plies} lamination(s) of '
         f'{RISE:g}mm ply, {step:g}mm of rise, lapping the ring below by {LAP}mm.</desc>\n'
@@ -141,9 +141,10 @@ for want in budgets:
         rs, step = rings(plies)
         if len(rs) <= want: break
         plies += 1
-    # Matches bell-round.py's scheme. round25 is a ROUND ø25 throat -- bell-round.py's
-    # square25 is a 25mm SQUARE one, and they are not interchangeable parts.
-    name = (f"bell-round{rs[0][0]:.0f}-{len(rs)*step:.0f}mm-{len(rs)}rings"
+    # square: every ring on this sheet is a square, throat to rim, and no ring carries an
+    # arc. bell-round.py's are square at the throat and circular by the rim, which is what
+    # "round" means there. Naming this one round was backwards and was fixed on 2026-09-02.
+    name = (f"bell-square{rs[0][0]:.0f}-{len(rs)*step:.0f}mm-{len(rs)}rings"
             f"-x{plies}-rim{rs[-1][1]:.0f}.svg")
     W, H = emit(rs, plies, step, name)
     numbered = number(name, len(rs))

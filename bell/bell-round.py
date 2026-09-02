@@ -294,7 +294,8 @@ for want in ([int(args[0])] if args else [67, 20, 15, 10]):
     # the name, and only the caller knows what it calls that size. One budget only:
     # naming four sheets with one string would write four bells over each other.
     # Everything a builder needs to tell one sheet from another, in the name:
-    #   square25  a 25mm SQUARE throat -- the ROUND-throat bells are bell.py's
+    #   round25   square at the throat, circular by the rim -- bell.py's are square all
+    #             the way up, and carry no arc on any ring
     #   204mm     the height as BUILT, rings x rise, not the --length asked for
     #   x4        how many times the sheet is cut; cutting once is the expensive mistake
     #   rim145    the outer rim it opens to
@@ -306,7 +307,7 @@ for want in ([int(args[0])] if args else [67, 20, 15, 10]):
                      "or drop --out and take the generated names")
         name = opts["out"]
     else:
-        name = (f"bell-square{BORE:g}-{built:.0f}mm-{len(rings)}rings"
+        name = (f"bell-round{BORE:g}-{built:.0f}mm-{len(rings)}rings"
                 f"-x{plies}-rim{rimd:.0f}.svg")
     # throat is the aperture, rim is the outer edge — the same two the README's
     # "ø31 throat" and "Rim diameter" columns mean for the square bells
