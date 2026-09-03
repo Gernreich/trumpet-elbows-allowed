@@ -267,31 +267,39 @@ def main():
     # colours, which is how a sheet that cuts its holes before its rims draws them. Pair
     # them on their shared centre either way -- an aperture sits concentric in its own
     # outline and nowhere near anyone else's.
+    # Document order is assembly order and must survive the pairing: --order=document
+    # numbers rings in the order this list is built, so a list built largest-first labels
+    # the rim 0 and the throat last, which is the wrong way up the horn. Carry each ring's
+    # position in the file and restore it once the pairing is done.
     loose = []
     rings = []
-    for d in cuts:
+    for pos, d in enumerate(cuts):
         sp = flatten(d)
         if len(sp) == 2:
             ap, out = sorted(sp, key=span)
         elif len(sp) == 1:
-            loose.append(sp[0])
+            loose.append((pos, sp[0]))
             continue
         else:
             continue
         cx, cy = mid(out)
-        rings.append({"ap": polar(ap, cx, cy), "out": polar(out, cx, cy),
-                      "cx": cx, "cy": cy, "o": span(out)})
-    # pair whatever came in singly, largest first so an outline claims its own aperture
-    for out in sorted(loose, key=span, reverse=True):
+        rings.append((pos, {"ap": polar(ap, cx, cy), "out": polar(out, cx, cy),
+                            "cx": cx, "cy": cy, "o": span(out)}))
+    # Pair whatever came in singly. Walk largest first so an outline claims its own
+    # aperture rather than a smaller ring's, then put the results back in file order.
+    taken = set()
+    for pos, out in sorted(loose, key=lambda t: span(t[1]), reverse=True):
         cx, cy = mid(out)
-        inner = [q for q in loose if q is not out and span(q) < span(out)
+        inner = [(q_pos, q) for q_pos, q in loose
+                 if q_pos not in taken and q is not out and span(q) < span(out)
                  and abs(mid(q)[0] - cx) < 0.01 and abs(mid(q)[1] - cy) < 0.01]
         if not inner:
             continue
-        ap = max(inner, key=span)
-        loose = [q for q in loose if q is not ap]
-        rings.append({"ap": polar(ap, cx, cy), "out": polar(out, cx, cy),
-                      "cx": cx, "cy": cy, "o": span(out)})
+        ap_pos, ap = max(inner, key=lambda t: span(t[1]))
+        taken.add(ap_pos)
+        rings.append((pos, {"ap": polar(ap, cx, cy), "out": polar(out, cx, cy),
+                            "cx": cx, "cy": cy, "o": span(out)}))
+    rings = [r for _, r in sorted(rings, key=lambda t: t[0])]
     if not rings:
         sys.exit(f"  no rings in {src_path.name}")
     if len(rings) > 256:
