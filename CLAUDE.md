@@ -123,6 +123,34 @@ station rounder than the one below reaches less far into its corners than its ex
 half-width suggests. A wall of 2.6mm across a flat can be 1.97mm through a corner. Both
 floors are solved in closed form in `stations()`; do not reduce it to one.
 
+## The view generators broke when the apertures moved colour
+
+On 2026-09-03 the apertures were split into their own orange group so they cut
+before the outline that frees the part. **Both view generators found rings by
+looking for one path holding two subpaths**, so after the split they found none
+at all - `bell-view.py` on all ten bells, `mouthpiece-view.py` on all three
+mouthpieces. Nothing noticed, because nothing ran them afterwards.
+
+`mouthpiece-view.py` was broken twice over: it also opened
+`mouthpiece-parts-cut-files.svg` by name, and that file was renamed the same
+day to carry its bore and layout.
+
+Both now read the two groups and **pair ring i's aperture with ring i's
+outline, in file order.** That is what the generators write - both groups come
+off one list - and it is assembly order.
+
+**Do not pair by size, and do not pair by containment.** Sorting each list and
+zipping works only while a profile grows monotonically; a mouthpiece narrows to
+its throat and opens again, so it drew the cup as a stack of alternating
+bulges. Containment is no better: an aperture also contains any ring nested in
+its spare space. Both were tried here and both drew a plausible object that was
+not the one on the sheet - which is the warning the mouthpiece viewer's own
+docstring already carried, about sorting by diameter.
+
+`mouthpiece-view.py` takes `--src=`; a bare argument is still the OUTPUT, as it
+always was. Making the source positional wrote a display SVG straight over a
+cut file.
+
 ## Colour is the cut order
 
 **Blue engraves, then green → orange → cyan → black**; black frees the part; violet

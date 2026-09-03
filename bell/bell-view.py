@@ -99,10 +99,43 @@ def poly(points):
 
 src = sys.argv[1]
 s = pathlib.Path(src).read_text()
-rings = []
-for d in re.findall(r'<path\b[^>]*\bd="([^"]+)"', s):
-    w = sections(d)
-    if len(w) == 2: rings.append(tuple(sorted(w)))     # (aperture, outer), each (width, corner)
+
+# A RING IS TWO PATHS NOW, NOT ONE. Until 2026-09-03 each ring was a single
+# path holding two subpaths - aperture then outline - and this took any path
+# with two sections as a ring. Then the apertures moved into their own orange
+# group so they cut before the outlines that free the part, and every path
+# had exactly one section: this found no rings at all, in all ten bells, and
+# nothing noticed because nothing ran it.
+#
+# So read the two groups and pair them by size. Each ring's aperture is the
+# largest one that still fits inside its outline, which is what nesting them
+# on the sheet already means.
+def group(gid_colour):
+    m = re.search(r'<g[^>]*stroke="%s"[^>]*>(.*?)</g>' % gid_colour, s, re.S)
+    if not m:
+        return []
+    out = []
+    for d in re.findall(r'<path\b[^>]*\bd="([^"]+)"', m.group(1)):
+        w = sections(d)
+        out += w
+    return out
+
+aps, outs = group('#ff8000'), group('#000000')
+if not aps:                       # a file from before the split: one path, two sections
+    rings = []
+    for d in re.findall(r'<path\b[^>]*\bd="([^"]+)"', s):
+        w = sections(d)
+        if len(w) == 2:
+            rings.append(tuple(sorted(w)))
+else:
+    assert len(aps) == len(outs), \
+        f"{len(aps)} apertures against {len(outs)} outlines in {src}"
+    # BY INDEX, IN FILE ORDER: the generator writes both groups from one list,
+    # so ring i is aps[i] with outs[i]. Sorting each list and zipping happens
+    # to work on a bell, whose rings only grow - and is wrong the moment a
+    # profile doubles back, which is exactly how it drew the mouthpiece as a
+    # stack of alternating bulges.
+    rings = [tuple(sorted((a, o))) for a, o in zip(aps, outs)]
 rings.sort()
 assert rings, f"no rings in {src}"
 m = re.search(r'([\d.]+)mm of rise', s)

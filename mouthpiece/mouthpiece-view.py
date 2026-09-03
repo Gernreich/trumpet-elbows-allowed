@@ -19,18 +19,108 @@ iso = lambda X, Y, Z: ((X - Y) * C30, (X + Y) * S30 - Z)
 # diameter interleaves the cup and the backbore, because both pass through the same
 # diameters on the way down and back up -- it drew a plausible object that was not this
 # mouthpiece.
-src = pathlib.Path("mouthpiece-parts-cut-files.svg").read_text()
+# Named on the command line, with the 25mm trumpet layout as the default. It
+# used to open "mouthpiece-parts-cut-files.svg" by name; that file was renamed
+# on 2026-09-03 to carry its bore and layout, and this went on naming a file
+# that no longer exists.
+# --src names the cut file; a bare argument is still the OUTPUT, which is what
+# this script has always taken. Making argv[1] the source instead silently
+# turned the output path into the input path, and the run wrote a display SVG
+# straight over a cut file.
+_s = [a for a in sys.argv[1:] if a.startswith("--src=")]
+SRC = _s[0].split("=", 1)[1] if _s else \
+      "mouthpiece-bore25-trumpet-parts-cut-files.svg"
+sys.argv = [sys.argv[0]] + [a for a in sys.argv[1:] if not a.startswith("--src=")]
+src = pathlib.Path(SRC).read_text()
+
+# A RING IS TWO PATHS NOW, NOT ONE. The apertures moved into their own orange
+# group on 2026-09-03 so they cut before the outline that frees the part, and
+# this expected both radii on one path: it found 0 rings where it wanted 23.
+def ends(d):
+    """A path's command ENDPOINTS.
+
+    Not every number in the string. An arc reads `A rx,ry rot large,sweep x,y`
+    and `large,sweep` looks exactly like a coordinate pair to a regex that
+    flattens the numbers - which put an aperture's bounding box at 138mm
+    across on a 152mm sheet and left it inside no outline at all. Parse per
+    command, or measure with the tool that wrote the file.
+    """
+    out, x, y = [], 0.0, 0.0
+    for cmd, arg in re.findall(r'([MLAZmlaz])([^MLAZmlaz]*)', d):
+        n = [float(v) for v in re.findall(r'-?\d*\.?\d+(?:[eE][-+]?\d+)?', arg)]
+        u = cmd.isupper()
+        c = cmd.upper()
+        if c == 'M' or c == 'L':
+            for i in range(0, len(n) - 1, 2):
+                x, y = (n[i], n[i+1]) if u else (x + n[i], y + n[i+1])
+                out.append((x, y))
+        elif c == 'A':
+            for i in range(0, len(n) - 6, 7):
+                ex, ey = n[i+5], n[i+6]
+                x, y = (ex, ey) if u else (x + ex, y + ey)
+                out.append((x, y))
+    return out
+
+
+def circles(chunk):
+    """Each path as (centre x, centre y, half-width, diameters it draws)."""
+    out = []
+    for d in re.findall(r'<path\b[^>]*\bd="([^"]+)"', chunk):
+        pts = ends(d)
+        if not pts:
+            continue
+        xs = [q[0] for q in pts]
+        ys = [q[1] for q in pts]
+        cx, cy = (min(xs) + max(xs)) / 2, (min(ys) + max(ys)) / 2
+        half = max(max(xs) - min(xs), max(ys) - min(ys)) / 2
+        r = sorted({round(float(v) * 2, 3)
+                    for v in re.findall(r'[Aa]\s*([\d.]+),', d)}, reverse=True)
+        out.append((cx, cy, half, r))
+    return out
+
+
+def group(colour):
+    m = re.search(r'<g[^>]*stroke="%s"[^>]*>(.*?)</g>' % colour, src, re.S)
+    return circles(m.group(1)) if m else []
+
+# Order by position on the sheet, which is assembly order, NOT by size. Sorting by
+# diameter interleaves the cup and the backbore, because both pass through the same
+# diameters on the way down and back up -- it drew a plausible object that was not this
+# mouthpiece.
+#
+# PAIR BY CONTAINMENT, not by rank. Zipping the two sorted lists assumes an
+# aperture and its outline hold the same position in each - true only if the
+# rings never overlap in x on the sheet, which on a nested layout they do. It
+# drew the cup as a stack of separate bulges: the same failure the paragraph
+# above is about, arrived at from the other direction.
+aps, outs = group("#ff8000"), group("#000000")
 rings = []
-for d in re.findall(r'<path\b[^>]*\bd="([^"]+)"', src):
-    r = sorted({round(float(v) * 2, 3) for v in re.findall(r'[Aa]\s*([\d.]+),', d)}, reverse=True)
-    x = float(re.search(r'[Mm]\s*(-?[\d.]+)', d).group(1))
-    if len(r) == 2:
-        rings.append((x, r[1], r[0], True))                    # x, aperture, outer, round
-    elif len(r) == 1:
-        rings.append((x, r[0], 31.0, False))                   # the square plate and its bore
-assert len(rings) == 23, len(rings)
-rings.sort()
-rings = [(a, o, rnd) for _, a, o, rnd in rings]
+if aps:
+    # PAIR BY INDEX, IN FILE ORDER. The generator writes the apertures and the
+    # outlines from one list, so ring i is aps[i] with outs[i], and that order
+    # is assembly order. Sorting by centre x scrambles it - this sheet is six
+    # rows deep, so x alone interleaves them and the cup came out as a stack of
+    # alternating bulges. Pairing by containment is no better: it is true of a
+    # ring nested in another ring's spare space as well as of its own outline.
+    assert len(aps) == len(outs), f"{len(aps)} apertures, {len(outs)} outlines in {SRC}"
+    for (ax, ay, ah, ar), (ox, oy, oh, orr) in zip(aps, outs):
+        assert abs(ax - ox) < 0.5 and abs(ay - oy) < 0.5, \
+            f"aperture at ({ax:.1f},{ay:.1f}) is not concentric with its outline"
+        # a radius only exists where the path has arcs; station one is the
+        # square bore in the square plate, so fall back to what was measured
+        rings.append((ar[0] if ar else 2 * ah,
+                      orr[0] if orr else 2 * oh,
+                      bool(ar)))
+else:                                 # a file from before the split
+    tmp = []
+    for cx, cy, half, r in circles(src):
+        if len(r) == 2:
+            tmp.append((cx, r[1], r[0], True))
+        elif len(r) == 1:
+            tmp.append((cx, r[0], 31.0, False))
+    tmp.sort()
+    rings = [(a, o, rnd) for _, a, o, rnd in tmp]
+assert rings, f"no rings in {SRC}"
 
 def ring_pts(a, o, round_, z):
     """outer boundary then aperture, each as projected points"""
@@ -120,7 +210,8 @@ out = sys.argv[1] if len(sys.argv) > 1 else "mouthpiece-view.svg"
 pathlib.Path(out).write_text(
     f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.1f}mm" height="{H:.1f}mm"\n'
     f'     viewBox="{x0-M:.1f} {y0-M:.1f} {W:.1f} {H:.1f}" role="img"\n'
-    f'     aria-label="The mouthpiece assembled from 23 rings, seen from above the cup: '
+    f'     aria-label="The mouthpiece assembled from {len(rings)} rings, seen from '
+    f'above the cup: '
     f'the cup narrowing to a throat, then the backbore opening slowly below it">\n'
     f'  <!-- DISPLAY ONLY - not a cut file. Generated by mouthpiece-view.py. -->\n'
     f'  <rect x="{x0-M:.1f}" y="{y0-M:.1f}" width="{W:.1f}" height="{H:.1f}" fill="{BG}"/>\n'
