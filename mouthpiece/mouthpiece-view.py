@@ -19,7 +19,7 @@ iso = lambda X, Y, Z: ((X - Y) * C30, (X + Y) * S30 - Z)
 # diameter interleaves the cup and the backbore, because both pass through the same
 # diameters on the way down and back up -- it drew a plausible object that was not this
 # mouthpiece.
-src = pathlib.Path("mouthpiece-parts.svg").read_text()
+src = pathlib.Path("mouthpiece-parts-cut-files.svg").read_text()
 rings = []
 for d in re.findall(r'<path\b[^>]*\bd="([^"]+)"', src):
     r = sorted({round(float(v) * 2, 3) for v in re.findall(r'[Aa]\s*([\d.]+),', d)}, reverse=True)

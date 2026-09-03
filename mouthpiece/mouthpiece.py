@@ -52,11 +52,13 @@ for i in range(1, len(profile)):
 W = MARGIN * 2 + sum(outers) + GAP * (len(outers) - 1)
 H = MARGIN * 2 + max(outers)
 cy = H / 2.0
-parts, x = [], MARGIN
+parts, holes, x = [], [], MARGIN
 for i, (o, a) in enumerate(zip(outers, profile)):
     cx = x + o / 2.0
     outer = square(cx, cy, o) if i == 0 else circle(cx, cy, o)
-    parts.append(f'  <path d="{outer} {circle(cx, cy, a)}"/>')
+    # aperture and outline in separate stages -- holes before rims
+    holes.append(f'  <path d="{circle(cx, cy, a)}"/>')
+    parts.append(f'  <path d="{outer}"/>')
     x += o + GAP
 
 svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.3f}mm" height="{H:.3f}mm"\n'
@@ -66,6 +68,8 @@ svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.3f}mm" height="{H:.3
        f'  <desc>1 user unit = 1mm. {len(cup)} cup rings in 4mm steps, then {len(backbore)} '
        f'backbore rings in 0.40mm steps. Wall {WALL:g}mm. Stack {len(profile)*WALL:g}mm at '
        f'{WALL:g}mm a layer.</desc>\n'
+       f'  <g fill="none" stroke="#ff8000" stroke-width="0.1">\n'
+       + "\n".join(holes) + "\n  </g>\n"
        f'  <g fill="none" stroke="#000000" stroke-width="0.1">\n'
        + "\n".join(parts) + "\n  </g>\n</svg>\n")
 
@@ -78,7 +82,8 @@ for k in _opts:
 NUMBERS = _opts.get("numbers", "yes")
 if NUMBERS not in ("yes", "no"):
     sys.exit(f"--numbers: yes or no, not {NUMBERS!r}")
-out = next((a for a in sys.argv[1:] if not a.startswith("--")), "mouthpiece-parts.svg")
+out = next((a for a in sys.argv[1:] if not a.startswith("--")),
+           "mouthpiece-parts-cut-files.svg")
 open(out, "w").write(svg)
 
 # --order=document: this profile narrows to the throat and opens again, so it passes

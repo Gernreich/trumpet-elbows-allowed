@@ -70,7 +70,7 @@ else:
     START = 23          # mouthpiece.py writes rings 0..22 and ends at the default ONTO
 if START < 0:
     sys.exit("--start cannot be negative")
-out_path = next((a for a in sys.argv[1:] if not a.startswith("--")), "mouthpiece-cup-parts.svg")
+out_path = next((a for a in sys.argv[1:] if not a.startswith("--")), "mouthpiece-cup-parts-cut-files.svg")
 if RIM <= ONTO:
     sys.exit(f"--rim must open past the ø{ONTO:g}mm it stacks onto")
 if RINGS < 1:
@@ -109,9 +109,11 @@ def circle(cx, cy, d):
 
 W = MARGIN*2 + sum(outers) + GAP*(len(outers) - 1)
 H = MARGIN*2 + max(outers)
-cy, x, parts = H/2.0, MARGIN, []
+cy, x, parts, holes = H/2.0, MARGIN, [], []
 for a, o in zip(apertures, outers):
-    parts.append(f'  <path d="{circle(x + o/2.0, cy, o)} {circle(x + o/2.0, cy, a)}"/>')
+    # aperture and outline in separate stages -- holes before rims
+    holes.append(f'  <path d="{circle(x + o/2.0, cy, a)}"/>')
+    parts.append(f'  <path d="{circle(x + o/2.0, cy, o)}"/>')
     x += o + GAP
 
 svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.3f}mm" height="{H:.3f}mm"\n'
@@ -123,6 +125,8 @@ svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.3f}mm" height="{H:.3
        f'throat going down. Wall {WALL:g}mm, {RISE:g}mm of rise a ring. Every joint seats on at '
        f'least {min(seats):.2f}mm per side, the joint onto the glued stack included. These are '
        f'ADDITIONAL rings; they replace nothing.</desc>\n'
+       f'  <g fill="none" stroke="#ff8000" stroke-width="0.1">\n'
+       + "\n".join(holes) + "\n  </g>\n"
        f'  <g fill="none" stroke="#000000" stroke-width="0.1">\n'
        + "\n".join(parts) + "\n  </g>\n</svg>\n")
 open(out_path, "w").write(svg)

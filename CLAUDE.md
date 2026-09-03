@@ -332,7 +332,7 @@ cd bell && python3 number_rings.py bell-round25-99mm-11rings-x3-rim96-cut-files.
 cd bell && python3 number_rings.py ../mouthpiece/mouthpiece-bore25-asbuilt-parts-cut-files.svg --order=document
 cd mouthpiece && python3 mouthpiece-round.py    # square on the bore, round by the throat
 cd mouthpiece && python3 mouthpiece-cup.py      # the bowl that stacks on its end
-cd mouthpiece && python3 ../bell/number_rings.py mouthpiece-cup-parts.svg --start=26  # not kept
+cd mouthpiece && python3 ../bell/number_rings.py mouthpiece-cup-parts-cut-files.svg --start=26  # not kept
 cd mouthpiece && python3 mouthpiece.py          # the previous 23-ring design
 cd mouthpiece && python3 mouthpiece-view.py     # draws the previous design ONLY
 ```
