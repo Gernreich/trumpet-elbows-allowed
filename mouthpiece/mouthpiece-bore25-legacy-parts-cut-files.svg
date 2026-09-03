@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="144.000mm" height="128.980mm"
      viewBox="0 0 144.000 128.980">
-  <title>Square-to-round mouthpiece, asbuilt layout - 30 rings, 25mm square bore to 3.66mm throat to ø16.5mm lip</title>
-  <desc>1 user unit = 1mm. Station one is a sharp 25mm square aperture in a sharp 31mm square plate, matching the bore corner for corner. The corners round away going up and the section is a true circle from the 7.5mm station on, so the 3.66mm throat and the whole cup are round. The asbuilt layout: 9 backbore rings, 17 entrance rings, then 4 bowl rings to a ø16.5mm rim. Wall 3 to 3.00mm, 3mm of rise a ring, stack 90mm. Every joint seats on at least 1.00mm per side, flats and corners alike. Rings stack; they do not telescope.</desc>
+  <title>Square-to-round mouthpiece, legacy layout - 30 rings, 25mm square bore to 3.66mm throat to ø16.5mm lip</title>
+  <desc>1 user unit = 1mm. Station one is a sharp 25mm square aperture in a sharp 31mm square plate, matching the bore corner for corner. The corners round away going up and the section is a true circle from the 7.5mm station on, so the 3.66mm throat and the whole cup are round. The legacy layout: 9 backbore rings, 17 entrance rings, then 4 bowl rings to a ø16.5mm rim. Wall 3 to 3.00mm, 3mm of rise a ring, stack 90mm. Every joint seats on at least 1.00mm per side, flats and corners alike. Rings stack; they do not telescope.</desc>
   <g id="ring-numbers" fill="none" stroke="#0000ff" stroke-width="0.1">
     <path d="M 18.0557,31.3308 L 18.5058,31.7985 L 18.5058,33.2015 L 18.0557,33.6692 L 17.6055,33.2015 L 17.6055,31.7985 L 18.0557,31.3308"/>
     <path d="M 19.0729,33.6692 L 19.5874,33.6692"/>

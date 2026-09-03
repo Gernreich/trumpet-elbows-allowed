@@ -145,7 +145,7 @@ These have been cut. Treat every SVG as concurrently modified in Inkscape:
   lose their numbering to a full run; they no longer do, but rewriting four sheets to
   change one is still four files to review instead of one.
 - **A mouthpiece sheet is named by its bore AND its layout**, and says both in its
-  `<title>`. Two 25mm mouthpieces exist — `asbuilt` and `trumpet` — with the same ring
+  `<title>`. Two 25mm mouthpieces exist — `legacy` and `trumpet` — with the same ring
   count, bore, throat and rim, and until 2026-09-02 they carried character-for-character
   identical titles while their profiles were nothing alike: 9 backbore rings plus 17
   entrance rings against 26 backbore and none. Neither the filename nor the file itself
@@ -179,7 +179,7 @@ These have been cut. Treat every SVG as concurrently modified in Inkscape:
 
   This was not always so: numbering used to be a separate command you had to remember, and
   a regenerate silently threw the engraving away — `mouthpiece-round.py` with no arguments
-  cost `mouthpiece-bore25-asbuilt-parts-cut-files.svg` its numbering on 2026-08-31, restored from git. Changing
+  cost `mouthpiece-bore25-legacy-parts-cut-files.svg` its numbering on 2026-08-31, restored from git. Changing
   the default was checked by regenerating all four sheets the switchback trumpet is cut from
   and diffing against the cut files: **byte-identical**, numbering included.
 
@@ -216,7 +216,7 @@ part that cannot stack — `--taper=4.0` exits with the reason.
 
 `mouthpiece-view.py` draws the OLD mouthpiece and only it: every ring a circle apart from a
 hardcoded square plate with a round bore, and "23 rings" in its label. Do not point it at
-`mouthpiece-bore25-asbuilt-parts-cut-files.svg`. `bell-view.py` reads corner radii and would draw it, but calls
+`mouthpiece-bore25-legacy-parts-cut-files.svg`. `bell-view.py` reads corner radii and would draw it, but calls
 whatever it is given a bell.
 
 ## Numbering a sheet
@@ -250,15 +250,22 @@ circle, so there is no flat to sit a digit on, and a radius-by-angle lookup that
 the ends of a straight run reads the bottom of a square as its corner, 21.9mm instead of
 15.5mm. Sample `H` and `V`, not just their endpoints.
 
-## The mouthpiece has two layouts, and the default is the wrong one
+## The mouthpiece has two layouts, and only one of them is worth cutting
 
-Both are 30 rings and 90mm. `--layout=trumpet` puts 75mm into the backbore and keeps a 12mm
-cup, which is how a real mouthpiece is proportioned. `--layout=asbuilt` — the default — has
+Both are 30 rings and 90mm. `--layout=trumpet`, the default, puts 75mm into the backbore
+and keeps a 12mm cup, which is how a real mouthpiece is proportioned. `--layout=legacy` has
 a 27mm backbore and 51mm of near-cylindrical entrance on the LIP side of the throat, close
-to inverted. **It is the default only because a mouthpiece exists to it and its rings are
-numbered for it.** Cut `trumpet` for anything new; do not change which is default without
-asking, and check `mouthpiece-bore25-asbuilt-parts-cut-files.svg` still comes out byte-identical if you touch
-the profile code.
+to inverted — a 48mm-deep cup by any honest reading.
+
+**`legacy` is a record of a part, not a design to cut.** A mouthpiece was built to it before
+the trumpet layout existed and its rings are numbered for it, which is the only reason its
+sheet is kept. It was the default, and called `asbuilt`, until 2026-09-03: that name said
+when the profile was made rather than whether to cut it, and being the default meant a bare
+run produced the profile nobody wants. `--layout=asbuilt` now exits saying so rather than
+quietly doing something else.
+
+Check `mouthpiece-bore25-legacy-parts-cut-files.svg` still comes out byte-identical if you
+touch the profile code.
 
 **The wall is per-ring, not a constant.** The seat above a ring is the wall of whichever
 ring is narrow at that joint, less half the aperture step, so a step that big needs a wall
@@ -329,7 +336,7 @@ cd bell && python3 bell-section.py bell-square25-204mm-17rings-x4-rim129-cut-fil
 cd bell && python3 bell-view.py bell-round25-210mm-14rings-x5-rim145-cut-files.svg
 cd bell && python3 verify_bell.py bell-square25-204mm-17rings-x4-rim129-cut-files.svg
 cd bell && python3 number_rings.py bell-round25-99mm-11rings-x3-rim96-cut-files.svg   # engrave 0..A
-cd bell && python3 number_rings.py ../mouthpiece/mouthpiece-bore25-asbuilt-parts-cut-files.svg --order=document
+cd bell && python3 number_rings.py ../mouthpiece/mouthpiece-bore25-legacy-parts-cut-files.svg --order=document
 cd mouthpiece && python3 mouthpiece-round.py    # square on the bore, round by the throat
 cd mouthpiece && python3 mouthpiece-cup.py      # the bowl that stacks on its end
 cd mouthpiece && python3 ../bell/number_rings.py mouthpiece-cup-parts-cut-files.svg --start=26  # not kept

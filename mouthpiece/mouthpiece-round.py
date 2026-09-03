@@ -32,15 +32,16 @@ the throat and the whole cup are round.
 
 THE TWO LAYOUTS. Both are 30 rings and 90mm; they differ in where the length goes.
 
-    --layout=asbuilt   27mm backbore, 51mm entrance, 12mm cup   (default)
-    --layout=trumpet   75mm backbore, 12mm cup
+    --layout=trumpet   75mm backbore, 12mm cup                   (default)
+    --layout=legacy    27mm backbore, 51mm entrance, 12mm cup
 
 A real mouthpiece spends its length on the backbore and keeps the cup short: the throat
 opens into the cup almost at once, and the long gradual run is on the other side of it.
-`asbuilt` has that close to inverted -- a short steep backbore and 51mm of near-cylindrical
+`legacy` has that close to inverted -- a short steep backbore and 51mm of near-cylindrical
 entrance on the LIP side of the throat, which is a 48mm-deep cup by any honest reading. It
-is the default only because a mouthpiece exists to that profile and its rings are numbered
-for it; `trumpet` is the one to cut new.
+exists because a mouthpiece was built to that profile before the trumpet layout did, and
+its sheet is kept as a record of that part. It was the default until 2026-09-03 and called
+`asbuilt`, which said when it was made rather than whether to cut it. Do not cut it new.
 
 `--backbore` sets the backbore rings and `--power` how it opens: 1 is a straight cone,
 higher keeps it near-cylindrical off the throat and opens it later, as a real one does.
@@ -66,7 +67,7 @@ The three runs are named for the anatomy, which `mouthpiece.py` gets backwards:
                long for a mouthpiece and is where to look first if it plays stuffy
     BOWL       10.06 -> 16.5mm over 12mm, the cup proper, ending at the rim
 
-A sheet from here is the same part as mouthpiece-bore25-asbuilt-parts-cut-files.svg plus mouthpiece-cup.py's
+A sheet from here is the same part as mouthpiece-bore25-legacy-parts-cut-files.svg plus mouthpiece-cup.py's
 four rings, ring for ring, so both routes number identically. `mouthpiece-cup.py` stays for
 retrofitting a mouthpiece already glued without a bowl.
 
@@ -83,7 +84,7 @@ THROAT  = 3.66       # a #27 drill, the standard trumpet mouthpiece throat
 TAPER   = 2.5        # aperture step down the backbore run; 4.0 cannot be made square
 RIM     = 16.5       # the rim your lip sits on; a trumpet is 16 to 17mm inside
 BOWL    = 4          # rings of cup: 4 x 3mm = a 12mm bowl
-LAYOUT  = "asbuilt"  # asbuilt | trumpet -- see THE TWO LAYOUTS below
+LAYOUT  = "trumpet"  # trumpet | legacy -- see THE TWO LAYOUTS below
 NBB     = 25         # trumpet layout: rings of backbore, 25 x 3mm = 75mm
 BACK_P  = 2.0        # trumpet layout: backbore power. 1 is a cone, higher opens later
 MINSEAT = 1.0        # every joint, flats and corners alike
@@ -119,11 +120,15 @@ if NUMBERS not in ("yes", "no"):
     sys.exit(f"--numbers: yes or no, not {NUMBERS!r}")
 if BORE <= THROAT:
     sys.exit(f"--bore must be wider than the ø{THROAT:g}mm throat")
-if LAYOUT not in ("asbuilt", "trumpet"):
-    sys.exit(f"--layout: asbuilt or trumpet, not {LAYOUT!r}")
+if LAYOUT == "asbuilt":
+    sys.exit("--layout=asbuilt is now --layout=legacy, and it is no longer the default.\n"
+             "  It names a profile built before the trumpet layout existed; trumpet is the\n"
+             "  one to cut new.")
+if LAYOUT not in ("trumpet", "legacy"):
+    sys.exit(f"--layout: trumpet or legacy, not {LAYOUT!r}")
 # Both parameters that make one sheet a different part from another go in the name:
 # the bore it closes onto and the layout it spends its length on. Naming only the
-# non-default one left the 25mm asbuilt sheet called mouthpiece-round-parts.svg and the
+# non-default one left the 25mm legacy sheet called mouthpiece-round-parts.svg and the
 # 25mm trumpet sheet with no way to say it was not that -- two different parts, and
 # nothing in either name to tell them apart.
 _dflt = f"mouthpiece-bore{BORE:g}-{LAYOUT}-parts-cut-files.svg"
@@ -260,7 +265,7 @@ parts = [f'  <path d="{rounded(cx, cy, OH[i], OC[i])}"/>' for i, cx, cy in place
 round_at = next((i for i in range(len(profile)) if abs(cs[i] - hs[i]) < 1e-6), None)
 svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.3f}mm" height="{H:.3f}mm"\n'
        f'     viewBox="0 0 {W:.3f} {H:.3f}">\n'
-       # The layout belongs here. Two 25mm mouthpieces exist -- asbuilt and trumpet --
+       # The layout belongs here. Two 25mm mouthpieces exist -- legacy and trumpet --
        # with the same ring count, bore, throat and rim, and without the layout their
        # titles were identical while their profiles were not. A sheet has to say which
        # part it is.
