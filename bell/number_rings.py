@@ -257,16 +257,39 @@ def main():
                  f"  Relative commands and curves mean the sheet has been through an editor.\n"
                  f"  The generators write M, H, V, A and Z only.")
 
+    span = lambda p: max(max(q[0] for q in p) - min(q[0] for q in p),
+                         max(q[1] for q in p) - min(q[1] for q in p))
+    mid = lambda p: ((min(q[0] for q in p) + max(q[0] for q in p))/2.0,
+                     (min(q[1] for q in p) + max(q[1] for q in p))/2.0)
+
+    # A ring is an outline and the aperture inside it. They may arrive as two subpaths of
+    # one path, which is how a single-stage sheet draws them, or as two paths in different
+    # colours, which is how a sheet that cuts its holes before its rims draws them. Pair
+    # them on their shared centre either way -- an aperture sits concentric in its own
+    # outline and nowhere near anyone else's.
+    loose = []
     rings = []
     for d in cuts:
         sp = flatten(d)
-        if len(sp) != 2:
+        if len(sp) == 2:
+            ap, out = sorted(sp, key=span)
+        elif len(sp) == 1:
+            loose.append(sp[0])
             continue
-        span = lambda p: max(max(q[0] for q in p) - min(q[0] for q in p),
-                             max(q[1] for q in p) - min(q[1] for q in p))
-        ap, out = sorted(sp, key=span)
-        cx = (min(q[0] for q in out) + max(q[0] for q in out))/2.0
-        cy = (min(q[1] for q in out) + max(q[1] for q in out))/2.0
+        else:
+            continue
+        cx, cy = mid(out)
+        rings.append({"ap": polar(ap, cx, cy), "out": polar(out, cx, cy),
+                      "cx": cx, "cy": cy, "o": span(out)})
+    # pair whatever came in singly, largest first so an outline claims its own aperture
+    for out in sorted(loose, key=span, reverse=True):
+        cx, cy = mid(out)
+        inner = [q for q in loose if q is not out and span(q) < span(out)
+                 and abs(mid(q)[0] - cx) < 0.01 and abs(mid(q)[1] - cy) < 0.01]
+        if not inner:
+            continue
+        ap = max(inner, key=span)
+        loose = [q for q in loose if q is not ap]
         rings.append({"ap": polar(ap, cx, cy), "out": polar(out, cx, cy),
                       "cx": cx, "cy": cy, "o": span(out)})
     if not rings:

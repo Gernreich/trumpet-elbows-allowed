@@ -422,6 +422,13 @@ now prints both, and the README's "Rim diameter" column has always been the oute
 frees the part and violet always skip. That sequence is shared by every LaserMadeMusic
 repository.
 
+**Every bell and mouthpiece sheet here uses three of those stages.** Blue engraves the ring
+numbers, **orange cuts each ring's aperture**, and black cuts the outlines and frees the
+parts. The aperture and the outline used to be one path in one colour, which left a
+per-colour job free to cut an outline first and drop a ring before its hole was in. Holes
+before rims, and the file now says so rather than relying on the order paths happen to be
+written in.
+
 **A nested sheet needs more than that.** Where a small ring sits inside a big one's
 aperture, the small one has to be cut first or it is freed along with the waste it sits in,
 and one black stage cannot say so. `ramp_bell.py` answers that with a **black → red ramp**,

@@ -253,8 +253,9 @@ if fails:
 per = min(range(1, len(profile) + 1),
           key=lambda p: (round(max(layout(p)[1:]), 6), round(layout(p)[1]*layout(p)[2], 6)))
 placed, W, H = layout(per)
-parts = [f'  <path d="{rounded(cx, cy, OH[i], OC[i])} {rounded(cx, cy, hs[i], cs[i])}"/>'
-         for i, cx, cy in placed]
+# aperture and outline as separate paths so each can take its own cut stage
+holes = [f'  <path d="{rounded(cx, cy, hs[i], cs[i])}"/>' for i, cx, cy in placed]
+parts = [f'  <path d="{rounded(cx, cy, OH[i], OC[i])}"/>' for i, cx, cy in placed]
 
 round_at = next((i for i in range(len(profile)) if abs(cs[i] - hs[i]) < 1e-6), None)
 svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.3f}mm" height="{H:.3f}mm"\n'
@@ -273,7 +274,9 @@ svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.3f}mm" height="{H:.3
        f'rings, then {len(bowl)} bowl rings to a ø{RIM:g}mm rim. Wall {min(Ws):g} to {max(Ws):.2f}mm, 3mm of rise a ring, stack '
        f'{len(profile)*WALL:g}mm. Every joint seats on at least {min(seats):.2f}mm per side, '
        f'flats and corners alike. Rings stack; they do not telescope.</desc>\n'
-       f'  <g fill="none" stroke="#000000" stroke-width="0.1">\n'
+       + '  <g fill="none" stroke="#ff8000" stroke-width="0.1">\n'
+       + "\n".join(holes) + "\n  </g>\n"
+       + '  <g fill="none" stroke="#000000" stroke-width="0.1">\n'
        + "\n".join(parts) + "\n  </g>\n</svg>\n")
 open(out_path, "w").write(svg)
 

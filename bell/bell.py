@@ -113,12 +113,14 @@ def sq(cx, cy, s):
 def emit(rs, plies, step, path):
     GAP = M = 3.0
     per = max(1, int(math.ceil(math.sqrt(len(rs)))))
-    lines, y, W = [], M, 0.0
+    lines, holes, y, W = [], [], M, 0.0
     for k in range(0, len(rs), per):
         chunk = rs[k:k+per]; x = M; rowh = max(o for _, o, _, _ in chunk)
         for a, o, _, _ in chunk:
             cx = x + o/2.0
-            lines.append(f'  <path d="{sq(cx, y+rowh/2, o)} {sq(cx, y+rowh/2, a)}"/>')
+            # aperture and outline as separate paths, so each can take its own stage
+            holes.append(f'  <path d="{sq(cx, y+rowh/2, a)}"/>')
+            lines.append(f'  <path d="{sq(cx, y+rowh/2, o)}"/>')
             x += o + GAP
         W = max(W, x - GAP + M); y += rowh + GAP
     H = y - GAP + M
@@ -131,7 +133,8 @@ def emit(rs, plies, step, path):
         f'  <desc>1 user unit = 1mm. Bessel horn, gamma {GAMMA}, throat ø{2*RT:.0f} to rim '
         f'ø{rs[-1][1]:.1f}mm over {len(rs)*step:.0f}mm. Each ring is {plies} lamination(s) of '
         f'{RISE:g}mm ply, {step:g}mm of rise, lapping the ring below by {LAP}mm.</desc>\n'
-        f'  <g fill="none" stroke="#000000" stroke-width="0.1">\n' + "\n".join(lines) + "\n  </g>\n</svg>\n")
+        + '  <g fill="none" stroke="#ff8000" stroke-width="0.1">\n' + "\n".join(holes) + "\n  </g>\n"
+        + '  <g fill="none" stroke="#000000" stroke-width="0.1">\n' + "\n".join(lines) + "\n  </g>\n</svg>\n")
     return W, H
 
 budgets = [int(_args[0])] if _args else [67, 20, 15, 10]

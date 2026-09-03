@@ -151,6 +151,11 @@ These have been cut. Treat every SVG as concurrently modified in Inkscape:
   entrance rings against 26 backbore and none. Neither the filename nor the file itself
   could tell you which part you had. Naming only the non-default parameter is what caused
   it, so both now go in every name.
+- **A ring is two cuts in two colours.** Orange `#ff8000` takes the aperture, black
+  `#000000` the outline, and the orange group is written first. One path holding both, as
+  these sheets had until 2026-09-02, lets a per-colour job free the part before its hole is
+  in. Anything that reads a ring back -- `number_rings.py`, `bell-section.py` -- pairs the
+  two by their shared centre, and still handles the one-path form for hand-edited files.
 - **Every label carries an orientation mark**, a short tick on the baseline right of the
   last character. A ring is a circle, so nothing about the part says which way up it was
   engraved — and turned over, `3` and `E` swap, and so do `6` and `9`. Find the tick and

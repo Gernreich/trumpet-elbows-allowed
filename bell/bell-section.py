@@ -43,6 +43,22 @@ def subpath_widths(d):
 def ring_sizes(path):
     s = pathlib.Path(path).read_text()
     out = []
+    # A sheet that cuts its holes before its rims keeps the aperture and the outline in
+    # different colours, so a ring is no longer one path with two subpaths. Both groups are
+    # written in the same ring order, so pair them by position.
+    ap_g = re.search(r'<g[^>]*stroke="#ff8000"[^>]*>(.*?)</g>', s, re.S)
+    out_g = re.search(r'<g[^>]*stroke="#000000"[^>]*>(.*?)</g>', s, re.S)
+    if ap_g and out_g:
+        aps = [subpath_widths(d) for d in re.findall(r'd="([^"]+)"', ap_g.group(1))]
+        outs = [subpath_widths(d) for d in re.findall(r'd="([^"]+)"', out_g.group(1))]
+        for a, o in zip(aps, outs):
+            if len(a) == 1 and len(o) == 1:
+                out.append((a[0], o[0]))
+        if out:
+            out.sort()
+            r = re.search(r'([\d.]+)mm of rise', s)
+            return out, float(r.group(1)) if r else 3.0
+
     for d in re.findall(r'<path\b[^>]*\bd="([^"]+)"', s):
         # Walk the path. There used to be a shortcut here that read the width straight out
         # of "M x,y H x2", which is the full width of a SQUARE ring and only the flat

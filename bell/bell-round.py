@@ -260,8 +260,11 @@ def emit(rings, plies, step, path, morph, law):
               key=lambda p: (round(max(layout(rings, p)[1:]), 6),
                              round(layout(rings, p)[1]*layout(rings, p)[2], 6)))
     placed, W, H = layout(rings, per)
-    lines = [f'  <path d="{rounded(cx, cy, r["oh"], r["oc"])} '
-             f'{rounded(cx, cy, r["ah"], r["ac"])}"/>' for r, cx, cy in placed]
+    # Two stages, not one. A ring drawn as a single path has its aperture and its
+    # outline in the same colour, so a per-colour job is free to cut the outline first
+    # and free the part before its hole is in. Holes before rims.
+    holes = [f'  <path d="{rounded(cx, cy, r["ah"], r["ac"])}"/>' for r, cx, cy in placed]
+    lines = [f'  <path d="{rounded(cx, cy, r["oh"], r["oc"])}"/>' for r, cx, cy in placed]
     # throat is the aperture, rim is the outer edge — the same two the README's
     # "ø31 throat" and "Rim diameter" columns mean for the square bells
     ap, rim = 2*rings[0]["ah"], 2*rings[-1]["oh"]
@@ -276,7 +279,9 @@ def emit(rings, plies, step, path, morph, law):
         f'to round on the {morph} schedule, holding {law}. Each ring is {plies} '
         f'lamination(s) of {RISE:g}mm ply, {step:g}mm of rise, seating on the ring below '
         f'over {LAP}mm per side. Rings stack; they do not telescope.</desc>\n'
-        f'  <g fill="none" stroke="#000000" stroke-width="0.1">\n'
+        + '  <g fill="none" stroke="#ff8000" stroke-width="0.1">\n'
+        + "\n".join(holes) + "\n  </g>\n"
+        + '  <g fill="none" stroke="#000000" stroke-width="0.1">\n'
         + "\n".join(lines) + "\n  </g>\n</svg>\n")
     return W, H
 
