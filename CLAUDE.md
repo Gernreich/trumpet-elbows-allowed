@@ -1,5 +1,14 @@
 # CLAUDE.md
 
+**The 25mm sheets were retired on 2026-09-03.** Fifty files went: five round bells, four
+square ones, two mouthpieces, and all their sections, isometrics and turn pages. What is
+left is one bell and one mouthpiece, both at the 10mm bore. The generators are untouched
+and still take `--bore`, so a 25mm sheet is one command away and git has the old ones.
+
+Notes below that named a retired sheet now name the 10mm one. Where a note is *about* a
+retired sheet - the legacy mouthpiece layout, the hand-nested square bell - it is kept,
+because the reason it was written has not stopped being true.
+
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## What this is
@@ -132,8 +141,8 @@ of the bore viewers in `bore-ribbon`, and writes `<name>-turn.html` beside each
 cut file.
 
 ```sh
-python3 part-view.py bell/bell-round25-204mm-17rings-x4-rim145-cut-files.svg
-python3 part-view.py mouthpiece/mouthpiece-bore25-trumpet-parts-cut-files.svg
+python3 part-view.py bell/bell-round10-153mm-17rings-x3-rim86-cut-files.svg
+python3 part-view.py mouthpiece/mouthpiece-bore10-trumpet-parts-cut-files.svg
 ```
 
 It reads the ring sizes with **`bell-view.py`'s own `sections()`**, executed out
@@ -234,7 +243,7 @@ These have been cut. Treat every SVG as concurrently modified in Inkscape:
 
   This was not always so: numbering used to be a separate command you had to remember, and
   a regenerate silently threw the engraving away — `mouthpiece-round.py` with no arguments
-  cost `mouthpiece-bore25-legacy-parts-cut-files.svg` its numbering on 2026-08-31, restored from git. Changing
+  cost `mouthpiece-bore10-trumpet-parts-cut-files.svg` its numbering on 2026-08-31, restored from git. Changing
   the default was checked by regenerating all four sheets the switchback trumpet is cut from
   and diffing against the cut files: **byte-identical**, numbering included.
 
@@ -271,7 +280,7 @@ part that cannot stack — `--taper=4.0` exits with the reason.
 
 `mouthpiece-view.py` draws the OLD mouthpiece and only it: every ring a circle apart from a
 hardcoded square plate with a round bore, and "23 rings" in its label. Do not point it at
-`mouthpiece-bore25-legacy-parts-cut-files.svg`. `bell-view.py` reads corner radii and would draw it, but calls
+`mouthpiece-bore10-trumpet-parts-cut-files.svg`. `bell-view.py` reads corner radii and would draw it, but calls
 whatever it is given a bell.
 
 ## Numbering a sheet
@@ -294,7 +303,7 @@ would have inherited the same miscount. Subpath counting cannot separate them; *
 can**, and here it already does — blue is engraving, never a part. A sheet that already
 carries blue is refused outright rather than given a second set of labels.
 
-**It reads only what the generators write** — `M`, `H`, `V`, `A`, `Z`. `bell-square25-204mm-17rings-x4-rim129-cut-files.svg`
+**It reads only what the generators write** — `M`, `H`, `V`, `A`, `Z`. `bell-round10-153mm-17rings-x3-rim86-cut-files.svg`
 came back from Inkscape in relative commands and quadratic curves (`h l m q v z`), which this
 refuses by name rather than half-parsing into a plausible wrong answer.
 
@@ -319,7 +328,7 @@ when the profile was made rather than whether to cut it, and being the default m
 run produced the profile nobody wants. `--layout=asbuilt` now exits saying so rather than
 quietly doing something else.
 
-Check `mouthpiece-bore25-legacy-parts-cut-files.svg` still comes out byte-identical if you
+Check `mouthpiece-bore10-trumpet-parts-cut-files.svg` still comes out byte-identical if you
 touch the profile code.
 
 **The wall is per-ring, not a constant.** The seat above a ring is the wall of whichever
@@ -355,7 +364,7 @@ than the "Rim diameter" the README tabulates.
 
 **Every filename states its length, and `bell-round`'s its bore as well** — the length
 used to appear only when it was not 201mm, so a 100mm bell landing on 17 rings would
-overwrite `bell-square25-204mm-17rings-x4-rim129-cut-files.svg`, which is hand-nested and not reproducible from
+overwrite `bell-round10-153mm-17rings-x3-rim86-cut-files.svg`, which is hand-nested and not reproducible from
 the script. It also left `bell-round-67rings.svg` saying nothing about the tube it fits or
 how long it was, while `bell-round-99mm-11rings.svg` said one of the two. Both go in every
 name now, and in the `<title>`. Do not "tidy" `STEM` back.
@@ -387,11 +396,11 @@ cd bell && python3 bell-round.py 67 --morph=flare --law=width
 cd bell && python3 bell-round.py --length=99 --rim=80   # a half-size bell
 cd bell && python3 bell-round.py --bore=10 --length=152 --mouth=80   # the 10mm bell
 cd mouthpiece && python3 mouthpiece-round.py --bore=10 --rim=17 --layout=trumpet
-cd bell && python3 bell-section.py bell-square25-204mm-17rings-x4-rim129-cut-files.svg
-cd bell && python3 bell-view.py bell-round25-210mm-14rings-x5-rim145-cut-files.svg
-cd bell && python3 verify_bell.py bell-square25-204mm-17rings-x4-rim129-cut-files.svg
-cd bell && python3 number_rings.py bell-round25-99mm-11rings-x3-rim96-cut-files.svg   # engrave 0..A
-cd bell && python3 number_rings.py ../mouthpiece/mouthpiece-bore25-legacy-parts-cut-files.svg --order=document
+cd bell && python3 bell-section.py bell-round10-153mm-17rings-x3-rim86-cut-files.svg
+cd bell && python3 bell-view.py bell-round10-153mm-17rings-x3-rim86-cut-files.svg
+cd bell && python3 verify_bell.py bell-round10-153mm-17rings-x3-rim86-cut-files.svg
+cd bell && python3 number_rings.py bell-round10-153mm-17rings-x3-rim86-cut-files.svg   # engrave 0..A
+cd bell && python3 number_rings.py ../mouthpiece/mouthpiece-bore10-trumpet-parts-cut-files.svg --order=document
 cd mouthpiece && python3 mouthpiece-round.py    # square on the bore, round by the throat
 cd mouthpiece && python3 mouthpiece-cup.py      # the bowl that stacks on its end
 cd mouthpiece && python3 ../bell/number_rings.py mouthpiece-cup-parts-cut-files.svg --start=26  # not kept
