@@ -123,6 +123,33 @@ station rounder than the one below reaches less far into its corners than its ex
 half-width suggests. A wall of 2.6mm across a flat can be 1.97mm through a corner. Both
 floors are solved in closed form in `stations()`; do not reduce it to one.
 
+## Three viewers, and only one of them turns
+
+`bell-view.py` and `mouthpiece-view.py` each draw ONE fixed isometric SVG. That
+is the right thing for a page and no use for looking at an object.
+`part-view.py` draws the same geometry as a solid you can drag, in the family
+of the bore viewers in `bore-ribbon`, and writes `<name>-turn.html` beside each
+cut file.
+
+```sh
+python3 part-view.py bell/bell-round25-204mm-17rings-x4-rim145-cut-files.svg
+python3 part-view.py mouthpiece/mouthpiece-bore25-trumpet-parts-cut-files.svg
+```
+
+It reads the ring sizes with **`bell-view.py`'s own `sections()`**, executed out
+of that file rather than copied, so the two cannot come to disagree about what
+is on a sheet.
+
+Two things it has to do that the isometrics do not:
+
+- **`prof()` returns exactly n points whatever the corner radius.** `outline()`
+  gives four points for a square and `4*(per+1)` for anything rounded, and a
+  stack that mixes the two cannot be zipped into quads. It resamples by arc
+  length, which also stops a circle bunching its points at corners it does not
+  have.
+- **Every ring draws its full top annulus.** Working out which part the ring
+  above covers is unnecessary: the painter's order overdraws it.
+
 ## The view generators broke when the apertures moved colour
 
 On 2026-09-03 the apertures were split into their own orange group so they cut

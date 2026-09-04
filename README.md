@@ -416,6 +416,32 @@ Beside it, the outer diameter is another **6mm** larger again, because the rim r
 the 3mm lap each side: this bell is **ø80.0 of air inside a ø86.0 rim**. The `section` line
 now prints both, and the README's "Rim diameter" column has always been the outer one.
 
+## See them built
+
+Every sheet has two pictures. **Turn it** is a solid you can drag; the
+isometric is one fixed view, better for a page. Both are drawn from the cut
+file's own ring sizes, so neither can drift from what gets cut.
+
+| Part | Rings | Height | | |
+| --- | ---: | ---: | --- | --- |
+| [`mouthpiece-bore10-trumpet-parts`](mouthpiece/mouthpiece-bore10-trumpet-parts-cut-files.svg) | 30 | 90.0mm | [turn it](mouthpiece/mouthpiece-bore10-trumpet-parts-turn.html) | [isometric](mouthpiece/mouthpiece-bore10-trumpet-parts-view.svg) |
+| [`mouthpiece-bore25-legacy-parts`](mouthpiece/mouthpiece-bore25-legacy-parts-cut-files.svg) | 30 | 90.0mm | [turn it](mouthpiece/mouthpiece-bore25-legacy-parts-turn.html) | [isometric](mouthpiece/mouthpiece-bore25-legacy-parts-view.svg) |
+| [`mouthpiece-bore25-trumpet-parts`](mouthpiece/mouthpiece-bore25-trumpet-parts-cut-files.svg) | 30 | 90.0mm | [turn it](mouthpiece/mouthpiece-bore25-trumpet-parts-turn.html) | [isometric](mouthpiece/mouthpiece-bore25-trumpet-parts-view.svg) |
+| [`bell-round10-153mm-17rings-x3-rim86`](bell/bell-round10-153mm-17rings-x3-rim86-cut-files.svg) | 17 | 153.0mm | [turn it](bell/bell-round10-153mm-17rings-x3-rim86-turn.html) | [isometric](bell/bell-round10-153mm-17rings-x3-rim86-view.svg) |
+| [`bell-round25-201mm-67rings-x1-rim145`](bell/bell-round25-201mm-67rings-x1-rim145-cut-files.svg) | 67 | 201.0mm | [turn it](bell/bell-round25-201mm-67rings-x1-rim145-turn.html) | [isometric](bell/bell-round25-201mm-67rings-x1-rim145-view.svg) |
+| [`bell-round25-204mm-17rings-x4-rim145`](bell/bell-round25-204mm-17rings-x4-rim145-cut-files.svg) | 17 | 204.0mm | [turn it](bell/bell-round25-204mm-17rings-x4-rim145-turn.html) | [isometric](bell/bell-round25-204mm-17rings-x4-rim145-view.svg) |
+| [`bell-round25-210mm-10rings-x7-rim145`](bell/bell-round25-210mm-10rings-x7-rim145-cut-files.svg) | 10 | 210.0mm | [turn it](bell/bell-round25-210mm-10rings-x7-rim145-turn.html) | [isometric](bell/bell-round25-210mm-10rings-x7-rim145-view.svg) |
+| [`bell-round25-210mm-14rings-x5-rim145`](bell/bell-round25-210mm-14rings-x5-rim145-cut-files.svg) | 14 | 210.0mm | [turn it](bell/bell-round25-210mm-14rings-x5-rim145-turn.html) | [isometric](bell/bell-round25-210mm-14rings-x5-rim145-view.svg) |
+| [`bell-round25-99mm-11rings-x3-rim96`](bell/bell-round25-99mm-11rings-x3-rim96-cut-files.svg) | 11 | 99.0mm | [turn it](bell/bell-round25-99mm-11rings-x3-rim96-turn.html) | [isometric](bell/bell-round25-99mm-11rings-x3-rim96-view.svg) |
+| [`bell-square25-201mm-67rings-x1-rim129`](bell/bell-square25-201mm-67rings-x1-rim129-cut-files.svg) | 67 | 201.0mm | [turn it](bell/bell-square25-201mm-67rings-x1-rim129-turn.html) | [isometric](bell/bell-square25-201mm-67rings-x1-rim129-view.svg) |
+| [`bell-square25-204mm-17rings-x4-rim129`](bell/bell-square25-204mm-17rings-x4-rim129-cut-files.svg) | 17 | 204.0mm | [turn it](bell/bell-square25-204mm-17rings-x4-rim129-turn.html) | [isometric](bell/bell-square25-204mm-17rings-x4-rim129-view.svg) |
+| [`bell-square25-210mm-10rings-x7-rim129`](bell/bell-square25-210mm-10rings-x7-rim129-cut-files.svg) | 10 | 210.0mm | [turn it](bell/bell-square25-210mm-10rings-x7-rim129-turn.html) | [isometric](bell/bell-square25-210mm-10rings-x7-rim129-view.svg) |
+| [`bell-square25-210mm-14rings-x5-rim129`](bell/bell-square25-210mm-14rings-x5-rim129-cut-files.svg) | 14 | 210.0mm | [turn it](bell/bell-square25-210mm-14rings-x5-rim129-turn.html) | [isometric](bell/bell-square25-210mm-14rings-x5-rim129-view.svg) |
+
+`part-view.py` writes the turnable pages and `bell-view.py` /
+`mouthpiece-view.py` the isometrics. All three read the ring sizes with the
+same `sections()`.
+
 ## Colour is the cut order
 
 **Blue engraves, then green -> orange -> cyan -> black**, with black always the cut that
