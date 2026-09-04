@@ -30,6 +30,17 @@ generator and tool, indexed.
 
 **[Download everything as a ZIP](https://github.com/Gernreich/trumpet-parts/archive/refs/heads/main.zip)**
 
+<div class="tw">
+<table>
+<tr>
+<td align="center"><a href="bell/bell-round10-153mm-17rings-x3-rim86-cut-files.svg"><img src="bell/previews/bell-round10-153mm-17rings-x3-rim86-cut-files.svg" alt="The bell sheet: seventeen concentric rings that stack into a flare, nested inside one another so the waste of each is the next ring in" width="620"></a></td>
+</tr>
+<tr>
+<td align="center"><sub>bell/bell-round10-153mm-17rings-x3-rim86-cut-files.svg &middot; 187.2 &times; 191.9mm sheet</sub></td>
+</tr>
+</table>
+</div>
+
 ## What fits what
 
 The bore is cylindrical — constant section end to end — and the only part of a trumpet
