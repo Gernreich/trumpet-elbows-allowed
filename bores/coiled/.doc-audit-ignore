@@ -1,0 +1,23 @@
+# boxes.py is the external generator at https://www.festi.info/boxes.py/ — an
+# author and a tool, never a file here.
+
+boxes.py
+
+# The generator lives in the sibling repository ../octomino-snakes, so these are
+# named in prose and are not files in this one.
+
+bore_split.py
+snakebox.py
+viewer.py
+check.py
+mcwalk.py
+regress.py
+
+# The shared tools live in the sibling repository ../lasermade-tools.
+
+doc-audit.py
+md2html.py
+make-preview.py
+svg-stroke-check.py
+
+RegularBox.svg
