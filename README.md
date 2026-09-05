@@ -14,6 +14,7 @@ instrument here and the two ends are shared.
     parts/        the bell and the mouthpiece, shared by every bore
     bores/
       coiled/     25mm, coils flat and drops twice, no elbows
+      greek-spiral/ 10mm, a flat meander -- the Greek key, in one piece
       octagonal/  25mm, the flare form of the octagonal torus
       switchback/ 10mm, folds back on itself twice
       stretched/  10mm, straights longer than turns -- a test, not an instrument
@@ -59,10 +60,11 @@ splits with none. `bore_split.py --refuse-elbows` will not draw one.
 
 ## History
 
-This repository replaces ten, merged 2026-09-05 with their full history intact:
+This repository replaces eleven, merged 2026-09-05 with their full history intact:
 `bore-generator`, `bore-designs`, `bore-stretched`, `bore-ribbon`, `spirals`,
 `trumpet-coiled`, `trumpet-octagonal`, `trumpet-switchback`, `trumpet-parts`
-and `torus-octagonal`.
+`torus-octagonal` and `greek-spiral`, the last of which had never been pushed
+anywhere and existed only as a local checkout.
 
 Built for **[LaserMadeMusic](https://www.youtube.com/@LaserMadeMusic)**, where
 the cutting and the playing are shown.

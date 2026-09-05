@@ -13,7 +13,7 @@ are not here — they are shared with `../octagonal` and live in
 
 Sibling repositories — `torus-octagonal`, `trumpet-octagonal`, `knotwork-soundholes`,
 `living-hinge` and others — follow the same conventions. Shared documentation tooling
-lives in **`../lasermade-tools`** (its own repository).
+lives in **`../../../lasermade-tools`** (its own repository).
 
 ## The design is one line
 
@@ -136,7 +136,7 @@ concurrently modified:
 ## Commands
 
 ```sh
-G=../lasermade-tools
+G=../../../lasermade-tools
 S=../../tools
 ```
 

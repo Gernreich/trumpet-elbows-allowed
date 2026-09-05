@@ -405,7 +405,7 @@ by hand.
     node tools/table.js          # both tables, plain text
     node tools/table.js --md     # the same as markdown
     node tools/gen_readme.js     # this file
-    python3 ../lasermade-tools/md2html.py README.md index.html    # the published page
+    python3 ../../lasermade-tools/md2html.py README.md index.html    # the published page
 
     node tools/spiral_metrics.js "$(cat walks/coil_3x3_51.txt)"   # measure one walk
 

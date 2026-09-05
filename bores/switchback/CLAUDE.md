@@ -68,7 +68,7 @@ moving the result across, because they write into their own directory. Two traps
 
 Sibling repositories — `trumpet-coiled`, `trumpet-octagonal`, `torus-octagonal`,
 `knotwork-soundholes`, `living-hinge` and others — follow the same conventions. Shared
-documentation tooling lives in **`../lasermade-tools`** (its own repository).
+documentation tooling lives in **`../../../lasermade-tools`** (its own repository).
 
 ## The design is one line
 
@@ -276,7 +276,7 @@ never touching these SVGs.
 ## Commands
 
 ```sh
-G=../lasermade-tools
+G=../../../lasermade-tools
 S=../../tools
 ```
 

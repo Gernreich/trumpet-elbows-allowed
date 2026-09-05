@@ -2,7 +2,7 @@
 
 **Nothing in this repository has been cut.** It was generated on 2026-09-04, moved
 here out of the design library the same day, and gated at 85 checks. A passing gate
-means no check failed, not that the part is buildable — see `../bore-generator/CLAUDE.md`,
+means no check failed, not that the part is buildable — see `../../tools/CLAUDE.md`,
 which lists two bench failures the gate could not see. Say "gated" and not "built"
 until one exists.
 
@@ -11,8 +11,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## What this is
 
 The bore of a trumpet whose walk is a flat meander — the Greek key. It ships cut
-files only; the thing that makes them is **`../bore-generator`**, and the mouthpiece
-and bell are **`../trumpet-parts`**.
+files only; the thing that makes them is **`../../tools`**, and the mouthpiece
+and bell are **`../../parts`**.
 
 Read `README.md` first.
 
@@ -54,10 +54,10 @@ after any change and do not assume two sheets stays two.
 
 ## Not yet in the generator's corpus
 
-`../bore-generator/regress.py` gates every design in `walks/` on every toolchain
+`../../tools/regress.py` gates every design in `walks/` on every toolchain
 change. This walk is passed on the command line instead, so a regression that broke
 it would not be caught by anything. Adding `walks/greek_spiral.txt` and a row in
-`regress.py` pointing at `../greek-spiral/bore` at pitch 16 is the fix; it has not
+`regress.py` pointing at `./bore` at pitch 16 is the fix; it has not
 been done, and the README says so.
 
 ## Colour is the cut order
@@ -74,7 +74,7 @@ server, so a stale `index.html` publishes stale content — regenerate it after 
 the README, and read the audit before pushing:
 
 ```sh
-G=../lasermade-tools
+G=../../../lasermade-tools
 python3 $G/md2html.py README.md index.html
 python3 $G/doc-audit.py README.md --html index.html
 ```

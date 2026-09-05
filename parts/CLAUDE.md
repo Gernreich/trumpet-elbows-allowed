@@ -416,7 +416,7 @@ with no counters, so a sheet it numbers still counts correctly.
 **After editing either document** — regenerate the page, then audit both:
 
 ```sh
-G=../lasermade-tools
+G=../../lasermade-tools
 python3 $G/md2html.py README.md index.html
 python3 $G/doc-audit.py README.md --html index.html
 python3 $G/svg-stroke-check.py --dir . --quiet

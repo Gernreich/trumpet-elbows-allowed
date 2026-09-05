@@ -264,7 +264,7 @@ not that either is right. **A change to `extent()` has to be checked by hand.**
 **After editing `README.md`** — regenerate the page, then audit:
 
 ```sh
-G=../lasermade-tools
+G=../../../lasermade-tools
 python3 $G/md2html.py README.md index.html
 python3 $G/doc-audit.py README.md --html index.html
 python3 $G/svg-stroke-check.py --dir . --quiet
