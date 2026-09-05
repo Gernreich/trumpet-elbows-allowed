@@ -3,7 +3,7 @@
     U U3 N1 W1 S2 E2 N3 U1 W2 S3 E3 N4 U1 W4 S5 E5 N6 U1 W6 S7 E7 N8 U1
     W8 S9 E9 N10 U1 U
 
-114 blocks, 3534mm of bore in 310 x 279 x 341mm. 19 sections, 104 parts,
+114 blocks, 1824mm of bore in 310 x 279 x 341mm. 19 sections, 104 parts,
 23 cut files. 567 checks pass.
 
 The loops after the first grow by exactly two blocks each, legs 2k, 2k+1,

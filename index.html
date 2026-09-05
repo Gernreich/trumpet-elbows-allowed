@@ -113,7 +113,7 @@ node verify_torus.js octagonal-trumpet.svg RunA2_R59Point693.svg
 <p>Nothing is cut until it passes. From <code>tools/</code>:</p>
 <pre><code>~/boxes/venv/bin/python regress.py
 
-28 designs, 9135 checks</code></pre>
+29 designs, 9155 checks</code></pre>
 <p>Two lattices run through the same gate: <code>UNIFORM</code> designs sit on a cubic block, <code>STRETCHED</code> ones run their straights longer than their turns. They were checked by two forked copies of this toolchain until 2026-09-05, which meant a change to <code>bore_split.py</code> was only ever proved against whichever half you happened to be standing in. There is one copy now.</p>
 <p><code>snakebox.py</code> and <code>snakeboxvar.py</code> are <a href="https://github.com/florianfesti/boxes">Boxes.py</a> generators and are not standalone -- Boxes.py provides the finger joints, the burn compensation and the SVG writer. See <code>tools/README.md</code> to set that up.</p>
 <h2 id="no-elbows">No elbows</h2>

@@ -2,7 +2,7 @@
 
     U U3 N4 W4 S5 E5 N6 U3 W6 S7 E7 N8 U3 W8 S9 E9 N10 U3 U
 
-101 blocks, 3131mm of bore in 310 x 403 x 341mm. Ten sections, 72 parts,
+101 blocks, 1616mm of bore in 310 x 403 x 341mm. Ten sections, 72 parts,
 14 cut files. 354 checks pass.
 
 The Telescope Spiral redrawn so that no leg is shorter than three blocks.
@@ -33,8 +33,8 @@ Every piece is a bend. There is not one elbow, no flattened plate, no tongue
 and no unfilled corner - all of which exist only where a section meets an
 elbow.
 
-    Telescope Spiral   114 blocks  3534mm  19 sections  106 parts  11 elbows
-    Wide Telescope     101 blocks  3131mm  10 sections   72 parts   0 elbows
+    Telescope Spiral   114 blocks  1824mm  19 sections  106 parts  11 elbows
+    Wide Telescope     101 blocks  1616mm  10 sections   72 parts   0 elbows
 
 The difference is entirely leg length. The Telescope's innermost hook is
 N1 W1 S2 E2 - four legs too short to give their turns an arm - and lengthening

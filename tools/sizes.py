@@ -23,9 +23,10 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import bore_split as B                                        # noqa: E402
 import viewer                                                 # noqa: E402
 
-# label, the --blocksize it is cut at. Largest first: it is the one the design
-# was drawn for, and the small one reads as a reduction of it.
-SIZES = [('25mm', 31.0), ('10mm', 16.0)]
+# label, the --blocksize it is cut at. The default first: it is the one the
+# design is drawn for, and the other reads as a variation on it. That order
+# flipped on 2026-09-05, when 10mm became the default and 25mm was retired.
+SIZES = [('10mm', 16.0), ('25mm', 31.0)]
 
 
 def main(walk_name, out):

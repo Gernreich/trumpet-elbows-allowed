@@ -2,7 +2,7 @@
 
     U U3 N2 W2 S4 E4 U2 N6 W6 S8 E8 U2 N10 W10 S12 E12 U3 U
 
-95 blocks, 2945mm of centreline. An expanding square spiral: three loops, each
+95 blocks, 1520mm of centreline. An expanding square spiral: three loops, each
 wider than the last, rising two blocks between them, entering and leaving
 upward. 11 sections, 68 flat parts, 16 sheets.
 

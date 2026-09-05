@@ -112,7 +112,7 @@ one that names the instrument. `trumpet-coiled/bore` still reads "Trumpet Coiled
 switchback's reads "Trumpet Switchback 10mm Bore" rather than "10mm Bore".
 
 `check.py --files` never looks at the pitch: it checks the written sheets for bed fit,
-overlaps and engraving on material, all of which a 16mm folder passes at `--blocksize=31`.
+overlaps and engraving on material, all of which a 31mm folder passes at `--blocksize=16`.
 The pitch decides the *geometry* half of the gate, which is recut in-process. Gate a folder
 at the wrong blocksize and it reports 194 checks and 0 failed on a design nobody cut.
 

@@ -58,7 +58,7 @@ cp /path/to/bore-generator/snakebox.py boxes/generators/
 ## Usage
 
 ```sh
-boxes SnakeBox --path=RRUULLD --blocksize=31 --thickness=3 --burn=0.1 \
+boxes SnakeBox --path=RRUULLD --blocksize=16 --thickness=3 --burn=0.1 \
       --labels=0 --reference=0 --inner_corners=corner --spacing=0.5
 ```
 
@@ -111,7 +111,7 @@ turn a path can express is three cells. For a compact corner, give one cell and
 name the open faces:
 
 ```sh
-boxes SnakeBox --path= --open_faces=S,E --blocksize=31
+boxes SnakeBox --path= --open_faces=S,E --blocksize=16
 ```
 
 That is a 31mm cube with two adjacent faces open — four parts, each 31.2 × 31.2
@@ -136,7 +136,7 @@ four symmetric positions engage.
 Because those two openings share an edge, the elbow has no material along it,
 and neither neighbouring tube reaches it either — one stops at one opening
 plane, the other at the other. That leaves the **inside of the bend open by
-`t` × `t` across the bore's width**: 3 × 3 × 25 = 225mm^3 at `blocksize=31`.
+`t` × `t` across the bore's width**: 3 × 3 × 10 = 90mm^3 at the default `blocksize=16`.
 Modelled as solids it is sealed from outside by the two neighbours' walls and
 the elbow's plates, so it is a notch in the bore rather than a leak — but it
 shows as a gap where the two neighbouring walls fail to meet.
@@ -206,7 +206,7 @@ off, so it cannot come back by accident.
 internal bore = blocksize - 2 * thickness
 ```
 
-So a 25mm bore needs `--blocksize=31` at 3mm material, and a 10mm bore needs
+So a 10mm bore is the default `--blocksize=16` at 3mm material, and a 25mm bore needs
 `--blocksize=16`. This is the number people get wrong.
 
 `bore_split.py` takes it as `--blocksize=N` and moves both halves at once — the

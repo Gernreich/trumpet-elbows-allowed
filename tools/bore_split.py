@@ -41,9 +41,9 @@ file plus one file per distinct run length.
     python3 bore_split.py "D R1 F" --bore=10 --straight=30
         straights 30mm long with the turns left cubic, so the bore lengthens
         without the walk changing. The cross-section stays square either way.
-    python3 bore_split.py "D R1 F" --blocksize=16    a smaller bore: the
-        pitch is the sound square plus two walls, so 16 is 10mm of air in 3mm
-        stock, where the default 31 is 25mm of air. Pass the same number to
+    python3 bore_split.py "D R1 F" --blocksize=31    a larger bore: the
+        pitch is the sound square plus two walls, so 31 is 25mm of air in 3mm
+        stock, where the default 16 is 10mm of air. Pass the same number to
         check.py or the gate measures the wrong design.
 """
 import html, os, re, subprocess, sys, xml.etree.ElementTree as ET
@@ -59,7 +59,10 @@ DIRS = {'E': (1, 0, 0), 'W': (-1, 0, 0), 'U': (0, 1, 0),
 BOXES = os.environ.get('SNAKEBOX_BOXES', os.path.expanduser('~/boxes'))
 PY = os.environ.get('SNAKEBOX_PY', os.path.join(BOXES, 'venv/bin/python'))
 BED_W, BED_H = 600.0, 308.0   # xTool P2S work area, mm
-BLOCK, PIN, BURN = 31.0, 1.5, 0.1   # block pitch, tab reach, kerf allowance
+BLOCK, PIN, BURN = 16.0, 1.5, 0.1   # block pitch, tab reach, kerf allowance
+# 16mm is 10mm of air in 3mm stock. It became the default on 2026-09-05, when
+# the 25mm bore was retired: the bell and the mouthpiece went 10mm-only on
+# 2026-09-03 and nothing was left to put on the end of a 25mm tube.
 FEWEST_ELBOWS = True          # --fewest-pieces turns this off
 # Fewest is not none. A build repository wants none, and wants to be told rather
 # than handed a folder to inspect, so --refuse-elbows stops before anything is
@@ -82,7 +85,7 @@ TITLE = None        # --title: the page's title, when the folder makes a poor on
 # block there was. It is a fraction of the opening it has to sit in, not a
 # length, so it has to shrink with the block: at 16mm the end frame is 10mm
 # across and a 12mm tab does not fit in it at all. 0.48 reproduces 12 exactly
-# at the 25mm square, so the default block is untouched.
+# at the 25mm square, which was the default until 2026-09-05.
 PIN_FRAC = 0.48
 MIN_SHOULDER = 2.0   # what the automatic sizing aims to leave beside the tab
 MIN_FEATURE = 1.5    # and what check.py will actually refuse below

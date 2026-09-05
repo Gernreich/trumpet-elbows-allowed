@@ -129,7 +129,7 @@ STRETCHED = [
 DESIGNS = UNIFORM + STRETCHED
 
 # The stock pitch, read once at import and before any design has moved it.
-_DEFAULT_BLOCK = 31.0
+_DEFAULT_BLOCK = 16.0
 
 
 def _norm(entry):

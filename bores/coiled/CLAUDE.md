@@ -41,18 +41,18 @@ python3 bore_split.py ./bore/bore.html \
 Never hand-edit the walk in the page without regenerating, and never transcribe it from
 memory — read it out of the file.
 
-## One block is 31mm, not 25
+## One block is 16mm, not 10
 
 The error that invalidates a build sheet, so it goes first: a
-block is 25 × 25 × 25mm of sound space wrapped in **3mm of wall**, so its outside is
-**31mm**, and coring it out for air does not shrink it. A run of *N* blocks is **31N mm**
-along the bore. The 59 blocks here are 1829mm of centreline.
+block is 10 × 10 × 10mm of sound space wrapped in **3mm of wall**, so its outside is
+**16mm**, and coring it out for air does not shrink it. A run of *N* blocks is **16N mm**
+along the bore. The 59 blocks here are 944mm of centreline.
 
 Standard flags, and they must stay uniform across the set — mixing `burn` changes finger
 joint fit while every outside dimension still matches, which no drawing shows:
 
 ```
---blocksize=31 --thickness=3 --burn=0.1 --labels=0 --reference=0
+--blocksize=16 --thickness=3 --burn=0.1 --labels=0 --reference=0
 --inner_corners=corner --spacing=0.5
 ```
 

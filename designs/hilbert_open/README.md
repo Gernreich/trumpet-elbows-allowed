@@ -2,7 +2,7 @@
 
     python3 hilbert.py 2 --scale 3
 
-190 blocks, 5890mm of bore in a 310mm cube. 27 sections, 220 parts, 28 cut
+190 blocks, 3040mm of bore in a 310mm cube. 27 sections, 220 parts, 28 cut
 files. 1010 checks pass. No elbows, no flattened plates, no tongues, no
 unfilled corners, and nothing touching anything.
 
@@ -13,7 +13,7 @@ blocks leaves one arm for the piece behind and one for the piece ahead.
     order/scale    blk    bore   sect  parts  elbow  flats  voids   cube
     2 at x1         64  1984mm     63    252     56     48     44   124mm
     2 at x2        127  3937mm     45    248     22     26      4   217mm
-    2 at x3        190  5890mm     27    220      0      0      0   310mm
+    2 at x3        190  3040mm     27    220      0      0      0   310mm
     2 at x4        253  7843mm     27    220      0      0      0   403mm
 
 Scale 3 is where it saturates: 4 costs 63 more blocks and changes nothing about

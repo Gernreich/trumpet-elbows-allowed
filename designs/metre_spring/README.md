@@ -2,7 +2,7 @@
 
     N N4 U3 E4 U3 S4 U3 W4 U3 N4 N
 
-33 blocks, 1023mm of bore in 155 x 403 x 155mm. Five sections, 36 parts,
+33 blocks, 528mm of bore in 155 x 403 x 155mm. Five sections, 36 parts,
 five cut files, one sheet each. 169 checks pass, with no warnings of any kind.
 
 A square coil, four blocks a side, rising three between quarters. Designed to

@@ -20,7 +20,7 @@ and the playing are shown.
 files and its page. GitHub builds it from `main` on every push, so it is never out of date.
 
 **The bore being built is the coiled trumpet:**
-[`N N3 U6 W5 N10 E5 D3 S8 W3 D3 N12 N`](pages/coiled_trumpet.html) — 59 blocks, 1829mm,
+[`N N3 U6 W5 N10 E5 D3 S8 W3 D3 N12 N`](pages/coiled_trumpet.html) — 59 blocks, 944mm,
 8 sections, **no elbows anywhere**. Its cut files and writeup are in
 [trumpet-coiled](https://github.com/Gernreich/trumpet/tree/main/bores/coiled). Everything below is how
 that design was arrived at, starting from a first trumpet that used elbows and worked out
@@ -54,7 +54,7 @@ which is what the rest of this page goes on to price. Compare it against the
 [coiled trumpet](pages/coiled_trumpet.html), which does the same job with none.
 
 [`N N10 U2 W2 S7 U2 E4 N9 W2 D2 N4 N`](first_trumpet/first_trumpet.html) — 45 blocks,
-1395mm of centreline. **Every walk on this page is a link**: follow one and the bore
+720mm of centreline. **Every walk on this page is a link**: follow one and the bore
 opens in a page you can turn around with the mouse, colour by direction or by section,
 and step through block by block.
 
@@ -75,7 +75,7 @@ than spares, and on sections 1, 3, 4, 6 and 8 they genuinely differ, one having
 a coupling the other does not. The plate whose seam edge has no notch or tab is
 the one that faces the elbow.
 
-44 flat parts, 3mm stock, 25mm square bore throughout, every sheet inside the
+44 flat parts, 3mm stock, 10mm square bore throughout, every sheet inside the
 xTool P2S bed of 600 x 308mm.
 
 **Couplings kept, six sides flattened.** An elbow's opening frame has three
