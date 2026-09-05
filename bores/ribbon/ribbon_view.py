@@ -8,11 +8,15 @@ Writes one self-contained HTML page beside the cut files it belongs to, so a
 design folder holds the thing you cut and the thing you turn around, and they
 cannot drift apart.
 
-It draws the AIRWAY, not the parts - the passage the air actually takes,
-bounded by the wall faces at +-bore/2 and the cheeks at +-bore/2. That is
-deliberate: the section this repository is about is a property of the airway,
-and a picture of the plywood would not show it. The bore came out 3mm narrow
-for a week because nothing drew the space inside it.
+It draws the AIRWAY first - the passage the air actually takes, bounded by
+the wall faces at +-bore/2 and the cheeks at +-bore/2. That is why it exists:
+the bore came out 3mm narrow for a week because nothing drew the space inside
+it, and a picture of the plywood alone would not have shown that.
+
+It also draws the two cheek plates at full band width, because the airway on
+its own reads as a much thinner object than the part you cut. Eight faces, not
+four: the six airway faces, then 'ply, top' and 'ply, bottom'. Colour by face
+to tell them apart.
 
 Nothing here gates anything. check the cut files with ribbon_bore.py; this is
 for looking.

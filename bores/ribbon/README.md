@@ -62,10 +62,12 @@ and not 180. Treat
 its length as ±1%: the traced width scatters 30.7 to 35.5mm about that nominal.
 
 Built by [`ribbon_view.py`](ribbon_view.py), which takes the same flags as the
-generator, plus `--trace=`. **It draws the airway, not the plywood** — the passage the air takes,
-bounded by the wall faces. That is the point: the section this repository is
-about is a property of the airway, and the bore was cut 3mm narrow for a week
-because nothing drew the space inside it.
+generator, plus `--trace=`. **It draws the airway first** — the passage the air takes, bounded by the
+wall faces. That is the point: the section this generator is about is a property
+of the airway, and the bore was cut 3mm narrow for a week because nothing drew
+the space inside it. It draws the two cheek plates as well, at full band width,
+because the airway alone reads as a much thinner object than the part you cut —
+so colour by face and you get eight, the last two being the ply.
 
 The cut files themselves are hairlines on no background, which is close to
 invisible on a page, so `previews/` holds a readable rendering of each — same
@@ -525,3 +527,7 @@ If 0.80mm is too much, the gap is `thickness × tan(φ/2)`, so it comes down wit
 the facet angle: **0.53mm at 20°, 0.40mm at 15°**. Halving it means 15°, not 20°
 — and 15° costs a bend radius of R 45 at this bore, because the inner panels
 shrink as the facets do and the tooth still does not scale.
+
+## Licence
+
+CC0 1.0 Universal. See [`LICENSE`](LICENSE).

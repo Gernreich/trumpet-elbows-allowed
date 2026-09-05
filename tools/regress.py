@@ -93,9 +93,10 @@ UNIFORM = [
     # risers between loops are the only thing leaving the plane
     ('wide telescope', 'walks/wide_telescope.txt', '../designs/wide_telescope'),
     # A flat meander -- the Greek key wound all the way in and brought back out
-    # beside itself. 68 blocks that split into ONE piece: the only design here
-    # with no section seam at all, so it is what keeps the single-piece path
-    # honest, and the only one whose cut files run to two sheets.
+    # beside itself. 68 blocks that split into ONE piece, so it has no section
+    # seam at all. '4 corners, flat' is single-piece too, but at 8 blocks; this
+    # one exercises that path at a size where it matters, and is the only design
+    # here whose cut files run to two sheets.
     ('greek spiral', 'walks/greek_spiral.txt',
      '../bores/greek-spiral/bore', ['--bore=10']),
     # two-piece walks that turn: the smallest cases where a bend has to carry

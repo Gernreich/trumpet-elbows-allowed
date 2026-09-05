@@ -272,16 +272,21 @@ check should not be sitting there looking cuttable. It also means a copy of
 this script tried out in this folder writes to, and then deletes, the real cut
 file. That happened. Use `--out` for trials.
 
-## `ribbon_view.py` draws the airway, not the plywood
+## `ribbon_view.py` draws the airway, and the ply around it
 
 One self-contained page per design, beside the cut files it belongs to, so the
 thing you cut and the thing you turn around cannot drift apart. Same flags as
 the generator.
 
-**It draws the passage, bounded by the wall faces at ±bore/2 — not the parts.**
-That is the whole reason it exists: the bore was cut 3mm narrow for a week and
-nothing in this repository drew the space inside it. A picture of the plywood
-would not have shown it; a picture of the airway would.
+**It draws the passage, bounded by the wall faces at ±bore/2.** That is the
+whole reason it exists: the bore was cut 3mm narrow for a week and nothing here
+drew the space inside it. A picture of the plywood alone would not have shown
+it; a picture of the airway would.
+
+**The two cheek plates were added later**, at full band width, because the
+airway on its own reads as a much thinner object than the part you cut. So a
+current page has eight faces, not four — `ply, top` and `ply, bottom` after the
+six airway ones. A page with only four was drawn before that and is stale.
 
 It reuses `offset()` for the wall faces rather than reading the cut files, so
 it cannot disagree with the generator about where anything is. It is *not* the

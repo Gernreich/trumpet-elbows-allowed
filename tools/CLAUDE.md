@@ -161,7 +161,7 @@ library. It is the only reason any of this stays honest, it takes about four
 minutes, and **it must pass before anything is pushed**:
 
 ```sh
-python3 regress.py       # all 25 designs, ~8000 checks
+python3 regress.py       # all 29 designs, ~9200 checks
 ```
 
 A change that alters cut geometry and still passes has not been proved right —
@@ -182,7 +182,7 @@ would cost one cannot be cut by accident:
     error: --refuse-elbows: section 2 of 3 is an elbow. Nothing written.
 
 It is off by default because much of the library exists to exercise elbows —
-17 of the 25 designs in `regress.py` contain them, the Hilbert curves 22 and 24 —
+17 of the 29 designs in `regress.py` contain them, the Hilbert curves 22 and 24 —
 so turning it on globally would refuse the corpus. Use it on anything headed for
 a build repository.
 

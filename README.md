@@ -41,7 +41,7 @@ Nothing is cut until it passes. From `tools/`:
 
     ~/boxes/venv/bin/python regress.py
 
-    28 designs, 9135 checks
+    29 designs, 9220 checks
 
 Two lattices run through the same gate: `UNIFORM` designs sit on a cubic block,
 `STRETCHED` ones run their straights longer than their turns. They were checked
