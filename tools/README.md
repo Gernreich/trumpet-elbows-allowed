@@ -589,13 +589,18 @@ interpreter runs everything and no environment variables are needed:
 | `hilbert.py` | emits a Hilbert cube as a walk |
 | `regress.py` | runs the gate over every design in `walks/` and the design library |
 | `svgpath.py` | reads the point list back out of an SVG path |
+| `snakebox.py` | the Boxes.py generator that draws one flat piece on a cubic lattice |
+| `snakeboxvar.py` | the same, for a lattice whose straight blocks run longer than its turns |
+| `coils.py` | writes one page holding several coils, rather than one page each |
+| `sizes.py` | the block-pitch and bore arithmetic the other scripts share |
 
-`bore_split.py` writes to `../designs` by default — the design library, kept
-outside every repository. Override it with an explicit path to `--write`.
+`bore_split.py` writes to `../designs` by default — the design library, which
+sat outside every repository until they became one. Override it with an explicit
+path to `--write`.
 
 ## `walks/`
 
-Twenty-four bores kept as one line of notation each, and the corpus `regress.py`
+Twenty-nine bores kept as one line of notation each, and the corpus `regress.py`
 runs the gate over. They exist because every one of them broke something once:
 
 | Group | Files | What they hold onto |

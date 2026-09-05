@@ -272,9 +272,11 @@ Invert the 59.693 disc instead and it lands at 58.149 / 61.149 — a **22mm** ri
 Route A steps above, and verified: 20 contours, holes concentric with their plates, joint phase
 complementary, no overlaps, and a cut order that never frees a part before it is cut.
 
-**Two things before you send it**, both immediately below: the violet lines are not part of
-the torus, and the four cut colours have to run in the right order. Do those and the file cuts
-as-is — no scaling, no kerf compensation, no edits.
+**Two things before you send it.** The first is immediately below: the violet lines are
+not part of the torus. The second is **[Colour is the cut order](#colour-is-the-cut-order)**,
+further down past the trumpet — the four cut colours have to run in the stated order, and a
+per-colour job silently skips any colour you leave unmapped. Do both and the file cuts as-is —
+no scaling, no kerf compensation, no edits. **Do not send it having read only the first.**
 
 It is specific to **this** build — R 90 outer, 25 × 25mm cross-section, 3mm material. At any other
 size or thickness use Route A, or Part 11 for the general formulas; none of the widths carry over.
