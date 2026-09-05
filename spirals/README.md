@@ -13,8 +13,15 @@ exhaustive search for something tighter.
 reading, and the only place the viewer links below open a model you can turn rather
 than a page of HTML source.
 
+**[Download the whole repository as a ZIP](https://github.com/Gernreich/trumpet/archive/refs/heads/main.zip)**
+— every trumpet and every tool, not the walks alone; these pages are under `spirals/`.
+GitHub builds it from `main` on every push, so it is never out of date.
+
 **[The rest of the build files](https://gernreich.github.io/)** — every instrument,
 generator and tool, indexed.
+
+Built for **[LaserMadeMusic](https://www.youtube.com/@LaserMadeMusic)**, where the cutting
+and the playing are shown.
 
 ## Standardised
 
@@ -71,23 +78,23 @@ requirement is none of it at any length.
 
 | spiral | blocks | mm | envelope | box | cross-section | along axis | pieces | distinct | period | rhythm | mean plate mm2 | touching |
 | --- | ---: | ---: | --- | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| [`coil_3x3_51`](pages/coil_3x3_51.html) | 190 | 5890 | 3 x 3 x 46 | 414 | 3 x 3 blk / 93 x 93 mm | 46 / 1426 mm | 34 | 4 | 8 tm / 21 blk | 4 x8.5 | 8428 | 7 |
-| [`coil_3x7_22`](pages/coil_3x7_22.html) | 181 | 5611 | 3 x 7 x 20 | 420 | 3 x 7 blk / 93 x 217 mm | 20 / 620 mm | 38 | 4 | 8 tm / 18 blk | 4 x9.5 | 6240 | 17 |
-| [`coil_3x8_20`](pages/coil_3x8_20.html) | 181 | 5611 | 3 x 8 x 18 | 432 | 3 x 8 blk / 93 x 248 mm | 18 / 558 mm | 34 | 4 | 8 tm / 20 blk | 4 x8.5 | 7728 | 15 |
-| [`coil_3x9_18`](pages/coil_3x9_18.html) | 177 | 5487 | 3 x 9 x 16 | 432 | 3 x 9 blk / 93 x 279 mm | 16 / 496 mm | 30 | 4 | 8 tm / 22 blk | 4 x7.5 | 8736 | 13 |
-| [`coil_3x3_54`](pages/coil_3x3_54.html) | 177 | 5487 | 3 x 3 x 49 | 441 | 3 x 3 blk / 93 x 93 mm | 49 / 1519 mm | 30 | 4 | 8 tm / 22 blk | 4 x7.5 | 9216 | 0 |
-| [`coil_3x3_54_2`](pages/coil_3x3_54_2.html) | 177 | 5487 | 3 x 3 x 49 | 441 | 3 x 3 blk / 93 x 93 mm | 49 / 1519 mm | 30 | 4 | 8 tm / 22 blk | 4 x7.5 | 9216 | 0 |
-| [`coil_3x3_59`](pages/coil_3x3_59.html) | 181 | 5611 | 3 x 3 x 54 | 486 | 3 x 3 blk / 93 x 93 mm | 54 / 1674 mm | 34 | 4 | 8 tm / 20 blk | 4 x8.5 | 7728 | 0 |
-| [`coil_2x2_134`](pages/coil_2x2_134.html) | 177 | 5487 | 2 x 2 x 126 | 504 | 2 x 2 blk / 62 x 62 mm | 126 / 3906 mm | 42 | 2 | 8 tm / 16 blk | 4 x10.5 | 6240 | 0 |
-| [`coil_4x7_20`](pages/coil_4x7_20.html) | 181 | 5611 | 4 x 7 x 18 | 504 | 4 x 7 blk / 124 x 217 mm | 18 / 558 mm | 34 | 4 | 8 tm / 20 blk | 4 x8.5 | 7248 | 15 |
-| [`coil_4x8_18`](pages/coil_4x8_18.html) | 177 | 5487 | 4 x 8 x 16 | 512 | 4 x 8 blk / 124 x 248 mm | 16 / 496 mm | 30 | 4 | 8 tm / 22 blk | 4 x7.5 | 8636 | 13 |
-| [`coil_5x7_18`](pages/coil_5x7_18.html) | 177 | 5487 | 5 x 7 x 16 | 560 | 5 x 7 blk / 155 x 217 mm | 16 / 496 mm | 30 | 4 | 8 tm / 22 blk | 4 x7.5 | 8255 | 13 |
-| [`coil_4x9_18`](pages/coil_4x9_18.html) | 193 | 5983 | 4 x 9 x 16 | 576 | 4 x 9 blk / 124 x 279 mm | 16 / 496 mm | 30 | 4 | 8 tm / 24 blk | 4 x7.5 | 10224 | 13 |
-| [`coil_5x8_18`](pages/coil_5x8_18.html) | 193 | 5983 | 5 x 8 x 16 | 640 | 5 x 8 blk / 155 x 248 mm | 16 / 496 mm | 30 | 4 | 8 tm / 24 blk | 4 x7.5 | 10704 | 13 |
-| [`coil_4x4_50`](pages/coil_4x4_50.html) | 193 | 5983 | 4 x 4 x 46 | 736 | 4 x 4 blk / 124 x 124 mm | 46 / 1426 mm | 45 | 8 | 16 tm / 48 blk | 12 x3.8 | 5568 | 0 |
-| [`coil_3x4_68`](pages/coil_3x4_68.html) | 177 | 5487 | 4 x 3 x 63 | 756 | 3 x 4 blk / 93 x 124 mm | 63 / 1953 mm | 41 | 4 | 6 tm / 16 blk | 4 x10.3 | 5934 | 0 |
-| [`coil_3x4_79`](pages/coil_3x4_79.html) | 188 | 5828 | 4 x 3 x 73 | 876 | 3 x 4 blk / 93 x 124 mm | 73 / 2263 mm | 43 | 4 | 8 tm / 17 blk | 4 x10.8 | 6593 | 0 |
-| [`coil_5x5_50`](pages/coil_5x5_50.html) | 177 | 5487 | 5 x 5 x 46 | 1150 | 5 x 5 blk / 155 x 155 mm | 46 / 1426 mm | 45 | 8 | 16 tm / 44 blk | 12 x3.8 | 4897 | 0 |
+| [`coil_3x3_51`](pages/coil_3x3_51.html) | 190 | 5890 | 3 x 3 x 46 | 414 | 3 x 3 blk / 93 x 93mm | 46 / 1426mm | 34 | 4 | 8 tm / 21 blk | 4 x8.5 | 8428 | 7 |
+| [`coil_3x7_22`](pages/coil_3x7_22.html) | 181 | 5611 | 3 x 7 x 20 | 420 | 3 x 7 blk / 93 x 217mm | 20 / 620mm | 38 | 4 | 8 tm / 18 blk | 4 x9.5 | 6240 | 17 |
+| [`coil_3x8_20`](pages/coil_3x8_20.html) | 181 | 5611 | 3 x 8 x 18 | 432 | 3 x 8 blk / 93 x 248mm | 18 / 558mm | 34 | 4 | 8 tm / 20 blk | 4 x8.5 | 7728 | 15 |
+| [`coil_3x9_18`](pages/coil_3x9_18.html) | 177 | 5487 | 3 x 9 x 16 | 432 | 3 x 9 blk / 93 x 279mm | 16 / 496mm | 30 | 4 | 8 tm / 22 blk | 4 x7.5 | 8736 | 13 |
+| [`coil_3x3_54`](pages/coil_3x3_54.html) | 177 | 5487 | 3 x 3 x 49 | 441 | 3 x 3 blk / 93 x 93mm | 49 / 1519mm | 30 | 4 | 8 tm / 22 blk | 4 x7.5 | 9216 | 0 |
+| [`coil_3x3_54_2`](pages/coil_3x3_54_2.html) | 177 | 5487 | 3 x 3 x 49 | 441 | 3 x 3 blk / 93 x 93mm | 49 / 1519mm | 30 | 4 | 8 tm / 22 blk | 4 x7.5 | 9216 | 0 |
+| [`coil_3x3_59`](pages/coil_3x3_59.html) | 181 | 5611 | 3 x 3 x 54 | 486 | 3 x 3 blk / 93 x 93mm | 54 / 1674mm | 34 | 4 | 8 tm / 20 blk | 4 x8.5 | 7728 | 0 |
+| [`coil_2x2_134`](pages/coil_2x2_134.html) | 177 | 5487 | 2 x 2 x 126 | 504 | 2 x 2 blk / 62 x 62mm | 126 / 3906mm | 42 | 2 | 8 tm / 16 blk | 4 x10.5 | 6240 | 0 |
+| [`coil_4x7_20`](pages/coil_4x7_20.html) | 181 | 5611 | 4 x 7 x 18 | 504 | 4 x 7 blk / 124 x 217mm | 18 / 558mm | 34 | 4 | 8 tm / 20 blk | 4 x8.5 | 7248 | 15 |
+| [`coil_4x8_18`](pages/coil_4x8_18.html) | 177 | 5487 | 4 x 8 x 16 | 512 | 4 x 8 blk / 124 x 248mm | 16 / 496mm | 30 | 4 | 8 tm / 22 blk | 4 x7.5 | 8636 | 13 |
+| [`coil_5x7_18`](pages/coil_5x7_18.html) | 177 | 5487 | 5 x 7 x 16 | 560 | 5 x 7 blk / 155 x 217mm | 16 / 496mm | 30 | 4 | 8 tm / 22 blk | 4 x7.5 | 8255 | 13 |
+| [`coil_4x9_18`](pages/coil_4x9_18.html) | 193 | 5983 | 4 x 9 x 16 | 576 | 4 x 9 blk / 124 x 279mm | 16 / 496mm | 30 | 4 | 8 tm / 24 blk | 4 x7.5 | 10224 | 13 |
+| [`coil_5x8_18`](pages/coil_5x8_18.html) | 193 | 5983 | 5 x 8 x 16 | 640 | 5 x 8 blk / 155 x 248mm | 16 / 496mm | 30 | 4 | 8 tm / 24 blk | 4 x7.5 | 10704 | 13 |
+| [`coil_4x4_50`](pages/coil_4x4_50.html) | 193 | 5983 | 4 x 4 x 46 | 736 | 4 x 4 blk / 124 x 124mm | 46 / 1426mm | 45 | 8 | 16 tm / 48 blk | 12 x3.8 | 5568 | 0 |
+| [`coil_3x4_68`](pages/coil_3x4_68.html) | 177 | 5487 | 4 x 3 x 63 | 756 | 3 x 4 blk / 93 x 124mm | 63 / 1953mm | 41 | 4 | 6 tm / 16 blk | 4 x10.3 | 5934 | 0 |
+| [`coil_3x4_79`](pages/coil_3x4_79.html) | 188 | 5828 | 4 x 3 x 73 | 876 | 3 x 4 blk / 93 x 124mm | 73 / 2263mm | 43 | 4 | 8 tm / 17 blk | 4 x10.8 | 6593 | 0 |
+| [`coil_5x5_50`](pages/coil_5x5_50.html) | 177 | 5487 | 5 x 5 x 46 | 1150 | 5 x 5 blk / 155 x 155mm | 46 / 1426mm | 45 | 8 | 16 tm / 44 blk | 12 x3.8 | 4897 | 0 |
 
 Envelope, box and cross-section are in blocks; a block is 31mm of centreline. Sorted by
 box, smallest first.
@@ -167,23 +174,23 @@ is something to avoid, the smallest box is not the one to build.
 
 | spiral | axis | rotation | turns | blocks/360 | rise/360 blk / mm | deg/block | 90deg turns | turns/m | longest straight |
 | --- | :-: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| [`coil_3x3_51`](pages/coil_3x3_51.html) | N | 2970 | 8.25 | 21.6 | 5.45 / 169 | 16.7 | 68 | 12.3 | 4 blk / 124 mm |
-| [`coil_3x7_22`](pages/coil_3x7_22.html) | N | 3420 | 9.50 | 18.0 | 2.00 / 62 | 20.0 | 76 | 14.3 | 3 blk / 93 mm |
-| [`coil_3x8_20`](pages/coil_3x8_20.html) | N | 3060 | 8.50 | 20.0 | 2.00 / 62 | 18.0 | 68 | 12.9 | 4 blk / 124 mm |
-| [`coil_3x9_18`](pages/coil_3x9_18.html) | N | 2700 | 7.50 | 22.0 | 2.00 / 62 | 16.4 | 60 | 11.7 | 4 blk / 124 mm |
-| [`coil_3x3_54`](pages/coil_3x3_54.html) | N | 2610 | 7.25 | 22.8 | 6.62 / 205 | 15.8 | 60 | 11.7 | 4 blk / 124 mm |
-| [`coil_3x3_54_2`](pages/coil_3x3_54_2.html) | N | 2610 | 7.25 | 22.8 | 6.62 / 205 | 15.8 | 60 | 11.7 | 4 blk / 124 mm |
-| [`coil_3x3_59`](pages/coil_3x3_59.html) | N | 2970 | 8.25 | 20.6 | 6.42 / 199 | 17.5 | 68 | 12.9 | 3 blk / 93 mm |
-| [`coil_2x2_134`](pages/coil_2x2_134.html) | N | 3690 | 10.25 | 16.4 | 12.20 / 378 | 22.0 | 84 | 16.1 | 3 blk / 93 mm |
-| [`coil_4x7_20`](pages/coil_4x7_20.html) | N | 3060 | 8.50 | 20.0 | 2.00 / 62 | 18.0 | 68 | 12.9 | 3 blk / 93 mm |
-| [`coil_4x8_18`](pages/coil_4x8_18.html) | N | 2700 | 7.50 | 21.9 | 2.00 / 62 | 16.5 | 60 | 11.8 | 4 blk / 124 mm |
-| [`coil_5x7_18`](pages/coil_5x7_18.html) | N | 2700 | 7.50 | 22.0 | 2.00 / 62 | 16.4 | 60 | 11.7 | 4 blk / 124 mm |
-| [`coil_4x9_18`](pages/coil_4x9_18.html) | N | 2700 | 7.50 | 24.0 | 2.00 / 62 | 15.0 | 60 | 10.8 | 4 blk / 124 mm |
-| [`coil_5x8_18`](pages/coil_5x8_18.html) | N | 2700 | 7.50 | 24.0 | 2.00 / 62 | 15.0 | 60 | 10.8 | 4 blk / 124 mm |
-| [`coil_4x4_50`](pages/coil_4x4_50.html) | N | 4050 | 11.25 | 16.0 | 4.00 / 124 | 22.5 | 60 | 10.8 | 3 blk / 93 mm |
-| [`coil_3x4_68`](pages/coil_3x4_68.html) | N | 3600 | 10.00 | 16.3 | 6.20 / 192 | 22.1 | 61 | 12.1 | 3 blk / 93 mm |
-| [`coil_3x4_79`](pages/coil_3x4_79.html) | N | 3780 | 10.50 | 17.2 | 6.86 / 213 | 20.9 | 84 | 15.0 | 3 blk / 93 mm |
-| [`coil_5x5_50`](pages/coil_5x5_50.html) | N | 4050 | 11.25 | 14.7 | 4.00 / 124 | 24.5 | 60 | 11.7 | 3 blk / 93 mm |
+| [`coil_3x3_51`](pages/coil_3x3_51.html) | N | 2970 | 8.25 | 21.6 | 5.45 / 169 | 16.7 | 68 | 12.3 | 4 blk / 124mm |
+| [`coil_3x7_22`](pages/coil_3x7_22.html) | N | 3420 | 9.50 | 18.0 | 2.00 / 62 | 20.0 | 76 | 14.3 | 3 blk / 93mm |
+| [`coil_3x8_20`](pages/coil_3x8_20.html) | N | 3060 | 8.50 | 20.0 | 2.00 / 62 | 18.0 | 68 | 12.9 | 4 blk / 124mm |
+| [`coil_3x9_18`](pages/coil_3x9_18.html) | N | 2700 | 7.50 | 22.0 | 2.00 / 62 | 16.4 | 60 | 11.7 | 4 blk / 124mm |
+| [`coil_3x3_54`](pages/coil_3x3_54.html) | N | 2610 | 7.25 | 22.8 | 6.62 / 205 | 15.8 | 60 | 11.7 | 4 blk / 124mm |
+| [`coil_3x3_54_2`](pages/coil_3x3_54_2.html) | N | 2610 | 7.25 | 22.8 | 6.62 / 205 | 15.8 | 60 | 11.7 | 4 blk / 124mm |
+| [`coil_3x3_59`](pages/coil_3x3_59.html) | N | 2970 | 8.25 | 20.6 | 6.42 / 199 | 17.5 | 68 | 12.9 | 3 blk / 93mm |
+| [`coil_2x2_134`](pages/coil_2x2_134.html) | N | 3690 | 10.25 | 16.4 | 12.20 / 378 | 22.0 | 84 | 16.1 | 3 blk / 93mm |
+| [`coil_4x7_20`](pages/coil_4x7_20.html) | N | 3060 | 8.50 | 20.0 | 2.00 / 62 | 18.0 | 68 | 12.9 | 3 blk / 93mm |
+| [`coil_4x8_18`](pages/coil_4x8_18.html) | N | 2700 | 7.50 | 21.9 | 2.00 / 62 | 16.5 | 60 | 11.8 | 4 blk / 124mm |
+| [`coil_5x7_18`](pages/coil_5x7_18.html) | N | 2700 | 7.50 | 22.0 | 2.00 / 62 | 16.4 | 60 | 11.7 | 4 blk / 124mm |
+| [`coil_4x9_18`](pages/coil_4x9_18.html) | N | 2700 | 7.50 | 24.0 | 2.00 / 62 | 15.0 | 60 | 10.8 | 4 blk / 124mm |
+| [`coil_5x8_18`](pages/coil_5x8_18.html) | N | 2700 | 7.50 | 24.0 | 2.00 / 62 | 15.0 | 60 | 10.8 | 4 blk / 124mm |
+| [`coil_4x4_50`](pages/coil_4x4_50.html) | N | 4050 | 11.25 | 16.0 | 4.00 / 124 | 22.5 | 60 | 10.8 | 3 blk / 93mm |
+| [`coil_3x4_68`](pages/coil_3x4_68.html) | N | 3600 | 10.00 | 16.3 | 6.20 / 192 | 22.1 | 61 | 12.1 | 3 blk / 93mm |
+| [`coil_3x4_79`](pages/coil_3x4_79.html) | N | 3780 | 10.50 | 17.2 | 6.86 / 213 | 20.9 | 84 | 15.0 | 3 blk / 93mm |
+| [`coil_5x5_50`](pages/coil_5x5_50.html) | N | 4050 | 11.25 | 14.7 | 4.00 / 124 | 24.5 | 60 | 11.7 | 3 blk / 93mm |
 
 A coil turns about one axis while travelling down it. Drop that axis and what is left —
 the lateral projection — is what rotates, and on a cubic lattice it can only turn in
@@ -409,9 +416,9 @@ by hand.
 
     node tools/spiral_metrics.js "$(cat walks/coil_3x3_51.txt)"   # measure one walk
 
-    cd ../tools         # rebuild a viewer page
-    ~/boxes/venv/bin/python viewer.py "$(cat ./walks/coil_3x3_51.txt)" \
-        --out ./pages/coil_3x3_51.html --title "coil 3x3 51"
+    cd ../tools            # rebuild a viewer page
+    ~/boxes/venv/bin/python viewer.py "$(cat ../spirals/walks/coil_3x3_51.txt)" \
+        --out ../spirals/pages/coil_3x3_51.html --title "coil 3x3 51"
 
 ## What has not been done
 

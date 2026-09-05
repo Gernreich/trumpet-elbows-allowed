@@ -1,4 +1,4 @@
-// Verify a torus-octagonal cut file: geometry, joint phase, and nesting clearances.
+// Verify an octagonal torus cut file: geometry, joint phase, and nesting clearances.
 //
 // Named for what it knows. It understands one object -- an octagonal torus with plates
 // at R 90, a hole at apothem 58.149 and a five-colour cut order -- and its build sheet,

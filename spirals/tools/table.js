@@ -38,8 +38,8 @@ const TABLES = {
            'pieces', 'distinct', 'period', 'rhythm', 'mean plate mm2', 'touching'],
     align:['---', '---:', '---:', '---', '---:', '---', '---:', '---:', '---:', '---:', '---:', '---:', '---:'],
     row: r => [link(r), r.full.blocks, r.full.mm, r.m.size.join(' x '), r.m.vol,
-               r.m.cross.join(' x ') + ' blk / ' + r.m.crossMM.join(' x ') + ' mm',
-               r.m.axisLen + ' / ' + r.m.axisLenMM + ' mm',
+               r.m.cross.join(' x ') + ' blk / ' + r.m.crossMM.join(' x ') + 'mm',
+               r.m.axisLen + ' / ' + r.m.axisLenMM + 'mm',
                r.p.innerPieces ?? '-', r.p.interiorDistinct ?? '-',
                r.per.terms ? r.per.terms + ' tm / ' + r.per.blocks + ' blk' : '-',
                r.p.rhythm ? r.p.rhythm + ' x' + r.p.repeats.toFixed(1) : '-',
@@ -54,7 +54,7 @@ const TABLES = {
                r.m.risePer360.toFixed(2) + ' / ' + Math.round(r.m.riseMMPer360),
                r.m.degPerBlock.toFixed(1), r.m.turns90,
                r.m.turnsPerMetre.toFixed(1),
-               r.m.longestStraight + ' blk / ' + r.m.longestStraightMM + ' mm']
+               r.m.longestStraight + ' blk / ' + r.m.longestStraightMM + 'mm']
   }
 };
 

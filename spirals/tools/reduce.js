@@ -21,7 +21,7 @@
 // Usage: node tools/reduce.js [--write]
 const fs = require('fs'), cp = require('child_process'), path = require('path');
 const root = path.join(__dirname, '..');
-const GEN  = path.join(root, '..', 'bore-generator');
+const GEN  = path.join(root, '..', 'tools');
 const PY   = process.env.BORE_PY || (process.env.HOME + '/boxes/venv/bin/python');
 const { metrics } = require('./spiral_metrics.js');
 const { orient, periodOf, blocksOf, buildWalk, split, TARGET } = require('./standardise.js');

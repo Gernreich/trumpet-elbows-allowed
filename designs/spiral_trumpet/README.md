@@ -2,7 +2,7 @@
 
     U U3 N2 W2 S4 E4 U2 N6 W6 S8 E8 U2 N10 W10 S12 E12 U3 U
 
-95 blocks, 2945 mm of centreline. An expanding square spiral: three loops, each
+95 blocks, 2945mm of centreline. An expanding square spiral: three loops, each
 wider than the last, rising two blocks between them, entering and leaving
 upward. 11 sections, 68 flat parts, 16 sheets.
 
@@ -20,19 +20,19 @@ upward. 11 sections, 68 flat parts, 16 sheets.
     11   82-95    bend     11x4 bl 344x127   11_bend_RRRRRRRRRRUUU.svg
 
 Sections 9 and 10 are one loop of the spiral, cut in two: as a single piece it
-would be 11 by 13 blocks, 406 x 344 mm, which is 36 mm over the bed. The
+would be 11 by 13 blocks, 406 x 344mm, which is 36mm over the bed. The
 splitter takes the bed into account when it groups, so this came out as two
 cuttable pieces rather than one that cannot be made.
 
 Sections 6, 10 and 11 need more than one sheet - their parts together are
 taller than the bed even though every part fits it.
 
-Section 1 carries a lap: its wall runs 3 mm past the joint as a tongue and
+Section 1 carries a lap: its wall runs 3mm past the joint as a tongue and
 fills the inside of the bend below the first elbow.
 
 The insides of the bends at sections 5 and 8 are left open. Neither neighbour
 can carry a tongue on a wall there, so it would have to go on a plate, which is
-not supported. Each is a 3 x 3 x 25 mm void on the inside of the turn, sealed
+not supported. Each is a 3 x 3 x 25mm void on the inside of the turn, sealed
 from outside by the surrounding walls - a notch in the bore rather than a leak.
 
 ## The pictures

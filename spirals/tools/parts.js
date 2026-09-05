@@ -11,7 +11,7 @@
 // Usage: node tools/parts.js            (rebuild the cache)
 const fs = require('fs'), cp = require('child_process'), path = require('path');
 const root = path.join(__dirname, '..');
-const GEN  = path.join(root, '..', 'bore-generator');
+const GEN  = path.join(root, '..', 'tools');
 const PY   = process.env.BORE_PY || (process.env.HOME + '/boxes/venv/bin/python');
 
 const out = {};
@@ -36,8 +36,13 @@ for (const f of fs.readdirSync(path.join(root, 'walks')).filter(f => f.endsWith(
     const m = l.match(/^\s+\d+\s+\d+-\d+\s+(\w+)\s/);
     if (m) kinds[m[1]] = (kinds[m[1]] || 0) + 1;
   }
-  // a cut-list entry is NN_<kind>_<shape>.svg; the shape is what makes it distinct
-  const seq = [...res.matchAll(/^\s+\d+\s+\d+_(\S+)\.svg/gm)].map(m => m[1]);
+    // A cut-list entry is <bore><n>-<design>-NNofMM-<kind>-<shape>-cut-files.svg
+    // since 2026-09-03, when the design's name went into the file's name. It was
+    // NN_<kind>_<shape>.svg before that, and this parsed only the old form -- so
+    // it matched nothing and every shape count came out zero, silently. Hyphens
+    // fold back to underscores so the strings match what parts.json has held.
+    const seq = [...res.matchAll(/^\s+\d+\s+\S*?-\d+of\d+-(\S+?)-cut-files\.svg/gm)]
+                  .map(m => m[1].replace(/-/g, '_'));
   const shapes = new Set(seq);
   // The rhythm: how many pieces you lay before the sequence starts over. The
   // first and last piece are the bore's mouth and exit and are one-offs, so the

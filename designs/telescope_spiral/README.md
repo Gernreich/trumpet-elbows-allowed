@@ -3,7 +3,7 @@
     U U3 N1 W1 S2 E2 N3 U1 W2 S3 E3 N4 U1 W4 S5 E5 N6 U1 W6 S7 E7 N8 U1
     W8 S9 E9 N10 U1 U
 
-114 blocks, 3534 mm of bore in 310 x 279 x 341 mm. 19 sections, 104 parts,
+114 blocks, 3534mm of bore in 310 x 279 x 341mm. 19 sections, 104 parts,
 23 cut files. 567 checks pass.
 
 The loops after the first grow by exactly two blocks each, legs 2k, 2k+1,
@@ -22,7 +22,7 @@ and the loops differ in size, so no rotation can either.
 Five square loops, each one wider than the last, stacked as they grow - which
 is where the name comes from, one drawing out of the next. The mouth is a
 3-block stem at the bottom and the bell leaves through the top of the last
-loop, both vertical, 589 mm apart.
+loop, both vertical, 589mm apart.
 
     #    blocks    kind      plate         file
     1    1-3       straight  3x1 bl        01_straight3_lapS.svg
@@ -53,5 +53,5 @@ Writing `U2` instead costs 4 blocks, folds each elbow pair into the neighbouring
 bend, and removes all nine open corners.
 
 Thirteen pairs of blocks touch without being joined along the bore - the loops
-run alongside each other. Legal and sealed; it means 6 mm of wood between those
+run alongside each other. Legal and sealed; it means 6mm of wood between those
 runs rather than 3.

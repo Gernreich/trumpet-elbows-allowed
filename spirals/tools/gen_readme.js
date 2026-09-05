@@ -98,12 +98,19 @@ The one this started from is ${L(yours)}; the other ${rows.length - 1} came out 
 exhaustive search for something tighter.
 
 <!-- readme-only -->
-**[Read it as a page](https://gernreich.github.io/spirals/)** — the same text set for
+**[Read it as a page](https://gernreich.github.io/trumpet/spirals/)** — the same text set for
 reading, and the only place the viewer links below open a model you can turn rather
 than a page of HTML source.
 
+**[Download the whole repository as a ZIP](https://github.com/Gernreich/trumpet/archive/refs/heads/main.zip)**
+— every trumpet and every tool, not the walks alone; these pages are under \`spirals/\`.
+GitHub builds it from \`main\` on every push, so it is never out of date.
+
 **[The rest of the build files](https://gernreich.github.io/)** — every instrument,
 generator and tool, indexed.
+
+Built for **[LaserMadeMusic](https://www.youtube.com/@LaserMadeMusic)**, where the cutting
+and the playing are shown.
 
 ## Standardised
 
@@ -416,7 +423,7 @@ in \`checks/\`.
     node tools/run_checks.sh     # re-run the gate over every walk
 
 \`check.py\` needs shapely, numpy and scipy, which live in the Boxes.py venv — run it with
-\`~/boxes/venv/bin/python\`, as \`../../tools/README.md\` says. The system python3 does
+\`~/boxes/venv/bin/python\`, as \`../tools/README.md\` says. The system python3 does
 not have them.
 
 ## How they were found
@@ -467,9 +474,9 @@ by hand.
 
     node tools/spiral_metrics.js "$(cat walks/${rows[0].name}.txt)"   # measure one walk
 
-    cd ../../tools         # rebuild a viewer page
-    ~/boxes/venv/bin/python viewer.py "$(cat ../walks/${rows[0].name}.txt)" \\
-        --out ../pages/${rows[0].name}.html --title "${rows[0].name.replace(/_/g,' ')}"
+    cd ../tools            # rebuild a viewer page
+    ~/boxes/venv/bin/python viewer.py "$(cat ../spirals/walks/${rows[0].name}.txt)" \\
+        --out ../spirals/pages/${rows[0].name}.html --title "${rows[0].name.replace(/_/g,' ')}"
 
 ## What has not been done
 
