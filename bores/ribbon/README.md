@@ -40,7 +40,7 @@ Two more draw instruments that live in other repositories, and they are the only
 things here still cut at 25mm — the objects are, so their names say so.
 
 [`ribbon-torus-bore25-45deg-R76.html`](ribbon-torus-bore25-45deg-R76.html) is
-**[torus-octagonal](https://gernreich.github.io/torus-octagonal/) drawn as a
+**[torus-octagonal](https://gernreich.github.io/trumpet/torus/) drawn as a
 ribbon bore**, which is what it is — a closed ring of eight 45° facets at
 25 × 25mm. Extrapolated from that repository's own cut file: a centreline
 octagon of circumradius 76.4696 puts the airway between apothems 58.149 and
@@ -81,7 +81,7 @@ a light ground.
 | | curve | section | joints |
 | --- | --- | --- | --- |
 | [`bore-generator`](https://github.com/Gernreich/trumpet/tree/main/tools) | 90° lattice turns | +41.4% at each turn | finger joints |
-| [`torus-octagonal`](https://github.com/Gernreich/torus-octagonal) | a circle, 45° facets | +8.2% at each facet | finger joints |
+| [`torus-octagonal`](https://github.com/Gernreich/trumpet/tree/main/torus) | a circle, 45° facets | +8.2% at each facet | finger joints |
 | **`bore-ribbon`** | **any planar curve** | **+3.5% at 30°, and the dial goes lower** | **finger joints** |
 
 ## Why a planar curve

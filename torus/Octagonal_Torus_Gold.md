@@ -101,9 +101,10 @@ boxes.py — Part 11's formula and the inversion offset, both done for you.
 
 - **[`BuildA1_90_25.svg`](BuildA1_90_25.svg)** — the cut file. On GitHub use the ⤓ *Download raw
   file* button; clicking the name only previews it.
-- **[Everything as a ZIP](https://github.com/Gernreich/torus-octagonal/archive/refs/heads/main.zip)**
-  — cut file, this writeup, the diagram, the verification tools.
-- **[Repository](https://github.com/Gernreich/torus-octagonal)** — every file named below lives here.
+- **[The whole repository as a ZIP](https://github.com/Gernreich/trumpet/archive/refs/heads/main.zip)**
+  — the cut file, this writeup, the diagram and the verification tools are under
+  `torus/`; the trumpets are beside them.
+- **[The torus directory](https://github.com/Gernreich/trumpet/tree/main/torus)** — every file named below lives here.
 
 ---
 

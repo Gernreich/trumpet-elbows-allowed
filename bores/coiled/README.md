@@ -4,7 +4,7 @@ A trumpet bore in 25 × 25mm square section that **coils flat and drops twice**,
 eight box sections with **no elbows at all** — every turn happens inside a section, so
 every joint is a flat face glued to a flat face. Companion to the
 [octagonal trumpet](https://github.com/Gernreich/trumpet/tree/main/bores/octagonal) and the
-[octagonal torus](https://github.com/Gernreich/torus-octagonal), which share the same
+[octagonal torus](https://github.com/Gernreich/trumpet/tree/main/torus), which share the same
 25 × 25mm channel. Cut from 3mm Baltic birch plywood, millimetre-true at
 `1 user unit = 1mm`, so it prints and cuts at real size.
 

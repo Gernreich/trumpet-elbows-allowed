@@ -18,12 +18,19 @@ instrument here and the two ends are shared.
       switchback/ 10mm, folds back on itself twice
       stretched/  10mm, straights longer than turns -- a test, not an instrument
       ribbon/     constant section swept along a planar curve
+    torus/        the octagonal torus: the ring bores/octagonal is cut from
     designs/      every walk built out as cut files and a page
     spirals/      coiling walks, with the numbers that say what each one costs
 
-The **[octagonal torus](https://github.com/Gernreich/torus-octagonal)** stays in
-its own repository. It is a torus, not a trumpet, and `bores/octagonal` is the
-cut that opens it out into one.
+`torus/` is not a bore, which is why it sits beside `bores/` rather than inside
+it. It is the ring, and `bores/octagonal` is the same geometry opened out into a
+curve -- the same 25 x 25mm channel, and literally the same R 90 plate. That
+sharing is checkable in one command now that both are here:
+
+    cd torus
+    node verify_torus.js ../bores/octagonal/octagonal-trumpet.svg \
+        ../../torus/RunA2_R59Point693.svg
+    # -> COMPLEMENTARY the plate's tabs land in the panel's notches
 
 ## The gate
 
@@ -52,9 +59,10 @@ splits with none. `bore_split.py --refuse-elbows` will not draw one.
 
 ## History
 
-This repository replaces nine, merged 2026-09-05 with their full history intact:
+This repository replaces ten, merged 2026-09-05 with their full history intact:
 `bore-generator`, `bore-designs`, `bore-stretched`, `bore-ribbon`, `spirals`,
-`trumpet-coiled`, `trumpet-octagonal`, `trumpet-switchback` and `trumpet-parts`.
+`trumpet-coiled`, `trumpet-octagonal`, `trumpet-switchback`, `trumpet-parts`
+and `torus-octagonal`.
 
 Built for **[LaserMadeMusic](https://www.youtube.com/@LaserMadeMusic)**, where
 the cutting and the playing are shown.

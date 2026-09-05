@@ -1,6 +1,6 @@
 # Octagonal trumpet
 
-The trumpet form of the **[octagonal torus](https://gernreich.github.io/torus-octagonal/)**:
+The trumpet form of the **[octagonal torus](https://gernreich.github.io/trumpet/torus/)**:
 the same 25 × 25mm square channel and the same R 90 octagonal plate, opened out into a
 curve instead of closed into a ring. Cut from 3mm Baltic birch plywood,
 millimetre-true at `1 user unit = 1mm`, so it prints and cuts at real size.
@@ -65,8 +65,8 @@ off the page.
 
 **The plate is the torus's plate.** Rim at apothem 86.149, hole at 58.149, hole concentric
 with the rim to within 0.001mm, and the same joint phase along every face. Checked against
-the torus's own R 59.693 run with
-[its verifier](https://github.com/Gernreich/torus-octagonal/blob/main/verify_torus.js), the result
+the torus's own R 59.693 run ([`torus/RunA2_R59Point693.svg`](../../torus/RunA2_R59Point693.svg)) with
+[its verifier](../../torus/verify_torus.js), the result
 is **COMPLEMENTARY ✓** — the plate's tabs land in the panel's notches — so the side panels cut for the torus mate with this plate
 too, and a dry-fit done for one is a dry-fit done for both.
 
@@ -91,9 +91,9 @@ The numbers live in
 with how they were taken, and the bore is drawn, turnable, at
 [bore-ribbon](https://gernreich.github.io/trumpet/bores/ribbon/).
 
-**It is kept out of the cut file deliberately.** Red is a cut colour in every
-repository here, so a red path on a sheet is a path the laser tries to cut —
-[the torus's verifier](https://github.com/Gernreich/torus-octagonal/blob/main/verify_torus.js)
+**It is kept out of the cut file deliberately.** Red is a cut colour throughout this
+repository, so a red path on a sheet is a path the laser tries to cut —
+[the torus's verifier](../../torus/verify_torus.js)
 says so in as many words: *#ff0000 is a cut colour with no place in the cut
 order*. Drawing it there also grew the canvas from
 444 × 485mm to **798 × 492mm**, wider than the 600mm bed.

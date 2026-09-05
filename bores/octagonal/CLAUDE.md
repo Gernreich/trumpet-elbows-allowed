@@ -7,7 +7,7 @@ sheet** — `octagonal-trumpet.svg`, 444.077 × 484.599mm — plus the page desc
 
 **There is no generator here, and that is the important thing about this repository.** Every
 other trumpet repository writes its sheets from a script; this one does not. The sheet is
-the trumpet form of the **[octagonal torus](https://github.com/Gernreich/torus-octagonal)**,
+the trumpet form of the **[octagonal torus](https://github.com/Gernreich/trumpet/tree/main/torus)**,
 derived from that plate by hand and edited in Inkscape — the file still carries its layer
 markers. Nothing regenerates it, so nothing can restore it.
 
@@ -43,9 +43,20 @@ grep -o 'stroke:#[0-9a-f]*' octagonal-trumpet.svg | sort | uniq -c
 ## The plate is shared with the torus
 
 Rim at apothem 86.149, hole at 58.149, and the same joint phase — so a panel cut for the
-torus mates with one cut here. Those numbers belong to `torus-octagonal`; if they ever move,
-they move there first and this sheet follows. That repository's `verify_torus.js` is what
-checks them.
+torus mates with one cut here. Those numbers belong to `../../torus`; if they ever move,
+they move there first and this sheet follows. `torus/verify_torus.js` is what checks them,
+and since 2026-09-05 it can check them without leaving the tree:
+
+```bash
+cd ../../torus
+node verify_torus.js ../bores/octagonal/octagonal-trumpet.svg ../../torus/RunA2_R59Point693.svg
+# -> COMPLEMENTARY ✓  the plate's tabs land in the panel's notches
+```
+
+Note the second path. `verify_torus.js` resolves its reference disc relative to the
+**first** argument's directory, not the working directory — an assumption that cost
+nothing while both files sat in one repository and is worth knowing now they do not
+sit in one folder.
 
 ## The page
 
