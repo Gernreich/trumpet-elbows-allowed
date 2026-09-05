@@ -225,7 +225,7 @@ exactly on their minimum, so shortening any middle term costs an elbow at once.
 
 Sections 3 and 6 are the same shape, and 7 and 10; they are cut separately so
 each carries its own engraved number. [`coil-10x10x30-3t/coil-10x10x30-3t.html`](coil-10x10x30-3t/coil-10x10x30-3t.html) is its
-viewer, and [`tools/walks/coil-3t.txt`](tools/walks/coil-3t.txt) holds the walk.
+viewer, and [`../../tools/walks/coil-3t.txt`](../../tools/walks/coil-3t.txt) holds the walk.
 
     cd tools
     python3 bore_split.py --bore=10 --straight=30 --refuse-elbows \
@@ -306,45 +306,53 @@ it at the tooth for that reason, and that is the width used here.
 
 Every seam runs SLOT to TAB, and the two outer ends carry neither.
 
-## The toolchain is a fork, on purpose
+## The toolchain, and the fork that used to be here
 
-`tools/` is a copy of
-**[bore-generator](https://github.com/Gernreich/trumpet/tree/main/tools)**, changed to
-handle a lattice whose cells are not all the same length. That repository and
-every repository it cuts for are **frozen**: they keep the scripts they were
-gated against, and nothing here touches them.
+`tools/` here **was** a copy of the bore generator, changed to handle a lattice whose
+cells are not all the same length. It is not a copy any more. On **2026-09-05** the
+fork was collapsed: the generalised versions were promoted into
+[`../../tools`](../../tools) and the copy deleted, after checking that all 24 uniform
+designs passed on them with identical check counts and that the cut files regenerated
+byte-identical in geometry.
 
-Its generator installs into Boxes.py as **`SnakeBoxVar`**, beside the frozen
-`SnakeBox` rather than over it, so both are available at once.
+The generalisation was always a superset — cell indices became real millimetre boxes,
+so a straight block can run longer than a turn — which is why one toolchain can now
+gate both lattices. It does: `regress.py` carries a `UNIFORM` table and a `STRETCHED`
+one and runs them together, so a change proved against a cube is proved against these
+coils too. That was the point. While there were two copies, a change to `bore_split.py`
+was only ever proved against whichever half you happened to be standing in.
+
+Its generator installs into Boxes.py as **`SnakeBoxVar`**, beside `SnakeBox` rather
+than over it, so both are available at once. That part is unchanged.
 
 | file | what it does |
 | --- | --- |
-| `tools/bore_split.py` | turns a walk into pieces and drives the generator |
-| `tools/snakeboxvar.py` | the Boxes.py generator that draws one flat piece |
-| `tools/check.py` | the gate: every check that runs before anything is cut |
-| `tools/assemble.py` | voxels the assembled bore, for the seal and volume checks |
-| `tools/viewer.py` | writes the 3D page beside the cut files, one coil or several |
-| `tools/coils.py` | writes `coils.html`, every coil in one page |
-| `tools/bore_render.py` | the colours and direction names the viewer uses |
-| `tools/svgpath.py` | reads and writes the path data |
-| `tools/regress.py` | runs the gate over both designs at once |
-| `tools/walks/coil-0.75t.txt` | the 0.75-turn coil |
-| `tools/walks/coil-1.5t.txt` | the 1.5-turn coil |
-| `tools/walks/coil-2.25t.txt` | the 2.25-turn coil |
-| `tools/walks/coil-3t.txt` | the 3-turn coil |
+| [`../../tools/bore_split.py`](../../tools/bore_split.py) | turns a walk into pieces and drives the generator |
+| [`../../tools/snakeboxvar.py`](../../tools/snakeboxvar.py) | the Boxes.py generator that draws one flat piece |
+| [`../../tools/check.py`](../../tools/check.py) | the gate: every check that runs before anything is cut |
+| [`../../tools/assemble.py`](../../tools/assemble.py) | voxels the assembled bore, for the seal and volume checks |
+| [`../../tools/viewer.py`](../../tools/viewer.py) | writes the 3D page beside the cut files, one coil or several |
+| [`../../tools/coils.py`](../../tools/coils.py) | writes `coils.html`, every coil in one page |
+| [`../../tools/bore_render.py`](../../tools/bore_render.py) | the colours and direction names the viewer uses |
+| [`../../tools/svgpath.py`](../../tools/svgpath.py) | reads and writes the path data |
+| [`../../tools/regress.py`](../../tools/regress.py) | runs the gate over every design, both lattices |
+| [`../../tools/walks/coil-0.75t.txt`](../../tools/walks/coil-0.75t.txt) | the 0.75-turn coil |
+| [`../../tools/walks/coil-1.5t.txt`](../../tools/walks/coil-1.5t.txt) | the 1.5-turn coil |
+| [`../../tools/walks/coil-2.25t.txt`](../../tools/walks/coil-2.25t.txt) | the 2.25-turn coil |
+| [`../../tools/walks/coil-3t.txt`](../../tools/walks/coil-3t.txt) | the 3-turn coil |
 
 ```sh
-cd tools
+cd ../../tools
 python3 bore_split.py --bore=10 --straight=30 --refuse-elbows \
     --title="10x10x30 Coil, 1½ Turns" \
-    "$(cat walks/coil-1.5t.txt)" --write ../coil-10x10x30-1.5t
+    "$(cat walks/coil-1.5t.txt)" --write ../bores/stretched/coil-10x10x30-1.5t
 ```
 
 `--bore` is the airway, square, rather than the block outside. `--straight` is
-how long a straight block runs; leave it out and every cell is a cube, which is
-exactly what the frozen toolchain does. `--notch` would size the coupling from
-the female side and move the tab to suit; **this design does not use it**, so
-the tab keeps the finger-tooth width and the fit is set by `PIN_PLAY` alone.
+how long a straight block runs; leave it out and every cell is a cube. `--notch`
+would size the coupling from the female side and move the tab to suit; **this design
+does not use it**, so the tab keeps the finger-tooth width and the fit is set by
+`PIN_PLAY` alone.
 
 ## What had to change, and what it cost
 

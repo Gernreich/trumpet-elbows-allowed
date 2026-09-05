@@ -463,7 +463,7 @@ by hand.
     node tools/table.js          # both tables, plain text
     node tools/table.js --md     # the same as markdown
     node tools/gen_readme.js     # this file
-    python3 ../lasermade-tools/md2html.py README.md index.html    # the published page
+    python3 ../../lasermade-tools/md2html.py README.md index.html    # the published page
 
     node tools/spiral_metrics.js "$(cat walks/${rows[0].name}.txt)"   # measure one walk
 

@@ -95,9 +95,11 @@ Counted from the file, not from the prose — do the same before trusting it:
 grep -o 'stroke:#[0-9a-f]\{6\}' BuildA1_90_25.svg | sort | uniq -c
 ```
 
-**The plate is shared with [trumpet-octagonal](https://github.com/Gernreich/trumpet-octagonal)**,
-which cuts the same R 90 plate opened into a curve. Its geometry follows this repository's,
-not the other way round: if the apothem or the joint phase ever moves, it moves here first.
+**The plate is shared with the trumpet**, `octagonal-trumpet.svg` in this same
+directory, which cuts the same R 90 plate opened into a curve. The torus's geometry
+leads: if the apothem or the joint phase ever moves, it moves on the ring first and the
+trumpet sheet follows. They were two repositories until 2026-09-05 and one writeup
+covers both now.
 
 ## Two documents, and they are two different pages
 
