@@ -166,7 +166,7 @@ node tools/gen_scoring.js    # SCORING.md</code></pre>
 <h2 id="the-gate">The gate</h2>
 <p>Every walk here has been through <code>check.py</code> — the parts, the sections, the seams, and a voxel model of the assembled bore flooded from the outside to prove it is one sealed passage. <strong>20,894 checks across 17 spirals, 0 failed.</strong> The per-walk output is in <code>checks/</code>.</p>
 <pre><code>node tools/run_checks.sh     # re-run the gate over every walk</code></pre>
-<p><code>check.py</code> needs shapely, numpy and scipy, which live in the Boxes.py venv — run it with <code>~/boxes/venv/bin/python</code>, as <code>../bore-generator/README.md</code> says. The system python3 does not have them.</p>
+<p><code>check.py</code> needs shapely, numpy and scipy, which live in the Boxes.py venv — run it with <code>~/boxes/venv/bin/python</code>, as <code>../tools/README.md</code> says. The system python3 does not have them.</p>
 <h2 id="how-they-were-found">How they were found</h2>
 <p><code>tools/search_spirals.js</code> walks every periodic term sequence up to eight terms with legs up to four blocks, keeping those that never reverse, return to the same lateral position each period so the thing coils rather than drifts, wind a whole number of turns per period, stay self-avoiding when repeated, and satisfy the elbow-free rule.</p>
 <p>That rule, for a window of three consecutive terms — outer A, middle m, outer C:</p>
@@ -188,9 +188,9 @@ python3 ../lasermade-tools/md2html.py README.md index.html    # the published pa
 
 node tools/spiral_metrics.js "$(cat walks/coil_3x3_51.txt)"   # measure one walk
 
-cd ../bore-generator         # rebuild a viewer page
-~/boxes/venv/bin/python viewer.py "$(cat ../spirals/walks/coil_3x3_51.txt)" \
-    --out ../spirals/pages/coil_3x3_51.html --title "coil 3x3 51"</code></pre>
+cd ../tools         # rebuild a viewer page
+~/boxes/venv/bin/python viewer.py "$(cat ./walks/coil_3x3_51.txt)" \
+    --out ./pages/coil_3x3_51.html --title "coil 3x3 51"</code></pre>
 <h2 id="what-has-not-been-done">What has not been done</h2>
 <p><strong>No cut files.</strong> These are walks, viewers and gate results; nothing here has been split to SVG or nested. <code>bore_split.py --write DIR</code> will do it.</p>
 <p>The block counts are not equal — the scored ones run 163 to 181, so their bore lengths run 5053mm to 5611mm, a spread of 11.0%. A period is repeated to about the right length and then trimmed to wherever the tail comes out elbow-free, so these are the same bore only to within a few blocks. For comparing packing that is fine; for comparing <em>bores</em> it is not, and the length would have to be pinned first.</p>

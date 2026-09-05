@@ -30,7 +30,7 @@ different coil rather than a shorter one.
 - **`coil-10x10x30-0.75t/`** — 11 blocks, 274mm, 3 sections. The shortest the walk goes.
   Uncut.
 - **`coil-10x10x30-1.5t/`** — 22 blocks, 548mm. **All six parts are cut**; treat its files
-  as describing wood. It arrived as a borrowed test from `../trumpet-switchback` and is that
+  as describing wood. It arrived as a borrowed test from `../switchback` and is that
   repository's walk exactly — nobody noticed it was a coil until the other two existed, which
   is why its folder was called `bore/` until 2026-09-01.
 - **`coil-10x10x30-2.25t/`** — 33 blocks, 822mm, 9 sections. Uncut.
@@ -43,15 +43,15 @@ different coil rather than a shorter one.
   out for this lattice. Nothing cut yet.
 
 None of them is an instrument on its own: this repository is all bore, and nothing here
-closes either end. The 10mm mouthpiece and bell in `../trumpet-switchback/10mm/` fit any of
+closes either end. The 10mm mouthpiece and bell in `../switchback/10mm/` fit any of
 them — a coil's mouth is a 10mm square in a 16mm face, which is what both seat onto, and
 neither cares how long the bore behind it is. They are **named, not copied**: two copies of
 a cut file drift, which has cost this project once already.
 
 ## The other repositories are FROZEN, with one exception so far
 
-`../bore-generator` and every repository it cuts for — `../trumpet-coiled`,
-`../trumpet-octagonal`, `../trumpet-parts`, `../trumpet-switchback` — keep the
+`../../tools` and every repository it cuts for — `../coiled`,
+`../octagonal`, `../../parts`, `../switchback` — keep the
 scripts they were gated against. **Do not change them to suit this one.** That is why
 `tools/` is a copy rather than an import, and why the generator installs as `SnakeBoxVar`
 beside the frozen `SnakeBox` instead of over it.
@@ -59,7 +59,7 @@ beside the frozen `SnakeBox` instead of over it.
 **The exception, on 2026-09-01, is worth understanding because it is the shape a future
 one would take.** `PIN_PLAY` was taken to 0.025 there too. It was not a change made to
 suit this repository: the fit was *measured here*, four times in ply, and
-`../trumpet-switchback` was carrying 0.3 — the value the bench had already rejected as
+`../switchback` was carrying 0.3 — the value the bench had already rejected as
 loose — in files someone might cut. The freeze protects the other repositories from
 churn, not from evidence. Unfreezing was the author's call, and it should stay that way.
 
@@ -86,13 +86,13 @@ design's name is in the file's name and in its `<title>` — write to `/tmp/f` a
 `bore10-f-...`, which will not compare against anything.
 
 ```sh
-cd ../bore-generator
+cd ../../tools
 W="$(cat walks/trumpet_switchback.txt)"
 rm -rf /tmp/f && mkdir -p /tmp/f/trumpet-switchback/10mm
 ~/boxes/venv/bin/python bore_split.py --blocksize=16 --refuse-elbows "$W" \
     --write /tmp/f/trumpet-switchback/10mm/bore
 cmp /tmp/f/trumpet-switchback/10mm/bore/bore10-trumpet-switchback-02of06-bend-LUUR-cut-files.svg \
-    ../trumpet-switchback/10mm/bore/bore10-trumpet-switchback-02of06-bend-LUUR-cut-files.svg
+    ../switchback/10mm/bore/bore10-trumpet-switchback-02of06-bend-LUUR-cut-files.svg
 ```
 
 ## A turn is a cube because it has to be
@@ -132,7 +132,7 @@ past a corner and retraces the same line. Spotted on 2026-08-31 and deliberately
 - **They cut into waste, not into the part.** Every spur tip tests outside the plate
   outline, so it is a slit in the offcut, not a nick in the piece. No dimension moves.
 - **They are not from the stretched lattice.** The frozen 10mm bore in
-  `../trumpet-switchback` has the identical 20, and its 25mm bore has none.
+  `../switchback` has the identical 20, and its 25mm bore has none.
   They appear once the end frame drops below 12mm: zero at block 18 and above, four at 17
   and 16.
 - **The cause is below this code.** The polygon `plateBorders()` hands over is clean — no
@@ -245,7 +245,7 @@ cd tools && ~/boxes/venv/bin/python regress.py        # both designs
 cd tools && ~/boxes/venv/bin/python regress.py coil   # one
 ```
 
-The frozen corpus in `../bore-generator` gates the frozen toolchain and has no stretched
+The frozen corpus in `../../tools` gates the frozen toolchain and has no stretched
 lattice in it, so it cannot catch a change made here. Each design carries the switches it is
 cut with, because `--files` never looks at the pitch and will happily gate a design nobody
 is cutting.

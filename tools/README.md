@@ -418,7 +418,7 @@ check it before cutting.
 
 ```sh
 python3 bore_split.py "N N1 E2 S3 U2 N1 N"
-python3 bore_split.py "W D3 E4 N" --write ../../test
+python3 bore_split.py "W D3 E4 N" --write ../designs
 ```
 
 Turn them around: [`N N1 E2 S3 U2 N1 N`](examples/notation_example.html) ·
@@ -589,7 +589,7 @@ interpreter runs everything and no environment variables are needed:
 | `regress.py` | runs the gate over every design in `walks/` and the design library |
 | `svgpath.py` | reads the point list back out of an SVG path |
 
-`bore_split.py` writes to `../../test` by default — the design library, kept
+`bore_split.py` writes to `../designs` by default — the design library, kept
 outside every repository. Override it with an explicit path to `--write`.
 
 ## `walks/`

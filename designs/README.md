@@ -39,11 +39,11 @@ The walk it is all built from, and [the bore to turn around](first_trumpet/first
 cd ../GIT/bore-generator
 W="N N10 U2 W2 S7 U2 E4 N9 W2 D2 N4 N"
 
-python3 bore_split.py --write ../../test/first_trumpet "$W"   # the eight sections
-python3 nest.py "$W" --out ../../test/nest.svg                # the same parts nested
-python3 nest.py "$W" --deepnest ../../test/dn.svg             # for Deepnest/SVGnest
+python3 bore_split.py --write ../designs/first_trumpet "$W"   # the eight sections
+python3 nest.py "$W" --out ../designs/nest.svg                # the same parts nested
+python3 nest.py "$W" --deepnest ../designs/dn.svg             # for Deepnest/SVGnest
 python3 bore_render.py "$W"                                   # the 3D view
-python3 check.py "$W" --files ../../test/first_trumpet        # cut nothing until it passes
+python3 check.py "$W" --files ../designs/first_trumpet        # cut nothing until it passes
 ```
 
 ## The first trumpet bore
@@ -374,7 +374,7 @@ cannot do because it will not open a walk that crosses itself:
 
     cd ../GIT/bore-generator
     python3 mcwalk.py "N N3 U3 W5 N10 E5 S8 W3 S3 N12 N" \
-        --out ../../test/doubled_walk/doubled_walk.html --title "..."
+        --out ../designs/doubled_walk/doubled_walk.html --title "..."
 
 The step slider is the tell: scrub it and watch *placed* keep climbing while *cells
 filled* stalls — that gap is where the transcription went wrong.

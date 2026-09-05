@@ -1,6 +1,6 @@
 #!/bin/bash
-cd /Users/michael/LaserMadeMusic/GIT/bore-generator
-R=/Users/michael/LaserMadeMusic/GIT/spirals
+cd "$(dirname "$0")/../../tools"
+R="$(cd "$(dirname "$0")/.." && pwd)"
 mkdir -p $R/checks
 for f in $R/walks/*.txt; do
   n=$(basename "$f" .txt)

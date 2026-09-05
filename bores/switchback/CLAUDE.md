@@ -13,7 +13,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 A laser-cutting build repository, not a software project. The deliverable is **one bore at
 two sizes**, six sections apiece, as **SVG cut files**
 that someone sends to a laser, plus the pages describing them. The bores are **generated**
-by the sibling repository **`../bore-generator`**
+by the sibling repository **`../../tools`**
 ([CLAUDE.md](https://github.com/Gernreich/bore-generator/blob/main/CLAUDE.md)); nothing in
 this repository is authored by hand except `README.md` and this file.
 
@@ -22,19 +22,19 @@ It holds **one design at two sizes**:
     25mm/  bore/          31mm block
     10mm/  bore/          16mm block
 
-Cut one folder and you have the tube; the two ends come from `../trumpet-parts`.
+Cut one folder and you have the tube; the two ends come from `../../parts`.
 `index.html` is still at the root and still the published page; nothing else is loose there.
 
 **Three moves got here.** On 2026-08-31 the 25mm set came off the root into `25mm/bore/`,
 so the sizes read as siblings rather than as a design and an afterthought; then the bores
 went down a level into `<size>/bore/` and the mouthpiece and bell joined them, so a folder
-was a whole instrument. On 2026-09-02 those two ends left again for `../trumpet-parts`.
+was a whole instrument. On 2026-09-02 those two ends left again for `../../parts`.
 Regenerating after each move left every bore SVG **byte-identical**.
 
 **Where the parts come from.** The bell and the mouthpiece are generated in
-`../trumpet-parts`, which is where the two square-to-round generators live:
+`../../parts`, which is where the two square-to-round generators live:
 
-**All four sheets live in `../trumpet-parts`, and none of them here.** They were held here
+**All four sheets live in `../../parts`, and none of them here.** They were held here
 from 2026-08-31 to 2026-09-02 on the grounds that nothing else cut them — true of what had
 been cut, false of what fits. The 25mm mouthpiece and bell suit any 25mm channel, and
 `trumpet-coiled` and `trumpet-octagonal` are both exactly that, so keeping them here hid two
@@ -45,7 +45,7 @@ rather than a principle, so they went too.
 
 **Do not move them back** without deciding what changed about that argument.
 
-Regenerating any of the four still means running a generator in `../trumpet-parts` and
+Regenerating any of the four still means running a generator in `../../parts` and
 moving the result across, because they write into their own directory. Two traps in that:
 
 - **Name the sheet on the way out.** Both generators take the filename — a positional
@@ -54,7 +54,7 @@ moving the result across, because they write into their own directory. Two traps
   generated names say how a sheet was *made* (which script, what length), which is not what
   someone hunting for a part needs to read, and they left the 25mm sheets with no size in
   their names at all. Take the name and there is nothing to rename afterwards.
-- **A bare `bell-round.py` writes `bell-round10-153mm-17rings-x3-rim86-cut-files.svg` back into `../trumpet-parts/bell`,**
+- **A bare `bell-round.py` writes `bell-round10-153mm-17rings-x3-rim86-cut-files.svg` back into `../../parts/bell`,**
   since it is one of that script's four standard budgets. Give it a budget and an `--out` so
   it writes one named sheet; otherwise move the result here or delete it, and do not leave a
   second copy there.
@@ -62,7 +62,7 @@ moving the result across, because they write into their own directory. Two traps
   `<g id="ring-numbers">`, and `bell-round.py` and `mouthpiece-round.py` write it themselves
   as the last step, so a regenerate keeps it. **A regenerate also adds an orientation tick**
   beside each number. All four sheets carry it as of 2026-09-02; the parts already glued up
-  predate it. Those sheets are in `../trumpet-parts` now. `--numbers=no` opts out; a numbering failure
+  predate it. Those sheets are in `../../parts` now. `--numbers=no` opts out; a numbering failure
   deletes the sheet rather than leaving an unnumbered one to be cut. This used to be a
   separate command you had to remember, and forgetting it cost a sheet its numbering once.
 
@@ -82,9 +82,9 @@ The first letter is the way in; each term after it turns where you stand and the
 *n* blocks, so **the bore is 1 + the sum of the numbers** — 22 blocks here. Axes match
 Minecraft: `U`/`D` are +Y/−Y, `N` is −Z, `S` is +Z, `E` is +X, `W` is −X.
 
-**The walk is stored in `../bore-generator/walks/trumpet_switchback.txt`**,
+**The walk is stored in `../../tools/walks/trumpet_switchback.txt`**,
 and `regress.py` there names this repository as where its cut files live. Unlike
-`../trumpet-coiled`, which keeps its walk in its page, the file is the record here — the
+`../coiled`, which keeps its walk in its page, the file is the record here — the
 page carries the same string in its `<div class="walk">` and `bore_split.py` will read
 either, but they are only equal because the page was generated from the file.
 
@@ -164,7 +164,7 @@ different axes, so there are three cases:
 | same axis, opposite direction | hairpin | >= 2 |
 | different axes | coil | >= 3 |
 
-`../bore-generator/CLAUDE.md`, `../trumpet-coiled/CLAUDE.md` and that repository's
+`../../tools/CLAUDE.md`, `../coiled/CLAUDE.md` and that repository's
 `README.md` all stated only the coil case until 2026-08-29, lumping the other two together
 as a fold that "costs nothing at any spacing" — right for steps, wrong for hairpins, and
 this walk has two hairpins sitting exactly on the limit. All three now carry the table
@@ -254,7 +254,7 @@ Boxes.py virtualenv, so run the gate from there:
 
 ```sh
 W="$(cat walks/trumpet_switchback.txt)"
-D=../trumpet-switchback
+D=.
 ~/boxes/venv/bin/python check.py "$W" --files $D/25mm/bore
 ~/boxes/venv/bin/python check.py "$W" --blocksize=16 --files $D/10mm/bore
 ```
@@ -277,7 +277,7 @@ never touching these SVGs.
 
 ```sh
 G=../lasermade-tools
-S=../bore-generator
+S=../../tools
 ```
 
 **Test a walk without writing anything** — always do this before proposing a change:
@@ -291,18 +291,18 @@ cd $S && python3 bore_split.py --no-write --refuse-elbows "N N1 W3 U2 E3 N3 D3 W
 ```sh
 cd $S
 W="$(cat walks/trumpet_switchback.txt)"
-D=../trumpet-switchback
+D=.
 python3 bore_split.py --refuse-elbows "$W" --write $D/25mm/bore
 python3 bore_split.py --blocksize=16 --refuse-elbows "$W" --write $D/10mm/bore
 ```
 
 The mouthpiece and the bell are **not generated here** — they come from
-`../trumpet-parts` and are copied in. Those generators write into their own directory, so
+`../../parts` and are copied in. Those generators write into their own directory, so
 copy the result across afterwards. They engrave the ring numbers themselves, so these two
 commands are the whole job:
 
 ```sh
-cd ../trumpet-parts/mouthpiece
+cd ../../parts/mouthpiece
 python3 mouthpiece-round.py --bore=10 --rim=17 --layout=trumpet mouthpiece-bore10-trumpet-parts-cut-files.svg
 cd ../bell && python3 bell-round.py 17 --bore=10 --length=152 --mouth=80 \
     --out=bell-round10-153mm-17rings-x3-rim86-cut-files.svg
@@ -323,7 +323,7 @@ cd $S && ~/boxes/venv/bin/python regress.py      # every design in the library
 The gate reports **194 checks, 0 failed** on each of the two bores, and `regress.py` covers
 25 designs. It does not look at the bell or the mouthpiece at all — those are checked by
 `bell-round.py` and `mouthpiece-round.py` themselves, before they write, in
-`../trumpet-parts`. Nothing here should be cut from a file that has not passed one or the
+`../../parts`. Nothing here should be cut from a file that has not passed one or the
 other.
 
 **After editing `README.md`** — regenerate the page, then audit:
@@ -335,7 +335,7 @@ python3 $G/doc-audit.py README.md --html index.html
 
 **Read the audit output before pushing.** It ends with a pass/fail tally. `.doc-audit-ignore`
 lists `bore_split.py` and `regress.py`, which the prose names but which live in
-`../bore-generator`; the audit also insists every tracked file is named somewhere, which is
+`../../tools`; the audit also insists every tracked file is named somewhere, which is
 why the section table carries a file column.
 
 ## Publishing
@@ -368,7 +368,7 @@ to record a preference.
 
 **trumpet-switchback** describes the design instead: the bore folds back on itself twice,
 which is exactly the two hairpins the elbow rule counts. That is a fact about the walk, so
-it cannot go stale. It also matches `../trumpet-coiled` and `../trumpet-octagonal`, which
+it cannot go stale. It also matches `../coiled` and `../octagonal`, which
 are named the same way.
 
 Renamed together each time: the folder, the walk file, the `regress.py` entries, the GitHub

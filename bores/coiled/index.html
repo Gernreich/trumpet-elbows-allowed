@@ -132,9 +132,9 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <pre><code>blocksize 31mm   thickness 3mm   burn 0.1   spacing 0.5   inner corners: corner</code></pre>
 <h2 id="regenerating">Regenerating</h2>
 <p>The walk lives in the viewer page, so the page is a complete record of the design and the cut files come back from it alone:</p>
-<pre><code>cd ../bore-generator
-python3 bore_split.py ../trumpet-coiled/bore/bore.html \
-    --write ../trumpet-coiled/bore</code></pre>
+<pre><code>cd ../../tools
+python3 bore_split.py ./bore/bore.html \
+    --write ./bore</code></pre>
 <p>That rewrites every file in this directory and runs the full gate as it goes — 253 checks on this design, none failing. To try a change without writing anything:</p>
 <pre><code>python3 bore_split.py --no-write "N N3 U6 W5 N10 E5 D3 S8 W3 D3 N12 N"</code></pre>
 <p>The generator is <a href="https://github.com/Gernreich/bore-generator">bore-generator</a>, which builds the nets on top of <strong>boxes.py</strong> (Florian Festi, GPL 3.0, <a href="https://www.festi.info/boxes.py/">https://www.festi.info/boxes.py/</a>).</p>

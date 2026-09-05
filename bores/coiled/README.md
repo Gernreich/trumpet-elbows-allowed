@@ -158,9 +158,9 @@ The walk lives in the viewer page, so the page is a complete record of the desig
 cut files come back from it alone:
 
 ```sh
-cd ../bore-generator
-python3 bore_split.py ../trumpet-coiled/bore/bore.html \
-    --write ../trumpet-coiled/bore
+cd ../../tools
+python3 bore_split.py ./bore/bore.html \
+    --write ./bore
 ```
 
 That rewrites every file in this directory and runs the full gate as it goes — 253 checks

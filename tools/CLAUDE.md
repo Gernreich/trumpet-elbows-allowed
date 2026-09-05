@@ -34,10 +34,10 @@ The scripts are flat at the repository root. That is deliberate: it puts them at
 the same depth `octomino-snakes/generator/` had, so every relative path came
 across unchanged.
 
-    ../../test          the design library, outside every repository
+    ../designs          the design library, outside every repository
     ../../GIT/trumpet-coiled/bore   the instrument this cuts for
 
-`bore_split.py` writes to `../../test` when `--write` is given no path.
+`bore_split.py` writes to `../designs` when `--write` is given no path.
 
 ## The dependency graph
 

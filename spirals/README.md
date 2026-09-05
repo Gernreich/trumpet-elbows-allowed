@@ -358,7 +358,7 @@ in `checks/`.
     node tools/run_checks.sh     # re-run the gate over every walk
 
 `check.py` needs shapely, numpy and scipy, which live in the Boxes.py venv — run it with
-`~/boxes/venv/bin/python`, as `../bore-generator/README.md` says. The system python3 does
+`~/boxes/venv/bin/python`, as `../tools/README.md` says. The system python3 does
 not have them.
 
 ## How they were found
@@ -409,9 +409,9 @@ by hand.
 
     node tools/spiral_metrics.js "$(cat walks/coil_3x3_51.txt)"   # measure one walk
 
-    cd ../bore-generator         # rebuild a viewer page
-    ~/boxes/venv/bin/python viewer.py "$(cat ../spirals/walks/coil_3x3_51.txt)" \
-        --out ../spirals/pages/coil_3x3_51.html --title "coil 3x3 51"
+    cd ../tools         # rebuild a viewer page
+    ~/boxes/venv/bin/python viewer.py "$(cat ./walks/coil_3x3_51.txt)" \
+        --out ./pages/coil_3x3_51.html --title "coil 3x3 51"
 
 ## What has not been done
 

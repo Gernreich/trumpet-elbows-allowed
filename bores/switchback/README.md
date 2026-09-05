@@ -218,9 +218,9 @@ carries the conventions — the elbow rule, which switches reach the gate, and w
 a regenerated folder is not a checked one. To rebuild and check:
 
 ```sh
-cd ../bore-generator
+cd ../../tools
 W="$(cat walks/trumpet_switchback.txt)"
-D=../trumpet-switchback
+D=.
 python3 bore_split.py --blocksize=16 --refuse-elbows "$W" --write $D/10mm/bore
 ~/boxes/venv/bin/python regress.py trumpet
 ```
@@ -234,7 +234,7 @@ The mouthpiece and the bell come from
 **[trumpet-parts](https://github.com/Gernreich/trumpet-parts)**, not from here:
 
 ```sh
-cd ../trumpet-parts/mouthpiece
+cd ../../parts/mouthpiece
 python3 mouthpiece-round.py --bore=10 --rim=17 --layout=trumpet mouthpiece-bore10-trumpet-parts-cut-files.svg
 cd ../bell && python3 bell-round.py 17 --bore=10 --length=152 --mouth=80 \
     --out=bell-round10-153mm-17rings-x3-rim86-cut-files.svg

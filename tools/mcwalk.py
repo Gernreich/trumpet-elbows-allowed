@@ -9,7 +9,7 @@ This walks permissively, keeps every step in placement order, and draws the
 cells that result - lighting up the ones that got placed more than once.
 
     python3 mcwalk.py "N N3 U3 W5 N10 E5 S8 W3 S3 N12 N" \
-        --out ../../test/doubled_walk/doubled_walk.html --title "..."
+        --out ../designs/doubled_walk/doubled_walk.html --title "..."
 """
 import json
 import os
