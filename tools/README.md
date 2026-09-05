@@ -2,14 +2,14 @@
 
 Turns a bore written as a walk through a lattice of blocks into per-piece laser
 cut files, and checks them before you cut. It is what produces the bore in
-[trumpet-coiled](https://github.com/Gernreich/trumpet-coiled).
+[trumpet-coiled](https://github.com/Gernreich/trumpet/tree/main/bores/coiled).
 
 `snakebox.py` is a [Boxes.py](https://github.com/florianfesti/boxes) generator.
 It is not standalone — Boxes.py provides the finger joints, burn compensation
 and SVG writer.
 
 <!-- readme-only -->
-**[Read the writeup](https://gernreich.github.io/bore-generator/)** — the same text as this
+**[Read the writeup](https://gernreich.github.io/trumpet/tools/)** — the same text as this
 page, set for reading, with a table of contents.
 
 **[The rest of the build files](https://gernreich.github.io/)** — every instrument,
@@ -18,8 +18,9 @@ generator and tool, indexed.
 Built for **[LaserMadeMusic](https://www.youtube.com/@LaserMadeMusic)**, where the cutting
 and the playing are shown.
 
-**[Download everything as a ZIP](https://github.com/Gernreich/bore-generator/archive/refs/heads/main.zip)**
-— the toolchain and the walks it regresses against.
+**[Download the whole repository as a ZIP](https://github.com/Gernreich/trumpet/archive/refs/heads/main.zip)**
+— every trumpet and every tool, not this directory alone. The toolchain and
+the walks it regresses against are under `tools/`. GitHub builds it from `main` on every push, so it is never out of date.
 
 Split out of `octomino-snakes`, which enumerated and classified the 369 octominoes and is
 now archived and private. The bore toolchain kept growing after that work finished, and a
@@ -603,7 +604,7 @@ runs the gate over. They exist because every one of them broke something once:
 | the telescopes | `telescope_spiral.txt`, `wide_telescope.txt`, `nested_spiral.txt` | coils that grow as they climb, the widest sheets the bed will take |
 | the Hilbert cubes | `hilbert_cube.txt`, `hilbert_open.txt`, `hilbert_snorkel.txt` | a space-filling curve at three scales — the densest walks here, and the ones that fold hardest |
 | the singles | `three_block_turn.txt`, `corner_to_corner.txt`, `metre_spring.txt` | the three-block minimum on its own, a walk that turns at every opportunity, and a metre of bore in a spring |
-| the built one | `trumpet_switchback.txt` | the walk in [trumpet-switchback](https://github.com/Gernreich/trumpet-switchback), cut and assembled at both 25mm and 10mm — the only one here that exists in wood |
+| the built one | `trumpet_switchback.txt` | the walk in [trumpet-switchback](https://github.com/Gernreich/trumpet/tree/main/bores/switchback), cut and assembled at both 25mm and 10mm — the only one here that exists in wood |
 
 Run them all:
 

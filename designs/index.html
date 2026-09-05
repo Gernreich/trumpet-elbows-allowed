@@ -89,22 +89,22 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <nav><b>Contents</b><a class="l1" href="#bore-designs">Bore designs</a><a class="l2" href="#the-first-trumpet-bore">The first trumpet bore</a><a class="l2" href="#when-a-turn-costs-a-section">When a turn costs a section</a><a class="l2" href="#how-big-a-piece-can-be">How big a piece can be</a><a class="l2" href="#what-a-walk-is-checked-for">What a walk is checked for</a><a class="l2" href="#before-cutting">Before cutting</a><a class="l2" href="#turning-one-around">Turning one around</a><a class="l2" href="#a-sheet-for-airtightness-testing">A sheet for airtightness testing</a><a class="l2" href="#loose-pages">Loose pages</a></nav>
 <main>
 <h1 id="bore-designs">Bore designs</h1>
-<p>Every bore that has been worked out, built out into cut files and a viewer page and kept. This is the corpus <strong><a href="https://github.com/Gernreich/bore-generator">bore-generator</a></strong> regresses against: <code>regress.py</code> runs the full gate over these, which is the only reason any of it stays honest.</p>
+<p>Every bore that has been worked out, built out into cut files and a viewer page and kept. This is the corpus <strong><a href="https://github.com/Gernreich/trumpet/tree/main/tools">bore-generator</a></strong> regresses against: <code>regress.py</code> runs the full gate over these, which is the only reason any of it stays honest.</p>
 <p><strong><a href="https://gernreich.github.io/">The rest of the build files</a></strong> — every instrument, generator and tool, indexed.</p>
 <p>Built for <strong><a href="https://www.youtube.com/@LaserMadeMusic">LaserMadeMusic</a></strong>, where the cutting and the playing are shown.</p>
-<p><strong><a href="https://github.com/Gernreich/bore-designs/archive/refs/heads/main.zip">Download everything as a ZIP</a></strong> — every design, its cut files and its page.</p>
-<p><strong>The bore being built is the coiled trumpet:</strong> <a href="pages/coiled_trumpet.html"><code>N N3 U6 W5 N10 E5 D3 S8 W3 D3 N12 N</code></a> — 59 blocks, 1829mm, 8 sections, <strong>no elbows anywhere</strong>. Its cut files and writeup are in <a href="https://github.com/Gernreich/trumpet-coiled">trumpet-coiled</a>. Everything below is how that design was arrived at, starting from a first trumpet that used elbows and worked out what they cost.</p>
+<p><strong><a href="https://github.com/Gernreich/trumpet/archive/refs/heads/main.zip">Download the whole repository as a ZIP</a></strong> — the whole tree, of which this library is <code>designs/</code>: every design, its cut files and its page. GitHub builds it from <code>main</code> on every push, so it is never out of date.</p>
+<p><strong>The bore being built is the coiled trumpet:</strong> <a href="pages/coiled_trumpet.html"><code>N N3 U6 W5 N10 E5 D3 S8 W3 D3 N12 N</code></a> — 59 blocks, 1829mm, 8 sections, <strong>no elbows anywhere</strong>. Its cut files and writeup are in <a href="https://github.com/Gernreich/trumpet/tree/main/bores/coiled">trumpet-coiled</a>. Everything below is how that design was arrived at, starting from a first trumpet that used elbows and worked out what they cost.</p>
 <p>The SVGs regenerate byte-identical from the walk, so the walk and the generator are the real source — but they are kept here so there is something to send to the machine without running anything.</p>
 <p>The nested sheets are not kept: they assume a full sheet of material, and partly cut boards do not work that way. <code>nest.py</code> still produces them if a whole sheet ever comes up.</p>
 <p>The walk it is all built from, and <a href="first_trumpet/first_trumpet.html">the bore to turn around</a>:</p>
 <pre><code>cd ../GIT/bore-generator
 W="N N10 U2 W2 S7 U2 E4 N9 W2 D2 N4 N"
 
-python3 bore_split.py --write ../../test/first_trumpet "$W"   # the eight sections
-python3 nest.py "$W" --out ../../test/nest.svg                # the same parts nested
-python3 nest.py "$W" --deepnest ../../test/dn.svg             # for Deepnest/SVGnest
+python3 bore_split.py --write ../designs/first_trumpet "$W"   # the eight sections
+python3 nest.py "$W" --out ../designs/nest.svg                # the same parts nested
+python3 nest.py "$W" --deepnest ../designs/dn.svg             # for Deepnest/SVGnest
 python3 bore_render.py "$W"                                   # the 3D view
-python3 check.py "$W" --files ../../test/first_trumpet        # cut nothing until it passes</code></pre>
+python3 check.py "$W" --files ../designs/first_trumpet        # cut nothing until it passes</code></pre>
 <h2 id="the-first-trumpet-bore">The first trumpet bore</h2>
 <p>The design this all started from, and <strong>not</strong> the one being built — it turns with elbows, which is what the rest of this page goes on to price. Compare it against the <a href="pages/coiled_trumpet.html">coiled trumpet</a>, which does the same job with none.</p>
 <p><a href="first_trumpet/first_trumpet.html"><code>N N10 U2 W2 S7 U2 E4 N9 W2 D2 N4 N</code></a> — 45 blocks, 1395mm of centreline. <strong>Every walk on this page is a link</strong>: follow one and the bore opens in a page you can turn around with the mouse, colour by direction or by section, and step through block by block.</p>
@@ -187,7 +187,7 @@ python3 check.py "$W" --files ../../test/first_trumpet        # cut nothing unti
 <p><code>mcwalk.py</code> draws a refused walk under Minecraft's permissive rules instead of the bore's, and lights up every cell entered more than once, which the ordinary viewer cannot do because it will not open a walk that crosses itself:</p>
 <pre><code>cd ../GIT/bore-generator
 python3 mcwalk.py "N N3 U3 W5 N10 E5 S8 W3 S3 N12 N" \
-    --out ../../test/doubled_walk/doubled_walk.html --title "..."</code></pre>
+    --out ../designs/doubled_walk/doubled_walk.html --title "..."</code></pre>
 <p>The step slider is the tell: scrub it and watch <em>placed</em> keep climbing while <em>cells filled</em> stalls — that gap is where the transcription went wrong.</p>
 <h2 id="before-cutting">Before cutting</h2>
 <p><code>check.py</code> runs every check there is — 234 of them on this bore, across the parts, the sections, and the seams between them. Each exists because something was cut and thrown away:</p>

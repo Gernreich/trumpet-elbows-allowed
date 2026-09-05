@@ -9,8 +9,8 @@ The torus writeup describes the cut that turns one into the other. This is the r
 its own sheet.
 
 The **bell** and the **mouthpiece** live in
-**[trumpet-parts](https://github.com/Gernreich/trumpet-parts)**, shared with the
-[coiled trumpet](https://github.com/Gernreich/trumpet-coiled) and built on this same
+**[trumpet-parts](https://github.com/Gernreich/trumpet/tree/main/parts)**, shared with the
+[coiled trumpet](https://github.com/Gernreich/trumpet/tree/main/bores/coiled) and built on this same
 25 × 25mm channel. Neither is touched by the way a bore turns, so only the tube belongs to
 an instrument.
 
@@ -18,12 +18,12 @@ Built for **[LaserMadeMusic](https://www.youtube.com/@LaserMadeMusic)**, where t
 and the playing are shown.
 
 <!-- readme-only -->
-**[Read the writeup](https://gernreich.github.io/trumpet-octagonal/)** — the same text as
+**[Read the writeup](https://gernreich.github.io/trumpet/bores/octagonal/)** — the same text as
 this page, set for reading, with a table of contents.
 
-**[Download everything as a ZIP](https://github.com/Gernreich/trumpet-octagonal/archive/refs/heads/main.zip)**
-— the cut file and the page it regenerates from. GitHub builds it from `main` on every
-push, so it is never out of date.
+**[Download the whole repository as a ZIP](https://github.com/Gernreich/trumpet/archive/refs/heads/main.zip)**
+— every trumpet, not this one alone; the cut file here and the page it
+regenerates from are under `bores/octagonal/`. GitHub builds it from `main` on every push, so it is never out of date.
 
 **[The rest of the build files](https://gernreich.github.io/)** — every instrument,
 generator and tool, indexed.
@@ -87,9 +87,9 @@ instrument and it speaks away from you — exactly when the turns cancel. The wi
 length as ±1%.
 
 The numbers live in
-[`bore-ribbon/traces/octagonal-trumpet.json`](https://github.com/Gernreich/bore-ribbon/blob/main/traces/octagonal-trumpet.json)
+[`bore-ribbon/traces/octagonal-trumpet.json`](https://github.com/Gernreich/trumpet/blob/main/bores/ribbon/traces/octagonal-trumpet.json)
 with how they were taken, and the bore is drawn, turnable, at
-[bore-ribbon](https://gernreich.github.io/bore-ribbon/).
+[bore-ribbon](https://gernreich.github.io/trumpet/bores/ribbon/).
 
 **It is kept out of the cut file deliberately.** Red is a cut colour in every
 repository here, so a red path on a sheet is a path the laser tries to cut —

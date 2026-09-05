@@ -1,12 +1,12 @@
 # Bore designs
 
 Every bore that has been worked out, built out into cut files and a viewer page and kept.
-This is the corpus **[bore-generator](https://github.com/Gernreich/bore-generator)**
+This is the corpus **[bore-generator](https://github.com/Gernreich/trumpet/tree/main/tools)**
 regresses against: `regress.py` runs the full gate over these, which is the only reason any
 of it stays honest.
 
 <!-- readme-only -->
-**[Read the writeup](https://gernreich.github.io/bore-designs/)** — the same text as this
+**[Read the writeup](https://gernreich.github.io/trumpet/designs/)** — the same text as this
 page, set for reading, with a table of contents.
 
 **[The rest of the build files](https://gernreich.github.io/)** — every instrument,
@@ -15,13 +15,14 @@ generator and tool, indexed.
 Built for **[LaserMadeMusic](https://www.youtube.com/@LaserMadeMusic)**, where the cutting
 and the playing are shown.
 
-**[Download everything as a ZIP](https://github.com/Gernreich/bore-designs/archive/refs/heads/main.zip)**
-— every design, its cut files and its page.
+**[Download the whole repository as a ZIP](https://github.com/Gernreich/trumpet/archive/refs/heads/main.zip)**
+— the whole tree, of which this library is `designs/`: every design, its cut
+files and its page. GitHub builds it from `main` on every push, so it is never out of date.
 
 **The bore being built is the coiled trumpet:**
 [`N N3 U6 W5 N10 E5 D3 S8 W3 D3 N12 N`](pages/coiled_trumpet.html) — 59 blocks, 1829mm,
 8 sections, **no elbows anywhere**. Its cut files and writeup are in
-[trumpet-coiled](https://github.com/Gernreich/trumpet-coiled). Everything below is how
+[trumpet-coiled](https://github.com/Gernreich/trumpet/tree/main/bores/coiled). Everything below is how
 that design was arrived at, starting from a first trumpet that used elbows and worked out
 what they cost.
 

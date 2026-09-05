@@ -9,7 +9,7 @@ The one this started from is [`coil_4x4_50`](pages/coil_4x4_50.html); the other 
 exhaustive search for something tighter.
 
 <!-- readme-only -->
-**[Read it as a page](https://gernreich.github.io/spirals/)** — the same text set for
+**[Read it as a page](https://gernreich.github.io/trumpet/spirals/)** — the same text set for
 reading, and the only place the viewer links below open a model you can turn rather
 than a page of HTML source.
 

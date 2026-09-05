@@ -6,11 +6,11 @@ sections that assemble into one sealed passage, at a **10mm bore on a 16mm
 block**.
 
 The **mouthpiece** and the **bell** live in
-**[trumpet-parts](https://github.com/Gernreich/trumpet-parts)**, because neither
+**[trumpet-parts](https://github.com/Gernreich/trumpet/tree/main/parts)**, because neither
 is touched by the way the bore turns. Only the tube belongs to an instrument.
 The 25mm pair that used to sit beside them, and fitted the
-[coiled](https://github.com/Gernreich/trumpet-coiled) and
-[octagonal](https://github.com/Gernreich/trumpet-octagonal) trumpets equally, was
+[coiled](https://github.com/Gernreich/trumpet/tree/main/bores/coiled) and
+[octagonal](https://github.com/Gernreich/trumpet/tree/main/bores/octagonal) trumpets equally, was
 retired on 2026-09-03.
 
     N N1 W3 U2 E3 N3 D3 W2 U3 N1
@@ -29,14 +29,15 @@ north, green east, magenta west, red up, grey down. The same walk serves both
 sizes; only the block it is drawn on changes.*
 
 <!-- readme-only -->
-**[Read the writeup](https://gernreich.github.io/trumpet-switchback/)** — the
+**[Read the writeup](https://gernreich.github.io/trumpet/bores/switchback/)** — the
 same text as this page, set for reading, with a table of contents.
 
-**[The repository](https://github.com/Gernreich/trumpet-switchback)** — both
+**[The repository](https://github.com/Gernreich/trumpet/tree/main/bores/switchback)** — both
 instruments and the page they regenerate from.
 
-**[Download everything as a ZIP](https://github.com/Gernreich/trumpet-switchback/archive/refs/heads/main.zip)**
-— GitHub builds it from `main` on every push, so it is never out of date.
+**[Download the whole repository as a ZIP](https://github.com/Gernreich/trumpet/archive/refs/heads/main.zip)**
+— every trumpet, not this one alone; the six sections are under
+`bores/switchback/`. GitHub builds it from `main` on every push, so it is never out of date.
 
 Built for **[LaserMadeMusic](https://www.youtube.com/@LaserMadeMusic)**, where the cutting
 and the playing are shown.
@@ -126,15 +127,15 @@ is the least a section can have.
 ## The mouthpiece and the bell
 
 **Neither is here.** Both live in
-**[trumpet-parts](https://github.com/Gernreich/trumpet-parts)** with the rest of
+**[trumpet-parts](https://github.com/Gernreich/trumpet/tree/main/parts)** with the rest of
 the shared parts, because neither depends on how a bore turns. What this repository owns is the tube. These are the ones to cut with
 it:
 
 | | for `10mm/` |
 | --- | --- |
-| mouthpiece | [`mouthpiece-bore10-trumpet-parts-cut-files.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/mouthpiece/mouthpiece-bore10-trumpet-parts-cut-files.svg) |
+| mouthpiece | [`mouthpiece-bore10-trumpet-parts-cut-files.svg`](https://github.com/Gernreich/trumpet/blob/main/parts/mouthpiece/mouthpiece-bore10-trumpet-parts-cut-files.svg) |
 | station one | 10mm square in a 16mm plate |
-| bell | [`bell-round10-153mm-17rings-x3-rim86-cut-files.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/bell/bell-round10-153mm-17rings-x3-rim86-cut-files.svg) |
+| bell | [`bell-round10-153mm-17rings-x3-rim86-cut-files.svg`](https://github.com/Gernreich/trumpet/blob/main/parts/bell/bell-round10-153mm-17rings-x3-rim86-cut-files.svg) |
 
 **The bell sheet draws every ring once and is cut more than once.** A ring is a
 stack of 3mm laminations, three of them here, so the sheet goes through the
@@ -145,7 +146,7 @@ those six sheets are cut once each.
 
 Both bells are 17 rings and both seat on the ring below over **3.00mm per side
 at every joint** — see
-[bell-round.py](https://github.com/Gernreich/trumpet-parts/blob/main/bell/bell-round.py).
+[bell-round.py](https://github.com/Gernreich/trumpet/blob/main/parts/bell/bell-round.py).
 Each mouthpiece is 30 rings of one lamination, so its sheet is cut once.
 
 **Every ring on all four carries its own number, engraved in blue before the
@@ -166,9 +167,9 @@ backbore and keeps a short cup, as a real one does.
 
 Each also carries a section drawing — an axial slice showing the bore climbing
 one staircase and the outside climbing another:
-[`bell-round10-153mm-17rings-x3-rim86-section.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/bell/bell-round10-153mm-17rings-x3-rim86-section.svg)
+[`bell-round10-153mm-17rings-x3-rim86-section.svg`](https://github.com/Gernreich/trumpet/blob/main/parts/bell/bell-round10-153mm-17rings-x3-rim86-section.svg)
 and
-[`mouthpiece-bore10-trumpet-parts-section.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/mouthpiece/mouthpiece-bore10-trumpet-parts-section.svg).
+[`mouthpiece-bore10-trumpet-parts-section.svg`](https://github.com/Gernreich/trumpet/blob/main/parts/mouthpiece/mouthpiece-bore10-trumpet-parts-section.svg).
 **Those are display only — never cut one.**
 
 **Both live in `trumpet-parts`, not here.** They were kept in this repository
@@ -210,10 +211,10 @@ went with the 25mm folder on 2026-09-03.
 ## Where it comes from
 
 Generated by
-**[bore-generator](https://github.com/Gernreich/bore-generator)**, which holds
+**[bore-generator](https://github.com/Gernreich/trumpet/tree/main/tools)**, which holds
 the walk as `walks/trumpet_switchback.txt` and gates these files in
 `regress.py`. Its
-[CLAUDE.md](https://github.com/Gernreich/bore-generator/blob/main/CLAUDE.md)
+[CLAUDE.md](https://github.com/Gernreich/trumpet/blob/main/tools/CLAUDE.md)
 carries the conventions — the elbow rule, which switches reach the gate, and why
 a regenerated folder is not a checked one. To rebuild and check:
 
@@ -231,7 +232,7 @@ walk would cost an elbow. Neither is the folder on the end of each line — leav
 full-size parts under the small set's names, which no drawing shows.
 
 The mouthpiece and the bell come from
-**[trumpet-parts](https://github.com/Gernreich/trumpet-parts)**, not from here:
+**[trumpet-parts](https://github.com/Gernreich/trumpet/tree/main/parts)**, not from here:
 
 ```sh
 cd ../../parts/mouthpiece

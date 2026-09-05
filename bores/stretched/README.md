@@ -10,15 +10,16 @@ changing a single term of it.
 
 This is a **test**, not an instrument: it has no mouthpiece and no bell, and the
 walk was borrowed from
-[trumpet-switchback](https://github.com/Gernreich/trumpet-switchback)
+[trumpet-switchback](https://github.com/Gernreich/trumpet/tree/main/bores/switchback)
 rather than designed for a stretched lattice.
 
 <!-- readme-only -->
-**[Read the writeup](https://gernreich.github.io/bore-stretched/)** — the same
+**[Read the writeup](https://gernreich.github.io/trumpet/bores/stretched/)** — the same
 text as this page, set for reading, with a table of contents.
 
-**[Download everything as a ZIP](https://github.com/Gernreich/bore-stretched/archive/refs/heads/main.zip)**
-— GitHub builds it from `main` on every push, so it is never out of date.
+**[Download the whole repository as a ZIP](https://github.com/Gernreich/trumpet/archive/refs/heads/main.zip)**
+— the whole tree, not this test alone; the four coils are under
+`bores/stretched/`. GitHub builds it from `main` on every push, so it is never out of date.
 
 Built for **[LaserMadeMusic](https://www.youtube.com/@LaserMadeMusic)**, where
 the cutting and the playing are shown.
@@ -104,7 +105,7 @@ at 2.25 and
 [`…-12of12-bend-LD-buttout-…`](coil-10x10x30-3t/bore10-coil-10x10x30-3t-12of12-bend-LD-buttout-cut-files.svg)
 at 3. Cut from one folder at a time.
 
-**The 1.5t is [trumpet-switchback](https://github.com/Gernreich/trumpet-switchback)'s
+**The 1.5t is [trumpet-switchback](https://github.com/Gernreich/trumpet/tree/main/bores/switchback)'s
 walk exactly.** It arrived here as a borrowed test before anyone noticed it was a
 coil — which is why its folder was called `bore/` until the other two existed.
 
@@ -242,7 +243,7 @@ repository closes either end.
 
 They already exist, though, and they fit. A coil's mouth is a 10mm square
 opening in a 16mm square face, which is exactly what the 10mm pair made for
-**[trumpet-switchback](https://github.com/Gernreich/trumpet-switchback)** seats
+**[trumpet-switchback](https://github.com/Gernreich/trumpet/tree/main/bores/switchback)** seats
 onto — that mouthpiece's station one is *a sharp 10mm square aperture in a sharp
 16mm square plate*, and the bell's flange covers the same face. Nothing about
 either depends on how long the bore behind it is, so one pair serves all four
@@ -308,7 +309,7 @@ Every seam runs SLOT to TAB, and the two outer ends carry neither.
 ## The toolchain is a fork, on purpose
 
 `tools/` is a copy of
-**[bore-generator](https://github.com/Gernreich/bore-generator)**, changed to
+**[bore-generator](https://github.com/Gernreich/trumpet/tree/main/tools)**, changed to
 handle a lattice whose cells are not all the same length. That repository and
 every repository it cuts for are **frozen**: they keep the scripts they were
 gated against, and nothing here touches them.

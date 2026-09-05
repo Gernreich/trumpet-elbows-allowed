@@ -14,7 +14,7 @@ A laser-cutting build repository, not a software project. The deliverable is **o
 two sizes**, six sections apiece, as **SVG cut files**
 that someone sends to a laser, plus the pages describing them. The bores are **generated**
 by the sibling repository **`../../tools`**
-([CLAUDE.md](https://github.com/Gernreich/bore-generator/blob/main/CLAUDE.md)); nothing in
+([CLAUDE.md](https://github.com/Gernreich/trumpet/blob/main/tools/CLAUDE.md)); nothing in
 this repository is authored by hand except `README.md` and this file.
 
 It holds **one design at two sizes**:
@@ -347,7 +347,7 @@ queues behind it; keyed on the sha, a stuck run can only block a re-run of its o
 
 `index.html` is generated and committed, not built on the server, so **a stale `index.html`
 publishes stale content**. Pages was switched to Actions with
-`gh api -X POST repos/Gernreich/trumpet-switchback/pages -f build_type=workflow`
+`gh api -X POST repos/Gernreich/trumpet/pages -f build_type=workflow`
 on 2026-08-29; without that the deploy has nowhere to publish to.
 
 **Match the deploy to your SHA**, not to "the most recent run":

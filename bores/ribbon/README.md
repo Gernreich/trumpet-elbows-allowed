@@ -6,11 +6,12 @@ assembled with finger joints, no bending and no lamination.
     python3 ribbon_bore.py
 
 <!-- readme-only -->
-**[Read the writeup](https://gernreich.github.io/bore-ribbon/)** — the same
+**[Read the writeup](https://gernreich.github.io/trumpet/bores/ribbon/)** — the same
 text as this page, set for reading, with a table of contents.
 
-**[Download everything as a ZIP](https://github.com/Gernreich/bore-ribbon/archive/refs/heads/main.zip)**
-— GitHub builds it from `main` on every push, so it is never out of date.
+**[Download the whole repository as a ZIP](https://github.com/Gernreich/trumpet/archive/refs/heads/main.zip)**
+— every bore, not this one alone; the ribbon sheets are under
+`bores/ribbon/`. GitHub builds it from `main` on every push, so it is never out of date.
 
 Built for **[LaserMadeMusic](https://www.youtube.com/@LaserMadeMusic)**, where
 the cutting and the playing are shown.
@@ -46,7 +47,7 @@ octagon of circumradius 76.4696 puts the airway between apothems 58.149 and
 83.149, which is what its verifier measures. `--shape=torus`.
 
 [`ribbon-traced-octagonal-trumpet-bore25-45deg.html`](ribbon-traced-octagonal-trumpet-bore25-45deg.html)
-is **[trumpet-octagonal](https://gernreich.github.io/trumpet-octagonal/)'s
+is **[trumpet-octagonal](https://gernreich.github.io/trumpet/bores/octagonal/)'s
 bore** — 1107.9mm at 25 × 25mm, twelve facets of 45°, and **traced, not
 generated**. That sheet's band is hand-authored and its curve is not written
 down as parameters anywhere, so the centreline was measured off a trace of the
@@ -79,7 +80,7 @@ a light ground.
 
 | | curve | section | joints |
 | --- | --- | --- | --- |
-| [`bore-generator`](https://github.com/Gernreich/bore-generator) | 90° lattice turns | +41.4% at each turn | finger joints |
+| [`bore-generator`](https://github.com/Gernreich/trumpet/tree/main/tools) | 90° lattice turns | +41.4% at each turn | finger joints |
 | [`torus-octagonal`](https://github.com/Gernreich/torus-octagonal) | a circle, 45° facets | +8.2% at each facet | finger joints |
 | **`bore-ribbon`** | **any planar curve** | **+3.5% at 30°, and the dial goes lower** | **finger joints** |
 
