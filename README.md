@@ -19,19 +19,21 @@ instrument here and the two ends are shared.
       switchback/ 10mm, folds back on itself twice
       stretched/  10mm, straights longer than turns -- a test, not an instrument
       ribbon/     constant section swept along a planar curve
-    torus/        the octagonal torus: the ring bores/octagonal is cut from
+    octagonal/    the octagonal torus, and the trumpet cut out of it
     designs/      every walk built out as cut files and a page
     spirals/      coiling walks, with the numbers that say what each one costs
 
-`torus/` is not a bore, which is why it sits beside `bores/` rather than inside
-it. It is the ring, and `bores/octagonal` is the same geometry opened out into a
-curve -- the same 25 x 25mm channel, and literally the same R 90 plate. That
-sharing is checkable in one command now that both are here:
+`octagonal/` holds two objects and one writeup. The torus is a ring of square
+section; the trumpet is that same ring opened out into a curve -- the same
+25 x 25mm channel, and literally the same R 90 plate. They were two repositories
+and then two directories, which meant the shared-plate claim spanned a boundary
+and could not be checked in one place. Now it is one command:
 
-    cd torus
-    node verify_torus.js ../bores/octagonal/octagonal-trumpet.svg \
-        ../../torus/RunA2_R59Point693.svg
+    cd octagonal
+    node verify_torus.js octagonal-trumpet.svg RunA2_R59Point693.svg
     # -> COMPLEMENTARY the plate's tabs land in the panel's notches
+
+It is not a bore, which is why it sits beside `bores/` rather than inside it.
 
 ## The gate
 

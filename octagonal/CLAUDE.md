@@ -106,7 +106,7 @@ Unlike the sibling repositories, this one publishes twice, and that is deliberat
 | source | page | what it is |
 |---|---|---|
 | `README.md` | `index.html` | the short page — cut it, or build it at your size |
-| `Octagonal_Torus_Gold.md` | `Octagonal_Torus_Gold.html` | the full writeup, 1030 lines |
+| `README.md` | `index.html` | the writeup — torus and trumpet in one document, 1219 lines |
 
 They are not two sources for one page. Keep it that way — `trumpet-octagonal` kept a second
 source for a *single* page until 2026-09-02, the two drifted until they shared barely a

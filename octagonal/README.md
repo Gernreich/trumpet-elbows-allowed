@@ -1,22 +1,29 @@
-# Octagonal_Torus — parametric, 90mm radius, 25 × 25mm cross-section
+# Octagonal — the torus, and the trumpet cut out of it
 
-Complete record: the trigonometry, the generator, and the verified cut list.
+Complete record: the trigonometry, the generator, the verified cut list, and the two
+objects that come out of it.
 
 **All dimensions are millimetres.**
 
-**Worked example:** an octagonal torus with a 25.000 × 25.000mm square cross-section, outer octagon
-at R 90, cut from 3mm Baltic birch plywood. Verified cut file: **[`BuildA1_90_25.svg`](BuildA1_90_25.svg)**,
-reproduced end to end from Route A —
-[note on the violet lines in it](#note--the-violet-lines).
+**One geometry, two things to build.** A laser-cut octagonal torus — two nested octagonal
+tubes joined by annular plates, leaving a **square channel** all the way round — and the
+**trumpet** you get by cutting that ring open and straightening it into a curve. They are
+not two designs that happen to look alike. The trumpet's plate *is* the torus's plate, to
+0.001mm, and the violet lines drawn across the torus's plates are the cut that produces it.
+That is why they are one document.
+
+**Worked example:** a 25.000 × 25.000mm square cross-section, outer octagon at R 90, cut
+from 3mm Baltic birch plywood. Two verified cut files:
+**[`BuildA1_90_25.svg`](BuildA1_90_25.svg)** for the ring and
+**[`octagonal-trumpet.svg`](octagonal-trumpet.svg)** for the curve.
 
 ![A three-quarter view of the finished octagonal torus: a closed eight-sided ring with a square section, 172.298mm across the outside flats and 110.298mm across the bore, drawn from the measurements rather than photographed](torus-3quarter-view.svg)
 
 **A drawing, not a photograph — and the uncut torus.** This is what the finished ring
 measures out to: computed by [`torus-3d-view.js`](torus-3d-view.js) from the same three
 numbers Part 11 takes, so it cannot drift from the geometry described here. It shows the
-object assembled from [`BuildA1_90_25.svg`](BuildA1_90_25.svg) and stopped there. The
-photograph still to come shows the next step, after the cut along the
-[violet lines](#note--the-violet-lines) that turns it into the simple trumpet.
+object assembled from [`BuildA1_90_25.svg`](BuildA1_90_25.svg) and stopped there — before
+the cut along the [violet lines](#the-violet-lines--and-the-trumpet) that opens it.
 
 **Your own size.** Nothing here is fixed to 90, 25 or 3mm material. The whole object follows from
 **three numbers** you choose:
@@ -93,22 +100,28 @@ boxes.py — Part 11's formula and the inversion offset, both done for you.
 
 **It draws a picture; it does not make cut files.** For parts, use Route A.
 
+Built for **[LaserMadeMusic](https://www.youtube.com/@LaserMadeMusic)**, where the cutting
+and the playing are shown.
+
 ---
 
 # PART 0 — Build it
 
 ## Get the files
 
-- **[`BuildA1_90_25.svg`](BuildA1_90_25.svg)** — the cut file. On GitHub use the ⤓ *Download raw
-  file* button; clicking the name only previews it.
+- **[`BuildA1_90_25.svg`](BuildA1_90_25.svg)** — the **torus**: 18 pieces, 20 contours,
+  verified. On GitHub use the ⤓ *Download raw file* button; clicking the name only
+  previews it.
+- **[`octagonal-trumpet.svg`](octagonal-trumpet.svg)** — the **trumpet**: the same plate,
+  and the curved bore band. One sheet, 444.077 × 484.599mm.
 - **[The whole repository as a ZIP](https://github.com/Gernreich/trumpet/archive/refs/heads/main.zip)**
-  — the cut file, this writeup, the diagram and the verification tools are under
-  `torus/`; the trumpets are beside them.
-- **[The torus directory](https://github.com/Gernreich/trumpet/tree/main/torus)** — every file named below lives here.
+  — both cut files, this writeup, the diagram and the verification tools are under
+  `octagonal/`; the other trumpets are beside them.
+- **[The octagonal directory](https://github.com/Gernreich/trumpet/tree/main/octagonal)** — every file named below lives here.
 
 ---
 
-**18 pieces of material:** 2 plates + 8 outer panels + 8 inner panels. (That is 20 cut contours —
+**The torus is 18 pieces of material:** 2 plates + 8 outer panels + 8 inner panels. (That is 20 cut contours —
 each plate is a rim plus a stitched hole — which is why Part 10 verifies 20.)
 
 Assembled: **25.000mm radial × 25.000mm axial**, 172.298 across the flats outside, 110.298 bore.
@@ -117,6 +130,24 @@ Assembled: **25.000mm radial × 25.000mm axial**, 172.298 across the flats outsi
 The 8 outer panels form its outside wall, the 8 inner panels its bore wall. Each set of 8 is
 **4 long + 4 short, alternating**, because that is how a polygon tube closes with rectangular
 fingers (Part 6b).
+
+**The trumpet is two pieces:** one of those same plates, and a single curved band
+507.368 × 306.074mm that forms the bore. [Its own section](#the-trumpet-sheet) is below.
+
+## Which one are you building
+
+They share a plate, a channel and a facet angle, and they diverge at exactly one step.
+
+| | **the torus** | **the trumpet** |
+|---|---|---|
+| what it is | a closed ring | the ring opened into a curve |
+| cut file | `BuildA1_90_25.svg` | `octagonal-trumpet.svg` |
+| pieces | 18 | 2 |
+| the violet lines | left uncut — the ring stays whole | already taken — this *is* the result |
+| centreline | 468.2mm, closed | 1107.9mm over twelve 45° facets |
+| cut stages used | green → orange → cyan → black | orange → black |
+
+The rest of Part 0 covers both. Where a step applies to only one of them it says so.
 
 ## The video
 
@@ -222,26 +253,134 @@ It is specific to **this** build — R 90 outer, 25 × 25mm cross-section, 3mm m
 size or thickness use Route A, or Part 11 for the general formulas; none of the widths carry over.
 [Part 10](#part-10--file-record) says what every other file here is.
 
-### Note — the violet lines
+### The violet lines — and the trumpet
 
-**They are not part of the torus.** The file carries 24 violet paths alongside the 20 cut contours,
-and they are all one family: **12 on each of the two plates**. Each is a single straight line from the hole edge out to the
-rim — apothem 55.2 to 83.2 on the plates, whose fingers stand proud of that line, and 55.2 to 86.2
-on the rings, which have none — so together they divide each wall into sixteen segments. None
-overruns its octagon.
+**They are not part of the torus.** The file carries **24 violet paths** alongside the 20
+cut contours, and they are all one family: **12 on each of the two plates**. Each is a
+single straight line from the hole edge out to the rim — apothem 55.2 to 83.4, inside an
+edge at 86.2, so none overruns its octagon. Together they divide each plate wall into
+segments.
 
-They are the optional cuts. Take them and the torus comes apart into sections, which is how you
-reach the simple trumpet; the segments they define are also the patches for joining sections back
-together. Turn one green to cut it, and leave the rest violet.
+They are the optional cuts, and they are the hinge of this whole document. **Take them and
+the torus comes apart into sections — and sections are what a trumpet is made of.** The
+segments they define are also the patches for joining sections back together. Turn one
+green to cut it, and leave the rest violet.
 
 Ignore all of them for a plain torus — set the colour to a non-cutting layer, or delete it.
-`verify_torus.js` skips exactly this one colour, which is why it reports 20 contours rather than 44.
+`verify_torus.js` skips exactly this one colour, which is why it reports 20 contours rather
+than 44, and it counts them per plate rather than taking this paragraph's word for it:
 
-↩ [back to the top](#octagonaltorus--parametric-90mm-radius-25--25mm-cross-section)
+```
+  SKIP LINES  (violet — carried, not cut)
+    plate 0: 12 line(s), apothem 55.249 … 83.407   edge at 86.25
+    plate 1: 12 line(s), apothem 55.249 … 83.407   edge at 86.25
+    none reaches past its octagon's outer edge ✓
+    every plate carries the same 12 ✓
+```
+
+**If you want the trumpet, you do not have to make those cuts yourself.**
+`octagonal-trumpet.svg` is the result already drawn as its own sheet, with the band as one
+continuous piece rather than eight segments to rejoin. Cutting the torus open is the
+*explanation*; the trumpet sheet is the *shortcut*. Both are below.
+
+## The trumpet sheet
+
+**[`octagonal-trumpet.svg`](octagonal-trumpet.svg)** — the torus opened out into a curve
+instead of closed into a ring, on one sheet. Same 25 × 25mm square channel, same R 90
+octagonal plate, same 3mm Baltic birch.
+
+<div class="tw">
+<table>
+<tr>
+<td align="center"><a href="octagonal-trumpet.svg"><img src="previews/octagonal-trumpet.svg" alt="The cut sheet: one finger-jointed octagonal plate with a central hole and sixteen violet lines across its wall, beside a long curved finger-jointed band that forms the curved bore" width="620"></a></td>
+</tr>
+<tr>
+<td align="center"><sub>octagonal-trumpet.svg · 444.1 × 484.6mm sheet</sub></td>
+</tr>
+</table>
+</div>
+
+*A display rendering — the cut file draws a hairline on no background, which a browser
+shows almost invisibly, so this is thickened and painted onto a light ground. Geometry and
+sheet position are untouched. The three lightest cut-order inks — green, orange and cyan —
+are darkened here; at full strength they fall below the contrast a light background can
+carry. Hue and sequence are unchanged, and the cut file keeps the exact values.*
+
+### What is on it
+
+Measured out of the file itself:
+
+| Part | Count | Size |
+|---|---|---|
+| Octagonal plate, finger-jointed rim | 1 | 172.298mm across flats — R 90 |
+| Its central hole | 1 | 116.298mm across flats — R 62.94 |
+| Curved bore band, finger-jointed on both edges | 1 | 507.368 × 306.074mm |
+
+The sheet is 444.077 × 484.599mm and every part sits inside it, with no geometry hanging
+off the page. It carries **16 violet lines** of its own — one at the middle of every flat
+and one at every corner — dividing the plate wall into sixteen segments, on the same
+"marked, never cut" terms as the torus's 24.
+
+### The plate is the torus's plate
+
+Not *like* it — the same part. Rim at apothem 86.149, hole at 58.149, hole concentric with
+the rim to within 0.001mm, and the same joint phase along every face.
+
+That is checkable rather than asserted, and both files now sit in this directory, so it is
+one command:
+
+```
+node verify_torus.js octagonal-trumpet.svg RunA2_R59Point693.svg
+```
+
+```
+    plate hole  : in [-22.9…-15.0] in [-14.9…-9.1] … in [15.0…22.9]
+    ref disc    : OUT[-22.8…-15.0] OUT[-14.9…-9.1] … OUT[15.0…22.8]
+    -> COMPLEMENTARY ✓  the plate's tabs land in the panel's notches
+```
+
+So the side panels cut for the torus mate with this plate too, and **a dry-fit done for one
+is a dry-fit done for both**. Until 2026-09-05 this check spanned two repositories and
+could not be run in one place, which is the reason they were merged.
+
+### The traced bore
+
+**[`octagonal-trumpet-trace.svg`](octagonal-trumpet-trace.svg)** — the bore band's cheek,
+traced by hand, with the centreline taken from it: **1107.9mm over twelve facets of 45°**
+at 25 × 25mm. **Display only, not a cut file.**
+
+The curve behind this sheet is not written down as parameters anywhere, so it was measured
+rather than generated. The trace confirmed as much as it supplied: the strip came out
+**31.2mm wide** — 25mm of airway with a 3mm wall each side — the turns came out at
+**±45°**, the same facet angle as the torus, and the total turning came out at **0°**,
+which is what a bore between a mouthpiece and a bell must do. An opening faces *out* of the
+tube, so the mouth faces back along the run and the bell faces forward, and the two are
+opposed — you blow towards the instrument and it speaks away from you — exactly when the
+turns cancel. The width scatters 30.7 to 35.5mm about that nominal, so treat the length
+as ±1%.
+
+The numbers live in
+[`bores/ribbon/traces/octagonal-trumpet.json`](../bores/ribbon/traces/octagonal-trumpet.json)
+with how they were taken, and the bore is drawn, turnable, at
+[`bores/ribbon`](https://gernreich.github.io/trumpet/bores/ribbon/).
+
+**The centreline is kept out of the cut file deliberately.** Red is a cut colour throughout
+this repository, so a red path on a sheet is a path the laser tries to cut —
+[`verify_torus.js`](verify_torus.js) says so in as many words: *#ff0000 is a cut colour
+with no place in the cut order*. Drawing it there also grew the canvas from 444 × 485mm to
+**798 × 492mm**, wider than the 600mm bed.
+
+### The bell and the mouthpiece
+
+Neither is here, and neither is touched by the way a bore turns — only the tube belongs to
+an instrument. Both live in **[`parts/`](../parts)**, built on the same 25 × 25mm channel
+and shared with the [coiled trumpet](../bores/coiled).
 
 ## Colour is the cut order
 
-**Violet `#8000ff` is skip — it is never cut.** Everything else is, and the colour says *when*:
+**Violet `#8000ff` is skip — it is never cut.** Everything else is, and the colour says *when*.
+
+**The torus sheet uses all four stages:**
 
 | | colour | what, and why there |
 |---|---|---|
@@ -250,37 +389,50 @@ Ignore all of them for a plain torus — set the colour to a non-cutting layer, 
 | 3 | cyan `#00ffff` | the remaining 8 panels, out on the open sheet — two of them nested at 45° |
 | 4 | black `#000000` | the plate and ring rims — frees them |
 
-All four are explicit stroke colours, so select-same-colour finds each group and a colour-keyed job
-lists all four. **Violet is the fifth colour in the file and takes no operation at all**: those 64
-lines are the optional cuts across the plate walls, twelve per plate, which this build
-does not make. Marking them explicitly is the point, so "not cut" is a decision recorded in the
-drawing rather than a colour someone forgot to map.
+**The trumpet sheet needs only two**, because nothing is nested and there is nothing to engrave:
+
+| | colour | what | why then |
+|---|---|---|---|
+| 1 | orange `#ff8000` | the plate's central hole | cut while the plate is still held by the sheet |
+| 2 | black `#000000` | the plate rim and the bore band | frees them, so they go last |
+
+Holes before rims is the whole of the rule on that one: once the black rim is through, the
+plate is loose, and anything still to be cut inside it will move.
+
+All the stages present are explicit stroke colours, so select-same-colour finds each group and a
+colour-keyed job lists them. **Violet takes no operation at all** — 24 lines on the torus, 16 on
+the trumpet, the optional cuts across the plate walls, which neither build makes. Marking them
+explicitly is the point, so "not cut" is a decision recorded in the drawing rather than a colour
+someone forgot to map.
 
 **Blue is the piece numbers, and it engraves.** Blue means *engrave* across these repositories and
-never cuts. From 2026-09-03 every one of the eighteen pieces carries a hex number in blue, written
-by `number_pieces.js`, because the outer panels differ by 1.758mm and the inner ones by the same,
-and off the bed they are a pile of near-identical rectangles. Give blue a marking operation, or
-leave it unmapped and lose nothing but the numbers.
+never cuts. From 2026-09-03 every one of the torus's eighteen pieces carries a hex number in blue,
+written by `number_pieces.js`, because the outer panels differ by 1.758mm and the inner ones by the
+same, and off the bed they are a pile of near-identical rectangles. Give blue a marking operation,
+or leave it unmapped and lose nothing but the numbers. The trumpet's two pieces cannot be confused
+with each other and carry none.
 
 The sequence is shared by every LaserMadeMusic repository: blue engraves, then
 green → orange → cyan → black, black always the cut that frees the part, violet always
 skip. A file uses only the stages it needs — the bullroarers and buzz discs run green then
 black and nothing else — so learning it once covers all of them.
 
-Eight of the sixteen panels are nested in the middle of the plate and ring holes, where they would
-otherwise be waste, and so are the two square patches. That is what forces the sequence: **cut a
-part while its material is still held.** Cut the orange hole first and the whole centre drops away,
-taking the uncut pieces on it with it — into the machine, if you are unlucky. Holes before rims for the same reason: once the black rim is
-through, the plate is loose and anything still to be cut in it will move.
+Eight of the torus's sixteen panels are nested in the middle of the plate and ring holes, where they
+would otherwise be waste, and so are the two square patches. That is what forces the sequence:
+**cut a part while its material is still held.** Cut the orange hole first and the whole centre
+drops away, taking the uncut pieces on it with it — into the machine, if you are unlucky. Holes
+before rims for the same reason.
 
-So set your laser to run **green → orange → cyan → black**, and give every one of those four a
+So set your laser to run **green → orange → cyan → black**, and give every stage the file uses a
 cutting operation. Leave violet unmapped, or delete it. A job set up per-colour silently skips any
-colour you leave unmapped, which is a hazard for the four and exactly what you want for the fifth.
+colour you leave unmapped, which is a hazard for the cutting stages and exactly what you want for
+violet. On the trumpet sheet that hazard is concrete: **leave orange out and you get a plate with
+no bore.**
 
 `verify_torus.js` checks all of this. It prints the palette, marks each colour counted or ignored, lists
-the four in order with what each one is, and fails loudly if a nested panel is scheduled after the
+the stages in order with what each one is, and fails loudly if a nested panel is scheduled after the
 hole it sits in, or a hole after its rim. It also counts the skip lines per octagon and checks that
-none runs past that octagon's outer edge, so the sixteen claimed above are read out of the file
+none runs past that octagon's outer edge, so the counts claimed above are read out of the file
 rather than asserted here:
 
 ```
@@ -291,12 +443,6 @@ rather than asserted here:
     4. black  x2   plate rims — frees the plates
     tightest nested piece to its hole: 1.095mm  (31.2 x 48.372 panel in plate 1) — kerf comes off both sides of that
     8 nested panels and 0 patches cut before their hole ✓   holes before rims ✓
-
-  SKIP LINES  (violet — carried, not cut)
-    plate 0: 12 line(s), apothem 55.249 … 83.407   edge at 86.25
-    plate 1: 12 line(s), apothem 55.249 … 83.407   edge at 86.25
-    none reaches past its octagon's outer edge ✓
-    every plate carries the same 12 ✓
 ```
 
 ## Before cutting the full sheet
@@ -328,6 +474,16 @@ machine**:
 
 None of that is in the coordinates, and all of it is in a 30-second cardboard test. The geometry is
 settled; the fit is not.
+
+
+**Grain direction is a real choice on the trumpet**, because the band curves. Run the face grain
+along its length and it bends more willingly; run it across and the band resists and holds its shape
+harder. Neither is wrong — they give different curves, and it is worth cutting one of each before
+deciding. The torus's panels are short and flat and do not care.
+
+**Cut both in 3mm Baltic birch plywood.** That is what they are built in, and the void-free core
+earns its place at the finger joints: a void landing in a tooth that has to carry the curve is a
+break waiting to happen.
 
 ## Check before cutting
 
@@ -369,9 +525,10 @@ Without it the phase pattern still prints but cannot be judged, so pass it. A **
 verdict is the check that would have caught the first failed build; run it after any edit, including
 ones you believe were only cosmetic.
 
-**On the HTML:** `Octagonal_Torus_Gold.html` is generated from this markdown by a converter kept
-outside the repo, which inlines `torus-geometry-diagram.svg` so the page stays self-contained.
-**The markdown is the source — edits made directly to the HTML are overwritten on the next run.**
+**On the HTML:** `index.html` is generated from this markdown by `md2html.py` in
+`../../lasermade-tools`, which inlines `torus-geometry-diagram.svg` so the page stays
+self-contained. **The markdown is the source — edits made directly to the HTML are
+overwritten on the next run.**
 
 ```
 node torus-geometry-diagram.js 90 25 3      # outer R, ring, thickness
@@ -856,11 +1013,13 @@ Nothing else in the repository is a part:
 | `torus-geometry-diagram.svg` | that figure, regenerated by the script — do not edit by hand |
 | `torus-3quarter-view.svg` | drawing of the finished torus, standing in until the photograph exists |
 | `torus-3d-view.js` | draws it, from `R_outer`, `S` and `t` — the same three numbers as Part 11 |
-| `Octagonal_Torus_Gold.md` | this document, and the source the HTML is built from |
-| `Octagonal_Torus_Gold.html` | the generated page — edits to it are overwritten |
-| `README.md` · `index.html` | repository front page, and the redirect that serves it on Pages |
+| `number_pieces.js` | writes and clears the blue piece numbers, and prints the table |
+| `octagonal-trumpet.svg` | **the trumpet** — the plate and the curved bore band |
+| `octagonal-trumpet-trace.svg` | the hand trace the trumpet's centreline came from — display only |
+| `previews/` | display renderings of both sheets — **not** cut files |
+| `README.md` | this document, and the source the HTML is built from |
+| `index.html` | the generated page — edits to it are overwritten |
 | `LICENSE` | CC0 1.0 |
-| `.gitignore` | keeps `.DS_Store` and `*.tmp` out of the repository |
 
 ## Final verification, `BuildA1_90_25.svg`
 
@@ -1038,3 +1197,23 @@ describes the scheme. `verify_torus.js` will tell you if a file gets it wrong.
 Corners always open up 8.24 % more than flats. Miscount the walls by one and you are out by
 3.247mm of radius. Mismatch a panel set by one generator run and you are out by 2.485mm of width.
 Get the phase backwards and the dimensions are all perfect and nothing fits.
+
+
+---
+
+# Licence
+
+Released under **[CC0 1.0](LICENSE)** — public domain, no strings. Cut it, modify it, sell what you
+make, no attribution required. A credit is always welcome but never owed.
+
+That dedication covers what is mine: this writeup, the diagram and its generator, and the tools. The
+part geometry itself comes from **[boxes.py](https://www.festi.info/boxes.py/)** by **Florian Festi** — the SVGs carry its
+`dc:source` provenance in their metadata. boxes.py is GPL 3.0; its source is at
+[github.com/florianfesti/boxes](https://github.com/florianfesti/boxes). Check its own terms if you
+plan to redistribute generated output at scale.
+
+# Credit
+
+Parts generated with **[boxes.py](https://www.festi.info/boxes.py/)** by **Florian Festi** (GPL 3.0,
+[source](https://github.com/florianfesti/boxes)), generator **RegularBox**, run on the
+[Hackerspace Bamberg instance](https://boxes.hackerspace-bamberg.de/).

@@ -12,7 +12,7 @@ of the bore. A trumpet is a mouthpiece, a length of tube and a bell; only the tu
 channel can be cut from them, but the sheets kept here are the 10mm ones. The 25mm bores
 that used to take them —
 [coiled](https://github.com/Gernreich/trumpet/tree/main/bores/coiled),
-[octagonal](https://github.com/Gernreich/trumpet/tree/main/bores/octagonal) and the switchback's own 25mm
+[octagonal](https://github.com/Gernreich/trumpet/tree/main/octagonal) and the switchback's own 25mm
 folder — are unaffected as bores; they simply have no bell or mouthpiece cut for them here
 any more. Git has the old sheets if they are wanted back.
 

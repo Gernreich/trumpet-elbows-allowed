@@ -10,7 +10,7 @@ The **mouthpiece** and the **bell** live in
 is touched by the way the bore turns. Only the tube belongs to an instrument.
 The 25mm pair that used to sit beside them, and fitted the
 [coiled](https://github.com/Gernreich/trumpet/tree/main/bores/coiled) and
-[octagonal](https://github.com/Gernreich/trumpet/tree/main/bores/octagonal) trumpets equally, was
+[octagonal](https://github.com/Gernreich/trumpet/tree/main/octagonal) trumpets equally, was
 retired on 2026-09-03.
 
     N N1 W3 U2 E3 N3 D3 W2 U3 N1

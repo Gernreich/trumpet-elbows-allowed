@@ -14,7 +14,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## What this is
 
 The **bell** and the **mouthpiece**, shared by every trumpet in these repositories rather
-than owned by one of them. `../bores/coiled` and `../bores/octagonal` both build on the
+than owned by one of them. `../bores/coiled` and `../octagonal` both build on the
 same 25 × 25mm channel, so both take the same bell and the same mouthpiece; only the tube
 between them differs.
 
