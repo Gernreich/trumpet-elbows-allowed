@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Octagonal torus — parametric, 90mm radius, 25 × 25mm cross-section</title>
+<style>
+:root{--bg:#fbfbfa;--fg:#1a1c1e;--mut:#5b6067;--line:#e2e4e7;--card:#fff;--accent:#1d4ed8;
+--codebg:#f4f5f7;--thbg:#f0f1f3;--mark:#fff8c4}
+@media (prefers-color-scheme:dark){:root{--bg:#15171a;--fg:#e6e8ea;--mut:#9aa1a9;--line:#2b2f34;
+--card:#1b1e22;--accent:#7aa2f7;--codebg:#22262b;--thbg:#23272c;--mark:#4a411c}}
+:root[data-theme=dark]{--bg:#15171a;--fg:#e6e8ea;--mut:#9aa1a9;--line:#2b2f34;--card:#1b1e22;
+--accent:#7aa2f7;--codebg:#22262b;--thbg:#23272c;--mark:#4a411c}
+:root[data-theme=light]{--bg:#fbfbfa;--fg:#1a1c1e;--mut:#5b6067;--line:#e2e4e7;--card:#fff;
+--accent:#1d4ed8;--codebg:#f4f5f7;--thbg:#f0f1f3;--mark:#fff8c4}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:16px/1.62 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+-webkit-text-size-adjust:100%}
+.wrap{display:grid;grid-template-columns:250px minmax(0,1fr);gap:44px;max-width:1180px;
+margin:0 auto;padding:40px 28px 96px}
+nav{position:sticky;top:28px;align-self:start;max-height:calc(100vh - 56px);overflow:auto;
+border-right:1px solid var(--line);padding-right:16px;font-size:13.5px;line-height:1.45}
+nav b{display:block;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--mut);
+margin:0 0 12px}
+nav a{display:block;color:var(--mut);text-decoration:none;padding:3px 0;border-radius:4px}
+nav a:hover{color:var(--accent)}
+nav a.l1{color:var(--fg);font-weight:640;margin-top:11px}
+nav a.l2{padding-left:12px}
+main{min-width:0}
+h1{font-size:1.62rem;line-height:1.25;letter-spacing:-.015em;margin:2.4em 0 .5em;
+padding-bottom:.32em;border-bottom:2px solid var(--line)}
+main>h1:first-child{margin-top:0;border-bottom:none;font-size:1.95rem}
+h2{font-size:1.16rem;margin:2em 0 .5em;letter-spacing:-.01em}
+h3{font-size:1.02rem;font-weight:650;margin:1.7em 0 .45em}
+p{margin:.85em 0}
+ul,ol{margin:.85em 0;padding-left:1.35em}
+li{margin:.3em 0}
+hr{border:0;border-top:1px solid var(--line);margin:2.6em 0}
+figure{margin:1.6em 0}
+/* A paragraph holding two or more images is a gallery. Left to inline layout they
+   wrap at whatever fits, which put three bells on one row and the fourth alone
+   underneath - directly above the caption, so it read as the caption for that one
+   picture rather than for the set. Flex lets them share the row instead. */
+p:has(img + img){display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start;
+justify-content:center}
+p:has(img + img) img{flex:1 1 140px;min-width:0;width:auto;max-width:100%;height:auto;
+border:1px solid var(--line);border-radius:10px}
+figure svg,figure img{display:block;width:100%;max-width:100%;height:auto;
+border:1px solid var(--line);border-radius:10px}
+a{color:var(--accent)}
+code{font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+background:var(--codebg);padding:.1em .32em;border-radius:4px;
+border:1px solid color-mix(in srgb,var(--line) 70%,transparent)}
+pre{background:var(--codebg);border:1px solid var(--line);border-radius:9px;
+padding:14px 16px;overflow-x:auto;margin:1.1em 0}
+pre code{background:none;border:0;padding:0;font-size:12.8px;line-height:1.62;white-space:pre}
+blockquote{margin:1.15em 0;padding:.7em 1.1em;border-left:4px solid var(--accent);
+background:var(--codebg);border-radius:0 7px 7px 0}
+blockquote p{margin:0}
+.tw{overflow-x:auto;margin:1.15em 0;border:1px solid var(--line);border-radius:9px;
+background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:8px 13px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+/* honour align="center" on gallery cells: a presentation attribute loses to any
+   CSS rule, so the line above would silently left-align every thumbnail caption */
+td[align=center],th[align=center]{text-align:center}
+th{background:var(--thbg);font-weight:630;white-space:nowrap;font-size:13px;
+letter-spacing:.01em}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:color-mix(in srgb,var(--thbg) 45%,transparent)}
+td code,th code{white-space:nowrap}
+/* A walk inside a link is one token: breaking it mid-walk put "N" at the end of one
+   line and "N5 U" at the start of the next, which reads as two things. */
+a code{white-space:nowrap}
+.tog{position:fixed;top:14px;right:14px;z-index:9;background:var(--card);color:var(--mut);
+border:1px solid var(--line);border-radius:7px;padding:6px 11px;font-size:12.5px;cursor:pointer}
+.tog:hover{color:var(--accent)}
+@media (max-width:900px){.wrap{grid-template-columns:1fr;gap:20px;padding:26px 18px 72px}
+nav{position:static;max-height:none;border-right:0;border-bottom:1px solid var(--line);
+padding:0 0 16px;columns:2;column-gap:20px}}
+@media print{nav,.tog{display:none}.wrap{display:block;max-width:none;padding:0}
+pre,.tw{break-inside:avoid}h1{break-after:avoid}}
+</style>
+</head>
+<body>
+<button class="tog" type="button">theme</button>
+<div class="wrap">
+<nav><b>Contents</b><a class="l1" href="#octagonal-torus--parametric-90mm-radius-25--25mm-cross-section">Octagonal torus — parametric, 90mm radius, 25 × 25mm cross-section</a><a class="l2" href="#the-files-at-a-glance">The files, at a glance</a><a class="l2" href="#just-cut-it">Just cut it</a><a class="l2" href="#turn-it">Turn it</a><a class="l2" href="#build-it-at-your-own-size">Build it at your own size</a><a class="l2" href="#check-your-own-file">Check your own file</a><a class="l2" href="#what-else-is-here">What else is here</a><a class="l2" href="#licence">Licence</a><a class="l2" href="#credit">Credit</a></nav>
+<main>
+<h1 id="octagonal-torus--parametric-90mm-radius-25--25mm-cross-section">Octagonal torus — parametric, 90mm radius, 25 × 25mm cross-section</h1>
+<p>A laser-cut octagonal torus: two nested octagonal tubes joined by annular plates, leaving a <strong>square channel</strong> all the way round. The cut file here is a 25 × 25mm channel with an outer octagon of R 90 in 3mm Baltic birch plywood — but those are three numbers you choose, and everything else derives from them, within one constraint. <a href="#build-it-at-your-own-size">Build it at your own size</a>.</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 300" width="1000" height="600" role="img" aria-label="Verified geometry of the 25 by 25 millimetre octagonal torus: a plan section through a plate, and a radial cross-section of the cavity">
+<rect width="500" height="300" fill="#fbfcfd"/>
+<g font-family="ui-sans-serif,system-ui,Helvetica,Arial,sans-serif">
+<text x="18" y="22" font-size="9" font-weight="700" fill="#0f172a">25 × 25 octagonal torus — verified geometry</text>
+<text x="18" y="32" font-size="5.4" fill="#475569">R_inner = R_outer − (ring + t) × sec(22.5°) = 90 − 28 × 1.082392 = 59.693   ·   nominal values, before the 0.1mm kerf outset</text>
+<path d="M208.149,122.316L157.684,71.851L86.316,71.851L35.851,122.316L35.851,193.684L86.316,244.149L157.684,244.149L208.149,193.684Z M205.149,192.442L156.442,241.149L87.55799999999999,241.149L38.851,192.442L38.851,123.55799999999999L87.55799999999999,74.851L156.442,74.851L205.149,123.55799999999999Z" fill="#bfdbfe" fill-rule="evenodd" opacity="0.95"/>
+<path d="M205.149,123.55799999999999L156.442,74.851L87.55799999999999,74.851L38.851,123.55799999999999L38.851,192.442L87.55799999999999,241.149L156.442,241.149L205.149,192.442Z M180.149,182.086L146.086,216.149L97.914,216.149L63.851,182.086L63.851,133.914L97.914,99.851L146.086,99.851L180.149,133.914Z" fill="#e2e8f0" fill-rule="evenodd" opacity="0.9"/>
+<path d="M180.149,133.914L146.086,99.851L97.914,99.851L63.851,133.914L63.851,182.086L97.914,216.149L146.086,216.149L180.149,182.086Z M177.149,180.844L144.844,213.149L99.156,213.149L66.851,180.844L66.851,135.156L99.156,102.851L144.844,102.851L177.149,135.156Z" fill="#bbf7d0" fill-rule="evenodd" opacity="0.95"/>
+<g stroke="#94a3b8" stroke-width="0.35" stroke-dasharray="3 2.5">
+<line x1="25.850842073984197" y1="158" x2="218.1491579260158" y2="158"/>
+<line x1="122" y1="61.8508420739842" x2="122" y2="254.1491579260158"/>
+</g>
+<polygon points="208.149,122.316 157.684,71.851 86.316,71.851 35.851,122.316 35.851,193.684 86.316,244.149 157.684,244.149 208.149,193.684" fill="none" stroke="#1d4ed8" stroke-width="1.4" stroke-linejoin="round"/>
+<polygon points="205.149,123.55799999999999 156.442,74.851 87.55799999999999,74.851 38.851,123.55799999999999 38.851,192.442 87.55799999999999,241.149 156.442,241.149 205.149,192.442" fill="none" stroke="#1d4ed8" stroke-width="1.4" stroke-linejoin="round"/>
+<polygon points="180.149,133.914 146.086,99.851 97.914,99.851 63.851,133.914 63.851,182.086 97.914,216.149 146.086,216.149 180.149,182.086" fill="none" stroke="#047857" stroke-width="1.4" stroke-linejoin="round"/>
+<polygon points="177.149,135.156 144.844,102.851 99.156,102.851 66.851,135.156 66.851,180.844 99.156,213.149 144.844,213.149 177.149,180.844" fill="none" stroke="#047857" stroke-width="1.4" stroke-linejoin="round"/>
+<line x1="128" y1="71.851" x2="227.1491579260158" y2="71.851" stroke="#cbd5e1" stroke-width="0.35"/><line x1="128" y1="74.851" x2="227.1491579260158" y2="74.851" stroke="#cbd5e1" stroke-width="0.35"/><line x1="128" y1="99.851" x2="227.1491579260158" y2="99.851" stroke="#cbd5e1" stroke-width="0.35"/><line x1="128" y1="102.851" x2="227.1491579260158" y2="102.851" stroke="#cbd5e1" stroke-width="0.35"/>
+<g stroke="#0f172a" stroke-width="0.55" fill="none">
+<line x1="224.1491579260158" y1="71.851" x2="224.1491579260158" y2="74.851"/><line x1="221.5491579260158" y1="71.851" x2="226.74915792601578" y2="71.851"/><line x1="221.5491579260158" y1="74.851" x2="226.74915792601578" y2="74.851"/><line x1="224.1491579260158" y1="74.851" x2="224.1491579260158" y2="99.851"/><line x1="221.5491579260158" y1="74.851" x2="226.74915792601578" y2="74.851"/><line x1="221.5491579260158" y1="99.851" x2="226.74915792601578" y2="99.851"/><line x1="224.1491579260158" y1="99.851" x2="224.1491579260158" y2="102.851"/><line x1="221.5491579260158" y1="99.851" x2="226.74915792601578" y2="99.851"/><line x1="221.5491579260158" y1="102.851" x2="226.74915792601578" y2="102.851"/>
+</g>
+<text x="229.1491579260158" y="73.351" font-size="5" fill="#1d4ed8" dominant-baseline="middle">3 outer wall</text>
+<text x="229.1491579260158" y="84.551" font-size="9" font-weight="700" fill="#0f172a" dominant-baseline="middle">25</text>
+<text x="229.1491579260158" y="91.951" font-size="4.8" fill="#475569" dominant-baseline="middle">ring, face to face</text>
+<text x="229.1491579260158" y="101.351" font-size="5" fill="#047857" dominant-baseline="middle">3 inner wall</text>
+<g stroke="#475569" stroke-width="0.55" fill="none">
+<line x1="122" y1="158" x2="122" y2="241.149"/>
+<line x1="122" y1="158" x2="156.442" y2="241.149"/>
+<path d="M122 182 A24 24 0 0 0 131.184 180.173"/>
+</g>
+<circle cx="144.844" cy="213.149" r="1.4" fill="#047857"/>
+<text x="128.106" y="189.412" font-size="5" fill="#475569">22.5°</text>
+<text x="161.442" y="249.149" font-size="5.4" fill="#1d4ed8">R 90</text>
+<text x="139.844" y="209.149" font-size="5.4" fill="#047857" text-anchor="end">R 59.693</text>
+<text x="122" y="264.149" font-size="5" fill="#475569" text-anchor="middle">plan — section through a plate</text>
+<text x="372" y="67.9" font-size="6" font-weight="700" fill="#0f172a" text-anchor="middle">Radial cross-section</text>
+<text x="372" y="75.4" font-size="4.6" fill="#475569" text-anchor="middle">drawn at 2.2× the plan</text>
+<path d="M337.9 83.9H406.1V152.1H337.9Z M344.5 90.5V145.5H399.5V90.5Z" fill="#e2e8f0" fill-rule="evenodd"/>
+<rect x="337.9" y="83.9" width="68.2" height="68.2" fill="none" stroke="#334155" stroke-width="1.1"/>
+<rect x="344.5" y="90.5" width="55.00000000000001" height="55.00000000000001" fill="none" stroke="#334155" stroke-width="1.1"/>
+<g font-size="4.4" fill="#475569" text-anchor="middle">
+<text x="372" y="88.8">3</text>
+<text x="372" y="150.4">3</text>
+<text x="341.2" y="119.6">3</text>
+<text x="402.8" y="119.6">3</text>
+</g>
+<text x="372" y="120" font-size="6.5" font-weight="700" fill="#0f172a" text-anchor="middle">25 × 25</text>
+<g stroke="#0f172a" stroke-width="0.5" fill="none">
+<line x1="344.5" y1="163.1" x2="399.5" y2="163.1"/>
+<line x1="344.5" y1="160.6" x2="344.5" y2="165.6"/>
+<line x1="399.5" y1="160.6" x2="399.5" y2="165.6"/>
+</g>
+<text x="372" y="171.1" font-size="5.6" font-weight="700" fill="#0f172a" text-anchor="middle">25</text>
+<text x="332.9" y="81.9" font-size="4.6" fill="#047857" text-anchor="end">← bore</text>
+<text x="411.1" y="81.9" font-size="4.6" fill="#1d4ed8">outside →</text>
+<text x="372" y="81.9" font-size="4.6" fill="#475569" text-anchor="middle">plate</text>
+<text x="372" y="157.5" font-size="4.6" fill="#475569" text-anchor="middle">plate</text>
+<text x="268" y="194.1" font-size="5.6" font-weight="700" fill="#0f172a">The four boundaries, outward to inward</text>
+<rect x="268" y="201.1" width="9" height="2.4" fill="#1d4ed8"/>
+<text x="281" y="204.1" font-size="5" font-weight="700" fill="#0f172a">a 86.149</text>
+<text x="310" y="204.1" font-size="5" fill="#475569">outer tube, outer face</text>
+<text x="476" y="204.1" font-size="5" fill="#475569" text-anchor="end">flats 172.298</text>
+<rect x="268" y="210.7" width="9" height="2.4" fill="#1d4ed8"/>
+<text x="281" y="213.7" font-size="5" font-weight="700" fill="#0f172a">a 83.149</text>
+<text x="310" y="213.7" font-size="5" fill="#475569">plate rim = outer octagon, R 90</text>
+<text x="476" y="213.7" font-size="5" fill="#475569" text-anchor="end">flats 166.298</text>
+<rect x="268" y="220.3" width="9" height="2.4" fill="#047857"/>
+<text x="281" y="223.3" font-size="5" font-weight="700" fill="#0f172a">a 58.149</text>
+<text x="310" y="223.3" font-size="5" fill="#475569">ring inner bound = inner tube, outer face</text>
+<text x="476" y="223.3" font-size="5" fill="#475569" text-anchor="end">flats 116.298</text>
+<rect x="268" y="229.9" width="9" height="2.4" fill="#047857"/>
+<text x="281" y="232.9" font-size="5" font-weight="700" fill="#0f172a">a 55.149</text>
+<text x="310" y="232.9" font-size="5" fill="#475569">bore = inner octagon, R 59.693</text>
+<text x="476" y="232.9" font-size="5" fill="#475569" text-anchor="end">flats 110.298</text>
+<text x="268" y="246.5" font-size="4.8" fill="#475569">Only the inner tube's wall stands in the ring — the outer tube's grows outward, away from it.</text>
+<text x="268" y="254.5" font-size="4.8" fill="#475569">So the outline-to-outline gap is 28, and the clear ring is 25.</text>
+</g></svg></figure>
+<p><strong><a href="https://github.com/Gernreich/torus-octagonal/archive/refs/heads/main.zip">Download everything as a ZIP</a></strong> — the cut file, the writeup, the diagram and the verification tools.</p>
+<p><strong><a href="https://gernreich.github.io/">The rest of the build files</a></strong> — every instrument, generator and tool, indexed.</p>
+<h2 id="the-files-at-a-glance">The files, at a glance</h2>
+<p>
+<a href="BuildA1_90_25.svg"><img src="previews/BuildA1_90_25.svg" alt="The finished cut sheet: two annular plates with octagonal holes, sixteen wall panels nested inside and around them, coloured by cut order" width="98%"></a>
+</p>
+<p>
+<a href="RunA1_R90.svg"><img src="previews/RunA1_R90.svg" alt="Generator run 1 at R 90: two discs and eight side panels as boxes.py emits them" width="48%"></a>
+<a href="RunA2_R59Point693.svg"><img src="previews/RunA2_R59Point693.svg" alt="Generator run 2 at R 59.693: the run the inner panels come from" width="48%"></a>
+</p>
+<p><em>Above, the cut file — colour is the cut order, not decoration. Below, two of the three generator runs it was assembled from. Click any to download. The pictures are display renderings with the stroke thickened; the real files draw 0.2646mm, which a browser shows almost invisibly against a transparency checkerboard. Green, orange and cyan are darkened in the picture — at full strength they are too pale to read against a light ground. The cut file keeps the exact values.</em></p>
+<hr>
+<h2 id="just-cut-it">Just cut it</h2>
+<p><strong><a href="BuildA1_90_25.svg"><code>BuildA1_90_25.svg</code></a></strong> — the torus's 18 pieces, 20 contours, verified.</p>
+<div class='tw'><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td>Material</td><td>3mm Baltic birch ply</td></tr><tr><td>Kerf (<code>burn</code>)</td><td>0.1mm</td></tr><tr><td>Sheet</td><td>458 × 218mm</td></tr><tr><td>Pieces</td><td>2 plates · 8 outer panels · 8 inner panels</td></tr><tr><td>Result</td><td>25.000mm radial × 25.000mm axial · 172.3 across flats · 110.3 bore</td></tr></tbody></table></div>
+<p>Dry-fit one plate against one inner panel in cardboard before committing a sheet. The plate's tabs around the hole should drop into the panel's notches.</p>
+<h3 id="every-piece-carries-its-number">Every piece carries its number</h3>
+<p>Added 2026-09-03. The panels differ by very little and it matters: the outer ones are 73.326 and 71.568mm wide, the inner ones 50.130 and 48.372mm. Off the bed they are a pile of near-identical rectangles, and a narrow panel in a wide panel's place does not close the ring.</p>
+<p>So each piece is engraved with a number in <strong>blue <code>#0000ff</code>, which engraves and never cuts</strong> — give it a marking operation, or leave it unmapped and lose nothing but the numbers. Hex, one glyph, counting 1 to 12 the way the bell rings and the bore sections do. <strong>The tick below and right of the glyph is the baseline</strong>: 6 and 9 are one shape turned over, and the tick says which way up you are holding it.</p>
+<div class='tw'><table><thead><tr><th>#</th><th>piece</th><th>size</th><th>cut stage</th></tr></thead><tbody><tr><td><code>1</code></td><td>outer panel, narrow</td><td>71.568 × 31.200mm</td><td>cyan — on the open sheet</td></tr><tr><td><code>2</code></td><td>plate</td><td>172.499 × 172.498mm</td><td>black — frees the plate</td></tr><tr><td><code>3</code></td><td>inner panel, narrow</td><td>48.372 × 31.200mm</td><td>cyan — on the open sheet</td></tr><tr><td><code>4</code></td><td>outer panel, wide</td><td>73.326 × 31.200mm</td><td>cyan — on the open sheet</td></tr><tr><td><code>5</code></td><td>plate</td><td>172.499 × 172.498mm</td><td>black — frees the plate</td></tr><tr><td><code>6</code></td><td>inner panel, wide</td><td>50.130 × 31.200mm</td><td>green — nested, cut first</td></tr><tr><td><code>7</code></td><td>inner panel, wide</td><td>50.130 × 31.200mm</td><td>green — nested, cut first</td></tr><tr><td><code>8</code></td><td>outer panel, narrow</td><td>71.568 × 31.200mm</td><td>cyan — on the open sheet</td></tr><tr><td><code>9</code></td><td>outer panel, wide</td><td>73.326 × 31.200mm</td><td>green — nested, cut first</td></tr><tr><td><code>A</code></td><td>inner panel, narrow</td><td>48.372 × 31.200mm</td><td>green — nested, cut first</td></tr><tr><td><code>B</code></td><td>outer panel, narrow</td><td>71.568 × 31.200mm</td><td>cyan — on the open sheet</td></tr><tr><td><code>C</code></td><td>outer panel, narrow</td><td>71.568 × 31.200mm</td><td>cyan — on the open sheet</td></tr><tr><td><code>D</code></td><td>outer panel, wide</td><td>73.326 × 31.200mm</td><td>green — nested, cut first</td></tr><tr><td><code>E</code></td><td>inner panel, narrow</td><td>48.372 × 31.200mm</td><td>green — nested, cut first</td></tr><tr><td><code>F</code></td><td>inner panel, wide</td><td>50.130 × 31.200mm</td><td>green — nested, cut first</td></tr><tr><td><code>10</code></td><td>inner panel, wide</td><td>50.130 × 31.200mm</td><td>green — nested, cut first</td></tr><tr><td><code>11</code></td><td>inner panel, narrow</td><td>48.372 × 31.200mm</td><td>cyan — on the open sheet</td></tr><tr><td><code>12</code></td><td>outer panel, wide</td><td>73.326 × 31.200mm</td><td>cyan — on the open sheet</td></tr></tbody></table></div>
+<p>Numbers run across the sheet, left to right and top to bottom, banded — the order the parts come off the bed. <code>node number_pieces.js --table</code> prints this table from the file, and <code>node number_pieces.js --clear</code> takes the engraving out again.</p>
+<p><strong>Cut everything except the violet.</strong> Those 64 paths are the optional cuts — sixteen on each plate and ring, each running straight from the hole edge to the rim. Take them and the torus comes apart into sections, which is how you reach the simple trumpet, and the segments they define are the patches for rejoining. Move them to a non-cutting layer or delete them first, or turn one green if you do want it cut.</p>
+<p><strong>Colour is the cut order: green → orange → cyan → black.</strong> Eight panels and both patches are nested inside the plate and ring holes, so they have to be cut before the hole that frees that waste; the holes have to be cut before the rims that free the plates. Give all four a cutting operation and run them in that order. <code>verify_torus.js</code> checks the sequence and will tell you if it is wrong.</p>
+<p><strong>Violet <code>#8000ff</code> is skip</strong> — the 24 optional cuts described above, twelve on each of the two plates. Leave it unmapped or delete it. <strong>Blue <code>#0000ff</code> is the piece numbers</strong>: blue means engrave across these repositories and never cuts, so give it a marking operation or leave it unmapped.</p>
+<p>The sequence is shared by every LaserMadeMusic repository — blue engraves, then green → orange → cyan → black, with black always the cut that frees the part and violet always skip. A file uses only the stages it needs.</p>
+<p><strong>Two optional stiffening rings are described in the writeup but are not on this sheet.</strong> They are plain octagons, no joinery, 172.258mm across the flats with a 110.298mm hole — the finished torus's own outside and bore — so one laid on a face sits flush at both edges. The torus closes without them, and this file ships its 18 pieces and nothing else.</p>
+<h2 id="turn-it">Turn it</h2>
+<p><strong><a href="torus-turn.html"><code>torus-turn.html</code></a></strong> — the torus as a solid you can drag: eight 45° facets, a 25 × 25mm section, 468.2mm of centreline. Colour by face to read the construction or by facet to follow it round; the slider builds it a facet at a time.</p>
+<p>It draws the <strong>airway</strong>, not the plywood — the passage bounded by the wall faces, at apothems 58.149 and 83.149, which is what <code>verify_torus.js</code> measures out of the cut file. Generated by <a href="https://gernreich.github.io/bore-ribbon/">bore-ribbon</a>'s <code>ribbon_view.py</code>, because a torus of rectangular section swept along a planar curve is exactly what that repository draws:</p>
+<pre><code>python3 ../bore-ribbon/ribbon_view.py --shape=torus --facet=45 --bore=25 \
+    --radius=76.4696 --out=torus-turn.html</code></pre>
+<p><code>76.4696</code> is the circumradius of the centreline octagon: its facets sit at apothem 70.649, the mean of the two above, and offsetting by ±12.5 reproduces both to 0.001mm.</p>
+<h2 id="build-it-at-your-own-size">Build it at your own size</h2>
+<p>Made with <strong><a href="https://boxes.hackerspace-bamberg.de/">boxes.py</a></strong> by Hackerspace Bamberg — generator <strong>RegularBox</strong>. Each link opens the form with every setting already filled in — change the radius or thickness if you want, then hit <strong>Generate</strong>. Save each one under its own name; boxes.py serves them all as <code>RegularBox.svg</code>.</p>
+<ol><li><strong><a href="https://boxes.hackerspace-bamberg.de/RegularBox?FingerJoint_style=rectangular&amp;FingerJoint_surroundingspaces=1.0&amp;FingerJoint_bottom_lip=0.0&amp;FingerJoint_edge_width=1.0&amp;FingerJoint_extra_length=0.0&amp;FingerJoint_finger=2.0&amp;FingerJoint_play=0.0&amp;FingerJoint_space=2.0&amp;FingerJoint_width=1.0&amp;h=25&amp;outside=0&amp;radius_bottom=90&amp;radius_top=90&amp;n=8&amp;top=closed&amp;alignment_pins=1.0&amp;bottom=closed&amp;thickness=3.0&amp;burn=0.1&amp;format=svg&amp;labels=0&amp;labels=1&amp;reference=100.0&amp;tabs=0.0&amp;qr_code=0&amp;inner_corners=loop&amp;spacing=0.5&amp;debug=0&amp;language=en&amp;render=0">Outer tube, R 90</a></strong> — keep both discs and all 8 panels</li><li><strong><a href="https://boxes.hackerspace-bamberg.de/RegularBox?FingerJoint_style=rectangular&amp;FingerJoint_surroundingspaces=1.0&amp;FingerJoint_bottom_lip=0.0&amp;FingerJoint_edge_width=1.0&amp;FingerJoint_extra_length=0.0&amp;FingerJoint_finger=2.0&amp;FingerJoint_play=0.0&amp;FingerJoint_space=2.0&amp;FingerJoint_width=1.0&amp;h=25&amp;outside=0&amp;radius_bottom=59.693&amp;radius_top=59.693&amp;n=8&amp;top=closed&amp;alignment_pins=1.0&amp;bottom=closed&amp;thickness=3.0&amp;burn=0.1&amp;format=svg&amp;labels=0&amp;labels=1&amp;reference=100.0&amp;tabs=0.0&amp;qr_code=0&amp;inner_corners=loop&amp;spacing=0.5&amp;debug=0&amp;language=en&amp;render=0">Inner panels, R 59.693</a></strong> — keep the 8 panels only</li><li><strong><a href="https://boxes.hackerspace-bamberg.de/RegularBox?FingerJoint_style=rectangular&amp;FingerJoint_surroundingspaces=1.0&amp;FingerJoint_bottom_lip=0.0&amp;FingerJoint_edge_width=1.0&amp;FingerJoint_extra_length=0.0&amp;FingerJoint_finger=2.0&amp;FingerJoint_play=0.0&amp;FingerJoint_space=2.0&amp;FingerJoint_width=1.0&amp;h=25&amp;outside=0&amp;radius_bottom=56.446&amp;radius_top=56.446&amp;n=8&amp;top=closed&amp;alignment_pins=1.0&amp;bottom=closed&amp;thickness=3.0&amp;burn=0.1&amp;format=svg&amp;labels=0&amp;labels=1&amp;reference=100.0&amp;tabs=0.0&amp;qr_code=0&amp;inner_corners=loop&amp;spacing=0.5&amp;debug=0&amp;language=en&amp;render=0">Hole cutter, R 56.446</a></strong> — keep one disc, invert it, cut the hole in both outer discs</li></ol>
+<p><strong>Inverting the disc:</strong> in Inkscape, break the octagon outline into its eight segments — one per face — and flip each one. The flipped segments together are the hole; place them concentric on each outer disc and cut. <strong>The <a href="https://www.youtube.com/@LaserMadeMusic">video</a> shows this step by step</strong>, and <a href="Octagonal_Torus_Gold.html#how-the-inversion-was-done">the writeup</a> explains what flipping does to the joint.</p>
+<p>The eight segments in <code>BuildA1_90_25.svg</code> have been stitched into one closed loop per plate, but that is <strong>probably unnecessary</strong> — the gaps between segments measured 0.077mm against a 0.1mm kerf, so the cuts overlap anyway. It only matters if your laser software applies its own kerf compensation, which needs closed paths — and if it does, switch it off, because <code>burn = 0.1</code> is already baked into these files.</p>
+<p>Run 3 uses a <em>smaller</em> radius on purpose: flipping shifts the band outward by one material thickness. So you type the radius whose <em>apothem</em> is 3mm short of where the band should land — 3.247 smaller in radius, since 3mm of apothem is 3 × sec(22.5°) — and the inversion carries it exactly into place. Details in Part 8a of the writeup.</p>
+<p>The size relationship is fixed by one constant:</p>
+<pre><code>R_inner = R_outer − (ring + thickness) × sec(22.5°)
+        = 90 − 28 × 1.082392 = 59.693</code></pre>
+<p><code>sec(22.5°) = 1.0824</code> — an octagon's corners sit 8.24 % further out than its flats.</p>
+<p><strong>The three numbers are not independent.</strong> The ring and both walls have to fit inside the outer octagon, which puts a floor under the radius:</p>
+<pre><code>R_outer  &gt;  (ring + 2 × thickness) × sec(180°/n)</code></pre>
+<p>For a 25mm ring in 3mm that floor is 33.554mm, so R 90 is comfortably clear. Below it the hole cutter comes out zero or negative and there is no bore at all — ask for a 500mm ring at R 10 and the arithmetic has nowhere to put it. <code>torus-geometry-diagram.js</code> checks this before it draws anything and refuses, naming the minimum for your ring and thickness.</p>
+<h2 id="check-your-own-file">Check your own file</h2>
+<pre><code>node verify_torus.js BuildA1_90_25.svg RunA2_R59Point693.svg</code></pre>
+<p>Reports the stroke palette, contours, plate and hole geometry, hole concentricity, <strong>joint phase</strong>, <strong>cut order</strong>, nesting clearances, and whether everything sits inside the viewBox. The phase check is the one that matters — it catches a hole whose tabs land where the panel is solid, which is a build that measures perfectly and cannot be assembled.</p>
+<pre><code>node torus-geometry-diagram.js 90 25 3        # redraw the figure at any size</code></pre>
+<h2 id="what-else-is-here">What else is here</h2>
+<p><code>RunA1/2/3</code> are the three generator outputs from the links above, unmodified. Run 2 doubles as the reference <code>verify_torus.js</code> checks joint phase against, so keep it if you plan to verify your own files. Part 10 of the writeup says what each one is.</p>
+<h2 id="licence">Licence</h2>
+<p>Released under <strong><a href="LICENSE">CC0 1.0</a></strong> — public domain, no strings. Cut it, modify it, sell what you make, no attribution required. A credit is always welcome but never owed.</p>
+<p>That dedication covers what is mine: the writeup, the diagram and its generator, and the tools. The part geometry itself comes from <strong><a href="https://www.festi.info/boxes.py/">boxes.py</a></strong> by <strong>Florian Festi</strong> — the SVGs carry its <code>dc:source</code> provenance in their metadata. boxes.py is GPL 3.0; its source is at <a href="https://github.com/florianfesti/boxes">github.com/florianfesti/boxes</a>. Check its own terms if you plan to redistribute generated output at scale.</p>
+<h2 id="credit">Credit</h2>
+<p>Parts generated with <strong><a href="https://www.festi.info/boxes.py/">boxes.py</a></strong> by <strong>Florian Festi</strong> (GPL 3.0, <a href="https://github.com/florianfesti/boxes">source</a>), generator <strong>RegularBox</strong>, run on the <a href="https://boxes.hackerspace-bamberg.de/">Hackerspace Bamberg instance</a>.</p>
+</main>
+</div>
+<script>
+var r=document.documentElement,b=document.querySelector('.tog');
+function set(t){r.setAttribute('data-theme',t);try{localStorage.setItem('ctg-theme',t)}catch(e){}
+b.textContent=t==='dark'?'\u2600 light':'\u263e dark';}
+var saved=null;try{saved=localStorage.getItem('ctg-theme')}catch(e){}
+set(saved||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));
+b.addEventListener('click',function(){set(r.getAttribute('data-theme')==='dark'?'light':'dark')});
+</script>
+</body>
+</html>
