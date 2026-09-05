@@ -91,11 +91,11 @@ will not compare against anything.
 ```sh
 cd ../../tools
 W="$(cat walks/trumpet_switchback.txt)"
-rm -rf /tmp/f && mkdir -p /tmp/f/trumpet-switchback/10mm
+rm -rf /tmp/f && mkdir -p /tmp/f/switchback/10mm
 ~/boxes/venv/bin/python bore_split.py --blocksize=16 --refuse-elbows "$W" \
-    --write /tmp/f/trumpet-switchback/10mm/bore
-cmp /tmp/f/trumpet-switchback/10mm/bore/bore10-trumpet-switchback-02of06-bend-LUUR-cut-files.svg \
-    ../switchback/10mm/bore/bore10-trumpet-switchback-02of06-bend-LUUR-cut-files.svg
+    --write /tmp/f/switchback/10mm/bore
+cmp /tmp/f/switchback/10mm/bore/bore10-switchback-02of06-bend-LUUR-cut-files.svg \
+    ../switchback/10mm/bore/bore10-switchback-02of06-bend-LUUR-cut-files.svg
 ```
 
 ## A turn is a cube because it has to be

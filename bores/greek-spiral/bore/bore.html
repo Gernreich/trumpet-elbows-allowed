@@ -179,8 +179,8 @@ input[type="range"]::-moz-range-thumb {
 
 <div class="rail" id="controls">
   <div id="pick-wrap" style="display:none">
-    <div class="label">Size</div>
-    <div class="seg" role="group" aria-label="Which size" id="pick"></div>
+    <div class="label">Turns</div>
+    <div class="seg" role="group" aria-label="Which coil" id="pick"></div>
   </div>
   <div>
     <div class="label">Colour by</div>
@@ -216,7 +216,7 @@ input[type="range"]::-moz-range-thumb {
 </div>
 
 <script>
-const SETS = [{"label":"","walk":"N N10 W9 S6 E5 N2 W3 N2 E5 S6 W9 N10","d":{"cells":[{"p":[0,0,0],"d":"N","s":0,"i0":0},{"p":[0,0,-1],"d":"N","s":0,"i0":1},{"p":[0,0,-2],"d":"N","s":0,"i0":2},{"p":[0,0,-3],"d":"N","s":0,"i0":3},{"p":[0,0,-4],"d":"N","s":0,"i0":4},{"p":[0,0,-5],"d":"N","s":0,"i0":5},{"p":[0,0,-6],"d":"N","s":0,"i0":6},{"p":[0,0,-7],"d":"N","s":0,"i0":7},{"p":[0,0,-8],"d":"N","s":0,"i0":8},{"p":[0,0,-9],"d":"N","s":0,"i0":9},{"p":[0,0,-10],"d":"W","s":0,"i0":10},{"p":[-1,0,-10],"d":"W","s":0,"i0":11},{"p":[-2,0,-10],"d":"W","s":0,"i0":12},{"p":[-3,0,-10],"d":"W","s":0,"i0":13},{"p":[-4,0,-10],"d":"W","s":0,"i0":14},{"p":[-5,0,-10],"d":"W","s":0,"i0":15},{"p":[-6,0,-10],"d":"W","s":0,"i0":16},{"p":[-7,0,-10],"d":"W","s":0,"i0":17},{"p":[-8,0,-10],"d":"W","s":0,"i0":18},{"p":[-9,0,-10],"d":"S","s":0,"i0":19},{"p":[-9,0,-9],"d":"S","s":0,"i0":20},{"p":[-9,0,-8],"d":"S","s":0,"i0":21},{"p":[-9,0,-7],"d":"S","s":0,"i0":22},{"p":[-9,0,-6],"d":"S","s":0,"i0":23},{"p":[-9,0,-5],"d":"S","s":0,"i0":24},{"p":[-9,0,-4],"d":"E","s":0,"i0":25},{"p":[-8,0,-4],"d":"E","s":0,"i0":26},{"p":[-7,0,-4],"d":"E","s":0,"i0":27},{"p":[-6,0,-4],"d":"E","s":0,"i0":28},{"p":[-5,0,-4],"d":"E","s":0,"i0":29},{"p":[-4,0,-4],"d":"N","s":0,"i0":30},{"p":[-4,0,-5],"d":"N","s":0,"i0":31},{"p":[-4,0,-6],"d":"W","s":0,"i0":32},{"p":[-5,0,-6],"d":"W","s":0,"i0":33},{"p":[-6,0,-6],"d":"W","s":0,"i0":34},{"p":[-7,0,-6],"d":"N","s":0,"i0":35},{"p":[-7,0,-7],"d":"N","s":0,"i0":36},{"p":[-7,0,-8],"d":"E","s":0,"i0":37},{"p":[-6,0,-8],"d":"E","s":0,"i0":38},{"p":[-5,0,-8],"d":"E","s":0,"i0":39},{"p":[-4,0,-8],"d":"E","s":0,"i0":40},{"p":[-3,0,-8],"d":"E","s":0,"i0":41},{"p":[-2,0,-8],"d":"S","s":0,"i0":42},{"p":[-2,0,-7],"d":"S","s":0,"i0":43},{"p":[-2,0,-6],"d":"S","s":0,"i0":44},{"p":[-2,0,-5],"d":"S","s":0,"i0":45},{"p":[-2,0,-4],"d":"S","s":0,"i0":46},{"p":[-2,0,-3],"d":"S","s":0,"i0":47},{"p":[-2,0,-2],"d":"W","s":0,"i0":48},{"p":[-3,0,-2],"d":"W","s":0,"i0":49},{"p":[-4,0,-2],"d":"W","s":0,"i0":50},{"p":[-5,0,-2],"d":"W","s":0,"i0":51},{"p":[-6,0,-2],"d":"W","s":0,"i0":52},{"p":[-7,0,-2],"d":"W","s":0,"i0":53},{"p":[-8,0,-2],"d":"W","s":0,"i0":54},{"p":[-9,0,-2],"d":"W","s":0,"i0":55},{"p":[-10,0,-2],"d":"W","s":0,"i0":56},{"p":[-11,0,-2],"d":"N","s":0,"i0":57},{"p":[-11,0,-3],"d":"N","s":0,"i0":58},{"p":[-11,0,-4],"d":"N","s":0,"i0":59},{"p":[-11,0,-5],"d":"N","s":0,"i0":60},{"p":[-11,0,-6],"d":"N","s":0,"i0":61},{"p":[-11,0,-7],"d":"N","s":0,"i0":62},{"p":[-11,0,-8],"d":"N","s":0,"i0":63},{"p":[-11,0,-9],"d":"N","s":0,"i0":64},{"p":[-11,0,-10],"d":"N","s":0,"i0":65},{"p":[-11,0,-11],"d":"N","s":0,"i0":66},{"p":[-11,0,-12],"d":"N","s":0,"i0":67}],"blocks":68,"mm":1088,"u":16.0,"dircol":{"N":"#2f6ea8","S":"#e08a2e","E":"#3f8f5e","W":"#9b4a9c","U":"#cf4433","D":"#8b9096"},"dirs":[{"k":"N","name":"north","n":25},{"k":"S","name":"south","n":12},{"k":"E","name":"east","n":10},{"k":"W","name":"west","n":21}],"sections":[{"col":"#2f6f4e","kind":"bend","n":68}],"openings":{"0:4":"IN","67:5":"OUT"},"inCol":"#1c1c20","outCol":"#e0457b"}}];
+const SETS = [{"label":"","walk":"N N10 W9 S6 E5 N2 W3 N2 E5 S6 W9 N10","d":{"cells":[{"a":[-8.0,-8.0,-16.0],"b":[8.0,8.0,0.0],"d":"N","s":0,"i0":0},{"a":[-8.0,-8.0,-32.0],"b":[8.0,8.0,-16.0],"d":"N","s":0,"i0":1},{"a":[-8.0,-8.0,-48.0],"b":[8.0,8.0,-32.0],"d":"N","s":0,"i0":2},{"a":[-8.0,-8.0,-64.0],"b":[8.0,8.0,-48.0],"d":"N","s":0,"i0":3},{"a":[-8.0,-8.0,-80.0],"b":[8.0,8.0,-64.0],"d":"N","s":0,"i0":4},{"a":[-8.0,-8.0,-96.0],"b":[8.0,8.0,-80.0],"d":"N","s":0,"i0":5},{"a":[-8.0,-8.0,-112.0],"b":[8.0,8.0,-96.0],"d":"N","s":0,"i0":6},{"a":[-8.0,-8.0,-128.0],"b":[8.0,8.0,-112.0],"d":"N","s":0,"i0":7},{"a":[-8.0,-8.0,-144.0],"b":[8.0,8.0,-128.0],"d":"N","s":0,"i0":8},{"a":[-8.0,-8.0,-160.0],"b":[8.0,8.0,-144.0],"d":"N","s":0,"i0":9},{"a":[-8.0,-8.0,-176.0],"b":[8.0,8.0,-160.0],"d":"W","s":0,"i0":10},{"a":[-24.0,-8.0,-176.0],"b":[-8.0,8.0,-160.0],"d":"W","s":0,"i0":11},{"a":[-40.0,-8.0,-176.0],"b":[-24.0,8.0,-160.0],"d":"W","s":0,"i0":12},{"a":[-56.0,-8.0,-176.0],"b":[-40.0,8.0,-160.0],"d":"W","s":0,"i0":13},{"a":[-72.0,-8.0,-176.0],"b":[-56.0,8.0,-160.0],"d":"W","s":0,"i0":14},{"a":[-88.0,-8.0,-176.0],"b":[-72.0,8.0,-160.0],"d":"W","s":0,"i0":15},{"a":[-104.0,-8.0,-176.0],"b":[-88.0,8.0,-160.0],"d":"W","s":0,"i0":16},{"a":[-120.0,-8.0,-176.0],"b":[-104.0,8.0,-160.0],"d":"W","s":0,"i0":17},{"a":[-136.0,-8.0,-176.0],"b":[-120.0,8.0,-160.0],"d":"W","s":0,"i0":18},{"a":[-152.0,-8.0,-176.0],"b":[-136.0,8.0,-160.0],"d":"S","s":0,"i0":19},{"a":[-152.0,-8.0,-160.0],"b":[-136.0,8.0,-144.0],"d":"S","s":0,"i0":20},{"a":[-152.0,-8.0,-144.0],"b":[-136.0,8.0,-128.0],"d":"S","s":0,"i0":21},{"a":[-152.0,-8.0,-128.0],"b":[-136.0,8.0,-112.0],"d":"S","s":0,"i0":22},{"a":[-152.0,-8.0,-112.0],"b":[-136.0,8.0,-96.0],"d":"S","s":0,"i0":23},{"a":[-152.0,-8.0,-96.0],"b":[-136.0,8.0,-80.0],"d":"S","s":0,"i0":24},{"a":[-152.0,-8.0,-80.0],"b":[-136.0,8.0,-64.0],"d":"E","s":0,"i0":25},{"a":[-136.0,-8.0,-80.0],"b":[-120.0,8.0,-64.0],"d":"E","s":0,"i0":26},{"a":[-120.0,-8.0,-80.0],"b":[-104.0,8.0,-64.0],"d":"E","s":0,"i0":27},{"a":[-104.0,-8.0,-80.0],"b":[-88.0,8.0,-64.0],"d":"E","s":0,"i0":28},{"a":[-88.0,-8.0,-80.0],"b":[-72.0,8.0,-64.0],"d":"E","s":0,"i0":29},{"a":[-72.0,-8.0,-80.0],"b":[-56.0,8.0,-64.0],"d":"N","s":0,"i0":30},{"a":[-72.0,-8.0,-96.0],"b":[-56.0,8.0,-80.0],"d":"N","s":0,"i0":31},{"a":[-72.0,-8.0,-112.0],"b":[-56.0,8.0,-96.0],"d":"W","s":0,"i0":32},{"a":[-88.0,-8.0,-112.0],"b":[-72.0,8.0,-96.0],"d":"W","s":0,"i0":33},{"a":[-104.0,-8.0,-112.0],"b":[-88.0,8.0,-96.0],"d":"W","s":0,"i0":34},{"a":[-120.0,-8.0,-112.0],"b":[-104.0,8.0,-96.0],"d":"N","s":0,"i0":35},{"a":[-120.0,-8.0,-128.0],"b":[-104.0,8.0,-112.0],"d":"N","s":0,"i0":36},{"a":[-120.0,-8.0,-144.0],"b":[-104.0,8.0,-128.0],"d":"E","s":0,"i0":37},{"a":[-104.0,-8.0,-144.0],"b":[-88.0,8.0,-128.0],"d":"E","s":0,"i0":38},{"a":[-88.0,-8.0,-144.0],"b":[-72.0,8.0,-128.0],"d":"E","s":0,"i0":39},{"a":[-72.0,-8.0,-144.0],"b":[-56.0,8.0,-128.0],"d":"E","s":0,"i0":40},{"a":[-56.0,-8.0,-144.0],"b":[-40.0,8.0,-128.0],"d":"E","s":0,"i0":41},{"a":[-40.0,-8.0,-144.0],"b":[-24.0,8.0,-128.0],"d":"S","s":0,"i0":42},{"a":[-40.0,-8.0,-128.0],"b":[-24.0,8.0,-112.0],"d":"S","s":0,"i0":43},{"a":[-40.0,-8.0,-112.0],"b":[-24.0,8.0,-96.0],"d":"S","s":0,"i0":44},{"a":[-40.0,-8.0,-96.0],"b":[-24.0,8.0,-80.0],"d":"S","s":0,"i0":45},{"a":[-40.0,-8.0,-80.0],"b":[-24.0,8.0,-64.0],"d":"S","s":0,"i0":46},{"a":[-40.0,-8.0,-64.0],"b":[-24.0,8.0,-48.0],"d":"S","s":0,"i0":47},{"a":[-40.0,-8.0,-48.0],"b":[-24.0,8.0,-32.0],"d":"W","s":0,"i0":48},{"a":[-56.0,-8.0,-48.0],"b":[-40.0,8.0,-32.0],"d":"W","s":0,"i0":49},{"a":[-72.0,-8.0,-48.0],"b":[-56.0,8.0,-32.0],"d":"W","s":0,"i0":50},{"a":[-88.0,-8.0,-48.0],"b":[-72.0,8.0,-32.0],"d":"W","s":0,"i0":51},{"a":[-104.0,-8.0,-48.0],"b":[-88.0,8.0,-32.0],"d":"W","s":0,"i0":52},{"a":[-120.0,-8.0,-48.0],"b":[-104.0,8.0,-32.0],"d":"W","s":0,"i0":53},{"a":[-136.0,-8.0,-48.0],"b":[-120.0,8.0,-32.0],"d":"W","s":0,"i0":54},{"a":[-152.0,-8.0,-48.0],"b":[-136.0,8.0,-32.0],"d":"W","s":0,"i0":55},{"a":[-168.0,-8.0,-48.0],"b":[-152.0,8.0,-32.0],"d":"W","s":0,"i0":56},{"a":[-184.0,-8.0,-48.0],"b":[-168.0,8.0,-32.0],"d":"N","s":0,"i0":57},{"a":[-184.0,-8.0,-64.0],"b":[-168.0,8.0,-48.0],"d":"N","s":0,"i0":58},{"a":[-184.0,-8.0,-80.0],"b":[-168.0,8.0,-64.0],"d":"N","s":0,"i0":59},{"a":[-184.0,-8.0,-96.0],"b":[-168.0,8.0,-80.0],"d":"N","s":0,"i0":60},{"a":[-184.0,-8.0,-112.0],"b":[-168.0,8.0,-96.0],"d":"N","s":0,"i0":61},{"a":[-184.0,-8.0,-128.0],"b":[-168.0,8.0,-112.0],"d":"N","s":0,"i0":62},{"a":[-184.0,-8.0,-144.0],"b":[-168.0,8.0,-128.0],"d":"N","s":0,"i0":63},{"a":[-184.0,-8.0,-160.0],"b":[-168.0,8.0,-144.0],"d":"N","s":0,"i0":64},{"a":[-184.0,-8.0,-176.0],"b":[-168.0,8.0,-160.0],"d":"N","s":0,"i0":65},{"a":[-184.0,-8.0,-192.0],"b":[-168.0,8.0,-176.0],"d":"N","s":0,"i0":66},{"a":[-184.0,-8.0,-208.0],"b":[-168.0,8.0,-192.0],"d":"N","s":0,"i0":67}],"blocks":68,"mm":1088,"dircol":{"N":"#2f6ea8","S":"#e08a2e","E":"#3f8f5e","W":"#9b4a9c","U":"#cf4433","D":"#8b9096"},"dirs":[{"k":"N","name":"north","n":25},{"k":"S","name":"south","n":12},{"k":"E","name":"east","n":10},{"k":"W","name":"west","n":21}],"sections":[{"col":"#2f6f4e","kind":"bend","n":68}],"openings":{"0:4":"IN","67:5":"OUT"},"inCol":"#1c1c20","outCol":"#e0457b"}}];
 let D = SETS[0].d;
 
 const cv = document.getElementById('c');
@@ -234,15 +234,27 @@ const CORN = [
 let yaw = 0.62, pitch = 0.72, zoom = 1, panX = 0, panY = 0;
 let mode = 'dir', reveal = D.cells.length, isolate = null, spinning = false;
 
-const key = (c) => c[0] + ',' + c[1] + ',' + c[2];
-let occAll = new Set(D.cells.map(c => key(c.p)));
+/* A cell is a box in mm, c.a to c.b. Blocks differ in length, so a face is
+   hidden only where a neighbour covers the whole of it - measured, because
+   there is no lattice index to compare any more. */
+function covers(c, o, f) {
+  const n = NRM[f], ax = n[0] ? 0 : (n[1] ? 1 : 2);
+  const touch = n[ax] > 0 ? Math.abs(o.a[ax] - c.b[ax]) : Math.abs(o.b[ax] - c.a[ax]);
+  if (touch > 1e-6) return false;
+  for (let i = 0; i < 3; i++) {
+    if (i === ax) continue;
+    const lap = Math.min(c.b[i], o.b[i]) - Math.max(c.a[i], o.a[i]);
+    if (lap < (c.b[i] - c.a[i]) - 1e-6) return false;
+  }
+  return true;
+}
 
 /* centre on the whole bore, so revealing blocks does not shift the model */
 let centre = null;
 function recentre() { centre = (() => {
   const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
   for (const c of D.cells) for (let i = 0; i < 3; i++) {
-    lo[i] = Math.min(lo[i], c.p[i]); hi[i] = Math.max(hi[i], c.p[i] + 1);
+    lo[i] = Math.min(lo[i], c.a[i]); hi[i] = Math.max(hi[i], c.b[i]);
   }
   return { c: lo.map((v, i) => (v + hi[i]) / 2), lo: lo, hi: hi };
 })(); }
@@ -250,39 +262,36 @@ recentre();
 
 function faces() {
   const shown = D.cells.slice(0, reveal);
-  const occ = reveal === D.cells.length ? occAll : new Set(shown.map(c => key(c.p)));
   const out = [];
   for (let i = 0; i < shown.length; i++) {
     const c = shown[i];
     if (isolate !== null && (mode === 'dir' ? c.d : c.s) !== isolate) continue;
     for (let f = 0; f < 6; f++) {
-      const n = NRM[f];
-      if (occ.has(key([c.p[0]+n[0], c.p[1]+n[1], c.p[2]+n[2]]))) continue;
+      if (shown.some(o => o !== c && covers(c, o, f))) continue;
       out.push({ cell: c, i: i, f: f });
     }
   }
   return out;
 }
 
-/* Lattice point -> mm, centred on c, at the current angle. Rotation is
-   linear, so scaling the offset here is the same as scaling afterwards. */
-function rotC(p, c, u) {
+function rotC(p, c) {
   const cy = Math.cos(yaw), sy = Math.sin(yaw);
   const cp = Math.cos(pitch), sp = Math.sin(pitch);
-  let x = (p[0] - c[0]) * u, y = (p[1] - c[1]) * u, z = (p[2] - c[2]) * u;
+  let x = p[0] - c[0], y = p[1] - c[1], z = p[2] - c[2];
   let x2 = x * cy + z * sy, z2 = -x * sy + z * cy;
   let y2 = y * cp - z2 * sp, z3 = y * sp + z2 * cp;
   return [x2, y2, z3];
 }
-function rot(p) { return rotC(p, centre.c, D.u); }
+function rot(p) { return rotC(p, centre.c); }
 
-/* What the cells project to at this angle, in mm, as [x0, x1, y0, y1]. */
-function fit(cells, c, u) {
+/* What the boxes project to at this angle, in mm, as [x0, x1, y0, y1]. */
+function fit(cells, c) {
   let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
   for (const q of cells) {
     for (let i = 0; i < 8; i++) {
-      const r = rotC([q.p[0] + (i & 1), q.p[1] + ((i >> 1) & 1),
-                      q.p[2] + ((i >> 2) & 1)], c, u);
+      const r = rotC([(i & 1) ? q.b[0] : q.a[0],
+                      ((i >> 1) & 1) ? q.b[1] : q.a[1],
+                      ((i >> 2) & 1) ? q.b[2] : q.a[2]], c);
       x0 = Math.min(x0, r[0]); x1 = Math.max(x1, r[0]);
       y0 = Math.min(y0, r[1]); y1 = Math.max(y1, r[1]);
     }
@@ -291,26 +300,24 @@ function fit(cells, c, u) {
 }
 
 /* The scale is locked to the biggest set, not fitted to whichever is shown.
-   Auto-fitting each one hides the very thing a size control exists to show:
-   the same walk at two pitches is one shape uniformly scaled, so fitting each
-   to the canvas draws two identical pictures. Locked, and measured in mm, the
-   smaller one is visibly smaller. Each set still centres on itself, so it
+   Fitting each one to the canvas draws four coils the same size, which is the
+   one thing a page comparing lengths must not do: the 3t is four times the
+   0.75t and has to look it. Each set still centres on itself, so the shown one
    stays in the middle rather than drifting off with its own origin. */
+const bboxOf = (cells) => {
+  const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
+  for (const q of cells) for (let i = 0; i < 3; i++) {
+    lo[i] = Math.min(lo[i], q.a[i]); hi[i] = Math.max(hi[i], q.b[i]);
+  }
+  return [lo, hi];
+};
 const REF = SETS.reduce((best, s) => {
-  const sp = (d) => {
-    const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
-    for (const q of d.cells) for (let i = 0; i < 3; i++) {
-      lo[i] = Math.min(lo[i], q.p[i]); hi[i] = Math.max(hi[i], q.p[i] + 1);
-    }
-    return Math.hypot(hi[0] - lo[0], hi[1] - lo[1], hi[2] - lo[2]) * d.u;
-  };
+  const sp = (d) => { const [lo, hi] = bboxOf(d.cells);
+    return Math.hypot(hi[0] - lo[0], hi[1] - lo[1], hi[2] - lo[2]); };
   return sp(s.d) > sp(best.d) ? s : best;
 }, SETS[0]).d;
 const refCentre = (() => {
-  const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
-  for (const q of REF.cells) for (let i = 0; i < 3; i++) {
-    lo[i] = Math.min(lo[i], q.p[i]); hi[i] = Math.max(hi[i], q.p[i] + 1);
-  }
+  const [lo, hi] = bboxOf(REF.cells);
   return lo.map((v, i) => (v + hi[i]) / 2);
 })();
 
@@ -339,8 +346,9 @@ function draw() {
   // first or strands the second in the middle of the canvas. And not the
   // bounding box either: a walk that climbs as it runs fills a diagonal slab
   // of a mostly empty box, and the box's corners are nowhere near the shape.
-  const [px0, px1, py0, py1] = fit(D.cells, centre.c, D.u);
-  const [rx0, rx1, ry0, ry1] = fit(REF.cells, refCentre, REF.u);
+  // Position from the set on screen, scale from the reference set.
+  const [px0, px1, py0, py1] = fit(D.cells, centre.c);
+  const [rx0, rx1, ry0, ry1] = fit(REF.cells, refCentre);
   const M = 56;
   const S = Math.min((w - M) / Math.max(rx1 - rx0, 0.001),
                      (h - M) / Math.max(ry1 - ry0, 0.001)) * zoom;
@@ -350,14 +358,11 @@ function draw() {
 
   const list = [];
   for (const q of faces()) {
-    // Unit scale, deliberately: rn is a direction, and shade() takes its dot
-    // product with the light as a number in [-1, 1]. Running it through rot(),
-    // which scales millimetres, multiplied the normal by the block size and
-    // clamped every face to white or black.
-    const n = NRM[q.f], rn = rotC([n[0] + centre.c[0], n[1] + centre.c[1],
-                                   n[2] + centre.c[2]], centre.c, 1);
+    const n = NRM[q.f], rn = rot([n[0] + centre.c[0], n[1] + centre.c[1], n[2] + centre.c[2]]);
     if (rn[2] <= 0.001) continue;                 /* facing away */
-    const pts = CORN[q.f].map(v => P([q.cell.p[0]+v[0], q.cell.p[1]+v[1], q.cell.p[2]+v[2]]));
+    const pts = CORN[q.f].map(v => P([v[0] ? q.cell.b[0] : q.cell.a[0],
+                                      v[1] ? q.cell.b[1] : q.cell.a[1],
+                                      v[2] ? q.cell.b[2] : q.cell.a[2]]));
     const z = pts.reduce((a, p) => a + p[2], 0) / 4;
     list.push({ pts, z, q, rn });
   }
@@ -470,7 +475,9 @@ function buildList() {
     tr.children[0].textContent = i + 1;
     tr.children[1].innerHTML = '<span class="sw" style="background:'
       + D.dircol[c.d] + '"></span> ' + DIRNAME[c.d];
-    tr.children[2].textContent = '(' + c.p.join(',') + ')';
+    /* the block's low corner in mm; there is no lattice index to show once
+       straights and turns are different lengths */
+    tr.children[2].textContent = '(' + c.a.map(v => Math.round(v)).join(',') + ')';
     tr.children[3].textContent = turn ? 'turn' : '';
     t.appendChild(tr);
   });
@@ -501,24 +508,23 @@ function buildKeys() {
   }
 }
 
-/* Several bores in one page -- the same design at more than one block size.
-   occAll is derived from D, so it has to be rebuilt with it; a stale one hides
-   faces that the new set does not have a neighbour for. Reset the camera too:
-   the sizes differ, and a zoom kept from one strands the other off-screen. */
+/* Several coils in one page: same walk truncated at different points, so the
+   only thing that changes is which set of cells is drawn. Reset the view with
+   it -- they differ in size, and keeping a zoom from a longer one strands a
+   shorter one off-screen. */
 function pickCoil(i) {
   D = SETS[i].d;
-  occAll = new Set(D.cells.map(c => key(c.p)));
   recentre();
   reveal = D.cells.length;
   $('reveal').max = reveal; $('reveal').value = reveal;
   $('reveal-count').textContent = reveal + ' / ' + reveal;
   document.getElementById('walk').textContent = SETS[i].walk;
-  // Keep the camera. It used to reset here, because each set fitted itself and
-  // a zoom held from a big one threw a small one off the canvas. The scale is
-  // locked now, so every set draws within the reference's frame -- and holding
-  // the angle is the whole point of a switch: you are comparing two shapes,
-  // which you cannot do if the view jumps each time you swap. Reset is still a
-  // button.
+  // Keep the camera. It used to reset here, because each coil fitted itself and
+  // a zoom held from the 3-turn threw the 3/4 off the canvas. The scale is
+  // locked to the longest now, so every coil draws inside that frame -- and
+  // holding the angle is the whole point of a switch: you are comparing
+  // lengths, which you cannot do if the view jumps each time you swap. Reset
+  // is still a button.
   isolate = null;
   for (const b of $('pick').children)
     b.setAttribute('aria-pressed', +b.dataset.i === i);

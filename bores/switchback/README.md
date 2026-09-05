@@ -98,12 +98,12 @@ sections will not go together.
 
 | # | file | blocks | in | out | plate | shape | sheet |
 |---|---|---|---|---|---|---|---|
-| 1 | [`10mm/bore/bore10-trumpet-switchback-01of06-bend-DL-buttin-cut-files.svg`](10mm/bore/bore10-trumpet-switchback-01of06-bend-DL-buttin-cut-files.svg) | 1-3 | N | W | 2×2 | BDL~a | 241×56mm |
-| 2 | [`10mm/bore/bore10-trumpet-switchback-02of06-bend-LUUR-cut-files.svg`](10mm/bore/bore10-trumpet-switchback-02of06-bend-LUUR-cut-files.svg) | 4-8 | W | E | 2×3 | BLUUR | 344×72mm |
-| 3 | [`10mm/bore/bore10-trumpet-switchback-03of06-bend-RD-cut-files.svg`](10mm/bore/bore10-trumpet-switchback-03of06-bend-RD-cut-files.svg) | 9-11 | E | N | 2×2 | BRD | 253×56mm |
-| 4 | [`10mm/bore/bore10-trumpet-switchback-04of06-bend-DL-cut-files.svg`](10mm/bore/bore10-trumpet-switchback-04of06-bend-DL-cut-files.svg) | 12-14 | N | D | 2×2 | BDL | 247×59mm |
-| 5 | [`10mm/bore/bore10-trumpet-switchback-05of06-bend-DLLU-cut-files.svg`](10mm/bore/bore10-trumpet-switchback-05of06-bend-DLLU-cut-files.svg) | 15-19 | D | U | 3×2 | BDLLU | 370×59mm |
-| 6 | [`10mm/bore/bore10-trumpet-switchback-06of06-bend-RD-buttout-cut-files.svg`](10mm/bore/bore10-trumpet-switchback-06of06-bend-RD-buttout-cut-files.svg) | 20-22 | U | N | 2×2 | BRD~b | 253×56mm |
+| 1 | [`10mm/bore/bore10-switchback-01of06-bend-DL-buttin-cut-files.svg`](10mm/bore/bore10-switchback-01of06-bend-DL-buttin-cut-files.svg) | 1-3 | N | W | 2×2 | BDL~a | 241×56mm |
+| 2 | [`10mm/bore/bore10-switchback-02of06-bend-LUUR-cut-files.svg`](10mm/bore/bore10-switchback-02of06-bend-LUUR-cut-files.svg) | 4-8 | W | E | 2×3 | BLUUR | 344×72mm |
+| 3 | [`10mm/bore/bore10-switchback-03of06-bend-RD-cut-files.svg`](10mm/bore/bore10-switchback-03of06-bend-RD-cut-files.svg) | 9-11 | E | N | 2×2 | BRD | 253×56mm |
+| 4 | [`10mm/bore/bore10-switchback-04of06-bend-DL-cut-files.svg`](10mm/bore/bore10-switchback-04of06-bend-DL-cut-files.svg) | 12-14 | N | D | 2×2 | BDL | 247×59mm |
+| 5 | [`10mm/bore/bore10-switchback-05of06-bend-DLLU-cut-files.svg`](10mm/bore/bore10-switchback-05of06-bend-DLLU-cut-files.svg) | 15-19 | D | U | 3×2 | BDLLU | 370×59mm |
+| 6 | [`10mm/bore/bore10-switchback-06of06-bend-RD-buttout-cut-files.svg`](10mm/bore/bore10-switchback-06of06-bend-RD-buttout-cut-files.svg) | 20-22 | U | N | 2×2 | BRD~b | 253×56mm |
 
 ### Either size
 

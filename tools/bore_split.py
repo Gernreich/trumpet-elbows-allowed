@@ -1192,7 +1192,7 @@ def design_slug(stack):
     """The design's part of a cut file's name.
 
     The size terms come out, because the bore is stated separately and a name
-    that says it twice - bore10-trumpet-switchback-10mm - reads as a mistake.
+    that says it twice - bore10-switchback-10mm - reads as a mistake.
     """
     keep = [w for w in stack if not DULL.fullmatch(w.lower())]
     return '-'.join(keep).lower().replace('_', '-')

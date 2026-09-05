@@ -129,7 +129,7 @@ to one is a change to both.
 **The two folders shared every filename until 2026-09-03.** `01_bend_DL.svg` existed in both
 bores, because the shapes genuinely are the same and only the pitch differs — but nothing
 stopped you cutting the wrong one, and the only tell was the sheet size. The bore is now in
-the name: `bore10-trumpet-switchback-01of06-bend-DL-buttin-cut-files.svg`, and each sheet
+the name: `bore10-switchback-01of06-bend-DL-buttin-cut-files.svg`, and each sheet
 carries a `<title>` and `<desc>` saying its bore, its blocks and its faces, so a file that
 has been renamed or moved can still be asked what it is.
 
