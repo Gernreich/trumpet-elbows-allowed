@@ -1,0 +1,12 @@
+# Named in prose; they live in other repositories, not this one.
+
+# ../bore-generator
+bore_split.py
+check.py
+viewer.py
+
+# ../lasermade-tools
+md2html.py
+
+# boxes.py, the upstream generator this all rests on
+Boxes.py

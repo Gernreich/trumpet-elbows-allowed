@@ -1,0 +1,21 @@
+N N3 D1 N3 E1 N3 U1 N3 W1 N3 D1 N3 E1 N3 U1 N3 W1 N3 D1 N3 E1 N3 U1 N3 W1 N3 D1 N3 E1 N3 U1 N3 W1 N3 D1 N3 E1 N3 U1 N3 W1 N3 D1 N3 E1 N3 U1 N3 W1 N3 D1 N3 E1 N3 U1 N3 W1 N3 D1 N3 E1 N3 U1 N3 W1 N3 D1 N3 E1 N3 U1 N3 W1 N3 D1 N3 E1 N3 U1 N3 W1 N3 D1 N3 E1 N3 U1 N3 W1 W
+177 blocks, 44 sections
+
+check                                   result
+  part count                            pass
+  part is one closed piece              pass
+  no feature under 1.5 mm               pass
+  part fits the bed                     pass
+  the two plates are one part mirrored  pass
+  the section closes round its bore     pass
+  no wall finger left unengaged         pass
+  seam is one tab side and one slot sidepass
+  both sides agree on bore and tab size pass
+  seam has no port                      pass
+  the joint is closed                   pass
+  the bore carries on through the joint pass
+  the assembled bore is one sealed passagepass
+  bore volume matches the walk          pass
+  every side of the seam has a mate     pass
+
+1486 checks, 0 failed

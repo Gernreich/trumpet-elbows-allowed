@@ -1,0 +1,31 @@
+# Walks derived from others, and how.
+#
+# Every coil is standardised by tools/standardise.js and in canonical form:
+# forward is north, the walk opens on a north term, rotation is counter-clockwise
+# seen looking along the bore from the mouth, the body is whole periods -- the
+# repeat count nearest a common target -- and one block in, one block out.
+#
+# Fixing forward and the sense of rotation still leaves the four rotations about
+# the forward axis and every rotation of the cycle that opens on north, so the
+# representation is pinned by taking the lexicographically smallest. Without that
+# the same coil could appear several times looking different, and did: six of the
+# names on the coil_3x4_68 line below were one walk.
+#
+# name           originally
+coil_3x3_51      coil_3x3_47 coil_3x3_50
+coil_3x7_22      coil_3x7_22 coil_3x7_22_min coil_3x7_23_min
+coil_3x8_20      coil_3x8_20
+coil_3x3_54      coil_3x3_53_2
+coil_3x3_54_2    coil_3x3_53
+coil_3x9_18      coil_3x9_18
+coil_3x3_59      coil_3x3_64_min coil_3x3_58_min coil_3x3_59_min coil_3x3_61_min
+coil_2x2_134     coil_2x2_146
+coil_4x7_20      coil_4x7_20
+coil_4x8_18      coil_4x8_18
+coil_4x9_18      coil_4x9_17
+coil_5x7_18      coil_5x7_18
+coil_5x8_18      coil_5x8_17
+coil_4x4_50      staircase_coil
+coil_3x4_68      coil_3x4_73 coil_3x4_73_min coil_3x4_73_2 coil_3x4_73_min_2 coil_3x4_74 coil_3x4_74_min
+coil_3x4_79      coil_3x4_78
+coil_5x5_50      coil_5x5_28 coil_5x5_52_min coil_5x5_55

@@ -1,0 +1,4 @@
+# One path per line. Contents are documented by the directory, not one file at a time.
+
+# tools/run_checks.sh writes one transcript per walk into here.
+checks/

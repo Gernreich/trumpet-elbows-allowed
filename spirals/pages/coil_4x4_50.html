@@ -1,0 +1,463 @@
+<title>coil 4x4 50</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@400;500;600;700&display=swap">
+<style>
+:root {
+  --ground: #f2ede4;        /* birch, the stock this is cut from */
+  --panel: #fbf9f5;
+  --panel-edge: #ded5c6;
+  --ink: #1f2528;
+  --ink-soft: #5d6a6d;
+  --ink-faint: #8b968f;
+  --accent: #b4661f;        /* the char an edge takes coming off the laser */
+  --accent-ink: #fdfaf4;
+  --shadow: 0 1px 2px rgba(31,37,40,.08), 0 8px 24px rgba(31,37,40,.10);
+  --edge: rgba(31,37,40,.55);
+}
+:root:not([data-theme="light"]) {
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #14181b;
+    --panel: #1c2226;
+    --panel-edge: #2e373c;
+    --ink: #e8eeea;
+    --ink-soft: #9dabab;
+    --ink-faint: #6d7c7c;
+    --accent: #d9a441;
+    --accent-ink: #16191c;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 30px rgba(0,0,0,.35);
+    --edge: rgba(8,10,11,.7);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --ground: #14181b;
+  --panel: #1c2226;
+  --panel-edge: #2e373c;
+  --ink: #e8eeea;
+  --ink-soft: #9dabab;
+  --ink-faint: #6d7c7c;
+  --accent: #d9a441;
+  --accent-ink: #16191c;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 30px rgba(0,0,0,.35);
+  --edge: rgba(8,10,11,.7);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: "IBM Plex Sans Condensed", ui-sans-serif, system-ui, sans-serif;
+  overflow: hidden;
+}
+#stage { position: fixed; inset: 0; }
+canvas { display: block; width: 100%; height: 100%; touch-action: none; cursor: grab; }
+canvas.dragging { cursor: grabbing; }
+
+.rail {
+  position: fixed;
+  background: color-mix(in srgb, var(--panel) 92%, transparent);
+  border: 1px solid var(--panel-edge);
+  border-radius: 3px;
+  box-shadow: var(--shadow);
+  padding: 14px 16px;
+  backdrop-filter: blur(8px);
+  max-width: min(340px, calc(100vw - 32px));
+}
+#title-rail { top: 16px; left: 16px; }
+#controls { bottom: 16px; left: 16px; display: grid; gap: 13px; }
+#legend { bottom: 16px; right: 16px; }
+#blocks { top: 16px; right: 16px; display: none; max-height: calc(100vh - 220px);
+          overflow-y: auto; max-width: 260px; }
+#blocks.on { display: block; }
+#blocks table { border-collapse: collapse; font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+                font-size: 11.5px; font-variant-numeric: tabular-nums; }
+#blocks td { padding: 1px 6px 1px 0; white-space: nowrap; color: var(--ink); }
+#blocks td.n { color: var(--ink-faint); text-align: right; }
+#blocks td.t { color: var(--accent); font-weight: 600; }
+#blocks .sw { display: inline-block; width: 11px; height: 11px; border-radius: 2px;
+              border: 1px solid var(--edge); vertical-align: -1px; }
+#blocks tr.turn td { border-top: 1px solid var(--panel-edge); }
+
+h1 {
+  margin: 0 0 2px;
+  font-size: 17px; font-weight: 700;
+  letter-spacing: .01em; text-wrap: balance;
+}
+.walk {
+  font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  font-size: 12px; line-height: 1.55; color: var(--accent);
+  word-spacing: .1em; margin: 6px 0 8px;
+}
+.stat {
+  font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  font-size: 11.5px; color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+.label {
+  font-size: 10px; font-weight: 600;
+  letter-spacing: .13em; text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 6px;
+}
+
+.seg { display: flex; gap: 0; border: 1px solid var(--panel-edge); border-radius: 3px; overflow: hidden; }
+.seg button {
+  flex: 1; appearance: none; border: 0; background: transparent;
+  color: var(--ink-soft); cursor: pointer;
+  font-family: inherit; font-size: 12px; font-weight: 600;
+  letter-spacing: .04em; padding: 7px 12px;
+}
+.seg button + button { border-left: 1px solid var(--panel-edge); }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+.seg button:not([aria-pressed="true"]):hover { color: var(--ink); }
+
+.row { display: flex; align-items: center; gap: 10px; }
+input[type="range"] {
+  flex: 1; appearance: none; height: 3px; border-radius: 2px;
+  background: var(--panel-edge); outline-offset: 4px;
+}
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none; width: 13px; height: 13px; border-radius: 50%;
+  background: var(--accent); border: 0; cursor: pointer;
+}
+input[type="range"]::-moz-range-thumb {
+  width: 13px; height: 13px; border-radius: 50%;
+  background: var(--accent); border: 0; cursor: pointer;
+}
+.count {
+  font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  font-size: 11.5px; font-variant-numeric: tabular-nums;
+  color: var(--ink-soft); min-width: 62px; text-align: right;
+}
+.ghost {
+  appearance: none; background: transparent; cursor: pointer;
+  border: 1px solid var(--panel-edge); border-radius: 3px;
+  color: var(--ink-soft); font-family: inherit;
+  font-size: 11px; font-weight: 600; letter-spacing: .08em;
+  text-transform: uppercase; padding: 6px 11px;
+}
+.ghost:hover { color: var(--ink); border-color: var(--ink-faint); }
+
+#keys { display: grid; gap: 1px; }
+.key {
+  display: grid; grid-template-columns: 15px 1fr auto;
+  align-items: center; gap: 9px;
+  padding: 3px 5px; margin: 0 -5px; border-radius: 2px;
+  background: transparent; border: 0; width: calc(100% + 10px);
+  font-family: inherit; color: var(--ink); cursor: pointer; text-align: left;
+}
+.key:hover { background: color-mix(in srgb, var(--ink) 7%, transparent); }
+.key[aria-pressed="true"] { background: color-mix(in srgb, var(--accent) 22%, transparent); }
+.key .sw { width: 13px; height: 13px; border-radius: 2px; border: 1px solid var(--edge); }
+.key .nm { font-size: 12px; }
+.key .ct {
+  font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  font-size: 11px; color: var(--ink-soft); font-variant-numeric: tabular-nums;
+}
+.hint { margin-top: 10px; font-size: 11px; color: var(--ink-faint); line-height: 1.5; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (max-width: 720px) {
+  #legend { display: none; }
+  .rail { padding: 11px 13px; }
+}
+</style>
+
+<div id="stage"><canvas id="c"></canvas></div>
+
+<div class="rail" id="title-rail">
+  <h1>coil 4x4 50</h1>
+  <div class="walk">N N3 D3 E3 U3 N3 W3 D3 E3 N3 U3 W3 D3 N3 E3 U3 W3 N3 D3 E3 U3 N3 W3 D3 E3 N3 U3 W3 D3 N3 E3 U3 W3 N3 D3 E3 U3 N3 W3 D3 E3 N3 U3 W3 D3 N3 E3 U3 W3 N3 D3 E3 U3 N3 W3 D3 E3 N3 U3 W3 D3 N3 E3 U3 W3 W</div>
+  <div class="stat" id="stat"></div>
+</div>
+
+<div class="rail" id="controls">
+  <div>
+    <div class="label">Colour by</div>
+    <div class="seg" role="group" aria-label="Colour by">
+      <button id="mode-dir" aria-pressed="true">Direction</button>
+      <button id="mode-sec" aria-pressed="false">Section</button>
+    </div>
+  </div>
+  <div>
+    <div class="label">Follow the bore</div>
+    <div class="row">
+      <input type="range" id="reveal" min="1" max="193" value="193"
+             aria-label="Blocks shown, from the mouth">
+      <span class="count" id="reveal-count"></span>
+    </div>
+  </div>
+  <div class="row">
+    <button class="ghost" id="reset">Reset view</button>
+    <button class="ghost" id="spin" aria-pressed="false">Spin</button>
+    <button class="ghost" id="list" aria-pressed="false">Blocks</button>
+  </div>
+</div>
+
+<div class="rail" id="blocks">
+  <div class="label">Every block, from the mouth</div>
+  <table id="blocks-table"></table>
+</div>
+
+<div class="rail" id="legend">
+  <div class="label" id="legend-label">Direction of travel</div>
+  <div id="keys"></div>
+  <div class="hint">Drag to turn &middot; scroll to zoom &middot; right-drag to pan</div>
+</div>
+
+<script>
+const D = {"cells":[{"p":[0,0,0],"d":"N","s":0,"i0":0},{"p":[0,0,-1],"d":"N","s":0,"i0":1},{"p":[0,0,-2],"d":"N","s":0,"i0":2},{"p":[0,0,-3],"d":"D","s":0,"i0":3},{"p":[0,-1,-3],"d":"D","s":0,"i0":4},{"p":[0,-2,-3],"d":"D","s":1,"i0":5},{"p":[0,-3,-3],"d":"E","s":1,"i0":6},{"p":[1,-3,-3],"d":"E","s":1,"i0":7},{"p":[2,-3,-3],"d":"E","s":1,"i0":8},{"p":[3,-3,-3],"d":"U","s":1,"i0":9},{"p":[3,-2,-3],"d":"U","s":1,"i0":10},{"p":[3,-1,-3],"d":"U","s":2,"i0":11},{"p":[3,0,-3],"d":"N","s":2,"i0":12},{"p":[3,0,-4],"d":"N","s":2,"i0":13},{"p":[3,0,-5],"d":"N","s":3,"i0":14},{"p":[3,0,-6],"d":"W","s":3,"i0":15},{"p":[2,0,-6],"d":"W","s":3,"i0":16},{"p":[1,0,-6],"d":"W","s":4,"i0":17},{"p":[0,0,-6],"d":"D","s":4,"i0":18},{"p":[0,-1,-6],"d":"D","s":4,"i0":19},{"p":[0,-2,-6],"d":"D","s":4,"i0":20},{"p":[0,-3,-6],"d":"E","s":4,"i0":21},{"p":[1,-3,-6],"d":"E","s":4,"i0":22},{"p":[2,-3,-6],"d":"E","s":5,"i0":23},{"p":[3,-3,-6],"d":"N","s":5,"i0":24},{"p":[3,-3,-7],"d":"N","s":5,"i0":25},{"p":[3,-3,-8],"d":"N","s":6,"i0":26},{"p":[3,-3,-9],"d":"U","s":6,"i0":27},{"p":[3,-2,-9],"d":"U","s":6,"i0":28},{"p":[3,-1,-9],"d":"U","s":7,"i0":29},{"p":[3,0,-9],"d":"W","s":7,"i0":30},{"p":[2,0,-9],"d":"W","s":7,"i0":31},{"p":[1,0,-9],"d":"W","s":7,"i0":32},{"p":[0,0,-9],"d":"D","s":7,"i0":33},{"p":[0,-1,-9],"d":"D","s":7,"i0":34},{"p":[0,-2,-9],"d":"D","s":8,"i0":35},{"p":[0,-3,-9],"d":"N","s":8,"i0":36},{"p":[0,-3,-10],"d":"N","s":8,"i0":37},{"p":[0,-3,-11],"d":"N","s":9,"i0":38},{"p":[0,-3,-12],"d":"E","s":9,"i0":39},{"p":[1,-3,-12],"d":"E","s":9,"i0":40},{"p":[2,-3,-12],"d":"E","s":10,"i0":41},{"p":[3,-3,-12],"d":"U","s":10,"i0":42},{"p":[3,-2,-12],"d":"U","s":10,"i0":43},{"p":[3,-1,-12],"d":"U","s":10,"i0":44},{"p":[3,0,-12],"d":"W","s":10,"i0":45},{"p":[2,0,-12],"d":"W","s":10,"i0":46},{"p":[1,0,-12],"d":"W","s":11,"i0":47},{"p":[0,0,-12],"d":"N","s":11,"i0":48},{"p":[0,0,-13],"d":"N","s":11,"i0":49},{"p":[0,0,-14],"d":"N","s":12,"i0":50},{"p":[0,0,-15],"d":"D","s":12,"i0":51},{"p":[0,-1,-15],"d":"D","s":12,"i0":52},{"p":[0,-2,-15],"d":"D","s":13,"i0":53},{"p":[0,-3,-15],"d":"E","s":13,"i0":54},{"p":[1,-3,-15],"d":"E","s":13,"i0":55},{"p":[2,-3,-15],"d":"E","s":13,"i0":56},{"p":[3,-3,-15],"d":"U","s":13,"i0":57},{"p":[3,-2,-15],"d":"U","s":13,"i0":58},{"p":[3,-1,-15],"d":"U","s":14,"i0":59},{"p":[3,0,-15],"d":"N","s":14,"i0":60},{"p":[3,0,-16],"d":"N","s":14,"i0":61},{"p":[3,0,-17],"d":"N","s":15,"i0":62},{"p":[3,0,-18],"d":"W","s":15,"i0":63},{"p":[2,0,-18],"d":"W","s":15,"i0":64},{"p":[1,0,-18],"d":"W","s":16,"i0":65},{"p":[0,0,-18],"d":"D","s":16,"i0":66},{"p":[0,-1,-18],"d":"D","s":16,"i0":67},{"p":[0,-2,-18],"d":"D","s":16,"i0":68},{"p":[0,-3,-18],"d":"E","s":16,"i0":69},{"p":[1,-3,-18],"d":"E","s":16,"i0":70},{"p":[2,-3,-18],"d":"E","s":17,"i0":71},{"p":[3,-3,-18],"d":"N","s":17,"i0":72},{"p":[3,-3,-19],"d":"N","s":17,"i0":73},{"p":[3,-3,-20],"d":"N","s":18,"i0":74},{"p":[3,-3,-21],"d":"U","s":18,"i0":75},{"p":[3,-2,-21],"d":"U","s":18,"i0":76},{"p":[3,-1,-21],"d":"U","s":19,"i0":77},{"p":[3,0,-21],"d":"W","s":19,"i0":78},{"p":[2,0,-21],"d":"W","s":19,"i0":79},{"p":[1,0,-21],"d":"W","s":19,"i0":80},{"p":[0,0,-21],"d":"D","s":19,"i0":81},{"p":[0,-1,-21],"d":"D","s":19,"i0":82},{"p":[0,-2,-21],"d":"D","s":20,"i0":83},{"p":[0,-3,-21],"d":"N","s":20,"i0":84},{"p":[0,-3,-22],"d":"N","s":20,"i0":85},{"p":[0,-3,-23],"d":"N","s":21,"i0":86},{"p":[0,-3,-24],"d":"E","s":21,"i0":87},{"p":[1,-3,-24],"d":"E","s":21,"i0":88},{"p":[2,-3,-24],"d":"E","s":22,"i0":89},{"p":[3,-3,-24],"d":"U","s":22,"i0":90},{"p":[3,-2,-24],"d":"U","s":22,"i0":91},{"p":[3,-1,-24],"d":"U","s":22,"i0":92},{"p":[3,0,-24],"d":"W","s":22,"i0":93},{"p":[2,0,-24],"d":"W","s":22,"i0":94},{"p":[1,0,-24],"d":"W","s":23,"i0":95},{"p":[0,0,-24],"d":"N","s":23,"i0":96},{"p":[0,0,-25],"d":"N","s":23,"i0":97},{"p":[0,0,-26],"d":"N","s":24,"i0":98},{"p":[0,0,-27],"d":"D","s":24,"i0":99},{"p":[0,-1,-27],"d":"D","s":24,"i0":100},{"p":[0,-2,-27],"d":"D","s":25,"i0":101},{"p":[0,-3,-27],"d":"E","s":25,"i0":102},{"p":[1,-3,-27],"d":"E","s":25,"i0":103},{"p":[2,-3,-27],"d":"E","s":25,"i0":104},{"p":[3,-3,-27],"d":"U","s":25,"i0":105},{"p":[3,-2,-27],"d":"U","s":25,"i0":106},{"p":[3,-1,-27],"d":"U","s":26,"i0":107},{"p":[3,0,-27],"d":"N","s":26,"i0":108},{"p":[3,0,-28],"d":"N","s":26,"i0":109},{"p":[3,0,-29],"d":"N","s":27,"i0":110},{"p":[3,0,-30],"d":"W","s":27,"i0":111},{"p":[2,0,-30],"d":"W","s":27,"i0":112},{"p":[1,0,-30],"d":"W","s":28,"i0":113},{"p":[0,0,-30],"d":"D","s":28,"i0":114},{"p":[0,-1,-30],"d":"D","s":28,"i0":115},{"p":[0,-2,-30],"d":"D","s":28,"i0":116},{"p":[0,-3,-30],"d":"E","s":28,"i0":117},{"p":[1,-3,-30],"d":"E","s":28,"i0":118},{"p":[2,-3,-30],"d":"E","s":29,"i0":119},{"p":[3,-3,-30],"d":"N","s":29,"i0":120},{"p":[3,-3,-31],"d":"N","s":29,"i0":121},{"p":[3,-3,-32],"d":"N","s":30,"i0":122},{"p":[3,-3,-33],"d":"U","s":30,"i0":123},{"p":[3,-2,-33],"d":"U","s":30,"i0":124},{"p":[3,-1,-33],"d":"U","s":31,"i0":125},{"p":[3,0,-33],"d":"W","s":31,"i0":126},{"p":[2,0,-33],"d":"W","s":31,"i0":127},{"p":[1,0,-33],"d":"W","s":31,"i0":128},{"p":[0,0,-33],"d":"D","s":31,"i0":129},{"p":[0,-1,-33],"d":"D","s":31,"i0":130},{"p":[0,-2,-33],"d":"D","s":32,"i0":131},{"p":[0,-3,-33],"d":"N","s":32,"i0":132},{"p":[0,-3,-34],"d":"N","s":32,"i0":133},{"p":[0,-3,-35],"d":"N","s":33,"i0":134},{"p":[0,-3,-36],"d":"E","s":33,"i0":135},{"p":[1,-3,-36],"d":"E","s":33,"i0":136},{"p":[2,-3,-36],"d":"E","s":34,"i0":137},{"p":[3,-3,-36],"d":"U","s":34,"i0":138},{"p":[3,-2,-36],"d":"U","s":34,"i0":139},{"p":[3,-1,-36],"d":"U","s":34,"i0":140},{"p":[3,0,-36],"d":"W","s":34,"i0":141},{"p":[2,0,-36],"d":"W","s":34,"i0":142},{"p":[1,0,-36],"d":"W","s":35,"i0":143},{"p":[0,0,-36],"d":"N","s":35,"i0":144},{"p":[0,0,-37],"d":"N","s":35,"i0":145},{"p":[0,0,-38],"d":"N","s":36,"i0":146},{"p":[0,0,-39],"d":"D","s":36,"i0":147},{"p":[0,-1,-39],"d":"D","s":36,"i0":148},{"p":[0,-2,-39],"d":"D","s":37,"i0":149},{"p":[0,-3,-39],"d":"E","s":37,"i0":150},{"p":[1,-3,-39],"d":"E","s":37,"i0":151},{"p":[2,-3,-39],"d":"E","s":37,"i0":152},{"p":[3,-3,-39],"d":"U","s":37,"i0":153},{"p":[3,-2,-39],"d":"U","s":37,"i0":154},{"p":[3,-1,-39],"d":"U","s":38,"i0":155},{"p":[3,0,-39],"d":"N","s":38,"i0":156},{"p":[3,0,-40],"d":"N","s":38,"i0":157},{"p":[3,0,-41],"d":"N","s":39,"i0":158},{"p":[3,0,-42],"d":"W","s":39,"i0":159},{"p":[2,0,-42],"d":"W","s":39,"i0":160},{"p":[1,0,-42],"d":"W","s":40,"i0":161},{"p":[0,0,-42],"d":"D","s":40,"i0":162},{"p":[0,-1,-42],"d":"D","s":40,"i0":163},{"p":[0,-2,-42],"d":"D","s":40,"i0":164},{"p":[0,-3,-42],"d":"E","s":40,"i0":165},{"p":[1,-3,-42],"d":"E","s":40,"i0":166},{"p":[2,-3,-42],"d":"E","s":41,"i0":167},{"p":[3,-3,-42],"d":"N","s":41,"i0":168},{"p":[3,-3,-43],"d":"N","s":41,"i0":169},{"p":[3,-3,-44],"d":"N","s":42,"i0":170},{"p":[3,-3,-45],"d":"U","s":42,"i0":171},{"p":[3,-2,-45],"d":"U","s":42,"i0":172},{"p":[3,-1,-45],"d":"U","s":43,"i0":173},{"p":[3,0,-45],"d":"W","s":43,"i0":174},{"p":[2,0,-45],"d":"W","s":43,"i0":175},{"p":[1,0,-45],"d":"W","s":43,"i0":176},{"p":[0,0,-45],"d":"D","s":43,"i0":177},{"p":[0,-1,-45],"d":"D","s":43,"i0":178},{"p":[0,-2,-45],"d":"D","s":44,"i0":179},{"p":[0,-3,-45],"d":"N","s":44,"i0":180},{"p":[0,-3,-46],"d":"N","s":44,"i0":181},{"p":[0,-3,-47],"d":"N","s":45,"i0":182},{"p":[0,-3,-48],"d":"E","s":45,"i0":183},{"p":[1,-3,-48],"d":"E","s":45,"i0":184},{"p":[2,-3,-48],"d":"E","s":46,"i0":185},{"p":[3,-3,-48],"d":"U","s":46,"i0":186},{"p":[3,-2,-48],"d":"U","s":46,"i0":187},{"p":[3,-1,-48],"d":"U","s":46,"i0":188},{"p":[3,0,-48],"d":"W","s":46,"i0":189},{"p":[2,0,-48],"d":"W","s":46,"i0":190},{"p":[1,0,-48],"d":"W","s":46,"i0":191},{"p":[0,0,-48],"d":"W","s":46,"i0":192}],"blocks":193,"mm":5983,"dircol":{"N":"#2f6ea8","S":"#e08a2e","E":"#3f8f5e","W":"#9b4a9c","U":"#cf4433","D":"#8b9096"},"dirs":[{"k":"N","name":"north","n":48},{"k":"E","name":"east","n":36},{"k":"W","name":"west","n":37},{"k":"U","name":"up","n":36},{"k":"D","name":"down","n":36}],"sections":[{"col":"#ad2828","kind":"bend","n":5},{"col":"#2e5bc8","kind":"bend","n":6},{"col":"#98d345","kind":"bend","n":3},{"col":"#ad289c","kind":"bend","n":3},{"col":"#2ec8ae","kind":"bend","n":6},{"col":"#d39245","kind":"bend","n":3},{"col":"#4928ad","kind":"bend","n":3},{"col":"#35c82e","kind":"bend","n":6},{"col":"#d34574","kind":"bend","n":3},{"col":"#287bad","kind":"bend","n":3},{"col":"#bbc82e","kind":"bend","n":6},{"col":"#b545d3","kind":"bend","n":3},{"col":"#28ad6a","kind":"bend","n":3},{"col":"#c84e2e","kind":"bend","n":6},{"col":"#4551d3","kind":"bend","n":3},{"col":"#5aad28","kind":"bend","n":3},{"col":"#c82e95","kind":"bend","n":6},{"col":"#45cdd3","kind":"bend","n":3},{"col":"#ad8b28","kind":"bend","n":3},{"col":"#742ec8","kind":"bend","n":6},{"col":"#45d35c","kind":"bend","n":3},{"col":"#ad2839","kind":"bend","n":3},{"col":"#2e6fc8","kind":"bend","n":6},{"col":"#aad345","kind":"bend","n":3},{"col":"#ad28ad","kind":"bend","n":3},{"col":"#2ec89b","kind":"bend","n":6},{"col":"#d37f45","kind":"bend","n":3},{"col":"#3828ad","kind":"bend","n":3},{"col":"#49c82e","kind":"bend","n":6},{"col":"#d34586","kind":"bend","n":3},{"col":"#288cad","kind":"bend","n":3},{"col":"#c8c12e","kind":"bend","n":6},{"col":"#a345d3","kind":"bend","n":3},{"col":"#28ad59","kind":"bend","n":3},{"col":"#c83b2e","kind":"bend","n":6},{"col":"#4563d3","kind":"bend","n":3},{"col":"#6bad28","kind":"bend","n":3},{"col":"#c82ea9","kind":"bend","n":6},{"col":"#45d3c6","kind":"bend","n":3},{"col":"#ad7b28","kind":"bend","n":3},{"col":"#612ec8","kind":"bend","n":6},{"col":"#45d34a","kind":"bend","n":3},{"col":"#ad284a","kind":"bend","n":3},{"col":"#2e82c8","kind":"bend","n":6},{"col":"#bcd345","kind":"bend","n":3},{"col":"#9c28ad","kind":"bend","n":3},{"col":"#2ec887","kind":"bend","n":8}],"openings":{"0:4":"IN","192:1":"OUT"},"inCol":"#1c1c20","outCol":"#e0457b"};
+
+const cv = document.getElementById('c');
+const ctx = cv.getContext('2d');
+const NRM = [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]];
+const CORN = [
+  [[1,0,0],[1,0,1],[1,1,1],[1,1,0]],
+  [[0,0,0],[0,1,0],[0,1,1],[0,0,1]],
+  [[0,1,0],[1,1,0],[1,1,1],[0,1,1]],
+  [[0,0,0],[0,0,1],[1,0,1],[1,0,0]],
+  [[0,0,1],[0,1,1],[1,1,1],[1,0,1]],
+  [[0,0,0],[1,0,0],[1,1,0],[0,1,0]]
+];
+
+let yaw = 0.62, pitch = 0.72, zoom = 1, panX = 0, panY = 0;
+let mode = 'dir', reveal = D.cells.length, isolate = null, spinning = false;
+
+const key = (c) => c[0] + ',' + c[1] + ',' + c[2];
+const occAll = new Set(D.cells.map(c => key(c.p)));
+
+/* centre on the whole bore, so revealing blocks does not shift the model */
+const centre = (() => {
+  const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
+  for (const c of D.cells) for (let i = 0; i < 3; i++) {
+    lo[i] = Math.min(lo[i], c.p[i]); hi[i] = Math.max(hi[i], c.p[i] + 1);
+  }
+  return { c: lo.map((v, i) => (v + hi[i]) / 2), lo: lo, hi: hi };
+})();
+
+function faces() {
+  const shown = D.cells.slice(0, reveal);
+  const occ = reveal === D.cells.length ? occAll : new Set(shown.map(c => key(c.p)));
+  const out = [];
+  for (let i = 0; i < shown.length; i++) {
+    const c = shown[i];
+    if (isolate !== null && (mode === 'dir' ? c.d : c.s) !== isolate) continue;
+    for (let f = 0; f < 6; f++) {
+      const n = NRM[f];
+      if (occ.has(key([c.p[0]+n[0], c.p[1]+n[1], c.p[2]+n[2]]))) continue;
+      out.push({ cell: c, i: i, f: f });
+    }
+  }
+  return out;
+}
+
+function rot(p) {
+  const cy = Math.cos(yaw), sy = Math.sin(yaw);
+  const cp = Math.cos(pitch), sp = Math.sin(pitch);
+  let x = p[0] - centre.c[0], y = p[1] - centre.c[1], z = p[2] - centre.c[2];
+  let x2 = x * cy + z * sy, z2 = -x * sy + z * cy;
+  let y2 = y * cp - z2 * sp, z3 = y * sp + z2 * cp;
+  return [x2, y2, z3];
+}
+
+function shade(hex, n) {
+  const L = [-0.32, 0.86, 0.4], m = Math.hypot(...L);
+  const d = (n[0]*L[0] + n[1]*L[1] + n[2]*L[2]) / m;
+  const f = 0.66 + 0.34 * (d + 1) / 2 + (n[1] > 0 ? 0.07 : 0);
+  const v = parseInt(hex.slice(1), 16);
+  const c = [(v >> 16) & 255, (v >> 8) & 255, v & 255]
+    .map(q => Math.min(255, Math.round(q * f)));
+  return 'rgb(' + c.join(',') + ')';
+}
+
+function draw() {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const w = cv.clientWidth, h = cv.clientHeight;
+  if (cv.width !== w * dpr || cv.height !== h * dpr) {
+    cv.width = w * dpr; cv.height = h * dpr;
+  }
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, w, h);
+
+  // Fit what the blocks actually project to at this angle. Not a figure that
+  // has to hold at every angle - a cube-shaped walk projects near its diagonal
+  // and a long thin one nowhere near it, so one fixed number either clips the
+  // first or strands the second in the middle of the canvas. And not the
+  // bounding box either: a walk that climbs as it runs fills a diagonal slab
+  // of a mostly empty box, and the box's corners are nowhere near the shape.
+  let px0 = Infinity, px1 = -Infinity, py0 = Infinity, py1 = -Infinity;
+  for (const c of D.cells) {
+    for (let i = 0; i < 8; i++) {
+      const r = rot([c.p[0] + (i & 1), c.p[1] + ((i >> 1) & 1),
+                     c.p[2] + ((i >> 2) & 1)]);
+      px0 = Math.min(px0, r[0]); px1 = Math.max(px1, r[0]);
+      py0 = Math.min(py0, r[1]); py1 = Math.max(py1, r[1]);
+    }
+  }
+  const M = 56;
+  const S = Math.min((w - M) / Math.max(px1 - px0, 0.001),
+                     (h - M) / Math.max(py1 - py0, 0.001)) * zoom;
+  const ox = w / 2 - (px0 + px1) / 2 * S + panX;
+  const oy = h / 2 + (py0 + py1) / 2 * S + panY;
+  const P = (p) => { const r = rot(p); return [ox + r[0] * S, oy - r[1] * S, r[2]]; };
+
+  const list = [];
+  for (const q of faces()) {
+    const n = NRM[q.f], rn = rot([n[0] + centre.c[0], n[1] + centre.c[1], n[2] + centre.c[2]]);
+    if (rn[2] <= 0.001) continue;                 /* facing away */
+    const pts = CORN[q.f].map(v => P([q.cell.p[0]+v[0], q.cell.p[1]+v[1], q.cell.p[2]+v[2]]));
+    const z = pts.reduce((a, p) => a + p[2], 0) / 4;
+    list.push({ pts, z, q, rn });
+  }
+  list.sort((a, b) => a.z - b.z);
+
+  const secCol = D.sections.map(s => s.col);
+  for (const it of list) {
+    const c = it.q.cell;
+    const open = D.openings[c.i0 + ':' + it.q.f];
+    let fill;
+    if (open) fill = open === 'IN' ? D.inCol : D.outCol;
+    else fill = shade(mode === 'dir' ? D.dircol[c.d] : secCol[c.s], it.rn);
+    ctx.beginPath();
+    ctx.moveTo(it.pts[0][0], it.pts[0][1]);
+    for (let i = 1; i < 4; i++) ctx.lineTo(it.pts[i][0], it.pts[i][1]);
+    ctx.closePath();
+    ctx.fillStyle = fill;
+    ctx.fill();
+    ctx.lineJoin = 'round';
+    ctx.strokeStyle = 'rgba(0,0,0,.34)';
+    ctx.lineWidth = Math.max(0.5, S * 0.022);
+    ctx.stroke();
+    if (open) {
+      const cx = it.pts.reduce((a, p) => a + p[0], 0) / 4;
+      const cy = it.pts.reduce((a, p) => a + p[1], 0) / 4;
+      ctx.fillStyle = '#fff';
+      ctx.font = '600 ' + Math.max(9, S * 0.34) + 'px "IBM Plex Sans Condensed", sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(open, cx, cy);
+    }
+  }
+  document.getElementById('stat').textContent =
+    D.blocks + ' blocks · ' + D.sections.length + ' sections · '
+    + D.mm + 'mm of centreline';
+}
+
+/* ---- pointer ---- */
+let drag = null;
+cv.addEventListener('pointerdown', e => {
+  drag = { x: e.clientX, y: e.clientY, pan: e.button === 2 || e.shiftKey };
+  cv.setPointerCapture(e.pointerId);
+  cv.classList.add('dragging');
+});
+cv.addEventListener('pointermove', e => {
+  if (!drag) return;
+  const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+  drag.x = e.clientX; drag.y = e.clientY;
+  if (drag.pan) { panX += dx; panY += dy; }
+  else {
+    yaw += dx * 0.008;
+    pitch = Math.max(-1.5, Math.min(1.5, pitch + dy * 0.008));
+  }
+  draw();
+});
+const stop = () => { drag = null; cv.classList.remove('dragging'); };
+cv.addEventListener('pointerup', stop);
+cv.addEventListener('pointercancel', stop);
+cv.addEventListener('contextmenu', e => e.preventDefault());
+cv.addEventListener('wheel', e => {
+  e.preventDefault();
+  zoom = Math.max(0.25, Math.min(6, zoom * Math.exp(-e.deltaY * 0.0016)));
+  draw();
+}, { passive: false });
+
+/* ---- controls ---- */
+const $ = (id) => document.getElementById(id);
+function setMode(m) {
+  mode = m; isolate = null;
+  $('mode-dir').setAttribute('aria-pressed', m === 'dir');
+  $('mode-sec').setAttribute('aria-pressed', m === 'sec');
+  $('legend-label').textContent = m === 'dir' ? 'Direction of travel' : 'Sections, in order';
+  buildKeys(); draw();
+}
+$('mode-dir').onclick = () => setMode('dir');
+$('mode-sec').onclick = () => setMode('sec');
+
+$('reveal').addEventListener('input', e => {
+  reveal = +e.target.value;
+  $('reveal-count').textContent = reveal + ' / ' + D.cells.length;
+  draw();
+});
+$('reset').onclick = () => {
+  yaw = 0.62; pitch = 0.72; zoom = 1; panX = panY = 0;
+  reveal = D.cells.length; $('reveal').value = reveal;
+  $('reveal-count').textContent = reveal + ' / ' + D.cells.length;
+  isolate = null; buildKeys(); draw();
+};
+const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let spinTimer = null;
+$('spin').onclick = () => {
+  spinning = !spinning;
+  $('spin').setAttribute('aria-pressed', spinning);
+  if (spinning) {
+    const step = () => { yaw += 0.004; draw(); spinTimer = requestAnimationFrame(step); };
+    spinTimer = requestAnimationFrame(step);
+  } else cancelAnimationFrame(spinTimer);
+};
+if (reduced) $('spin').style.display = 'none';
+
+const DIRNAME = {N: 'north', S: 'south', E: 'east', W: 'west',
+                 U: 'up', D: 'down'};
+function buildList() {
+  const t = $('blocks-table');
+  t.textContent = '';
+  D.cells.forEach((c, i) => {
+    const turn = i > 0 && D.cells[i - 1].d !== c.d;
+    const tr = document.createElement('tr');
+    if (turn) tr.className = 'turn';
+    tr.innerHTML = '<td class="n"></td><td></td><td></td><td class="t"></td>';
+    tr.children[0].textContent = i + 1;
+    tr.children[1].innerHTML = '<span class="sw" style="background:'
+      + D.dircol[c.d] + '"></span> ' + DIRNAME[c.d];
+    tr.children[2].textContent = '(' + c.p.join(',') + ')';
+    tr.children[3].textContent = turn ? 'turn' : '';
+    t.appendChild(tr);
+  });
+}
+$('list').onclick = () => {
+  const on = !$('blocks').classList.contains('on');
+  $('blocks').classList.toggle('on', on);
+  $('list').setAttribute('aria-pressed', on);
+};
+
+function buildKeys() {
+  const box = $('keys');
+  box.textContent = '';
+  const rows = mode === 'dir'
+    ? D.dirs.map(d => ({ id: d.k, col: D.dircol[d.k], nm: d.name, ct: d.n + ' blk' }))
+    : D.sections.map((s, i) => ({ id: i, col: s.col, nm: (i + 1) + '. ' + s.kind,
+                                  ct: s.n + ' blk' }));
+  for (const r of rows) {
+    const b = document.createElement('button');
+    b.className = 'key';
+    b.setAttribute('aria-pressed', isolate === r.id);
+    b.innerHTML = '<span class="sw" style="background:' + r.col + '"></span>'
+      + '<span class="nm"></span><span class="ct"></span>';
+    b.querySelector('.nm').textContent = r.nm;
+    b.querySelector('.ct').textContent = r.ct;
+    b.onclick = () => { isolate = (isolate === r.id) ? null : r.id; buildKeys(); draw(); };
+    box.appendChild(b);
+  }
+}
+
+window.addEventListener('resize', draw);
+$('reveal-count').textContent = D.cells.length + ' / ' + D.cells.length;
+buildKeys();
+buildList();
+draw();
+</script>

@@ -1,0 +1,484 @@
+{
+ "coil_2x2_134": {
+  "pieces": 44,
+  "kinds": {
+   "bend": 44
+  },
+  "elbows": 0,
+  "interiorBlocks": [
+   7,
+   174
+  ],
+  "innerPieces": 42,
+  "distinct": 4,
+  "shapes": [
+   "bend_DDDLD_buttin",
+   "bend_DLD",
+   "bend_DL_buttout",
+   "bend_DRD"
+  ],
+  "rhythm": 4,
+  "repeats": 10.5,
+  "interiorDistinct": 2,
+  "meanPlate": 6240,
+  "maxPlate": 6240,
+  "minPlate": 6240,
+  "totalPlate": 262080
+ },
+ "coil_3x3_51": {
+  "pieces": 36,
+  "kinds": {
+   "bend": 36
+  },
+  "elbows": 0,
+  "interiorBlocks": [
+   8,
+   185
+  ],
+  "innerPieces": 34,
+  "distinct": 6,
+  "shapes": [
+   "bend_DDDLLD_buttin",
+   "bend_DLLD",
+   "bend_DRRD",
+   "bend_DRRU",
+   "bend_UULLD",
+   "bend_UULL_buttout"
+  ],
+  "rhythm": 4,
+  "repeats": 8.5,
+  "interiorDistinct": 4,
+  "meanPlate": 8428.235294117647,
+  "maxPlate": 9216,
+  "minPlate": 6240,
+  "totalPlate": 286560
+ },
+ "coil_3x3_54": {
+  "pieces": 32,
+  "kinds": {
+   "bend": 32
+  },
+  "elbows": 0,
+  "interiorBlocks": [
+   8,
+   172
+  ],
+  "innerPieces": 30,
+  "distinct": 6,
+  "shapes": [
+   "bend_DDDLLD_buttin",
+   "bend_DDRRU",
+   "bend_DLLD",
+   "bend_DRRD",
+   "bend_UULLD",
+   "bend_UULL_buttout"
+  ],
+  "rhythm": 4,
+  "repeats": 7.5,
+  "interiorDistinct": 4,
+  "meanPlate": 9216,
+  "maxPlate": 9216,
+  "minPlate": 9216,
+  "totalPlate": 276480
+ },
+ "coil_3x3_54_2": {
+  "pieces": 32,
+  "kinds": {
+   "bend": 32
+  },
+  "elbows": 0,
+  "interiorBlocks": [
+   8,
+   172
+  ],
+  "innerPieces": 30,
+  "distinct": 6,
+  "shapes": [
+   "bend_DDDLLD_buttin",
+   "bend_DDRRD",
+   "bend_DLLD",
+   "bend_DRRU",
+   "bend_UULLD",
+   "bend_UULL_buttout"
+  ],
+  "rhythm": 4,
+  "repeats": 7.5,
+  "interiorDistinct": 4,
+  "meanPlate": 9216,
+  "maxPlate": 12192,
+  "minPlate": 6240,
+  "totalPlate": 276480
+ },
+ "coil_3x3_59": {
+  "pieces": 36,
+  "kinds": {
+   "bend": 36
+  },
+  "elbows": 0,
+  "interiorBlocks": [
+   8,
+   177
+  ],
+  "innerPieces": 34,
+  "distinct": 6,
+  "shapes": [
+   "bend_DDDLLD_buttin",
+   "bend_DLLD",
+   "bend_DRRD",
+   "bend_DRRU",
+   "bend_ULLD",
+   "bend_ULL_buttout"
+  ],
+  "rhythm": 4,
+  "repeats": 8.5,
+  "interiorDistinct": 4,
+  "meanPlate": 7728,
+  "maxPlate": 9216,
+  "minPlate": 6240,
+  "totalPlate": 262752
+ },
+ "coil_3x4_68": {
+  "pieces": 43,
+  "kinds": {
+   "bend": 43
+  },
+  "elbows": 0,
+  "interiorBlocks": [
+   8,
+   170
+  ],
+  "innerPieces": 41,
+  "distinct": 6,
+  "shapes": [
+   "bend_DDDLLD_buttin",
+   "bend_DLLD",
+   "bend_DR",
+   "bend_LD",
+   "bend_RUUL",
+   "bend_RUULLL_buttout"
+  ],
+  "rhythm": 4,
+  "repeats": 10.25,
+  "interiorDistinct": 4,
+  "meanPlate": 5933.780487804878,
+  "maxPlate": 9216,
+  "minPlate": 4225,
+  "totalPlate": 243285
+ },
+ "coil_3x4_79": {
+  "pieces": 45,
+  "kinds": {
+   "bend": 45
+  },
+  "elbows": 0,
+  "interiorBlocks": [
+   5,
+   185
+  ],
+  "innerPieces": 43,
+  "distinct": 6,
+  "shapes": [
+   "bend_DLDLD",
+   "bend_DLD_buttin",
+   "bend_DL_buttout",
+   "bend_DR",
+   "bend_LD",
+   "bend_RUUL"
+  ],
+  "rhythm": 4,
+  "repeats": 10.75,
+  "interiorDistinct": 4,
+  "meanPlate": 6593.2558139534885,
+  "maxPlate": 12192,
+  "minPlate": 4225,
+  "totalPlate": 283510
+ },
+ "coil_3x7_22": {
+  "pieces": 40,
+  "kinds": {
+   "bend": 40
+  },
+  "elbows": 0,
+  "interiorBlocks": [
+   4,
+   174
+  ],
+  "innerPieces": 38,
+  "distinct": 6,
+  "shapes": [
+   "bend_DL_buttin",
+   "bend_DRRU",
+   "bend_LDL",
+   "bend_RDR",
+   "bend_ULLD",
+   "bend_ULLDDD_buttout"
+  ],
+  "rhythm": 4,
+  "repeats": 9.5,
+  "interiorDistinct": 4,
+  "meanPlate": 6240,
+  "maxPlate": 6240,
+  "minPlate": 6240,
+  "totalPlate": 237120
+ },
+ "coil_3x8_20": {
+  "pieces": 36,
+  "kinds": {
+   "bend": 36
+  },
+  "elbows": 0,
+  "interiorBlocks": [
+   4,
+   173
+  ],
+  "innerPieces": 34,
+  "distinct": 6,
+  "shapes": [
+   "bend_DDRRU",
+   "bend_DL_buttin",
+   "bend_LDL",
+   "bend_RDR",
+   "bend_UULLD",
+   "bend_UULLDDD_buttout"
+  ],
+  "rhythm": 4,
+  "repeats": 8.5,
+  "interiorDistinct": 4,
+  "meanPlate": 7728,
+  "maxPlate": 9216,
+  "minPlate": 6240,
+  "totalPlate": 262752
+ },
+ "coil_3x9_18": {
+  "pieces": 32,
+  "kinds": {
+   "bend": 32
+  },
+  "elbows": 0,
+  "interiorBlocks": [
+   4,
+   168
+  ],
+  "innerPieces": 30,
+  "distinct": 6,
+  "shapes": [
+   "bend_DDRRU",
+   "bend_DL_buttin",
+   "bend_LLDL",
+   "bend_RRDR",
+   "bend_UULLD",
+   "bend_UULLDDDD_buttout"
+  ],
+  "rhythm": 4,
+  "repeats": 7.5,
+  "interiorDistinct": 4,
+  "meanPlate": 8735.5,
+  "maxPlate": 9216,
+  "minPlate": 8255,
+  "totalPlate": 262065
+ },
+ "coil_4x4_50": {
+  "pieces": 47,
+  "kinds": {
+   "bend": 47
+  },
+  "elbows": 0,
+  "interiorBlocks": [
+   6,
+   185
+  ],
+  "innerPieces": 45,
+  "distinct": 10,
+  "shapes": [
+   "bend_DDDL_buttin",
+   "bend_DL",
+   "bend_DR",
+   "bend_DRRRU",
+   "bend_LD",
+   "bend_LDDDR",
+   "bend_RD",
+   "bend_RUUUL",
+   "bend_RUUULLL_buttout",
+   "bend_ULLLD"
+  ],
+  "rhythm": 12,
+  "repeats": 3.75,
+  "interiorDistinct": 8,
+  "meanPlate": 5568.333333333333,
+  "maxPlate": 8255,
+  "minPlate": 4225,
+  "totalPlate": 250575
+ },
+ "coil_4x7_20": {
+  "pieces": 36,
+  "kinds": {
+   "bend": 36
+  },
+  "elbows": 0,
+  "interiorBlocks": [
+   4,
+   173
+  ],
+  "innerPieces": 34,
+  "distinct": 6,
+  "shapes": [
+   "bend_DL_buttin",
+   "bend_DRRRU",
+   "bend_LDL",
+   "bend_RDR",
+   "bend_ULLLD",
+   "bend_ULLLDDD_buttout"
+  ],
+  "rhythm": 4,
+  "repeats": 8.5,
+  "interiorDistinct": 4,
+  "meanPlate": 7247.5,
+  "maxPlate": 8255,
+  "minPlate": 6240,
+  "totalPlate": 246415
+ },
+ "coil_4x8_18": {
+  "pieces": 32,
+  "kinds": {
+   "bend": 32
+  },
+  "elbows": 0,
+  "interiorBlocks": [
+   4,
+   167
+  ],
+  "innerPieces": 30,
+  "distinct": 6,
+  "shapes": [
+   "bend_DL_buttin",
+   "bend_DRRRU",
+   "bend_LLDL",
+   "bend_RDR",
+   "bend_UULLLD",
+   "bend_UULLLDDDD_buttout"
+  ],
+  "rhythm": 4,
+  "repeats": 7.5,
+  "interiorDistinct": 4,
+  "meanPlate": 8636.3,
+  "maxPlate": 12192,
+  "minPlate": 6240,
+  "totalPlate": 259089
+ },
+ "coil_4x9_18": {
+  "pieces": 32,
+  "kinds": {
+   "bend": 32
+  },
+  "elbows": 0,
+  "interiorBlocks": [
+   4,
+   183
+  ],
+  "innerPieces": 30,
+  "distinct": 6,
+  "shapes": [
+   "bend_DDRRRU",
+   "bend_DL_buttin",
+   "bend_LLDL",
+   "bend_RRDR",
+   "bend_UULLLD",
+   "bend_UULLLDDDD_buttout"
+  ],
+  "rhythm": 4,
+  "repeats": 7.5,
+  "interiorDistinct": 4,
+  "meanPlate": 10223.5,
+  "maxPlate": 12192,
+  "minPlate": 8255,
+  "totalPlate": 306705
+ },
+ "coil_5x5_50": {
+  "pieces": 47,
+  "kinds": {
+   "bend": 47
+  },
+  "elbows": 0,
+  "interiorBlocks": [
+   6,
+   170
+  ],
+  "innerPieces": 45,
+  "distinct": 10,
+  "shapes": [
+   "bend_DDDL_buttin",
+   "bend_DL",
+   "bend_DR",
+   "bend_DRRU",
+   "bend_LD",
+   "bend_LDDR",
+   "bend_RD",
+   "bend_RUUL",
+   "bend_RUULLL_buttout",
+   "bend_ULLD"
+  ],
+  "rhythm": 12,
+  "repeats": 3.75,
+  "interiorDistinct": 8,
+  "meanPlate": 4896.666666666667,
+  "maxPlate": 6240,
+  "minPlate": 4225,
+  "totalPlate": 220350
+ },
+ "coil_5x7_18": {
+  "pieces": 32,
+  "kinds": {
+   "bend": 32
+  },
+  "elbows": 0,
+  "interiorBlocks": [
+   4,
+   168
+  ],
+  "innerPieces": 30,
+  "distinct": 6,
+  "shapes": [
+   "bend_DL_buttin",
+   "bend_DRRRRU",
+   "bend_LDL",
+   "bend_RDR",
+   "bend_ULLLLD",
+   "bend_ULLLLDDD_buttout"
+  ],
+  "rhythm": 4,
+  "repeats": 7.5,
+  "interiorDistinct": 4,
+  "meanPlate": 8255,
+  "maxPlate": 10270,
+  "minPlate": 6240,
+  "totalPlate": 247650
+ },
+ "coil_5x8_18": {
+  "pieces": 32,
+  "kinds": {
+   "bend": 32
+  },
+  "elbows": 0,
+  "interiorBlocks": [
+   4,
+   183
+  ],
+  "innerPieces": 30,
+  "distinct": 6,
+  "shapes": [
+   "bend_DDRRRRU",
+   "bend_DL_buttin",
+   "bend_LDL",
+   "bend_RDR",
+   "bend_UULLLLD",
+   "bend_UULLLLDDD_buttout"
+  ],
+  "rhythm": 4,
+  "repeats": 7.5,
+  "interiorDistinct": 4,
+  "meanPlate": 10704,
+  "maxPlate": 15168,
+  "minPlate": 6240,
+  "totalPlate": 321120
+ }
+}
