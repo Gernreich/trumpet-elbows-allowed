@@ -1,4 +1,4 @@
-<title>Wide Telescope Bore</title>
+<title>Wide Telescope</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@400;500;600;700&display=swap">
@@ -172,12 +172,16 @@ input[type="range"]::-moz-range-thumb {
 <div id="stage"><canvas id="c"></canvas></div>
 
 <div class="rail" id="title-rail">
-  <h1>Wide Telescope Bore</h1>
-  <div class="walk">U U3 N4 W4 S5 E5 N6 U3 W6 S7 E7 N8 U3 W8 S9 E9 N10 U3 U</div>
+  <h1>Wide Telescope</h1>
+  <div class="walk" id="walk">U U3 N4 W4 S5 E5 N6 U3 W6 S7 E7 N8 U3 W8 S9 E9 N10 U3 U</div>
   <div class="stat" id="stat"></div>
 </div>
 
 <div class="rail" id="controls">
+  <div id="pick-wrap" style="display:none">
+    <div class="label">Turns</div>
+    <div class="seg" role="group" aria-label="Which coil" id="pick"></div>
+  </div>
   <div>
     <div class="label">Colour by</div>
     <div class="seg" role="group" aria-label="Colour by">
@@ -212,7 +216,8 @@ input[type="range"]::-moz-range-thumb {
 </div>
 
 <script>
-const D = {"cells":[{"p":[0,0,0],"d":"U","s":0,"i0":0},{"p":[0,1,0],"d":"U","s":0,"i0":1},{"p":[0,2,0],"d":"U","s":0,"i0":2},{"p":[0,3,0],"d":"N","s":0,"i0":3},{"p":[0,3,-1],"d":"N","s":0,"i0":4},{"p":[0,3,-2],"d":"N","s":1,"i0":5},{"p":[0,3,-3],"d":"N","s":1,"i0":6},{"p":[0,3,-4],"d":"W","s":1,"i0":7},{"p":[-1,3,-4],"d":"W","s":1,"i0":8},{"p":[-2,3,-4],"d":"W","s":1,"i0":9},{"p":[-3,3,-4],"d":"W","s":1,"i0":10},{"p":[-4,3,-4],"d":"S","s":1,"i0":11},{"p":[-4,3,-3],"d":"S","s":1,"i0":12},{"p":[-4,3,-2],"d":"S","s":1,"i0":13},{"p":[-4,3,-1],"d":"S","s":1,"i0":14},{"p":[-4,3,0],"d":"S","s":1,"i0":15},{"p":[-4,3,1],"d":"E","s":1,"i0":16},{"p":[-3,3,1],"d":"E","s":1,"i0":17},{"p":[-2,3,1],"d":"E","s":1,"i0":18},{"p":[-1,3,1],"d":"E","s":1,"i0":19},{"p":[0,3,1],"d":"E","s":1,"i0":20},{"p":[1,3,1],"d":"N","s":1,"i0":21},{"p":[1,3,0],"d":"N","s":1,"i0":22},{"p":[1,3,-1],"d":"N","s":2,"i0":23},{"p":[1,3,-2],"d":"N","s":2,"i0":24},{"p":[1,3,-3],"d":"N","s":2,"i0":25},{"p":[1,3,-4],"d":"N","s":2,"i0":26},{"p":[1,3,-5],"d":"U","s":2,"i0":27},{"p":[1,4,-5],"d":"U","s":2,"i0":28},{"p":[1,5,-5],"d":"U","s":3,"i0":29},{"p":[1,6,-5],"d":"W","s":3,"i0":30},{"p":[0,6,-5],"d":"W","s":3,"i0":31},{"p":[-1,6,-5],"d":"W","s":4,"i0":32},{"p":[-2,6,-5],"d":"W","s":4,"i0":33},{"p":[-3,6,-5],"d":"W","s":4,"i0":34},{"p":[-4,6,-5],"d":"W","s":4,"i0":35},{"p":[-5,6,-5],"d":"S","s":4,"i0":36},{"p":[-5,6,-4],"d":"S","s":4,"i0":37},{"p":[-5,6,-3],"d":"S","s":4,"i0":38},{"p":[-5,6,-2],"d":"S","s":4,"i0":39},{"p":[-5,6,-1],"d":"S","s":4,"i0":40},{"p":[-5,6,0],"d":"S","s":4,"i0":41},{"p":[-5,6,1],"d":"S","s":4,"i0":42},{"p":[-5,6,2],"d":"E","s":4,"i0":43},{"p":[-4,6,2],"d":"E","s":4,"i0":44},{"p":[-3,6,2],"d":"E","s":4,"i0":45},{"p":[-2,6,2],"d":"E","s":4,"i0":46},{"p":[-1,6,2],"d":"E","s":4,"i0":47},{"p":[0,6,2],"d":"E","s":4,"i0":48},{"p":[1,6,2],"d":"E","s":4,"i0":49},{"p":[2,6,2],"d":"N","s":4,"i0":50},{"p":[2,6,1],"d":"N","s":4,"i0":51},{"p":[2,6,0],"d":"N","s":5,"i0":52},{"p":[2,6,-1],"d":"N","s":5,"i0":53},{"p":[2,6,-2],"d":"N","s":5,"i0":54},{"p":[2,6,-3],"d":"N","s":5,"i0":55},{"p":[2,6,-4],"d":"N","s":5,"i0":56},{"p":[2,6,-5],"d":"N","s":5,"i0":57},{"p":[2,6,-6],"d":"U","s":5,"i0":58},{"p":[2,7,-6],"d":"U","s":5,"i0":59},{"p":[2,8,-6],"d":"U","s":6,"i0":60},{"p":[2,9,-6],"d":"W","s":6,"i0":61},{"p":[1,9,-6],"d":"W","s":6,"i0":62},{"p":[0,9,-6],"d":"W","s":7,"i0":63},{"p":[-1,9,-6],"d":"W","s":7,"i0":64},{"p":[-2,9,-6],"d":"W","s":7,"i0":65},{"p":[-3,9,-6],"d":"W","s":7,"i0":66},{"p":[-4,9,-6],"d":"W","s":7,"i0":67},{"p":[-5,9,-6],"d":"W","s":7,"i0":68},{"p":[-6,9,-6],"d":"S","s":7,"i0":69},{"p":[-6,9,-5],"d":"S","s":7,"i0":70},{"p":[-6,9,-4],"d":"S","s":8,"i0":71},{"p":[-6,9,-3],"d":"S","s":8,"i0":72},{"p":[-6,9,-2],"d":"S","s":8,"i0":73},{"p":[-6,9,-1],"d":"S","s":8,"i0":74},{"p":[-6,9,0],"d":"S","s":8,"i0":75},{"p":[-6,9,1],"d":"S","s":8,"i0":76},{"p":[-6,9,2],"d":"S","s":8,"i0":77},{"p":[-6,9,3],"d":"E","s":8,"i0":78},{"p":[-5,9,3],"d":"E","s":8,"i0":79},{"p":[-4,9,3],"d":"E","s":8,"i0":80},{"p":[-3,9,3],"d":"E","s":8,"i0":81},{"p":[-2,9,3],"d":"E","s":8,"i0":82},{"p":[-1,9,3],"d":"E","s":8,"i0":83},{"p":[0,9,3],"d":"E","s":8,"i0":84},{"p":[1,9,3],"d":"E","s":8,"i0":85},{"p":[2,9,3],"d":"E","s":8,"i0":86},{"p":[3,9,3],"d":"N","s":8,"i0":87},{"p":[3,9,2],"d":"N","s":8,"i0":88},{"p":[3,9,1],"d":"N","s":9,"i0":89},{"p":[3,9,0],"d":"N","s":9,"i0":90},{"p":[3,9,-1],"d":"N","s":9,"i0":91},{"p":[3,9,-2],"d":"N","s":9,"i0":92},{"p":[3,9,-3],"d":"N","s":9,"i0":93},{"p":[3,9,-4],"d":"N","s":9,"i0":94},{"p":[3,9,-5],"d":"N","s":9,"i0":95},{"p":[3,9,-6],"d":"N","s":9,"i0":96},{"p":[3,9,-7],"d":"U","s":9,"i0":97},{"p":[3,10,-7],"d":"U","s":9,"i0":98},{"p":[3,11,-7],"d":"U","s":9,"i0":99},{"p":[3,12,-7],"d":"U","s":9,"i0":100}],"blocks":101,"mm":3131,"dircol":{"N":"#2f6ea8","S":"#e08a2e","E":"#3f8f5e","W":"#9b4a9c","U":"#cf4433","D":"#8b9096"},"dirs":[{"k":"N","name":"north","n":28},{"k":"S","name":"south","n":21},{"k":"E","name":"east","n":21},{"k":"W","name":"west","n":18},{"k":"U","name":"up","n":13}],"sections":[{"col":"#ad2828","kind":"bend","n":5},{"col":"#2e5bc8","kind":"bend","n":18},{"col":"#98d345","kind":"bend","n":6},{"col":"#ad289c","kind":"bend","n":3},{"col":"#2ec8ae","kind":"bend","n":20},{"col":"#d39245","kind":"bend","n":8},{"col":"#4928ad","kind":"bend","n":3},{"col":"#35c82e","kind":"bend","n":8},{"col":"#d34574","kind":"bend","n":18},{"col":"#287bad","kind":"bend","n":12}],"openings":{"0:3":"IN","100:2":"OUT"},"inCol":"#1c1c20","outCol":"#e0457b"};
+const SETS = [{"label":"","walk":"U U3 N4 W4 S5 E5 N6 U3 W6 S7 E7 N8 U3 W8 S9 E9 N10 U3 U","d":{"cells":[{"a":[-15.5,0.0,-15.5],"b":[15.5,31.0,15.5],"d":"U","s":0,"i0":0},{"a":[-15.5,31.0,-15.5],"b":[15.5,62.0,15.5],"d":"U","s":0,"i0":1},{"a":[-15.5,62.0,-15.5],"b":[15.5,93.0,15.5],"d":"U","s":0,"i0":2},{"a":[-15.5,93.0,-15.5],"b":[15.5,124.0,15.5],"d":"N","s":0,"i0":3},{"a":[-15.5,93.0,-46.5],"b":[15.5,124.0,-15.5],"d":"N","s":0,"i0":4},{"a":[-15.5,93.0,-77.5],"b":[15.5,124.0,-46.5],"d":"N","s":1,"i0":5},{"a":[-15.5,93.0,-108.5],"b":[15.5,124.0,-77.5],"d":"N","s":1,"i0":6},{"a":[-15.5,93.0,-139.5],"b":[15.5,124.0,-108.5],"d":"W","s":1,"i0":7},{"a":[-46.5,93.0,-139.5],"b":[-15.5,124.0,-108.5],"d":"W","s":1,"i0":8},{"a":[-77.5,93.0,-139.5],"b":[-46.5,124.0,-108.5],"d":"W","s":1,"i0":9},{"a":[-108.5,93.0,-139.5],"b":[-77.5,124.0,-108.5],"d":"W","s":1,"i0":10},{"a":[-139.5,93.0,-139.5],"b":[-108.5,124.0,-108.5],"d":"S","s":1,"i0":11},{"a":[-139.5,93.0,-108.5],"b":[-108.5,124.0,-77.5],"d":"S","s":1,"i0":12},{"a":[-139.5,93.0,-77.5],"b":[-108.5,124.0,-46.5],"d":"S","s":1,"i0":13},{"a":[-139.5,93.0,-46.5],"b":[-108.5,124.0,-15.5],"d":"S","s":1,"i0":14},{"a":[-139.5,93.0,-15.5],"b":[-108.5,124.0,15.5],"d":"S","s":1,"i0":15},{"a":[-139.5,93.0,15.5],"b":[-108.5,124.0,46.5],"d":"E","s":1,"i0":16},{"a":[-108.5,93.0,15.5],"b":[-77.5,124.0,46.5],"d":"E","s":1,"i0":17},{"a":[-77.5,93.0,15.5],"b":[-46.5,124.0,46.5],"d":"E","s":1,"i0":18},{"a":[-46.5,93.0,15.5],"b":[-15.5,124.0,46.5],"d":"E","s":1,"i0":19},{"a":[-15.5,93.0,15.5],"b":[15.5,124.0,46.5],"d":"E","s":1,"i0":20},{"a":[15.5,93.0,15.5],"b":[46.5,124.0,46.5],"d":"N","s":1,"i0":21},{"a":[15.5,93.0,-15.5],"b":[46.5,124.0,15.5],"d":"N","s":1,"i0":22},{"a":[15.5,93.0,-46.5],"b":[46.5,124.0,-15.5],"d":"N","s":2,"i0":23},{"a":[15.5,93.0,-77.5],"b":[46.5,124.0,-46.5],"d":"N","s":2,"i0":24},{"a":[15.5,93.0,-108.5],"b":[46.5,124.0,-77.5],"d":"N","s":2,"i0":25},{"a":[15.5,93.0,-139.5],"b":[46.5,124.0,-108.5],"d":"N","s":2,"i0":26},{"a":[15.5,93.0,-170.5],"b":[46.5,124.0,-139.5],"d":"U","s":2,"i0":27},{"a":[15.5,124.0,-170.5],"b":[46.5,155.0,-139.5],"d":"U","s":2,"i0":28},{"a":[15.5,155.0,-170.5],"b":[46.5,186.0,-139.5],"d":"U","s":3,"i0":29},{"a":[15.5,186.0,-170.5],"b":[46.5,217.0,-139.5],"d":"W","s":3,"i0":30},{"a":[-15.5,186.0,-170.5],"b":[15.5,217.0,-139.5],"d":"W","s":3,"i0":31},{"a":[-46.5,186.0,-170.5],"b":[-15.5,217.0,-139.5],"d":"W","s":4,"i0":32},{"a":[-77.5,186.0,-170.5],"b":[-46.5,217.0,-139.5],"d":"W","s":4,"i0":33},{"a":[-108.5,186.0,-170.5],"b":[-77.5,217.0,-139.5],"d":"W","s":4,"i0":34},{"a":[-139.5,186.0,-170.5],"b":[-108.5,217.0,-139.5],"d":"W","s":4,"i0":35},{"a":[-170.5,186.0,-170.5],"b":[-139.5,217.0,-139.5],"d":"S","s":4,"i0":36},{"a":[-170.5,186.0,-139.5],"b":[-139.5,217.0,-108.5],"d":"S","s":4,"i0":37},{"a":[-170.5,186.0,-108.5],"b":[-139.5,217.0,-77.5],"d":"S","s":4,"i0":38},{"a":[-170.5,186.0,-77.5],"b":[-139.5,217.0,-46.5],"d":"S","s":4,"i0":39},{"a":[-170.5,186.0,-46.5],"b":[-139.5,217.0,-15.5],"d":"S","s":4,"i0":40},{"a":[-170.5,186.0,-15.5],"b":[-139.5,217.0,15.5],"d":"S","s":4,"i0":41},{"a":[-170.5,186.0,15.5],"b":[-139.5,217.0,46.5],"d":"S","s":4,"i0":42},{"a":[-170.5,186.0,46.5],"b":[-139.5,217.0,77.5],"d":"E","s":4,"i0":43},{"a":[-139.5,186.0,46.5],"b":[-108.5,217.0,77.5],"d":"E","s":4,"i0":44},{"a":[-108.5,186.0,46.5],"b":[-77.5,217.0,77.5],"d":"E","s":4,"i0":45},{"a":[-77.5,186.0,46.5],"b":[-46.5,217.0,77.5],"d":"E","s":4,"i0":46},{"a":[-46.5,186.0,46.5],"b":[-15.5,217.0,77.5],"d":"E","s":4,"i0":47},{"a":[-15.5,186.0,46.5],"b":[15.5,217.0,77.5],"d":"E","s":4,"i0":48},{"a":[15.5,186.0,46.5],"b":[46.5,217.0,77.5],"d":"E","s":4,"i0":49},{"a":[46.5,186.0,46.5],"b":[77.5,217.0,77.5],"d":"N","s":4,"i0":50},{"a":[46.5,186.0,15.5],"b":[77.5,217.0,46.5],"d":"N","s":4,"i0":51},{"a":[46.5,186.0,-15.5],"b":[77.5,217.0,15.5],"d":"N","s":5,"i0":52},{"a":[46.5,186.0,-46.5],"b":[77.5,217.0,-15.5],"d":"N","s":5,"i0":53},{"a":[46.5,186.0,-77.5],"b":[77.5,217.0,-46.5],"d":"N","s":5,"i0":54},{"a":[46.5,186.0,-108.5],"b":[77.5,217.0,-77.5],"d":"N","s":5,"i0":55},{"a":[46.5,186.0,-139.5],"b":[77.5,217.0,-108.5],"d":"N","s":5,"i0":56},{"a":[46.5,186.0,-170.5],"b":[77.5,217.0,-139.5],"d":"N","s":5,"i0":57},{"a":[46.5,186.0,-201.5],"b":[77.5,217.0,-170.5],"d":"U","s":5,"i0":58},{"a":[46.5,217.0,-201.5],"b":[77.5,248.0,-170.5],"d":"U","s":5,"i0":59},{"a":[46.5,248.0,-201.5],"b":[77.5,279.0,-170.5],"d":"U","s":6,"i0":60},{"a":[46.5,279.0,-201.5],"b":[77.5,310.0,-170.5],"d":"W","s":6,"i0":61},{"a":[15.5,279.0,-201.5],"b":[46.5,310.0,-170.5],"d":"W","s":6,"i0":62},{"a":[-15.5,279.0,-201.5],"b":[15.5,310.0,-170.5],"d":"W","s":7,"i0":63},{"a":[-46.5,279.0,-201.5],"b":[-15.5,310.0,-170.5],"d":"W","s":7,"i0":64},{"a":[-77.5,279.0,-201.5],"b":[-46.5,310.0,-170.5],"d":"W","s":7,"i0":65},{"a":[-108.5,279.0,-201.5],"b":[-77.5,310.0,-170.5],"d":"W","s":7,"i0":66},{"a":[-139.5,279.0,-201.5],"b":[-108.5,310.0,-170.5],"d":"W","s":7,"i0":67},{"a":[-170.5,279.0,-201.5],"b":[-139.5,310.0,-170.5],"d":"W","s":7,"i0":68},{"a":[-201.5,279.0,-201.5],"b":[-170.5,310.0,-170.5],"d":"S","s":7,"i0":69},{"a":[-201.5,279.0,-170.5],"b":[-170.5,310.0,-139.5],"d":"S","s":7,"i0":70},{"a":[-201.5,279.0,-139.5],"b":[-170.5,310.0,-108.5],"d":"S","s":8,"i0":71},{"a":[-201.5,279.0,-108.5],"b":[-170.5,310.0,-77.5],"d":"S","s":8,"i0":72},{"a":[-201.5,279.0,-77.5],"b":[-170.5,310.0,-46.5],"d":"S","s":8,"i0":73},{"a":[-201.5,279.0,-46.5],"b":[-170.5,310.0,-15.5],"d":"S","s":8,"i0":74},{"a":[-201.5,279.0,-15.5],"b":[-170.5,310.0,15.5],"d":"S","s":8,"i0":75},{"a":[-201.5,279.0,15.5],"b":[-170.5,310.0,46.5],"d":"S","s":8,"i0":76},{"a":[-201.5,279.0,46.5],"b":[-170.5,310.0,77.5],"d":"S","s":8,"i0":77},{"a":[-201.5,279.0,77.5],"b":[-170.5,310.0,108.5],"d":"E","s":8,"i0":78},{"a":[-170.5,279.0,77.5],"b":[-139.5,310.0,108.5],"d":"E","s":8,"i0":79},{"a":[-139.5,279.0,77.5],"b":[-108.5,310.0,108.5],"d":"E","s":8,"i0":80},{"a":[-108.5,279.0,77.5],"b":[-77.5,310.0,108.5],"d":"E","s":8,"i0":81},{"a":[-77.5,279.0,77.5],"b":[-46.5,310.0,108.5],"d":"E","s":8,"i0":82},{"a":[-46.5,279.0,77.5],"b":[-15.5,310.0,108.5],"d":"E","s":8,"i0":83},{"a":[-15.5,279.0,77.5],"b":[15.5,310.0,108.5],"d":"E","s":8,"i0":84},{"a":[15.5,279.0,77.5],"b":[46.5,310.0,108.5],"d":"E","s":8,"i0":85},{"a":[46.5,279.0,77.5],"b":[77.5,310.0,108.5],"d":"E","s":8,"i0":86},{"a":[77.5,279.0,77.5],"b":[108.5,310.0,108.5],"d":"N","s":8,"i0":87},{"a":[77.5,279.0,46.5],"b":[108.5,310.0,77.5],"d":"N","s":8,"i0":88},{"a":[77.5,279.0,15.5],"b":[108.5,310.0,46.5],"d":"N","s":9,"i0":89},{"a":[77.5,279.0,-15.5],"b":[108.5,310.0,15.5],"d":"N","s":9,"i0":90},{"a":[77.5,279.0,-46.5],"b":[108.5,310.0,-15.5],"d":"N","s":9,"i0":91},{"a":[77.5,279.0,-77.5],"b":[108.5,310.0,-46.5],"d":"N","s":9,"i0":92},{"a":[77.5,279.0,-108.5],"b":[108.5,310.0,-77.5],"d":"N","s":9,"i0":93},{"a":[77.5,279.0,-139.5],"b":[108.5,310.0,-108.5],"d":"N","s":9,"i0":94},{"a":[77.5,279.0,-170.5],"b":[108.5,310.0,-139.5],"d":"N","s":9,"i0":95},{"a":[77.5,279.0,-201.5],"b":[108.5,310.0,-170.5],"d":"N","s":9,"i0":96},{"a":[77.5,279.0,-232.5],"b":[108.5,310.0,-201.5],"d":"U","s":9,"i0":97},{"a":[77.5,310.0,-232.5],"b":[108.5,341.0,-201.5],"d":"U","s":9,"i0":98},{"a":[77.5,341.0,-232.5],"b":[108.5,372.0,-201.5],"d":"U","s":9,"i0":99},{"a":[77.5,372.0,-232.5],"b":[108.5,403.0,-201.5],"d":"U","s":9,"i0":100}],"blocks":101,"mm":3131,"dircol":{"N":"#2f6ea8","S":"#e08a2e","E":"#3f8f5e","W":"#9b4a9c","U":"#cf4433","D":"#8b9096"},"dirs":[{"k":"N","name":"north","n":28},{"k":"S","name":"south","n":21},{"k":"E","name":"east","n":21},{"k":"W","name":"west","n":18},{"k":"U","name":"up","n":13}],"sections":[{"col":"#ad2828","kind":"bend","n":5},{"col":"#2e5bc8","kind":"bend","n":18},{"col":"#98d345","kind":"bend","n":6},{"col":"#ad289c","kind":"bend","n":3},{"col":"#2ec8ae","kind":"bend","n":20},{"col":"#d39245","kind":"bend","n":8},{"col":"#4928ad","kind":"bend","n":3},{"col":"#35c82e","kind":"bend","n":8},{"col":"#d34574","kind":"bend","n":18},{"col":"#287bad","kind":"bend","n":12}],"openings":{"0:3":"IN","100:2":"OUT"},"inCol":"#1c1c20","outCol":"#e0457b"}}];
+let D = SETS[0].d;
 
 const cv = document.getElementById('c');
 const ctx = cv.getContext('2d');
@@ -229,42 +234,92 @@ const CORN = [
 let yaw = 0.62, pitch = 0.72, zoom = 1, panX = 0, panY = 0;
 let mode = 'dir', reveal = D.cells.length, isolate = null, spinning = false;
 
-const key = (c) => c[0] + ',' + c[1] + ',' + c[2];
-const occAll = new Set(D.cells.map(c => key(c.p)));
+/* A cell is a box in mm, c.a to c.b. Blocks differ in length, so a face is
+   hidden only where a neighbour covers the whole of it - measured, because
+   there is no lattice index to compare any more. */
+function covers(c, o, f) {
+  const n = NRM[f], ax = n[0] ? 0 : (n[1] ? 1 : 2);
+  const touch = n[ax] > 0 ? Math.abs(o.a[ax] - c.b[ax]) : Math.abs(o.b[ax] - c.a[ax]);
+  if (touch > 1e-6) return false;
+  for (let i = 0; i < 3; i++) {
+    if (i === ax) continue;
+    const lap = Math.min(c.b[i], o.b[i]) - Math.max(c.a[i], o.a[i]);
+    if (lap < (c.b[i] - c.a[i]) - 1e-6) return false;
+  }
+  return true;
+}
 
 /* centre on the whole bore, so revealing blocks does not shift the model */
-const centre = (() => {
+let centre = null;
+function recentre() { centre = (() => {
   const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
   for (const c of D.cells) for (let i = 0; i < 3; i++) {
-    lo[i] = Math.min(lo[i], c.p[i]); hi[i] = Math.max(hi[i], c.p[i] + 1);
+    lo[i] = Math.min(lo[i], c.a[i]); hi[i] = Math.max(hi[i], c.b[i]);
   }
   return { c: lo.map((v, i) => (v + hi[i]) / 2), lo: lo, hi: hi };
-})();
+})(); }
+recentre();
 
 function faces() {
   const shown = D.cells.slice(0, reveal);
-  const occ = reveal === D.cells.length ? occAll : new Set(shown.map(c => key(c.p)));
   const out = [];
   for (let i = 0; i < shown.length; i++) {
     const c = shown[i];
     if (isolate !== null && (mode === 'dir' ? c.d : c.s) !== isolate) continue;
     for (let f = 0; f < 6; f++) {
-      const n = NRM[f];
-      if (occ.has(key([c.p[0]+n[0], c.p[1]+n[1], c.p[2]+n[2]]))) continue;
+      if (shown.some(o => o !== c && covers(c, o, f))) continue;
       out.push({ cell: c, i: i, f: f });
     }
   }
   return out;
 }
 
-function rot(p) {
+function rotC(p, c) {
   const cy = Math.cos(yaw), sy = Math.sin(yaw);
   const cp = Math.cos(pitch), sp = Math.sin(pitch);
-  let x = p[0] - centre.c[0], y = p[1] - centre.c[1], z = p[2] - centre.c[2];
+  let x = p[0] - c[0], y = p[1] - c[1], z = p[2] - c[2];
   let x2 = x * cy + z * sy, z2 = -x * sy + z * cy;
   let y2 = y * cp - z2 * sp, z3 = y * sp + z2 * cp;
   return [x2, y2, z3];
 }
+function rot(p) { return rotC(p, centre.c); }
+
+/* What the boxes project to at this angle, in mm, as [x0, x1, y0, y1]. */
+function fit(cells, c) {
+  let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+  for (const q of cells) {
+    for (let i = 0; i < 8; i++) {
+      const r = rotC([(i & 1) ? q.b[0] : q.a[0],
+                      ((i >> 1) & 1) ? q.b[1] : q.a[1],
+                      ((i >> 2) & 1) ? q.b[2] : q.a[2]], c);
+      x0 = Math.min(x0, r[0]); x1 = Math.max(x1, r[0]);
+      y0 = Math.min(y0, r[1]); y1 = Math.max(y1, r[1]);
+    }
+  }
+  return [x0, x1, y0, y1];
+}
+
+/* The scale is locked to the biggest set, not fitted to whichever is shown.
+   Fitting each one to the canvas draws four coils the same size, which is the
+   one thing a page comparing lengths must not do: the 3t is four times the
+   0.75t and has to look it. Each set still centres on itself, so the shown one
+   stays in the middle rather than drifting off with its own origin. */
+const bboxOf = (cells) => {
+  const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
+  for (const q of cells) for (let i = 0; i < 3; i++) {
+    lo[i] = Math.min(lo[i], q.a[i]); hi[i] = Math.max(hi[i], q.b[i]);
+  }
+  return [lo, hi];
+};
+const REF = SETS.reduce((best, s) => {
+  const sp = (d) => { const [lo, hi] = bboxOf(d.cells);
+    return Math.hypot(hi[0] - lo[0], hi[1] - lo[1], hi[2] - lo[2]); };
+  return sp(s.d) > sp(best.d) ? s : best;
+}, SETS[0]).d;
+const refCentre = (() => {
+  const [lo, hi] = bboxOf(REF.cells);
+  return lo.map((v, i) => (v + hi[i]) / 2);
+})();
 
 function shade(hex, n) {
   const L = [-0.32, 0.86, 0.4], m = Math.hypot(...L);
@@ -291,18 +346,12 @@ function draw() {
   // first or strands the second in the middle of the canvas. And not the
   // bounding box either: a walk that climbs as it runs fills a diagonal slab
   // of a mostly empty box, and the box's corners are nowhere near the shape.
-  let px0 = Infinity, px1 = -Infinity, py0 = Infinity, py1 = -Infinity;
-  for (const c of D.cells) {
-    for (let i = 0; i < 8; i++) {
-      const r = rot([c.p[0] + (i & 1), c.p[1] + ((i >> 1) & 1),
-                     c.p[2] + ((i >> 2) & 1)]);
-      px0 = Math.min(px0, r[0]); px1 = Math.max(px1, r[0]);
-      py0 = Math.min(py0, r[1]); py1 = Math.max(py1, r[1]);
-    }
-  }
+  // Position from the set on screen, scale from the reference set.
+  const [px0, px1, py0, py1] = fit(D.cells, centre.c);
+  const [rx0, rx1, ry0, ry1] = fit(REF.cells, refCentre);
   const M = 56;
-  const S = Math.min((w - M) / Math.max(px1 - px0, 0.001),
-                     (h - M) / Math.max(py1 - py0, 0.001)) * zoom;
+  const S = Math.min((w - M) / Math.max(rx1 - rx0, 0.001),
+                     (h - M) / Math.max(ry1 - ry0, 0.001)) * zoom;
   const ox = w / 2 - (px0 + px1) / 2 * S + panX;
   const oy = h / 2 + (py0 + py1) / 2 * S + panY;
   const P = (p) => { const r = rot(p); return [ox + r[0] * S, oy - r[1] * S, r[2]]; };
@@ -311,7 +360,9 @@ function draw() {
   for (const q of faces()) {
     const n = NRM[q.f], rn = rot([n[0] + centre.c[0], n[1] + centre.c[1], n[2] + centre.c[2]]);
     if (rn[2] <= 0.001) continue;                 /* facing away */
-    const pts = CORN[q.f].map(v => P([q.cell.p[0]+v[0], q.cell.p[1]+v[1], q.cell.p[2]+v[2]]));
+    const pts = CORN[q.f].map(v => P([v[0] ? q.cell.b[0] : q.cell.a[0],
+                                      v[1] ? q.cell.b[1] : q.cell.a[1],
+                                      v[2] ? q.cell.b[2] : q.cell.a[2]]));
     const z = pts.reduce((a, p) => a + p[2], 0) / 4;
     list.push({ pts, z, q, rn });
   }
@@ -424,7 +475,9 @@ function buildList() {
     tr.children[0].textContent = i + 1;
     tr.children[1].innerHTML = '<span class="sw" style="background:'
       + D.dircol[c.d] + '"></span> ' + DIRNAME[c.d];
-    tr.children[2].textContent = '(' + c.p.join(',') + ')';
+    /* the block's low corner in mm; there is no lattice index to show once
+       straights and turns are different lengths */
+    tr.children[2].textContent = '(' + c.a.map(v => Math.round(v)).join(',') + ')';
     tr.children[3].textContent = turn ? 'turn' : '';
     t.appendChild(tr);
   });
@@ -453,6 +506,39 @@ function buildKeys() {
     b.onclick = () => { isolate = (isolate === r.id) ? null : r.id; buildKeys(); draw(); };
     box.appendChild(b);
   }
+}
+
+/* Several coils in one page: same walk truncated at different points, so the
+   only thing that changes is which set of cells is drawn. Reset the view with
+   it -- they differ in size, and keeping a zoom from a longer one strands a
+   shorter one off-screen. */
+function pickCoil(i) {
+  D = SETS[i].d;
+  recentre();
+  reveal = D.cells.length;
+  $('reveal').max = reveal; $('reveal').value = reveal;
+  $('reveal-count').textContent = reveal + ' / ' + reveal;
+  document.getElementById('walk').textContent = SETS[i].walk;
+  // Keep the camera. It used to reset here, because each coil fitted itself and
+  // a zoom held from the 3-turn threw the 3/4 off the canvas. The scale is
+  // locked to the longest now, so every coil draws inside that frame -- and
+  // holding the angle is the whole point of a switch: you are comparing
+  // lengths, which you cannot do if the view jumps each time you swap. Reset
+  // is still a button.
+  isolate = null;
+  for (const b of $('pick').children)
+    b.setAttribute('aria-pressed', +b.dataset.i === i);
+  buildKeys(); buildList(); draw();
+}
+if (SETS.length > 1) {
+  $('pick-wrap').style.display = '';
+  SETS.forEach((s, i) => {
+    const b = document.createElement('button');
+    b.textContent = s.label; b.dataset.i = i;
+    b.setAttribute('aria-pressed', i === 0);
+    b.onclick = () => pickCoil(i);
+    $('pick').appendChild(b);
+  });
 }
 
 window.addEventListener('resize', draw);
