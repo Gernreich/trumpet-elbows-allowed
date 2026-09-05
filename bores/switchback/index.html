@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>trumpet-switchback</title>
+<style>
+:root{--bg:#fbfbfa;--fg:#1a1c1e;--mut:#5b6067;--line:#e2e4e7;--card:#fff;--accent:#1d4ed8;
+--codebg:#f4f5f7;--thbg:#f0f1f3;--mark:#fff8c4}
+@media (prefers-color-scheme:dark){:root{--bg:#15171a;--fg:#e6e8ea;--mut:#9aa1a9;--line:#2b2f34;
+--card:#1b1e22;--accent:#7aa2f7;--codebg:#22262b;--thbg:#23272c;--mark:#4a411c}}
+:root[data-theme=dark]{--bg:#15171a;--fg:#e6e8ea;--mut:#9aa1a9;--line:#2b2f34;--card:#1b1e22;
+--accent:#7aa2f7;--codebg:#22262b;--thbg:#23272c;--mark:#4a411c}
+:root[data-theme=light]{--bg:#fbfbfa;--fg:#1a1c1e;--mut:#5b6067;--line:#e2e4e7;--card:#fff;
+--accent:#1d4ed8;--codebg:#f4f5f7;--thbg:#f0f1f3;--mark:#fff8c4}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:16px/1.62 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+-webkit-text-size-adjust:100%}
+.wrap{display:grid;grid-template-columns:250px minmax(0,1fr);gap:44px;max-width:1180px;
+margin:0 auto;padding:40px 28px 96px}
+nav{position:sticky;top:28px;align-self:start;max-height:calc(100vh - 56px);overflow:auto;
+border-right:1px solid var(--line);padding-right:16px;font-size:13.5px;line-height:1.45}
+nav b{display:block;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--mut);
+margin:0 0 12px}
+nav a{display:block;color:var(--mut);text-decoration:none;padding:3px 0;border-radius:4px}
+nav a:hover{color:var(--accent)}
+nav a.l1{color:var(--fg);font-weight:640;margin-top:11px}
+nav a.l2{padding-left:12px}
+main{min-width:0}
+h1{font-size:1.62rem;line-height:1.25;letter-spacing:-.015em;margin:2.4em 0 .5em;
+padding-bottom:.32em;border-bottom:2px solid var(--line)}
+main>h1:first-child{margin-top:0;border-bottom:none;font-size:1.95rem}
+h2{font-size:1.16rem;margin:2em 0 .5em;letter-spacing:-.01em}
+h3{font-size:1.02rem;font-weight:650;margin:1.7em 0 .45em}
+p{margin:.85em 0}
+ul,ol{margin:.85em 0;padding-left:1.35em}
+li{margin:.3em 0}
+hr{border:0;border-top:1px solid var(--line);margin:2.6em 0}
+figure{margin:1.6em 0}
+/* A paragraph holding two or more images is a gallery. Left to inline layout they
+   wrap at whatever fits, which put three bells on one row and the fourth alone
+   underneath - directly above the caption, so it read as the caption for that one
+   picture rather than for the set. Flex lets them share the row instead. */
+p:has(img + img){display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start;
+justify-content:center}
+p:has(img + img) img{flex:1 1 140px;min-width:0;width:auto;max-width:100%;height:auto;
+border:1px solid var(--line);border-radius:10px}
+figure svg,figure img{display:block;width:100%;max-width:100%;height:auto;
+border:1px solid var(--line);border-radius:10px}
+a{color:var(--accent)}
+code{font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+background:var(--codebg);padding:.1em .32em;border-radius:4px;
+border:1px solid color-mix(in srgb,var(--line) 70%,transparent)}
+pre{background:var(--codebg);border:1px solid var(--line);border-radius:9px;
+padding:14px 16px;overflow-x:auto;margin:1.1em 0}
+pre code{background:none;border:0;padding:0;font-size:12.8px;line-height:1.62;white-space:pre}
+blockquote{margin:1.15em 0;padding:.7em 1.1em;border-left:4px solid var(--accent);
+background:var(--codebg);border-radius:0 7px 7px 0}
+blockquote p{margin:0}
+.tw{overflow-x:auto;margin:1.15em 0;border:1px solid var(--line);border-radius:9px;
+background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:8px 13px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+/* honour align="center" on gallery cells: a presentation attribute loses to any
+   CSS rule, so the line above would silently left-align every thumbnail caption */
+td[align=center],th[align=center]{text-align:center}
+th{background:var(--thbg);font-weight:630;white-space:nowrap;font-size:13px;
+letter-spacing:.01em}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:color-mix(in srgb,var(--thbg) 45%,transparent)}
+td code,th code{white-space:nowrap}
+/* A walk inside a link is one token: breaking it mid-walk put "N" at the end of one
+   line and "N5 U" at the start of the next, which reads as two things. */
+a code{white-space:nowrap}
+.tog{position:fixed;top:14px;right:14px;z-index:9;background:var(--card);color:var(--mut);
+border:1px solid var(--line);border-radius:7px;padding:6px 11px;font-size:12.5px;cursor:pointer}
+.tog:hover{color:var(--accent)}
+@media (max-width:900px){.wrap{grid-template-columns:1fr;gap:20px;padding:26px 18px 72px}
+nav{position:static;max-height:none;border-right:0;border-bottom:1px solid var(--line);
+padding:0 0 16px;columns:2;column-gap:20px}}
+@media print{nav,.tog{display:none}.wrap{display:block;max-width:none;padding:0}
+pre,.tw{break-inside:avoid}h1{break-after:avoid}}
+</style>
+</head>
+<body>
+<button class="tog" type="button">theme</button>
+<div class="wrap">
+<nav><b>Contents</b><a class="l1" href="#trumpet-switchback">trumpet-switchback</a><a class="l2" href="#what-is-in-each-folder">What is in each folder</a><a class="l2" href="#the-two-sizes">The two sizes</a><a class="l2" href="#the-mouthpiece-and-the-bell">The mouthpiece and the bell</a><a class="l2" href="#do-not-mix-the-folders">Do not mix the folders</a><a class="l2" href="#the-pages">The pages</a><a class="l2" href="#where-it-comes-from">Where it comes from</a><a class="l2" href="#licence">Licence</a></nav>
+<main>
+<h1 id="trumpet-switchback">trumpet-switchback</h1>
+<p>A trumpet whose bore <strong>folds back on itself twice</strong>, which is what the switchback in the name means. <strong>This repository is the bore</strong> — six laser-cut sections that assemble into one sealed passage, at a <strong>10mm bore on a 16mm block</strong>.</p>
+<p>The <strong>mouthpiece</strong> and the <strong>bell</strong> live in <strong><a href="https://github.com/Gernreich/trumpet-parts">trumpet-parts</a></strong>, because neither is touched by the way the bore turns. Only the tube belongs to an instrument. The 25mm pair that used to sit beside them, and fitted the <a href="https://github.com/Gernreich/trumpet-coiled">coiled</a> and <a href="https://github.com/Gernreich/trumpet-octagonal">octagonal</a> trumpets equally, was retired on 2026-09-03.</p>
+<pre><code>N N1 W3 U2 E3 N3 D3 W2 U3 N1</code></pre>
+<p>The walk folds back twice inside a 4×4 cross-section and runs nine blocks north overall. Every section is a <strong>bend</strong> — there are no elbows, so no section needs a neighbour's plate flattened and butt-glued to it, which is the difficulty of the whole build.</p>
+<p>
+<img src="10mm/bore/minecraft_bore.png" alt="The walk built in Minecraft from translucent coloured glass, one colour per direction: long blue runs heading north to the left and right, a green box heading east, magenta where it runs west, red columns where it climbs and a grey column where it drops" width="620">
+</p>
+<p><em>The walk laid out block by block in Minecraft, coloured by direction — blue north, green east, magenta west, red up, grey down. The same walk serves both sizes; only the block it is drawn on changes.</em></p>
+<p><strong><a href="https://github.com/Gernreich/trumpet-switchback">The repository</a></strong> — both instruments and the page they regenerate from.</p>
+<p><strong><a href="https://github.com/Gernreich/trumpet-switchback/archive/refs/heads/main.zip">Download everything as a ZIP</a></strong> — GitHub builds it from <code>main</code> on every push, so it is never out of date.</p>
+<p>Built for <strong><a href="https://www.youtube.com/@LaserMadeMusic">LaserMadeMusic</a></strong>, where the cutting and the playing are shown.</p>
+<p><strong><a href="https://gernreich.github.io/">The rest of the build files</a></strong> — every instrument, generator and tool, indexed.</p>
+<h2 id="what-is-in-each-folder">What is in each folder</h2>
+<pre><code>10mm/
+  bore/                    six cut files and the page they belong to</code></pre>
+<p>Six sheets each, cut in the order they are numbered. Glued mouthpiece to bore to bell, with the two ends coming from <code>trumpet-parts</code> — see <a href="#the-mouthpiece-and-the-bell">The mouthpiece and the bell</a> for which ones. Every sheet in a folder belongs to the same size, so there is no mixing to get wrong — see <a href="#do-not-mix-the-folders">Do not mix the folders</a> for the one thing that can still bite.</p>
+<h2 id="the-two-sizes">The two sizes</h2>
+<p>A block is the sound square plus a wall each side, so <strong>the bore is the block less 6mm</strong> in 3mm stock. That one number is the whole difference between the folders:</p>
+<div class='tw'><table><thead><tr><th></th><th><code>10mm/</code></th></tr></thead><tbody><tr><td>bore</td><td>10mm square</td></tr><tr><td>block</td><td>16mm outside</td></tr><tr><td>centreline</td><td>352mm</td></tr></tbody></table></div>
+<p>Everything else is shared: the same walk, the same six sections in the same order, the same shapes, the same in and out faces, no elbows in either.</p>
+<p>The two bores use the same six filenames — see <a href="#do-not-mix-the-folders">Do not mix the folders</a>.</p>
+<p>The tab is the one thing that does not simply scale. SnakeBox's <code>--pin_width</code> defaults to 12mm, chosen when 31 was the only block there was, and 12mm does not fit inside the 10mm end frame at all — it raises rather than cuts. <code>bore-generator</code> sets it to 0.48 of the sound square <strong>but never below the finger joint tooth</strong>, which is <code>2 × thickness</code> and does not shrink with the block: 12mm at 25, 6mm at 10. Without that floor the fraction alone gives 4.8mm at 10 — a seam tab narrower than the ordinary teeth beside it, which is exactly backwards.</p>
+<p>The notch it enters is opened by a clearance that <strong>differs between the two sizes, because both were measured</strong>: the 25mm joint carried <strong>0.0</strong> and the 10mm carries <strong>0.05mm</strong>. That is not an oversight. Zero assembles and fits well at 25mm — it is what this trumpet was built with — and at 10mm the same zero will not go together at all, while 0.3 rocked and 0.1 was still slightly loose. The tab keeps its full width at both. SnakeBox leaves that at zero, on the grounds that finger joints have no play either, but a finger joint is a dozen teeth sharing an edge and a section seam is one tab in one notch. At zero the two are drawn the same width and the sections will not go together.</p>
+<h3 id="the-cut-files--10mmbore">The cut files — <code>10mm/bore/</code></h3>
+<div class='tw'><table><thead><tr><th>#</th><th>file</th><th>blocks</th><th>in</th><th>out</th><th>plate</th><th>shape</th><th>sheet</th></tr></thead><tbody><tr><td>1</td><td><a href="10mm/bore/bore10-trumpet-switchback-01of06-bend-DL-buttin-cut-files.svg"><code>10mm/bore/bore10-trumpet-switchback-01of06-bend-DL-buttin-cut-files.svg</code></a></td><td>1-3</td><td>N</td><td>W</td><td>2×2</td><td>BDL~a</td><td>241×56mm</td></tr><tr><td>2</td><td><a href="10mm/bore/bore10-trumpet-switchback-02of06-bend-LUUR-cut-files.svg"><code>10mm/bore/bore10-trumpet-switchback-02of06-bend-LUUR-cut-files.svg</code></a></td><td>4-8</td><td>W</td><td>E</td><td>2×3</td><td>BLUUR</td><td>344×72mm</td></tr><tr><td>3</td><td><a href="10mm/bore/bore10-trumpet-switchback-03of06-bend-RD-cut-files.svg"><code>10mm/bore/bore10-trumpet-switchback-03of06-bend-RD-cut-files.svg</code></a></td><td>9-11</td><td>E</td><td>N</td><td>2×2</td><td>BRD</td><td>253×56mm</td></tr><tr><td>4</td><td><a href="10mm/bore/bore10-trumpet-switchback-04of06-bend-DL-cut-files.svg"><code>10mm/bore/bore10-trumpet-switchback-04of06-bend-DL-cut-files.svg</code></a></td><td>12-14</td><td>N</td><td>D</td><td>2×2</td><td>BDL</td><td>247×59mm</td></tr><tr><td>5</td><td><a href="10mm/bore/bore10-trumpet-switchback-05of06-bend-DLLU-cut-files.svg"><code>10mm/bore/bore10-trumpet-switchback-05of06-bend-DLLU-cut-files.svg</code></a></td><td>15-19</td><td>D</td><td>U</td><td>3×2</td><td>BDLLU</td><td>370×59mm</td></tr><tr><td>6</td><td><a href="10mm/bore/bore10-trumpet-switchback-06of06-bend-RD-buttout-cut-files.svg"><code>10mm/bore/bore10-trumpet-switchback-06of06-bend-RD-buttout-cut-files.svg</code></a></td><td>20-22</td><td>U</td><td>N</td><td>2×2</td><td>BRD~b</td><td>253×56mm</td></tr></tbody></table></div>
+<h3 id="either-size">Either size</h3>
+<p><strong>The two end sections are flat where they face outward.</strong> Every seam inside the bore is a tab entering a notch, but sections 1 and 6 have nothing beyond them to couple to — what meets them is the mouthpiece at one end and the bell at the other, and both present a flat plate that glues straight onto the end face. A tab standing 3mm proud of that face would hold the plate off it. So section 1's mouth end and section 6's bell end are plain edges, which is what <code>~a</code> and <code>~b</code> mark in the shape column and <code>_buttin</code> / <code>_buttout</code> in the filename.</p>
+<p>Sections 1 and 4 were the same shape until then, and 3 and 6 with them; the flat ends make all six distinct. They were always cut separately anyway, so each carries its own engraved number and the assembly order stays readable on the bench.</p>
+<p>Both end sections are a single straight block either side of their turn, which is the least a section can have.</p>
+<h2 id="the-mouthpiece-and-the-bell">The mouthpiece and the bell</h2>
+<p><strong>Neither is here.</strong> Both live in <strong><a href="https://github.com/Gernreich/trumpet-parts">trumpet-parts</a></strong> with the rest of the shared parts, because neither depends on how a bore turns. What this repository owns is the tube. These are the ones to cut with it:</p>
+<div class='tw'><table><thead><tr><th></th><th>for <code>10mm/</code></th></tr></thead><tbody><tr><td>mouthpiece</td><td><a href="https://github.com/Gernreich/trumpet-parts/blob/main/mouthpiece/mouthpiece-bore10-trumpet-parts-cut-files.svg"><code>mouthpiece-bore10-trumpet-parts-cut-files.svg</code></a></td></tr><tr><td>station one</td><td>10mm square in a 16mm plate</td></tr><tr><td>bell</td><td><a href="https://github.com/Gernreich/trumpet-parts/blob/main/bell/bell-round10-153mm-17rings-x3-rim86-cut-files.svg"><code>bell-round10-153mm-17rings-x3-rim86-cut-files.svg</code></a></td></tr></tbody></table></div>
+<p><strong>The bell sheet draws every ring once and is cut more than once.</strong> A ring is a stack of 3mm laminations, three of them here, so the sheet goes through the machine that many times and you glue the copies up into one ring. Cut it once and you get a <strong>51mm bell</strong> instead of 153, which is the single most expensive mistake in this build. The bore is not like this: those six sheets are cut once each.</p>
+<p>Both bells are 17 rings and both seat on the ring below over <strong>3.00mm per side at every joint</strong> — see <a href="https://github.com/Gernreich/trumpet-parts/blob/main/bell/bell-round.py">bell-round.py</a>. Each mouthpiece is 30 rings of one lamination, so its sheet is cut once.</p>
+<p><strong>Every ring on all four carries its own number, engraved in blue before the cut</strong> — hex, one character, 0 at the bore end. A mouthpiece narrows to the throat and opens again, so its backbore and its cup pass through the same diameters: once the rings are off the bed, nothing but the number says which half a given ring belongs to. The generators engrave these themselves, so a regenerated sheet still has them.</p>
+<p><strong>Sheets regenerated from now on also carry an orientation tick</strong> — a short mark on the baseline, right of the number. A ring is a circle and has no top, so a number alone is ambiguous: turned over, a <code>3</code> reads as an <code>E</code> and a <code>6</code> reads as a <code>9</code>. The tick says which way up the label was engraved. All four sheets carry it. The parts already glued up were cut before it existed and have only their number, which costs nothing on a stack that is already in order — but cut a fresh sheet and the ring you pick up tells you which way round it goes. The mouthpiece uses the <code>trumpet</code> layout, which spends its length on the backbore and keeps a short cup, as a real one does.</p>
+<p>Each also carries a section drawing — an axial slice showing the bore climbing one staircase and the outside climbing another: <a href="https://github.com/Gernreich/trumpet-parts/blob/main/bell/bell-round10-153mm-17rings-x3-rim86-section.svg"><code>bell-round10-153mm-17rings-x3-rim86-section.svg</code></a> and <a href="https://github.com/Gernreich/trumpet-parts/blob/main/mouthpiece/mouthpiece-bore10-trumpet-parts-section.svg"><code>mouthpiece-bore10-trumpet-parts-section.svg</code></a>. <strong>Those are display only — never cut one.</strong></p>
+<p><strong>Both live in <code>trumpet-parts</code>, not here.</strong> They were kept in this repository until 2026-09-02 on the grounds that nothing else cut them — which was true of what had been cut, and not true of what fits: the pair then kept here suited any channel of their size, and holding them here hid two general parts inside one instrument. The rule <code>trumpet-coiled</code> already stated is the one that decides it: neither end is touched by the way a bore turns, so <strong>only the tube belongs to an instrument</strong>.</p>
+<p>The 10mm pair suit no other bore <em>today</em>, which is an accident of the current lineup rather than a principle, so they go with the rest. There is still one copy of each sheet and nothing to keep in step.</p>
+<p><strong>Every ring is engraved with its hex index</strong>, 0 on the smallest. Rings glued in the wrong order is rings unglued, and consecutive rings differ by about two millimetres — nothing you can judge by eye once the parts are off the bed.</p>
+<h2 id="do-not-mix-the-folders">Do not mix the folders</h2>
+<p>The two bores use the <strong>same six filenames</strong>, because the shapes really are the same and only the pitch differs. Nothing stops you cutting from the wrong folder, and the parts will look plausible right up until they do not fit. The sheet size is the tell — section 4, say, is <strong>247×59mm on the small bore and 397×89mm on the large</strong> — and the tables above carry every sheet at both sizes.</p>
+<p>The bell and the mouthpiece are safe: their filenames differ between sizes.</p>
+<h2 id="the-pages">The pages</h2>
+<p><strong><a href="10mm/bore/bore.html"><code>10mm/bore/bore.html</code></a></strong> is the bore, drawn and turnable. Drag to turn, colour by direction or by section, and a slider follows the bore from the mouth. It is self-contained apart from its fonts, so it opens from a checkout as readily as from the published page.</p>
+<p><code>sizes.html</code>, which held both sizes in one page with a control to swap them, went with the 25mm folder on 2026-09-03.</p>
+<h2 id="where-it-comes-from">Where it comes from</h2>
+<p>Generated by <strong><a href="https://github.com/Gernreich/bore-generator">bore-generator</a></strong>, which holds the walk as <code>walks/trumpet_switchback.txt</code> and gates these files in <code>regress.py</code>. Its <a href="https://github.com/Gernreich/bore-generator/blob/main/CLAUDE.md">CLAUDE.md</a> carries the conventions — the elbow rule, which switches reach the gate, and why a regenerated folder is not a checked one. To rebuild and check:</p>
+<pre><code>cd ../bore-generator
+W="$(cat walks/trumpet_switchback.txt)"
+D=../trumpet-switchback
+python3 bore_split.py --blocksize=16 --refuse-elbows "$W" --write $D/10mm/bore
+~/boxes/venv/bin/python regress.py trumpet</code></pre>
+<p><code>--refuse-elbows</code> is not optional here: it stops before writing anything if the walk would cost an elbow. Neither is the folder on the end of each line — leave <code>--blocksize=16</code> off the second command and it quietly fills <code>10mm/bore/</code> with full-size parts under the small set's names, which no drawing shows.</p>
+<p>The mouthpiece and the bell come from <strong><a href="https://github.com/Gernreich/trumpet-parts">trumpet-parts</a></strong>, not from here:</p>
+<pre><code>cd ../trumpet-parts/mouthpiece
+python3 mouthpiece-round.py --bore=10 --rim=17 --layout=trumpet mouthpiece-bore10-trumpet-parts-cut-files.svg
+cd ../bell &amp;&amp; python3 bell-round.py 17 --bore=10 --length=152 --mouth=80 \
+    --out=bell-round10-153mm-17rings-x3-rim86-cut-files.svg</code></pre>
+<p>Both sizes gate at <strong>194 checks, 0 failed</strong>. Nothing here should be cut from a file that has not passed it.</p>
+<h2 id="licence">Licence</h2>
+<p>CC0 1.0 Universal. See <code>LICENSE</code>.</p>
+</main>
+</div>
+<script>
+var r=document.documentElement,b=document.querySelector('.tog');
+function set(t){r.setAttribute('data-theme',t);try{localStorage.setItem('ctg-theme',t)}catch(e){}
+b.textContent=t==='dark'?'\u2600 light':'\u263e dark';}
+var saved=null;try{saved=localStorage.getItem('ctg-theme')}catch(e){}
+set(saved||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));
+b.addEventListener('click',function(){set(r.getAttribute('data-theme')==='dark'?'light':'dark')});
+</script>
+</body>
+</html>

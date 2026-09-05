@@ -1,0 +1,24 @@
+# Named in prose; they live in ../bore-generator, not in this repository.
+
+bore_split.py
+regress.py
+
+# Named in prose; they live in ../trumpet-parts.
+
+bell-round.py
+mouthpiece-round.py
+
+sizes.py
+
+# The mouthpiece and the bell moved to ../trumpet-parts on 2026-09-02: neither is
+# touched by the way a bore turns. Named here so a builder knows which sheets to
+# cut with this bore. The 25mm pair was retired on 2026-09-03.
+
+mouthpiece-bore10-trumpet-parts-cut-files.svg
+mouthpiece-bore10-trumpet-parts-section.svg
+bell-round10-153mm-17rings-x3-rim86-cut-files.svg
+bell-round10-153mm-17rings-x3-rim86-section.svg
+# Named in prose as a file that USED to be here. sizes.html held both bore
+# sizes in one page with a control to swap them; it went with the 25mm folder
+# on 2026-09-03 and the sentence that says so has to name it.
+sizes.html
