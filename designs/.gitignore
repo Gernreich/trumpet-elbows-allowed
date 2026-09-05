@@ -1,0 +1,8 @@
+.DS_Store
+*.tmp
+*.swp
+*~
+
+# The author's Inkscape working file — edited during a session and not a
+# deliverable. It has been committed by accident twice; it stays out.
+*.xs

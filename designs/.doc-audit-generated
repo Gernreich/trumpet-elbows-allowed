@@ -1,0 +1,15 @@
+# Each of these is one design, built out by bore_split.py: the cut files, the viewer
+# page, and where there is one a README of its own. They are machine output documented
+# collectively rather than file by file — naming twenty-seven SVGs in prose to satisfy
+# the orphan check would be worse writing, not better.
+#
+# Regenerate any of them with:
+#   cd ../GIT/bore-generator && python3 bore_split.py --write ../../test/NAME "WALK"
+
+doubled_walk/
+first_trumpet/
+hilbert_open/
+metre_spring/
+spiral_trumpet/
+telescope_spiral/
+wide_telescope/

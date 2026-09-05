@@ -1,0 +1,21 @@
+# The shared documentation tooling lives in ../GIT/lasermade-tools.
+
+md2html.py
+
+# The generator lives in the sibling repository ../GIT/bore-generator. These are
+# named in the commands here and are not files in this one.
+
+bore_split.py
+bore_render.py
+check.py
+assemble.py
+nest.py
+viewer.py
+mcwalk.py
+regress.py
+
+# Output of those commands, written when you run them rather than kept here.
+
+nest.svg
+dn.svg
+again.html
