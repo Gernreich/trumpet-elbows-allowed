@@ -17,7 +17,7 @@ from bore_split import (specs_for, cut, _inside, DIRS, AXIS, FACE2D,
 import svgpath as V
 from assemble import closes, sealed
 sys.path.insert(0, BOXES)
-from boxes.generators.snakebox import SnakeBox        # noqa: E402
+from boxes.generators.snakeboxvar import SnakeBoxVar as SnakeBox        # noqa: E402
 
 MIN_FEATURE = 1.5
 results = []
@@ -185,17 +185,23 @@ def check_seam(i, a_args, b_args):
 
 
 def sections_3d(rec, groups):
-    """Each section as (cells, openings) where the bore actually puts it."""
+    """Each section as (boxes, openings) where the bore actually puts it.
+
+    Boxes in mm, not cell indices: a straight block may be longer than a turn,
+    and then no single number takes a lattice index to a coordinate. Openings
+    are keyed by the box's position in its own section.
+    """
+    allb = bore_split.block_boxes(rec)
     out = []
     for g in groups:
-        cells = [rec[i]['pos'] for i in g]
+        boxes = [allb[i] for i in g]
         ins = tuple(-x for x in DIRS[rec[g[0]]['in']])
-        out.append((cells, {(cells[0], ins),
-                            (cells[-1], DIRS[rec[g[-1]]['out']])}))
+        out.append((boxes, {(0, ins),
+                            (len(boxes) - 1, DIRS[rec[g[-1]]['out']])}))
     return out
 
 
-def check_seams_3d(rec, groups, s, t):
+def check_seams_3d(rec, groups, t):
     """Put the sections where they belong and test the joints between them.
 
     Each section on its own is sealed by the check above. This puts two of them
@@ -208,7 +214,7 @@ def check_seams_3d(rec, groups, s, t):
         a, b = secs[i], secs[i + 1]
         outer = {(a[0][0], tuple(-x for x in DIRS[rec[groups[i][0]]['in']])),
                  (b[0][-1], DIRS[rec[groups[i + 1][-1]]['out']])}
-        ok, leak, bore, parts = sealed([a, b], s, t, outer)
+        ok, leak, bore, parts = sealed([a, b], t, outer)
         note(ok, f'{i+1}-{i+2}', 'the joint is closed',
              f'{leak:.0f} mm3 open to the outside')
         note(parts == 1, f'{i+1}-{i+2}', 'the bore carries on through the joint',
@@ -217,13 +223,26 @@ def check_seams_3d(rec, groups, s, t):
     # and the whole thing at once, coarser so it fits in memory
     mouth = (secs[0][0][0], tuple(-x for x in DIRS[rec[0]['in']]))
     far = (secs[-1][0][-1], DIRS[rec[-1]['out']])
-    ok, leak, bore, parts = sealed(secs, s, t, {mouth, far}, px=1.0)
-    # Every block gives (s-2t) square by s of bore, and every turn adds the
-    # little void on the inside of the bend, t by t by the bore width. A 2 mm
-    # grid used to be good enough for a 2% tolerance, but that was luck: the
-    # trumpet quantised to +0.35% and the spiral to +5.97% on the same code.
+    ok, leak, bore, parts = sealed(secs, t, {mouth, far}, px=1.0)
+    # Every block gives (s-2t) square by its OWN length of bore -- a straight
+    # may be longer than a turn -- and every turn adds the little void on the
+    # inside of the bend, t by t by the bore width. A 2 mm grid used to be good
+    # enough for a 2% tolerance, but that was luck: the trumpet quantised to
+    # +0.35% and the spiral to +5.97% on the same code.
+    s = bore_split.BLOCK
     turns = sum(1 for r in rec if r['in'] != r['out'])
-    want = (len(rec) * (s - 2 * t) ** 2 * s + turns * t * t * (s - 2 * t))
+    # DELIBERATELY a second implementation. This used to call bore_split.extent,
+    # the same function block_boxes builds the geometry from, so an error in it
+    # moved the measured volume and the expected volume together and the check
+    # could not see it: adding 1mm to every straight block still passed. A check
+    # that shares its source with the thing it checks is comparing something to
+    # itself. So the block length is worked out here, from the walk, and this
+    # must not be refactored to call extent() however much it looks like it.
+    def block_length(r):
+        straight = r['in'] == r['out']
+        return bore_split.STRAIGHT if straight else bore_split.BLOCK
+    want = (sum((s - 2 * t) ** 2 * block_length(r) for r in rec)
+            + turns * t * t * (s - 2 * t))
     note(ok and parts == 1, 'all', 'the assembled bore is one sealed passage',
          f'{leak:.0f} mm3 leaking, {parts} regions')
     note(abs(bore - want) < 0.005 * want, 'all', 'bore volume matches the walk',
@@ -335,7 +354,7 @@ def check_sheets(folder):
         name = os.path.basename(fn)
         # deepnest_* is a layout aid, not a cut file: parts are spread out on
         # purpose and it carries no engraving.
-        # bore25-... is the name written since 2026-09-03; the bare NN_ form is
+        # bore10-... is the name written since 2026-09-03; the bare NN_ form is
         # what the frozen repositories still hold, and both are cut files.
         if not re.match(r'(bore[\d.]+-|\d\d_|nest_|recut_)', name):
             continue
@@ -381,7 +400,7 @@ def main(text, folder=None, report=True):
         check_section(i, args, parts, flats[i - 1])
     for i in range(len(specs) - 1):
         check_seam(i + 1, specs[i][0], specs[i+1][0])
-    check_seams_3d(rec, groups, bore_split.BLOCK, THICKNESS)
+    check_seams_3d(rec, groups, THICKNESS)
     check_pairing(rec, groups, [p['norm'] for p in plan], flats,
                   [p['lap'] for p in plan])
     if folder:
@@ -412,9 +431,17 @@ if __name__ == '__main__':
                     help='also check the sheets written into DIR')
     ap.add_argument('--blocksize', type=float, metavar='MM',
                     help='block pitch the files were cut at (default 31)')
+    ap.add_argument('--bore', type=float, metavar='MM',
+                    help='the square airway, if you would rather say that')
+    ap.add_argument('--straight', type=float, metavar='MM',
+                    help='length of a straight block; turns stay cubic')
     a = ap.parse_args()
     if a.blocksize:
         bore_split.set_blocksize(a.blocksize)
+    if a.bore:
+        bore_split.set_bore(a.bore)
+    if a.straight:
+        bore_split.set_straight(a.straight)
     try:
         sys.exit(main(walk_text(' '.join(a.walk)), a.files))
     except ValueError as e:

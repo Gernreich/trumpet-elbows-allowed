@@ -36,6 +36,11 @@ file plus one file per distinct run length.
     python3 bore_split.py "D R1 F"              report only
     python3 bore_split.py "D R1 F" --write DIR  also cut the files
     python3 bore_split.py "D R1 F" --refuse-elbows   refuse a walk with any
+    python3 bore_split.py "D R1 F" --bore=10          the airway, square,
+        rather than the block outside: --bore=10 is --blocksize=16 at 3mm ply.
+    python3 bore_split.py "D R1 F" --bore=10 --straight=30
+        straights 30mm long with the turns left cubic, so the bore lengthens
+        without the walk changing. The cross-section stays square either way.
     python3 bore_split.py "D R1 F" --blocksize=16    a smaller bore: the
         pitch is the sound square plus two walls, so 16 is 10mm of air in 3mm
         stock, where the default 31 is 25mm of air. Pass the same number to
@@ -69,6 +74,7 @@ THICKNESS = 3.0
 # on one side, with their fingers facing nothing. Off unless asked for.
 ALLOW_PORTS = False
 FLAT = False        # --flat: plain butt ends, no tabs and no notches
+TITLE = None        # --title: the page's title, when the folder makes a poor one
 # Built from the constants above rather than typed out, because BLOCK is the
 # pitch the plan is laid out on and --blocksize is the pitch SnakeBox cuts to.
 # Set one without the other and the sheet and the plan quietly disagree.
@@ -78,7 +84,8 @@ FLAT = False        # --flat: plain butt ends, no tabs and no notches
 # across and a 12mm tab does not fit in it at all. 0.48 reproduces 12 exactly
 # at the 25mm square, so the default block is untouched.
 PIN_FRAC = 0.48
-MIN_SHOULDER = 2.0   # material left either side of the tab, along the frame
+MIN_SHOULDER = 2.0   # what the automatic sizing aims to leave beside the tab
+MIN_FEATURE = 1.5    # and what check.py will actually refuse below
 # SnakeBox leaves --pin_play at 0, on the grounds that it matches the finger
 # joints, which carry no designed play either. It does not follow. A finger
 # joint is a dozen teeth sharing an edge and the errors average out; the
@@ -86,99 +93,50 @@ MIN_SHOULDER = 2.0   # material left either side of the tab, along the frame
 # fit before you add char, glue or any kerf the burn allowance did not predict.
 # Reported from the bench 2026-08-31: section 1 would not enter section 2. This
 # widens the notch only -- the tab keeps its full width and strength.
-#
-# Measured, per bore, and NOT modelled. Two sizes have been cut and assembled:
+# Per side, so the notch opens by twice this. Measured per bore, not guessed and
+# not modelled -- both rows below are assembled objects:
 #
 #     bore 25mm (tab 12.0 in a 25mm frame)   0.0   assembles, fits well
-#     bore 10mm (tab  6.0 in a 10mm frame)   0.05  assembles, fits well
+#     bore 10mm (tab  6.0 in a 10mm frame)   0.025 assembles, fits well
 #                                            0.0   will not go together
-#                                            0.1   very slightly loose
-#                                            0.3   perceptible rock
+#                                            0.05  very slightly loose
+#                                            0.15  perceptible rock
 #
 # The same zero clearance that jams the small joint is fine on the large one, so
-# the requirement is not absolute and not a constant.
+# the requirement is neither absolute nor constant.
 #
-# The 10mm bore is not merely a small size, it is the extreme one. Work pin_width
-# across every bore and the two rules cross at exactly 10mm: the tab is a full
-# finger-joint tooth AND the shoulder is at its 2mm minimum, both at once. Below
-# 10mm the tab has to be cut narrower than a tooth to keep any shoulder. And the
-# shoulder there is 2.00mm in 3mm ply -- 0.67 of a ply, a short-grain sliver --
-# against 6.50mm, or 2.17 plies, at 25mm.
+# The 10mm bore is the extreme case, not merely a small one: the two sizing rules
+# cross at exactly 10mm, where the tab is a full finger-joint tooth AND the
+# shoulder is at its 2mm minimum together. Its shoulder is 0.67 of a ply against
+# 2.17 at 25mm. Required clearance FALLS as the joint grows, which rules out both
+# a constant absolute clearance and a constant fraction of the tab; what fits is
+# a fabrication error fixed in millimetres against elastic take-up that scales.
+# Hypothesis, not result -- the full reasoning and the coupon test that would
+# settle it are in README.md, beside this file.
 #
-# What the two points rule out: required clearance FALLS as the joint grows. A
-# constant absolute clearance would want the same figure at both; a constant
-# fraction of the tab would want more at 25mm, not less. Both are contradicted.
-# What fits the direction is a fabrication error that does not scale -- kerf,
-# ply thickness, positioning, all fixed in millimetres -- against elastic take-up
-# that does, so the larger joint absorbs what the smaller cannot. Hypothesis, not
-# result. (Note the shoulder-stiffness reading has a sign problem: a narrower
-# shoulder is less stiff and should spread more easily, making the small joint
-# easier to close, not harder. It only explains the jam if the sliver splits
-# rather than flexes.)
-#
-# The test that would settle it needs no bore: cut a coupon of the two mating end
-# frames at 16mm, where the tab is 7.68mm and the 48% fraction binds, at 0.0,
-# 0.0125 and 0.025 per side. If take-up scales, the middle one fits.
-#
-# --play cuts it, and --tag tells the results apart. The walk is the shortest
-# two-section one with no elbows, so the sheet carries the joint and almost
-# nothing else:
-#
-#   W="N N2 U3 E3 E"
-#   for t in A:0 B:0.0125 C:0.025; do
-#     bore_split.py --blocksize=22 --play=${t#*:} --tag=${t%%:*} \
-#         --refuse-elbows "$W" --write ../test/coupon-16mm/notch-${t%%:*}
-#   done
-#
-# FOUR SHEETS, and the tag is not decoration. Section 2 carries the tab and is
-# identical at all three clearances, so it is cut once. Section 1 carries the
-# notch and is cut three times - and those three come off the bed as three
-# indistinguishable piles, because the difference between them is 0.0125mm of
-# notch. --tag=A engraves an A beside every number on that run. Without it the
-# test cannot be read, only performed.
-#
-# 22mm block is the 16mm bore, and --pin_width comes out at 7.68mm, which is the
-# figure this paragraph is about. Measured across the three runs: only section 1
-# changes, by exactly the play at each notch edge, and section 2 is identical in
-# all three -- because play is taken out of the notch and never off the tab. So
-# cut section 2 once, cut section 1 three times, and try each against it.
-#
-# Whichever fits, add the row to PLAY_BY_BORE and delete --play from the recipe:
-# the table is what has been measured, and the flag exists to measure.
-#
-# So this is a lookup of what has been cut, not a curve through it. A bore that
-# is not in the table gets the small-joint value, because that is the safe
-# direction -- too loose is a worse joint, too tight is no joint at all. Measure
-# it and add a row rather than trusting the fallback.
-PLAY_BY_BORE = {25.0: 0.0, 10.0: 0.025}     # per side; the notch opens by twice
+# This is a lookup of what has been cut, not a curve through it. It was kept in
+# step by hand across two copies of this file until 2026-09-05, when the fork
+# was collapsed; there is one copy now and the table moves with it. A bore not
+# in the table gets the small-joint value, because too loose is a worse joint
+# and too tight is no joint at all.
+PLAY_BY_BORE = {25.0: 0.0, 10.0: 0.025}
 PLAY_UNMEASURED = 0.025
 
 
-PLAY_OVERRIDE = None            # --play=, for cutting the coupon below
-
-
 def pin_play():
-    if PLAY_OVERRIDE is not None:
-        return PLAY_OVERRIDE
     return PLAY_BY_BORE.get(round(BLOCK - 2 * THICKNESS, 3), PLAY_UNMEASURED)
+# Set NOTCH to size the joint from the female side instead: the tab is then
+# whatever fits it, NOTCH - 2 * pin_play(). It overrides the tooth floor below,
+# so a notch small enough puts the tab back under the finger teeth -- say so
+# rather than silently refusing, because on a small frame the shoulder either
+# side of the notch may matter more than the tab's own width.
+NOTCH = None
 
 
-def set_play(mm):
-    """Override the table, for measuring rather than for cutting.
-
-    The table is a lookup of what has been cut. This flag exists so the coupon
-    the comment above asks for can be cut at values that are NOT in the table -
-    which is the whole point of a coupon - without editing the table to values
-    nobody has measured yet.
-
-    COMMON is built once at import, so setting the override alone leaves the
-    old figure in the SnakeBox arguments and the flag does nothing at all: the
-    first three coupons came out byte-identical for that reason, which read as
-    "play does not matter" rather than "the flag is not connected". Rebuild it,
-    exactly as set_blocksize does.
-    """
-    global PLAY_OVERRIDE, COMMON
-    PLAY_OVERRIDE = float(mm)
+def set_notch(mm):
+    """Size the joint from the notch. Tab follows at notch - 2 * play."""
+    global NOTCH, COMMON
+    NOTCH = float(mm)
     COMMON = _common()
 
 
@@ -197,6 +155,22 @@ def pin_width():
     """
     tooth = 2.0 * THICKNESS                     # Boxes.py FingerJointSettings
     frame = BLOCK - 2 * THICKNESS               # the opening the tab sits in
+    if NOTCH is not None:
+        # MIN_SHOULDER is the target the automatic sizing aims for, not a limit
+        # of the material: the shipped 10mm design already leaves 1.85mm beside
+        # its notch and cuts fine. An explicit --notch is someone overriding
+        # that target on purpose, so hold it to what the gate actually enforces,
+        # MIN_FEATURE. Checking the notch against the TAB's cap refused a notch
+        # the automatic path had itself produced.
+        w = NOTCH - 2 * pin_play()
+        if w <= 0:
+            sys.exit(f'--notch must be wider than the {2*pin_play():g}mm of play')
+        thin = min((frame - NOTCH) / 2, (frame - w) / 2)
+        if thin < MIN_FEATURE:
+            sys.exit(f'--notch={NOTCH:g} leaves {thin:.2f}mm beside it in a '
+                     f'{frame:g}mm frame, under the {MIN_FEATURE:g}mm the gate '
+                     f'allows')
+        return w
     return min(max(PIN_FRAC * frame, tooth), frame - 2 * MIN_SHOULDER)
 
 
@@ -213,9 +187,109 @@ COMMON = _common()
 
 def set_blocksize(mm):
     """Change the block pitch. The only supported way: it moves both."""
-    global BLOCK, COMMON
+    global BLOCK, COMMON, STRAIGHT
+    was_cubic = STRAIGHT == BLOCK if 'STRAIGHT' in globals() else True
     BLOCK = float(mm)
+    if was_cubic:
+        STRAIGHT = BLOCK        # stay a cube unless --straight says otherwise
     COMMON = _common()
+
+
+# A block's CROSS-SECTION is always square: BLOCK outside, BLOCK - 2t of air.
+# Its length along the way the bore travels need not match. A block that turns
+# is a cube -- the turn has to happen in something square or the two openings
+# would sit at different heights -- and a block that runs straight is STRAIGHT
+# long. With STRAIGHT == BLOCK every cell is a cube and nothing below changes.
+#
+# This is the one place the lattice stops being uniform, and it costs the
+# integer grid: two columns of the same index can want different widths in
+# different parts of the bore. That is legal within a piece (checked) and not
+# globally, which is why positions are carried in mm from here on and not in
+# cells.
+STRAIGHT = BLOCK
+
+
+def set_straight(mm):
+    """How long a straight block runs. Turn blocks stay cubic at BLOCK."""
+    global STRAIGHT
+    STRAIGHT = float(mm)
+
+
+def set_bore(mm):
+    """The airway, square. The block outside is that plus a wall each side."""
+    set_blocksize(float(mm) + 2 * THICKNESS)
+
+
+def cubic():
+    return STRAIGHT == BLOCK
+
+
+def extent(r, axis):
+    """One block's outer size along a world axis."""
+    if r['in'] == r['out'] and AXIS[r['out']] == axis:
+        return STRAIGHT
+    return BLOCK
+
+
+def block_boxes(rec):
+    """Every block as a real (lo, hi) box in mm, by following the chain.
+
+    Once straights are longer than turns the lattice index no longer maps to a
+    coordinate: the same column wants two widths in different parts of the
+    bore. So position is carried in mm from the mouth instead, each block
+    butting its entry face onto the previous block's exit face. For a cubic
+    cell this reproduces `index * BLOCK` exactly.
+    """
+    half = BLOCK / 2.0
+    boxes, p = [], (0.0, 0.0, 0.0)      # p: centre of the entry face
+    for r in rec:
+        din, dout = DIRS[r['in']], DIRS[r['out']]
+        a_in = AXIS[r['in']]
+        run = extent(r, a_in)           # along the way it arrives
+        centre = tuple(p[i] + din[i] * run / 2.0 for i in range(3))
+        hw = [half] * 3
+        hw[a_in] = run / 2.0
+        if r['in'] != r['out']:         # a turn is a cube, square every way
+            hw = [half] * 3
+            centre = tuple(p[i] + din[i] * half for i in range(3))
+        boxes.append((tuple(centre[i] - hw[i] for i in range(3)),
+                      tuple(centre[i] + hw[i] for i in range(3))))
+        a_out = AXIS[r['out']]
+        out = extent(r, a_out) if r['in'] == r['out'] else BLOCK
+        p = tuple(centre[i] + dout[i] * out / 2.0 for i in range(3))
+    return boxes
+
+
+def piece_widths(rec, group, k):
+    """--widths_* for a piece, in SnakeBox's cell frame.
+
+    SnakeBox lays its own cells out from (0,0) following --path, while these
+    are world lattice coordinates, so the indices have to be rebased on the
+    piece's first cell. Gaps in the range are filled with BLOCK; a boundary run
+    only ever crosses occupied columns, so a gap is never actually measured,
+    but leaving a hole in the list would make the span lookup raise.
+    """
+    if cubic():
+        return []
+    ax = [j for j in range(3) if j != k]
+    base = [rec[group[0]]['pos'][j] for j in ax]
+    out = []
+    for a, (axis, b) in enumerate(zip(ax, base)):
+        w = {}
+        for j in group:
+            i = rec[j]['pos'][axis] - b
+            e = extent(rec[j], axis)
+            if w.setdefault(i, e) != e:
+                raise ValueError(
+                    f'piece at blocks {group[0]+1}-{group[-1]+1} needs column '
+                    f'{"uv"[a]}={i} to be both {w[i]:g} and {e:g}mm wide. A '
+                    'block is long only along the axis it runs straight on, so '
+                    'a straight and a turn sharing a column cannot both fit. '
+                    'Shorten --straight to the block size, or change the walk.')
+        lo, hi = min(w), max(w)
+        vals = ','.join(f'{w.get(i, BLOCK):g}' for i in range(lo, hi + 1))
+        out += [f'--widths_{"uv"[a]}={vals}', f'--origin_{"uv"[a]}={lo}']
+    return out
 
 G = {
  '0': [[(.5,1),(.85,.8),(.85,.2),(.5,0),(.15,.2),(.15,.8),(.5,1)]],
@@ -411,7 +485,7 @@ def piece_plan(rec, a, b):
         if not simple_snake([tuple(p[j] for j in range(3) if j != k)
                              for p in pos]):
             continue
-        if not fits_bed(plate_mm(pos, k)):
+        if not fits_bed(plate_mm(plate_span_mm(rec, range(a, b + 1), k))):
             continue
         pi = AXIS[rec[a]['in']] == k
         po = AXIS[rec[b]['out']] == k
@@ -669,7 +743,7 @@ def piece_spec(rec, idx, k=None, laps=('', ''), ports=(False, False),
             out.append('--port_mirror')
         return out
 
-    extra = port_bits()
+    extra = port_bits() + piece_widths(rec, idx, k)
     if plains[0]:
         extra.append('--plain_in')
     if plains[1]:
@@ -685,6 +759,18 @@ def piece_spec(rec, idx, k=None, laps=('', ''), ports=(False, False),
             + ('~f' if flats[0] else '') + ('~g' if flats[1] else ''))
 
     if len(idx) == 1:
+        # One-cell pieces are shared between rotations: every straight is the
+        # same part, and four rotations of a turn share one file. Both rest on
+        # the cell being a cube. On a cuboid a straight's section depends on
+        # which axis it runs along, and rotating a turn swaps two pitches, so
+        # the files would no longer be congruent and one drawing would stand
+        # for parts that are not the same. Refuse rather than draw that.
+        if not cubic():
+            raise ValueError(
+                f'block {idx[0]+1} is a one-cell piece and the cell is not a '
+                f'cube (section {BLOCK:g}, straight {STRAIGHT:g}). Straights and '
+                'elbows share one file per shape, which only holds for a cube. '
+                'Lengthen the run, or use a cubic cell.')
         if first['in'] == first['out']:
             # Every straight is the same part: all four face pairs are congruent.
             return ('S1' + lap_tag(laps),
@@ -733,11 +819,10 @@ def piece_spec(rec, idx, k=None, laps=('', ''), ports=(False, False),
 def glyphs(text, h):
     """The label, and a tick that says which way up it was engraved.
 
-    A part off the bed has no up. Turned 180 degrees this table's 9 is exactly its 6 --
-    the same point list rotated, by construction, not by resemblance -- so a section 6
-    and a section 9 are the same mark on a rectangular side wall. The tick sits on the
-    baseline right of the last digit: find it and the number reads one way only. It is
-    the seven-segment decimal point, which is why 6. and 9. are unambiguous on a meter.
+    Turned 180 degrees this table's 9 is exactly its 6 -- the same point list rotated, by
+    construction -- so on the 9-section and 12-section coils, where both digits appear, a
+    section 6 and a section 9 are the same mark on a rectangular side wall. The tick sits
+    on the baseline right of the last digit.
     """
     w, gap, out, cx = h*0.62, h*0.20, [], 0.0
     for ch in text:
@@ -767,7 +852,7 @@ def cut(args, tag):
     out = f'/tmp/snakebox_{tag}.svg'
     if os.path.exists(out):
         os.remove(out)          # never read a previous run's parts
-    r = subprocess.run([PY, 'scripts/boxes', 'SnakeBox'] + args + COMMON
+    r = subprocess.run([PY, 'scripts/boxes', 'SnakeBoxVar'] + args + COMMON
                        + (['--pin_length=0'] if FLAT else [])
                        + [f'--output={out}'], cwd=BOXES, capture_output=True,
                       text=True)
@@ -958,24 +1043,14 @@ def label_spot(part, gw, gh, step=1.5):
     return bx, by, scale
 
 
-TAG = ''             # --tag=, appended to every part's engraved number
-
-
 def part_labels(p, code, args=None, neighbours=None):
-    """The engraving for one part: its section number, and TAG if there is one.
-
-    A coupon cut three times at three clearances comes off the bed as three
-    identical piles - the difference is 0.0125mm of notch, which no one can
-    see. --tag=A puts an A beside every number on that run, so the piles stay
-    told apart. It changes the engraving and nothing else: the cut paths are
-    the same with it and without.
+    """The engraving for one part: its section number, and nothing else.
 
     Part names and edge marks were tried and were harder to read than they
     were worth on parts this size. The number says which section a loose part
     belongs to, which is what actually gets lost on the bench.
     """
     gh = 5.0 / 3.0
-    code = f'{code}{TAG}'
     _, gw0 = glyphs(code, gh)
     spot = label_spot(p, gw0, gh)
     if not spot:
@@ -993,7 +1068,9 @@ def provenance(meta, code, n, sheets, parts, sw, sh):
 
     A cut file that has been downloaded, renamed or printed should still be
     able to say what it is. The name carries the bore and the design; this
-    carries the rest, in the units the drawing is actually in.
+    carries the rest, in the units the drawing is actually in - including the
+    straight length, which is the whole point of this repository and is the
+    one thing a stretched sheet cannot be told from a uniform one without.
     """
     if not meta:
         return ''
@@ -1004,13 +1081,14 @@ def provenance(meta, code, n, sheets, parts, sw, sh):
              f'{part}, {meta["kind"]} {meta["raw"][1:]}, '
              f'{len(parts)} parts on {sw:.0f}x{sh:.0f}mm')
     desc = (f'1 user unit = 1mm. {bore:g}mm square bore in {THICKNESS:g}mm '
-            f'stock, so a {BLOCK:g}mm block pitch. Blocks {meta["span"]} of '
-            f'the walk, entering on {meta["in"]} and leaving on '
-            f'{meta["out"]}, a {meta["plate"]} block plate laid flat. '
-            f'Two face plates (mirror images) and the side walls; every part '
-            f'carries the section number only. Inner cuts are the port and '
-            f'come before their outline. black #000000 cuts, '
-            f'blue #0000ff engraves.')
+            f'stock, so a {BLOCK:g}mm block pitch; a block that runs straight '
+            f'is {STRAIGHT:g}mm long and a block that turns is a {BLOCK:g}mm '
+            f'cube. Blocks {meta["span"]} of the walk, entering on '
+            f'{meta["in"]} and leaving on {meta["out"]}, a {meta["plate"]} '
+            f'block plate laid flat. Two face plates (mirror images) and the '
+            f'side walls; every part carries the section number only. Inner '
+            f'cuts are the port and come before their outline. '
+            f'black #000000 cuts, blue #0000ff engraves.')
     esc = lambda t: t.replace('&', '&amp;').replace('<', '&lt;')
     return f'<title>{esc(title)}</title>\n<desc>{esc(desc)}</desc>\n'
 
@@ -1081,8 +1159,10 @@ def sheet(parts, code, path, bed=BED, bed_h=None, args=None,
     return out
 
 
-# A folder that says nothing but "bore" or a size does not name a design.
-DULL = re.compile(r'bores?([-_].*)?|[\d.]+mm')
+# Only a folder that says nothing but "bore" or a size is dull. 'bore-10mm'
+# is; 'bore-stretched' is not, and climbing past it once titled a page
+# "Git Bore Stretched Bore" off the parent directory.
+DULL = re.compile(r'bores?([-_][\d.]+mm)?|[\d.]+mm')
 
 
 def folder_stack(outdir):
@@ -1122,7 +1202,8 @@ def bore_tag():
     """bore25 / bore10 - the sound square, not the block pitch.
 
     Derived rather than typed, so it cannot disagree with the geometry the
-    same run is cutting.
+    same run is cutting. On a stretched lattice the straight length varies and
+    the bore does not, which is why the bore is the half that names the file.
     """
     return f'bore{BLOCK - 2 * THICKNESS:g}'
 
@@ -1157,13 +1238,15 @@ def filename(code):
 def cutname(code, total, raw, stack):
     """The whole name of one section's sheet.
 
-    bore25-trumpet-switchback-01of06-bend-DL-buttin-cut-files.svg
+    bore10-coil-10x10x30-1.5t-01of06-bend-DL-buttin-cut-files.svg
 
     Every part of that earns its place. The bore, because the same walk at two
     bores makes two different sets of parts under one name - which is what
     these files did until 2026-09-03, in two repositories, and the only tell
     was the sheet size. The design, because a Downloads folder holds files from
-    more than one. NNofTT, because a set with a sheet missing should say so.
+    more than one, and because a stretched coil and a uniform one share both
+    the bore and the walk. NNofTT, because a set with a sheet missing should
+    say so.
     """
     lead = '-'.join(x for x in (bore_tag(), design_slug(stack)) if x)
     return (f'{lead}-{int(code):02d}of{int(total):02d}-'
@@ -1224,17 +1307,30 @@ def plate_span(cells, k):
                  for j in ax)
 
 
-def plate_mm(cells, k):
-    """That box in mm: blocksize each way, plus burn, plus a tab at an end that
-    has one. Counted at both ends, which is 3 mm pessimistic on one axis - the
-    right way round for deciding whether a piece can be made."""
-    return tuple(BLOCK * q + 2 * PIN + BURN * 2 for q in plate_span(cells, k))
+def plate_span_mm(rec, group, k):
+    """The same box in mm, summing each column's own width."""
+    ax = [j for j in range(3) if j != k]
+    out = []
+    for axis in ax:
+        w = {}
+        for j in group:
+            w[rec[j]['pos'][axis]] = extent(rec[j], axis)
+        lo, hi = min(w), max(w)
+        out.append(sum(w.get(i, BLOCK) for i in range(lo, hi + 1)))
+    return tuple(out)
+
+
+def plate_mm(span_mm):
+    """That box in mm, plus burn, plus a tab at an end that has one. Counted
+    at both ends, which is 3 mm pessimistic on one axis - the right way round
+    for deciding whether a piece can be made."""
+    return tuple(q + 2 * PIN + BURN * 2 for q in span_mm)
 
 
 def plate_size(rec, group, k):
     """How big a piece's face plate is, from the walk alone."""
     cells = [rec[j]['pos'] for j in group]
-    return plate_span(cells, k), plate_mm(cells, k)
+    return plate_span(cells, k), plate_mm(plate_span_mm(rec, group, k))
 
 
 def fits_bed(mm):
@@ -1249,7 +1345,10 @@ def main(text, outdir=None):
 
     n = len(rec)
     print(f'bore:  {text.strip()}')
-    print(f'       {n} blocks ({n*BLOCK:g}mm of centreline)')
+    mm = sum(extent(r, AXIS[r['out']]) for r in rec)
+    note = ('' if cubic() else
+            f'  (section {BLOCK:g}, straight {STRAIGHT:g}, turns cubic)')
+    print(f'       {n} blocks ({mm:g}mm of centreline){note}')
     print(f'       {len(specs)} pieces to assemble\n')
 
     # Number by position along the bore, not by shape: the engraved number is
@@ -1334,6 +1433,12 @@ def main(text, outdir=None):
             for w in words.replace('_', ' ').replace('-', ' ').split())
         if 'Bore' not in title:
             title += ' Bore'
+        # A folder name has to sort, stay unambiguous and survive a URL;
+        # a page title has to read. 'coil-10x10x30-3t' is the right folder
+        # and "Coil 10x10x30 3t Bore" is a filename read aloud, so --title
+        # lets the two differ rather than forcing one to serve both.
+        if TITLE:
+            title = TITLE
         path = os.path.join(outdir, name + '.html')
         open(path, 'w').write(viewer.build(text, title))
         print(f'\n  {os.path.basename(path):<44}drag to turn, colour by '
@@ -1413,14 +1518,22 @@ if __name__ == '__main__':
     if bs:
         a.remove(bs[0])
         B.set_blocksize(bs[0].split('=', 1)[1])
-    tg = [x for x in a if x.startswith('--tag=')]
-    if tg:
-        a.remove(tg[0])
-        B.TAG = tg[0].split('=', 1)[1]
-    pl = [x for x in a if x.startswith('--play=')]
-    if pl:
-        a.remove(pl[0])
-        B.set_play(pl[0].split('=', 1)[1])
+    bo = [x for x in a if x.startswith('--bore=')]
+    if bo:
+        a.remove(bo[0])
+        B.set_bore(bo[0].split('=', 1)[1])
+    st = [x for x in a if x.startswith('--straight=')]
+    if st:
+        a.remove(st[0])
+        B.set_straight(st[0].split('=', 1)[1])
+    nt = [x for x in a if x.startswith('--notch=')]
+    if nt:
+        a.remove(nt[0])
+        B.set_notch(nt[0].split('=', 1)[1])
+    ti = [x for x in a if x.startswith('--title=')]
+    if ti:
+        a.remove(ti[0])
+        B.TITLE = ti[0].split('=', 1)[1]
     if '--no-write' in a:
         a.remove('--no-write'); d = None
     if '--write' in a:

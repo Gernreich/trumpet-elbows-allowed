@@ -5,7 +5,7 @@ go", which on a spiral needs you to move it. One HTML file, no libraries, no
 network: the walk is baked in as data and drawn on a canvas.
 
     python3 viewer.py "U U3 N2 W2 S4 E4 U2 N6 W6 S8 E8 U2 N10 W10 S12 E12 U3 U" \
-        --out ../../test/spiral_trumpet/spiral.html --title "Spiral Trumpet Bore"
+        --out ../designs/spiral_trumpet/spiral.html --title "Spiral Trumpet Bore"
 """
 import json
 import os
@@ -197,8 +197,8 @@ input[type="range"]::-moz-range-thumb {
 
 <div class="rail" id="controls">
   <div id="pick-wrap" style="display:none">
-    <div class="label">Size</div>
-    <div class="seg" role="group" aria-label="Which size" id="pick"></div>
+    <div class="label">Turns</div>
+    <div class="seg" role="group" aria-label="Which coil" id="pick"></div>
   </div>
   <div>
     <div class="label">Colour by</div>
@@ -252,15 +252,27 @@ const CORN = [
 let yaw = 0.62, pitch = 0.72, zoom = 1, panX = 0, panY = 0;
 let mode = 'dir', reveal = D.cells.length, isolate = null, spinning = false;
 
-const key = (c) => c[0] + ',' + c[1] + ',' + c[2];
-let occAll = new Set(D.cells.map(c => key(c.p)));
+/* A cell is a box in mm, c.a to c.b. Blocks differ in length, so a face is
+   hidden only where a neighbour covers the whole of it - measured, because
+   there is no lattice index to compare any more. */
+function covers(c, o, f) {
+  const n = NRM[f], ax = n[0] ? 0 : (n[1] ? 1 : 2);
+  const touch = n[ax] > 0 ? Math.abs(o.a[ax] - c.b[ax]) : Math.abs(o.b[ax] - c.a[ax]);
+  if (touch > 1e-6) return false;
+  for (let i = 0; i < 3; i++) {
+    if (i === ax) continue;
+    const lap = Math.min(c.b[i], o.b[i]) - Math.max(c.a[i], o.a[i]);
+    if (lap < (c.b[i] - c.a[i]) - 1e-6) return false;
+  }
+  return true;
+}
 
 /* centre on the whole bore, so revealing blocks does not shift the model */
 let centre = null;
 function recentre() { centre = (() => {
   const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
   for (const c of D.cells) for (let i = 0; i < 3; i++) {
-    lo[i] = Math.min(lo[i], c.p[i]); hi[i] = Math.max(hi[i], c.p[i] + 1);
+    lo[i] = Math.min(lo[i], c.a[i]); hi[i] = Math.max(hi[i], c.b[i]);
   }
   return { c: lo.map((v, i) => (v + hi[i]) / 2), lo: lo, hi: hi };
 })(); }
@@ -268,39 +280,36 @@ recentre();
 
 function faces() {
   const shown = D.cells.slice(0, reveal);
-  const occ = reveal === D.cells.length ? occAll : new Set(shown.map(c => key(c.p)));
   const out = [];
   for (let i = 0; i < shown.length; i++) {
     const c = shown[i];
     if (isolate !== null && (mode === 'dir' ? c.d : c.s) !== isolate) continue;
     for (let f = 0; f < 6; f++) {
-      const n = NRM[f];
-      if (occ.has(key([c.p[0]+n[0], c.p[1]+n[1], c.p[2]+n[2]]))) continue;
+      if (shown.some(o => o !== c && covers(c, o, f))) continue;
       out.push({ cell: c, i: i, f: f });
     }
   }
   return out;
 }
 
-/* Lattice point -> mm, centred on c, at the current angle. Rotation is
-   linear, so scaling the offset here is the same as scaling afterwards. */
-function rotC(p, c, u) {
+function rotC(p, c) {
   const cy = Math.cos(yaw), sy = Math.sin(yaw);
   const cp = Math.cos(pitch), sp = Math.sin(pitch);
-  let x = (p[0] - c[0]) * u, y = (p[1] - c[1]) * u, z = (p[2] - c[2]) * u;
+  let x = p[0] - c[0], y = p[1] - c[1], z = p[2] - c[2];
   let x2 = x * cy + z * sy, z2 = -x * sy + z * cy;
   let y2 = y * cp - z2 * sp, z3 = y * sp + z2 * cp;
   return [x2, y2, z3];
 }
-function rot(p) { return rotC(p, centre.c, D.u); }
+function rot(p) { return rotC(p, centre.c); }
 
-/* What the cells project to at this angle, in mm, as [x0, x1, y0, y1]. */
-function fit(cells, c, u) {
+/* What the boxes project to at this angle, in mm, as [x0, x1, y0, y1]. */
+function fit(cells, c) {
   let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
   for (const q of cells) {
     for (let i = 0; i < 8; i++) {
-      const r = rotC([q.p[0] + (i & 1), q.p[1] + ((i >> 1) & 1),
-                      q.p[2] + ((i >> 2) & 1)], c, u);
+      const r = rotC([(i & 1) ? q.b[0] : q.a[0],
+                      ((i >> 1) & 1) ? q.b[1] : q.a[1],
+                      ((i >> 2) & 1) ? q.b[2] : q.a[2]], c);
       x0 = Math.min(x0, r[0]); x1 = Math.max(x1, r[0]);
       y0 = Math.min(y0, r[1]); y1 = Math.max(y1, r[1]);
     }
@@ -309,26 +318,24 @@ function fit(cells, c, u) {
 }
 
 /* The scale is locked to the biggest set, not fitted to whichever is shown.
-   Auto-fitting each one hides the very thing a size control exists to show:
-   the same walk at two pitches is one shape uniformly scaled, so fitting each
-   to the canvas draws two identical pictures. Locked, and measured in mm, the
-   smaller one is visibly smaller. Each set still centres on itself, so it
+   Fitting each one to the canvas draws four coils the same size, which is the
+   one thing a page comparing lengths must not do: the 3t is four times the
+   0.75t and has to look it. Each set still centres on itself, so the shown one
    stays in the middle rather than drifting off with its own origin. */
+const bboxOf = (cells) => {
+  const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
+  for (const q of cells) for (let i = 0; i < 3; i++) {
+    lo[i] = Math.min(lo[i], q.a[i]); hi[i] = Math.max(hi[i], q.b[i]);
+  }
+  return [lo, hi];
+};
 const REF = SETS.reduce((best, s) => {
-  const sp = (d) => {
-    const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
-    for (const q of d.cells) for (let i = 0; i < 3; i++) {
-      lo[i] = Math.min(lo[i], q.p[i]); hi[i] = Math.max(hi[i], q.p[i] + 1);
-    }
-    return Math.hypot(hi[0] - lo[0], hi[1] - lo[1], hi[2] - lo[2]) * d.u;
-  };
+  const sp = (d) => { const [lo, hi] = bboxOf(d.cells);
+    return Math.hypot(hi[0] - lo[0], hi[1] - lo[1], hi[2] - lo[2]); };
   return sp(s.d) > sp(best.d) ? s : best;
 }, SETS[0]).d;
 const refCentre = (() => {
-  const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
-  for (const q of REF.cells) for (let i = 0; i < 3; i++) {
-    lo[i] = Math.min(lo[i], q.p[i]); hi[i] = Math.max(hi[i], q.p[i] + 1);
-  }
+  const [lo, hi] = bboxOf(REF.cells);
   return lo.map((v, i) => (v + hi[i]) / 2);
 })();
 
@@ -357,8 +364,9 @@ function draw() {
   // first or strands the second in the middle of the canvas. And not the
   // bounding box either: a walk that climbs as it runs fills a diagonal slab
   // of a mostly empty box, and the box's corners are nowhere near the shape.
-  const [px0, px1, py0, py1] = fit(D.cells, centre.c, D.u);
-  const [rx0, rx1, ry0, ry1] = fit(REF.cells, refCentre, REF.u);
+  // Position from the set on screen, scale from the reference set.
+  const [px0, px1, py0, py1] = fit(D.cells, centre.c);
+  const [rx0, rx1, ry0, ry1] = fit(REF.cells, refCentre);
   const M = 56;
   const S = Math.min((w - M) / Math.max(rx1 - rx0, 0.001),
                      (h - M) / Math.max(ry1 - ry0, 0.001)) * zoom;
@@ -368,14 +376,11 @@ function draw() {
 
   const list = [];
   for (const q of faces()) {
-    // Unit scale, deliberately: rn is a direction, and shade() takes its dot
-    // product with the light as a number in [-1, 1]. Running it through rot(),
-    // which scales millimetres, multiplied the normal by the block size and
-    // clamped every face to white or black.
-    const n = NRM[q.f], rn = rotC([n[0] + centre.c[0], n[1] + centre.c[1],
-                                   n[2] + centre.c[2]], centre.c, 1);
+    const n = NRM[q.f], rn = rot([n[0] + centre.c[0], n[1] + centre.c[1], n[2] + centre.c[2]]);
     if (rn[2] <= 0.001) continue;                 /* facing away */
-    const pts = CORN[q.f].map(v => P([q.cell.p[0]+v[0], q.cell.p[1]+v[1], q.cell.p[2]+v[2]]));
+    const pts = CORN[q.f].map(v => P([v[0] ? q.cell.b[0] : q.cell.a[0],
+                                      v[1] ? q.cell.b[1] : q.cell.a[1],
+                                      v[2] ? q.cell.b[2] : q.cell.a[2]]));
     const z = pts.reduce((a, p) => a + p[2], 0) / 4;
     list.push({ pts, z, q, rn });
   }
@@ -488,7 +493,9 @@ function buildList() {
     tr.children[0].textContent = i + 1;
     tr.children[1].innerHTML = '<span class="sw" style="background:'
       + D.dircol[c.d] + '"></span> ' + DIRNAME[c.d];
-    tr.children[2].textContent = '(' + c.p.join(',') + ')';
+    /* the block's low corner in mm; there is no lattice index to show once
+       straights and turns are different lengths */
+    tr.children[2].textContent = '(' + c.a.map(v => Math.round(v)).join(',') + ')';
     tr.children[3].textContent = turn ? 'turn' : '';
     t.appendChild(tr);
   });
@@ -519,24 +526,23 @@ function buildKeys() {
   }
 }
 
-/* Several bores in one page -- the same design at more than one block size.
-   occAll is derived from D, so it has to be rebuilt with it; a stale one hides
-   faces that the new set does not have a neighbour for. Reset the camera too:
-   the sizes differ, and a zoom kept from one strands the other off-screen. */
+/* Several coils in one page: same walk truncated at different points, so the
+   only thing that changes is which set of cells is drawn. Reset the view with
+   it -- they differ in size, and keeping a zoom from a longer one strands a
+   shorter one off-screen. */
 function pickCoil(i) {
   D = SETS[i].d;
-  occAll = new Set(D.cells.map(c => key(c.p)));
   recentre();
   reveal = D.cells.length;
   $('reveal').max = reveal; $('reveal').value = reveal;
   $('reveal-count').textContent = reveal + ' / ' + reveal;
   document.getElementById('walk').textContent = SETS[i].walk;
-  // Keep the camera. It used to reset here, because each set fitted itself and
-  // a zoom held from a big one threw a small one off the canvas. The scale is
-  // locked now, so every set draws within the reference's frame -- and holding
-  // the angle is the whole point of a switch: you are comparing two shapes,
-  // which you cannot do if the view jumps each time you swap. Reset is still a
-  // button.
+  // Keep the camera. It used to reset here, because each coil fitted itself and
+  // a zoom held from the 3-turn threw the 3/4 off the canvas. The scale is
+  // locked to the longest now, so every coil draws inside that frame -- and
+  // holding the angle is the whole point of a switch: you are comparing
+  // lengths, which you cannot do if the view jumps each time you swap. Reset
+  // is still a button.
   isolate = null;
   for (const b of $('pick').children)
     b.setAttribute('aria-pressed', +b.dataset.i === i);
@@ -563,16 +569,21 @@ draw();
 
 
 def data_for(text):
-    """The one dict the page draws from. Split out of build() so several walks
-    can share a page: a gallery is the same viewer with more than one set, not a
-    second viewer."""
+    """The one dict the page draws from. Split out of build() so several
+    walks can share a page: a gallery is the same viewer with more than one
+    set, not a second viewer."""
     rec, groups, plans, plan, unfilled = specs_for(text)
     sec_of = {}
     for i, g in enumerate(groups):
         for j in g:
             sec_of[j] = i
     pal = wheel(len(groups))
-    cells = [{'p': list(r['pos']), 'd': r['out'], 's': sec_of[i], 'i0': i}
+    # Real boxes in mm, not lattice cells: a straight block may be longer than
+    # a turn, and drawing every cell as a unit cube then shows a bore nobody
+    # is cutting. For a cubic cell a..b is exactly the old unit cube scaled.
+    boxes = bore_split.block_boxes(rec)
+    cells = [{'a': list(boxes[i][0]), 'b': list(boxes[i][1]),
+              'd': r['out'], 's': sec_of[i], 'i0': i}
              for i, r in enumerate(rec)]
 
     # the two ends of the bore, as (cell index : face index)
@@ -587,11 +598,8 @@ def data_for(text):
     data = {
         'cells': cells,
         'blocks': len(rec),
-        'mm': round(len(rec) * bore_split.BLOCK),
-        # mm per lattice step. The cells stay integers -- occupancy and
-        # adjacency need a lattice -- so the size a block actually is only
-        # reaches the drawing through this.
-        'u': bore_split.BLOCK,
+        'mm': round(sum(bore_split.extent(r, bore_split.AXIS[r['out']])
+                        for r in rec)),
         'dircol': DIRCOL,
         'dirs': [{'k': d, 'name': DIRNAME[d],
                   'n': sum(1 for r in rec if r['out'] == d)}
@@ -610,22 +618,10 @@ def build(text, title):
 
 
 def build_many(items, title):
-    """items is [(label, walk)]. One item hides the selector, so a single page
-    is what it always was."""
-    return build_sets([(lab, txt, data_for(txt)) for lab, txt in items], title)
-
-
-def build_sets(sets_in, title):
-    """(label, walk, data) triples, for a caller that must build each set
-    itself.
-
-    data_for reads the module's BLOCK when it runs, so a caller varying the
-    block size has to build each set while its size is set. Passing walks and
-    letting build_many do it later gave every set the LAST size: sizes.py drew
-    both the 25mm and the 10mm at 16mm and labelled one of them 682mm wrongly.
-    """
-    sets = [{'label': lab or '', 'walk': txt.strip(), 'd': d}
-            for lab, txt, d in sets_in]
+    """items is [(label, walk)]. One item hides the selector, so a single
+    page is what it always was."""
+    sets = [{'label': lab or '', 'walk': txt.strip(), 'd': data_for(txt)}
+            for lab, txt in items]
     first = sets[0]
     return (HTML.replace('__SETS__', json.dumps(sets, separators=(',', ':')))
                 .replace('__TITLE__', title)

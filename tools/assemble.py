@@ -109,72 +109,103 @@ def closes(cells, runs, tips, s, t, plate_cells=None):
 
 # --------------------------------------------------------- in world terms
 
-def build(sections, s, t, px=1.0):
+def build(sections, t, px=1.0):
     """Voxel the given sections where the bore actually puts them.
 
-    A section is (cells, openings): cells as world block positions, openings as
-    (cell, direction) pairs. Every face of every cell that has no neighbour in
-    its own section carries a slab of material a thickness deep - that is the
-    plate on the two faces out of the piece's plane, and the wall on the rest -
-    except at an opening, which is left as the hole it is.
+    A section is (boxes, openings): boxes as real (lo, hi) mm pairs, one per
+    block, openings as (box index, direction). Every face of every box that no
+    other box in the section covers carries a slab of material a thickness deep
+    - the plate on the two faces out of the piece's plane, the wall on the rest
+    - except at an opening, which is left as the hole it is.
+
+    Boxes rather than cell indices because a straight block may be longer than
+    a turn, and then no single number takes a lattice index to a coordinate.
+    Coverage is measured between the boxes themselves, so a face that a
+    neighbour only partly covers is walled over the rest of itself rather than
+    all-or-nothing.
 
     Returns (material, bore, grid origin, shape).
     """
-    allcells = [c for cells, _ in sections for c in cells]
-    lo = [min(c[i] for c in allcells) for i in range(3)]
-    hi = [max(c[i] for c in allcells) + 1 for i in range(3)]
-    M = 2                                        # margin, blocks
-    org = [(lo[i] - M) * s for i in range(3)]
-    shape = [int((hi[i] - lo[i] + 2 * M) * s / px) for i in range(3)]
+    allb = [b for boxes, _ in sections for b in boxes]
+    lo = [min(b[0][i] for b in allb) for i in range(3)]
+    hi = [max(b[1][i] for b in allb) for i in range(3)]
+    M = 2.0 * max(t, 1.0) * 8                    # margin in mm, room to flood
+    org = [lo[i] - M for i in range(3)]
+    shape = [int(round((hi[i] - lo[i] + 2 * M) / px)) for i in range(3)]
     mat = np.zeros(shape[::-1], bool)
     bore = np.zeros(shape[::-1], bool)
 
-    def sl(c, axis, a, b):
-        """voxel slice of [a,b] mm along `axis` within cell c"""
-        base = c[axis] * s - org[axis]
-        return slice(int(round((base + a) / px)), int(round((base + b) / px)))
+    def sl(a, b, axis):
+        """voxel slice of the mm interval [a, b] along `axis`"""
+        return slice(int(round((a - org[axis]) / px)),
+                     int(round((b - org[axis]) / px)))
 
-    for cells, openings in sections:
-        cs = set(cells)
-        for c in cells:
-            box3 = [sl(c, i, 0, s) for i in range(3)]
-            bore[box3[2], box3[1], box3[0]] = True
+    def region(box):
+        return [sl(box[0][i], box[1][i], i) for i in range(3)]
+
+    for boxes, openings in sections:
+        for n, box in enumerate(boxes):
+            r = region(box)
+            bore[r[2], r[1], r[0]] = True
             for axis in range(3):
                 for sign in (-1, 1):
-                    nb = list(c); nb[axis] += sign
-                    if tuple(nb) in cs:
-                        continue
                     d = tuple(sign if i == axis else 0 for i in range(3))
-                    if (c, d) in openings:
+                    if (n, d) in openings:
                         continue
-                    face = list(box3)
-                    face[axis] = (sl(c, axis, 0, t) if sign < 0
-                                  else sl(c, axis, s - t, s))
-                    mat[face[2], face[1], face[0]] = True
+                    # the slab just inside this face
+                    face = list(r)
+                    face[axis] = (sl(box[0][axis], box[0][axis] + t, axis)
+                                  if sign < 0 else
+                                  sl(box[1][axis] - t, box[1][axis], axis))
+                    slab = np.zeros(shape[::-1], bool)
+                    slab[face[2], face[1], face[0]] = True
+                    # take away whatever another box of this section covers
+                    for m, other in enumerate(boxes):
+                        if m == n:
+                            continue
+                        touches = (abs(other[1][axis] - box[0][axis]) < 1e-9
+                                   if sign < 0 else
+                                   abs(other[0][axis] - box[1][axis]) < 1e-9)
+                        if not touches:
+                            continue
+                        o = region(other)
+                        cover = list(face)
+                        for i in range(3):
+                            if i == axis:
+                                continue
+                            a0 = max(box[0][i], other[0][i])
+                            a1 = min(box[1][i], other[1][i])
+                            if a1 - a0 <= 1e-9:
+                                cover = None
+                                break
+                            cover[i] = sl(a0, a1, i)
+                        if cover is not None:
+                            slab[cover[2], cover[1], cover[0]] = False
+                    mat |= slab
     return mat, bore & ~mat, org, shape
 
 
-def sealed(sections, s, t, plug, px=1.0):
+def sealed(sections, t, plug, px=1.0):
     """Is the bore reachable from outside anywhere but through `plug`?
 
     `plug` is the openings that are meant to be open - the two ends of what is
     being tested. They are stopped up, the outside is flooded, and anything of
-    the bore the flood reaches is a leak.
+    the bore the flood reaches is a leak. Each entry is (box, direction), the
+    box in mm, so a plug fits whatever size that block actually is.
     """
-    mat, bore, org, shape = build(sections, s, t, px)
+    mat, bore, org, shape = build(sections, t, px)
     stop = mat.copy()
-    for c, d in plug:
+
+    def sl(a, b, axis):
+        return slice(int(round((a - org[axis]) / px)),
+                     int(round((b - org[axis]) / px)))
+
+    for box, d in plug:
         axis = [i for i in range(3) if d[i]][0]
         sign = d[axis]
-        box3 = []
-        for i in range(3):
-            base = c[i] * s - org[i]
-            box3.append(slice(int(round(base / px)), int(round((base + s) / px))))
-        base = c[axis] * s - org[axis]
-        box3[axis] = (slice(int(round((base - t) / px)), int(round(base / px)))
-                      if sign < 0 else
-                      slice(int(round((base + s) / px)),
-                            int(round((base + s + t) / px))))
+        box3 = [sl(box[0][i], box[1][i], i) for i in range(3)]
+        box3[axis] = (sl(box[0][axis] - t, box[0][axis], axis) if sign < 0
+                      else sl(box[1][axis], box[1][axis] + t, axis))
         stop[box3[2], box3[1], box3[0]] = True
 
     lab, _ = ndimage.label(~stop)
