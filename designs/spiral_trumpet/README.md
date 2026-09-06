@@ -4,25 +4,27 @@
 
 95 blocks, 1520mm of centreline. An expanding square spiral: three loops, each
 wider than the last, rising two blocks between them, entering and leaving
-upward. 11 sections, 68 flat parts, 16 sheets.
+upward. 10 sections, 64 flat parts, 10 sheets.
 
-    #    blocks   kind     plate            file
-    1    1-3      straight 3x1 bl  96x34     01_straight3_lapS.svg
-    2    4-4      elbow    1x1 bl  34x34     02_elbow_EN.svg
-    3    5-13     bend     3x5 bl  158x96    03_bend_DLLUUUUR_flatin.svg
-    4    14-17    bend     3x2 bl  96x65     04_bend_RRU_flatout.svg
-    5    18-18    elbow    1x1 bl  34x34     05_elbow_EN.svg
-    6    19-39    bend     7x9 bl  282x220   06_bend_DDDDDLLLLLLUUUUUUUUR_flatin.svg
-    7    40-47    bend     7x2 bl  220x65    07_bend_RRRRRRU_flatout.svg
-    8    48-48    elbow    1x1 bl  34x34     08_elbow_EN.svg
-    9    49-59    bend     2x10 bl 313x65    09_bend_DDDDDDDDDL_flatin.svg
-    10   60-81    bend     9x13 bl 406x282   10_bend_LLLLLLLLUUUUUUUUUUUUR.svg
-    11   82-95    bend     11x4 bl 344x127   11_bend_RRRRRRRRRRUUU.svg
+Each file is `bore10-spiral-trumpet-NNof10-<kind>-<shape>-cut-files.svg`.
 
-Sections 9 and 10 are one loop of the spiral, cut in two: as a single piece it
-would be 11 by 13 blocks, 406 x 344mm, which is 36mm over the bed. The
-splitter takes the bed into account when it groups, so this came out as two
-cuttable pieces rather than one that cannot be made.
+    #    blocks   kind     plate
+    1    1-3      straight 3x1 bl     51x19mm
+    2    4-4      elbow    1x1 bl     19x19mm
+    3    5-13     bend     3x5 bl     83x51mm
+    4    14-17    bend     3x2 bl     51x35mm
+    5    18-18    elbow    1x1 bl     19x19mm
+    6    19-39    bend     7x9 bl   147x115mm
+    7    40-47    bend     7x2 bl    115x35mm
+    8    48-48    elbow    1x1 bl     19x19mm
+    9    49-81    bend     11x13 bl 211x179mm
+    10   82-95    bend     11x4 bl   179x67mm
+
+At the 25mm bore this was eleven sections, not ten: one loop of the spiral had
+to be cut in two because as a single piece it came to 406 x 344mm, 36mm over the
+600mm bed. At 10mm the same loop is well inside it -- the largest plate here is
+211 x 179mm -- so the splitter no longer needs to divide it. The bed rule has not
+changed; the pieces got smaller.
 
 Sections 6, 10 and 11 need more than one sheet - their parts together are
 taller than the bed even though every part fits it.

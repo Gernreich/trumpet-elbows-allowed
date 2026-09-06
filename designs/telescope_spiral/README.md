@@ -3,8 +3,8 @@
     U U3 N1 W1 S2 E2 N3 U1 W2 S3 E3 N4 U1 W4 S5 E5 N6 U1 W6 S7 E7 N8 U1
     W8 S9 E9 N10 U1 U
 
-114 blocks, 1824mm of bore in 310 x 279 x 341mm. 19 sections, 104 parts,
-23 cut files. 567 checks pass.
+114 blocks, 1824mm of bore in 160 x 144 x 176mm. 18 sections, 102 parts,
+18 cut files. 482 checks pass.
 
 The loops after the first grow by exactly two blocks each, legs 2k, 2k+1,
 2k+1, 2k+2 for k of 1 to 4:
@@ -22,22 +22,29 @@ and the loops differ in size, so no rotation can either.
 Five square loops, each one wider than the last, stacked as they grow - which
 is where the name comes from, one drawing out of the next. The mouth is a
 3-block stem at the bottom and the bell leaves through the top of the last
-loop, both vertical, 589mm apart.
+loop, both vertical, 304mm apart.
 
-    #    blocks    kind      plate         file
-    1    1-3       straight  3x1 bl        01_straight3_lapS.svg
-    2-4  4-6       elbow x3                02..04_elbow_EN.svg
-    5    7-12      bend      3x3 bl        05_bend_URRDD...
-    6-7  13-14     elbow x2                06..07_elbow_NE.svg
-    8    15-25     bend      4x4 bl        08_bend_LUUURRRDDD...
-    9-10 26-27     elbow x2                09..10_elbow_NE.svg
-    11   28-46     bend      6x6 bl        11_bend_LLLUUUUURRRRRDDDDD...  2 sheets
-    12-13 47-48    elbow x2                12..13_elbow_NE.svg
-    14   49-75     bend      8x8 bl        14_bend_LLLLL...  2 sheets
-    15-16 76-77    elbow x2                15..16_elbow_NE.svg
-    17   78-102    bend      9x10 bl       17_bend_LLLLLLL...  3 sheets
-    18   103-103   elbow                   18_elbow_EN.svg
-    19   104-114   bend      2x10 bl       19_bend_DDDDDDDDDR...
+Each file is `bore10-telescope-spiral-NNof18-<kind>-<shape>-cut-files.svg`.
+
+    #    blocks   kind     plate
+    1    1-3      straight 3x1 bl     51x19mm
+    2    4-4      elbow    1x1 bl     19x19mm
+    3    5-5      elbow    1x1 bl     19x19mm
+    4    6-6      elbow    1x1 bl     19x19mm
+    5    7-12     bend     3x3 bl     51x51mm
+    6    13-13    elbow    1x1 bl     19x19mm
+    7    14-14    elbow    1x1 bl     19x19mm
+    8    15-25    bend     4x4 bl     67x67mm
+    9    26-26    elbow    1x1 bl     19x19mm
+    10   27-27    elbow    1x1 bl     19x19mm
+    11   28-46    bend     6x6 bl     99x99mm
+    12   47-47    elbow    1x1 bl     19x19mm
+    13   48-48    elbow    1x1 bl     19x19mm
+    14   49-75    bend     8x8 bl   131x131mm
+    15   76-76    elbow    1x1 bl     19x19mm
+    16   77-77    elbow    1x1 bl     19x19mm
+    17   78-104   bend     10x10 bl 163x163mm
+    18   105-114  bend     2x9 bl    147x35mm
 
 0.91 parts a block: six bends carry 99 of the 114 blocks, and a loop costs the
 same one file however wide it gets. Sections 11, 14 and 17 need more than one

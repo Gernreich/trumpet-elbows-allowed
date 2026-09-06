@@ -2,8 +2,8 @@
 
     U U3 N4 W4 S5 E5 N6 U3 W6 S7 E7 N8 U3 W8 S9 E9 N10 U3 U
 
-101 blocks, 1616mm of bore in 310 x 403 x 341mm. Ten sections, 72 parts,
-14 cut files. 354 checks pass.
+101 blocks, 1616mm of bore in 160 x 208 x 176mm. 9 sections, 68 parts,
+9 cut files, one sheet each. 290 checks pass.
 
 The Telescope Spiral redrawn so that no leg is shorter than three blocks.
 Three nested loops, the innermost with four-block legs, each loop two blocks
@@ -13,19 +13,20 @@ wider than the one inside it, and three blocks of climb between them:
     loop 2   W6 S7 E7 N8      legs 6 7 7 8
     loop 3   W8 S9 E9 N10     legs 8 9 9 10
 
-Mouth opens down at the bottom, bell opens up at the top, 682mm apart.
+Mouth opens down at the bottom, bell opens up at the top, 352mm apart.
 
-    #    blocks    plate        file                             parts  sheets
-    1    1-5       4x2 bl       01_bend_RRRD.svg                   6      1
-    2    6-23      6x6 bl       02_bend_DDLLLLUUUUURRRRRD.svg     10      2
-    3    24-29     2x5 bl       03_bend_DDDDR.svg                  6      1
-    4    30-32     2x2 bl       04_bend_UL.svg                     6      1
-    5    33-52     8x8 bl       05_bend_LLLLUUUUUUURRRRRRRD.svg   10      2
-    6    53-60     2x7 bl       06_bend_DDDDDDR.svg                6      1
-    7    61-63     2x2 bl       07_bend_UL.svg                     6      1
-    8    64-71     7x2 bl       08_bend_LLLLLLU.svg                6      1
-    9    72-89     10x8 bl      09_bend_UUUUUUURRRRRRRRRD.svg      8      3
-    10   90-101    4x9 bl       10_bend_DDDDDDDDRRR.svg            6      2
+Each file is `bore10-wide-telescope-NNof09-<shape>-cut-files.svg`.
+
+    #    blocks    plate      shape                           parts  sheets
+    1    1-5       4x2 bl     bend-RRRD-buttin                    6       1
+    2    6-23      6x6 bl     bend-DDLLLLUUUUURRRRRD             12       1
+    3    24-29     2x5 bl     bend-DDDDR                          6       1
+    4    30-32     2x2 bl     bend-UL                             6       1
+    5    33-52     8x8 bl     bend-LLLLUUUUUUURRRRRRRD           10       1
+    6    53-60     2x7 bl     bend-DDDDDDR                        6       1
+    7    61-63     2x2 bl     bend-UL                             6       1
+    8    64-89     10x10 bl   bend-LLLLLLUUUUUUUUURRRRRRRRRD     10       1
+    9    90-101    4x9 bl     bend-DDDDDDDDRRR-buttout            6       1
 
 ## Why it is cheaper than the Telescope Spiral
 

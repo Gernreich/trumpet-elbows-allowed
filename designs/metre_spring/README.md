@@ -2,21 +2,23 @@
 
     N N4 U3 E4 U3 S4 U3 W4 U3 N4 N
 
-33 blocks, 528mm of bore in 155 x 403 x 155mm. Five sections, 36 parts,
-five cut files, one sheet each. 169 checks pass, with no warnings of any kind.
+33 blocks, 528mm of bore in 80 x 208 x 80mm. Five sections, 36 parts,
+five cut files, one sheet each. 154 checks pass, with no warnings of any kind.
 
 A square coil, four blocks a side, rising three between quarters. Designed to
 be built on camera: five pieces, three of them near-identical middle coils, and
-every plate 158mm on its long side so the lot nests on one board.
+no plate longer than 82mm on its long side so the lot nests on one board.
 
-    #   blocks   plate         file                    parts   sheet
-    1   1-6      2x5 bl        01_bend_DDDDR.svg         6      583x182mm
-    2   7-13     5x3 bl        02_bend_URRRRU.svg        8      529x161mm
-    3   14-20    3x5 bl        03_bend_RUUUUR.svg        8      555x220mm
-    4   21-27    5x3 bl        04_bend_ULLLLU.svg        8      557x161mm
-    5   28-33    2x5 bl        05_bend_RDDDD.svg         6      589x179mm
+Each file is `bore10-metre-spring-NNof05-<shape>-cut-files.svg`.
 
-Mouth opens south at the bottom, bell opens north at the top, 496mm apart.
+    #   blocks   plate    shape               parts   sheet
+    1   1-6      2x5 bl   bend-DDDDR-buttin       6   337x104mm
+    2   7-13     5x3 bl   bend-URRRRU             8   498x75mm
+    3   14-20    3x5 bl   bend-RUUUUR             8   440x104mm
+    4   21-27    5x3 bl   bend-ULLLLU             8   498x75mm
+    5   28-33    2x5 bl   bend-RDDDD-buttout      6   349x104mm
+
+Mouth opens south at the bottom, bell opens north at the top, 256mm apart.
 Sections 1 and 5 are the two ends and are mirror images of each other; 2, 3 and
 4 are the coil.
 
