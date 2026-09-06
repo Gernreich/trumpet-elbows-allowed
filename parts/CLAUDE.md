@@ -14,11 +14,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## What this is
 
 The **bell** and the **mouthpiece**, shared by every trumpet in these repositories rather
-than owned by one of them. `../bores/coiled` and `../octagonal` both build on the
+than owned by one of them. `bore/concept/walk/no-elbows/coiled` and `../octagonal` both build on the
 same 25 × 25mm channel, so both take the same bell and the same mouthpiece; only the tube
 between them differs.
 
-Since 2026-08-31 there is a **second channel**: `../bores/switchback` is cut
+Since 2026-08-31 there is a **second channel**: `bore/concept/walk/no-elbows/switchback` is cut
 at 10mm as well as 25, and `--bore` on the two square-to-round generators makes the parts
 to suit. See `--bore` is the channel, and only that below.
 

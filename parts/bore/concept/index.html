@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bore designs</title>
+<style>
+:root{--bg:#fbfbfa;--fg:#1a1c1e;--mut:#5b6067;--line:#e2e4e7;--card:#fff;--accent:#1d4ed8;
+--codebg:#f4f5f7;--thbg:#f0f1f3;--mark:#fff8c4}
+@media (prefers-color-scheme:dark){:root{--bg:#15171a;--fg:#e6e8ea;--mut:#9aa1a9;--line:#2b2f34;
+--card:#1b1e22;--accent:#7aa2f7;--codebg:#22262b;--thbg:#23272c;--mark:#4a411c}}
+:root[data-theme=dark]{--bg:#15171a;--fg:#e6e8ea;--mut:#9aa1a9;--line:#2b2f34;--card:#1b1e22;
+--accent:#7aa2f7;--codebg:#22262b;--thbg:#23272c;--mark:#4a411c}
+:root[data-theme=light]{--bg:#fbfbfa;--fg:#1a1c1e;--mut:#5b6067;--line:#e2e4e7;--card:#fff;
+--accent:#1d4ed8;--codebg:#f4f5f7;--thbg:#f0f1f3;--mark:#fff8c4}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:16px/1.62 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+-webkit-text-size-adjust:100%}
+.wrap{display:grid;grid-template-columns:250px minmax(0,1fr);gap:44px;max-width:1180px;
+margin:0 auto;padding:40px 28px 96px}
+nav{position:sticky;top:28px;align-self:start;max-height:calc(100vh - 56px);overflow:auto;
+border-right:1px solid var(--line);padding-right:16px;font-size:13.5px;line-height:1.45}
+nav b{display:block;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--mut);
+margin:0 0 12px}
+nav a{display:block;color:var(--mut);text-decoration:none;padding:3px 0;border-radius:4px}
+nav a:hover{color:var(--accent)}
+nav a.l1{color:var(--fg);font-weight:640;margin-top:11px}
+nav a.l2{padding-left:12px}
+main{min-width:0}
+h1{font-size:1.62rem;line-height:1.25;letter-spacing:-.015em;margin:2.4em 0 .5em;
+padding-bottom:.32em;border-bottom:2px solid var(--line)}
+main>h1:first-child{margin-top:0;border-bottom:none;font-size:1.95rem}
+h2{font-size:1.16rem;margin:2em 0 .5em;letter-spacing:-.01em}
+h3{font-size:1.02rem;font-weight:650;margin:1.7em 0 .45em}
+p{margin:.85em 0}
+ul,ol{margin:.85em 0;padding-left:1.35em}
+li{margin:.3em 0}
+hr{border:0;border-top:1px solid var(--line);margin:2.6em 0}
+figure{margin:1.6em 0}
+/* A paragraph holding two or more images is a gallery. Left to inline layout they
+   wrap at whatever fits, which put three bells on one row and the fourth alone
+   underneath - directly above the caption, so it read as the caption for that one
+   picture rather than for the set. Flex lets them share the row instead. */
+p:has(img + img){display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start;
+justify-content:center}
+p:has(img + img) img{flex:1 1 140px;min-width:0;width:auto;max-width:100%;height:auto;
+border:1px solid var(--line);border-radius:10px}
+figure svg,figure img{display:block;width:100%;max-width:100%;height:auto;
+border:1px solid var(--line);border-radius:10px}
+a{color:var(--accent)}
+code{font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+background:var(--codebg);padding:.1em .32em;border-radius:4px;
+border:1px solid color-mix(in srgb,var(--line) 70%,transparent)}
+pre{background:var(--codebg);border:1px solid var(--line);border-radius:9px;
+padding:14px 16px;overflow-x:auto;margin:1.1em 0}
+pre code{background:none;border:0;padding:0;font-size:12.8px;line-height:1.62;white-space:pre}
+blockquote{margin:1.15em 0;padding:.7em 1.1em;border-left:4px solid var(--accent);
+background:var(--codebg);border-radius:0 7px 7px 0}
+blockquote p{margin:0}
+.tw{overflow-x:auto;margin:1.15em 0;border:1px solid var(--line);border-radius:9px;
+background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:8px 13px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+/* honour align="center" on gallery cells: a presentation attribute loses to any
+   CSS rule, so the line above would silently left-align every thumbnail caption */
+td[align=center],th[align=center]{text-align:center}
+th{background:var(--thbg);font-weight:630;white-space:nowrap;font-size:13px;
+letter-spacing:.01em}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:color-mix(in srgb,var(--thbg) 45%,transparent)}
+td code,th code{white-space:nowrap}
+/* A walk inside a link is one token: breaking it mid-walk put "N" at the end of one
+   line and "N5 U" at the start of the next, which reads as two things. */
+a code{white-space:nowrap}
+.tog{position:fixed;top:14px;right:14px;z-index:9;background:var(--card);color:var(--mut);
+border:1px solid var(--line);border-radius:7px;padding:6px 11px;font-size:12.5px;cursor:pointer}
+.tog:hover{color:var(--accent)}
+@media (max-width:900px){.wrap{grid-template-columns:1fr;gap:20px;padding:26px 18px 72px}
+nav{position:static;max-height:none;border-right:0;border-bottom:1px solid var(--line);
+padding:0 0 16px;columns:2;column-gap:20px}}
+@media print{nav,.tog{display:none}.wrap{display:block;max-width:none;padding:0}
+pre,.tw{break-inside:avoid}h1{break-after:avoid}}
+</style>
+</head>
+<body>
+<button class="tog" type="button">theme</button>
+<div class="wrap">
+<nav><b>Contents</b><a class="l1" href="#bore-designs">Bore designs</a><a class="l2" href="#the-first-trumpet-bore">The first trumpet bore</a><a class="l2" href="#when-a-turn-costs-a-section">When a turn costs a section</a><a class="l2" href="#how-big-a-piece-can-be">How big a piece can be</a><a class="l2" href="#what-a-walk-is-checked-for">What a walk is checked for</a><a class="l2" href="#before-cutting">Before cutting</a><a class="l2" href="#turning-one-around">Turning one around</a><a class="l2" href="#a-sheet-for-airtightness-testing">A sheet for airtightness testing</a><a class="l2" href="#loose-pages">Loose pages</a></nav>
+<main>
+<h1 id="bore-designs">Bore designs</h1>
+<p>Every bore that has been worked out, built out into cut files and a viewer page and kept. This is the corpus <strong><a href="https://github.com/Gernreich/trumpet/tree/main/tools">bore-generator</a></strong> regresses against: <code>regress.py</code> runs the full gate over these, which is the only reason any of it stays honest.</p>
+<p><strong><a href="https://gernreich.github.io/">The rest of the build files</a></strong> — every instrument, generator and tool, indexed.</p>
+<p>Built for <strong><a href="https://www.youtube.com/@LaserMadeMusic">LaserMadeMusic</a></strong>, where the cutting and the playing are shown.</p>
+<p><strong><a href="https://github.com/Gernreich/trumpet/archive/refs/heads/main.zip">Download the whole repository as a ZIP</a></strong> — the whole tree, of which this library is <code>designs/</code>: every design, its cut files and its page. GitHub builds it from <code>main</code> on every push, so it is never out of date.</p>
+<p><strong>The bore being built is the coiled trumpet:</strong> <a href="pages/coiled_trumpet.html"><code>N N3 U6 W5 N10 E5 D3 S8 W3 D3 N12 N</code></a> — 59 blocks, 944mm, 8 sections, <strong>no elbows anywhere</strong>. Its cut files and writeup are in <a href="https://github.com/Gernreich/trumpet/tree/main/parts/bore/concept/walk/no-elbows/coiled">trumpet-coiled</a>. Everything below is how that design was arrived at, starting from a first trumpet that used elbows and worked out what they cost.</p>
+<p>The SVGs regenerate byte-identical from the walk, so the walk and the generator are the real source — but they are kept here so there is something to send to the machine without running anything.</p>
+<p>The nested sheets are not kept: they assume a full sheet of material, and partly cut boards do not work that way. <code>nest.py</code> still produces them if a whole sheet ever comes up.</p>
+<p>The walk it is all built from, and <a href="walk/elbows/first_trumpet/first_trumpet.html">the bore to turn around</a>:</p>
+<pre><code>cd ../../../GIT/bore-generator
+W="N N10 U2 W2 S7 U2 E4 N9 W2 D2 N4 N"
+
+python3 bore_split.py --write walk/elbows/first_trumpet "$W"   # the eight sections
+python3 nest.py "$W" --out nest.svg                # the same parts nested
+python3 nest.py "$W" --deepnest dn.svg             # for Deepnest/SVGnest
+python3 bore_render.py "$W"                                   # the 3D view
+python3 check.py "$W" --files walk/elbows/first_trumpet        # cut nothing until it passes</code></pre>
+<h2 id="the-first-trumpet-bore">The first trumpet bore</h2>
+<p>The design this all started from, and <strong>not</strong> the one being built — it turns with elbows, which is what the rest of this page goes on to price. Compare it against the <a href="pages/coiled_trumpet.html">coiled trumpet</a>, which does the same job with none.</p>
+<p><a href="walk/elbows/first_trumpet/first_trumpet.html"><code>N N10 U2 W2 S7 U2 E4 N9 W2 D2 N4 N</code></a> — 45 blocks, 720mm of centreline. <strong>Every walk on this page is a link</strong>: follow one and the bore opens in a page you can turn around with the mouse, colour by direction or by section, and step through block by block.</p>
+<p>Read off a Minecraft model coloured by direction — yellow north, grey south, blue east, red west, orange up, green down, each block coloured by the way you travelled to reach it.</p>
+<p>Eight sections, numbered along the bore from the mouthpiece. Every part is engraved with its section number and nothing else, about 1.7mm tall — enough to tell a loose part which section it belongs to, which is what gets lost on the bench.</p>
+<p>Part names and per-edge marks were tried and dropped: on parts this size they were harder to read than they were worth.</p>
+<p><code>P1</code> and <code>P2</code> — the two face plates of a section — are mirror images rather than spares, and on sections 1, 3, 4, 6 and 8 they genuinely differ, one having a coupling the other does not. The plate whose seam edge has no notch or tab is the one that faces the elbow.</p>
+<p>44 flat parts, 3mm stock, 10mm square bore throughout, every sheet inside the xTool P2S bed of 600 x 308mm.</p>
+<p><strong>Couplings kept, six sides flattened.</strong> An elbow's opening frame has three sides — the fourth is its other opening — so at every seam with an elbow, one side of the neighbour's frame has no mate: a notch nothing fills, or a tab with nowhere to go. That side is a face plate in every case, so one of that section's two plates drops its coupling at that end and the other keeps it.</p>
+<p>Six sides in all, on sections 1, 3, 4, 6 (both ends) and 8, marked <code>_flatin</code> / <code>_flatout</code> in the file name. Every other coupling stays, so the tabs still hold each seam square while the glue sets.</p>
+<p>The one thing no check can settle is <strong>which</strong> of the two plates was flattened: they are the same shape mirrored, and which ends up facing the elbow depends on how Boxes lays the mirrored copy out. It is derived rather than measured. Dry fit section 1 to section 2 before cutting the rest — if it is the wrong way round you will find a tab with nowhere to go, and it is a one-word change.</p>
+<p>Nested, the lot is two sheets. Sections 2 and 7 are the same shape but are cut separately so each carries its own number.</p>
+<p>Sections 2, 5 and 7 are one-cell elbows, which is where the bore changes plane. Each leaves its 3 x 3 x 25mm corner open on the inside of the bend — sealed from outside by the surrounding walls and plates, so a notch in the bore rather than a leak.</p>
+<p><strong>No ports.</strong> A port opens one face plate so a change of plane can happen inside a piece, which would make this five sections rather than eight. It is not used: the plate it opens leaves that cell's walls supported on one side, with their fingers facing nothing. <code>bore_split.py --ports</code> still turns it on; what remains is suppressing the fingers on the missing-plate side over the port cell.</p>
+<h2 id="when-a-turn-costs-a-section">When a turn costs a section</h2>
+<p>A piece is cut as a flat snake and its opening sits on the rim, opposite the neighbouring cell, so <strong>a piece's two end blocks must be straight</strong>. A block that bends cannot be at the end of one. Every turn therefore has to sit inside a piece, which means a straight block on each side, in the same plane, not already claimed by the piece next door.</p>
+<p>Everything about how a design splits follows from that.</p>
+<p><strong>Folding is free.</strong> Two turns in a row that use only two axes - north to up, then up to north again - stay in one plane and share a piece, however tightly they are packed:</p>
+<div class='tw'><table><thead><tr><th>walk</th><th>axes</th><th>cost</th></tr></thead><tbody><tr><td><a href="pages/fold_u1.html"><code>N N3 U1 N3 U1 N3 N</code></a></td><td>y and z only</td><td>1 section, 0 elbows</td></tr><tr><td><a href="pages/fold_u2.html"><code>N N3 U2 N3 U2 N3 N</code></a></td><td>y and z only</td><td>1 section, 0 elbows</td></tr><tr><td><a href="pages/fold_u3.html"><code>N N3 U3 N3 U3 N3 N</code></a></td><td>y and z only</td><td>1 section, 0 elbows</td></tr></tbody></table></div>
+<p><strong>Coiling costs three blocks a turn.</strong> Two turns in a row that reach a third axis - north to up, then up to east - leave the plane, so the piece breaks between them and each turn needs a straight block of its own:</p>
+<div class='tw'><table><thead><tr><th>walk</th><th>axes</th><th>cost</th></tr></thead><tbody><tr><td><a href="pages/coil_u1.html"><code>N N3 U1 E3 U1 S3 S</code></a></td><td>all three axes</td><td>7 sections, 4 elbows</td></tr><tr><td><a href="pages/coil_u2.html"><code>N N3 U2 E3 U2 S3 S</code></a></td><td>all three axes</td><td>5 sections, 2 elbows</td></tr><tr><td><a href="pages/coil_u3.html"><code>N N3 U3 E3 U3 S3 S</code></a></td><td>all three axes</td><td>3 sections, 0 elbows</td></tr></tbody></table></div>
+<p>Three blocks apart is the threshold: two straights between the turns, one for each. With one straight they fight over it and one turn is stranded on its own as a single-block elbow. With none - adjacent turns - both are.</p>
+<p>The turn that is not stranded becomes the corner of an <strong>L</strong>, and two Ls in place of an elbow is both fewer files and fewer parts:</p>
+<div class='tw'><table><thead><tr><th>walk</th><th>pieces</th><th>elbows</th><th>blocks</th><th>parts</th></tr></thead><tbody><tr><td><a href="pages/two_ls_u1.html"><code>N N4 U1 E4 E</code></a></td><td>straight, elbow, elbow, straight</td><td>2</td><td>10</td><td>16</td></tr><tr><td><a href="pages/two_ls_u2.html"><code>N N4 U2 E4 E</code></a></td><td>straight, elbow, L</td><td>1</td><td>11</td><td>14</td></tr><tr><td><a href="pages/two_ls_u3.html"><code>N N4 U3 E4 E</code></a></td><td>L, L</td><td>0</td><td>12</td><td>12</td></tr><tr><td><a href="pages/two_ls_u4.html"><code>N N4 U4 E4 E</code></a></td><td>L, L</td><td>0</td><td>13</td><td>12</td></tr></tbody></table></div>
+<h3 id="writing-it">Writing it</h3>
+<p>Mid-walk, two Ls meeting is three consecutive terms on three different axes with <strong>3 in the middle</strong>:</p>
+<div class='tw'><table><thead><tr><th>fragment</th><th>axes</th></tr></thead><tbody><tr><td><a href="pages/mid_E4U3S4.html"><code>... E4 U3 S4 ...</code></a></td><td>east, up, south</td></tr><tr><td><a href="pages/mid_W4N3E6.html"><code>... W4 N3 E6 ...</code></a></td><td>west, north, east</td></tr><tr><td><a href="pages/mid_S9E3U5.html"><code>... S9 E3 U5 ...</code></a></td><td>south, east, up</td></tr></tbody></table></div>
+<p>Each link opens the fragment inside a complete walk, since a fragment on its own has no way in or out.</p>
+<p>The outer numbers can be anything - 1, 4, 9, it makes no difference. Only the middle one has to be 3, because that is the leg the two pieces divide between them; the legs either side are already there and each supplies an arm for free. On its own, from a standing start, the same figure is six blocks:</p>
+<p><a href="pages/six_block_turn.html"><code>E E1 U3 S1 S</code></a></p>
+<pre><code>block  travels  turns        piece  role
+  1      E                     1    arm
+  2      U      E -&gt; U         1    corner
+  3      U                     1    arm
+  4      U                     2    arm
+  5      S      U -&gt; S         2    corner
+  6      S                     2    arm</code></pre>
+<p>The seam always falls inside the three-block leg, one block to the piece behind and two to the piece ahead.</p>
+<p>Three is the number that is always safe rather than the number always needed, and what decides it is whether the three terms name three different axes.</p>
+<div class='tw'><table><thead><tr><th>fragment</th><th>why</th><th>cost</th></tr></thead><tbody><tr><td><a href="pages/unlucky_W9N2U9.html"><code>... W9 N2 U9 ...</code></a></td><td>x, z, y — all different</td><td><strong>1 elbow</strong>, in every context</td></tr><tr><td><a href="pages/fixed_W9N3U9.html"><code>... W9 N3 U9 ...</code></a></td><td>the middle widened to 3</td><td>0 elbows, two 11-block Ls</td></tr><tr><td><a href="pages/slack_U5W4N2E6.html"><code>... U5 W4 N2 E6 ...</code></a></td><td>two turns only</td><td>0 elbows, the search has slack</td></tr></tbody></table></div>
+<p><a href="pages/unlucky_W9N2U9.html"><code>W9 N2 U9</code></a> is the unlucky shape: both turns leave the plane, so they need an arm each, and the two-block leg has one straight block to give. One turn takes it, the other is left bare. The nine-block legs either side do not help - the problem is between the turns, not outside them - and no context rescued it: alone, mid-walk, with a turn before, with a turn after, always one elbow. <code>N3</code> makes it two 11-block Ls for 31mm more bore.</p>
+<p>So: <strong>if three consecutive terms name three different axes, the middle one must be 3.</strong> If two of them share an axis it is a fold, and can be as tight as you like.</p>
+<p>Apply that to <strong>every</strong> window of three terms, not the one you happen to be looking at. A fragment can be blameless and still cost elbows through the windows it forms with its neighbours:</p>
+<div class='tw'><table><thead><tr><th>walk</th><th>what it is</th><th>cost</th></tr></thead><tbody><tr><td><a href="pages/fragment_alone.html"><code>W W1 N2 E1 E</code></a></td><td>the fragment on its own</td><td>one 5-block bend, no elbows</td></tr><tr><td><a href="pages/fragment_in_walk.html"><code>U U4 W1 N2 E1 U4 U</code></a></td><td>the same fragment in a walk</td><td>7 sections, <strong>4 elbows</strong></td></tr><tr><td><a href="pages/fragment_widened.html"><code>U U4 W3 N2 E3 U4 U</code></a></td><td>the two ones widened</td><td>3 sections, no elbows</td></tr></tbody></table></div>
+<p>The middle one costs four elbows because of the windows it forms, not the fragment:</p>
+<div class='tw'><table><thead><tr><th>window</th><th>axes</th><th>middle</th><th>cost</th></tr></thead><tbody><tr><td><a href="pages/window_U4W1N2.html"><code>U4 W1 N2</code></a></td><td>three axes</td><td>1</td><td>an elbow</td></tr><tr><td><a href="pages/fragment_alone.html"><code>W1 N2 E1</code></a></td><td>a fold</td><td>2</td><td>fine</td></tr><tr><td><a href="pages/window_N2E1U4.html"><code>N2 E1 U4</code></a></td><td>three axes</td><td>1</td><td>an elbow</td></tr></tbody></table></div>
+<p>W1 N2 E1 is a fold and free in itself - W and E are both the x axis. What costs is the W1 and the E1 each being the middle of their own window, where the terms either side reach a third axis.</p>
+<p>An L needs a straight block running out to each of its two ends - that is what gives the piece the flat end faces its neighbours couple to - so two turns can never share one straight between them. Whichever piece claims it, the other ends on a bending block, and a bending block cannot open on the rim. Adjacent turns therefore have no arrangement of Ls at all; that is geometry, not the splitter being careful.</p>
+<p>Note that this is the opposite trade from re-splitting a walk that is already written. Adding a block to move two turns apart buys an L and pays for itself; re-splitting the same blocks to avoid an elbow costs about two parts. The first changes the walk, the second only changes where the seams fall.</p>
+<p>It is not about which axes a single turn uses. One turn defines a plane by itself and is always fine. It is about whether the turn after it stays in that plane.</p>
+<p>The splitter is set to take <strong>the fewest single-block elbows</strong>, and the fewest pieces only after that. <code>--fewest-pieces</code> swaps the two.</p>
+<p>In parts alone that is the wrong way round: measured over 133 walks it trades 23 elbows for 46 more parts and never fewer, because folding a turn into a bend adds two walls to that bend while a lone elbow is four parts for its whole block. It costs no extra pieces - over those same walks the count did not move at all - but it is not free.</p>
+<p>It is still the right setting, because the part count is not what an elbow costs. An elbow's opening frame has three sides rather than four, and that missing side propagates into the pieces either side of it:</p>
+<p>What an elbow costs, counted across the designs here. <strong>Flats, tongues and voids track elbows exactly</strong> — every design with no elbows has none of any of them, and the design being built is one of those:</p>
+<div class='tw'><table><thead><tr><th>design</th><th>elbows</th><th>flats</th><th>tongues</th><th>voids</th><th>parts</th></tr></thead><tbody><tr><td><a href="walk/elbows/first_trumpet/first_trumpet.html">first trumpet</a></td><td>3</td><td>6</td><td>0</td><td>3</td><td>44</td></tr><tr><td><a href="walk/elbows/spiral_trumpet/spiral_trumpet.html">spiral trumpet</a></td><td>3</td><td>5</td><td>1</td><td>2</td><td>68</td></tr><tr><td><a href="walk/elbows/telescope_spiral/telescope_spiral.html">telescope spiral</a></td><td>11</td><td>18</td><td>2</td><td>9</td><td>106</td></tr><tr><td><a href="hilbert_snorkel.html">hilbert snorkel</a></td><td>24</td><td>26</td><td>20</td><td>4</td><td>260</td></tr><tr><td><a href="walk/no-elbows/wide_telescope/wide_telescope.html">wide telescope</a></td><td><strong>0</strong></td><td>0</td><td>0</td><td>0</td><td>72</td></tr><tr><td><a href="walk/no-elbows/metre_spring/metre_spring.html">metre spring</a></td><td><strong>0</strong></td><td>0</td><td>0</td><td>0</td><td>36</td></tr><tr><td><a href="pages/coiled_trumpet.html"><strong>coiled trumpet</strong></a> — the one being built</td><td><strong>0</strong></td><td>0</td><td>0</td><td>0</td><td>50</td></tr></tbody></table></div>
+<p>A <strong>flat</strong> is a plate whose coupling was dropped because it faced an elbow's missing side: no tab, no notch, nothing to locate against. Two smooth faces held square by eye while the glue grabs. A <strong>tongue</strong> is a wall run 3mm past the joint to fill the inside of a bend, glued the same way and having to clear the elbow's face as it goes. A <strong>void</strong> is the corner nobody could fill.</p>
+<p>None of those appear in the part count, and all of them track the elbow count exactly. A design with no elbows has none of them: every seam is a full four-sided coupling that locates itself, and the glue only has to hold what the tabs have already squared up. Two more plywood parts against a butt joint held square in mid-air is not a close trade.</p>
+<p>Two other ways a turn becomes an elbow:</p>
+<ul><li><strong>A turn in the last block of the bore.</strong> There is nothing after it to make it interior, so it is always its own piece. <a href="pages/last_block_turn.html"><code>N N5 U</code></a> is 6 blocks in <strong>2</strong> pieces; <a href="pages/last_block_straight.html"><code>N N5 U1 U</code></a> is 7 blocks in <strong>1</strong>. One block further along the bore costs a file fewer.</li><li><strong>A bed split</strong> landing on a turn, if the piece would otherwise be too big.</li></ul>
+<p>Which is why the designs here come out so differently. The switchback ramp folds back and forth in one plane: 91 blocks, 17 sections, no elbows at all. The Metre Spring coils, so every quarter leaves its plane - it gets away with no elbows only because rising 3 gives each turn its own straight. The Hilbert cube at scale 1 changes plane at nearly every turn with no room between, and comes out as 56 elbows in 63 sections.</p>
+<h2 id="how-big-a-piece-can-be">How big a piece can be</h2>
+<p>A flat piece is one sheet, so the bed sets the limit: <strong>at most 19 blocks one way by 9 the other</strong>, measured on the piece's bounding box in its own plane, not on its block count. An L of 19 by 9 is 27 blocks and fits; a square of 10 by 10 is 19 blocks and does not.</p>
+<pre><code>19 x 31mm + tab + burn = 592mm  against the 600mm bed
+ 9 x 31mm + tab + burn = 282mm  against the 308mm</code></pre>
+<p><code>bore_split.py --no-write</code> prints the plate size of every piece and flags any that will not fit, so a design can be checked before anything is drawn. The size is read off the walk, exact on the long axis and 3mm pessimistic on the short one - it never says a piece fits when it does not.</p>
+<p>A run longer than that is not an error: the splitter puts a turn's worth of it in the next piece, or spills the parts onto a second sheet, which is why section 6 is two files. The machine itself takes stock up to 3 m through the pass-through, but nothing here knows how to use it.</p>
+<h2 id="what-a-walk-is-checked-for">What a walk is checked for</h2>
+<p>Four layers, and the first three are automatic:</p>
+<ol><li><strong>Reading it.</strong> A reversal, a block asked to bend twice, and a walk that runs into itself are refused outright, naming the blocks: "block 9 runs into block 1". Every entry point reports it the same way.</li><li><strong>Splitting it.</strong> Whether each piece is one flat snake, whether an end block that bends can open on the rim, and whether the piece fits the bed. A piece too big is not an error - the search simply will not use it.</li><li><strong>Warnings that are not errors.</strong> Blocks that touch without being joined along the bore, single elbows meeting directly, and inside corners left unfilled. All legal, all worth a look.</li><li><strong>The gate</strong>, <code>check.py</code>: the parts, the sections, the seams and a voxel model of the assembled bore. <code>--write</code> runs it on what it just wrote, so a design folder having been made means it has been checked.</li></ol>
+<p><code>regress.py</code> runs the gate over every design in the repository, which is the only way any of this stays honest.</p>
+<h3 id="the-build-is-the-check-the-notation-is-what-goes-wrong">The build is the check; the notation is what goes wrong</h3>
+<p>Building the bore in Minecraft first is the check, not a rehearsal for one. You build it floating in open space, knowing you are building a bore, and a section running into one you laid down earlier is plainly visible while you are standing in it. <strong>A build that looks right is evidence the bore works.</strong></p>
+<p>
+<img src="minecraft/coiled_in_minecraft.png" alt="The coiled trumpet bore built in Minecraft from coloured glass, floating in open sky: long blue runs heading north, an orange run south, green east, purple west, and short red and grey columns where the bore climbs and drops" width="520">
+</p>
+<p><em>The <a href="pages/coiled_trumpet.html">coiled trumpet</a> as built, floating in open sky with nothing else in frame. Every block is coloured by the way you travelled to reach it — <strong>N blue, S orange, E green, W purple, U red, D grey</strong> — the same palette the viewer and the renders use, so a build and a drawing can be compared at a glance.</em></p>
+<p>What goes wrong afterwards is writing it down. A walk is a long string of letters and numbers transcribed from something you built by eye, and one wrong letter is enough — which is a job a human is bad at and a script is good at. So: <strong>trust the build, and let the script check the notation.</strong></p>
+<p><a href="walk/no-elbows/doubled_walk/doubled_walk.html"><code>N N3 U3 W5 N10 E5 S8 W3 S3 N12 N</code></a> is the example. It was refused, and the build it came from was fine — the fault was a single letter in the transcription, an <code>S3</code> where the build turned <code>D3</code>, and no amount of adjusting the <em>lengths</em> fixed it because the fault was a direction. Read the walk back off the page rather than off your memory of the build.</p>
+<p>Walked permissively it places fifty-three blocks into forty-eight cells: five land where a block already is, and the <code>S3 N12</code> at the end is a 180 that retraces its own last three blocks. That is what a crossing costs. A cell entered twice is a junction — the air arrives with two ways out — and there is no box section with an opening in four sides, so it cannot be cut at all.</p>
+<p><code>mcwalk.py</code> draws a refused walk under Minecraft's permissive rules instead of the bore's, and lights up every cell entered more than once, which the ordinary viewer cannot do because it will not open a walk that crosses itself:</p>
+<pre><code>cd ../../../GIT/bore-generator
+python3 mcwalk.py "N N3 U3 W5 N10 E5 S8 W3 S3 N12 N" \
+    --out walk/no-elbows/doubled_walk/doubled_walk.html --title "..."</code></pre>
+<p>The step slider is the tell: scrub it and watch <em>placed</em> keep climbing while <em>cells filled</em> stalls — that gap is where the transcription went wrong.</p>
+<h2 id="before-cutting">Before cutting</h2>
+<p><code>check.py</code> runs every check there is — 234 of them on this bore, across the parts, the sections, and the seams between them. Each exists because something was cut and thrown away:</p>
+<div class='tw'><table><thead><tr><th>check</th><th>what it caught</th></tr></thead><tbody><tr><td>part is one closed piece</td><td>a plate all but severed by a port hole</td></tr><tr><td>no feature under 1.5mm</td><td>0.5mm and 0.1mm slivers on three plates</td></tr><tr><td>the two plates are one part mirrored</td><td>a plate drawn a cell short, its fingers 2mm out of phase</td></tr><tr><td>no wall finger left unengaged</td><td>section 5's closed-end wall, hanging off one plate</td></tr><tr><td>both sides agree on bore and tab size</td><td>an elbow tab sitting 1.5mm off the centreline</td></tr><tr><td>seam has no port</td><td>a port opening a face that carries a joint</td></tr><tr><td>sheet fits the bed</td><td>a nested sheet 2mm over</td></tr><tr><td>no two parts overlap</td><td>parts sharing a cut line on a nested sheet</td></tr><tr><td>engraving on material</td><td>labels placed in the notch of an L-shaped plate</td></tr><tr><td>the section closes round its bore</td><td>a port, or any face left open</td></tr><tr><td>the joint is closed</td><td>an end frame not backed by material</td></tr><tr><td>the bore carries on through the joint</td><td>two sections not meeting</td></tr><tr><td>the assembled bore is one sealed passage</td><td>anything the above miss, end to end</td></tr><tr><td>bore volume matches the walk</td><td>the assembly not being the bore you asked for</td></tr><tr><td>part count, part fits the bed, seam gender</td><td>—</td></tr></tbody></table></div>
+<p>Run it with ports turned on and <strong>16 checks fail</strong> across five names, naming the three ported sections and all four seams — so it is known to fail when it should. Those five: the two plates are one part mirrored, the section closes round its bore, no wall finger left unengaged, seam is one tab side and one slot side, and seam has no port.</p>
+<p>It does fold each section up in 3D. <code>assemble.py</code> builds the section as a solid - plates over both faces, walls the full depth of the tube along every boundary run that is not an opening - plugs the openings it is meant to have, floods the outside, and asks whether the flood reaches the bore. The model is checked against arithmetic on the way past: a two-cell straight comes out at 25 x 25 x 62 = 38,750 mm3 of bore, to the voxel.</p>
+<p>The seams get the same treatment. Two sections are put where the bore actually puts them with only their outer ends stopped up: if the joint leaves any of the end frame unbacked the flood gets in, and if the two bores do not meet the bore comes back as more than one region. Then all eight go in at once, and the volume that comes out is compared with what the walk says it should be — 874,936 mm3 against 45 blocks x 25 x 25 x 31 = 871,875, the difference being the voxel size.</p>
+<p>These are the checks that test the thing you are actually trying to do rather than a proxy for it. On the port version the section check reports the whole bore of sections 2, 4 and 5 open to the outside; break a seam deliberately and the joint check reports the bore in two pieces.</p>
+<h2 id="turning-one-around">Turning one around</h2>
+<p>Every design folder carries a page you can turn around with the mouse, named for the folder - <code>first_trumpet/first_trumpet.html</code>, <code>spiral_trumpet/spiral_trumpet.html</code> and the rest. Walks with no cut files have a page of their own instead; they are listed under <a href="#loose-pages">Loose pages</a>. Open one in a browser; nothing is installed and nothing is fetched but the fonts. Drag to turn, scroll to zoom, right-drag to pan, colour by direction or by section, click a legend row to isolate it, and drag the slider to follow the bore from the mouthpiece a block at a time.</p>
+<p><strong>Blocks</strong> opens a list of every block from the mouth: its number, its colour, which way the bore goes through it, and its position relative to block one, with the turns ruled off. That is the list to build from - place block one anywhere and follow the offsets - and every line is checkable against F3.</p>
+<p>The direction colours are the ones the bore gets built in first:</p>
+<pre><code>up     red        down   grey
+north  blue       south  orange
+east   green      west   purple</code></pre>
+<p>Down is grey rather than a sixth hue because grey is a block you can actually get, and because it cannot be mistaken for south's orange once the faces are shaded - which yellow can. Change them in <code>DIRCOL</code> at the top of <code>bore_render.py</code>; <code>viewer.py</code> takes them from there, so one edit moves both the pages and the still renders.</p>
+<p>The walks with no cut files sit loose in the repository root, listed under <a href="#loose-pages">Loose pages</a> below.</p>
+<p>The stepped coil and the switchback ramp are worth reading together. The <a href="stepped_coil.html">stepped coil</a> is <code>U1 W1 S2 E2</code> six times over and costs 116 parts for 40 blocks; the <a href="switchback_ramp.html">switchback ramp</a> is the same idea with every leg widened, <code>U2 W3 S3 E3</code>, and costs 132 parts for 91. Same family, less than half the parts per block, because a leg of one block forces a standalone elbow and a leg of three does not.</p>
+<p>It goes the other way too. Every tool takes a walk, a file with one in, or one of these pages - the walk sits in the page's title rail, so a page you kept is enough to cut from and nothing else has to be filed:</p>
+<pre><code>python3 bore_split.py --write out ../../../test/telescope_spiral/telescope_spiral.html
+python3 check.py ../../../test/tightest_coil.html
+python3 viewer.py walks/small_hook.txt --out again.html</code></pre>
+<p><code>bore_split.py --write DIR</code> writes the page along with the cut files, so the two cannot drift apart. For a walk you are only looking at:</p>
+<pre><code>python3 viewer.py "&lt;walk&gt;" --out ../../../test&lt;name&gt;.html --title "&lt;Name&gt; Bore"</code></pre>
+<h2 id="a-sheet-for-airtightness-testing">A sheet for airtightness testing</h2>
+<p><code>small_trumpet.svg</code> is a hand-nested sheet, 209 × 254mm, carrying 24 finger-jointed plates with sections 2 and 5 engraved. It exists for a job the generator does not do: <strong>its entrance and exit are flat</strong>, so the assembled bore can be sealed at both ends and checked for leaks before it is committed to. A bore that whistles at a seam is worth knowing about while the glue is still a choice.</p>
+<p>It is also nested by hand rather than by <code>nest.py</code>, which lays each section out on its own sheet — two small sections that would share one sheet get cut on two.</p>
+<p>One cut stage: every outline black, the section numbers engraved blue. It was drawn with half the plates stroked red in a style property while carrying a black attribute, so it showed red in Inkscape and would have cut black through an importer that reads the attribute — and red is not a stage anything here maps, so a per-colour job would have skipped those twelve in silence. The reds are now black and the duplicate attributes are gone; <code>svg-stroke-check.py</code> reports nothing.</p>
+<h2 id="loose-pages">Loose pages</h2>
+<p>Six walks that got a viewer but never got cut. Each is a self-contained page — the walk is baked into it, so <code>bore_split.py</code> will read the cut files back out of any of them.</p>
+<div class='tw'><table><thead><tr><th>walk</th><th>blocks</th><th>sections</th><th>elbows</th><th>why it is kept</th></tr></thead><tbody><tr><td><a href="three_block_turn.html"><code>E E8 U3 S8 S</code></a></td><td>20</td><td>2</td><td>0</td><td>the three-block minimum on its own: two long runs and the shortest leg that still turns without an elbow</td></tr><tr><td><a href="hook_check.html"><code>U U3 W3 N2 E1 E</code></a></td><td>10</td><td>2</td><td>0</td><td>the smallest walk that ends on a single block, which is where the splitter used to strand a turn</td></tr><tr><td><a href="stepped_coil.html"><code>U U1 W1 S2 E2</code> × 6</a></td><td>40</td><td>26</td><td>18</td><td>six loops marching diagonally, every leg as tight as it goes</td></tr><tr><td><a href="switchback_ramp.html"><code>U U2 W3 S3 E3</code> × 8</a></td><td>91</td><td>17</td><td><strong>0</strong></td><td>the same idea with every leg widened: eight hairpins climbing</td></tr><tr><td><a href="tightest_coil.html">the tightest coil</a></td><td>22</td><td>20</td><td>18</td><td>single-block legs throughout — 20 sections for 22 blocks, the worst ratio here</td></tr><tr><td><a href="hilbert_snorkel.html">a Hilbert cube with an eight-block riser</a></td><td>138</td><td>48</td><td>24</td><td>the densest walk here, with the exit taken up and clear of the cube</td></tr></tbody></table></div>
+<p>The snorkel's walk is 60 terms and does not fit a table cell; it is on <a href="hilbert_snorkel.html">its own page</a>, and in full here:</p>
+<pre><code>U U4 E2 D2 S2 U2 W2 D2 S4 E2 N2 U2 S2 W2 N2 U2 S2 U2 N2 E2 S2 D2 N4 W2 U2 E2 N2 W2 D2 E6 U2 W2 S2 E2 D2 W2 S4 U2 N2 E2 S2 D2 N2 D2 S2 W2 N2 D2 S2 E2 N4 U2 W2 D2 N2 U2 E2 D2 E1 U8</code></pre>
+<p><code>index.html</code> is this README rendered by <code>md2html.py</code> and committed, not built on the server, so it goes stale silently unless it is regenerated after every edit.</p>
+<p>Released under <a href="LICENSE">CC0 1.0</a>.</p>
+</main>
+</div>
+<script>
+var r=document.documentElement,b=document.querySelector('.tog');
+function set(t){r.setAttribute('data-theme',t);try{localStorage.setItem('ctg-theme',t)}catch(e){}
+b.textContent=t==='dark'?'\u2600 light':'\u263e dark';}
+var saved=null;try{saved=localStorage.getItem('ctg-theme')}catch(e){}
+set(saved||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));
+b.addEventListener('click',function(){set(r.getAttribute('data-theme')==='dark'?'light':'dark')});
+</script>
+</body>
+</html>

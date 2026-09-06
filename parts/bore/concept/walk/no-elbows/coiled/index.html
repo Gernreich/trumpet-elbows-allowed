@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Coiled trumpet</title>
+<style>
+:root{--bg:#fbfbfa;--fg:#1a1c1e;--mut:#5b6067;--line:#e2e4e7;--card:#fff;--accent:#1d4ed8;
+--codebg:#f4f5f7;--thbg:#f0f1f3;--mark:#fff8c4}
+@media (prefers-color-scheme:dark){:root{--bg:#15171a;--fg:#e6e8ea;--mut:#9aa1a9;--line:#2b2f34;
+--card:#1b1e22;--accent:#7aa2f7;--codebg:#22262b;--thbg:#23272c;--mark:#4a411c}}
+:root[data-theme=dark]{--bg:#15171a;--fg:#e6e8ea;--mut:#9aa1a9;--line:#2b2f34;--card:#1b1e22;
+--accent:#7aa2f7;--codebg:#22262b;--thbg:#23272c;--mark:#4a411c}
+:root[data-theme=light]{--bg:#fbfbfa;--fg:#1a1c1e;--mut:#5b6067;--line:#e2e4e7;--card:#fff;
+--accent:#1d4ed8;--codebg:#f4f5f7;--thbg:#f0f1f3;--mark:#fff8c4}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:16px/1.62 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+-webkit-text-size-adjust:100%}
+.wrap{display:grid;grid-template-columns:250px minmax(0,1fr);gap:44px;max-width:1180px;
+margin:0 auto;padding:40px 28px 96px}
+nav{position:sticky;top:28px;align-self:start;max-height:calc(100vh - 56px);overflow:auto;
+border-right:1px solid var(--line);padding-right:16px;font-size:13.5px;line-height:1.45}
+nav b{display:block;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--mut);
+margin:0 0 12px}
+nav a{display:block;color:var(--mut);text-decoration:none;padding:3px 0;border-radius:4px}
+nav a:hover{color:var(--accent)}
+nav a.l1{color:var(--fg);font-weight:640;margin-top:11px}
+nav a.l2{padding-left:12px}
+main{min-width:0}
+h1{font-size:1.62rem;line-height:1.25;letter-spacing:-.015em;margin:2.4em 0 .5em;
+padding-bottom:.32em;border-bottom:2px solid var(--line)}
+main>h1:first-child{margin-top:0;border-bottom:none;font-size:1.95rem}
+h2{font-size:1.16rem;margin:2em 0 .5em;letter-spacing:-.01em}
+h3{font-size:1.02rem;font-weight:650;margin:1.7em 0 .45em}
+p{margin:.85em 0}
+ul,ol{margin:.85em 0;padding-left:1.35em}
+li{margin:.3em 0}
+hr{border:0;border-top:1px solid var(--line);margin:2.6em 0}
+figure{margin:1.6em 0}
+/* A paragraph holding two or more images is a gallery. Left to inline layout they
+   wrap at whatever fits, which put three bells on one row and the fourth alone
+   underneath - directly above the caption, so it read as the caption for that one
+   picture rather than for the set. Flex lets them share the row instead. */
+p:has(img + img){display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start;
+justify-content:center}
+p:has(img + img) img{flex:1 1 140px;min-width:0;width:auto;max-width:100%;height:auto;
+border:1px solid var(--line);border-radius:10px}
+figure svg,figure img{display:block;width:100%;max-width:100%;height:auto;
+border:1px solid var(--line);border-radius:10px}
+a{color:var(--accent)}
+code{font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+background:var(--codebg);padding:.1em .32em;border-radius:4px;
+border:1px solid color-mix(in srgb,var(--line) 70%,transparent)}
+pre{background:var(--codebg);border:1px solid var(--line);border-radius:9px;
+padding:14px 16px;overflow-x:auto;margin:1.1em 0}
+pre code{background:none;border:0;padding:0;font-size:12.8px;line-height:1.62;white-space:pre}
+blockquote{margin:1.15em 0;padding:.7em 1.1em;border-left:4px solid var(--accent);
+background:var(--codebg);border-radius:0 7px 7px 0}
+blockquote p{margin:0}
+.tw{overflow-x:auto;margin:1.15em 0;border:1px solid var(--line);border-radius:9px;
+background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:8px 13px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+/* honour align="center" on gallery cells: a presentation attribute loses to any
+   CSS rule, so the line above would silently left-align every thumbnail caption */
+td[align=center],th[align=center]{text-align:center}
+th{background:var(--thbg);font-weight:630;white-space:nowrap;font-size:13px;
+letter-spacing:.01em}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:color-mix(in srgb,var(--thbg) 45%,transparent)}
+td code,th code{white-space:nowrap}
+/* A walk inside a link is one token: breaking it mid-walk put "N" at the end of one
+   line and "N5 U" at the start of the next, which reads as two things. */
+a code{white-space:nowrap}
+.tog{position:fixed;top:14px;right:14px;z-index:9;background:var(--card);color:var(--mut);
+border:1px solid var(--line);border-radius:7px;padding:6px 11px;font-size:12.5px;cursor:pointer}
+.tog:hover{color:var(--accent)}
+@media (max-width:900px){.wrap{grid-template-columns:1fr;gap:20px;padding:26px 18px 72px}
+nav{position:static;max-height:none;border-right:0;border-bottom:1px solid var(--line);
+padding:0 0 16px;columns:2;column-gap:20px}}
+@media print{nav,.tog{display:none}.wrap{display:block;max-width:none;padding:0}
+pre,.tw{break-inside:avoid}h1{break-after:avoid}}
+</style>
+</head>
+<body>
+<button class="tog" type="button">theme</button>
+<div class="wrap">
+<nav><b>Contents</b><a class="l1" href="#coiled-trumpet">Coiled trumpet</a><a class="l2" href="#why-no-elbows">Why no elbows</a><a class="l2" href="#the-design-is-one-line">The design is one line</a><a class="l2" href="#one-block-is-16mm-not-10">One block is 16mm, not 10</a><a class="l2" href="#when-a-turn-is-free-and-when-it-costs">When a turn is free, and when it costs</a><a class="l2" href="#the-sections">The sections</a><a class="l2" href="#cutting">Cutting</a><a class="l2" href="#regenerating">Regenerating</a><a class="l2" href="#files">Files</a></nav>
+<main>
+<h1 id="coiled-trumpet">Coiled trumpet</h1>
+<p>A trumpet bore in 10 × 10mm square section that <strong>coils flat and drops twice</strong>, built from eight box sections with <strong>no elbows at all</strong> — every turn happens inside a section, so every joint is a flat face glued to a flat face. Companion to the <a href="https://github.com/Gernreich/trumpet/tree/main/octagonal">octagonal trumpet</a> and the <a href="https://github.com/Gernreich/trumpet/tree/main/octagonal">octagonal torus</a>, which stayed on the 25 × 25mm channel this bore was first cut at. Cut from 3mm Baltic birch plywood, millimetre-true at <code>1 user unit = 1mm</code>, so it prints and cuts at real size.</p>
+<p>The <strong>bell</strong> and the <strong>mouthpiece</strong> live in <strong><a href="https://github.com/Gernreich/trumpet/tree/main/parts">trumpet-parts</a></strong>, shared with the <a href="https://github.com/Gernreich/trumpet/tree/main/octagonal">octagonal trumpet</a>. Neither is touched by the way the bore turns, so only the tube belongs to an instrument.</p>
+<p>The bore was designed <strong>in Minecraft</strong>, laid out block by block and coloured by direction — which is where the notation comes from, and why the axes match the game's: <code>U</code>/<code>D</code> up and down, <code>N</code> away from the noon sun, <code>E</code>/<code>W</code> along the sunrise.</p>
+<p>
+<img src="bore/trumpet-coiled_minecraft.png" alt="The bore built in Minecraft from translucent coloured glass blocks, each run a different colour: long blue runs heading north, a green run east, an orange run south, purple runs west, and short grey and red columns where the bore drops and climbs" width="420">
+</p>
+<p><em>The same walk, built in glass. Each colour is one direction, the same palette the viewer uses — so a run's colour tells you which way it goes.</em></p>
+<p>
+<a href="bore/trumpet-coiled_parts.jpg"><img src="bore/trumpet-coiled_parts_web.jpg" alt="The cut bore parts loose on concrete in sunlight: fifty flat plywood plates, every edge combed with finger joints, most of them long straight strips and several stepped into L and Z shapes where a section turns" width="620"></a>
+</p>
+<p><em>The whole bore, cut and not yet glued — 50 plates across 8 sections. <strong>This photograph is of the 25mm build</strong>, which is what was cut before the bore moved to 10mm on 2026-09-05; the shapes are the same and the plates are the size the old block gave. Click it for the full-size photograph. <strong>Every edge is a finger joint and every face is flat.</strong> The stepped pieces are where the bore turns: a section carries its own corner, so nothing here is an elbow.</em></p>
+<p><strong><a href="bore/bore.html">Turn the bore around in your browser</a></strong> — drag to rotate, colour it by direction or by section, and step through the blocks one at a time.</p>
+<p>Built for <strong><a href="https://www.youtube.com/@LaserMadeMusic">LaserMadeMusic</a></strong>, where the cutting and the playing are shown.</p>
+<p><strong><a href="https://github.com/Gernreich/trumpet/archive/refs/heads/main.zip">Download the whole repository as a ZIP</a></strong> — every trumpet, not this one alone; the nine bore nets and the page they regenerate from are under <code>bores/coiled/</code>. GitHub builds it from <code>main</code> on every push, so it is never out of date.</p>
+<p><strong><a href="https://gernreich.github.io/">The rest of the build files</a></strong> — every instrument, generator and tool, indexed.</p>
+<h2 id="why-no-elbows">Why no elbows</h2>
+<p>An <strong>elbow</strong> is a single block that turns. It sounds like the cheap way to bend a bore and it is the expensive one, because its opening frame has <strong>three sides, not four</strong>. The missing side has to be made up by the sections either side of it: both get a flattened plate to butt-glue against, both need a tongue to locate on, and a 3 × 3 × 25mm void is left unfilled inside the corner. Flat-to-flat gluing is the whole difficulty of building one of these, and every elbow adds three more of the worst kind.</p>
+<p>Turning the bore <em>inside</em> a section costs nothing extra to cut and glues like any other seam. So this design pays in blocks to buy zero elbows — and the price turns out to be small.</p>
+<h2 id="the-design-is-one-line">The design is one line</h2>
+<pre><code>N N3 U6 W5 N10 E5 D3 S8 W3 D3 N12 N</code></pre>
+<p>The first letter is the way in, the last is the way out, and each term between them turns where you stand and then travels <em>n</em> blocks. The bore is <strong>1 + the sum of the numbers</strong> — 59 blocks, 944mm of centreline.</p>
+<p>That single line is the entire specification. It is stored in the viewer page, and the cut files regenerate from it.</p>
+<h2 id="one-block-is-16mm-not-10">One block is 16mm, not 10</h2>
+<p>A block is 10 × 10 × 10mm of sound space wrapped in <strong>3mm of wall</strong>, so its outside is 16mm. Coring it out for the bore to pass through does not shrink it — the four walls stay and the block still takes up 16mm. <strong>A run of N blocks is 16N mm long.</strong></p>
+<h2 id="when-a-turn-is-free-and-when-it-costs">When a turn is free, and when it costs</h2>
+<p>A section can carry a turn internally only if it has a straight block on each side of the corner that its neighbours have not claimed. That gives one rule, and it has to be checked over <strong>every window of three consecutive terms</strong>:</p>
+<blockquote><p>Take the window as outer <em>A</em>, middle <em>m</em>, outer <em>C</em>. If <em>A</em> and <em>C</em> run along the <strong>same axis in the same direction</strong> the turn is a <strong>step</strong> and <em>m</em> may be <strong>1</strong>. If they run along the <strong>same axis opposed</strong>, it is a <strong>hairpin</strong> and <em>m</em> must be <strong>2 or more</strong>. If they name <strong>three different axes</strong>, it is a <strong>coil</strong> and <em>m</em> must be <strong>3 or more</strong>.</p></blockquote>
+<p>Steps are free, hairpins nearly so, coils are not. The moment a third axis joins in the middle leg needs three blocks — one arm each side and the corner between them.</p>
+<p>This document said until 2026-08-29 that any window on only two axes was "a fold" costing nothing at any spacing. That holds for a step but not for a hairpin: <code>U3 N1 D3</code> buys two elbows where <code>U3 N2 D3</code> buys none. It makes no difference to the walk below, whose only two-axis window is a hairpin around a leg of ten, but it would to a tighter one.</p>
+<p>For this walk:</p>
+<div class='tw'><table><thead><tr><th>window</th><th>axes</th><th>verdict</th></tr></thead><tbody><tr><td><code>N3 U6 W5</code></td><td>three</td><td>middle 6 — fine</td></tr><tr><td><code>U6 W5 N10</code></td><td>three</td><td>middle 5 — fine</td></tr><tr><td><code>W5 N10 E5</code></td><td>two, opposed</td><td>hairpin, middle 10 — fine</td></tr><tr><td><code>N10 E5 D3</code></td><td>three</td><td>middle 5 — fine</td></tr><tr><td><code>E5 D3 S8</code></td><td>three</td><td>middle 3 — the minimum</td></tr><tr><td><code>D3 S8 W3</code></td><td>three</td><td>middle 8 — fine</td></tr><tr><td><code>S8 W3 D3</code></td><td>three</td><td>middle 3 — the minimum</td></tr><tr><td><code>W3 D3 N12</code></td><td>three</td><td>middle 3 — the minimum</td></tr></tbody></table></div>
+<p>Three legs sit exactly on the floor of 3. Shorten any of them and an elbow appears.</p>
+<h2 id="the-sections">The sections</h2>
+<p>Eight sections, cut as nine files — section 3 does not fit one sheet of the bed and comes as two.</p>
+<div class='tw'><table><thead><tr><th>#</th><th>blocks</th><th>in → out</th><th>plate</th><th>parts</th><th>sheet</th></tr></thead><tbody><tr><td>1</td><td>1–5</td><td>N → U</td><td>2 × 4 bl</td><td>6</td><td>521 × 151mm</td></tr><tr><td>2</td><td>6–11</td><td>U → W</td><td>2 × 5 bl</td><td>6</td><td>583 × 182mm</td></tr><tr><td>3</td><td>12–26</td><td>W → E</td><td>4 × 11 bl</td><td>8</td><td>482 × 288 + 556 × 96mm</td></tr><tr><td>4</td><td>27–31</td><td>E → D</td><td>4 × 2 bl</td><td>6</td><td>498 × 127mm</td></tr><tr><td>5</td><td>32–34</td><td>D → S</td><td>2 × 2 bl</td><td>6</td><td>403 × 86mm</td></tr><tr><td>6</td><td>35–42</td><td>S → W</td><td>2 × 7 bl</td><td>6</td><td>505 × 285mm</td></tr><tr><td>7</td><td>43–45</td><td>W → D</td><td>2 × 2 bl</td><td>6</td><td>403 × 86mm</td></tr><tr><td>8</td><td>46–59</td><td>D → N</td><td>2 × 13 bl</td><td>6</td><td>522 × 247mm</td></tr></tbody></table></div>
+<p><strong>50 flat parts</strong>, every one engraved with its section number, because the sections only go together in one order. Sheets are sized for a 600 × 308mm bed.</p>
+<p>The section names describe the shape as a run of moves across the flat plate — <code>08_bend_LDDDDDDDDDDDD</code> is one step left and then twelve down — so a file name and the part it cuts are the same description.</p>
+<h2 id="cutting">Cutting</h2>
+<p><strong>Colour is the cut order</strong>, shared across all these repositories: <strong>blue engraves, black cuts.</strong> Blue lays the section number onto every part first and black frees it. Nothing here uses the middle stages.</p>
+<p>Standard settings, and they must stay uniform across the set — mixing <code>burn</code> changes finger joint fit while every outside dimension still matches, which no drawing shows:</p>
+<pre><code>blocksize 16mm   thickness 3mm   burn 0.1   spacing 0.5   inner corners: corner</code></pre>
+<h2 id="regenerating">Regenerating</h2>
+<p>The walk lives in the viewer page, so the page is a complete record of the design and the cut files come back from it alone:</p>
+<pre><code>cd ../../../../../../tools
+python3 bore_split.py ./bore/bore.html \
+    --write ./bore</code></pre>
+<p>That rewrites every file in this directory and runs the full gate as it goes — 253 checks on this design, none failing. To try a change without writing anything:</p>
+<pre><code>python3 bore_split.py --no-write "N N3 U6 W5 N10 E5 D3 S8 W3 D3 N12 N"</code></pre>
+<p>The generator is <a href="https://github.com/Gernreich/trumpet/tree/main/tools">bore-generator</a>, which builds the nets on top of <strong>boxes.py</strong> (Florian Festi, GPL 3.0, <a href="https://www.festi.info/boxes.py/">https://www.festi.info/boxes.py/</a>).</p>
+<h2 id="files">Files</h2>
+<p><strong>The bore</strong>, in <code>bore/</code> — eight nets, one per section: <code>bore10-coiled-01of08-bend-DDDR-buttin-cut-files.svg</code>, <code>bore10-coiled-02of08-bend-UUUUL-cut-files.svg</code>, <code>bore10-coiled-03of08-bend-LLLDDDDDDDDDDR-cut-files.svg</code>, <code>bore10-coiled-04of08-bend-RRRD-cut-files.svg</code>, <code>bore10-coiled-05of08-bend-LU-cut-files.svg</code>, <code>bore10-coiled-06of08-bend-UUUUUUL-cut-files.svg</code>, <code>bore10-coiled-07of08-bend-LD-cut-files.svg</code>, <code>bore10-coiled-08of08-bend-LDDDDDDDDDDDD-buttout-cut-files.svg</code>. At 25mm the third section needed two sheets and there were nine; at 10mm it fits on one. <code>bore.html</code> sits beside them and holds the walk they are generated from.</p>
+<p>The bell, the mouthpiece and their section drawings are in <a href="https://github.com/Gernreich/trumpet/tree/main/parts">trumpet-parts</a>.</p>
+<p>Released under <a href="LICENSE">CC0 1.0</a>.</p>
+<p>Bore nets are generated by <a href="https://github.com/Gernreich/trumpet/tree/main/tools">bore-generator</a> on top of <strong><a href="https://www.festi.info/boxes.py/">boxes.py</a></strong> by <strong>Florian Festi</strong> (GPL 3.0), <code>burn=0.1</code>, blocksize 16mm. The bells, the mouthpiece and the text are CC0.</p>
+</main>
+</div>
+<script>
+var r=document.documentElement,b=document.querySelector('.tog');
+function set(t){r.setAttribute('data-theme',t);try{localStorage.setItem('ctg-theme',t)}catch(e){}
+b.textContent=t==='dark'?'\u2600 light':'\u263e dark';}
+var saved=null;try{saved=localStorage.getItem('ctg-theme')}catch(e){}
+set(saved||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));
+b.addEventListener('click',function(){set(r.getAttribute('data-theme')==='dark'?'light':'dark')});
+</script>
+</body>
+</html>

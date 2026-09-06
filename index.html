@@ -92,18 +92,17 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <p>Laser-cut trumpets, the toolchain that draws their bores, and the library of bores it has drawn. Everything is millimetre-true at <code>1 user unit = 1mm</code>, so it prints and cuts at real size.</p>
 <p>A trumpet is a mouthpiece, a length of tube and a bell. Only the tube differs between them, which is why the tube is the only thing that belongs to an instrument here and the two ends are shared.</p>
 <h2 id="the-tree">The tree</h2>
-<pre><code>tools/        the generator, the splitter, and the pre-cut gate
-parts/        the bell and the mouthpiece, shared by every bore
-bores/
-  coiled/     25mm, coils flat and drops twice, no elbows
-  greek-spiral/ 10mm, a flat meander -- the Greek key, in one piece
-  octagonal/  25mm, the flare form of the octagonal torus
-  switchback/ 10mm, folds back on itself twice
-  stretched/  10mm, straights longer than turns; the 3-turn coil plays F4
-  ribbon/     constant section swept along a planar curve
-octagonal/    the octagonal torus, and the trumpet cut out of it
-designs/      every walk built out as cut files and a page
-spirals/      coiling walks, with the numbers that say what each one costs</code></pre>
+<pre><code>tools/                 the generator, the splitter, and the pre-cut gate
+parts/
+  mouthpiece/          the mouthpiece
+  bell/                the bell
+  bore/
+    built/             bores that exist in plywood
+    concept/           bores that exist as a walk and a cut file
+      walk/
+        elbows/        walks that strand a turn as its own piece
+        no-elbows/     walks where every turn folds into a piece
+      swept-curve/     constant section swept along a curve, no lattice</code></pre>
 <p><code>octagonal/</code> holds two objects and one writeup. The torus is a ring of square section; the trumpet is that same ring opened out into a curve -- the same 25 x 25mm channel, and literally the same R 90 plate. They were two repositories and then two directories, which meant the shared-plate claim spanned a boundary and could not be checked in one place. Now it is one command:</p>
 <pre><code>cd octagonal
 node verify_torus.js octagonal-trumpet.svg RunA2_R59Point693.svg

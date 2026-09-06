@@ -3,7 +3,7 @@
 The **bell** and the **mouthpiece**: the generators that draw them, and the sheets that
 a trumpet cuts. Both are built on the **10 × 10mm channel** — 16mm outside in 3mm Baltic
 birch plywood — so either fits any bore cut to it, today the
-**[switchback trumpet](https://github.com/Gernreich/trumpet/tree/main/bores/switchback)** at 10mm.
+**[switchback trumpet](https://github.com/Gernreich/trumpet/tree/main/parts/bore/concept/walk/no-elbows/switchback)** at 10mm.
 
 They live here rather than inside one instrument because neither is changed by the shape
 of the bore. A trumpet is a mouthpiece, a length of tube and a bell; only the tube differs.
@@ -11,7 +11,7 @@ of the bore. A trumpet is a mouthpiece, a length of tube and a bell; only the tu
 **The 25mm parts were retired on 2026-09-03.** Both generators still take `--bore`, so any
 channel can be cut from them, but the sheets kept here are the 10mm ones. The 25mm bores
 that used to take them —
-[coiled](https://github.com/Gernreich/trumpet/tree/main/bores/coiled),
+[coiled](https://github.com/Gernreich/trumpet/tree/main/parts/bore/concept/walk/no-elbows/coiled),
 [octagonal](https://github.com/Gernreich/trumpet/tree/main/octagonal) and the switchback's own 25mm
 folder — are unaffected as bores; they simply have no bell or mouthpiece cut for them here
 any more. Git has the old sheets if they are wanted back.

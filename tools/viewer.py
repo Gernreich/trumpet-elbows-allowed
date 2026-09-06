@@ -5,7 +5,7 @@ go", which on a spiral needs you to move it. One HTML file, no libraries, no
 network: the walk is baked in as data and drawn on a canvas.
 
     python3 viewer.py "U U3 N2 W2 S4 E4 U2 N6 W6 S8 E8 U2 N10 W10 S12 E12 U3 U" \
-        --out ../designs/spiral_trumpet/spiral.html --title "Spiral Trumpet Bore"
+        --out ../parts/bore/concept/walk/elbows/spiral_trumpet/spiral.html --title "Spiral Trumpet Bore"
 """
 import json
 import os

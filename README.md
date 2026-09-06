@@ -10,18 +10,17 @@ instrument here and the two ends are shared.
 
 ## The tree
 
-    tools/        the generator, the splitter, and the pre-cut gate
-    parts/        the bell and the mouthpiece, shared by every bore
-    bores/
-      coiled/     25mm, coils flat and drops twice, no elbows
-      greek-spiral/ 10mm, a flat meander -- the Greek key, in one piece
-      octagonal/  25mm, the flare form of the octagonal torus
-      switchback/ 10mm, folds back on itself twice
-      stretched/  10mm, straights longer than turns; the 3-turn coil plays F4
-      ribbon/     constant section swept along a planar curve
-    octagonal/    the octagonal torus, and the trumpet cut out of it
-    designs/      every walk built out as cut files and a page
-    spirals/      coiling walks, with the numbers that say what each one costs
+    tools/                 the generator, the splitter, and the pre-cut gate
+    parts/
+      mouthpiece/          the mouthpiece
+      bell/                the bell
+      bore/
+        built/             bores that exist in plywood
+        concept/           bores that exist as a walk and a cut file
+          walk/
+            elbows/        walks that strand a turn as its own piece
+            no-elbows/     walks where every turn folds into a piece
+          swept-curve/     constant section swept along a curve, no lattice
 
 `octagonal/` holds two objects and one writeup. The torus is a ring of square
 section; the trumpet is that same ring opened out into a curve -- the same

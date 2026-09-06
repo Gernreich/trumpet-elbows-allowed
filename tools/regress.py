@@ -27,8 +27,8 @@ import sys
 # (name, walk or walks/*.txt, folder of cut files or None[, block pitch mm])
 UNIFORM = [
     ('first trumpet', 'N N10 U2 W2 S7 U2 E4 N9 W2 D2 N4 N',
-     '../designs/first_trumpet'),
-    # No folder: ../designs/spiral_trumpet holds a page and two photographs and
+     '../parts/bore/concept/walk/elbows/first_trumpet'),
+    # No folder: ../parts/bore/concept/walk/elbows/spiral_trumpet holds a page and two photographs and
     # no cut files at all. It was named here until 2026-09-03, and check.py
     # globbed nothing, added no sheet checks and still reported 0 failed - the
     # design looked covered for as long as nobody counted. check.py now fails a
@@ -82,23 +82,23 @@ UNIFORM = [
     # trumpet-switchback's 25mm folder on 2026-09-03.
     ('trumpet switchback',
      'walks/trumpet_switchback.txt',
-     '../bores/switchback/10mm/bore', 16),
+     '../parts/bore/concept/walk/no-elbows/switchback/10mm/bore', 16),
     # The elbow-free walks. Every design above either contains elbows or is too
     # small to be interesting, so nothing was checking that a long walk still
     # splits without one - the property every build is chosen for.
     # 190 blocks and 27 pieces, no elbows: the open Hilbert knot is the largest
     # elbow-free walk here by a factor of three, and gates 1010 checks.
-    ('hilbert open', 'walks/hilbert_open.txt', '../designs/hilbert_open'),
+    ('hilbert open', 'walks/hilbert_open.txt', '../parts/bore/concept/walk/no-elbows/hilbert_open'),
     # a telescope whose legs grow 4, 5, 6 ... so every turn is a fold and the
     # risers between loops are the only thing leaving the plane
-    ('wide telescope', 'walks/wide_telescope.txt', '../designs/wide_telescope'),
+    ('wide telescope', 'walks/wide_telescope.txt', '../parts/bore/concept/walk/no-elbows/wide_telescope'),
     # A flat meander -- the Greek key wound all the way in and brought back out
     # beside itself. 68 blocks that split into ONE piece, so it has no section
     # seam at all. '4 corners, flat' is single-piece too, but at 8 blocks; this
     # one exercises that path at a size where it matters, and is the only design
     # here whose cut files run to two sheets.
     ('greek spiral', 'walks/greek_spiral.txt',
-     '../bores/greek-spiral/bore', ['--bore=10']),
+     '../parts/bore/concept/walk/no-elbows/greek-spiral/bore', ['--bore=10']),
     # two-piece walks that turn: the smallest cases where a bend has to carry
     # its corner internally rather than strand it
     ('three block turn', 'walks/three_block_turn.txt', None),
@@ -112,17 +112,17 @@ STRETCHED = [
     # 0.75, 1.5, 2.25, 3, all four of which are built. Parts are cut from the 1.5t, so a change that moves
     # it needs asking about.
     #
-    # The 1.5t is also ../bores/switchback's walk exactly. It arrived here as
+    # The 1.5t is also ../parts/bore/concept/walk/no-elbows/switchback's walk exactly. It arrived here as
     # a borrowed test before anyone noticed it was a coil.
-    ('coil 10x10x30 0.75t', 'walks/coil-0.75t.txt', '../bores/stretched/coil-10x10x30-0.75t',
+    ('coil 10x10x30 0.75t', 'walks/coil-0.75t.txt', '../parts/bore/concept/walk/no-elbows/stretched/coil-10x10x30-0.75t',
      ['--bore=10', '--straight=30']),
-    ('coil 10x10x30 1.5t', 'walks/coil-1.5t.txt', '../bores/stretched/coil-10x10x30-1.5t',
+    ('coil 10x10x30 1.5t', 'walks/coil-1.5t.txt', '../parts/bore/concept/walk/no-elbows/stretched/coil-10x10x30-1.5t',
      ['--bore=10', '--straight=30']),
-    ('coil 10x10x30 2.25t', 'walks/coil-2.25t.txt', '../bores/stretched/coil-10x10x30-2.25t',
+    ('coil 10x10x30 2.25t', 'walks/coil-2.25t.txt', '../parts/bore/concept/walk/no-elbows/stretched/coil-10x10x30-2.25t',
      ['--bore=10', '--straight=30']),
     # WUED repeated with an N spacer every three terms: a square circuit in
     # cross-section that steps north. The first walk laid out for this lattice.
-    ('coil 10x10x30 3t', 'walks/coil-3t.txt', '../bores/stretched/coil-10x10x30-3t',
+    ('coil 10x10x30 3t', 'walks/coil-3t.txt', '../parts/bore/built/coil-10x10x30-3t',
      ['--bore=10', '--straight=30']),
 ]
 
