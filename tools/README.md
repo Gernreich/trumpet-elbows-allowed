@@ -271,6 +271,14 @@ at the 10mm** — and the direction between those two says required clearance
 coupon in [`coupon-16mm/`](coupon-16mm) is the test that settles it, at the
 bore where the 48% tab fraction binds and the tab comes out **7.68mm**.
 
+**A bore that is not in the table says so.** It still gets the small-joint
+value, because too loose is a worse joint and too tight is no joint at all, but
+`pin_play()` prints a note on stderr naming the bore and the figure it used.
+The fallback was always deliberate; being silent about it was not, and a guess
+that comes back looking exactly like a measurement is the dangerous kind. The
+note goes to stderr rather than stdout so it cannot land in anything parsing
+the report — `parts.js` reads that stream.
+
 | sheet | cut | |
 | --- | --- | --- |
 | [`mating-section-cut-once.svg`](coupon-16mm/mating-section-cut-once.svg) | **once** | section 2, the tab side — identical at all three clearances |

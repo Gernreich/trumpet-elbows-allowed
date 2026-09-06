@@ -121,13 +121,59 @@ MIN_FEATURE = 1.5    # and what check.py will actually refuse below
 # step by hand across two copies of this file until 2026-09-05, when the fork
 # was collapsed; there is one copy now and the table moves with it. A bore not
 # in the table gets the small-joint value, because too loose is a worse joint
-# and too tight is no joint at all.
+# and too tight is no joint at all -- and pin_play() says on stderr that it is
+# doing so, because a guess that looks like a measurement is the dangerous kind.
+#
+# The test that would settle the hypothesis needs no bore: cut a coupon of the
+# two mating end frames at 22mm block -- the 16mm bore, where the tab is 7.68mm
+# and the 48% fraction binds -- at 0, 0.0125 and 0.025 per side. If elastic
+# take-up scales, the middle one fits.
+#
+#   W="N N2 U3 E3 E"
+#   for t in A:0 B:0.0125 C:0.025; do
+#     bore_split.py --blocksize=22 --play=${t#*:} --tag=${t%%:*} \
+#         --refuse-elbows "$W" --write ../test/coupon-16mm/notch-${t%%:*}
+#   done
+#
+# FOUR SHEETS, and the tag is not decoration. Section 2 carries the tab and is
+# identical at all three clearances -- verified, not assumed: with the tag held
+# constant, play 0 and play 0.025 give byte-identical cut geometry, because play
+# is taken out of the notch and never off the tab. So cut section 2 once, cut
+# section 1 three times, and try each against it. Those three come off the bed
+# as three indistinguishable piles, the difference between them being 0.0125mm
+# of notch, so --tag=A engraves an A beside every number on that run. Without it
+# the test cannot be read, only performed.
 PLAY_BY_BORE = {25.0: 0.0, 10.0: 0.025}
 PLAY_UNMEASURED = 0.025
 
 
+PLAY_OVERRIDE = None            # --play=, for cutting the coupon below
+_UNMEASURED_SAID = set()
+
+
 def pin_play():
-    return PLAY_BY_BORE.get(round(BLOCK - 2 * THICKNESS, 3), PLAY_UNMEASURED)
+    """The measured joint clearance for this bore, or the fallback -- out loud.
+
+    A bore that has not been cut and assembled has no measurement. The fallback
+    is the small-joint value, because too loose is a worse joint and too tight
+    is no joint at all, and that direction is deliberate. What was not
+    deliberate is that it was silent: the guess came back indistinguishable
+    from a measurement, so a sheet could be cut at a clearance nobody had ever
+    tested without anything saying so. It says so now, once per bore per run,
+    on stderr so it cannot be mistaken for output a tool is parsing.
+    """
+    if PLAY_OVERRIDE is not None:
+        return PLAY_OVERRIDE
+    bore = round(BLOCK - 2 * THICKNESS, 3)
+    if bore in PLAY_BY_BORE:
+        return PLAY_BY_BORE[bore]
+    if bore not in _UNMEASURED_SAID:
+        _UNMEASURED_SAID.add(bore)
+        print(f'note: the {bore:g}mm bore has no measured joint clearance. '
+              f'Using {PLAY_UNMEASURED:g}mm per side, the small-joint value, '
+              f'which is the safe direction but a guess. Cut a coupon, assemble '
+              f'it, and add the row to PLAY_BY_BORE.', file=sys.stderr)
+    return PLAY_UNMEASURED
 # Set NOTCH to size the joint from the female side instead: the tab is then
 # whatever fits it, NOTCH - 2 * pin_play(). It overrides the tooth floor below,
 # so a notch small enough puts the tab back under the finger teeth -- say so
@@ -140,6 +186,29 @@ def set_notch(mm):
     """Size the joint from the notch. Tab follows at notch - 2 * play."""
     global NOTCH, COMMON
     NOTCH = float(mm)
+    COMMON = _common()
+
+
+def set_play(mm):
+    """Override the table, for measuring rather than for cutting.
+
+    The table is a lookup of what has been cut. This flag exists so the coupon
+    the comment above asks for can be cut at values that are NOT in the table -
+    which is the whole point of a coupon - without editing the table to values
+    nobody has measured yet.
+
+    COMMON is built once at import, so setting the override alone leaves the
+    old figure in the SnakeBox arguments and the flag does nothing at all: the
+    first three coupons came out byte-identical for that reason, which read as
+    "play does not matter" rather than "the flag is not connected". Rebuild it,
+    exactly as set_blocksize does.
+
+    Dropped on 2026-09-05 when the stretched fork's copy of this file was
+    promoted -- that fork never had it -- and restored the same day, because
+    the coupon procedure in the comment above cannot be run without it.
+    """
+    global PLAY_OVERRIDE, COMMON
+    PLAY_OVERRIDE = float(mm)
     COMMON = _common()
 
 
@@ -1046,14 +1115,24 @@ def label_spot(part, gw, gh, step=1.5):
     return bx, by, scale
 
 
+TAG = ''             # --tag=, appended to every part's engraved number
+
+
 def part_labels(p, code, args=None, neighbours=None):
-    """The engraving for one part: its section number, and nothing else.
+    """The engraving for one part: its section number, and TAG if there is one.
+
+    A coupon cut three times at three clearances comes off the bed as three
+    identical piles - the difference is 0.0125mm of notch, which no one can
+    see. --tag=A puts an A beside every number on that run, so the piles stay
+    told apart. It changes the engraving and nothing else: the cut paths are
+    the same with it and without.
 
     Part names and edge marks were tried and were harder to read than they
     were worth on parts this size. The number says which section a loose part
     belongs to, which is what actually gets lost on the bench.
     """
     gh = 5.0 / 3.0
+    code = f'{code}{TAG}'
     _, gw0 = glyphs(code, gh)
     spot = label_spot(p, gw0, gh)
     if not spot:
@@ -1525,6 +1604,14 @@ if __name__ == '__main__':
     if bo:
         a.remove(bo[0])
         B.set_bore(bo[0].split('=', 1)[1])
+    tg = [x for x in a if x.startswith('--tag=')]
+    if tg:
+        a.remove(tg[0])
+        B.TAG = tg[0].split('=', 1)[1]
+    pl = [x for x in a if x.startswith('--play=')]
+    if pl:
+        a.remove(pl[0])
+        B.set_play(pl[0].split('=', 1)[1])
     st = [x for x in a if x.startswith('--straight=')]
     if st:
         a.remove(st[0])
