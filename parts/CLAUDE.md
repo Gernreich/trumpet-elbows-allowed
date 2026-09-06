@@ -272,7 +272,16 @@ These have been cut. Treat every SVG as concurrently modified in Inkscape:
 - **These scripts have no `--help`**; a bare run to see the options IS a run. Read the
   docstring, or write to a scratch path.
 - Verify a hand-edited bell with `verify_bell.py` rather than diffing path data — once
-  paths are converted to Bézier curves, a byte diff says nothing.
+  paths are converted to Bézier curves, a byte diff says nothing. **It reads the SQUARE
+  bells only.** The square-to-round ones are drawn with arcs and lap by whatever their
+  3mm wall leaves rather than by a fixed amount, so it skips them and says so — a checker
+  that answers about a file it does not understand teaches you to ignore it.
+- **`verify_bell.py` pairs an aperture with the outline concentric with it**, so it reads
+  both the one-path form and the two-group form the generators write now, and survives a
+  nest that reorders the paths. It was blind to the two-group form from 2026-09-03 until
+  2026-09-06: it found no rings, called every generated sheet "a section drawing or a
+  sheet of something else", and skipped it — passing silently on sheets nobody had
+  checked. An outline that finds no aperture is now reported as what it is, a solid disc.
 
 ## The mouthpiece's taper is 2.5mm because it has to be
 
@@ -411,7 +420,8 @@ cd bell && python3 bell-round.py --bore=10 --length=152 --mouth=80   # the 10mm 
 cd mouthpiece && python3 mouthpiece-round.py --bore=10 --rim=17 --layout=trumpet
 cd bell && python3 bell-section.py bell-round10-153mm-17rings-x3-rim86-cut-files.svg
 cd bell && python3 bell-view.py bell-round10-153mm-17rings-x3-rim86-cut-files.svg
-cd bell && python3 verify_bell.py bell-round10-153mm-17rings-x3-rim86-cut-files.svg
+cd bell && python3 bell.py 20 && python3 verify_bell.py \
+      bell-square10-204mm-17rings-x4-rim129-cut-files.svg   # SQUARE bells only
 cd bell && python3 number_rings.py bell-round10-153mm-17rings-x3-rim86-cut-files.svg   # engrave 0..A
 cd bell && python3 number_rings.py ../mouthpiece/mouthpiece-bore10-trumpet-parts-cut-files.svg --order=document
 cd mouthpiece && python3 mouthpiece-round.py    # square on the bore, round by the throat

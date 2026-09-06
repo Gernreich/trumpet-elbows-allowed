@@ -91,15 +91,69 @@ def span(pts):
 HUE = re.compile(r"stroke\s*[:=]\s*.?(#[0-9a-fA-F]{6})")
 
 
+CONCENTRIC = 0.5     # mm of centre-to-centre slop allowed between an aperture and its
+                     # own outline. Rings are whole millimetres apart on any nest, so this
+                     # is nowhere near wide enough to pair a ring with somebody else's.
+
+
+def centre(b):
+    return ((b[0] + b[2]) / 2.0, (b[1] + b[3]) / 2.0)
+
+
+def pair_by_centre(loose):
+    """Pair single-outline apertures with their own outlines. Returns (rings, leftover).
+
+    A RING IS TWO PATHS NOW, NOT ONE. Apertures moved into their own orange group so they
+    cut before the outline that frees the part, and this tool went on looking for one path
+    holding two big subpaths. It found none, called every generated sheet "a section drawing
+    or a sheet of something else", and skipped it -- silently passing on sheets nobody had
+    checked.
+
+    Paired by CONCENTRICITY and size, smallest first, not by colour and not by file order.
+    Colour would hard-code the generator's palette into a tool whose whole job is checking
+    sheets somebody has edited. File order survives a nest but not a reorder, and Inkscape
+    reorders. Containment alone is what mouthpiece-view.py rejected and for the same reason:
+    it is true of a ring sitting in another ring's spare space. Sharing a centre is not."""
+    rings, used = [], set()
+    order = sorted(range(len(loose)), key=lambda k: loose[k]["s"])
+    for k in order:
+        if k in used:
+            continue
+        a = loose[k]
+        ac = centre(a["b"])
+        mate = None
+        for j in order:                       # smallest first, so the tightest fit wins
+            if j in used or j == k or loose[j]["s"] <= a["s"] + 1e-6:
+                continue
+            bc = centre(loose[j]["b"])
+            if abs(bc[0] - ac[0]) <= CONCENTRIC and abs(bc[1] - ac[1]) <= CONCENTRIC:
+                mate = j
+                break
+        if mate is None:
+            continue
+        used.add(k)
+        used.add(mate)
+        o = loose[mate]
+        # The ring's cut stage is the OUTLINE's colour: that is the cut that frees the
+        # part. The aperture's stage only says when the hole goes in.
+        rings.append({"i": o["i"], "outer": o["b"], "ap": a["b"],
+                      "o": o["s"], "a": a["s"], "c": o["c"]})
+    return rings, [loose[k] for k in range(len(loose)) if k not in used]
+
+
 def read(path):
-    """(rings, marks). A ring is a path holding two big concentric squares.
+    """(rings, marks). A ring is an aperture and the outline concentric with it.
+
+    Two forms are read. A sheet from before 2026-09-03 holds both in ONE path, as two big
+    subpaths. A sheet since holds them as two paths in two colour groups. Both end up as
+    the same record, so every check below is written once.
 
     Colour is taken from the path or, failing that, from the group around it. A sheet saved
     out of Inkscape carries a stroke on every path; one straight from a generator carries it
     once on the <g>. Reading only the path meant every generated sheet came back as a single
     stage of None, and then the labels -- also None -- looked like they shared it."""
     src = pathlib.Path(path).read_text()
-    rings, marks = [], []
+    rings, marks, loose = [], [], []
     gstroke, stack, i = None, [], -1
     for m in re.finditer(r"<g\b[^>]*>|</g\s*>|<path\b[^>]*>", src):
         el = m.group(0)
@@ -124,8 +178,19 @@ def read(path):
         if len(big) == 2:
             rings.append({"i": i, "outer": box(big[1]), "ap": box(big[0]),
                           "o": span(big[1]), "a": span(big[0]), "c": colour})
+        elif len(big) == 1:
+            loose.append({"i": i, "b": box(big[0]), "s": span(big[0]), "c": colour})
         else:
             marks.append({"i": i, "box": box([q for p in sp for q in p]), "c": colour})
+    paired, leftover = pair_by_centre(loose)
+    rings += paired
+    # A big outline that found no aperture is a SOLID DISC where a ring should be, and
+    # saying so is the point. Left in marks unlabelled it was caught only by accident, as
+    # "a label shares a stage with a ring" -- true, and the wrong reason, which is the kind
+    # of finding that teaches you to stop reading them.
+    marks += [{"i": p["i"], "box": p["b"], "c": p["c"], "solo": True} for p in leftover]
+    rings.sort(key=lambda r: r["i"])
+    marks.sort(key=lambda r: r["i"])
     return rings, marks
 
 
@@ -163,7 +228,15 @@ def main():
         return 0
     rings, marks = read(sys.argv[1])
     fails = []
+    solo = [m for m in marks if m.get("solo")]
     print(f"  rings {len(rings)}   other paths {len(marks)}")
+    if solo:
+        for m in solo:
+            w = m["box"][2] - m["box"][0]
+            print(f"    ✗ path #{m['i']} is {w:.1f}mm across with nothing concentric "
+                  f"inside it — a solid disc, not a ring")
+        fails.append(f"{len(solo)} outline(s) have no aperture: the sheet would cut "
+                     f"{len(solo)} solid disc(s)")
 
     # Ordered by APERTURE, not by outer diameter. The airway only ever opens, so aperture
     # order is assembly order on any sheet however it was nested -- which is what this tool
