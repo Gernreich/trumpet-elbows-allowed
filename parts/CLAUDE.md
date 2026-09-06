@@ -13,10 +13,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-The **bell** and the **mouthpiece**, shared by every trumpet in these repositories rather
-than owned by one of them. `bore/concept/walk/no-elbows/coiled` and `../octagonal` both build on the
-same 25 × 25mm channel, so both take the same bell and the same mouthpiece; only the tube
-between them differs.
+The **bell** and the **mouthpiece**, shared by every trumpet in this repository rather
+than owned by one of them. Every bore under `bore/` is cut at the 10mm channel since
+2026-09-05, so one bell and one mouthpiece serve all of them; only the tube between
+them differs. The octagonal trumpet, which was the other 25mm bore, left this
+repository the same day.
 
 Since 2026-08-31 there is a **second channel**: `bore/concept/walk/no-elbows/switchback` is cut
 at 10mm as well as 25, and `--bore` on the two square-to-round generators makes the parts
@@ -25,11 +26,11 @@ to suit. See `--bore` is the channel, and only that below.
 **Every mouthpiece and every bell lives here, whichever instrument cuts it.** The four
 switchback sheets moved out to that repository on 2026-08-31 and came back on 2026-09-02:
 holding them there rested on "nothing else cuts them", which described what had been cut
-rather than what fits. The 25mm mouthpiece and bell suit any 25mm channel, and
-`trumpet-coiled` and `trumpet-octagonal` are both exactly that, so two general parts were
-hidden inside one instrument. The rule is the one `trumpet-coiled` states: neither end is
-touched by the way a bore turns, so **only the tube belongs to an instrument**, and the
-instrument repositories hold only bore.
+rather than what fits. The 25mm mouthpiece and bell suited any 25mm channel, and
+the coiled and octagonal trumpets were both exactly that, so two general parts were
+hidden inside one instrument. The rule is the one the coiled trumpet states: neither end
+is touched by the way a bore turns, so **only the tube belongs to an instrument**, and a
+bore directory holds only bore.
 
 **A bare `bell-round.py` writes all four budgets**, the 17-ring among them. Pass a ring
 budget when you want one sheet, and `--out` to name it.

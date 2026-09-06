@@ -73,8 +73,9 @@ moving the result across, because they write into their own directory. Two traps
   deletes the sheet rather than leaving an unnumbered one to be cut. This used to be a
   separate command you had to remember, and forgetting it cost a sheet its numbering once.
 
-Sibling repositories — `trumpet-coiled`, `trumpet-octagonal`, `torus-octagonal`,
-`knotwork-soundholes`, `living-hinge` and others — follow the same conventions. Shared
+Sibling repositories — `knotwork-soundholes`, `living-hinge` and others — follow
+the same conventions. The coiled trumpet is a directory in this repository now, not a
+repository of its own, and the two octagonal ones left it on 2026-09-05. Shared
 documentation tooling lives in **`../../../../../../../lasermade-tools`** (its own repository).
 
 ## The design is one line
