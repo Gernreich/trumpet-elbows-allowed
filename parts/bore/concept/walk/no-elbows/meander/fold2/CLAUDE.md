@@ -24,12 +24,12 @@ by the sibling repository **`../../../../../../tools`**
 ([CLAUDE.md](https://github.com/Gernreich/trumpet/blob/main/tools/CLAUDE.md)); nothing in
 this repository is authored by hand except `README.md` and this file.
 
-It holds **one design at two sizes**:
+It held **one design at two sizes** until the 25mm was retired on 2026-09-03:
 
-    25mm/  bore/          31mm block
     10mm/  bore/          16mm block
 
-Cut one folder and you have the tube; the two ends come from `../../../../..`.
+The 25mm folder and its 31mm sheets are in git. Cut this folder and you have
+the tube; the two ends come from `../../../../..`.
 `index.html` is still at the root and still the published page; nothing else is loose there.
 
 **Three moves got here.** On 2026-08-31 the 25mm set came off the root into `25mm/bore/`,
@@ -107,24 +107,28 @@ already has. Checked on 2026-08-29 by writing it both ways — **the six SVGs ca
 byte-identical**. It would matter if the exit direction differed from the last term: `N1 U`
 turns the final block and buys an elbow.
 
-## One block is 31mm, not 25
+## One block is 16mm, not 10
 
-A block is 25 × 25 × 25mm of sound space wrapped in **3mm of wall**, so its outside is
-**31mm**, and coring it out for air does not shrink it. A run of *N* blocks is **31N mm**
-along the bore. The 22 blocks are 682mm of centreline at that size.
+A block is 10 × 10 × 10mm of sound space wrapped in **3mm of wall**, so its outside is
+**16mm**, and coring it out for air does not shrink it. A run of *N* blocks is **16N mm**
+along the bore. The 22 blocks are 352mm of centreline at that size.
 
-**The folders are named for the bore, the switch is the block.** `25mm/bore/` is
-`--blocksize=31` and `10mm/bore/` is `--blocksize=16`. The two numbers are 6mm apart and
-naming them the same thing is the mistake this section exists to stop.
+**The folder is named for the bore, the switch is the block.** `10mm/bore/` is
+`--blocksize=16`. The two numbers are 6mm apart and naming them the same thing is the
+mistake this section exists to stop -- it read "one block is 31mm, not 25" while the
+25mm set existed, and the arithmetic is the same one size down.
 
 Standard flags, uniform across the set — mixing `burn` changes finger joint fit while every
 outside dimension still matches, which no drawing shows. Do not type them: `bore_split.py`
 builds them from its own constants, so `--blocksize` moves the plan and the sheet together.
 
 ```
---blocksize=31 --thickness=3 --burn=0.1 --pin_width=12 --labels=0
+--blocksize=16 --thickness=3 --burn=0.1 --labels=0
 --reference=0 --inner_corners=corner --spacing=0.5
 ```
+
+`--pin_width=12` was in this list while the 25mm set existed. A 12mm tab does
+not fit a 10mm end frame, which is the whole of the section below.
 
 ## `10mm/bore/` is the same walk, a smaller square
 
@@ -263,8 +267,7 @@ Boxes.py virtualenv, so run the gate from there:
 ```sh
 W="$(cat walks/trumpet_switchback.txt)"
 D=.
-~/boxes/venv/bin/python check.py "$W" --files $D/25mm/bore
-~/boxes/venv/bin/python check.py "$W" --blocksize=16 --files $D/10mm/bore
+~/boxes/venv/bin/python check.py "$W" --blocksize=16 --files $D/10mm/bore/cut-files
 ```
 
 `--files` only looks at the sheets as the machine sees them — bed fit, overlaps, engraving
@@ -300,7 +303,6 @@ cd $S && python3 bore_split.py --no-write --refuse-elbows "N N1 W3 U2 E3 N3 D3 W
 cd $S
 W="$(cat walks/trumpet_switchback.txt)"
 D=.
-python3 bore_split.py --refuse-elbows "$W" --write $D/25mm/bore
 python3 bore_split.py --blocksize=16 --refuse-elbows "$W" --write $D/10mm/bore
 ```
 

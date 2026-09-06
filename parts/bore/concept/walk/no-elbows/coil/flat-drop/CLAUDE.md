@@ -68,7 +68,7 @@ joint fit while every outside dimension still matches, which no drawing shows:
 
 An **elbow** is a single block that turns. Its opening frame has **three sides, not
 four**, so both neighbouring sections need flattened plates butt-glued to it, plus tongues,
-plus an unfilled 3 × 3 × 25mm void inside the corner. That gluing is why this design
+plus an unfilled 3 × 3 × 10mm void inside the corner. That gluing is why this design
 exists. **Fewest elbows at any cost** unless the author says otherwise — `FEWEST_ELBOWS`
 in `bore_split.py` is the switch, and `--fewest-pieces` turns it off.
 

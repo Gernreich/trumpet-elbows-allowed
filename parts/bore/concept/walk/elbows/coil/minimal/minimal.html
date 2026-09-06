@@ -1,4 +1,4 @@
-<title>Switchback Ramp</title>
+<title>Tightest Coil</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@400;500;600;700&display=swap">
@@ -172,12 +172,16 @@ input[type="range"]::-moz-range-thumb {
 <div id="stage"><canvas id="c"></canvas></div>
 
 <div class="rail" id="title-rail">
-  <h1>Switchback Ramp</h1>
-  <div class="walk">U U2 W3 S3 E3 U2 W3 S3 E3 U2 W3 S3 E3 U2 W3 S3 E3 U2 W3 S3 E3 U2 W3 S3 E3 U2 W3 S3 E3 U2 W3 S3 E3 U2 U</div>
+  <h1>Tightest Coil</h1>
+  <div class="walk" id="walk">U U2 N1 E1 S1 U1 W1 U1 N1 E1 S1 U1 W1 U1 N1 E1 S1 U1 W1 U2</div>
   <div class="stat" id="stat"></div>
 </div>
 
 <div class="rail" id="controls">
+  <div id="pick-wrap" style="display:none">
+    <div class="label">Turns</div>
+    <div class="seg" role="group" aria-label="Which coil" id="pick"></div>
+  </div>
   <div>
     <div class="label">Colour by</div>
     <div class="seg" role="group" aria-label="Colour by">
@@ -188,7 +192,7 @@ input[type="range"]::-moz-range-thumb {
   <div>
     <div class="label">Follow the bore</div>
     <div class="row">
-      <input type="range" id="reveal" min="1" max="91" value="91"
+      <input type="range" id="reveal" min="1" max="22" value="22"
              aria-label="Blocks shown, from the mouth">
       <span class="count" id="reveal-count"></span>
     </div>
@@ -212,7 +216,8 @@ input[type="range"]::-moz-range-thumb {
 </div>
 
 <script>
-const D = {"cells":[{"p":[0,0,0],"d":"U","s":0,"i0":0},{"p":[0,1,0],"d":"U","s":0,"i0":1},{"p":[0,2,0],"d":"W","s":0,"i0":2},{"p":[-1,2,0],"d":"W","s":0,"i0":3},{"p":[-2,2,0],"d":"W","s":1,"i0":4},{"p":[-3,2,0],"d":"S","s":1,"i0":5},{"p":[-3,2,1],"d":"S","s":1,"i0":6},{"p":[-3,2,2],"d":"S","s":1,"i0":7},{"p":[-3,2,3],"d":"E","s":1,"i0":8},{"p":[-2,2,3],"d":"E","s":1,"i0":9},{"p":[-1,2,3],"d":"E","s":2,"i0":10},{"p":[0,2,3],"d":"U","s":2,"i0":11},{"p":[0,3,3],"d":"U","s":2,"i0":12},{"p":[0,4,3],"d":"W","s":2,"i0":13},{"p":[-1,4,3],"d":"W","s":2,"i0":14},{"p":[-2,4,3],"d":"W","s":3,"i0":15},{"p":[-3,4,3],"d":"S","s":3,"i0":16},{"p":[-3,4,4],"d":"S","s":3,"i0":17},{"p":[-3,4,5],"d":"S","s":3,"i0":18},{"p":[-3,4,6],"d":"E","s":3,"i0":19},{"p":[-2,4,6],"d":"E","s":3,"i0":20},{"p":[-1,4,6],"d":"E","s":4,"i0":21},{"p":[0,4,6],"d":"U","s":4,"i0":22},{"p":[0,5,6],"d":"U","s":4,"i0":23},{"p":[0,6,6],"d":"W","s":4,"i0":24},{"p":[-1,6,6],"d":"W","s":4,"i0":25},{"p":[-2,6,6],"d":"W","s":5,"i0":26},{"p":[-3,6,6],"d":"S","s":5,"i0":27},{"p":[-3,6,7],"d":"S","s":5,"i0":28},{"p":[-3,6,8],"d":"S","s":5,"i0":29},{"p":[-3,6,9],"d":"E","s":5,"i0":30},{"p":[-2,6,9],"d":"E","s":5,"i0":31},{"p":[-1,6,9],"d":"E","s":6,"i0":32},{"p":[0,6,9],"d":"U","s":6,"i0":33},{"p":[0,7,9],"d":"U","s":6,"i0":34},{"p":[0,8,9],"d":"W","s":6,"i0":35},{"p":[-1,8,9],"d":"W","s":6,"i0":36},{"p":[-2,8,9],"d":"W","s":7,"i0":37},{"p":[-3,8,9],"d":"S","s":7,"i0":38},{"p":[-3,8,10],"d":"S","s":7,"i0":39},{"p":[-3,8,11],"d":"S","s":7,"i0":40},{"p":[-3,8,12],"d":"E","s":7,"i0":41},{"p":[-2,8,12],"d":"E","s":7,"i0":42},{"p":[-1,8,12],"d":"E","s":8,"i0":43},{"p":[0,8,12],"d":"U","s":8,"i0":44},{"p":[0,9,12],"d":"U","s":8,"i0":45},{"p":[0,10,12],"d":"W","s":8,"i0":46},{"p":[-1,10,12],"d":"W","s":8,"i0":47},{"p":[-2,10,12],"d":"W","s":9,"i0":48},{"p":[-3,10,12],"d":"S","s":9,"i0":49},{"p":[-3,10,13],"d":"S","s":9,"i0":50},{"p":[-3,10,14],"d":"S","s":9,"i0":51},{"p":[-3,10,15],"d":"E","s":9,"i0":52},{"p":[-2,10,15],"d":"E","s":9,"i0":53},{"p":[-1,10,15],"d":"E","s":10,"i0":54},{"p":[0,10,15],"d":"U","s":10,"i0":55},{"p":[0,11,15],"d":"U","s":10,"i0":56},{"p":[0,12,15],"d":"W","s":10,"i0":57},{"p":[-1,12,15],"d":"W","s":10,"i0":58},{"p":[-2,12,15],"d":"W","s":11,"i0":59},{"p":[-3,12,15],"d":"S","s":11,"i0":60},{"p":[-3,12,16],"d":"S","s":11,"i0":61},{"p":[-3,12,17],"d":"S","s":11,"i0":62},{"p":[-3,12,18],"d":"E","s":11,"i0":63},{"p":[-2,12,18],"d":"E","s":11,"i0":64},{"p":[-1,12,18],"d":"E","s":12,"i0":65},{"p":[0,12,18],"d":"U","s":12,"i0":66},{"p":[0,13,18],"d":"U","s":12,"i0":67},{"p":[0,14,18],"d":"W","s":12,"i0":68},{"p":[-1,14,18],"d":"W","s":12,"i0":69},{"p":[-2,14,18],"d":"W","s":13,"i0":70},{"p":[-3,14,18],"d":"S","s":13,"i0":71},{"p":[-3,14,19],"d":"S","s":13,"i0":72},{"p":[-3,14,20],"d":"S","s":13,"i0":73},{"p":[-3,14,21],"d":"E","s":13,"i0":74},{"p":[-2,14,21],"d":"E","s":13,"i0":75},{"p":[-1,14,21],"d":"E","s":14,"i0":76},{"p":[0,14,21],"d":"U","s":14,"i0":77},{"p":[0,15,21],"d":"U","s":14,"i0":78},{"p":[0,16,21],"d":"W","s":14,"i0":79},{"p":[-1,16,21],"d":"W","s":14,"i0":80},{"p":[-2,16,21],"d":"W","s":15,"i0":81},{"p":[-3,16,21],"d":"S","s":15,"i0":82},{"p":[-3,16,22],"d":"S","s":15,"i0":83},{"p":[-3,16,23],"d":"S","s":15,"i0":84},{"p":[-3,16,24],"d":"E","s":15,"i0":85},{"p":[-2,16,24],"d":"E","s":15,"i0":86},{"p":[-1,16,24],"d":"E","s":16,"i0":87},{"p":[0,16,24],"d":"U","s":16,"i0":88},{"p":[0,17,24],"d":"U","s":16,"i0":89},{"p":[0,18,24],"d":"U","s":16,"i0":90}],"blocks":91,"mm":2821,"dircol":{"N":"#2f6ea8","S":"#e08a2e","E":"#3f8f5e","W":"#9b4a9c","U":"#cf4433","D":"#8b9096"},"dirs":[{"k":"S","name":"south","n":24},{"k":"E","name":"east","n":24},{"k":"W","name":"west","n":24},{"k":"U","name":"up","n":19}],"sections":[{"col":"#ad2828","kind":"bend","n":4},{"col":"#2e5bc8","kind":"bend","n":6},{"col":"#98d345","kind":"bend","n":5},{"col":"#ad289c","kind":"bend","n":6},{"col":"#2ec8ae","kind":"bend","n":5},{"col":"#d39245","kind":"bend","n":6},{"col":"#4928ad","kind":"bend","n":5},{"col":"#35c82e","kind":"bend","n":6},{"col":"#d34574","kind":"bend","n":5},{"col":"#287bad","kind":"bend","n":6},{"col":"#bbc82e","kind":"bend","n":5},{"col":"#b545d3","kind":"bend","n":6},{"col":"#28ad6a","kind":"bend","n":5},{"col":"#c84e2e","kind":"bend","n":6},{"col":"#4551d3","kind":"bend","n":5},{"col":"#5aad28","kind":"bend","n":6},{"col":"#c82e95","kind":"bend","n":4}],"openings":{"0:3":"IN","90:2":"OUT"},"inCol":"#1c1c20","outCol":"#e0457b"};
+const SETS = [{"label":"","walk":"U U2 N1 E1 S1 U1 W1 U1 N1 E1 S1 U1 W1 U1 N1 E1 S1 U1 W1 U2","d":{"cells":[{"a":[-8.0,0.0,-8.0],"b":[8.0,16.0,8.0],"d":"U","s":0,"i0":0},{"a":[-8.0,16.0,-8.0],"b":[8.0,32.0,8.0],"d":"U","s":0,"i0":1},{"a":[-8.0,32.0,-8.0],"b":[8.0,48.0,8.0],"d":"N","s":1,"i0":2},{"a":[-8.0,32.0,-24.0],"b":[8.0,48.0,-8.0],"d":"E","s":2,"i0":3},{"a":[8.0,32.0,-24.0],"b":[24.0,48.0,-8.0],"d":"S","s":3,"i0":4},{"a":[8.0,32.0,-8.0],"b":[24.0,48.0,8.0],"d":"U","s":4,"i0":5},{"a":[8.0,48.0,-8.0],"b":[24.0,64.0,8.0],"d":"W","s":5,"i0":6},{"a":[-8.0,48.0,-8.0],"b":[8.0,64.0,8.0],"d":"U","s":6,"i0":7},{"a":[-8.0,64.0,-8.0],"b":[8.0,80.0,8.0],"d":"N","s":7,"i0":8},{"a":[-8.0,64.0,-24.0],"b":[8.0,80.0,-8.0],"d":"E","s":8,"i0":9},{"a":[8.0,64.0,-24.0],"b":[24.0,80.0,-8.0],"d":"S","s":9,"i0":10},{"a":[8.0,64.0,-8.0],"b":[24.0,80.0,8.0],"d":"U","s":10,"i0":11},{"a":[8.0,80.0,-8.0],"b":[24.0,96.0,8.0],"d":"W","s":11,"i0":12},{"a":[-8.0,80.0,-8.0],"b":[8.0,96.0,8.0],"d":"U","s":12,"i0":13},{"a":[-8.0,96.0,-8.0],"b":[8.0,112.0,8.0],"d":"N","s":13,"i0":14},{"a":[-8.0,96.0,-24.0],"b":[8.0,112.0,-8.0],"d":"E","s":14,"i0":15},{"a":[8.0,96.0,-24.0],"b":[24.0,112.0,-8.0],"d":"S","s":15,"i0":16},{"a":[8.0,96.0,-8.0],"b":[24.0,112.0,8.0],"d":"U","s":16,"i0":17},{"a":[8.0,112.0,-8.0],"b":[24.0,128.0,8.0],"d":"W","s":17,"i0":18},{"a":[-8.0,112.0,-8.0],"b":[8.0,128.0,8.0],"d":"U","s":18,"i0":19},{"a":[-8.0,128.0,-8.0],"b":[8.0,144.0,8.0],"d":"U","s":19,"i0":20},{"a":[-8.0,144.0,-8.0],"b":[8.0,160.0,8.0],"d":"U","s":19,"i0":21}],"blocks":22,"mm":352,"dircol":{"N":"#2f6ea8","S":"#e08a2e","E":"#3f8f5e","W":"#9b4a9c","U":"#cf4433","D":"#8b9096"},"dirs":[{"k":"N","name":"north","n":3},{"k":"S","name":"south","n":3},{"k":"E","name":"east","n":3},{"k":"W","name":"west","n":3},{"k":"U","name":"up","n":10}],"sections":[{"col":"#ad2828","kind":"straight","n":2},{"col":"#2e5bc8","kind":"elbow","n":1},{"col":"#98d345","kind":"elbow","n":1},{"col":"#ad289c","kind":"elbow","n":1},{"col":"#2ec8ae","kind":"elbow","n":1},{"col":"#d39245","kind":"elbow","n":1},{"col":"#4928ad","kind":"elbow","n":1},{"col":"#35c82e","kind":"elbow","n":1},{"col":"#d34574","kind":"elbow","n":1},{"col":"#287bad","kind":"elbow","n":1},{"col":"#bbc82e","kind":"elbow","n":1},{"col":"#b545d3","kind":"elbow","n":1},{"col":"#28ad6a","kind":"elbow","n":1},{"col":"#c84e2e","kind":"elbow","n":1},{"col":"#4551d3","kind":"elbow","n":1},{"col":"#5aad28","kind":"elbow","n":1},{"col":"#c82e95","kind":"elbow","n":1},{"col":"#45cdd3","kind":"elbow","n":1},{"col":"#ad8b28","kind":"elbow","n":1},{"col":"#742ec8","kind":"straight","n":2}],"openings":{"0:3":"IN","21:2":"OUT"},"inCol":"#1c1c20","outCol":"#e0457b"}}];
+let D = SETS[0].d;
 
 const cv = document.getElementById('c');
 const ctx = cv.getContext('2d');
@@ -229,42 +234,92 @@ const CORN = [
 let yaw = 0.62, pitch = 0.72, zoom = 1, panX = 0, panY = 0;
 let mode = 'dir', reveal = D.cells.length, isolate = null, spinning = false;
 
-const key = (c) => c[0] + ',' + c[1] + ',' + c[2];
-const occAll = new Set(D.cells.map(c => key(c.p)));
+/* A cell is a box in mm, c.a to c.b. Blocks differ in length, so a face is
+   hidden only where a neighbour covers the whole of it - measured, because
+   there is no lattice index to compare any more. */
+function covers(c, o, f) {
+  const n = NRM[f], ax = n[0] ? 0 : (n[1] ? 1 : 2);
+  const touch = n[ax] > 0 ? Math.abs(o.a[ax] - c.b[ax]) : Math.abs(o.b[ax] - c.a[ax]);
+  if (touch > 1e-6) return false;
+  for (let i = 0; i < 3; i++) {
+    if (i === ax) continue;
+    const lap = Math.min(c.b[i], o.b[i]) - Math.max(c.a[i], o.a[i]);
+    if (lap < (c.b[i] - c.a[i]) - 1e-6) return false;
+  }
+  return true;
+}
 
 /* centre on the whole bore, so revealing blocks does not shift the model */
-const centre = (() => {
+let centre = null;
+function recentre() { centre = (() => {
   const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
   for (const c of D.cells) for (let i = 0; i < 3; i++) {
-    lo[i] = Math.min(lo[i], c.p[i]); hi[i] = Math.max(hi[i], c.p[i] + 1);
+    lo[i] = Math.min(lo[i], c.a[i]); hi[i] = Math.max(hi[i], c.b[i]);
   }
   return { c: lo.map((v, i) => (v + hi[i]) / 2), lo: lo, hi: hi };
-})();
+})(); }
+recentre();
 
 function faces() {
   const shown = D.cells.slice(0, reveal);
-  const occ = reveal === D.cells.length ? occAll : new Set(shown.map(c => key(c.p)));
   const out = [];
   for (let i = 0; i < shown.length; i++) {
     const c = shown[i];
     if (isolate !== null && (mode === 'dir' ? c.d : c.s) !== isolate) continue;
     for (let f = 0; f < 6; f++) {
-      const n = NRM[f];
-      if (occ.has(key([c.p[0]+n[0], c.p[1]+n[1], c.p[2]+n[2]]))) continue;
+      if (shown.some(o => o !== c && covers(c, o, f))) continue;
       out.push({ cell: c, i: i, f: f });
     }
   }
   return out;
 }
 
-function rot(p) {
+function rotC(p, c) {
   const cy = Math.cos(yaw), sy = Math.sin(yaw);
   const cp = Math.cos(pitch), sp = Math.sin(pitch);
-  let x = p[0] - centre.c[0], y = p[1] - centre.c[1], z = p[2] - centre.c[2];
+  let x = p[0] - c[0], y = p[1] - c[1], z = p[2] - c[2];
   let x2 = x * cy + z * sy, z2 = -x * sy + z * cy;
   let y2 = y * cp - z2 * sp, z3 = y * sp + z2 * cp;
   return [x2, y2, z3];
 }
+function rot(p) { return rotC(p, centre.c); }
+
+/* What the boxes project to at this angle, in mm, as [x0, x1, y0, y1]. */
+function fit(cells, c) {
+  let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+  for (const q of cells) {
+    for (let i = 0; i < 8; i++) {
+      const r = rotC([(i & 1) ? q.b[0] : q.a[0],
+                      ((i >> 1) & 1) ? q.b[1] : q.a[1],
+                      ((i >> 2) & 1) ? q.b[2] : q.a[2]], c);
+      x0 = Math.min(x0, r[0]); x1 = Math.max(x1, r[0]);
+      y0 = Math.min(y0, r[1]); y1 = Math.max(y1, r[1]);
+    }
+  }
+  return [x0, x1, y0, y1];
+}
+
+/* The scale is locked to the biggest set, not fitted to whichever is shown.
+   Fitting each one to the canvas draws four coils the same size, which is the
+   one thing a page comparing lengths must not do: the 3t is four times the
+   0.75t and has to look it. Each set still centres on itself, so the shown one
+   stays in the middle rather than drifting off with its own origin. */
+const bboxOf = (cells) => {
+  const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
+  for (const q of cells) for (let i = 0; i < 3; i++) {
+    lo[i] = Math.min(lo[i], q.a[i]); hi[i] = Math.max(hi[i], q.b[i]);
+  }
+  return [lo, hi];
+};
+const REF = SETS.reduce((best, s) => {
+  const sp = (d) => { const [lo, hi] = bboxOf(d.cells);
+    return Math.hypot(hi[0] - lo[0], hi[1] - lo[1], hi[2] - lo[2]); };
+  return sp(s.d) > sp(best.d) ? s : best;
+}, SETS[0]).d;
+const refCentre = (() => {
+  const [lo, hi] = bboxOf(REF.cells);
+  return lo.map((v, i) => (v + hi[i]) / 2);
+})();
 
 function shade(hex, n) {
   const L = [-0.32, 0.86, 0.4], m = Math.hypot(...L);
@@ -291,18 +346,12 @@ function draw() {
   // first or strands the second in the middle of the canvas. And not the
   // bounding box either: a walk that climbs as it runs fills a diagonal slab
   // of a mostly empty box, and the box's corners are nowhere near the shape.
-  let px0 = Infinity, px1 = -Infinity, py0 = Infinity, py1 = -Infinity;
-  for (const c of D.cells) {
-    for (let i = 0; i < 8; i++) {
-      const r = rot([c.p[0] + (i & 1), c.p[1] + ((i >> 1) & 1),
-                     c.p[2] + ((i >> 2) & 1)]);
-      px0 = Math.min(px0, r[0]); px1 = Math.max(px1, r[0]);
-      py0 = Math.min(py0, r[1]); py1 = Math.max(py1, r[1]);
-    }
-  }
+  // Position from the set on screen, scale from the reference set.
+  const [px0, px1, py0, py1] = fit(D.cells, centre.c);
+  const [rx0, rx1, ry0, ry1] = fit(REF.cells, refCentre);
   const M = 56;
-  const S = Math.min((w - M) / Math.max(px1 - px0, 0.001),
-                     (h - M) / Math.max(py1 - py0, 0.001)) * zoom;
+  const S = Math.min((w - M) / Math.max(rx1 - rx0, 0.001),
+                     (h - M) / Math.max(ry1 - ry0, 0.001)) * zoom;
   const ox = w / 2 - (px0 + px1) / 2 * S + panX;
   const oy = h / 2 + (py0 + py1) / 2 * S + panY;
   const P = (p) => { const r = rot(p); return [ox + r[0] * S, oy - r[1] * S, r[2]]; };
@@ -311,7 +360,9 @@ function draw() {
   for (const q of faces()) {
     const n = NRM[q.f], rn = rot([n[0] + centre.c[0], n[1] + centre.c[1], n[2] + centre.c[2]]);
     if (rn[2] <= 0.001) continue;                 /* facing away */
-    const pts = CORN[q.f].map(v => P([q.cell.p[0]+v[0], q.cell.p[1]+v[1], q.cell.p[2]+v[2]]));
+    const pts = CORN[q.f].map(v => P([v[0] ? q.cell.b[0] : q.cell.a[0],
+                                      v[1] ? q.cell.b[1] : q.cell.a[1],
+                                      v[2] ? q.cell.b[2] : q.cell.a[2]]));
     const z = pts.reduce((a, p) => a + p[2], 0) / 4;
     list.push({ pts, z, q, rn });
   }
@@ -424,7 +475,9 @@ function buildList() {
     tr.children[0].textContent = i + 1;
     tr.children[1].innerHTML = '<span class="sw" style="background:'
       + D.dircol[c.d] + '"></span> ' + DIRNAME[c.d];
-    tr.children[2].textContent = '(' + c.p.join(',') + ')';
+    /* the block's low corner in mm; there is no lattice index to show once
+       straights and turns are different lengths */
+    tr.children[2].textContent = '(' + c.a.map(v => Math.round(v)).join(',') + ')';
     tr.children[3].textContent = turn ? 'turn' : '';
     t.appendChild(tr);
   });
@@ -453,6 +506,39 @@ function buildKeys() {
     b.onclick = () => { isolate = (isolate === r.id) ? null : r.id; buildKeys(); draw(); };
     box.appendChild(b);
   }
+}
+
+/* Several coils in one page: same walk truncated at different points, so the
+   only thing that changes is which set of cells is drawn. Reset the view with
+   it -- they differ in size, and keeping a zoom from a longer one strands a
+   shorter one off-screen. */
+function pickCoil(i) {
+  D = SETS[i].d;
+  recentre();
+  reveal = D.cells.length;
+  $('reveal').max = reveal; $('reveal').value = reveal;
+  $('reveal-count').textContent = reveal + ' / ' + reveal;
+  document.getElementById('walk').textContent = SETS[i].walk;
+  // Keep the camera. It used to reset here, because each coil fitted itself and
+  // a zoom held from the 3-turn threw the 3/4 off the canvas. The scale is
+  // locked to the longest now, so every coil draws inside that frame -- and
+  // holding the angle is the whole point of a switch: you are comparing
+  // lengths, which you cannot do if the view jumps each time you swap. Reset
+  // is still a button.
+  isolate = null;
+  for (const b of $('pick').children)
+    b.setAttribute('aria-pressed', +b.dataset.i === i);
+  buildKeys(); buildList(); draw();
+}
+if (SETS.length > 1) {
+  $('pick-wrap').style.display = '';
+  SETS.forEach((s, i) => {
+    const b = document.createElement('button');
+    b.textContent = s.label; b.dataset.i = i;
+    b.setAttribute('aria-pressed', i === 0);
+    b.onclick = () => pickCoil(i);
+    $('pick').appendChild(b);
+  });
 }
 
 window.addEventListener('resize', draw);

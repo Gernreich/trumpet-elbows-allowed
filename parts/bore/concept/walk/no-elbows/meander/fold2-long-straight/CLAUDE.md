@@ -142,7 +142,8 @@ past a corner and retraces the same line. Spotted on 2026-08-31 and deliberately
 - **They cut into waste, not into the part.** Every spur tip tests outside the plate
   outline, so it is a slit in the offcut, not a nick in the piece. No dimension moves.
 - **They are not from the stretched lattice.** The frozen 10mm bore in
-  `../fold2` has the identical 20, and its 25mm bore has none.
+  `../fold2` has the identical 20. Its 25mm set had none, and was retired on
+  2026-09-03.
   They appear once the end frame drops below 12mm: zero at block 18 and above, four at 17
   and 16.
 - **The cause is below this code.** The polygon `plateBorders()` hands over is clean — no

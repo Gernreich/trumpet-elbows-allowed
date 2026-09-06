@@ -43,7 +43,7 @@ before anything is written.
 import sys, math, pathlib, subprocess
 
 RISE, LAP, MINWALL = 3.0, 3.0, 2.0
-GAMMA, RT, RIM, L  = 0.7, 12.5, 61.5, 201.0     # 25mm square throat = the bore's channel
+GAMMA, RT, RIM, L  = 0.7, 5.0, 61.5, 201.0      # 10mm square throat = the bore's channel
 # 10mm has been the bore since 2026-09-05, when the 25mm was retired and
 # bore_split.py's default followed. This one did not, so a bare run went on
 # writing parts for a tube nothing in the repository cuts any more.
@@ -71,11 +71,11 @@ law   = opts.get("law", "area")
 if morph not in ("linear", "flare", "early"): sys.exit(f"--morph: linear, flare or early, not {morph!r}")
 if law   not in ("area", "width"):            sys.exit(f"--law: area or width, not {law!r}")
 
-# The throat is 31mm square because the bore is, and a ring rises 3mm because the ply does.
+# The throat is 16mm square because the bore is, and a ring rises 3mm because the ply does.
 # The RISE is still not ours to scale -- the ply is 3mm whatever the horn does -- but the
 # throat is, if the bore itself changed: --bore is the air channel this closes onto, and
 # the plate around it is that plus a 3mm wall each side, exactly as the tube is. It exists
-# for the 10mm trumpet; leave it alone for the 25mm one and nothing moves.
+# for a bore that is not the default; leave it alone for the 10mm one and nothing moves.
 # --rim is the bore's width AT the rim, before the wall is added.
 BORE  = float(opts.get("bore", BORE))
 PLATE = BORE + 6.0
