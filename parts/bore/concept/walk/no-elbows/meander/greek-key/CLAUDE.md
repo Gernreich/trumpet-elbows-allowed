@@ -46,8 +46,9 @@ folder of finished-looking cut files and a traceback where the gate should be â€
 is exactly how this folder was first produced. Both commands in the README's rebuild
 block use `~/boxes/venv/bin/python`. Keep it that way.
 
-Pass `--blocksize=16` to *both*. The gate's geometry half is recut in-process, so
-gating at the default 31 reports a clean run on a design nobody cut.
+16mm is the default block, so neither command needs `--blocksize`. Pass the same pitch to
+*both* if you ever pass it at all: the gate's geometry half is recut in-process, so gating
+at a pitch the sheets were not cut at reports a clean run on a design nobody cut.
 
 ## Sheet 1 is 592mm on a 600mm bed
 

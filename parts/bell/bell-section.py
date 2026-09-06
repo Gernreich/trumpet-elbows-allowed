@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Draw a bell in axial section, so the inside surface and the outside are both visible.
 
-    python3 bell-section.py bell-square25-204mm-17rings-x4-rim129-cut-files.svg [OUT.svg]
+    python3 bell-section.py cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg [OUT.svg]
 
 A stack of rings is hard to read from the cut sheet: the file is a row of squares and
 says nothing about the shape they make. Sliced down the axis, both surfaces show at once

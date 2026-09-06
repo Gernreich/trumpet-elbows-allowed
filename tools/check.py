@@ -430,7 +430,8 @@ if __name__ == '__main__':
     ap.add_argument('--files', metavar='DIR',
                     help='also check the sheets written into DIR')
     ap.add_argument('--blocksize', type=float, metavar='MM',
-                    help='block pitch the files were cut at (default 31)')
+                    help='block pitch the files were cut at '
+                         f'(default {bore_split.BLOCK:g})')
     ap.add_argument('--bore', type=float, metavar='MM',
                     help='the square airway, if you would rather say that')
     ap.add_argument('--straight', type=float, metavar='MM',

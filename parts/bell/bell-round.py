@@ -163,9 +163,9 @@ def stations(plies, morph, law):
         })
 
     # Ring 0 is the flange onto the bore, and the one ring whose outer is not the next
-    # station offset. The bore ends in a square annulus of ply 3mm wide -- ø25 inside, ø31
-    # out -- and the flange has to cover all of it and stand proud, or there is nothing to
-    # glue to but the outside of the tube. It stays a SHARP square for the same reason: the
+    # station offset. The bore ends in a square annulus of ply 3mm wide -- BORE inside,
+    # PLATE out -- and the flange has to cover all of it and stand proud, or there is
+    # nothing to glue to but the outside of the tube. It stays a SHARP square for the same reason: the
     # face it lands on is square.
     rings[0]["oh"] = max(rings[0]["oh"], PLATE/2.0 + OVERHANG)
     rings[0]["oc"] = 0.0
@@ -186,7 +186,8 @@ def check(rings):
                  f"flats and corners alike")
 
     # The flange has to cover the bore's end face completely. This is the joint that was
-    # wrong: a ø31 aperture sat entirely outside the ø25-ø31 face and touched nothing.
+    # wrong: an aperture the size of the PLATE sat entirely outside that annulus and
+    # touched nothing, because the throat had been taken from the bore's outside.
     proud = rings[0]["oh"] - PLATE/2.0
     if rings[0]["ah"] > BORE/2.0 + 1e-9:
         fails.append(f"the flange aperture is ø{2*rings[0]['ah']:.1f}, wider than the "
@@ -268,8 +269,8 @@ def emit(rings, plies, step, path, morph, law):
     # and free the part before its hole is in. Holes before rims.
     holes = [f'  <path d="{rounded(cx, cy, r["ah"], r["ac"])}"/>' for r, cx, cy in placed]
     lines = [f'  <path d="{rounded(cx, cy, r["oh"], r["oc"])}"/>' for r, cx, cy in placed]
-    # throat is the aperture, rim is the outer edge — the same two the README's
-    # "ø31 throat" and "Rim diameter" columns mean for the square bells
+    # throat is the aperture, rim is the outer edge -- the same two a run reports as
+    # the section's square end and its rim diameter
     ap, rim = 2*rings[0]["ah"], 2*rings[-1]["oh"]
     pathlib.Path(path).write_text(
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.3f}mm" height="{H:.3f}mm"\n'
@@ -319,8 +320,8 @@ for want in ([int(args[0])] if args else [67, 20, 15, 10]):
     else:
         name = (f"bell-round{BORE:g}-{built:.0f}mm-{len(rings)}rings"
                 f"-x{plies}-rim{rimd:.0f}-cut-files.svg")
-    # throat is the aperture, rim is the outer edge — the same two the README's
-    # "ø31 throat" and "Rim diameter" columns mean for the square bells
+    # throat is the aperture, rim is the outer edge -- the same two a run reports as
+    # the section's square end and its rim diameter
     ap, rim = 2*rings[0]["ah"], 2*rings[-1]["oh"]
     mouth = rim - 2*LAP                      # the hole, not the outside of the rim ring
     a0 = math.degrees(math.atan(rings[0]["gain"]/rings[0]["rise"]))

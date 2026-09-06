@@ -307,7 +307,7 @@ def main():
 
     # A number is only worth engraving if it is the ASSEMBLY order. On a bell that is also
     # size order -- the thing telescopes, so it can only get bigger. A mouthpiece does not:
-    # its bore narrows 25 -> 5 and then opens 3.66 -> 10.06, so the backbore and the cup
+    # its bore narrows from the bore to 5 and then opens 3.66 -> 10.06, so the two runs
     # pass through the same diameters and sorting by size shuffles one into the other. Both
     # generators write their rings in assembly order, so when the sizes are not monotonic
     # the file's own order is the truth and sorting would destroy it.

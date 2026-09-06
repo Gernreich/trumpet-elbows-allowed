@@ -536,7 +536,7 @@ class SnakeBoxVar(Boxes):
 
         # At a port ONE plate must stop a cell short, leaving that cell's face
         # open. It is drawn full size and marked instead of being drawn short:
-        # Boxes spaces finger joints to fit each edge, so a plate drawn 31 mm
+        # Boxes spaces finger joints to fit each edge, so a plate drawn one block
         # shorter gets its own spacing and no longer meshes with the wall it
         # has to mate with. The marker is a magenta rectangle over the cell to
         # remove; bore_split subtracts it, which leaves every surviving edge

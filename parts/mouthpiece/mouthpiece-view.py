@@ -110,15 +110,14 @@ if aps:
         rings.append((ar[0] if ar else 2 * ah,
                       orr[0] if orr else 2 * oh,
                       bool(ar)))
-else:                                 # a file from before the split
-    tmp = []
-    for cx, cy, half, r in circles(src):
-        if len(r) == 2:
-            tmp.append((cx, r[1], r[0], True))
-        elif len(r) == 1:
-            tmp.append((cx, r[0], 31.0, False))
-    tmp.sort()
-    rings = [(a, o, rnd) for _, a, o, rnd in tmp]
+else:
+    # A file from before the apertures moved into their own orange group. There is
+    # no such sheet here any more. The branch that read one used to guess a fixed
+    # outer for the square station -- a literal from a bore this no longer cuts --
+    # which drew a plausible mouthpiece with the wrong plate on it. Refusing beats
+    # drawing something that cannot be checked.
+    sys.exit(f"  {SRC}: no orange aperture group. That is a sheet from before the\n"
+             f"  apertures were split out; regenerate it with mouthpiece-round.py.")
 assert rings, f"no rings in {SRC}"
 
 def ring_pts(a, o, round_, z):

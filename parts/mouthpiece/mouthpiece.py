@@ -11,7 +11,7 @@ Station one is square, at PLATE mm, matching the elbow's closing face so the mou
 meets the bore flat. The rest are round.
 
 WALL is the ring width. Against a given aperture step it fixes the seat: a ring rests on
-the one below over an annulus of (WALL - step/2) per side, so the 4mm cup step gives 1.00mm
+the one below over an annulus of (WALL - step/2) per side, so the 1mm cup step gives 2.50mm
 and the 0.4mm backbore step gives 2.80mm. Nothing may drop through the ring beneath it,
 which this checks before writing.
 """
@@ -24,7 +24,14 @@ THROAT = 3.66       # a #27 drill, the standard trumpet mouthpiece throat
 GAP    = 2.0        # spacing between parts on the sheet
 MARGIN = 3.0
 
-cup      = [25.0, 21.0, 17.0, 13.0, 9.0, 5.0]          # 4mm steps down to the throat
+NECK   = 5.0        # the waist the cup runs down to before the backbore opens again
+NCUP   = 6          # stations in the cup, station one included
+
+# Derived from BORE rather than typed, so the cup starts where the bore ends. Typing it
+# is how station one came to be wider than its own plate: the aperture stayed at a bore
+# this no longer cuts while PLATE followed the new one, and the seat check -- correctly --
+# refused to write, with "station 2 falls through station 1".
+cup      = [round(BORE - (BORE - NECK) * i / (NCUP - 1), 3) for i in range(NCUP)]
 backbore = [round(THROAT + 0.40 * i, 3) for i in range(17)]   # 17 rings, 0.40mm steps
 profile  = cup + backbore                               # apertures, in assembly order
 

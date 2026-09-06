@@ -16,7 +16,7 @@ import sys
 import os
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from bore_split import DIRS, walk, touching                    # noqa: E402
+from bore_split import BLOCK, DIRS, walk, touching              # noqa: E402
 
 NAME = {v: k for k, v in DIRS.items()}
 
@@ -99,11 +99,13 @@ def main(order, split=False, scale=1):
     text = to_walk(pts, scale)
     rec = walk(text)
     n = ((1 << order) - 1) * scale + 1
-    vol = (n * 31) ** 3 / 1e6
+    # BLOCK, not a second copy of the pitch: this printed millimetres at a pitch
+    # bore_split had stopped cutting at, and nothing compared the two.
+    vol = (n * BLOCK) ** 3 / 1e6
     print(text)
     print(f'\n  order {order} at scale {scale}: {len(rec)} blocks, '
-          f'{len(rec)*31} mm of centreline in a {n*31} mm cube')
-    print(f'  {len(rec)*31/vol:.0f} mm of bore per litre, '
+          f'{len(rec)*BLOCK:g} mm of centreline in a {n*BLOCK:g} mm cube')
+    print(f'  {len(rec)*BLOCK/vol:.0f} mm of bore per litre, '
           f'{len(touching(rec))} pairs of blocks touching')
     if split:
         import bore_split

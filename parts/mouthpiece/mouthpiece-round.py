@@ -21,24 +21,27 @@ the flats that is half the aperture step: the old 4mm steps left 3 - 2 = 1.00mm.
 the corners of a SHARP square the same step costs step x root2 = 2.83mm, leaving 0.17mm --
 and rounding a corner pulls the diagonal in further, which takes it negative. So a square
 mouthpiece cannot be built on a 4mm taper at all. At 2.5mm the corner seat is 1.23mm with
-room to round. The run is the same 25 -> 5mm cone either way, sampled finer: three more
-rings, 9mm more mouthpiece, and no change to the profile the air sees.
+room to round. Those two figures are the STEP's, not the bore's, so they hold whatever
+`--bore` says. The run is the same cone either way, sampled finer -- at the 10mm bore one
+more ring and 3mm more mouthpiece, and no change to the profile the air sees.
 
 ROUNDNESS IS NOT SCHEDULED, IT IS AS FAST AS THE SEAT ALLOWS. Each station takes the
 largest corner radius that still leaves MINSEAT in both directions, in closed form. The
 part therefore rounds as quickly as its own geometry permits and no quicker -- on the
-default profile it reaches a true circle at the 7.5mm station, 24mm up from the bore, and
-the throat and the whole cup are round.
+default profile it reaches a true circle at station 3 (ø9.026), 6mm up from the bore, and
+the throat and the whole cup are round. A run prints that station rather than assuming it.
 
-THE TWO LAYOUTS. Both are 30 rings and 90mm; they differ in where the length goes.
+THE TWO LAYOUTS differ in where the length goes, and at the 10mm bore in how much of it
+there is -- the backbore is what scales with the bore.
 
-    --layout=trumpet   75mm backbore, 12mm cup                   (default)
-    --layout=legacy    27mm backbore, 51mm entrance, 12mm cup
+    --layout=trumpet   75mm backbore, 12mm cup            30 rings, 90mm   (default)
+    --layout=legacy    9mm backbore, 51mm entrance,
+                       12mm cup                           24 rings, 72mm
 
 A real mouthpiece spends its length on the backbore and keeps the cup short: the throat
 opens into the cup almost at once, and the long gradual run is on the other side of it.
 `legacy` has that close to inverted -- a short steep backbore and 51mm of near-cylindrical
-entrance on the LIP side of the throat, which is a 48mm-deep cup by any honest reading. It
+entrance on the LIP side of the throat, which is a 51mm-deep cup by any honest reading. It
 exists because a mouthpiece was built to that profile before the trumpet layout did, and
 its sheet is kept as a record of that part. It was the default until 2026-09-03 and called
 `asbuilt`, which said when it was made rather than whether to cut it. Do not cut it new.
@@ -62,8 +65,8 @@ its rim ring 0.33mm. A cone would meet the rim at an angle and feel like a funne
 
 The three runs are named for the anatomy, which `mouthpiece.py` gets backwards:
 
-    BACKBORE   25 -> 5mm, the end that closes onto the bore, square becoming round
-    ENTRANCE   the 3.66mm throat, then 0.40mm a ring out to 10.06 -- 48mm of it, which is
+    BACKBORE   the bore down to 5mm, the end that closes onto it, square becoming round
+    ENTRANCE   the 3.66mm throat, then 0.40mm a ring out to 10.06 -- 51mm of it, which is
                long for a mouthpiece and is where to look first if it plays stuffy
     BOWL       10.06 -> 16.5mm over 12mm, the cup proper, ending at the rim
 
@@ -164,10 +167,10 @@ if LAYOUT == "trumpet":
     entrance = []
     bowl     = ellipse_bowl(THROAT)
 else:
-    # As built: a 27mm backbore and a 48mm entrance, which is close to inverted. Kept
+    # As built: a short backbore and a 51mm entrance, which is close to inverted. Kept
     # because a mouthpiece exists to this profile and its rings are numbered for it.
     steps    = int(round((BORE - NECK)/TAPER))
-    backbore = [BORE - TAPER*i for i in range(steps + 1)]      # 25 .. 5, the bore end
+    backbore = [BORE - TAPER*i for i in range(steps + 1)]      # the bore down to NECK
     entrance = [round(THROAT + 0.40*i, 3) for i in range(17)]  # the throat, then .. 10.06
     bowl     = ellipse_bowl(entrance[-1])
 

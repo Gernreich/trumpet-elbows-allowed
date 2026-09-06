@@ -95,9 +95,10 @@ that a joint has any clearance at all. **A passing gate means no check failed, n
 part is buildable.**
 
 **`--play` overrides the table, and it is for measuring, not for cutting.** `PLAY_BY_BORE`
-is a lookup of what has actually been cut — 0 at the 25mm bore, 0.025 at the 10mm — and a
-bore that is not in it gets 0.025, the safe direction. The comment above the table sets out
-the coupon that would settle whether the clearance really falls as the joint grows;
+is a lookup of what has actually been cut — one row, 0.025 per side at the 10mm bore — and
+a bore that is not in it gets 0.025 too, the safe direction, saying on stderr that it is
+guessing. The comment above the table sets out the coupon that would settle whether the
+requirement is absolute or a fraction of the tab;
 `--play` is what cuts it, at values nobody has measured, without editing the table to say
 they have. Whatever fits, add the row and stop passing the flag.
 

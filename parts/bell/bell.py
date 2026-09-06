@@ -84,8 +84,8 @@ b  = RT*(L+U0)**GAMMA
 rad = lambda z: b*((L-z)+U0)**(-GAMMA)
 
 # A non-default profile gets its length into the filename. Without that a 100mm bell that
-# happened to land on 17 rings would quietly overwrite bell-square25-204mm-17rings-x4-rim129-cut-files.svg, which is
-# hand-nested and hand-labelled and not reproducible from this script.
+# happened to land on 17 rings would quietly overwrite the default-length sheet of the
+# same ring count, which may be hand-nested and not reproducible from this script.
 # The name is built in the loop below: it carries the rim and the height as built,
 # and neither is known until the ring count is chosen.
 

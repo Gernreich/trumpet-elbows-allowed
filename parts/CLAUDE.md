@@ -304,8 +304,8 @@ that group rather than adding a second one, and it refuses to write if any cut p
 changed.
 
 **Number in ASSEMBLY order, not size order.** On a bell the two agree, because it
-telescopes. On the mouthpiece they do not: the airway narrows 25 -> 5 then opens 3.66 ->
-10.06, so the two runs share diameters and sorting by size interleaves them. The tool now
+telescopes. On the mouthpiece they do not: the airway narrows from the bore to 5 then
+opens 3.66 -> 10.06, so the two runs share diameters and sorting by size interleaves them. The tool now
 refuses to guess when the sizes are not monotonic in the file — pass `--order=document`,
 which is assembly order for anything these generators write. `b` and `d` are lower case
 in the seven-segment table this replaced, because there upper-case B was 8 and D was 0. The polyline glyphs share no shape, so hex is upper case throughout.
@@ -363,14 +363,14 @@ the other, or a part half-built by one route cannot be finished by the other.
 
 ## Known wrong, deliberately not fixed
 
-**`mouthpiece.py` names `cup` and `backbore` backwards.** Its `cup = [25.0 … 5.0]` is the
-end that meets the bore, which is anatomically the backbore. Every number is correct and
-the README describes the profile correctly; only the variable names and the `<desc>` string
-the script emits are reversed. Fixing it means regenerating a part that has been cut.
+**`mouthpiece.py` names `cup` and `backbore` backwards.** Its `cup` — the run from the
+bore down to the neck — is the end that meets the bore, which is anatomically the backbore.
+Every number is correct; only the variable names and the `<desc>` string the script emits
+are reversed. Fixing it means regenerating a part that has been cut.
 
 ## A smaller bell is a shorter profile, not a scaled one
 
-The throat is ø31 because the bore is, and a ring rises 3mm because the ply does. Neither is
+The throat is the bore's own channel, and a ring rises 3mm because the ply does. Neither is
 ours to scale. `--length`, `--rim` and `--gamma` on both generators move the profile instead;
 `--rim` is the bore's diameter **at** the rim, before the wall, so it reads a wall smaller
 than the "Rim diameter" the README tabulates.

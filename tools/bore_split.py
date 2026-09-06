@@ -79,10 +79,10 @@ TITLE = None        # --title: the page's title, when the folder makes a poor on
 # Built from the constants above rather than typed out, because BLOCK is the
 # pitch the plan is laid out on and --blocksize is the pitch SnakeBox cuts to.
 # Set one without the other and the sheet and the plan quietly disagree.
-# SnakeBox's own --pin_width default is 12mm, chosen when 31 was the only
-# block there was. It is a fraction of the opening it has to sit in, not a
-# length, so it has to shrink with the block: at 16mm the end frame is 10mm
-# across and a 12mm tab does not fit in it at all, so the floor takes over.
+# SnakeBox's own --pin_width default is 12mm, a fixed length chosen for a much
+# larger box. It is really a fraction of the opening it has to sit in, so it has
+# to shrink with the block: at the 16mm block the end frame is 10mm across and a
+# 12mm tab does not fit in it at all, so the floor takes over.
 PIN_FRAC = 0.48
 MIN_SHOULDER = 2.0   # what the automatic sizing aims to leave beside the tab
 MIN_FEATURE = 1.5    # and what check.py will actually refuse below

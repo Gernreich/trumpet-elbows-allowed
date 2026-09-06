@@ -21,7 +21,11 @@ import sys
 import pathlib
 
 NUM = re.compile(r"-?\d*\.?\d+(?:[eE][-+]?\d+)?")
-RING_MIN = 20.0                     # smallest ring is ø31; every digit is under 3mm
+RING_MIN = 5.0                      # separates rings from engraved digits: the smallest
+                                    # ring aperture is the bore and every digit is under
+                                    # 3mm, so anything in between will do. It was 20 while
+                                    # the bore was larger, which at a 10mm bore threw away
+                                    # every ring and reported a sheet with no rings in it.
 LAP = 3.0                           # each ring overhangs the next aperture by this;
                                     # overridden by whatever the sheet states in its <desc>
 
