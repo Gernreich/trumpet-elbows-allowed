@@ -1,0 +1,29 @@
+Promoted out of search/ on 2026-09-05 as a category winner.
+
+WINS
+  tightest spiral (least rise per turn)
+    34mm   outright
+
+WALK
+  N N1 D3 E2 U3 N1 U3 W2 D3 N1 D3 E2 U3 N1 U3 W2 D3 N1 D3 E2 U3 N1 U3 W2 D3 N1 D3 E2 U3 N1 U3 W2 D3 N1 D3 E2 U3 N1 U3 W2 D3 N1 D3 E2 U3 N1 U3 W2 D3 N1 D3 E2 U3 N1 U3 W2 D3 N1 D3 E2 U3 N1 U3 W2 D3 N1 D3 E2 U3 N1 U3 W2 D3 N1 D3 E2 U3 N1 U3 W2 D3 D
+
+MEASURED  (spiral_metrics.js, recomputed from the walk above)
+  blocks          181
+  mm              2896
+  vol             462
+  cross           [3,7]
+  crossMM         [48,112]
+  axisLen         22
+  turns90         79
+  turnsPerMetre   27.28
+  touching        18
+  blocksPer360    18.1
+  riseMMPer360    33.6
+  degPerBlock     19.89
+
+Millimetres are at the 16mm block -- a 10mm bore in 3mm stock -- the default
+since 2026-09-05.
+
+Categories are the ones scored in ../search/SCORING.md, judged over the full
+seventeen the search produced. Ten of those remain in search/; a coil named
+above as tied is one of them.

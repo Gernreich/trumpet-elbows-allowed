@@ -1,0 +1,29 @@
+Promoted out of search/ on 2026-09-05 as a category winner.
+
+WINS
+  fewest distinct shapes
+    2 shapes   outright
+
+WALK
+  N N3 D1 N3 E1 N3 U1 N3 W1 N3 D1 N3 E1 N3 U1 N3 W1 N3 D1 N3 E1 N3 U1 N3 W1 N3 D1 N3 E1 N3 U1 N3 W1 N3 D1 N3 E1 N3 U1 N3 W1 N3 D1 N3 E1 N3 U1 N3 W1 N3 D1 N3 E1 N3 U1 N3 W1 N3 D1 N3 E1 N3 U1 N3 W1 N3 D1 N3 E1 N3 U1 N3 W1 N3 D1 N3 E1 N3 U1 N3 W1 N3 D1 N3 E1 N3 U1 N3 W1 W
+
+MEASURED  (spiral_metrics.js, recomputed from the walk above)
+  blocks          177
+  mm              2832
+  vol             536
+  cross           [2,2]
+  crossMM         [32,32]
+  axisLen         134
+  turns90         87
+  turnsPerMetre   30.72
+  touching        0
+  blocksPer360    16.47
+  riseMMPer360    197.95
+  degPerBlock     21.86
+
+Millimetres are at the 16mm block -- a 10mm bore in 3mm stock -- the default
+since 2026-09-05.
+
+Categories are the ones scored in ../search/SCORING.md, judged over the full
+seventeen the search produced. Ten of those remain in search/; a coil named
+above as tied is one of them.

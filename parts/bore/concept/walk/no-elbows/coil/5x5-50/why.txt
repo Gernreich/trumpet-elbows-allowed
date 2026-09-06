@@ -1,0 +1,29 @@
+Promoted out of search/ on 2026-09-05 as a category winner.
+
+WINS
+  least tube per turn
+    15.1 blocks   outright
+
+WALK
+  N N3 D3 E2 U3 N3 W3 D2 E3 N3 U3 W2 D3 N3 E3 U2 W3 N3 D3 E2 U3 N3 W3 D2 E3 N3 U3 W2 D3 N3 E3 U2 W3 N3 D3 E2 U3 N3 W3 D2 E3 N3 U3 W2 D3 N3 E3 U2 W3 N3 D3 E2 U3 N3 W3 D2 E3 N3 U3 W2 D3 N3 E3 U2 W3 W
+
+MEASURED  (spiral_metrics.js, recomputed from the walk above)
+  blocks          177
+  mm              2832
+  vol             1250
+  cross           [5,5]
+  crossMM         [80,80]
+  axisLen         50
+  turns90         63
+  turnsPerMetre   22.25
+  touching        0
+  blocksPer360    15.06
+  riseMMPer360    66.72
+  degPerBlock     23.9
+
+Millimetres are at the 16mm block -- a 10mm bore in 3mm stock -- the default
+since 2026-09-05.
+
+Categories are the ones scored in ../search/SCORING.md, judged over the full
+seventeen the search produced. Ten of those remain in search/; a coil named
+above as tied is one of them.

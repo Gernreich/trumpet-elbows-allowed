@@ -1,0 +1,31 @@
+Promoted out of search/ on 2026-09-05 as a category winner.
+
+WINS
+  fewest pieces
+    30 pieces   tied with coil_3x3_54_2, coil_3x9_18, coil_4x8_18, coil_4x9_18, coil_5x7_18, 5x8-18
+  smallest box with no shared wall
+    486   tied with coil_3x3_54_2
+
+WALK
+  N N3 D2 N3 E2 N4 U2 S4 W2 N3 D2 N3 E2 N4 U2 S4 W2 N3 D2 N3 E2 N4 U2 S4 W2 N3 D2 N3 E2 N4 U2 S4 W2 N3 D2 N3 E2 N4 U2 S4 W2 N3 D2 N3 E2 N4 U2 S4 W2 N3 D2 N3 E2 N4 U2 S4 W2 N3 D2 N3 E2 N4 U2 S4 W2 W
+
+MEASURED  (spiral_metrics.js, recomputed from the walk above)
+  blocks          177
+  mm              2832
+  vol             486
+  cross           [3,3]
+  crossMM         [48,48]
+  axisLen         54
+  turns90         63
+  turnsPerMetre   22.25
+  touching        0
+  blocksPer360    22.84
+  riseMMPer360    101.16
+  degPerBlock     15.76
+
+Millimetres are at the 16mm block -- a 10mm bore in 3mm stock -- the default
+since 2026-09-05.
+
+Categories are the ones scored in ../search/SCORING.md, judged over the full
+seventeen the search produced. Ten of those remain in search/; a coil named
+above as tied is one of them.

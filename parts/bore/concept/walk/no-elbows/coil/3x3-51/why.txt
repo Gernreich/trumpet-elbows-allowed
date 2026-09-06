@@ -1,0 +1,29 @@
+Promoted out of search/ on 2026-09-05 as a category winner.
+
+WINS
+  smallest box
+    459   outright
+
+WALK
+  N N3 D2 N3 E2 N3 U2 S4 W2 N3 D2 N3 E2 N3 U2 S4 W2 N3 D2 N3 E2 N3 U2 S4 W2 N3 D2 N3 E2 N3 U2 S4 W2 N3 D2 N3 E2 N3 U2 S4 W2 N3 D2 N3 E2 N3 U2 S4 W2 N3 D2 N3 E2 N3 U2 S4 W2 N3 D2 N3 E2 N3 U2 S4 W2 N3 D2 N3 E2 N3 U2 S4 W2 W
+
+MEASURED  (spiral_metrics.js, recomputed from the walk above)
+  blocks          190
+  mm              3040
+  vol             459
+  cross           [3,3]
+  crossMM         [48,48]
+  axisLen         51
+  turns90         71
+  turnsPerMetre   23.36
+  touching        8
+  blocksPer360    21.71
+  riseMMPer360    84.11
+  degPerBlock     16.58
+
+Millimetres are at the 16mm block -- a 10mm bore in 3mm stock -- the default
+since 2026-09-05.
+
+Categories are the ones scored in ../search/SCORING.md, judged over the full
+seventeen the search produced. Ten of those remain in search/; a coil named
+above as tied is one of them.

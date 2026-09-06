@@ -1,0 +1,29 @@
+Promoted out of search/ on 2026-09-05 as a category winner.
+
+WINS
+  calmest bore (fewest turns per metre)
+    20.40 turns/m   tied with coil_4x9_18, 5x8-18
+
+WALK
+  N N3 D3 E3 U3 N3 W3 D3 E3 N3 U3 W3 D3 N3 E3 U3 W3 N3 D3 E3 U3 N3 W3 D3 E3 N3 U3 W3 D3 N3 E3 U3 W3 N3 D3 E3 U3 N3 W3 D3 E3 N3 U3 W3 D3 N3 E3 U3 W3 N3 D3 E3 U3 N3 W3 D3 E3 N3 U3 W3 D3 N3 E3 U3 W3 W
+
+MEASURED  (spiral_metrics.js, recomputed from the walk above)
+  blocks          193
+  mm              3088
+  vol             800
+  cross           [4,4]
+  crossMM         [64,64]
+  axisLen         50
+  turns90         63
+  turnsPerMetre   20.4
+  touching        0
+  blocksPer360    16.43
+  riseMMPer360    66.72
+  degPerBlock     21.92
+
+Millimetres are at the 16mm block -- a 10mm bore in 3mm stock -- the default
+since 2026-09-05.
+
+Categories are the ones scored in ../search/SCORING.md, judged over the full
+seventeen the search produced. Ten of those remain in search/; a coil named
+above as tied is one of them.
