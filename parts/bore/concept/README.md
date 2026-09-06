@@ -20,7 +20,7 @@ and the playing are shown.
 files and its page. GitHub builds it from `main` on every push, so it is never out of date.
 
 **The bore being built is the coiled trumpet:**
-[`N N3 U6 W5 N10 E5 D3 S8 W3 D3 N12 N`](pages/coiled_trumpet.html) — 59 blocks, 944mm,
+`N N3 U6 W5 N10 E5 D3 S8 W3 D3 N12 N` — 59 blocks, 944mm,
 8 sections, **no elbows anywhere**. Its cut files and writeup are in
 [trumpet-coiled](https://github.com/Gernreich/trumpet/tree/main/parts/bore/concept/walk/no-elbows/coiled). Everything below is how
 that design was arrived at, starting from a first trumpet that used elbows and worked out
@@ -51,7 +51,7 @@ python3 check.py "$W" --files walk/elbows/first_trumpet        # cut nothing unt
 
 The design this all started from, and **not** the one being built — it turns with elbows,
 which is what the rest of this page goes on to price. Compare it against the
-[coiled trumpet](pages/coiled_trumpet.html), which does the same job with none.
+[coiled trumpet](walk/no-elbows/coiled), which does the same job with none.
 
 [`N N10 U2 W2 S7 U2 E4 N9 W2 D2 N4 N`](walk/elbows/first_trumpet/first_trumpet.html) — 45 blocks,
 720mm of centreline. **Every walk on this page is a link**: follow one and the bore
@@ -124,9 +124,9 @@ they are packed:
 
 | walk | axes | cost |
 | --- | --- | --- |
-| [`N N3 U1 N3 U1 N3 N`](pages/fold_u1.html) | y and z only | 1 section, 0 elbows |
-| [`N N3 U2 N3 U2 N3 N`](pages/fold_u2.html) | y and z only | 1 section, 0 elbows |
-| [`N N3 U3 N3 U3 N3 N`](pages/fold_u3.html) | y and z only | 1 section, 0 elbows |
+| `N N3 U1 N3 U1 N3 N` | y and z only | 1 section, 0 elbows |
+| `N N3 U2 N3 U2 N3 N` | y and z only | 1 section, 0 elbows |
+| `N N3 U3 N3 U3 N3 N` | y and z only | 1 section, 0 elbows |
 
 **Coiling costs three blocks a turn.** Two turns in a row that reach a third
 axis - north to up, then up to east - leave the plane, so the piece breaks
@@ -134,9 +134,9 @@ between them and each turn needs a straight block of its own:
 
 | walk | axes | cost |
 | --- | --- | --- |
-| [`N N3 U1 E3 U1 S3 S`](pages/coil_u1.html) | all three axes | 7 sections, 4 elbows |
-| [`N N3 U2 E3 U2 S3 S`](pages/coil_u2.html) | all three axes | 5 sections, 2 elbows |
-| [`N N3 U3 E3 U3 S3 S`](pages/coil_u3.html) | all three axes | 3 sections, 0 elbows |
+| `N N3 U1 E3 U1 S3 S` | all three axes | 7 sections, 4 elbows |
+| `N N3 U2 E3 U2 S3 S` | all three axes | 5 sections, 2 elbows |
+| `N N3 U3 E3 U3 S3 S` | all three axes | 3 sections, 0 elbows |
 
 Three blocks apart is the threshold: two straights between the turns, one for
 each. With one straight they fight over it and one turn is stranded on its own
@@ -147,10 +147,10 @@ place of an elbow is both fewer files and fewer parts:
 
 | walk | pieces | elbows | blocks | parts |
 | --- | --- | ---: | ---: | ---: |
-| [`N N4 U1 E4 E`](pages/two_ls_u1.html) | straight, elbow, elbow, straight | 2 | 10 | 16 |
-| [`N N4 U2 E4 E`](pages/two_ls_u2.html) | straight, elbow, L | 1 | 11 | 14 |
-| [`N N4 U3 E4 E`](pages/two_ls_u3.html) | L, L | 0 | 12 | 12 |
-| [`N N4 U4 E4 E`](pages/two_ls_u4.html) | L, L | 0 | 13 | 12 |
+| `N N4 U1 E4 E` | straight, elbow, elbow, straight | 2 | 10 | 16 |
+| `N N4 U2 E4 E` | straight, elbow, L | 1 | 11 | 14 |
+| `N N4 U3 E4 E` | L, L | 0 | 12 | 12 |
+| `N N4 U4 E4 E` | L, L | 0 | 13 | 12 |
 
 ### Writing it
 
@@ -159,9 +159,9 @@ with **3 in the middle**:
 
 | fragment | axes |
 | --- | --- |
-| [`... E4 U3 S4 ...`](pages/mid_E4U3S4.html) | east, up, south |
-| [`... W4 N3 E6 ...`](pages/mid_W4N3E6.html) | west, north, east |
-| [`... S9 E3 U5 ...`](pages/mid_S9E3U5.html) | south, east, up |
+| `E E2 U3 S6` | east, up, south |
+| `W W2 N3 E8` | west, north, east |
+| `S S7 E3 U7` | south, east, up |
 
 Each link opens the fragment inside a complete walk, since a fragment on its own has
 no way in or out.
@@ -171,7 +171,7 @@ middle one has to be 3, because that is the leg the two pieces divide between
 them; the legs either side are already there and each supplies an arm for
 free. On its own, from a standing start, the same figure is six blocks:
 
-[`E E1 U3 S1 S`](pages/six_block_turn.html)
+`E E1 U3 S1 S`
 
     block  travels  turns        piece  role
       1      E                     1    arm
@@ -189,11 +189,11 @@ and what decides it is whether the three terms name three different axes.
 
 | fragment | why | cost |
 | --- | --- | --- |
-| [`... W9 N2 U9 ...`](pages/unlucky_W9N2U9.html) | x, z, y — all different | **1 elbow**, in every context |
-| [`... W9 N3 U9 ...`](pages/fixed_W9N3U9.html) | the middle widened to 3 | 0 elbows, two 11-block Ls |
-| [`... U5 W4 N2 E6 ...`](pages/slack_U5W4N2E6.html) | two turns only | 0 elbows, the search has slack |
+| `W W7 N2 U11` | x, z, y — all different | **1 elbow**, in every context |
+| `W W7 N3 U11` | the middle widened to 3 | 0 elbows, two 11-block Ls |
+| `U U3 W4 N2 E8` | two turns only | 0 elbows, the search has slack |
 
-[`W9 N2 U9`](pages/unlucky_W9N2U9.html) is the unlucky shape: both turns leave the plane, so they need an arm
+`W9 N2 U9` is the unlucky shape: both turns leave the plane, so they need an arm
 each, and the two-block leg has one straight block to give. One turn takes it,
 the other is left bare. The nine-block legs either side do not help - the
 problem is between the turns, not outside them - and no context rescued it:
@@ -210,17 +210,17 @@ windows it forms with its neighbours:
 
 | walk | what it is | cost |
 | --- | --- | --- |
-| [`W W1 N2 E1 E`](pages/fragment_alone.html) | the fragment on its own | one 5-block bend, no elbows |
-| [`U U4 W1 N2 E1 U4 U`](pages/fragment_in_walk.html) | the same fragment in a walk | 7 sections, **4 elbows** |
-| [`U U4 W3 N2 E3 U4 U`](pages/fragment_widened.html) | the two ones widened | 3 sections, no elbows |
+| `W W1 N2 E1 E` | the fragment on its own | one 5-block bend, no elbows |
+| `U U4 W1 N2 E1 U4 U` | the same fragment in a walk | 7 sections, **4 elbows** |
+| `U U4 W3 N2 E3 U4 U` | the two ones widened | 3 sections, no elbows |
 
 The middle one costs four elbows because of the windows it forms, not the fragment:
 
 | window | axes | middle | cost |
 | --- | --- | ---: | --- |
-| [`U4 W1 N2`](pages/window_U4W1N2.html) | three axes | 1 | an elbow |
-| [`W1 N2 E1`](pages/fragment_alone.html) | a fold | 2 | fine |
-| [`N2 E1 U4`](pages/window_N2E1U4.html) | three axes | 1 | an elbow |
+| `U4 W1 N2` | three axes | 1 | an elbow |
+| `W1 N2 E1` | a fold | 2 | fine |
+| `N2 E1 U4` | three axes | 1 | an elbow |
 
 W1 N2 E1 is a fold and free in itself - W and E are both the x axis. What costs
 is the W1 and the E1 each being the middle of their own window, where the terms
@@ -267,7 +267,7 @@ being built is one of those:
 | [hilbert snorkel](walk/elbows/hilbert_snorkel/hilbert_snorkel.html) | 24 | 26 | 20 | 4 | 260 |
 | [wide telescope](walk/no-elbows/wide_telescope/wide_telescope.html) | **0** | 0 | 0 | 0 | 72 |
 | [metre spring](walk/no-elbows/metre_spring/metre_spring.html) | **0** | 0 | 0 | 0 | 36 |
-| [**coiled trumpet**](pages/coiled_trumpet.html) — the one being built | **0** | 0 | 0 | 0 | 50 |
+| [**coiled trumpet**](walk/no-elbows/coiled) — the one being built | **0** | 0 | 0 | 0 | 50 |
 
 A **flat** is a plate whose coupling was dropped because it faced an elbow's
 missing side: no tab, no notch, nothing to locate against. Two smooth faces
@@ -284,8 +284,8 @@ square in mid-air is not a close trade.
 Two other ways a turn becomes an elbow:
 
 * **A turn in the last block of the bore.** There is nothing after it to make
-  it interior, so it is always its own piece. [`N N5 U`](pages/last_block_turn.html)
-  is 6 blocks in **2** pieces; [`N N5 U1 U`](pages/last_block_straight.html) is 7
+  it interior, so it is always its own piece. `N N5 U`
+  is 6 blocks in **2** pieces; `N N5 U1 U` is 7
   blocks in **1**. One block further along the bore costs a file fewer.
 * **A bed split** landing on a turn, if the piece would otherwise be too big.
 
@@ -347,7 +347,7 @@ looks right is evidence the bore works.**
 <img src="minecraft/coiled_in_minecraft.png" alt="The coiled trumpet bore built in Minecraft from coloured glass, floating in open sky: long blue runs heading north, an orange run south, green east, purple west, and short red and grey columns where the bore climbs and drops" width="520">
 </p>
 
-*The [coiled trumpet](pages/coiled_trumpet.html) as built, floating in open sky with
+*The [coiled trumpet](walk/no-elbows/coiled) as built, floating in open sky with
 nothing else in frame. Every block is coloured by the way you travelled to reach it —
 **N blue, S orange, E green, W purple, U red, D grey** — the same palette the viewer and
 the renders use, so a build and a drawing can be compared at a glance.*
