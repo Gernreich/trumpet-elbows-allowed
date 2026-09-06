@@ -608,15 +608,15 @@ path to `--write`.
 
 ## `walks/`
 
-Twenty-nine bores kept as one line of notation each, and the corpus `regress.py`
+Twenty-six bores kept as one line of notation each, and the corpus `regress.py`
 runs the gate over. They exist because every one of them broke something once:
 
 | Group | Files | What they hold onto |
 |---|---|---|
-| the hooks | `small_hook.txt`, `hook_check.txt`, `hook_return.txt`, `hook_riser.txt`, `double_hook.txt`, `double_hook_tight.txt`, `triple_hook.txt`, `triple_hook_up.txt`, `quad_hook.txt`, `quad_hook_deep.txt`, `quad_hook_full.txt`, `quad_hook_round.txt`, `five_loop.txt`, `five_loop_up.txt` | a spiral tightening one loop at a time, each variant a step where the split or the fit changed |
+| the hooks | `small_hook.txt`, `hook_return.txt`, `hook_riser.txt`, `double_hook.txt`, `double_hook_tight.txt`, `triple_hook.txt`, `triple_hook_up.txt`, `quad_hook.txt`, `quad_hook_deep.txt`, `quad_hook_full.txt`, `quad_hook_round.txt`, `five_loop.txt`, `five_loop_up.txt` | a spiral tightening one loop at a time, each variant a step where the split or the fit changed |
 | the telescopes | `telescope_spiral.txt`, `wide_telescope.txt`, `nested_spiral.txt` | coils that grow as they climb, the widest sheets the bed will take |
-| the Hilbert cubes | `hilbert_cube.txt`, `hilbert_open.txt`, `hilbert_snorkel.txt` | a space-filling curve at three scales — the densest walks here, and the ones that fold hardest |
-| the singles | `three_block_turn.txt`, `corner_to_corner.txt`, `metre_spring.txt` | the three-block minimum on its own, a walk that turns at every opportunity, and a metre of bore in a spring |
+| the Hilbert cubes | `hilbert_cube.txt`, `hilbert_open.txt` | a space-filling curve at two scales — the densest walks here, and the ones that fold hardest |
+| the singles | `corner_to_corner.txt`, `metre_spring.txt` | a walk that turns at every opportunity, and a metre of bore in a spring |
 | the built one | `trumpet_switchback.txt` | the walk in [trumpet-switchback](https://github.com/Gernreich/trumpet/tree/main/parts/bore/concept/walk/no-elbows/switchback), cut and assembled at both 25mm and 10mm — the only one here that exists in wood |
 
 Run them all:

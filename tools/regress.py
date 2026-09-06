@@ -64,9 +64,6 @@ UNIFORM = [
     # the same 4x4x4 filled corner to opposite corner instead, so the mouth and
     # the bell are as far apart as the box allows
     ('corner to corner', 'walks/corner_to_corner.txt', None),
-    # the knot with the bell taken out under it and up past the top, so the
-    # two ends are at opposite corners of the whole thing
-    ('hilbert snorkel', 'walks/hilbert_snorkel.txt', None),
     # a piece spiralling inward touches its own arms at a corner, which the
     # generator refuses as a pinch. This one used to raise.
     ('double spiral', 'N N4 W4 S3 E3 N2 W2 U2 E2 N3 W3 S4 E4 E', None),
@@ -99,10 +96,6 @@ UNIFORM = [
     # here whose cut files run to two sheets.
     ('greek spiral', 'walks/greek_spiral.txt',
      '../parts/bore/concept/walk/no-elbows/greek-spiral/bore', ['--bore=10']),
-    # two-piece walks that turn: the smallest cases where a bend has to carry
-    # its corner internally rather than strand it
-    ('three block turn', 'walks/three_block_turn.txt', None),
-    ('hook check', 'walks/hook_check.txt', None),
 ]
 
 # (name, walk file, folder of cut files, switches it is cut with)

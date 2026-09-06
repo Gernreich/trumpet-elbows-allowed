@@ -26,5 +26,6 @@ parts on its own piece and spends them on the two either side of it.
 
 The ends are 279mm apart, both on the same face of the cube - the Hilbert
 curve starts and ends on one edge at every order. To carry the bell away from
-the mouth, add a snorkel: see hilbert_snorkel in the walks folder for the shape
-of it.
+the mouth, add a snorkel -- a riser off one end that takes it out of the cube.
+That variant was carried here as `hilbert_snorkel` until 2026-09-05 and is in
+the history if it is wanted back.

@@ -264,7 +264,6 @@ being built is one of those:
 | [first trumpet](walk/elbows/first_trumpet/first_trumpet.html) | 3 | 6 | 0 | 3 | 44 |
 | [spiral trumpet](walk/elbows/spiral_trumpet/spiral_trumpet.html) | 3 | 5 | 1 | 2 | 68 |
 | [telescope spiral](walk/elbows/telescope_spiral/telescope_spiral.html) | 11 | 18 | 2 | 9 | 106 |
-| hilbert snorkel | 24 | 26 | 20 | 4 | 260 |
 | [wide telescope](walk/no-elbows/wide_telescope/wide_telescope.html) | **0** | 0 | 0 | 0 | 72 |
 | [metre spring](walk/no-elbows/metre_spring/metre_spring.html) | **0** | 0 | 0 | 0 | 36 |
 | [**coiled trumpet**](walk/no-elbows/coiled) — the one being built | **0** | 0 | 0 | 0 | 50 |

@@ -321,7 +321,7 @@ cd $S && ~/boxes/venv/bin/python regress.py      # every design in the library
 ```
 
 The gate reports **213 checks, 0 failed** on this bore, and `regress.py` covers
-29 designs. It does not look at the bell or the mouthpiece at all — those are checked by
+26 designs. It does not look at the bell or the mouthpiece at all — those are checked by
 `bell-round.py` and `mouthpiece-round.py` themselves, before they write, in
 `../../../../..`. Nothing here should be cut from a file that has not passed one or the
 other.
