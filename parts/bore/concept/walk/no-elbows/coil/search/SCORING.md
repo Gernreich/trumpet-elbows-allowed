@@ -97,30 +97,23 @@ cancel, and made the composite quieter about coiling than the columns themselves
 
 The first five are the power mean of order *p*, which increases with *p*, so for
 every spiral **harmonic ≤ geometric ≤ arithmetic ≤ quadratic ≤ cubic**. Verified here
-on all 17. What changes with *p* is not the size of the score but how much a single
+on all 10. What changes with *p* is not the size of the score but how much a single
 bad metric is allowed to sink it.
 
 ## The table
 
 | spiral | touch | harmonic | # | geometric | # | arithmetic | # | quadratic | # | cubic | # | median | # | midrange | # | contraharmonic | # |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| coil_3x3_54 | 0 | 0.8514 | 1 | 0.8665 | 1 | 0.8797 | 1 | 0.8911 | 1 | 0.9009 | 1 | 0.9260 | 2 | 0.7757 | 1 | 0.9026 | 3 |
-| coil_3x3_54_2 | 0 | 0.8514 | 2 | 0.8665 | 2 | 0.8797 | 2 | 0.8911 | 2 | 0.9009 | 2 | 0.9260 | 3 | 0.7757 | 2 | 0.9026 | 4 |
-| coil_3x3_59 | 0 | 0.1124 | 9 | 0.5652 | 3 | 0.7528 | 3 | 0.8032 | 3 | 0.8322 | 4 | 0.8625 | 4 | 0.5050 | 10 | 0.8571 | 8 |
-| coil_3x4_68 | 0 | 0.1058 | 11 | 0.4640 | 4 | 0.6701 | 4 | 0.7502 | 6 | 0.7962 | 6 | 0.7571 | 7 | 0.5050 | 11 | 0.8399 | 9 |
-| coil_3x4_79 | 0 | 0.1060 | 10 | 0.4476 | 5 | 0.6395 | 7 | 0.7235 | 7 | 0.7770 | 8 | 0.6700 | 8 | 0.5050 | 12 | 0.8187 | 10 |
-| coil_3x3_51 | 7 | 0.2575 | 3 | 0.3840 | 6 | 0.5322 | 9 | 0.6319 | 12 | 0.6914 | 13 | 0.6645 | 12 | 0.5625 | 3 | 0.7503 | 15 |
-| coil_4x4_50 | 0 | 0.0584 | 15 | 0.3439 | 7 | 0.6514 | 5 | 0.7622 | 5 | 0.8166 | 5 | 0.8058 | 5 | 0.5050 | 14 | 0.8920 | 5 |
-| coil_3x9_18 | 13 | 0.1602 | 4 | 0.3055 | 8 | 0.5137 | 12 | 0.6412 | 11 | 0.7103 | 11 | 0.6678 | 11 | 0.5357 | 4 | 0.8002 | 11 |
-| coil_4x9_18 | 13 | 0.1509 | 7 | 0.2920 | 9 | 0.5293 | 10 | 0.6793 | 10 | 0.7563 | 10 | 0.6700 | 9 | 0.5357 | 6 | 0.8717 | 7 |
-| coil_4x8_18 | 13 | 0.1566 | 5 | 0.2907 | 10 | 0.4918 | 13 | 0.6208 | 13 | 0.6915 | 12 | 0.6509 | 13 | 0.5357 | 5 | 0.7838 | 12 |
-| coil_5x7_18 | 13 | 0.1518 | 6 | 0.2778 | 11 | 0.4780 | 14 | 0.6107 | 14 | 0.6837 | 14 | 0.5885 | 14 | 0.5357 | 7 | 0.7802 | 13 |
-| coil_3x8_20 | 15 | 0.1415 | 8 | 0.2770 | 12 | 0.4749 | 15 | 0.5990 | 15 | 0.6711 | 15 | 0.4943 | 15 | 0.5313 | 8 | 0.7556 | 14 |
-| coil_2x2_134 | 0 | 0.0410 | 16 | 0.2726 | 13 | 0.6423 | 6 | 0.7766 | 4 | 0.8381 | 3 | 1.0000 | 1 | 0.5050 | 9 | 0.9391 | 1 |
-| coil_5x8_18 | 13 | 0.0731 | 12 | 0.2409 | 14 | 0.5212 | 11 | 0.6804 | 9 | 0.7599 | 9 | 0.6700 | 10 | 0.5050 | 17 | 0.8884 | 6 |
-| coil_4x7_20 | 15 | 0.0677 | 13 | 0.1862 | 15 | 0.3772 | 16 | 0.5070 | 16 | 0.5851 | 16 | 0.3400 | 16 | 0.5050 | 15 | 0.6814 | 17 |
-| coil_3x7_22 | 17 | 0.0636 | 14 | 0.1660 | 16 | 0.3481 | 17 | 0.4882 | 17 | 0.5800 | 17 | 0.2414 | 17 | 0.5050 | 13 | 0.6848 | 16 |
-| coil_5x5_50 | 0 | 0.0255 | 17 | 0.1542 | 17 | 0.5460 | 8 | 0.7071 | 8 | 0.7792 | 7 | 0.8058 | 6 | 0.5050 | 16 | 0.9158 | 2 |
+| coil_3x3_54_2 | 0 | 0.1007 | 1 | 0.5310 | 1 | 0.7978 | 1 | 0.8661 | 1 | 0.8945 | 1 | 1.0000 | 1 | 0.5050 | 1 | 0.9402 | 1 |
+| coil_3x3_59 | 0 | 0.0582 | 6 | 0.3478 | 2 | 0.6548 | 2 | 0.7623 | 2 | 0.8163 | 2 | 0.8632 | 2 | 0.5050 | 2 | 0.8874 | 5 |
+| coil_3x9_18 | 13 | 0.0722 | 2 | 0.2183 | 3 | 0.4559 | 6 | 0.6065 | 6 | 0.6887 | 6 | 0.3400 | 5 | 0.5050 | 6 | 0.8068 | 6 |
+| coil_4x8_18 | 13 | 0.0707 | 3 | 0.2005 | 4 | 0.4211 | 7 | 0.5712 | 7 | 0.6545 | 7 | 0.1567 | 7 | 0.5050 | 8 | 0.7749 | 7 |
+| coil_3x8_20 | 15 | 0.0680 | 4 | 0.1940 | 5 | 0.4080 | 8 | 0.5562 | 8 | 0.6469 | 8 | 0.4246 | 4 | 0.5050 | 5 | 0.7582 | 9 |
+| coil_5x7_18 | 13 | 0.0652 | 5 | 0.1789 | 6 | 0.3994 | 9 | 0.5550 | 9 | 0.6419 | 9 | 0.0714 | 9 | 0.5050 | 10 | 0.7712 | 8 |
+| coil_4x9_18 | 13 | 0.0470 | 7 | 0.1739 | 7 | 0.4687 | 5 | 0.6527 | 5 | 0.7447 | 5 | 0.0714 | 8 | 0.5050 | 9 | 0.9090 | 4 |
+| coil_3x4_68 | 0 | 0.0306 | 9 | 0.1681 | 8 | 0.5278 | 3 | 0.6961 | 3 | 0.7744 | 3 | 0.6903 | 3 | 0.5050 | 3 | 0.9181 | 3 |
+| coil_3x4_79 | 0 | 0.0251 | 10 | 0.1280 | 9 | 0.4826 | 4 | 0.6707 | 4 | 0.7603 | 4 | 0.1729 | 6 | 0.5050 | 4 | 0.9322 | 2 |
+| coil_4x7_20 | 15 | 0.0445 | 8 | 0.1272 | 10 | 0.2983 | 10 | 0.4385 | 10 | 0.5320 | 10 | 0.0625 | 10 | 0.5050 | 7 | 0.6447 | 10 |
 
 **The median does not survive the weighting.** It is an order statistic, and weight is
 applied by repetition, so touching occupies 5 of the 13 values and can simply *be*
@@ -129,30 +122,30 @@ the power means do not have this problem.
 
 ## Choosing a mean is choosing how much a weak spot counts
 
-That choice is worth more than any metric in it. coil_2x2_134 ranks **1** under one mean
-and **16** under another — a swing of 15 places in a field of 17. coil_5x5_50 swings 15.
+That choice is worth more than any metric in it. coil_3x4_79 ranks **2** under one mean
+and **10** under another — a swing of 8 places in a field of 10. coil_3x4_68 swings 6.
 
 | spiral | worst single input | harmonic | contraharmonic |
 | --- | --- | ---: | ---: |
-| `coil_2x2_134` | rise/360 = 0.010 | #16 | #1 |
-| `coil_5x5_50` | box/block = 0.010 | #17 | #2 |
-| `coil_3x3_51` | touching = 0.125 | #3 | #15 |
+| `coil_3x4_79` | box/block = 0.010 | #10 | #2 |
+| `coil_3x4_68` | pieces/block = 0.010 | #9 | #3 |
+| `coil_3x8_20` | distinct = 0.010 | #4 | #9 |
 
-`coil_2x2_134` is the clearest case: one input on the floor and another at the ceiling.
+`coil_3x4_79` is the clearest case: one input on the floor and another at the ceiling.
 The mean that punishes weak spots reads it as disqualified; the mean that rewards strong
 ones reads it as the best thing here. Both are arithmetically correct — they are
-answering different questions. `coil_5x5_50` is the same shape of argument, its weak spot
-being box/block.
+answering different questions. `coil_3x4_68` is the same shape of argument, its weak spot
+being pieces/block.
 
-Harmonic and contraharmonic agree on **2** of 17 placings — they are as opposed as
-two means of the same numbers can be. Harmonic and geometric agree on 3, which is
+Harmonic and contraharmonic agree on **1** of 10 placings — they are as opposed as
+two means of the same numbers can be. Harmonic and geometric agree on 2, which is
 why the geometric mean is the usual choice when no weak spot should be forgiven but
 outright disqualification is too strong.
 
 ## What survives
 
-`coil_3x3_54` comes first under **6 of the 8 means**, and the reason is visible in the
-table above: its worst input is 0.551, where every other contender has something
+`coil_3x3_54_2` comes first under **8 of the 8 means**, and the reason is visible in the
+table above: its worst input is 0.010, where every other contender has something
 at 0.01. It does not win by being outstanding anywhere. It wins by having nothing to
 punish, which is the one way to be robust to the choice of mean.
 
@@ -165,12 +158,12 @@ is the choice that declines to say.
 
 A tempting variant is to rank, cut the bottom half, and re-rank the survivors. Do not.
 
-* **harmonic, min-max (what SCORING.md uses)** — survivors reordered 7/9, 5/5, 3/3, 0/2 over the rounds (15 moves in total)
-* **geometric, min-max** — survivors reordered 6/9, 3/5, 0/3, 0/2 over the rounds (9 moves in total)
-* **geometric, pure ratio-to-best** — survivors reordered 0/9, 0/5, 0/3, 0/2 over the rounds (0 moves in total)
+* **harmonic, min-max (what SCORING.md uses)** — survivors reordered 5/5, 2/3, 2/2 over the rounds (9 moves in total)
+* **geometric, min-max** — survivors reordered 2/5, 0/3, 0/2 over the rounds (2 moves in total)
+* **geometric, pure ratio-to-best** — survivors reordered 0/5, 0/3, 0/2 over the rounds (0 moves in total)
 
 The first two reorder coils that did not change, purely because other coils left the
-set. `coil_3x3_51` places 3rd of 17 and 1st of the surviving 9; `coil_3x3_54`
+set. `coil_4x8_18` places 3rd of 10 and 1st of the surviving 9; `coil_3x3_54_2`
 places 1st and then 4th. Nothing about either was measured again.
 
 The cause is that min-max reads its lo and hi off whoever is present, so dropping
@@ -188,7 +181,7 @@ The winner here survives all three, so nothing practical turns on it — but the
 below the top is meaningless under iteration, and should not be read.
 
 One more cost: a cut on composite score removes whatever is best at a single thing,
-because a composite is a compromise. `coil_2x2_134` has the narrowest cross-section in
-the set and does not survive round 0 of 2 of the 3 runs.
+because a composite is a compromise. `coil_3x3_54_2` has the narrowest cross-section in
+the set and does not survive round 0 of 0 of the 3 runs.
 
     node tools/iterate.js        # the numbers above

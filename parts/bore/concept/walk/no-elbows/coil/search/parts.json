@@ -1,86 +1,4 @@
 {
- "coil_2x2_134": {
-  "pieces": 44,
-  "kinds": {
-   "bend": 44
-  },
-  "elbows": 0,
-  "interiorBlocks": [
-   7,
-   174
-  ],
-  "innerPieces": 42,
-  "distinct": 4,
-  "shapes": [
-   "bend_DDDLD_buttin",
-   "bend_DLD",
-   "bend_DL_buttout",
-   "bend_DRD"
-  ],
-  "rhythm": 4,
-  "repeats": 10.5,
-  "interiorDistinct": 2,
-  "meanPlate": 1785,
-  "maxPlate": 1785,
-  "minPlate": 1785,
-  "totalPlate": 74970
- },
- "coil_3x3_51": {
-  "pieces": 36,
-  "kinds": {
-   "bend": 36
-  },
-  "elbows": 0,
-  "interiorBlocks": [
-   8,
-   185
-  ],
-  "innerPieces": 34,
-  "distinct": 6,
-  "shapes": [
-   "bend_DDDLLD_buttin",
-   "bend_DLLD",
-   "bend_DRRD",
-   "bend_DRRU",
-   "bend_UULLD",
-   "bend_UULL_buttout"
-  ],
-  "rhythm": 4,
-  "repeats": 8.5,
-  "interiorDistinct": 4,
-  "meanPlate": 2385,
-  "maxPlate": 2601,
-  "minPlate": 1785,
-  "totalPlate": 81090
- },
- "coil_3x3_54": {
-  "pieces": 32,
-  "kinds": {
-   "bend": 32
-  },
-  "elbows": 0,
-  "interiorBlocks": [
-   8,
-   172
-  ],
-  "innerPieces": 30,
-  "distinct": 6,
-  "shapes": [
-   "bend_DDDLLD_buttin",
-   "bend_DDRRU",
-   "bend_DLLD",
-   "bend_DRRD",
-   "bend_UULLD",
-   "bend_UULL_buttout"
-  ],
-  "rhythm": 4,
-  "repeats": 7.5,
-  "interiorDistinct": 4,
-  "meanPlate": 2601,
-  "maxPlate": 2601,
-  "minPlate": 2601,
-  "totalPlate": 78030
- },
  "coil_3x3_54_2": {
   "pieces": 32,
   "kinds": {
@@ -193,34 +111,6 @@
   "minPlate": 1225,
   "totalPlate": 80755
  },
- "coil_3x7_22": {
-  "pieces": 40,
-  "kinds": {
-   "bend": 40
-  },
-  "elbows": 0,
-  "interiorBlocks": [
-   4,
-   174
-  ],
-  "innerPieces": 38,
-  "distinct": 6,
-  "shapes": [
-   "bend_DL_buttin",
-   "bend_DRRU",
-   "bend_LDL",
-   "bend_RDR",
-   "bend_ULLD",
-   "bend_ULLDDD_buttout"
-  ],
-  "rhythm": 4,
-  "repeats": 9.5,
-  "interiorDistinct": 4,
-  "meanPlate": 1785,
-  "maxPlate": 1785,
-  "minPlate": 1785,
-  "totalPlate": 67830
- },
  "coil_3x8_20": {
   "pieces": 36,
   "kinds": {
@@ -276,38 +166,6 @@
   "maxPlate": 2601,
   "minPlate": 2345,
   "totalPlate": 74190
- },
- "coil_4x4_50": {
-  "pieces": 47,
-  "kinds": {
-   "bend": 47
-  },
-  "elbows": 0,
-  "interiorBlocks": [
-   6,
-   185
-  ],
-  "innerPieces": 45,
-  "distinct": 10,
-  "shapes": [
-   "bend_DDDL_buttin",
-   "bend_DL",
-   "bend_DR",
-   "bend_DRRRU",
-   "bend_LD",
-   "bend_LDDDR",
-   "bend_RD",
-   "bend_RUUUL",
-   "bend_RUUULLL_buttout",
-   "bend_ULLLD"
-  ],
-  "rhythm": 12,
-  "repeats": 3.75,
-  "interiorDistinct": 8,
-  "meanPlate": 1598.3333333333333,
-  "maxPlate": 2345,
-  "minPlate": 1225,
-  "totalPlate": 71925
  },
  "coil_4x7_20": {
   "pieces": 36,
@@ -393,38 +251,6 @@
   "minPlate": 2345,
   "totalPlate": 86430
  },
- "coil_5x5_50": {
-  "pieces": 47,
-  "kinds": {
-   "bend": 47
-  },
-  "elbows": 0,
-  "interiorBlocks": [
-   6,
-   170
-  ],
-  "innerPieces": 45,
-  "distinct": 10,
-  "shapes": [
-   "bend_DDDL_buttin",
-   "bend_DL",
-   "bend_DR",
-   "bend_DRRU",
-   "bend_LD",
-   "bend_LDDR",
-   "bend_RD",
-   "bend_RUUL",
-   "bend_RUULLL_buttout",
-   "bend_ULLD"
-  ],
-  "rhythm": 12,
-  "repeats": 3.75,
-  "interiorDistinct": 8,
-  "meanPlate": 1411.6666666666667,
-  "maxPlate": 1785,
-  "minPlate": 1225,
-  "totalPlate": 63525
- },
  "coil_5x7_18": {
   "pieces": 32,
   "kinds": {
@@ -452,33 +278,5 @@
   "maxPlate": 2905,
   "minPlate": 1785,
   "totalPlate": 70350
- },
- "coil_5x8_18": {
-  "pieces": 32,
-  "kinds": {
-   "bend": 32
-  },
-  "elbows": 0,
-  "interiorBlocks": [
-   4,
-   183
-  ],
-  "innerPieces": 30,
-  "distinct": 6,
-  "shapes": [
-   "bend_DDRRRRU",
-   "bend_DL_buttin",
-   "bend_LDL",
-   "bend_RDR",
-   "bend_UULLLLD",
-   "bend_UULLLLDDD_buttout"
-  ],
-  "rhythm": 4,
-  "repeats": 7.5,
-  "interiorDistinct": 4,
-  "meanPlate": 3009,
-  "maxPlate": 4233,
-  "minPlate": 1785,
-  "totalPlate": 90270
  }
 }
