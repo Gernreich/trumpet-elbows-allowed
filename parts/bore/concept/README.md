@@ -264,7 +264,7 @@ being built is one of those:
 | [first trumpet](walk/elbows/first_trumpet/first_trumpet.html) | 3 | 6 | 0 | 3 | 44 |
 | [spiral trumpet](walk/elbows/spiral_trumpet/spiral_trumpet.html) | 3 | 5 | 1 | 2 | 68 |
 | [telescope spiral](walk/elbows/telescope_spiral/telescope_spiral.html) | 11 | 18 | 2 | 9 | 106 |
-| [hilbert snorkel](walk/elbows/hilbert_snorkel/hilbert_snorkel.html) | 24 | 26 | 20 | 4 | 260 |
+| hilbert snorkel | 24 | 26 | 20 | 4 | 260 |
 | [wide telescope](walk/no-elbows/wide_telescope/wide_telescope.html) | **0** | 0 | 0 | 0 | 72 |
 | [metre spring](walk/no-elbows/metre_spring/metre_spring.html) | **0** | 0 | 0 | 0 | 36 |
 | [**coiled trumpet**](walk/no-elbows/coiled) — the one being built | **0** | 0 | 0 | 0 | 50 |
@@ -357,7 +357,7 @@ numbers transcribed from something you built by eye, and one wrong letter is eno
 which is a job a human is bad at and a script is good at. So: **trust the build, and let
 the script check the notation.**
 
-[`N N3 U3 W5 N10 E5 S8 W3 S3 N12 N`](walk/no-elbows/doubled_walk/doubled_walk.html) is the example. It
+`N N3 U3 W5 N10 E5 S8 W3 S3 N12 N` is the example. It
 was refused, and the build it came from was fine — the fault was a single letter in the
 transcription, an `S3` where the build turned `D3`, and no amount of adjusting the
 *lengths* fixed it because the fault was a direction. Read the walk back off the page
@@ -373,9 +373,9 @@ sides, so it cannot be cut at all.
 bore's, and lights up every cell entered more than once, which the ordinary viewer
 cannot do because it will not open a walk that crosses itself:
 
-    cd ../../../GIT/bore-generator
+    cd ../../../tools
     python3 mcwalk.py "N N3 U3 W5 N10 E5 S8 W3 S3 N12 N" \
-        --out walk/no-elbows/doubled_walk/doubled_walk.html --title "..."
+        --out /tmp/doubled_walk.html --title "..."
 
 The step slider is the tell: scrub it and watch *placed* keep climbing while *cells
 filled* stalls — that gap is where the transcription went wrong.
@@ -505,15 +505,15 @@ them.
 
 | walk | blocks | sections | elbows | why it is kept |
 | --- | ---: | ---: | ---: | --- |
-| [`E E8 U3 S8 S`](walk/no-elbows/three_block_turn/three_block_turn.html) | 20 | 2 | 0 | the three-block minimum on its own: two long runs and the shortest leg that still turns without an elbow |
-| [`U U3 W3 N2 E1 E`](walk/no-elbows/hook_check/hook_check.html) | 10 | 2 | 0 | the smallest walk that ends on a single block, which is where the splitter used to strand a turn |
+| `E E8 U3 S8 S` | 20 | 2 | 0 | the three-block minimum on its own: two long runs and the shortest leg that still turns without an elbow |
+| `U U3 W3 N2 E1 E` | 10 | 2 | 0 | the smallest walk that ends on a single block, which is where the splitter used to strand a turn |
 | [`U U1 W1 S2 E2` × 6](walk/elbows/stepped_coil/stepped_coil.html) | 40 | 26 | 18 | six loops marching diagonally, every leg as tight as it goes |
 | [`U U2 W3 S3 E3` × 8](walk/no-elbows/switchback_ramp/switchback_ramp.html) | 91 | 17 | **0** | the same idea with every leg widened: eight hairpins climbing |
 | [the tightest coil](walk/elbows/tightest_coil/tightest_coil.html) | 22 | 20 | 18 | single-block legs throughout — 20 sections for 22 blocks, the worst ratio here |
-| [a Hilbert cube with an eight-block riser](walk/elbows/hilbert_snorkel/hilbert_snorkel.html) | 138 | 48 | 24 | the densest walk here, with the exit taken up and clear of the cube |
+| a Hilbert cube with an eight-block riser | 138 | 48 | 24 | the densest walk here, with the exit taken up and clear of the cube |
 
-The snorkel's walk is 60 terms and does not fit a table cell; it is on
-[its own page](walk/elbows/hilbert_snorkel/hilbert_snorkel.html), and in full here:
+The snorkel's walk is 60 terms and does not fit a table cell, so here it is
+in full:
 
     U U4 E2 D2 S2 U2 W2 D2 S4 E2 N2 U2 S2 W2 N2 U2 S2 U2 N2 E2 S2 D2 N4 W2 U2 E2 N2 W2 D2 E6 U2 W2 S2 E2 D2 W2 S4 U2 N2 E2 S2 D2 N2 D2 S2 W2 N2 D2 S2 E2 N4 U2 W2 D2 N2 U2 E2 D2 E1 U8
 
