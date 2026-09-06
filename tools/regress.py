@@ -115,7 +115,7 @@ STRETCHED = [
      ['--bore=10', '--straight=30']),
     # WUED repeated with an N spacer every three terms: a square circuit in
     # cross-section that steps north. The first walk laid out for this lattice.
-    ('coil 10x10x30 3t', 'walks/coil-3t.txt', '../parts/bore/built/coil-10x10x30-3t',
+    ('coil 10x10x30 3t', 'walks/coil-3t.txt', '../parts/bore/built/meander/fold2-long-straight-3t',
      ['--bore=10', '--straight=30']),
 ]
 
