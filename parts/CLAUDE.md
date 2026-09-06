@@ -34,7 +34,13 @@ instrument repositories hold only bore.
 **A bare `bell-round.py` writes all four budgets**, the 17-ring among them. Pass a ring
 budget when you want one sheet, and `--out` to name it.
 
-Read `README.md` first — it carries the geometry. This file covers working on the code.
+**The README is gone.** Every `README.md` and `index.html` under `trumpet/` was
+removed on 2026-09-05, pending one new writeup for the trumpet as a whole once
+the renaming and reorganising is finished. Git has them all. Until it exists,
+this file is the documentation, and any recipe below that renders or audits a
+README is waiting on that writeup rather than describing something present.
+
+It used to say: read `README.md` first, it carries the geometry. This file covers the code.
 
 ## The bore is cylindrical
 

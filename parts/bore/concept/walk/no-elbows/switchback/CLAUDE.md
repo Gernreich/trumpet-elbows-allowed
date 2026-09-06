@@ -1,5 +1,12 @@
 # CLAUDE.md
 
+
+**The README is gone.** Every `README.md` and `index.html` under `trumpet/` was
+removed on 2026-09-05, pending one new writeup for the trumpet as a whole once
+the renaming and reorganising is finished. Git has them all. Until it exists,
+this file is the documentation, and any recipe below that renders or audits a
+README is waiting on that writeup rather than describing something present.
+
 **The 25mm folder was deleted on 2026-09-03.** This repository is a 10mm bore now:
 six sections on a 16mm block, 352mm of centreline. `sizes.html` went with it - it
 existed to hold both sizes in one page. Notes below that named a 25mm sheet now name

@@ -24,7 +24,13 @@ It produces the bore in **`trumpet-coiled`**. Split out of
 private;
 a live instrument should not depend on a frozen repository to rebuild its parts.
 
-Read `README.md` first. It is 447 lines and carries the geometry — why an elbow's
+**The README is gone.** Every `README.md` and `index.html` under `trumpet/` was
+removed on 2026-09-05, pending one new writeup for the trumpet as a whole once
+the renaming and reorganising is finished. Git has them all. Until it exists,
+this file is the documentation, and any recipe below that renders or audits a
+README is waiting on that writeup rather than describing something present.
+
+It used to say: read `README.md` first — 447 lines carrying the geometry, why an elbow's
 opening frame has three sides, what a lap closes, how the notation splits into
 pieces. This file covers only how to work on the code.
 
