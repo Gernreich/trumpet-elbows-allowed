@@ -16,7 +16,10 @@
 // Usage: node tools/standardise.js [--write]
 const fs = require('fs'), cp = require('child_process'), path = require('path');
 const root = path.join(__dirname, '..');
-const GEN  = path.join(root, '..', 'tools');
+// The bore toolchain, six levels up since the 2026-09-05 restructure. Built
+// from fragments, which is why three path sweeps walked straight past it:
+// nothing in this file ever contains the string '../tools' to match on.
+const GEN  = path.join(root, '..', '..', '..', '..', '..', '..', 'tools');
 const PY   = process.env.BORE_PY || (process.env.HOME + '/boxes/venv/bin/python');
 const WRITE = process.argv.includes('--write');
 

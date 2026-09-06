@@ -1477,7 +1477,14 @@ def main(text, outdir=None):
         fn = cutname(code, len(specs), raw, stack)
         line = f'  {code:>3}  {fn:<64}'
         if outdir:
-            os.makedirs(outdir, exist_ok=True)
+            # Sheets go in cut-files/ under the design, the viewer page beside
+            # it in the design folder itself. That split became the layout on
+            # 2026-09-05; writing both to one directory would undo it on the
+            # next regeneration, and check_page fails a folder holding two
+            # pages, so the structure has to come out of the generator rather
+            # than be tidied up afterwards. The printed name is unchanged --
+            # parts.js parses that line.
+            os.makedirs(os.path.join(outdir, 'cut-files'), exist_ok=True)
             parts = cut(args, code)
             n = int(code)
             nb = {}
@@ -1485,7 +1492,7 @@ def main(text, outdir=None):
                 nb['in'] = f'{n-1}{n}'
             if n < len(specs):
                 nb['out'] = f'{n}{n+1}'
-            sheets = sheet(parts, code, os.path.join(outdir, fn),
+            sheets = sheet(parts, code, os.path.join(outdir, 'cut-files', fn),
                            args=args, neighbours=nb,
                            meta=dict(facts[code], total=len(specs), raw=raw,
                                      design=design_slug(stack) or fname))

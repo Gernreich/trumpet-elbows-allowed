@@ -225,7 +225,17 @@ def main(pattern=None):
                 print(f'  FAIL  {name:<18} names {folder}, which is not there')
                 bad += 1
                 continue
-            args += ['--files', folder]
+            # The sheets live in cut-files/ under the bore, and the page beside
+            # them in the bore folder itself. check.py globs one directory and
+            # does not recurse, so it is pointed at the sheets; check_page is
+            # pointed at the bore. Naming the bore in DESIGNS keeps one path
+            # for both rather than two that can disagree.
+            sheets = os.path.join(folder, 'cut-files')
+            if not os.path.isdir(os.path.join(here, sheets)):
+                print(f'  FAIL  {name:<18} has no cut-files/ under {folder}')
+                bad += 1
+                continue
+            args += ['--files', sheets]
         r = subprocess.run(args, cwd=here, capture_output=True, text=True)
         last = (r.stdout.strip().splitlines() or ['no output'])[-1]
         page = check_page(here, folder, text, switches) if folder else None
