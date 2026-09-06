@@ -1,6 +1,10 @@
 #!/bin/bash
-cd "$(dirname "$0")/../../tools"
-R="$(cd "$(dirname "$0")/.." && pwd)"
+# Resolve both directories BEFORE moving, because $0 is relative to where the
+# script was invoked from and stops resolving the moment we cd anywhere. That
+# bug made R empty and the loop read /checks/*.txt off the filesystem root.
+HERE="$(cd "$(dirname "$0")" && pwd)"
+R="$(cd "$HERE/.." && pwd)"
+cd "$HERE/../../../../../../../tools"
 mkdir -p $R/checks
 for f in $R/walks/*.txt; do
   n=$(basename "$f" .txt)
