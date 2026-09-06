@@ -17,7 +17,7 @@ instrument here and the two ends are shared.
       greek-spiral/ 10mm, a flat meander -- the Greek key, in one piece
       octagonal/  25mm, the flare form of the octagonal torus
       switchback/ 10mm, folds back on itself twice
-      stretched/  10mm, straights longer than turns -- a test, not an instrument
+      stretched/  10mm, straights longer than turns; the 3-turn coil plays F4
       ribbon/     constant section swept along a planar curve
     octagonal/    the octagonal torus, and the trumpet cut out of it
     designs/      every walk built out as cut files and a page

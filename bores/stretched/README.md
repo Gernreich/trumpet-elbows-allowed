@@ -8,8 +8,7 @@ changing a single term of it.
 
     N N1 W3 U2 E3 N3 D3 W2 U3 N1
 
-This is a **test**, not an instrument: it has no mouthpiece and no bell, and the
-walk was borrowed from
+It began as a **test** rather than an instrument, and the walk was borrowed from
 [trumpet-switchback](https://github.com/Gernreich/trumpet/tree/main/bores/switchback)
 rather than designed for a stretched lattice.
 
@@ -236,12 +235,31 @@ viewer, and [`../../tools/walks/coil-3t.txt`](../../tools/walks/coil-3t.txt) hol
 name, and "Coil 10x10x30 3t Bore" is a filename read aloud. A folder has to
 sort and survive a URL; a title has to read.
 
-## What is missing: a mouthpiece and a bell
+## The three-turn coil plays at F4
 
-Everything here is bore. **A coil on its own does not play**, and nothing in this
-repository closes either end.
+<p>
+<a href="coil-10x10x30-3t/bore10-coil-10x10x30-3t.jpg"><img src="coil-10x10x30-3t/bore10-coil-10x10x30-3t_web.jpg" alt="The three-turn coil built and finished: a mouthpiece at the left, then the square-section bore folding back on itself three times in stepped plywood boxes with finger-jointed edges scorched dark by the laser, opening at the right into a bell of stacked rings" width="100%"></a>
+</p>
 
-They already exist, though, and they fit. A coil's mouth is a 10mm square
+*Cut, glued, finished and played. **1096mm of 10 x 10mm bore, and it sounds F4.***
+
+That is the first pitch this project has measured, and it is worth writing down
+rather than deriving, because a plain tube does not predict it. F4 is 349.23Hz.
+A bare 1096mm column has its second mode at 313Hz and its third at 469Hz, so the
+note sits between them; read the other way, F4 wants 982mm as an open pipe's
+second mode, 10% shorter than the bore, or 1228mm as a stopped fifth, 12% longer.
+The mouthpiece cup and the bell flare are what account for the difference, and
+they are exactly the two things a bare-cylinder model leaves out.
+
+**The four truncations make that measurable rather than arguable.** They are
+274, 548, 822 and 1096mm — an exact 1 : 2 : 3 : 4 — and they share one mouthpiece
+and one bell. Play all four and the pitches against the lengths give the combined
+end correction as a number, the same way `PLAY_BY_BORE` holds a clearance that was
+cut and assembled rather than modelled. One of the four is built.
+
+## The mouthpiece and the bell
+
+They are not in this folder. They already exist, though, and they fit. A coil's mouth is a 10mm square
 opening in a 16mm square face, which is exactly what the 10mm pair made for
 **[trumpet-switchback](https://github.com/Gernreich/trumpet/tree/main/bores/switchback)** seats
 onto — that mouthpiece's station one is *a sharp 10mm square aperture in a sharp
