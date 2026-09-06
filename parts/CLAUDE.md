@@ -19,7 +19,7 @@ than owned by one of them. Every bore under `bore/` is cut at the 10mm channel s
 them differs. The octagonal trumpet, which was the other 25mm bore, left this
 repository the same day.
 
-Since 2026-08-31 there is a **second channel**: `bore/concept/walk/no-elbows/switchback` is cut
+Since 2026-08-31 there is a **second channel**: `bore/concept/walk/no-elbows/meander/fold2` is cut
 at 10mm as well as 25, and `--bore` on the two square-to-round generators makes the parts
 to suit. See `--bore` is the channel, and only that below.
 

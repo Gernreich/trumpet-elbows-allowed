@@ -92,7 +92,7 @@ Minecraft: `U`/`D` are +Y/−Y, `N` is −Z, `S` is +Z, `E` is +X, `W` is −X.
 
 **The walk is stored in `../../../../../../tools/walks/trumpet_switchback.txt`**,
 and `regress.py` there names this repository as where its cut files live. Unlike
-`../coiled`, which keeps its walk in its page, the file is the record here — the
+`../../coil/flat-drop`, which keeps its walk in its page, the file is the record here — the
 page carries the same string in its `<div class="walk">` and `bore_split.py` will read
 either, but they are only equal because the page was generated from the file.
 
@@ -172,7 +172,7 @@ different axes, so there are three cases:
 | same axis, opposite direction | hairpin | >= 2 |
 | different axes | coil | >= 3 |
 
-`../../../../../../tools/CLAUDE.md`, `../coiled/CLAUDE.md` and that repository's
+`../../../../../../tools/CLAUDE.md`, `../../coil/flat-drop/CLAUDE.md` and that repository's
 `README.md` all stated only the coil case until 2026-08-29, lumping the other two together
 as a fold that "costs nothing at any spacing" — right for steps, wrong for hairpins, and
 this walk has two hairpins sitting exactly on the limit. All three now carry the table
@@ -376,7 +376,7 @@ to record a preference.
 
 **trumpet-switchback** describes the design instead: the bore folds back on itself twice,
 which is exactly the two hairpins the elbow rule counts. That is a fact about the walk, so
-it cannot go stale. It also matches `../coiled` and `../../../../../../bores/octagonal`, which
+it cannot go stale. It also matches `../../coil/flat-drop` and `../../../../../../bores/octagonal`, which
 are named the same way.
 
 Renamed together each time: the folder, the walk file, the `regress.py` entries, the GitHub

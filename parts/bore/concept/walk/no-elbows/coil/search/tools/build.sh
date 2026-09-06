@@ -11,7 +11,7 @@
 # not four commands to remember.
 set -e
 cd "$(dirname "$0")/.."
-MD2HTML="${MD2HTML:-../../../../../../../lasermade-tools/md2html.py}"
+MD2HTML="${MD2HTML:-../../../../../../../../lasermade-tools/md2html.py}"
 
 node tools/parts.js > /dev/null      # piece counts and distinct shapes
 node tools/gen_scoring.js            # SCORING.md

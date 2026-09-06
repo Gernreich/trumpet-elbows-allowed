@@ -4,7 +4,7 @@
 # bug made R empty and the loop read /checks/*.txt off the filesystem root.
 HERE="$(cd "$(dirname "$0")" && pwd)"
 R="$(cd "$HERE/.." && pwd)"
-cd "$HERE/../../../../../../../tools"
+cd "$HERE/../../../../../../../../tools"
 mkdir -p $R/checks
 for f in $R/walks/*.txt; do
   n=$(basename "$f" .txt)

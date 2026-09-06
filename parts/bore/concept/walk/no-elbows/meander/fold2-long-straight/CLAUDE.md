@@ -37,7 +37,7 @@ different coil rather than a shorter one.
 - **`coil-10x10x30-0.75t/`** — 11 blocks, 274mm, 3 sections. The shortest the walk goes.
   Uncut.
 - **`coil-10x10x30-1.5t/`** — 22 blocks, 548mm. **All six parts are cut**; treat its files
-  as describing wood. It arrived as a borrowed test from `../switchback` and is that
+  as describing wood. It arrived as a borrowed test from `../fold2` and is that
   repository's walk exactly — nobody noticed it was a coil until the other two existed, which
   is why its folder was called `bore/` until 2026-09-01.
 - **`coil-10x10x30-2.25t/`** — 33 blocks, 822mm, 9 sections. Uncut.
@@ -50,7 +50,7 @@ different coil rather than a shorter one.
   out for this lattice. Nothing cut yet.
 
 None of them is an instrument on its own: this repository is all bore, and nothing here
-closes either end. The 10mm mouthpiece and bell in `../switchback/10mm` fit any of
+closes either end. The 10mm mouthpiece and bell in `../fold2/10mm` fit any of
 them — a coil's mouth is a 10mm square in a 16mm face, which is what both seat onto, and
 neither cares how long the bore behind it is. They are **named, not copied**: two copies of
 a cut file drift, which has cost this project once already.
@@ -59,7 +59,7 @@ a cut file drift, which has cost this project once already.
 
 Until **2026-09-05** `tools/` was a copy of the bore generator and the other
 repositories were frozen against it. Both facts are gone: the repositories are one
-repository, and the fork was collapsed into [`../../../../../../tools`](../../../../../../tools).
+repository, and the fork was collapsed into [`../../../../../../../tools`](../../../../../../../tools).
 
 **Do not reintroduce a copy.** The generalisation was a superset of the frozen code —
 cell indices became real millimetre boxes, so a straight block can run longer than a
@@ -96,7 +96,7 @@ will not compare against anything.
 
 
 ```sh
-cd ../../../../../../tools
+cd ../../../../../../../tools
 W="$(cat walks/trumpet_switchback.txt)"
 rm -rf /tmp/f && mkdir -p /tmp/f/switchback/10mm
 ~/boxes/venv/bin/python bore_split.py --blocksize=16 --refuse-elbows "$W" \
@@ -142,7 +142,7 @@ past a corner and retraces the same line. Spotted on 2026-08-31 and deliberately
 - **They cut into waste, not into the part.** Every spur tip tests outside the plate
   outline, so it is a slit in the offcut, not a nick in the piece. No dimension moves.
 - **They are not from the stretched lattice.** The frozen 10mm bore in
-  `../switchback` has the identical 20, and its 25mm bore has none.
+  `../fold2` has the identical 20, and its 25mm bore has none.
   They appear once the end frame drops below 12mm: zero at block 18 and above, four at 17
   and 16.
 - **The cause is below this code.** The polygon `plateBorders()` hands over is clean — no
@@ -255,7 +255,7 @@ cd tools && ~/boxes/venv/bin/python regress.py        # both designs
 cd tools && ~/boxes/venv/bin/python regress.py coil   # one
 ```
 
-The frozen corpus in `../../../../../../tools` gates the frozen toolchain and has no stretched
+The frozen corpus in `../../../../../../../tools` gates the frozen toolchain and has no stretched
 lattice in it, so it cannot catch a change made here. Each design carries the switches it is
 cut with, because `--files` never looks at the pitch and will happily gate a design nobody
 is cutting.
