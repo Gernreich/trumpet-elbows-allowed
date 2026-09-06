@@ -77,8 +77,11 @@ playing it; as cut the rim edge is a square corner and your lip will say so.
 import sys, math, pathlib, subprocess
 
 WALL    = 3.0        # ring width, and the ply is 3mm so a ring is as thick as it is wide
-PLATE   = 31.0       # station one, square, matching the bore's closing face
-BORE    = 25.0       # the square bore this meets, corners and all
+# 10mm has been the bore since 2026-09-05, when the 25mm was retired and
+# bore_split.py's default followed. This one did not, so a bare run went on
+# writing parts for a tube nothing in the repository cuts any more.
+PLATE   = 16.0       # station one, square, matching the bore's closing face
+BORE    = 10.0       # the square bore this meets, corners and all
 NECK    = 5.0        # where the backbore run ends and the throat begins
 THROAT  = 3.66       # a #27 drill, the standard trumpet mouthpiece throat
 TAPER   = 2.5        # aperture step down the backbore run; 4.0 cannot be made square

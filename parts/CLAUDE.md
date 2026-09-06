@@ -2,8 +2,10 @@
 
 **The 25mm sheets were retired on 2026-09-03.** Fifty files went: five round bells, four
 square ones, two mouthpieces, and all their sections, isometrics and turn pages. What is
-left is one bell and one mouthpiece, both at the 10mm bore. The generators are untouched
-and still take `--bore`, so a 25mm sheet is one command away and git has the old ones.
+left is one bell and one mouthpiece, both at the 10mm bore. The square-to-round pair
+take `--bore`, and since 2026-09-06 they **default** to 10 -- until then the default was
+still 25, so a bare run wrote parts for a tube nothing here cuts. A 25mm sheet is
+`--bore=25` away and git has the old ones.
 
 Notes below that named a retired sheet now name the 10mm one. Where a note is *about* a
 retired sheet - the legacy mouthpiece layout, the hand-nested square bell - it is kept,
@@ -67,9 +69,14 @@ the plate as **N + 6** — a 3mm wall each side, exactly as the tube is. Nothing
 Filenames carry the bore — `bell-round10-153mm-17rings-x3-rim86-cut-files.svg`,
 `mouthpiece-bore10-trumpet-parts-cut-files.svg` — because two parts of the same length on different
 bores are different parts and only one of them fits your tube. Those two names are what a
-`--bore=10` run writes into this directory, which is where they belong — every mouthpiece
-and every bell lives here, and the instrument repositories hold only bore. Both generators
-were checked after the change by regenerating at the default and diffing: **byte-identical**.
+bare run writes into this directory, which is where they belong — every mouthpiece
+and every bell lives here, and a bore directory holds only bore.
+
+**The mouthpiece reproduces exactly**: `mouthpiece-round.py --rim=17` gives the shipped
+sheet byte for byte. The default rim is 16.5 and the shipped one is 17, which is a choice
+about the lip rather than about the bore. The bell's shipped sheet is
+`bell-round.py --length=153 --mouth=86`; a bare run writes all four ring budgets at the
+default rim instead.
 
 ## `--mouth` is the hole; `--rim` is the square bell's width
 

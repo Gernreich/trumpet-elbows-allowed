@@ -44,8 +44,11 @@ import sys, math, pathlib, subprocess
 
 RISE, LAP, MINWALL = 3.0, 3.0, 2.0
 GAMMA, RT, RIM, L  = 0.7, 12.5, 61.5, 201.0     # 25mm square throat = the bore's channel
-BORE     = 25.0      # the bore's air channel; the horn continues it, it does not step
-PLATE    = 31.0      # the bore's outside. Ring 0 has to cover this whole face
+# 10mm has been the bore since 2026-09-05, when the 25mm was retired and
+# bore_split.py's default followed. This one did not, so a bare run went on
+# writing parts for a tube nothing in the repository cuts any more.
+BORE     = 10.0      # the bore's air channel; the horn continues it, it does not step
+PLATE    = 16.0      # the bore's outside. Ring 0 has to cover this whole face
 OVERHANG = 3.0       # and stand proud of it, to glue against and to locate the joint
 
 args  = [a for a in sys.argv[1:] if not a.startswith("--")]
