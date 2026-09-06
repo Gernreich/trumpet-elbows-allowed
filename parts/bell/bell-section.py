@@ -63,8 +63,8 @@ def ring_sizes(path):
         # Walk the path. There used to be a shortcut here that read the width straight out
         # of "M x,y H x2", which is the full width of a SQUARE ring and only the flat
         # between the corner arcs of a rounded one. Every square-to-round bell was measured
-        # short by two corner radii, and by more as the rings rounded: the 17-ring bell
-        # reported a 4.87mm throat where it has a 25mm one, and its section drawing showed
+        # short by two corner radii, and by more as the rings rounded: a 17-ring bell
+        # reported a 4.87mm throat where its throat is the whole bore, and its section showed
         # a near-flat taper with the rim floating detached from it.
         e = subpath_widths(d)
         if len(e) == 2:

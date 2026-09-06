@@ -10,7 +10,7 @@
     python3 bell-round.py --length=152 --mouth=80 --bore=10   # the 10mm trumpet's bell
 
 The four bells bell.py makes are square end to end: a square bore opening into a square
-rim. This one keeps the square only where it has to. Station one is the same 31mm square
+rim. This one keeps the square only where it has to. Station one is the same 16mm square
 that closes onto the bore, and the corners are rounded away up the horn until the rim is
 a true circle. Same Bessel profile, gamma 0.7, same 3mm ply, same 1.5mm lap.
 
@@ -44,9 +44,9 @@ import sys, math, pathlib, subprocess
 
 RISE, LAP, MINWALL = 3.0, 3.0, 2.0
 GAMMA, RT, RIM, L  = 0.7, 5.0, 61.5, 201.0      # 10mm square throat = the bore's channel
-# 10mm has been the bore since 2026-09-05, when the 25mm was retired and
-# bore_split.py's default followed. This one did not, so a bare run went on
-# writing parts for a tube nothing in the repository cuts any more.
+# 10mm is the bore, and bore_split.py's default block is the 16mm that wraps it.
+# These two are written out here rather than imported, so a change there has to
+# be made here too or a bare run writes parts for a tube nothing else cuts.
 BORE     = 10.0      # the bore's air channel; the horn continues it, it does not step
 PLATE    = 16.0      # the bore's outside. Ring 0 has to cover this whole face
 OVERHANG = 3.0       # and stand proud of it, to glue against and to locate the joint
@@ -302,11 +302,13 @@ for want in ([int(args[0])] if args else [67, 20, 15, 10]):
     # the name, and only the caller knows what it calls that size. One budget only:
     # naming four sheets with one string would write four bells over each other.
     # Everything a builder needs to tell one sheet from another, in the name:
-    #   round25   square at the throat, circular by the rim -- bell.py's are square all
-    #             the way up, and carry no arc on any ring
-    #   204mm     the height as BUILT, rings x rise, not the --length asked for
-    #   x4        how many times the sheet is cut; cutting once is the expensive mistake
-    #   rim145    the outer rim it opens to
+    #   round10   the bore, and square at the throat, circular by the rim -- bell.py's
+    #             are square all the way up, and carry no arc on any ring
+    #   153mm     the height as BUILT, rings x rise, not the --length asked for
+    #   17rings   how many stations the profile was cut into
+    #   x3        how many times the sheet is cut; cutting once is the expensive mistake
+    #   rim86     the OUTER rim it opens to -- 2*oh at the last ring, six more than the
+    #             --mouth of air, because the rim ring laps 3mm each side
     built = len(rings) * step
     rimd = 2 * rings[-1]["oh"]
     if "out" in opts:

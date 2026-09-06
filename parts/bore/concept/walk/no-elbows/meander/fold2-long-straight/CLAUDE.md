@@ -98,11 +98,15 @@ will not compare against anything.
 ```sh
 cd ../../../../../../../tools
 W="$(cat walks/trumpet_switchback.txt)"
-rm -rf /tmp/f && mkdir -p /tmp/f/switchback/10mm
+# the temp path has to mirror the real folder stack: the sheet names are built
+# from it, so a different tree writes differently named files and cmp has nothing
+# to compare.
+rm -rf /tmp/f && mkdir -p /tmp/f/meander/fold2/10mm
 ~/boxes/venv/bin/python bore_split.py --blocksize=16 --refuse-elbows "$W" \
-    --write /tmp/f/switchback/10mm/bore
-cmp /tmp/f/switchback/10mm/bore/bore10-switchback-02of06-bend-LUUR-cut-files.svg \
-    ../switchback/10mm/bore/bore10-switchback-02of06-bend-LUUR-cut-files.svg
+    --write /tmp/f/meander/fold2/10mm/bore
+B=bore10-meander-fold2-02of06-bend-LUUR-cut-files.svg
+cmp /tmp/f/meander/fold2/10mm/bore/cut-files/$B \
+    ../parts/bore/concept/walk/no-elbows/meander/fold2/10mm/bore/cut-files/$B
 ```
 
 ## A turn is a cube because it has to be
@@ -142,8 +146,7 @@ past a corner and retraces the same line. Spotted on 2026-08-31 and deliberately
 - **They cut into waste, not into the part.** Every spur tip tests outside the plate
   outline, so it is a slit in the offcut, not a nick in the piece. No dimension moves.
 - **They are not from the stretched lattice.** The frozen 10mm bore in
-  `../fold2` has the identical 20. Its 25mm set had none, and was retired on
-  2026-09-03.
+  `../fold2` has the identical 20.
   They appear once the end frame drops below 12mm: zero at block 18 and above, four at 17
   and 16.
 - **The cause is below this code.** The polygon `plateBorders()` hands over is clean — no

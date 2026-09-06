@@ -8,10 +8,10 @@
     python3 mouthpiece-round.py --bowl=5        # a 15mm cup instead of 12mm
     python3 mouthpiece-round.py --layout=trumpet   # real proportions, for a new one
 
-`mouthpiece.py` puts a 25mm ROUND aperture in its 31mm square plate, so the joint that
-meets the bore throws away the bore's corners: a 25mm square channel opens into a 25mm
+`mouthpiece.py` puts a 10mm ROUND aperture in its 16mm square plate, so the joint that
+meets the bore throws away the bore's corners: a 10mm square channel opens into a 10mm
 circle and 21% of the area steps out of the airway at station one. This one starts as the
-bore actually is -- a sharp 25mm square inside a sharp 31mm plate -- and rounds the corners
+bore actually is -- a sharp 10mm square inside a sharp 16mm plate -- and rounds the corners
 away going up, exactly as bell-round.py does going out. Same rounded squares, same exact
 offsets, opposite direction.
 
@@ -67,7 +67,7 @@ The three runs are named for the anatomy, which `mouthpiece.py` gets backwards:
                long for a mouthpiece and is where to look first if it plays stuffy
     BOWL       10.06 -> 16.5mm over 12mm, the cup proper, ending at the rim
 
-A sheet from here is the same part as mouthpiece-bore25-legacy-parts-cut-files.svg plus mouthpiece-cup.py's
+A sheet from here is the same part as a `--layout=legacy` sheet plus mouthpiece-cup.py's
 four rings, ring for ring, so both routes number identically. `mouthpiece-cup.py` stays for
 retrofitting a mouthpiece already glued without a bowl.
 
@@ -77,9 +77,9 @@ playing it; as cut the rim edge is a square corner and your lip will say so.
 import sys, math, pathlib, subprocess
 
 WALL    = 3.0        # ring width, and the ply is 3mm so a ring is as thick as it is wide
-# 10mm has been the bore since 2026-09-05, when the 25mm was retired and
-# bore_split.py's default followed. This one did not, so a bare run went on
-# writing parts for a tube nothing in the repository cuts any more.
+# 10mm is the bore, and bore_split.py's default block is the 16mm that wraps it.
+# These two are written out here rather than imported, so a change there has to
+# be made here too or a bare run writes parts for a tube nothing else cuts.
 PLATE   = 16.0       # station one, square, matching the bore's closing face
 BORE    = 10.0       # the square bore this meets, corners and all
 NECK    = 5.0        # where the backbore run ends and the throat begins
@@ -131,9 +131,9 @@ if LAYOUT not in ("trumpet", "legacy"):
     sys.exit(f"--layout: trumpet or legacy, not {LAYOUT!r}")
 # Both parameters that make one sheet a different part from another go in the name:
 # the bore it closes onto and the layout it spends its length on. Naming only the
-# non-default one left the 25mm legacy sheet called mouthpiece-round-parts.svg and the
-# 25mm trumpet sheet with no way to say it was not that -- two different parts, and
-# nothing in either name to tell them apart.
+# non-default one left the legacy sheet called mouthpiece-round-parts.svg and the
+# trumpet sheet at the same bore with no way to say it was not that -- two different
+# parts, and nothing in either name to tell them apart.
 _dflt = f"mouthpiece-bore{BORE:g}-{LAYOUT}-parts-cut-files.svg"
 out_path = next((a for a in sys.argv[1:] if not a.startswith("--")), _dflt)
 
@@ -268,7 +268,7 @@ parts = [f'  <path d="{rounded(cx, cy, OH[i], OC[i])}"/>' for i, cx, cy in place
 round_at = next((i for i in range(len(profile)) if abs(cs[i] - hs[i]) < 1e-6), None)
 svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.3f}mm" height="{H:.3f}mm"\n'
        f'     viewBox="0 0 {W:.3f} {H:.3f}">\n'
-       # The layout belongs here. Two 25mm mouthpieces exist -- legacy and trumpet --
+       # The layout belongs here. Two mouthpieces exist -- legacy and trumpet --
        # with the same ring count, bore, throat and rim, and without the layout their
        # titles were identical while their profiles were not. A sheet has to say which
        # part it is.

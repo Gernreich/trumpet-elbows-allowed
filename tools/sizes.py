@@ -3,10 +3,10 @@
 
     python3 sizes.py trumpet_switchback /tmp/sizes.html
 
-Nothing here is cut at two sizes any more - trumpet-switchback's 25mm folder
-went on 2026-09-03 - so this writes no page that is kept. It is left in place
-because the next design cut at two pitches will want it, and because the
-locked-scale drawing it does is the only way to see one.
+Nothing here is cut at two sizes: every design is on the 16mm block, so this
+writes no page that is kept. It is left in place because the next design cut at
+two pitches will want it, and because the locked-scale drawing it does is the
+only way to see one.
 
 A design cut at two sizes is one shape and two pitches: the walk, the sections
 and the shapes are identical, and only the millimetres differ. Two pages make
@@ -24,9 +24,8 @@ import bore_split as B                                        # noqa: E402
 import viewer                                                 # noqa: E402
 
 # label, the --blocksize it is cut at. The default first: it is the one the
-# design is drawn for, and the other reads as a variation on it. That order
-# flipped on 2026-09-05, when 10mm became the default and 25mm was retired.
-SIZES = [('10mm', 16.0), ('25mm', 31.0)]
+# design is drawn for, and any other reads as a variation on it.
+SIZES = [('10mm', 16.0)]
 
 
 def main(walk_name, out):

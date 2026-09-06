@@ -1,35 +1,32 @@
 # CLAUDE.md
 
-**The 25mm sheets were retired on 2026-09-03.** Fifty files went: five round bells, four
-square ones, two mouthpieces, and all their sections, isometrics and turn pages. What is
-left is one bell and one mouthpiece, both at the 10mm bore. The square-to-round pair
-take `--bore`, and since 2026-09-06 they **default** to 10 -- until then the default was
-still 25, so a bare run wrote parts for a tube nothing here cuts. A 25mm sheet is
-`--bore=25` away and git has the old ones.
+**One bell and one mouthpiece, both at the 10mm bore.** That is the default the
+square-to-round pair take when `--bore` is not given, and it is the channel every tube
+under `bore/` is cut to. Another bore is `--bore=N` away; nothing is shipped at one.
 
-Notes below that named a retired sheet now name the 10mm one. Where a note is *about* a
-retired sheet - the legacy mouthpiece layout, the hand-nested square bell - it is kept,
-because the reason it was written has not stopped being true.
+Where a note below is *about* a sheet that is no longer here - the legacy mouthpiece
+layout, the hand-nested square bell - it is kept, because the reason it was written has
+not stopped being true.
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## What this is
 
 The **bell** and the **mouthpiece**, shared by every trumpet in this repository rather
-than owned by one of them. Every bore under `bore/` is cut at the 10mm channel since
-2026-09-05, so one bell and one mouthpiece serve all of them; only the tube between
-them differs. The octagonal trumpet, which was the other 25mm bore, left this
-repository the same day.
+than owned by one of them. Every bore under `bore/` is cut at the 10mm channel, so one
+bell and one mouthpiece serve all of them; only the tube between them differs. The
+octagonal trumpet, which was on a channel of its own, left this repository on
+2026-09-05.
 
-Since 2026-08-31 there is a **second channel**: `bore/concept/walk/no-elbows/meander/fold2` is cut
-at 10mm as well as 25, and `--bore` on the two square-to-round generators makes the parts
-to suit. See `--bore` is the channel, and only that below.
+`--bore` on the two square-to-round generators still makes the parts to suit any
+channel, and nothing about the pair is tied to 10. See `--bore` is the channel, and
+only that below.
 
 **Every mouthpiece and every bell lives here, whichever instrument cuts it.** The four
 switchback sheets moved out to that repository on 2026-08-31 and came back on 2026-09-02:
 holding them there rested on "nothing else cuts them", which described what had been cut
-rather than what fits. The 25mm mouthpiece and bell suited any 25mm channel, and
-the coiled and octagonal trumpets were both exactly that, so two general parts were
+rather than what fits. A mouthpiece and a bell suit any tube on the same channel, and
+the coiled and octagonal trumpets were both on one, so two general parts were
 hidden inside one instrument. The rule is the one the coiled trumpet states: neither end
 is touched by the way a bore turns, so **only the tube belongs to an instrument**, and a
 bore directory holds only bore.
@@ -47,8 +44,7 @@ It used to say: read `README.md` first, it carries the geometry. This file cover
 
 ## The bore is cylindrical
 
-Constant 25 × 25mm section end to end, 31mm outside in 3mm ply — or 10 × 10mm inside 16 on
-the small candidate. **The only part of a trumpet that flares is the bell.** Do not
+Constant 10 × 10mm section end to end, 16mm outside in 3mm ply. **The only part of a trumpet that flares is the bell.** Do not
 describe a bore, a band or a tube as flaring; say curved if it curves.
 
 ## `--bore` is the channel, and only that
@@ -74,8 +70,10 @@ and every bell lives here, and a bore directory holds only bore.
 
 **The mouthpiece reproduces exactly**: `mouthpiece-round.py --rim=17` gives the shipped
 sheet byte for byte. The default rim is 16.5 and the shipped one is 17, which is a choice
-about the lip rather than about the bore. The bell's shipped sheet is
-`bell-round.py --length=153 --mouth=86`; a bare run writes all four ring budgets at the
+about the lip rather than about the bore. **The bell reproduces exactly too**:
+`bell-round.py 17 --bore=10 --length=152 --mouth=80` gives the shipped sheet byte for
+byte. The built height rounds up to the 153mm in its name, and `--mouth=80` is ø86 at the
+outer, which is the rim the name carries. A bare run writes all four ring budgets at the
 default rim instead.
 
 ## `--mouth` is the hole; `--rim` is the square bell's width
@@ -99,16 +97,17 @@ SVG answers a different question than "how many pieces".
 
 ## Ring 0 is a flange, and the throat is the bore's channel
 
-The bore ends in a **square annulus of ply 3mm wide** — 25mm inside, 31mm out. Ring 0 has to
-cover all of it. It is a sharp 37mm square with a 25mm square hole: the one ring whose outer
-is not the next station offset, and **wider than the several rings above it**.
+The bore ends in a **square annulus of ply 3mm wide** — 10mm inside, 16mm out. Ring 0 has to
+cover all of it. It is a sharp 22mm square with a 10mm square hole, standing 3mm proud of the
+plate all round: the one ring whose outer is not the next station offset, and **wider than
+the several rings above it**. A run prints it — `flange  ø10 aperture in a ø22 square`.
 
-This was wrong until 2026-08-26. The throat was 15.5 (ø31 — the bore's *outside*), so ring 0
-spanned radius 15.5 to 17.8 and did not overlap the ø25–ø31 end face **at all**; the only
-contact was the tube's outer wall against a 2.3mm lip, and the airway stepped 25 → 31 with a
-3mm shoulder per side. It was reported as gaps at the joint, which is exactly what it was.
-The mouthpiece had it right all along — its station one is a 25mm square hole in a 31mm
-plate — and the bell now does the same.
+This was wrong until 2026-08-26. The throat was taken from the bore's *outside* rather than
+its channel, so ring 0 sat entirely outside the end face and did not overlap it **at all**;
+the only contact was the tube's outer wall against a thin lip, and the airway stepped out by
+a full wall thickness per side. It was reported as gaps at the joint, which is exactly what it
+was. The mouthpiece had it right all along — its station one is a bore-sized square hole in a
+plate-sized square — and the bell now does the same.
 
 **The lap is 3mm, not 1.5.** 1.5mm is the width of the glue land, and it left nothing for
 kerf or for a ring set down slightly off centre; joints opened up along the bell. `--lap`
@@ -223,7 +222,7 @@ These have been cut. Treat every SVG as concurrently modified in Inkscape:
   lose their numbering to a full run; they no longer do, but rewriting four sheets to
   change one is still four files to review instead of one.
 - **A mouthpiece sheet is named by its bore AND its layout**, and says both in its
-  `<title>`. Two 25mm mouthpieces exist — `legacy` and `trumpet` — with the same ring
+  `<title>`. Two mouthpieces exist — `legacy` and `trumpet` — with the same ring
   count, bore, throat and rim, and until 2026-09-02 they carried character-for-character
   identical titles while their profiles were nothing alike: 9 backbore rings plus 17
   entrance rings against 26 backbore and none. Neither the filename nor the file itself

@@ -18,8 +18,8 @@ which this checks before writing.
 import sys, math, pathlib, subprocess
 
 WALL   = 3.0        # ring width, mm — also the ply thickness, so a ring is as thick as it is wide
-PLATE  = 31.0       # station one, square, matching the elbow's closing face
-BORE   = 25.0       # the square bore this meets
+PLATE  = 16.0       # station one, square, matching the elbow's closing face
+BORE   = 10.0       # the square bore this meets
 THROAT = 3.66       # a #27 drill, the standard trumpet mouthpiece throat
 GAP    = 2.0        # spacing between parts on the sheet
 MARGIN = 3.0

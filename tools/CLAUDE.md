@@ -1,12 +1,12 @@
 # CLAUDE.md
 
-**trumpet-switchback is one size from 2026-09-03.** Its 25mm folder was deleted, so
-`regress.py` names one switchback design rather than two, and `sizes.py` writes no
-page that is kept. Notes below about having had two sizes are history and stay: the
-play table's two measured figures came from exactly that pair.
+**Nothing here is cut at two pitches.** Every design is on the 16mm block - 10mm of
+air inside 3mm walls - so `regress.py` names one switchback design rather than two,
+and `sizes.py` writes no page that is kept. Notes below about a design held at two
+sizes describe machinery that still works and currently has nothing to show.
 
 **A design naming a folder that is not there now fails.** It used to fall through to
-a geometry-only run - deleting the 25mm folder took that design from 195 checks to
+a geometry-only run - deleting a design's folder took it from 195 checks to
 176 and it still said pass. `check.py`'s empty-folder guard could not catch it,
 because that fires on a folder which exists and is empty.
 
@@ -19,10 +19,10 @@ cut files come out, and every one of them is checked before you cut. Unlike its
 sibling repositories this **is** a software project — it ships no cut files of
 its own, only the thing that makes them.
 
-It produces the bore in **`trumpet-coiled`**. Split out of
-**`../../octomino-snakes`**, which enumerated the 369 octominoes and is archived and
-private;
-a live instrument should not depend on a frozen repository to rebuild its parts.
+It produces every bore under **`../parts/bore`** - the one that has been built and
+every one that is only a candidate. Split out of `octomino-snakes`, which enumerated the
+369 octominoes and is archived and private; a live instrument should not depend on a
+frozen repository to rebuild its parts.
 
 **The README is gone.** Every `README.md` and `index.html` under `trumpet/` was
 removed on 2026-09-05, pending one new writeup for the trumpet as a whole once
@@ -36,12 +36,14 @@ pieces. This file covers only how to work on the code.
 
 ## Where things are
 
-The scripts are flat at the repository root. That is deliberate: it puts them at
-the same depth `octomino-snakes/generator/` had, so every relative path came
+The scripts are flat at the repository root, one level below it. That is deliberate: it
+puts them at the same depth `octomino-snakes/generator/` had, so every relative path came
 across unchanged.
 
-    ../parts/bore/concept          the design library, outside every repository
-    ../../GIT/trumpet-coiled/bore   the instrument this cuts for
+    ../parts/bore/concept   the design library - candidates, not instruments
+    ../parts/bore/built     the bores that have actually been cut
+    ../parts/bell           the two ends, shared by every bore
+    ../parts/mouthpiece
 
 `bore_split.py` writes to `../parts/bore/concept` when `--write` is given no path.
 
@@ -118,7 +120,8 @@ one that names the instrument. `trumpet-coiled/bore` still reads "Trumpet Coiled
 switchback's reads "Trumpet Switchback 10mm Bore" rather than "10mm Bore".
 
 `check.py --files` never looks at the pitch: it checks the written sheets for bed fit,
-overlaps and engraving on material, all of which a 31mm folder passes at `--blocksize=16`.
+overlaps and engraving on material, all of which a folder cut at one pitch passes when
+the gate is told another.
 The pitch decides the *geometry* half of the gate, which is recut in-process. Gate a folder
 at the wrong blocksize and it reports 194 checks and 0 failed on a design nobody cut.
 
@@ -141,20 +144,20 @@ cannot compare them if the view jumps every time you swap.
 things had to be true before the comparison meant anything, and neither was:
 
 - `data_for` emits **lattice** positions, because occupancy and adjacency need a lattice.
-  The pitch reached the caption and nothing else, so `sizes.html` drew the 25mm and the
-  10mm as the same picture — literally the same, the two `cells` lists compared equal. The
+  The pitch reached the caption and nothing else, so `sizes.html` drew two different
+  pitches as the same picture — literally the same, the two `cells` lists compared equal. The
   data now carries `u`, the millimetres per step, and `rotC` scales by it.
 - Each set fitted itself to the canvas, which normalises away exactly what a size control
   exists to show. `draw()` now takes its **scale** from the reference set and its
   **position** from the set on screen, so the small one is small and still centred.
 
-Together those make the 10mm draw at 16/31 of the 25mm, and the ¾ coil at just under half
-the 3-turn. Change one without the other and the page silently goes back to lying.
+Together those make the smaller pitch draw smaller in exact proportion, and the ¾ coil at
+just under half the 3-turn. Change one without the other and the page silently goes back to lying.
 
 **`rot()` scales millimetres, so anything that is a direction must not go through it.**
 `shade()` takes a face normal and its dot product with the light as a number in `[-1, 1]`.
 The normal was being rotated by `rot()` like a position, which multiplied it by the block
-size once `u` existed, drove the dot product to ±31, and clamped every face to pure white or
+size once `u` existed, drove the dot product to ±16, and clamped every face to pure white or
 pure black. Use `rotC(p, centre.c, 1)` for a direction. `regress.py` passed throughout — it
 gates geometry, and a page whose every face is white is geometrically perfect. **Screenshot
 the page after any change to the drawing code**; nothing that reads the file will catch

@@ -41,8 +41,8 @@ file plus one file per distinct run length.
     python3 bore_split.py "D R1 F" --bore=10 --straight=30
         straights 30mm long with the turns left cubic, so the bore lengthens
         without the walk changing. The cross-section stays square either way.
-    python3 bore_split.py "D R1 F" --blocksize=31    a larger bore: the
-        pitch is the sound square plus two walls, so 31 is 25mm of air in 3mm
+    python3 bore_split.py "D R1 F" --blocksize=22    a wider bore: the
+        pitch is the sound square plus two walls, so 22 is 16mm of air in 3mm
         stock, where the default 16 is 10mm of air. Pass the same number to
         check.py or the gate measures the wrong design.
 """
@@ -60,9 +60,7 @@ BOXES = os.environ.get('SNAKEBOX_BOXES', os.path.expanduser('~/boxes'))
 PY = os.environ.get('SNAKEBOX_PY', os.path.join(BOXES, 'venv/bin/python'))
 BED_W, BED_H = 600.0, 308.0   # xTool P2S work area, mm
 BLOCK, PIN, BURN = 16.0, 1.5, 0.1   # block pitch, tab reach, kerf allowance
-# 16mm is 10mm of air in 3mm stock. It became the default on 2026-09-05, when
-# the 25mm bore was retired: the bell and the mouthpiece went 10mm-only on
-# 2026-09-03 and nothing was left to put on the end of a 25mm tube.
+# 16mm is 10mm of air in 3mm stock, which is the bore this project cuts.
 FEWEST_ELBOWS = True          # --fewest-pieces turns this off
 # Fewest is not none. A build repository wants none, and wants to be told rather
 # than handed a folder to inspect, so --refuse-elbows stops before anything is
@@ -84,8 +82,7 @@ TITLE = None        # --title: the page's title, when the folder makes a poor on
 # SnakeBox's own --pin_width default is 12mm, chosen when 31 was the only
 # block there was. It is a fraction of the opening it has to sit in, not a
 # length, so it has to shrink with the block: at 16mm the end frame is 10mm
-# across and a 12mm tab does not fit in it at all. 0.48 reproduces 12 exactly
-# at the 25mm square, which was the default until 2026-09-05.
+# across and a 12mm tab does not fit in it at all, so the floor takes over.
 PIN_FRAC = 0.48
 MIN_SHOULDER = 2.0   # what the automatic sizing aims to leave beside the tab
 MIN_FEATURE = 1.5    # and what check.py will actually refuse below
@@ -96,26 +93,22 @@ MIN_FEATURE = 1.5    # and what check.py will actually refuse below
 # fit before you add char, glue or any kerf the burn allowance did not predict.
 # Reported from the bench 2026-08-31: section 1 would not enter section 2. This
 # widens the notch only -- the tab keeps its full width and strength.
-# Per side, so the notch opens by twice this. Measured per bore, not guessed and
-# not modelled -- both rows below are assembled objects:
+# Per side, so the notch opens by twice this. Measured, not guessed and not
+# modelled -- every row below is an assembled object:
 #
-#     bore 25mm (tab 12.0 in a 25mm frame)   0.0   assembles, fits well
-#     bore 10mm (tab  6.0 in a 10mm frame)   0.025 assembles, fits well
-#                                            0.0   will not go together
-#                                            0.05  very slightly loose
-#                                            0.15  perceptible rock
-#
-# The same zero clearance that jams the small joint is fine on the large one, so
-# the requirement is neither absolute nor constant.
+#     bore 10mm (tab 6.0 in a 10mm frame)   0.025 assembles, fits well
+#                                           0.0   will not go together
+#                                           0.05  very slightly loose
+#                                           0.15  perceptible rock
 #
 # The 10mm bore is the extreme case, not merely a small one: the two sizing rules
 # cross at exactly 10mm, where the tab is a full finger-joint tooth AND the
-# shoulder is at its 2mm minimum together. Its shoulder is 0.67 of a ply against
-# 2.17 at 25mm. Required clearance FALLS as the joint grows, which rules out both
-# a constant absolute clearance and a constant fraction of the tab; what fits is
-# a fabrication error fixed in millimetres against elastic take-up that scales.
-# Hypothesis, not result -- the full reasoning and the coupon test that would
-# settle it are in README.md, beside this file.
+# shoulder is at its 2mm minimum together. Its shoulder is 0.67 of a ply. Below
+# 10mm the tab has to be cut narrower than a tooth to keep any shoulder at all.
+#
+# Whether the requirement is absolute, a fraction of the tab, or something else
+# takes a second bore to say, and there is one bore. The coupon that would settle
+# it is below.
 #
 # This is a lookup of what has been cut, not a curve through it. It was kept in
 # step by hand across two copies of this file until 2026-09-05, when the fork
@@ -143,7 +136,7 @@ MIN_FEATURE = 1.5    # and what check.py will actually refuse below
 # as three indistinguishable piles, the difference between them being 0.0125mm
 # of notch, so --tag=A engraves an A beside every number on that run. Without it
 # the test cannot be read, only performed.
-PLAY_BY_BORE = {25.0: 0.0, 10.0: 0.025}
+PLAY_BY_BORE = {10.0: 0.025}
 PLAY_UNMEASURED = 0.025
 
 
@@ -223,7 +216,7 @@ def pin_width():
     ordinary teeth beside it. Reported from the cut file, not caught by the
     gate -- the gate's floor is MIN_FEATURE, 1.5mm, and 4.8 clears it.
 
-    At the 25mm bore the fraction wins at 12mm and nothing moves.
+    At a wider bore the fraction wins and nothing moves; at 10mm the floor does.
     """
     tooth = 2.0 * THICKNESS                     # Boxes.py FingerJointSettings
     frame = BLOCK - 2 * THICKNESS               # the opening the tab sits in
@@ -1291,7 +1284,7 @@ def design_slug(stack):
 
 
 def bore_tag():
-    """bore25 / bore10 - the sound square, not the block pitch.
+    """bore10 - the sound square, not the block pitch.
 
     Derived rather than typed, so it cannot disagree with the geometry the
     same run is cutting. On a stretched lattice the straight length varies and

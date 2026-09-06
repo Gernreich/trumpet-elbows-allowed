@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """A bell or a mouthpiece you can turn: rings stacked, drag to rotate.
 
-    python3 part-view.py bell/bell-round25-204mm-17rings-x4-rim145-cut-files.svg
-    python3 part-view.py mouthpiece/mouthpiece-bore25-trumpet-parts-cut-files.svg
+    python3 part-view.py bell/cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg
+    python3 part-view.py mouthpiece/cut-files/mouthpiece-bore10-trumpet-parts-cut-files.svg
 
 bell-view.py and mouthpiece-view.py draw one fixed isometric each, which is the
 right thing for a page and no use for looking at the object. This is the same

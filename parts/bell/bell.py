@@ -31,12 +31,12 @@ it is the second steepest, so both are printed and the steepest is the headline.
 import sys, math, pathlib, subprocess
 
 RISE, LAP, MINWALL = 3.0, 3.0, 2.0
-GAMMA, RT, RIM, L  = 0.7, 12.5, 61.5, 201.0     # 25mm throat = the bore's channel, 201mm
-BORE     = 25.0      # the bore's air channel; the horn continues it rather than stepping
-PLATE    = 31.0      # the bore's outside. Ring 0 has to cover this whole end face
+GAMMA, RT, RIM, L  = 0.7, 5.0, 61.5, 201.0      # 10mm throat = the bore's channel, 201mm
+BORE     = 10.0      # the bore's air channel; the horn continues it rather than stepping
+PLATE    = 16.0      # the bore's outside. Ring 0 has to cover this whole end face
 OVERHANG = 3.0       # and stand proud of it, to glue against and to locate the joint
 
-# A bell cannot be scaled. The throat is ø31 because the bore is 31mm outside, and a ring
+# A bell cannot be scaled. The throat is ø16 because the bore is 16mm outside, and a ring
 # rises 3mm because the ply is 3mm: neither number is ours to halve. What is free is the
 # profile, so a smaller bell is a shorter L and whatever rim you want at the end of it, and
 # the flare between them steepens to suit. --rim is the bore's diameter AT the rim; the cut
@@ -98,7 +98,7 @@ def rings(plies):
         r += g; z += step
 
     # Ring 0 is the flange onto the bore, and the one ring whose outer is not set by the
-    # profile. The bore ends in a square annulus of ply 3mm wide -- 25mm inside, 31mm out --
+    # profile. The bore ends in a square annulus of ply 3mm wide -- 10mm inside, 16mm out --
     # and the flange has to cover all of it and stand proud, or there is nothing to glue to
     # but the outside of the tube and the joint opens up.
     a0, o0, _, ang = out[0]

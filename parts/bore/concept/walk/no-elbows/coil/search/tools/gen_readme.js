@@ -2,7 +2,7 @@
 // Regenerate README.md. Every number in it comes from the tools, so the page
 // cannot drift from the walks: node tools/gen_readme.js
 const fs = require('fs'), path = require('path'), cp = require('child_process');
-const { metrics, period } = require('./spiral_metrics.js');
+const { metrics, period, MM } = require('./spiral_metrics.js');
 const root = path.join(__dirname, '..');
 
 const parts = JSON.parse(fs.readFileSync(path.join(root, 'parts.json'), 'utf8'));
@@ -167,7 +167,7 @@ requirement is none of it at any length.
 
 ${tbl('--shape')}
 
-Envelope, box and cross-section are in blocks; a block is 31mm of centreline. Sorted by
+Envelope, box and cross-section are in blocks; a block is ${MM}mm of centreline. Sorted by
 box, smallest first.
 
 **The bore's mouth and exit are not judged.** Every design has them, no design chooses

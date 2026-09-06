@@ -72,11 +72,10 @@ UNIFORM = [
     # short at both ends to leave room for the mouthpiece and the bell. Four
     # of its six sections come out as one of two shapes, so it is the set's
     # check that duplicates still get their own section number engraved.
-    # On a 16mm block - 10mm of air inside 3mm walls. The only design here not
-    # cut at the stock pitch, so it is the one thing keeping --blocksize
-    # honest: everything scaled with the block except SnakeBox's 12mm tab,
-    # which does not fit a 10mm frame. Its 25mm twin was retired with
-    # trumpet-switchback's 25mm folder on 2026-09-03.
+    # On a 16mm block - 10mm of air inside 3mm walls. It is passed its pitch
+    # explicitly rather than taking the default, so it is the one thing keeping
+    # --blocksize honest: everything scales with the block except SnakeBox's
+    # 12mm tab, which does not fit a 10mm frame.
     ('trumpet switchback',
      'walks/trumpet_switchback.txt',
      '../parts/bore/concept/walk/no-elbows/meander/fold2/10mm/bore', 16),
@@ -212,9 +211,9 @@ def main(pattern=None):
         args = [sys.executable, 'check.py', text] + switches
         if folder:
             # A NAMED FOLDER THAT IS NOT THERE IS A FAILURE, not a skip. This
-            # used to fall through to a geometry-only run: when
-            # trumpet-switchback's 25mm folder was deleted, this design went
-            # from 195 checks to 176 and still said "pass". check.py's own
+            # used to fall through to a geometry-only run: when a design's
+            # folder was deleted out from under it, the run went from 195
+            # checks to 176 and still said "pass". check.py's own
             # guard cannot help - it only fires on a folder that exists and is
             # empty, and this one had stopped existing.
             #

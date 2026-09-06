@@ -7,44 +7,41 @@ the renaming and reorganising is finished. Git has them all. Until it exists,
 this file is the documentation, and any recipe below that renders or audits a
 README is waiting on that writeup rather than describing something present.
 
-**The 25mm folder was deleted on 2026-09-03.** This repository is a 10mm bore now:
-six sections on a 16mm block, 352mm of centreline. `sizes.html` went with it - it
-existed to hold both sizes in one page. Notes below that named a 25mm sheet now name
-the 10mm one; notes that are ABOUT having had two sizes are kept, because that is
-where the play table's two measured figures came from.
+**This is a 10mm bore**: six sections on a 16mm block, 352mm of centreline. There is
+no `sizes.html` - it existed to hold two pitches in one page, and there is only one.
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## What this is
 
-A laser-cutting build repository, not a software project. The deliverable is **one bore at
-two sizes**, six sections apiece, as **SVG cut files**
+A laser-cutting build repository, not a software project. The deliverable is **one bore**,
+six sections, as **SVG cut files**
 that someone sends to a laser, plus the pages describing them. The bores are **generated**
-by the sibling repository **`../../../../../../tools`**
+by the sibling repository **`../../../../../../../tools`**
 ([CLAUDE.md](https://github.com/Gernreich/trumpet/blob/main/tools/CLAUDE.md)); nothing in
 this repository is authored by hand except `README.md` and this file.
 
-It held **one design at two sizes** until the 25mm was retired on 2026-09-03:
+One design, one pitch:
 
     10mm/  bore/          16mm block
 
-The 25mm folder and its 31mm sheets are in git. Cut this folder and you have
-the tube; the two ends come from `../../../../..`.
+The folder still names its bore, because the machinery that would cut a second
+pitch beside it is untouched. Cut this folder and you have the tube; the two
+ends come from `../../../../../..`.
 `index.html` is still at the root and still the published page; nothing else is loose there.
 
-**Three moves got here.** On 2026-08-31 the 25mm set came off the root into `25mm/bore/`,
-so the sizes read as siblings rather than as a design and an afterthought; then the bores
-went down a level into `<size>/bore/` and the mouthpiece and bell joined them, so a folder
-was a whole instrument. On 2026-09-02 those two ends left again for `../../../../..`.
+**Three moves got here.** On 2026-08-31 the sheets came off the root into `<size>/bore/`,
+so a pitch read as a sibling of any other rather than as a design and an afterthought;
+then the mouthpiece and bell joined them, so a folder was a whole instrument. On 2026-09-02 those two ends left again for `../../../../../..`.
 Regenerating after each move left every bore SVG **byte-identical**.
 
 **Where the parts come from.** The bell and the mouthpiece are generated in
-`../../../../..`, which is where the two square-to-round generators live:
+`../../../../../..`, which is where the two square-to-round generators live:
 
-**All four sheets live in `../../../../..`, and none of them here.** They were held here
+**All four sheets live in `../../../../../..`, and none of them here.** They were held here
 from 2026-08-31 to 2026-09-02 on the grounds that nothing else cut them — true of what had
-been cut, false of what fits. The 25mm mouthpiece and bell suit any 25mm channel, and
-`trumpet-coiled` and `trumpet-octagonal` are both exactly that, so keeping them here hid two
+been cut, false of what fits. A mouthpiece and a bell suit any tube on the same channel,
+and the coiled and octagonal trumpets were both on one, so keeping them here hid two
 general parts inside one instrument. The rule `trumpet-coiled` states is what decides it:
 neither end is touched by the way a bore turns, so **only the tube belongs to an
 instrument**. The 10mm pair suit no other bore today, which is an accident of the lineup
@@ -52,16 +49,16 @@ rather than a principle, so they went too.
 
 **Do not move them back** without deciding what changed about that argument.
 
-Regenerating any of the four still means running a generator in `../../../../..` and
+Regenerating any of the four still means running a generator in `../../../../../..` and
 moving the result across, because they write into their own directory. Two traps in that:
 
 - **Name the sheet on the way out.** Both generators take the filename — a positional
   argument for `mouthpiece-round.py`, `--out=` for `bell-round.py` — and the names here put
   the bore in every one: `mouthpiece-bore10-trumpet-parts-cut-files.svg`, `bell-round10-153mm-17rings-x3-rim86-cut-files.svg`. The
   generated names say how a sheet was *made* (which script, what length), which is not what
-  someone hunting for a part needs to read, and they left the 25mm sheets with no size in
+  someone hunting for a part needs to read, and they left the sheets with no bore in
   their names at all. Take the name and there is nothing to rename afterwards.
-- **A bare `bell-round.py` writes `bell-round10-153mm-17rings-x3-rim86-cut-files.svg` back into `../../../../../bell`,**
+- **A bare `bell-round.py` writes `bell-round10-153mm-17rings-x3-rim86-cut-files.svg` back into `../../../../../../bell`,**
   since it is one of that script's four standard budgets. Give it a budget and an `--out` so
   it writes one named sheet; otherwise move the result here or delete it, and do not leave a
   second copy there.
@@ -69,14 +66,14 @@ moving the result across, because they write into their own directory. Two traps
   `<g id="ring-numbers">`, and `bell-round.py` and `mouthpiece-round.py` write it themselves
   as the last step, so a regenerate keeps it. **A regenerate also adds an orientation tick**
   beside each number. All four sheets carry it as of 2026-09-02; the parts already glued up
-  predate it. Those sheets are in `../../../../..` now. `--numbers=no` opts out; a numbering failure
+  predate it. Those sheets are in `../../../../../..` now. `--numbers=no` opts out; a numbering failure
   deletes the sheet rather than leaving an unnumbered one to be cut. This used to be a
   separate command you had to remember, and forgetting it cost a sheet its numbering once.
 
 Sibling repositories — `knotwork-soundholes`, `living-hinge` and others — follow
 the same conventions. The coiled trumpet is a directory in this repository now, not a
 repository of its own, and the two octagonal ones left it on 2026-09-05. Shared
-documentation tooling lives in **`../../../../../../../lasermade-tools`** (its own repository).
+documentation tooling lives in **`../../../../../../../../lasermade-tools`** (its own repository).
 
 ## The design is one line
 
@@ -90,7 +87,7 @@ The first letter is the way in; each term after it turns where you stand and the
 *n* blocks, so **the bore is 1 + the sum of the numbers** — 22 blocks here. Axes match
 Minecraft: `U`/`D` are +Y/−Y, `N` is −Z, `S` is +Z, `E` is +X, `W` is −X.
 
-**The walk is stored in `../../../../../../tools/walks/trumpet_switchback.txt`**,
+**The walk is stored in `../../../../../../../tools/walks/trumpet_switchback.txt`**,
 and `regress.py` there names this repository as where its cut files live. Unlike
 `../../coil/flat-drop`, which keeps its walk in its page, the file is the record here — the
 page carries the same string in its `<div class="walk">` and `bore_split.py` will read
@@ -115,8 +112,8 @@ along the bore. The 22 blocks are 352mm of centreline at that size.
 
 **The folder is named for the bore, the switch is the block.** `10mm/bore/` is
 `--blocksize=16`. The two numbers are 6mm apart and naming them the same thing is the
-mistake this section exists to stop -- it read "one block is 31mm, not 25" while the
-25mm set existed, and the arithmetic is the same one size down.
+mistake this section exists to stop: the bore is the air, the block is the air plus two
+walls, and a folder named for one gated at the other cuts a tube nobody asked for.
 
 Standard flags, uniform across the set — mixing `burn` changes finger joint fit while every
 outside dimension still matches, which no drawing shows. Do not type them: `bore_split.py`
@@ -127,36 +124,33 @@ builds them from its own constants, so `--blocksize` moves the plan and the shee
 --reference=0 --inner_corners=corner --spacing=0.5
 ```
 
-`--pin_width=12` was in this list while the 25mm set existed. A 12mm tab does
-not fit a 10mm end frame, which is the whole of the section below.
+`--pin_width=12` was in this list once. A 12mm tab does not fit a 10mm end
+frame, which is the whole of the section below.
 
-## `10mm/bore/` is the same walk, a smaller square
+## `10mm/bore/` is a walk and a square, and the folder names the square
 
-Added 2026-08-31. The **block pitch is the sound square plus two walls**, so a 10mm bore in
-the same 3mm stock is a **16mm** block: `--blocksize=16`, and nothing else changes. Same
-walk, same six sections, same shapes, same in and out faces, no elbows — 352mm of
-centreline instead of 682. The two bores differ in pitch and in nothing else, so a change
-to one is a change to both.
+The **block pitch is the sound square plus two walls**, so a 10mm bore in 3mm stock is a
+**16mm** block: `--blocksize=16`, and nothing else changes. Six sections, no elbows,
+352mm of centreline. Cut the same walk at another pitch and you get the same shapes, the
+same in and out faces, and different millimetres — pitch is the only thing a size
+carries, so a change to the walk is a change to every size of it.
 
-**The two folders shared every filename until 2026-09-03.** `01_bend_DL.svg` existed in both
-bores, because the shapes genuinely are the same and only the pitch differs — but nothing
-stopped you cutting the wrong one, and the only tell was the sheet size. The bore is now in
-the name: `bore10-switchback-01of06-bend-DL-buttin-cut-files.svg`, and each sheet
-carries a `<title>` and `<desc>` saying its bore, its blocks and its faces, so a file that
-has been renamed or moved can still be asked what it is.
+**A sheet named only for its shape cannot say which pitch it is.** `01_bend_DL.svg` names
+a shape two pitches would share, and the only tell would be the sheet size. The bore is in
+the name instead — `bore10-meander-fold2-01of06-bend-DL-buttin-cut-files.svg` — and each
+sheet carries a `<title>` and `<desc>` saying its bore, its blocks and its faces, so a file
+that has been renamed or moved can still be asked what it is.
 
-`--pin_width` is the one flag that does not simply scale. SnakeBox defaults it to 12mm,
-sized for the 25mm square, and 12mm does not fit a 10mm end frame — SnakeBox raises
+`--pin_width` is the one flag that does not simply scale. SnakeBox defaults it to 12mm and
+12mm does not fit a 10mm end frame — SnakeBox raises
 `pin_width 12.0 is too wide for the 10.0mm end frame` rather than cutting something wrong.
-`bore-generator` derives it as **0.48 × the sound square, floored at the finger tooth**
-(`2 × thickness`, which does not shrink with the block) — 6mm at the 10mm bore, and the
-fraction's 12 at 25,
-so the 31mm files did not move: they were regenerated after the change and came back
-**byte-identical**.
+`bore_split.py` derives it instead, as **0.48 × the sound square, floored at the finger
+tooth** (`2 × thickness`, which does not shrink with the block) — so 6mm here, the floor
+rather than the fraction.
 
-Regenerating one set does not touch the other — they are separate `--write` targets — but
-**omitting `--blocksize=16` fills `10mm/bore/` with full-size parts under the small set's
-names**. Both are entries in `regress.py`; the 10mm one carries a fourth field, the pitch.
+**Omitting `--blocksize=16` fills `10mm/bore/` with parts at the stock pitch under this
+set's names**, and nothing in the sheet's own name would say so. This design is an entry in
+`regress.py` carrying a fourth field, the pitch, which is what keeps `--blocksize` honest.
 
 ## No elbows — the rule that shapes the walk
 
@@ -176,7 +170,7 @@ different axes, so there are three cases:
 | same axis, opposite direction | hairpin | >= 2 |
 | different axes | coil | >= 3 |
 
-`../../../../../../tools/CLAUDE.md`, `../../coil/flat-drop/CLAUDE.md` and that repository's
+`../../../../../../../tools/CLAUDE.md`, `../../coil/flat-drop/CLAUDE.md` and that repository's
 `README.md` all stated only the coil case until 2026-08-29, lumping the other two together
 as a fold that "costs nothing at any spacing" — right for steps, wrong for hairpins, and
 this walk has two hairpins sitting exactly on the limit. All three now carry the table
@@ -287,8 +281,8 @@ never touching these SVGs.
 ## Commands
 
 ```sh
-G=../../../../../../../lasermade-tools
-S=../../../../../../tools
+G=../../../../../../../../lasermade-tools
+S=../../../../../../../tools
 ```
 
 **Test a walk without writing anything** — always do this before proposing a change:
@@ -307,15 +301,16 @@ python3 bore_split.py --blocksize=16 --refuse-elbows "$W" --write $D/10mm/bore
 ```
 
 The mouthpiece and the bell are **not generated here** — they come from
-`../../../../..` and are copied in. Those generators write into their own directory, so
+`../../../../../..` and are copied in. Those generators write into their own directory, so
 copy the result across afterwards. They engrave the ring numbers themselves, so these two
 commands are the whole job:
 
 ```sh
-cd ../../../../../mouthpiece
-python3 mouthpiece-round.py --bore=10 --rim=17 --layout=trumpet mouthpiece-bore10-trumpet-parts-cut-files.svg
-cd ../../../../../../bores/bell && python3 bell-round.py 17 --bore=10 --length=152 --mouth=80 \
-    --out=bell-round10-153mm-17rings-x3-rim86-cut-files.svg
+cd ../../../../../../mouthpiece
+python3 mouthpiece-round.py --bore=10 --rim=17 --layout=trumpet \
+    cut-files/mouthpiece-bore10-trumpet-parts-cut-files.svg
+cd ../bell && python3 bell-round.py 17 --bore=10 --length=152 --mouth=80 \
+    --out=cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg
 ```
 
 **Always pass `--refuse-elbows` here.** This is a build repository, and the standard for a
@@ -333,7 +328,7 @@ cd $S && ~/boxes/venv/bin/python regress.py      # every design in the library
 The gate reports **213 checks, 0 failed** on this bore, and `regress.py` covers
 26 designs. It does not look at the bell or the mouthpiece at all — those are checked by
 `bell-round.py` and `mouthpiece-round.py` themselves, before they write, in
-`../../../../..`. Nothing here should be cut from a file that has not passed one or the
+`../../../../../..`. Nothing here should be cut from a file that has not passed one or the
 other.
 
 **After editing `README.md`** — regenerate the page, then audit:
@@ -345,7 +340,7 @@ python3 $G/doc-audit.py README.md --html index.html
 
 **Read the audit output before pushing.** It ends with a pass/fail tally. `.doc-audit-ignore`
 lists `bore_split.py` and `regress.py`, which the prose names but which live in
-`../../../../../../tools`; the audit also insists every tracked file is named somewhere, which is
+`../../../../../../../tools`; the audit also insists every tracked file is named somewhere, which is
 why the section table carries a file column.
 
 ## Publishing
@@ -378,8 +373,7 @@ to record a preference.
 
 **trumpet-switchback** describes the design instead: the bore folds back on itself twice,
 which is exactly the two hairpins the elbow rule counts. That is a fact about the walk, so
-it cannot go stale. It also matches `../../coil/flat-drop` and `../../../../../../bores/octagonal`, which
-are named the same way.
+it cannot go stale. It also matches `../../coil/flat-drop`, which is named the same way.
 
 Renamed together each time: the folder, the walk file, the `regress.py` entries, the GitHub
 repository, the Pages URL and the artifact. If you find either old name anywhere, it is a

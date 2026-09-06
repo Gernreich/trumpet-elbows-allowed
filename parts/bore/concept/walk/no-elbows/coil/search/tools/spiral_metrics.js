@@ -5,11 +5,10 @@
 // on a cubic lattice it can only ever turn in 90 degree steps, so the winding
 // is counted in quarter turns and multiplied up. Steps along the coil axis
 // project to nothing and are skipped; they are advance, not rotation.
-// The block pitch in millimetres. 16 is a 10mm bore in 3mm stock, the default
-// since 2026-09-05. It was 31 -- a 25mm bore -- and stayed 31 through the
-// conversion, because that changed bore_split.py's default and nothing looked
-// for a second copy of the number over here. Every mm figure in the scoring
-// and the tables came from this line.
+// The block pitch in millimetres: a 10mm bore in 3mm stock. This is a SECOND
+// copy of bore_split.py's default, not an import, and every mm figure in the
+// scoring and the tables comes from this line -- so a pitch changed there has
+// to be changed here, and a run that disagrees will not say so.
 const MM = 16;
 const V = {N:[0,0,-1], S:[0,0,1], E:[1,0,0], W:[-1,0,0], U:[0,1,0], D:[0,-1,0]};
 const AXNAME = ['x (east/west)', 'y (up/down)', 'z (north/south)'];

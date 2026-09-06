@@ -4,7 +4,7 @@
     python3 mouthpiece-view.py [OUT.svg]
 
 bell-view.py draws square section and would render these as squares. These rings are
-round -- read from the arc radii in the cut file -- except station one, which is the 31mm
+round -- read from the arc radii in the cut file -- except station one, which is the 16mm
 square that meets the elbow's end face. Circles are sampled and projected, so a circle in
 plan becomes a true ellipse in isometric rather than an approximation of one.
 
@@ -19,17 +19,16 @@ iso = lambda X, Y, Z: ((X - Y) * C30, (X + Y) * S30 - Z)
 # diameter interleaves the cup and the backbore, because both pass through the same
 # diameters on the way down and back up -- it drew a plausible object that was not this
 # mouthpiece.
-# Named on the command line, with the 25mm trumpet layout as the default. It
-# used to open "mouthpiece-parts-cut-files.svg" by name; that file was renamed
-# on 2026-09-03 to carry its bore and layout, and this went on naming a file
-# that no longer exists.
+# Named on the command line, with the trumpet layout as the default. It used to
+# open "mouthpiece-parts-cut-files.svg" by name; that file was renamed to carry
+# its bore and layout, and this went on naming a file that no longer exists.
 # --src names the cut file; a bare argument is still the OUTPUT, which is what
 # this script has always taken. Making argv[1] the source instead silently
 # turned the output path into the input path, and the run wrote a display SVG
 # straight over a cut file.
 _s = [a for a in sys.argv[1:] if a.startswith("--src=")]
 SRC = _s[0].split("=", 1)[1] if _s else \
-      "mouthpiece-bore25-trumpet-parts-cut-files.svg"
+      "cut-files/mouthpiece-bore10-trumpet-parts-cut-files.svg"
 sys.argv = [sys.argv[0]] + [a for a in sys.argv[1:] if not a.startswith("--src=")]
 src = pathlib.Path(SRC).read_text()
 
