@@ -68,9 +68,13 @@ bores are different parts and only one of them fits your tube. Those two names a
 bare run writes into this directory, which is where they belong — every mouthpiece
 and every bell lives here, and a bore directory holds only bore.
 
-**The mouthpiece reproduces exactly**: `mouthpiece-round.py --rim=17` gives the shipped
-sheet byte for byte. The default rim is 16.5 and the shipped one is 17, which is a choice
-about the lip rather than about the bore. **The bell reproduces exactly too**:
+**The mouthpiece reproduces exactly**: a bare `mouthpiece-round.py` gives the shipped
+sheet byte for byte. `RIM` is 17 because the shipped sheet is, and a bare run has to
+rebuild what is shipped. It was 16.5 until 2026-09-06, which was a live hazard once the
+generators started writing into `cut-files/`: the rim is not in the filename, so a bare
+run silently replaced a mouthpiece that had been cut with one 0.5mm narrower at the lip.
+The bell has no such hazard — its rim IS in its name, so a different rim writes a
+different file. **The bell reproduces exactly too**:
 `bell-round.py 17 --bore=10 --length=152 --mouth=80` gives the shipped sheet byte for
 byte. The built height rounds up to the 153mm in its name, and `--mouth=80` is ø86 at the
 outer, which is the rim the name carries. A bare run writes all four ring budgets at the
@@ -150,12 +154,12 @@ floors are solved in closed form in `stations()`; do not reduce it to one.
 `bell-view.py` and `mouthpiece-view.py` each draw ONE fixed isometric SVG. That
 is the right thing for a page and no use for looking at an object.
 `part-view.py` draws the same geometry as a solid you can drag, in the family
-of the bore viewers in `bore-ribbon`, and writes `<name>-turn.html` beside each
-cut file.
+of the bore viewers in `bore-ribbon`, and writes `<name>-turn.html` beside the
+PART — climbing out of `cut-files/`, because a turn page is not a cut file.
 
 ```sh
-python3 part-view.py bell/bell-round10-153mm-17rings-x3-rim86-cut-files.svg
-python3 part-view.py mouthpiece/mouthpiece-bore10-trumpet-parts-cut-files.svg
+python3 part-view.py bell/cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg
+python3 part-view.py mouthpiece/cut-files/mouthpiece-bore10-trumpet-parts-cut-files.svg
 ```
 
 It reads the ring sizes with **`bell-view.py`'s own `sections()`**, executed out
@@ -408,28 +412,59 @@ did over its height.
 
 ## Commands
 
-Generators read hardcoded relative filenames — run each from its own directory:
+Run each from its own directory: several read a sibling script by relative path.
+
+**A generated sheet goes into `cut-files/`; a display drawing goes beside the part.**
+`in_cut_files()` in each generator places the first, `display_out()` in each reader places
+the second, climbing back out of `cut-files/` — so a section drawing never lands among the
+cut files and never gets sent to a laser. Name a path yourself and it is used exactly as
+given, wherever it points.
+
+All eighteen lines below were run in order from a clean tree on 2026-09-06, and all
+eighteen exit 0. **No line modifies a tracked sheet**: every shipped sheet it rewrites comes
+back byte-identical, which is the property worth having — a command block nobody can run is
+a command block nobody can trust.
+
+Six of them do **add** sheets, fifteen in all: the four lines that survey a range (a bare
+`bell.py` and a bare `bell-round.py` write four budgets each, `--morph=flare` and
+`--rim=80` write their own) and the two at the end that generate designs this repository
+does not ship. Those fifteen are scratch. Delete them, or they read as shipped parts.
 
 ```sh
-cd bell && python3 bell.py            # all four square bells
+cd bell && python3 bell.py            # all four square bells, into cut-files/
 cd bell && python3 bell.py 20         # one, at most 20 rings
-cd bell && python3 bell-round.py      # all four square-to-round bells
+cd bell && python3 bell-round.py      # all four square-to-round bells, at the default rim
 cd bell && python3 bell-round.py 67 --morph=flare --law=width
-cd bell && python3 bell-round.py --length=99 --rim=80   # a half-size bell
-cd bell && python3 bell-round.py --bore=10 --length=152 --mouth=80   # the 10mm bell
-cd mouthpiece && python3 mouthpiece-round.py --bore=10 --rim=17 --layout=trumpet
-cd bell && python3 bell-section.py bell-round10-153mm-17rings-x3-rim86-cut-files.svg
-cd bell && python3 bell-view.py bell-round10-153mm-17rings-x3-rim86-cut-files.svg
+cd bell && python3 bell-round.py --length=99 --rim=80          # a half-size bell
+cd bell && python3 bell-round.py 17 --bore=10 --length=152 --mouth=80   # THE SHIPPED BELL
+cd mouthpiece && python3 mouthpiece-round.py                   # THE SHIPPED MOUTHPIECE
+cd bell && python3 bell-section.py cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg
+cd bell && python3 bell-view.py cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg
+cd bell && python3 bell-section.py ../mouthpiece/cut-files/mouthpiece-bore10-trumpet-parts-cut-files.svg
+cd parts && python3 part-view.py bell/cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg
+cd parts && python3 part-view.py mouthpiece/cut-files/mouthpiece-bore10-trumpet-parts-cut-files.svg
+cd mouthpiece && python3 mouthpiece-view.py     # its default source is the shipped sheet
 cd bell && python3 bell.py 20 && python3 verify_bell.py \
-      bell-square10-204mm-17rings-x4-rim129-cut-files.svg   # SQUARE bells only
-cd bell && python3 number_rings.py bell-round10-153mm-17rings-x3-rim86-cut-files.svg   # engrave 0..A
-cd bell && python3 number_rings.py ../mouthpiece/mouthpiece-bore10-trumpet-parts-cut-files.svg --order=document
-cd mouthpiece && python3 mouthpiece-round.py    # square on the bore, round by the throat
-cd mouthpiece && python3 mouthpiece-cup.py      # the bowl that stacks on its end
-cd mouthpiece && python3 ../bell/number_rings.py mouthpiece-cup-parts-cut-files.svg --start=26  # not kept
-cd mouthpiece && python3 mouthpiece.py          # the previous 23-ring design
-cd mouthpiece && python3 mouthpiece-view.py     # draws the previous design ONLY
+      cut-files/bell-square10-204mm-17rings-x4-rim129-cut-files.svg   # SQUARE bells only
+cd bell && python3 number_rings.py --order=document \
+      cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg     # engrave 0..A
+cd bell && python3 number_rings.py --order=document \
+      ../mouthpiece/cut-files/mouthpiece-bore10-trumpet-parts-cut-files.svg
+cd mouthpiece && python3 mouthpiece-cup.py      # the bowl that stacks on its end; not kept
+cd mouthpiece && python3 mouthpiece.py          # the previous 23-ring design; not kept
 ```
+
+**`--order=document` is not optional on either sheet**, and the refusal without it is
+correct rather than a bug: a bell's flange ring is wider than the rings just above it and a
+mouthpiece doubles back through the same diameters, so size order is not assembly order on
+either. `number_rings.py` says so and stops rather than engraving a sequence nobody can
+build to.
+
+**Only two sheets in `cut-files/` are shipped** —
+`bell-round10-153mm-17rings-x3-rim86-cut-files.svg` and
+`mouthpiece-bore10-trumpet-parts-cut-files.svg`. Anything else there came from a survey
+line and is scratch: `git status` is the check, and `git clean -f bell/cut-files
+mouthpiece/cut-files` is the sweep.
 
 `bell-section.py` counts a path with two subpaths as a ring, so **outline** digits — a
 hand-drawn 0, 4, 6, 8 or 9 has a counter — register as rings and it read 25 in the old

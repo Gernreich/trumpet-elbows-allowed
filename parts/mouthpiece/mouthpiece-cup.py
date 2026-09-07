@@ -37,7 +37,24 @@ onto the existing stack included, and nothing is written if one is short.
 Rings are 3mm ply and the bowl is a staircase of them. Sand or fill the steps and round the
 rim over before playing it; the rim edge as cut is a square corner and your lip will say so.
 """
-import sys, math, pathlib, subprocess
+import os, sys, math, pathlib, subprocess
+
+
+def in_cut_files(name):
+    """A generated sheet goes in cut-files/, beside the others.
+
+    A name the CALLER gave is honoured exactly as given, wherever it points; only the
+    generated one is placed. Every reader in this directory looks in cut-files/, and
+    until 2026-09-06 these generators wrote beside themselves instead -- so running the
+    command block in ../CLAUDE.md dropped 22 loose sheets into parts/ that nothing read
+    and the next `git add` would have committed.
+
+    Reported relative to where the caller stands, so a run from this directory says
+    "cut-files/<sheet>" rather than an absolute path nobody can read at a glance.
+    """
+    d = pathlib.Path(__file__).resolve().parent / "cut-files"
+    d.mkdir(exist_ok=True)
+    return os.path.relpath(d / name, os.getcwd())
 
 WALL    = 3.0        # ring width, and the ply thickness
 RISE    = 3.0        # one ring, one lamination
@@ -70,7 +87,8 @@ else:
     START = 23          # mouthpiece.py writes rings 0..22 and ends at the default ONTO
 if START < 0:
     sys.exit("--start cannot be negative")
-out_path = next((a for a in sys.argv[1:] if not a.startswith("--")), "mouthpiece-cup-parts-cut-files.svg")
+out_path = next((a for a in sys.argv[1:] if not a.startswith("--")),
+                in_cut_files("mouthpiece-cup-parts-cut-files.svg"))
 if RIM <= ONTO:
     sys.exit(f"--rim must open past the ø{ONTO:g}mm it stacks onto")
 if RINGS < 1:

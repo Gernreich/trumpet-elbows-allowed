@@ -22,7 +22,29 @@ is drawn only where there really is a corner.
 
 DISPLAY ONLY. Not a cut file.
 """
-import sys, re, math, pathlib
+import os, sys, re, math, pathlib
+
+
+def display_out(src, suffix):
+    """Where a display drawing goes, given the cut file it was read from.
+
+    Beside the PART, not inside cut-files/ and not beside this script. cut-files/ holds
+    cut files and nothing else -- a section drawing sent to a laser is scrap -- so the
+    output climbs out of it to the part's own directory. Source-derived rather than
+    script-derived because bell-section.py and bell-view.py are read by the mouthpiece
+    too, and a script-derived path filed a mouthpiece drawing under bell/.
+
+    The "-cut-files" the source carries is dropped, so
+    bell-round10-...-rim86-cut-files.svg gives bell-round10-...-rim86-section.svg and not
+    a doubled -cut-files-section.
+    """
+    stem = pathlib.Path(src).stem
+    if stem.endswith("-cut-files"):
+        stem = stem[:-len("-cut-files")]
+    d = pathlib.Path(src).resolve().parent
+    if d.name == "cut-files":
+        d = d.parent
+    return os.path.relpath(d / (stem + suffix), os.getcwd())
 
 C30, S30 = math.cos(math.radians(30)), math.sin(math.radians(30))
 def iso(X, Y, Z):
@@ -184,7 +206,7 @@ first, last = shape(*rings[0][0]), shape(*rings[-1][1])   # the bore's throat, t
 what = (f"{first} rings stacked" if first == last else
         f"rings stacked and morphing from {first} at the throat to {last} at the rim")
 
-dst = sys.argv[2] if len(sys.argv) > 2 else pathlib.Path(src).stem + "-view.svg"
+dst = sys.argv[2] if len(sys.argv) > 2 else display_out(src, "-view.svg")
 pathlib.Path(dst).write_text(
     f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.1f}mm" height="{H:.1f}mm"\n'
     f'     viewBox="{x0-M:.1f} {y0-M:.1f} {W:.1f} {H:.1f}" role="img"\n'

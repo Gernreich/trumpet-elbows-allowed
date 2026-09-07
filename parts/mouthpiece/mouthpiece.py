@@ -15,7 +15,24 @@ the one below over an annulus of (WALL - step/2) per side, so the 1mm cup step g
 and the 0.4mm backbore step gives 2.80mm. Nothing may drop through the ring beneath it,
 which this checks before writing.
 """
-import sys, math, pathlib, subprocess
+import os, sys, math, pathlib, subprocess
+
+
+def in_cut_files(name):
+    """A generated sheet goes in cut-files/, beside the others.
+
+    A name the CALLER gave is honoured exactly as given, wherever it points; only the
+    generated one is placed. Every reader in this directory looks in cut-files/, and
+    until 2026-09-06 these generators wrote beside themselves instead -- so running the
+    command block in ../CLAUDE.md dropped 22 loose sheets into parts/ that nothing read
+    and the next `git add` would have committed.
+
+    Reported relative to where the caller stands, so a run from this directory says
+    "cut-files/<sheet>" rather than an absolute path nobody can read at a glance.
+    """
+    d = pathlib.Path(__file__).resolve().parent / "cut-files"
+    d.mkdir(exist_ok=True)
+    return os.path.relpath(d / name, os.getcwd())
 
 WALL   = 3.0        # ring width, mm — also the ply thickness, so a ring is as thick as it is wide
 PLATE  = 16.0       # station one, square, matching the elbow's closing face
@@ -90,7 +107,7 @@ NUMBERS = _opts.get("numbers", "yes")
 if NUMBERS not in ("yes", "no"):
     sys.exit(f"--numbers: yes or no, not {NUMBERS!r}")
 out = next((a for a in sys.argv[1:] if not a.startswith("--")),
-           "mouthpiece-parts-cut-files.svg")
+           in_cut_files("mouthpiece-parts-cut-files.svg"))
 open(out, "w").write(svg)
 
 # --order=document: this profile narrows to the throat and opens again, so it passes

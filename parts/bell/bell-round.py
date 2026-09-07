@@ -40,7 +40,7 @@ these sheets like any other. verify_bell.py does not -- it takes an arc as proof
 is looking at the mouthpiece -- so the checks it would have run are run here instead,
 before anything is written.
 """
-import sys, math, pathlib, subprocess
+import os, sys, math, pathlib, subprocess
 
 RISE, LAP, MINWALL = 3.0, 3.0, 2.0
 GAMMA, RT, RIM, L  = 0.7, 5.0, 61.5, 201.0      # 10mm square throat = the bore's channel
@@ -257,6 +257,22 @@ def layout(rings, per):
     return placed, W, y - GAP + M
 
 
+def in_cut_files(name):
+    """A generated sheet goes in cut-files/, beside the others.
+
+    A name the CALLER gave is honoured exactly as given, wherever it points; only the
+    generated one is placed. Every reader in this directory looks in cut-files/, and
+    until 2026-09-06 these generators wrote beside themselves instead -- so running the
+    command block in ../CLAUDE.md dropped 22 loose sheets into parts/ that nothing read
+    and the next `git add` would have committed.
+    """
+    d = pathlib.Path(__file__).resolve().parent / "cut-files"
+    d.mkdir(exist_ok=True)
+    # Relative to where the caller stands, so a run from this directory reports
+    # "cut-files/<sheet>" rather than an absolute path nobody can read at a glance.
+    return os.path.relpath(d / name, os.getcwd())
+
+
 def emit(rings, plies, step, path, morph, law):
     # The bed, not the material, is what actually stops you, so the row split is chosen
     # to make the longest side as short as it will go, with area breaking ties.
@@ -318,8 +334,8 @@ for want in ([int(args[0])] if args else [67, 20, 15, 10]):
                      "or drop --out and take the generated names")
         name = opts["out"]
     else:
-        name = (f"bell-round{BORE:g}-{built:.0f}mm-{len(rings)}rings"
-                f"-x{plies}-rim{rimd:.0f}-cut-files.svg")
+        name = in_cut_files(f"bell-round{BORE:g}-{built:.0f}mm-{len(rings)}rings"
+                            f"-x{plies}-rim{rimd:.0f}-cut-files.svg")
     # throat is the aperture, rim is the outer edge -- the same two a run reports as
     # the section's square end and its rim diameter
     ap, rim = 2*rings[0]["ah"], 2*rings[-1]["oh"]

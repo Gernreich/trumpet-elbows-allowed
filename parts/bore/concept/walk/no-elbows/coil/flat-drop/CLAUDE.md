@@ -176,8 +176,9 @@ When they come back, note that a flat `previews/` alongside parts held in subdir
 means the output path has to be given explicitly:
 
 ```sh
-python3 $G/make-preview.py bore/03_bend_LLLDDDDDDDDDDR_1.svg \
-                           previews/03_bend_1.svg
+python3 $G/make-preview.py \
+    bore/cut-files/bore10-coil-flat-drop-03of08-bend-LLLDDDDDDDDDDR-cut-files.svg \
+    previews/bore10-coil-flat-drop-03of08.svg
 ```
 
 `bore_split.py --write` runs the full gate itself and prints the tally, so a regenerated

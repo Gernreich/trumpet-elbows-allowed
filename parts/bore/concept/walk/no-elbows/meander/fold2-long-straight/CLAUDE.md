@@ -187,7 +187,7 @@ for t in 0.75:"¾ Turn" 1.5:"1½ Turns" 2.25:"2¼ Turns" 3:"3 Turns"; do
   ~/boxes/venv/bin/python bore_split.py --bore=10 --straight=30 --refuse-elbows \
       --title="10x10x30 Coil, $lab" "$W" --write ../../../../../../bores/coil-10x10x30-${n}t
 done
-python3 coils.py                    # ../../../../../../bores/coils.html, all four in one viewer
+python3 coils.py                    # coils.html here, all four in one viewer
 ```
 
 `--write` runs the gate itself. To run it alone against a folder:

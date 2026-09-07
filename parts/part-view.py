@@ -297,8 +297,13 @@ def main():
     base = os.path.basename(src).replace('-cut-files.svg', '')
     kind = 'Mouthpiece' if 'mouthpiece' in base else 'Bell'
     title = f'{kind}: {base}'
+    # Beside the part's GENERATOR, not beside the source: the source lives in
+    # cut-files/, which holds cut files and nothing else, and a turn page is not one.
     out = files[1] if len(files) > 1 else os.path.join(
-        os.path.dirname(os.path.abspath(src)), base + '-turn.html')
+        os.path.dirname(os.path.dirname(os.path.abspath(src)))
+        if os.path.basename(os.path.dirname(os.path.abspath(src))) == 'cut-files'
+        else os.path.dirname(os.path.abspath(src)),
+        base + '-turn.html')
     open(out, 'w').write(HTML.replace('__TITLE__', title)
                              .replace('__DATA__', json.dumps(d, separators=(',', ':'))))
     print(f'  {os.path.basename(out):<58}{d["rings"]:>3} rings, '

@@ -28,7 +28,7 @@ flares less than the ring below it. The 14-ring's steepest ring is 36.8 degrees 
 ring 24.6. Reporting the last one made that bell look like the shallowest of the four when
 it is the second steepest, so both are printed and the steepest is the headline.
 """
-import sys, math, pathlib, subprocess
+import os, sys, math, pathlib, subprocess
 
 RISE, LAP, MINWALL = 3.0, 3.0, 2.0
 GAMMA, RT, RIM, L  = 0.7, 5.0, 61.5, 201.0      # 10mm throat = the bore's channel, 201mm
@@ -51,6 +51,22 @@ for k in _opts:
 NUMBERS = _opts.get("numbers", "yes")
 if NUMBERS not in ("yes", "no"):
     sys.exit(f"--numbers: yes or no, not {NUMBERS!r}")
+
+
+def in_cut_files(name):
+    """A generated sheet goes in cut-files/, beside the others.
+
+    A name the CALLER gave is honoured exactly as given, wherever it points; only the
+    generated one is placed. Every reader in this directory looks in cut-files/, and
+    until 2026-09-06 these generators wrote beside themselves instead -- so running the
+    command block in ../CLAUDE.md dropped 22 loose sheets into parts/ that nothing read
+    and the next `git add` would have committed.
+    """
+    d = pathlib.Path(__file__).resolve().parent / "cut-files"
+    d.mkdir(exist_ok=True)
+    # Relative to where the caller stands, so a run from this directory reports
+    # "cut-files/<sheet>" rather than an absolute path nobody can read at a glance.
+    return os.path.relpath(d / name, os.getcwd())
 
 
 def number(path, count):
@@ -147,8 +163,8 @@ for want in budgets:
     # square: every ring on this sheet is a square, throat to rim, and no ring carries an
     # arc. bell-round.py's are square at the throat and circular by the rim, which is what
     # "round" means there. Naming this one round was backwards and was fixed on 2026-09-02.
-    name = (f"bell-square{rs[0][0]:.0f}-{len(rs)*step:.0f}mm-{len(rs)}rings"
-            f"-x{plies}-rim{rs[-1][1]:.0f}-cut-files.svg")
+    name = in_cut_files(f"bell-square{rs[0][0]:.0f}-{len(rs)*step:.0f}mm-{len(rs)}rings"
+                        f"-x{plies}-rim{rs[-1][1]:.0f}-cut-files.svg")
     W, H = emit(rs, plies, step, name)
     numbered = number(name, len(rs))
     angles = [r[3] for r in rs]

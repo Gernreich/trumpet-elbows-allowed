@@ -4,7 +4,7 @@
     python3 mouthpiece-round.py [OUT.svg]
     python3 mouthpiece-round.py --taper=2.0     # finer steps down the bore-side run
     python3 mouthpiece-round.py --seat=1.25     # demand more seat, round more slowly
-    python3 mouthpiece-round.py --rim=17.0      # a wider rim
+    python3 mouthpiece-round.py --rim=16.5      # a narrower rim
     python3 mouthpiece-round.py --bowl=5        # a 15mm cup instead of 12mm
     python3 mouthpiece-round.py --layout=trumpet   # real proportions, for a new one
 
@@ -77,7 +77,24 @@ retrofitting a mouthpiece already glued without a bowl.
 The bowl is a staircase of 3mm ply. Sand or fill the steps and round the rim over before
 playing it; as cut the rim edge is a square corner and your lip will say so.
 """
-import sys, math, pathlib, subprocess
+import os, sys, math, pathlib, subprocess
+
+
+def in_cut_files(name):
+    """A generated sheet goes in cut-files/, beside the others.
+
+    A name the CALLER gave is honoured exactly as given, wherever it points; only the
+    generated one is placed. Every reader in this directory looks in cut-files/, and
+    until 2026-09-06 these generators wrote beside themselves instead -- so running the
+    command block in ../CLAUDE.md dropped 22 loose sheets into parts/ that nothing read
+    and the next `git add` would have committed.
+
+    Reported relative to where the caller stands, so a run from this directory says
+    "cut-files/<sheet>" rather than an absolute path nobody can read at a glance.
+    """
+    d = pathlib.Path(__file__).resolve().parent / "cut-files"
+    d.mkdir(exist_ok=True)
+    return os.path.relpath(d / name, os.getcwd())
 
 WALL    = 3.0        # ring width, and the ply is 3mm so a ring is as thick as it is wide
 # 10mm is the bore, and bore_split.py's default block is the 16mm that wraps it.
@@ -88,7 +105,12 @@ BORE    = 10.0       # the square bore this meets, corners and all
 NECK    = 5.0        # where the backbore run ends and the throat begins
 THROAT  = 3.66       # a #27 drill, the standard trumpet mouthpiece throat
 TAPER   = 2.5        # aperture step down the backbore run; 4.0 cannot be made square
-RIM     = 16.5       # the rim your lip sits on; a trumpet is 16 to 17mm inside
+RIM     = 17.0       # the rim your lip sits on; a trumpet is 16 to 17mm inside.
+# 17 because that is the sheet this repository SHIPS, and a bare run has to rebuild what
+# is shipped. It was 16.5, which put a different part under the shipped part's own name:
+# the rim is not in the filename, so a bare run silently replaced a mouthpiece that had
+# been cut with one 0.5mm narrower at the lip. Same failure the naming note below is
+# about, arrived at from the third parameter.
 BOWL    = 4          # rings of cup: 4 x 3mm = a 12mm bowl
 LAYOUT  = "trumpet"  # trumpet | legacy -- see THE TWO LAYOUTS below
 NBB     = 25         # trumpet layout: rings of backbore, 25 x 3mm = 75mm
@@ -138,7 +160,8 @@ if LAYOUT not in ("trumpet", "legacy"):
 # trumpet sheet at the same bore with no way to say it was not that -- two different
 # parts, and nothing in either name to tell them apart.
 _dflt = f"mouthpiece-bore{BORE:g}-{LAYOUT}-parts-cut-files.svg"
-out_path = next((a for a in sys.argv[1:] if not a.startswith("--")), _dflt)
+out_path = next((a for a in sys.argv[1:] if not a.startswith("--")),
+                in_cut_files(_dflt))
 
 
 def support(h, c, s):

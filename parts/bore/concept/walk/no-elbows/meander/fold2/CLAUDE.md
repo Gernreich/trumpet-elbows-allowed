@@ -53,18 +53,17 @@ rather than a principle, so they went too.
 **Do not move them back** without deciding what changed about that argument.
 
 Regenerating any of the four still means running a generator in `../../../../../..` and
-moving the result across, because they write into their own directory. Two traps in that:
+writing it where it belongs. Two things to know:
 
-- **Name the sheet on the way out.** Both generators take the filename — a positional
-  argument for `mouthpiece-round.py`, `--out=` for `bell-round.py` — and the names here put
-  the bore in every one: `mouthpiece-bore10-trumpet-parts-cut-files.svg`, `bell-round10-153mm-17rings-x3-rim86-cut-files.svg`. The
-  generated names say how a sheet was *made* (which script, what length), which is not what
-  someone hunting for a part needs to read, and they left the sheets with no bore in
-  their names at all. Take the name and there is nothing to rename afterwards.
-- **A bare `bell-round.py` writes `bell-round10-153mm-17rings-x3-rim86-cut-files.svg` back into `../../../../../../bell`,**
-  since it is one of that script's four standard budgets. Give it a budget and an `--out` so
-  it writes one named sheet; otherwise move the result here or delete it, and do not leave a
-  second copy there.
+- **Since 2026-09-06 a generated sheet lands in the generator's own `cut-files/`**, not
+  loose beside the script, and a bare run there rebuilds the shipped sheet byte for byte.
+  So there is nothing to name and nothing to move: `mouthpiece-round.py` and
+  `bell-round.py 17 --bore=10 --length=152 --mouth=80` write
+  `mouthpiece-bore10-trumpet-parts-cut-files.svg` and
+  `bell-round10-153mm-17rings-x3-rim86-cut-files.svg` where the readers already look.
+- **A bare `bell-round.py` writes four budgets, not one.** The shipped sheet is among them
+  and comes back identical; the other three are scratch in the same directory. Pass a ring
+  budget to write one.
 - **The generators number their own rings.** Every sheet here carries a
   `<g id="ring-numbers">`, and `bell-round.py` and `mouthpiece-round.py` write it themselves
   as the last step, so a regenerate keeps it. **A regenerate also adds an orientation tick**
@@ -303,18 +302,18 @@ D=.
 ~/boxes/venv/bin/python bore_split.py --blocksize=16 --refuse-elbows "$W" --write $D/bore
 ```
 
-The mouthpiece and the bell are **not generated here** — they come from
-`../../../../../..` and are copied in. Those generators write into their own directory, so
-copy the result across afterwards. They engrave the ring numbers themselves, so these two
-commands are the whole job:
+The mouthpiece and the bell are **not generated here** — they live in
+`../../../../../..` and are cut from there, not copied in. Each generator writes into its
+own `cut-files/`, and engraves the ring numbers itself, so these two commands are the
+whole job:
 
 ```sh
-cd ../../../../../../mouthpiece
-python3 mouthpiece-round.py --bore=10 --rim=17 --layout=trumpet \
-    cut-files/mouthpiece-bore10-trumpet-parts-cut-files.svg
-cd ../bell && python3 bell-round.py 17 --bore=10 --length=152 --mouth=80 \
-    --out=cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg
+cd ../../../../../../mouthpiece && python3 mouthpiece-round.py
+cd ../bell && python3 bell-round.py 17 --bore=10 --length=152 --mouth=80
 ```
+
+Both rebuild the shipped sheet byte for byte from a clean tree; the bell's line also
+writes nothing else, where a bare `bell-round.py` would add three more budgets.
 
 **Always pass `--refuse-elbows` here.** This is a build repository, and the standard for a
 build is zero elbows — not the `FEWEST_ELBOWS` default, which only minimises them. The
