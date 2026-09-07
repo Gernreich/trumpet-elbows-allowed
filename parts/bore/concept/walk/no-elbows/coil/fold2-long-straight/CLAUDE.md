@@ -98,16 +98,16 @@ will not compare against anything.
 
 ```sh
 cd ../../../../../../../tools
-W="$(cat walks/meander_fold2.txt)"
+W="$(cat walks/coil_fold2.txt)"
 # the temp path has to mirror the real folder stack: the sheet names are built
 # from it, so a different tree writes differently named files and cmp has nothing
 # to compare.
-rm -rf /tmp/f && mkdir -p /tmp/f/meander/fold2
+rm -rf /tmp/f && mkdir -p /tmp/f/coil/fold2
 ~/boxes/venv/bin/python bore_split.py --blocksize=16 --refuse-elbows "$W" \
-    --write /tmp/f/meander/fold2/bore
-B=bore10-meander-fold2-02of06-bend-LUUR-cut-files.svg
-cmp /tmp/f/meander/fold2/bore/cut-files/$B \
-    ../parts/bore/concept/walk/no-elbows/meander/fold2/bore/cut-files/$B
+    --write /tmp/f/coil/fold2/bore
+B=bore10-coil-fold2-02of06-bend-LUUR-cut-files.svg
+cmp /tmp/f/coil/fold2/bore/cut-files/$B \
+    ../parts/bore/concept/walk/no-elbows/coil/fold2/bore/cut-files/$B
 ```
 
 ## A turn is a cube because it has to be
@@ -193,7 +193,7 @@ python3 coils.py                    # coils.html here, all four in one viewer
 `--write` runs the gate itself. To run it alone against a folder:
 
 ```sh
-~/boxes/venv/bin/python check.py "$(cat walks/coil-1.5t.txt)" \
+~/boxes/venv/bin/python check.py "$(cat walks/coil_fold2.txt)" \
     --bore=10 --straight=30 --files ../../../../../../bores/coil-10x10x30-1.5t
 ```
 

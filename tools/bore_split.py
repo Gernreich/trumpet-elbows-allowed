@@ -1240,7 +1240,7 @@ def sheet(parts, code, path, bed=BED, bed_h=None, args=None,
 DULL = re.compile(r'bores?([-_][\d.]+mm)?|[\d.]+mm')
 # The shape families the walk library is filed under. Since 2026-09-05 the
 # identity of a bore is split between a family directory and a leaf that
-# distinguishes it -- hilbert/open, meander/fold2 -- so the leaf alone names
+# distinguishes it -- hilbert/open, coil/fold2 -- so the leaf alone names
 # nothing. 'bore10-open-...' on a sheet says less than the folder did. The
 # family is borrowed into the slug for that reason, the same way a dull
 # 'bore' folder borrows its parent.

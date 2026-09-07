@@ -76,9 +76,9 @@ UNIFORM = [
     # explicitly rather than taking the default, so it is the one thing keeping
     # --blocksize honest: everything scales with the block except SnakeBox's
     # 12mm tab, which does not fit a 10mm frame.
-    ('meander fold2',
-     'walks/meander_fold2.txt',
-     '../parts/bore/concept/walk/no-elbows/meander/fold2/bore', 16),
+    ('coil fold2',
+     'walks/coil_fold2.txt',
+     '../parts/bore/concept/walk/no-elbows/coil/fold2/bore', 16),
     # The elbow-free walks. Every design above either contains elbows or is too
     # small to be interesting, so nothing was checking that a long walk still
     # splits without one - the property every build is chosen for.
@@ -104,17 +104,19 @@ STRETCHED = [
     # 0.75, 1.5, 2.25, 3, all four of which are built. Parts are cut from the 1.5t, so a change that moves
     # it needs asking about.
     #
-    # The 1.5t is also ../parts/bore/concept/walk/no-elbows/meander/fold2's walk exactly. It arrived here as
-    # a borrowed test before anyone noticed it was a coil.
-    ('coil 10x10x30 0.75t', 'walks/coil-0.75t.txt', '../parts/bore/concept/walk/no-elbows/meander/fold2-long-straight/coil-10x10x30-0.75t',
+    # The 1.5t IS ../parts/bore/concept/walk/no-elbows/coil/fold2's walk -- one file,
+    # walks/coil_fold2.txt, named by two entries. There were two identical files until
+    # 2026-09-06. The two entries stay: one cuts it at the uniform 16mm pitch and one
+    # with 30mm straights, which is the pair that keeps --straight honest.
+    ('coil 10x10x30 0.75t', 'walks/coil-0.75t.txt', '../parts/bore/concept/walk/no-elbows/coil/fold2-long-straight/coil-10x10x30-0.75t',
      ['--bore=10', '--straight=30']),
-    ('coil 10x10x30 1.5t', 'walks/coil-1.5t.txt', '../parts/bore/concept/walk/no-elbows/meander/fold2-long-straight/coil-10x10x30-1.5t',
+    ('coil 10x10x30 1.5t', 'walks/coil_fold2.txt', '../parts/bore/concept/walk/no-elbows/coil/fold2-long-straight/coil-10x10x30-1.5t',
      ['--bore=10', '--straight=30']),
-    ('coil 10x10x30 2.25t', 'walks/coil-2.25t.txt', '../parts/bore/concept/walk/no-elbows/meander/fold2-long-straight/coil-10x10x30-2.25t',
+    ('coil 10x10x30 2.25t', 'walks/coil-2.25t.txt', '../parts/bore/concept/walk/no-elbows/coil/fold2-long-straight/coil-10x10x30-2.25t',
      ['--bore=10', '--straight=30']),
     # WUED repeated with an N spacer every three terms: a square circuit in
     # cross-section that steps north. The first walk laid out for this lattice.
-    ('coil 10x10x30 3t', 'walks/coil-3t.txt', '../parts/bore/built/meander/fold2-long-straight-3t',
+    ('coil 10x10x30 3t', 'walks/coil-3t.txt', '../parts/bore/built/coil/fold2-long-straight-3t',
      ['--bore=10', '--straight=30']),
 ]
 

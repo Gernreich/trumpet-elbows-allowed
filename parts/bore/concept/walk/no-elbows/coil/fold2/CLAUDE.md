@@ -89,7 +89,7 @@ The first letter is the way in; each term after it turns where you stand and the
 *n* blocks, so **the bore is 1 + the sum of the numbers** — 22 blocks here. Axes match
 Minecraft: `U`/`D` are +Y/−Y, `N` is −Z, `S` is +Z, `E` is +X, `W` is −X.
 
-**The walk is stored in `../../../../../../../tools/walks/meander_fold2.txt`**,
+**The walk is stored in `../../../../../../../tools/walks/coil_fold2.txt`**,
 and `regress.py` there names this repository as where its cut files live. Unlike
 `../../coil/flat-drop`, which keeps its walk in its page, the file is the record here — the
 page carries the same string in its `<div class="walk">` and `bore_split.py` will read
@@ -139,7 +139,7 @@ carries, so a change to the walk is a change to every size of it.
 
 **A sheet named only for its shape cannot say which pitch it is.** `01_bend_DL.svg` names
 a shape two pitches would share, and the only tell would be the sheet size. The bore is in
-the name instead — `bore10-meander-fold2-01of06-bend-DL-buttin-cut-files.svg` — and each
+the name instead — `bore10-coil-fold2-01of06-bend-DL-buttin-cut-files.svg` — and each
 sheet carries a `<title>` and `<desc>` saying its bore, its blocks and its faces, so a file
 that has been renamed or moved can still be asked what it is.
 
@@ -261,7 +261,7 @@ with `ModuleNotFoundError` — **the files are written and ungated**. shapely li
 Boxes.py virtualenv, so run the gate from there:
 
 ```sh
-W="$(cat walks/meander_fold2.txt)"
+W="$(cat walks/coil_fold2.txt)"
 D=.
 ~/boxes/venv/bin/python check.py "$W" --blocksize=16 --files $D/bore/cut-files
 ```
@@ -297,7 +297,7 @@ cd $S && python3 bore_split.py --no-write --refuse-elbows "N N1 W3 U2 E3 N3 D3 W
 
 ```sh
 cd $S
-W="$(cat walks/meander_fold2.txt)"
+W="$(cat walks/coil_fold2.txt)"
 D=.
 ~/boxes/venv/bin/python bore_split.py --blocksize=16 --refuse-elbows "$W" --write $D/bore
 ```
@@ -365,19 +365,25 @@ gh run list -L5 --json status,conclusion,headSha \
   -q ".[] | select(.headSha==\"$SHA\") | .status+\" \"+(.conclusion//\"-\")"
 ```
 
-## The name, three times changed
+## The name, four times changed
 
 It was **twin switchback** until 2026-08-29, when it was moved out of the shared library at
 `~/LaserMadeMusic/test` and given a repository — **trumpet-final-youtube-candidate** until
 2026-09-01, when that name was dropped because it claimed a decision that had not been made
-— and **trumpet-switchback** until 2026-09-06, when the repositories were consolidated and
-a design stopped being a repository at all.
+— **trumpet-switchback** until 2026-09-06, when the repositories were consolidated and a
+design stopped being a repository at all — and **meander/fold2** for a few hours the same
+day, which was wrong about the shape.
 
-**meander/fold2** is the design's place in the library, and it describes the walk: a
-meander that folds back on itself twice, which is exactly the two hairpins the elbow rule
-counts. That is a fact about the walk, so it cannot go stale, and it reads the same way as
-every sibling — `../greek-key`, `../fold2-long-straight`, `../../coil/flat-drop`.
+**coil/fold2** is where it belongs, and the correction is worth recording because the old
+name was plausible. Seen from the side the walk folds back on itself twice, which is what
+"fold2" describes and what got it filed under `meander/`. Measured, it is a coil:
+`spiral_metrics.js` gives it a coil axis (z, north–south), a handedness (right), and 450°
+— 1.25 turns — of rotation about that axis. A real meander scores 0° and no handedness;
+`../../meander/greek-key` does exactly that. The walk advances monotonically along one axis
+while circulating in the other two, and that is a coil however it looks in projection.
 
-Renamed together each time: the folder, the walk file (`tools/walks/meander_fold2.txt`),
-the `regress.py` entry and its label, and the page title. If you find any earlier name
-anywhere, it is a leftover.
+Renamed together each time: the folder, the walk file (`tools/walks/coil_fold2.txt`), the
+`regress.py` entry and its label, the cut-file names — which are built from the folder
+stack, so `bore10-meander-fold2-…` became `bore10-coil-fold2-…` — and the page title. Every
+sheet was regenerated and compared: the geometry is byte-identical, only the names moved.
+If you find any earlier name anywhere, it is a leftover.

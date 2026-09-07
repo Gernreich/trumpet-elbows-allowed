@@ -9,7 +9,7 @@ The instrument that has been built is a **coil of 1096mm in 12 sections**, with 
 turns, right-handed, about a north–south axis. Everything else here is a
 candidate for the next one.
 
-![The built bore, twelve sections glued up](parts/bore/built/meander/fold2-long-straight-3t/bore10-meander-fold2-long-straight-3t_web.jpg)
+![The built bore, twelve sections glued up](parts/bore/built/coil/fold2-long-straight-3t/bore10-coil-fold2-long-straight-3t_web.jpg)
 
 ---
 
@@ -39,7 +39,7 @@ forty-four blocks.
 Three things, and they pull against each other.
 
 **Length, because length is pitch.** A tube twice as long sounds an octave
-lower. The four coils in `parts/bore/concept/walk/no-elbows/meander/fold2-long-straight/`
+lower. The four coils in `parts/bore/concept/walk/no-elbows/coil/fold2-long-straight/`
 are one shape cut at four lengths — **274, 548, 822 and 1096mm, an exact
 1:2:3:4** — and the built instrument is the longest of them.
 
@@ -236,7 +236,7 @@ coupon that would settle it.
 ## Building it
 
 1. Cut the twelve bore sections from
-   `parts/bore/built/meander/fold2-long-straight-3t/cut-files/`, in order.
+   `parts/bore/built/coil/fold2-long-straight-3t/cut-files/`, in order.
 2. Cut the bell — 17 rings, **three passes**, 51 pieces. Cut once and you get a
    51mm stub instead of a 153mm bell.
 3. Cut the mouthpiece — 30 rings, one pass.

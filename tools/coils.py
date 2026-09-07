@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """One page holding every coil, with a control to switch between them.
 
-    python3 coils.py            # writes ../coils.html
+    python3 coils.py            # rewrites the design's own coils.html
 
 The four coils are the same walk truncated at its N spacers, so comparing them
 means comparing lengths of one thing rather than four designs. Four separate
@@ -23,7 +23,7 @@ import viewer                                                 # noqa: E402
 # truncate in, so the control reads as a length rather than a list of designs.
 COILS = [
     ('¾',  'walks/coil-0.75t.txt'),
-    ('1½',  'walks/coil-1.5t.txt'),
+    ('1½',  'walks/coil_fold2.txt'),
     ('2¼',  'walks/coil-2.25t.txt'),
     ('3',   'walks/coil-3t.txt'),
 ]
@@ -48,7 +48,14 @@ def main(out):
               f'{len(groups):>2} sections')
 
 
+# The design this draws, so a bare run rewrites the page that is published rather
+# than dropping a second copy somewhere nothing reads. The default was ../coils.html
+# -- the repository root -- which was this design's parent before the repositories
+# were consolidated, and stayed pointing there afterwards.
+DEST = ('..', 'parts', 'bore', 'concept', 'walk', 'no-elbows', 'coil',
+        'fold2-long-straight', 'coils.html')
+
 if __name__ == '__main__':
     a = sys.argv[1:]
     main(a[0] if a else os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), '..', 'coils.html'))
+        os.path.dirname(os.path.abspath(__file__)), *DEST))
