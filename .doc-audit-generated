@@ -1,0 +1,20 @@
+# Directories whose contents are machine output, documented collectively by the
+# directory rather than file by file. Naming 123 cut files in prose to satisfy the
+# orphan check would be worse writing, not better.
+#
+# Every one of these is a design folder or a generator's own output. The README
+# describes what each holds and how to rebuild it; the per-design CLAUDE.md beside
+# it carries the detail. Declared here rather than inferred, so nothing hides from
+# the check by accident.
+
+# Every bore, built and candidate: cut files, viewer pages, walks and check logs.
+parts/bore
+
+# The two shared parts: their cut files and their display drawings.
+parts/bell
+parts/mouthpiece
+
+# The toolchain's own worked examples and its clearance coupon.
+tools/examples
+tools/coupon-16mm
+tools/walks

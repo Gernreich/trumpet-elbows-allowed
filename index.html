@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trumpet</title>
+<style>
+:root{--bg:#fbfbfa;--fg:#1a1c1e;--mut:#5b6067;--line:#e2e4e7;--card:#fff;--accent:#1d4ed8;
+--codebg:#f4f5f7;--thbg:#f0f1f3;--mark:#fff8c4}
+@media (prefers-color-scheme:dark){:root{--bg:#15171a;--fg:#e6e8ea;--mut:#9aa1a9;--line:#2b2f34;
+--card:#1b1e22;--accent:#7aa2f7;--codebg:#22262b;--thbg:#23272c;--mark:#4a411c}}
+:root[data-theme=dark]{--bg:#15171a;--fg:#e6e8ea;--mut:#9aa1a9;--line:#2b2f34;--card:#1b1e22;
+--accent:#7aa2f7;--codebg:#22262b;--thbg:#23272c;--mark:#4a411c}
+:root[data-theme=light]{--bg:#fbfbfa;--fg:#1a1c1e;--mut:#5b6067;--line:#e2e4e7;--card:#fff;
+--accent:#1d4ed8;--codebg:#f4f5f7;--thbg:#f0f1f3;--mark:#fff8c4}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:16px/1.62 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+-webkit-text-size-adjust:100%}
+.wrap{display:grid;grid-template-columns:250px minmax(0,1fr);gap:44px;max-width:1180px;
+margin:0 auto;padding:40px 28px 96px}
+nav{position:sticky;top:28px;align-self:start;max-height:calc(100vh - 56px);overflow:auto;
+border-right:1px solid var(--line);padding-right:16px;font-size:13.5px;line-height:1.45}
+nav b{display:block;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--mut);
+margin:0 0 12px}
+nav a{display:block;color:var(--mut);text-decoration:none;padding:3px 0;border-radius:4px}
+nav a:hover{color:var(--accent)}
+nav a.l1{color:var(--fg);font-weight:640;margin-top:11px}
+nav a.l2{padding-left:12px}
+main{min-width:0}
+h1{font-size:1.62rem;line-height:1.25;letter-spacing:-.015em;margin:2.4em 0 .5em;
+padding-bottom:.32em;border-bottom:2px solid var(--line)}
+main>h1:first-child{margin-top:0;border-bottom:none;font-size:1.95rem}
+h2{font-size:1.16rem;margin:2em 0 .5em;letter-spacing:-.01em}
+h3{font-size:1.02rem;font-weight:650;margin:1.7em 0 .45em}
+p{margin:.85em 0}
+ul,ol{margin:.85em 0;padding-left:1.35em}
+li{margin:.3em 0}
+hr{border:0;border-top:1px solid var(--line);margin:2.6em 0}
+figure{margin:1.6em 0}
+/* A paragraph holding two or more images is a gallery. Left to inline layout they
+   wrap at whatever fits, which put three bells on one row and the fourth alone
+   underneath - directly above the caption, so it read as the caption for that one
+   picture rather than for the set. Flex lets them share the row instead. */
+p:has(img + img){display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start;
+justify-content:center}
+p:has(img + img) img{flex:1 1 140px;min-width:0;width:auto;max-width:100%;height:auto;
+border:1px solid var(--line);border-radius:10px}
+figure svg,figure img{display:block;width:100%;max-width:100%;height:auto;
+border:1px solid var(--line);border-radius:10px}
+a{color:var(--accent)}
+code{font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+background:var(--codebg);padding:.1em .32em;border-radius:4px;
+border:1px solid color-mix(in srgb,var(--line) 70%,transparent)}
+pre{background:var(--codebg);border:1px solid var(--line);border-radius:9px;
+padding:14px 16px;overflow-x:auto;margin:1.1em 0}
+pre code{background:none;border:0;padding:0;font-size:12.8px;line-height:1.62;white-space:pre}
+blockquote{margin:1.15em 0;padding:.7em 1.1em;border-left:4px solid var(--accent);
+background:var(--codebg);border-radius:0 7px 7px 0}
+blockquote p{margin:0}
+.tw{overflow-x:auto;margin:1.15em 0;border:1px solid var(--line);border-radius:9px;
+background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:8px 13px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+/* honour align="center" on gallery cells: a presentation attribute loses to any
+   CSS rule, so the line above would silently left-align every thumbnail caption */
+td[align=center],th[align=center]{text-align:center}
+th{background:var(--thbg);font-weight:630;white-space:nowrap;font-size:13px;
+letter-spacing:.01em}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:color-mix(in srgb,var(--thbg) 45%,transparent)}
+td code,th code{white-space:nowrap}
+/* A walk inside a link is one token: breaking it mid-walk put "N" at the end of one
+   line and "N5 U" at the start of the next, which reads as two things. */
+a code{white-space:nowrap}
+.tog{position:fixed;top:14px;right:14px;z-index:9;background:var(--card);color:var(--mut);
+border:1px solid var(--line);border-radius:7px;padding:6px 11px;font-size:12.5px;cursor:pointer}
+.tog:hover{color:var(--accent)}
+@media (max-width:900px){.wrap{grid-template-columns:1fr;gap:20px;padding:26px 18px 72px}
+nav{position:static;max-height:none;border-right:0;border-bottom:1px solid var(--line);
+padding:0 0 16px;columns:2;column-gap:20px}}
+@media print{nav,.tog{display:none}.wrap{display:block;max-width:none;padding:0}
+pre,.tw{break-inside:avoid}h1{break-after:avoid}}
+</style>
+</head>
+<body>
+<button class="tog" type="button">theme</button>
+<div class="wrap">
+<nav><b>Contents</b><a class="l1" href="#trumpet">Trumpet</a><a class="l2" href="#the-idea">The idea</a><a class="l2" href="#what-decides-a-good-bore">What decides a good bore</a><a class="l2" href="#the-instrument-end-to-end">The instrument, end to end</a><a class="l2" href="#cutting">Cutting</a><a class="l2" href="#what-is-in-here">What is in here</a><a class="l2" href="#the-toolchain">The toolchain</a><a class="l2" href="#the-gate">The gate</a><a class="l2" href="#clearance">Clearance</a><a class="l2" href="#building-it">Building it</a><a class="l2" href="#licence">Licence</a></nav>
+<main>
+<h1 id="trumpet">Trumpet</h1>
+<p>A trumpet cut flat from 3mm birch ply and glued into a tube. The airway is a <strong>10mm square</strong> running through <strong>16mm blocks</strong> — 10mm of air inside 3mm walls — and it never changes section from the mouthpiece to the throat of the bell.</p>
+<p>The instrument that has been built is a <strong>coil of 1096mm in 12 sections</strong>, with a 90mm mouthpiece at one end and a 153mm bell at the other. It winds 990° — 2.75 turns, right-handed, about a north–south axis. Everything else here is a candidate for the next one.</p>
+<figure><img src="parts/bore/built/meander/fold2-long-straight-3t/bore10-meander-fold2-long-straight-3t_web.jpg" alt="The built bore, twelve sections glued up"></figure>
+<hr>
+<h2 id="the-idea">The idea</h2>
+<p>A brass instrument is a long tube you have to fit into a small space. A trumpet does it with three tight bends and a lot of drawn brass. This does it by <strong>treating the tube as a walk through a lattice of cubes</strong> — north three, up two, east three — and cutting each run of that walk as a flat-packed box.</p>
+<p>The walk is written down. <code>N N1 W3 U2 E3 N3 D3 W2 U3 N3 E3 D2 W3 N3 U3 E2 D3 N1</code> is the bore of the built instrument: the first letter is the direction you enter from, and every term after it moves that many blocks. A generator turns that string into cut files, checks them, and tells you what you are holding.</p>
+<pre><code>python3 tools/bore_split.py "N N1 W3 U2 E3 N3 D3 W2 U3 N3 E3 D2 W3 N3 U3 E2 D3 N1" \
+    --bore=10 --straight=30 --no-write</code></pre>
+<p><strong>A bare letter costs no block.</strong> The turn happens inside the block you arrived at, so the tube is <code>1 + the sum of the numbers</code> blocks long. Forty-three steps, forty-four blocks.</p>
+<h2 id="what-decides-a-good-bore">What decides a good bore</h2>
+<p>Three things, and they pull against each other.</p>
+<p><strong>Length, because length is pitch.</strong> A tube twice as long sounds an octave lower. The four coils in <code>parts/bore/concept/walk/no-elbows/meander/fold2-long-straight/</code> are one shape cut at four lengths — <strong>274, 548, 822 and 1096mm, an exact 1:2:3:4</strong> — and the built instrument is the longest of them.</p>
+<blockquote><p>Their folder names say 0.75, 1.5, 2.25 and 3 turns. Measured off the walks, the rotations are 0.25, 1.25, 2 and 2.75 — each name is a quarter to a half turn high. The lengths are exact; the turn counts in the names are not.</p></blockquote>
+<p><strong>Section, because section is tone.</strong> The airway must stay 10mm square the whole way. That is what makes a turn expensive: a block that turns has openings on two different faces and both must sit square, so <strong>a turning block has to stay cubic</strong> even when the straights are stretched. The built bore is 28 straight blocks at 30mm and 16 turns at 16mm, which is where its 1096mm comes from.</p>
+<p><strong>Elbows, because an elbow is a bad part.</strong> An elbow is a turn stranded as its own one-block piece: three tabs, fiddly to hold, weak at the seam. Every walk offered here is elbow-free, and <code>--refuse-elbows</code> stops the generator before it writes anything rather than handing you a folder to inspect.</p>
+<blockquote><p>Fewest elbows is <strong>not</strong> cheapest in parts. Measured over 133 walks it trades 23 elbows for 46 more pieces, because folding a turn into a bend adds two walls to that bend while a lone elbow is only four parts for its whole block. It is still the right trade: parts are cheap and bad seams are not.</p></blockquote>
+<h2 id="the-instrument-end-to-end">The instrument, end to end</h2>
+<div class='tw'><table><thead><tr><th></th><th>length</th><th>what it is</th></tr></thead><tbody><tr><td>mouthpiece</td><td>90mm</td><td>30 rings, 10mm square → ø3.66 throat → ø17 lip</td></tr><tr><td>bore</td><td>1096mm</td><td>44 blocks, 12 sections, no elbows</td></tr><tr><td>bell</td><td>153mm</td><td>17 rings, 10mm square → ø86 rim (ø80 of air)</td></tr><tr><td><strong>total</strong></td><td><strong>1339mm</strong></td><td></td></tr></tbody></table></div>
+<p>For scale, a B♭ trumpet is about 1480mm of tube, so this is a little shorter and should sit a little higher.</p>
+<p><strong>The pitch has not been measured.</strong> A plain closed-open pipe of 1.339m gives <code>c/4L</code> = 64 Hz and odd modes at 64, 192, 320, 448, 576, 704 Hz, but a real brass instrument's bell and mouthpiece pull those modes into a harmonic series and that calculation does not model either. Treat it as the ballpark it is; the four truncations above are a ready-made experiment in what the end correction actually does, since their bores are an exact 1:2:3:4.</p>
+<h3 id="the-mouthpiece-and-the-bell-are-shared">The mouthpiece and the bell are shared</h3>
+<p>Neither end is touched by the way a bore turns, so <strong>only the tube belongs to an instrument</strong>. Both live in <code>parts/</code>, both take <code>--bore</code>, and both close onto the same 10mm square in a 16mm face.</p>
+<pre><code>cd parts/mouthpiece &amp;&amp; python3 mouthpiece-round.py
+cd parts/bell &amp;&amp; python3 bell-round.py 17 --bore=10 --length=152 --mouth=80</code></pre>
+<p>Each rebuilds its shipped sheet byte for byte and writes it into its own <code>cut-files/</code>.</p>
+<p>The joint at each end is a <strong>square annulus of ply 3mm wide</strong> — 10mm inside, 16mm out. The bell's ring 0 is a flange that covers all of it: a 22mm square with a 10mm hole, standing 3mm proud. This was wrong until 2026-08-26, when the throat was taken from the bore's <em>outside</em> rather than its channel and ring 0 sat entirely outside the face it was supposed to seal. It was reported as gaps at the joint, which is exactly what it was.</p>
+<h2 id="cutting">Cutting</h2>
+<p>Everything is <strong>3mm birch ply on an xTool P2S</strong>, 600 × 308mm of bed.</p>
+<p><strong>Colour is the cut order</strong>: blue engraves, then green → orange → cyan → black, and black frees the part. On a bore section blue engraves the section number and black cuts. On a ring, orange takes the aperture first so the hole is in before the outline releases the part.</p>
+<p><strong>Every part is engraved with its section number</strong>, and two sections of the same shape are cut separately so each carries its own. The built bore has two such pairs — 3 and 6, and 7 and 10.</p>
+<p>Sections are numbered from the mouthpiece. Assemble in order; the first piece is marked <code>buttin</code> and the last <code>buttout</code>, and those two are the only plain ends.</p>
+<h2 id="what-is-in-here">What is in here</h2>
+<pre><code>parts/
+  mouthpiece/       the shared mouthpiece, and its viewers
+  bell/             the shared bell, square and square-to-round
+  bore/
+    built/          the bore that exists as an object
+    concept/        every candidate, none of them cut
+tools/              the generator, the gate, and the walks</code></pre>
+<p><strong><code>built/</code> is one design.</strong> <code>concept/</code> holds eighteen folders that ship cut files and a good many more that are only a walk and a viewer. Nothing in <code>concept/</code> has been cut, and a folder there is not a promise that it should be.</p>
+<h3 id="three-ways-to-make-a-tube">Three ways to make a tube</h3>
+<p>They are not variations on each other. The section grows at every turn, and how much is the whole comparison:</p>
+<div class='tw'><table><thead><tr><th></th><th>curve</th><th>section at a turn</th><th>why it exists</th></tr></thead><tbody><tr><td>lattice walk</td><td>90° turns</td><td>+41.4%</td><td>fits a walk into a box</td></tr><tr><td>closed ring</td><td>a circle, 45° facets</td><td>+8.2%</td><td>a constant-section loop</td></tr><tr><td>swept curve</td><td>any planar curve</td><td>+3.5% at 30°</td><td>constant section on a smooth curve</td></tr></tbody></table></div>
+<p>The lattice walk is what the built instrument uses, and it is the most expensive per turn by a wide margin. It buys packing: a walk folds into a box no other method reaches.</p>
+<p>The <strong>swept curve</strong> (<code>parts/bore/concept/swept-curve/</code>) sweeps a rectangle along a planar curve, so two faces are flat and two are faceted. Five shapes are cut: a serpentine and an opposed pair at 1000mm, three spirals at 1000, 1458 and 1767mm, and a wave at 836mm — plus a 30° coupon that exists to prove the tooth survives the bend.</p>
+<h3 id="the-coil-search">The coil search</h3>
+<p><code>parts/bore/concept/walk/no-elbows/coil/</code> holds seven coils promoted out of a search of seventeen, each because it won a category outright or tied for one. Each carries a <code>why.txt</code> with its walk, its win, and twelve metrics recomputed from that walk:</p>
+<div class='tw'><table><thead><tr><th>coil</th><th>wins</th></tr></thead><tbody><tr><td><code>3x3-51</code></td><td>smallest box, 459</td></tr><tr><td><code>2x2-134</code></td><td>fewest distinct shapes, 2</td></tr><tr><td><code>3x7-22</code></td><td>tightest spiral, 34mm rise per turn</td></tr><tr><td><code>5x5-50</code></td><td>least tube per turn, 15.1 blocks</td></tr><tr><td><code>4x4-50</code></td><td>calmest bore, 20.40 turns/m (tied)</td></tr><tr><td><code>5x8-18</code></td><td>largest average plate, 3009mm²; and two ties</td></tr><tr><td><code>3x3-54</code></td><td>fewest pieces, 30 (tied); smallest box with no shared wall (tied)</td></tr></tbody></table></div>
+<p>Ten of the seventeen remain in <code>search/</code>, and a coil listed above as tied is tied with one of them. The scoring is in <a href="parts/bore/concept/walk/no-elbows/coil/search/SCORING.html"><code>search/SCORING.md</code></a>.</p>
+<h2 id="the-toolchain">The toolchain</h2>
+<p><code>tools/</code> ships no cut files of its own — only the thing that makes them.</p>
+<div class='tw'><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td><code>bore_split.py</code></td><td>the generator: a walk in, per-piece cut files out</td></tr><tr><td><code>check.py</code></td><td>the gate, run automatically by every <code>--write</code></td></tr><tr><td><code>regress.py</code></td><td>runs the gate over the whole library</td></tr><tr><td><code>snakebox.py</code>, <code>snakeboxvar.py</code></td><td>the Boxes.py generators that draw a section</td></tr><tr><td><code>svgpath.py</code></td><td>reads back what was written — the gate parses the file, not the plan</td></tr><tr><td><code>assemble.py</code></td><td>builds a section as a solid and asks directly whether it is sealed, rather than testing a proxy</td></tr><tr><td><code>viewer.py</code></td><td>the one page builder; every viewer page here comes from it</td></tr><tr><td><code>bore_render.py</code></td><td>stills, coloured by piece or by direction of travel</td></tr><tr><td><code>nest.py</code></td><td>lays parts out on a sheet</td></tr><tr><td><code>hilbert.py</code></td><td>writes a Hilbert cube as a walk</td></tr><tr><td><code>mcwalk.py</code></td><td>renders a walk that crosses itself, which the generator refuses</td></tr><tr><td><code>sizes.py</code></td><td>one design at more than one block pitch, in one viewer</td></tr></tbody></table></div>
+<h2 id="the-gate">The gate</h2>
+<p>Nothing here is cut on trust. <code>bore_split.py --write</code> runs the checks itself and refuses to leave a folder unchecked; <code>tools/regress.py</code> runs the whole library.</p>
+<pre><code>cd tools &amp;&amp; ~/boxes/venv/bin/python regress.py</code></pre>
+<p><strong>26 designs, 0 failed, 7681 individual checks.</strong></p>
+<p>It checks that each section closes round its bore, that the assembled bore is one sealed passage, that its volume matches the walk, that no feature is under 1.5mm, that every sheet fits the bed, that every seam is one tab side and one slot side, and that no engraving lands in a slot or off the material.</p>
+<p><strong>Use the virtualenv python.</strong> <code>check.py</code> imports shapely, which the system <code>python3</code> does not have — and <code>bore_split.py</code> writes every file <em>before</em> it gates them, so a system-python <code>--write</code> leaves a folder of finished-looking cut files and a traceback where the gate should be.</p>
+<blockquote><p>A passing gate means no check failed, not that the part is buildable. Two real fit problems have reached the bench past a clean gate. The gate's floor is 1.5mm and nothing compares a feature against the features beside it.</p></blockquote>
+<h2 id="clearance">Clearance</h2>
+<p><code>PLAY_BY_BORE</code> is a lookup of what has actually been cut, not a curve through it, and it has <strong>one row</strong>: 0.025mm per side at the 10mm bore. A bore that is not in the table gets that value too — too loose is a worse joint than too tight is no joint — and says on stderr that it is guessing, because a guess that looks like a measurement is the dangerous kind.</p>
+<p>Whether the requirement is absolute, a fraction of the tab, or something else takes a second bore to say, and there is one bore. <code>tools/coupon-16mm/</code> is the coupon that would settle it.</p>
+<h2 id="building-it">Building it</h2>
+<ol><li>Cut the twelve bore sections from <code>parts/bore/built/meander/fold2-long-straight-3t/cut-files/</code>, in order.</li><li>Cut the bell — 17 rings, <strong>three passes</strong>, 51 pieces. Cut once and you get a 51mm stub instead of a 153mm bell.</li><li>Cut the mouthpiece — 30 rings, one pass.</li><li>Glue each bore section closed, then join them in engraved order.</li><li>Stack the bell rings from ring 0 at the bore; stack the mouthpiece rings from ring 0 likewise. Both are engraved in hex, <code>0</code> at the bore.</li><li>Sand and fill the mouthpiece's staircase and round its rim over before you put a lip to it.</li></ol>
+<p><strong>The bell is cut more than once.</strong> Each sheet draws every ring once, and the <code>x3</code> in its filename is how many times the sheet goes through the machine.</p>
+<h2 id="licence">Licence</h2>
+<p>CC0 1.0 Universal. Do what you like with it.</p>
+<p><code>parts/LICENSE</code> and <code>tools/LICENSE</code> are copies of the same text, so that a directory taken on its own still carries it.</p>
+</main>
+</div>
+<script>
+var r=document.documentElement,b=document.querySelector('.tog');
+function set(t){r.setAttribute('data-theme',t);try{localStorage.setItem('ctg-theme',t)}catch(e){}
+b.textContent=t==='dark'?'\u2600 light':'\u263e dark';}
+var saved=null;try{saved=localStorage.getItem('ctg-theme')}catch(e){}
+set(saved||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));
+b.addEventListener('click',function(){set(r.getAttribute('data-theme')==='dark'?'light':'dark')});
+</script>
+</body>
+</html>

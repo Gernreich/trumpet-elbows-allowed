@@ -1,0 +1,8 @@
+# The per-directory licence files. The README states the licence once, for the
+# whole repository; naming each copy would say nothing a reader needs.
+parts/LICENSE
+tools/LICENSE
+
+# Named in prose as the library the section generators are built on. It is an
+# external project (festi.info/boxes.py), not a file here.
+Boxes.py
