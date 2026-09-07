@@ -9,6 +9,7 @@ The instrument that has been built is a **coil of 1096mm in 12 sections**, with 
 turns, right-handed, about a north–south axis. Everything else here is a
 candidate for the next one.
 
+<!-- readme-only -->
 **[Read the writeup](https://gernreich.github.io/trumpet/)**
 
 ![The built bore, twelve sections glued up](parts/bore/built/coil/fold2-long-straight-3t/bore10-coil-fold2-long-straight-3t_web.jpg)
