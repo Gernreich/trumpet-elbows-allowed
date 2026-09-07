@@ -271,7 +271,7 @@ Nothing here is cut on trust. `bore_split.py --write` runs the checks itself and
 refuses to leave a folder unchecked; `tools/regress.py` runs the whole library.
 
 ```sh
-cd tools && ~/boxes/venv/bin/python regress.py
+cd tools && ~/Software/boxes/venv/bin/python regress.py
 ```
 
 **26 designs, 0 failed, 7681 individual checks.**

@@ -423,7 +423,7 @@ in \`checks/\`.
     node tools/run_checks.sh     # re-run the gate over every walk
 
 \`check.py\` needs shapely, numpy and scipy, which live in the Boxes.py venv — run it with
-\`~/boxes/venv/bin/python\`, as \`README.md\` says. The system python3 does
+\`~/Software/boxes/venv/bin/python\`, as \`README.md\` says. The system python3 does
 not have them.
 
 ## How they were found
@@ -475,7 +475,7 @@ by hand.
     node tools/spiral_metrics.js "$(cat walks/${rows[0].name}.txt)"   # measure one walk
 
     cd .            # rebuild a viewer page
-    ~/boxes/venv/bin/python viewer.py "$(cat ../spirals/walks${rows[0].name}.txt)" \\
+    ~/Software/boxes/venv/bin/python viewer.py "$(cat ../spirals/walks${rows[0].name}.txt)" \\
         --out ../spirals/pages${rows[0].name}.html --title "${rows[0].name.replace(/_/g,' ')}"
 
 ## What has not been done

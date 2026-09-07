@@ -80,7 +80,7 @@ now what everything uses; there is no other version for a fix to fail to flow ba
 
 Its generator installs into Boxes.py as **`SnakeBoxVar`**, beside `SnakeBox` rather
 than over it, so both are available at once. That has not changed, and it is still the
-reason installing anything into `~/boxes` deserves care — it is a shared checkout.
+reason installing anything into `~/Software/boxes` deserves care — it is a shared checkout.
 
 **`PIN_PLAY` is worth remembering as provenance.** It went to 0.025 per side on
 2026-09-01 because the fit was *measured here*, four times in ply, while `../fold2`
@@ -108,7 +108,7 @@ W="$(cat walks/coil_fold2.txt)"
 # from it, so a different tree writes differently named files and cmp has nothing
 # to compare.
 rm -rf /tmp/f && mkdir -p /tmp/f/coil/fold2
-~/boxes/venv/bin/python bore_split.py --blocksize=16 --refuse-elbows "$W" \
+~/Software/boxes/venv/bin/python bore_split.py --blocksize=16 --refuse-elbows "$W" \
     --write /tmp/f/coil/fold2/bore
 B=bore10-coil-fold2-02of06-bend-LUUR-cut-files.svg
 cmp /tmp/f/coil/fold2/bore/cut-files/$B \
@@ -162,7 +162,7 @@ past a corner and retraces the same line. Spotted on 2026-08-31 and deliberately
 
 Section 1 is the only one with none, which is why the first part cut looked right.
 
-**Do not "fix" this.** Chasing it means changing `~/boxes`, the shared checkout the frozen
+**Do not "fix" this.** Chasing it means changing `~/Software/boxes`, the shared checkout the frozen
 repositories depend on, to remove a scorch mark in the waste.
 
 ## Do not trust a passing gate
@@ -191,7 +191,7 @@ for t in 0.25:coil-0.25t:"¼ Turn" 1.25:coil_fold2:"1¼ Turns" \
          2:coil-2t:"2 Turns" 2.75:coil-2.75t:"2¾ Turns"; do
   n=${t%%:*}; rest=${t#*:}; w=${rest%%:*}; lab=${rest#*:}
   W="$(cat walks/$w.txt)"
-  ~/boxes/venv/bin/python bore_split.py --bore=10 --straight=30 --refuse-elbows \
+  ~/Software/boxes/venv/bin/python bore_split.py --bore=10 --straight=30 --refuse-elbows \
       --title="10x10x30 Coil, $lab" "$W" \
       --write ../parts/bore/concept/walk/no-elbows/coil/no-contact/fold2-long-straight/coil-10x10x30-${n}t
 done
@@ -201,7 +201,7 @@ python3 coils.py                    # coils.html here, all four in one viewer
 `--write` runs the gate itself. To run it alone against a folder:
 
 ```sh
-~/boxes/venv/bin/python check.py "$(cat walks/coil_fold2.txt)" \
+~/Software/boxes/venv/bin/python check.py "$(cat walks/coil_fold2.txt)" \
     --bore=10 --straight=30 \
     --files ../parts/bore/concept/walk/no-elbows/coil/no-contact/fold2-long-straight/coil-10x10x30-1.25t/cut-files
 ```
@@ -265,8 +265,8 @@ do if the view jumps each time you swap. Reset is still a button.
 ## `regress.py` gates both designs, and what it cannot see
 
 ```sh
-cd tools && ~/boxes/venv/bin/python regress.py        # both designs
-cd tools && ~/boxes/venv/bin/python regress.py coil   # one
+cd tools && ~/Software/boxes/venv/bin/python regress.py        # both designs
+cd tools && ~/Software/boxes/venv/bin/python regress.py coil   # one
 ```
 
 The frozen corpus in `../../../../../../../../tools` gates the frozen toolchain and has no stretched

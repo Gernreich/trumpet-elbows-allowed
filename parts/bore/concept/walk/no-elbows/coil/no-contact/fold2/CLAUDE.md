@@ -268,7 +268,7 @@ Boxes.py virtualenv, so run the gate from there:
 ```sh
 W="$(cat walks/coil_fold2.txt)"
 D=.
-~/boxes/venv/bin/python check.py "$W" --blocksize=16 --files $D/bore/cut-files
+~/Software/boxes/venv/bin/python check.py "$W" --blocksize=16 --files $D/bore/cut-files
 ```
 
 `--files` only looks at the sheets as the machine sees them — bed fit, overlaps, engraving
@@ -304,7 +304,7 @@ cd $S && python3 bore_split.py --no-write --refuse-elbows "N N1 W3 U2 E3 N3 D3 W
 cd $S
 W="$(cat walks/coil_fold2.txt)"
 D=.
-~/boxes/venv/bin/python bore_split.py --blocksize=16 --refuse-elbows "$W" --write $D/bore
+~/Software/boxes/venv/bin/python bore_split.py --blocksize=16 --refuse-elbows "$W" --write $D/bore
 ```
 
 The mouthpiece and the bell are **not generated here** — they live in
@@ -329,7 +329,7 @@ costs one cannot reach this folder by accident.
 
 ```sh
 python3 $G/svg-stroke-check.py --dir . --quiet   # stroke declared twice, disagreeing
-cd $S && ~/boxes/venv/bin/python regress.py      # every design in the library
+cd $S && ~/Software/boxes/venv/bin/python regress.py      # every design in the library
 ```
 
 The gate reports **195 checks, 0 failed** on this bore, and `regress.py` covers

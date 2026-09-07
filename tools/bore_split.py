@@ -56,7 +56,20 @@ DIRS = {'E': (1, 0, 0), 'W': (-1, 0, 0), 'U': (0, 1, 0),
         'D': (0, -1, 0), 'S': (0, 0, 1), 'N': (0, 0, -1)}
 # Point BOXES at your Boxes.py checkout with snakebox.py installed (see the
 # install section of README.md). Override with the SNAKEBOX_BOXES env var.
-BOXES = os.environ.get('SNAKEBOX_BOXES', os.path.expanduser('~/boxes'))
+#
+# Searched rather than hardcoded, because it WAS hardcoded to ~/boxes and the
+# checkout moved to ~/Software/boxes. Nothing said so: the gate simply reported
+# all 26 designs failing with "No module named 'boxes'", which reads like a
+# broken install rather than a path that no longer exists. A missing checkout
+# now says that, in those words, instead of surfacing 26 rows down.
+CANDIDATES = ('~/Software/boxes', '~/boxes')
+BOXES = os.environ.get('SNAKEBOX_BOXES') or next(
+    (p for p in (os.path.expanduser(c) for c in CANDIDATES)
+     if os.path.isdir(p)), '')
+if not os.path.isdir(BOXES):
+    sys.exit('bore_split: no Boxes.py checkout found. Looked in '
+             + ', '.join(CANDIDATES)
+             + '.\n  Set SNAKEBOX_BOXES=/path/to/your/boxes checkout.')
 PY = os.environ.get('SNAKEBOX_PY', os.path.join(BOXES, 'venv/bin/python'))
 BED_W, BED_H = 600.0, 308.0   # xTool P2S work area, mm
 BLOCK, PIN, BURN = 16.0, 1.5, 0.1   # block pitch, tab reach, kerf allowance

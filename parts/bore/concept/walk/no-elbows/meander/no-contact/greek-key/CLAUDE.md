@@ -44,7 +44,7 @@ walk, not the toolchain. Check the walk first.
 **writes every file before it gates them**, so a system-python `--write` leaves a
 folder of finished-looking cut files and a traceback where the gate should be — which
 is exactly how this folder was first produced. Both commands in the README's rebuild
-block use `~/boxes/venv/bin/python`. Keep it that way.
+block use `~/Software/boxes/venv/bin/python`. Keep it that way.
 
 16mm is the default block, so neither command needs `--blocksize`. Pass the same pitch to
 *both* if you ever pass it at all: the gate's geometry half is recut in-process, so gating
