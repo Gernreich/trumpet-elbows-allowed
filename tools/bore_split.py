@@ -1124,8 +1124,16 @@ def label_spot(part, gw, gh, step=1.5):
 TAG = ''             # --tag=, appended to every part's engraved number
 
 
-def part_labels(p, code, args=None, neighbours=None):
+def part_labels(p, code, args=None, neighbours=None, sections=1):
     """The engraving for one part: its section number, and TAG if there is one.
+
+    Nothing at all when there is only one section. The number says which
+    section a loose part belongs to; with one section every part carries the
+    same 1, which answers a question nobody can ask. Marking the walls with
+    their own length instead was tried and reverted: it identified the stick
+    but the plate carried no matching mark, and the mark that would complete
+    it could not be derived - see the revert of 374f20b. So the sheet has no
+    engrave stage, and black is the only colour on it.
 
     A coupon cut three times at three clearances comes off the bed as three
     identical piles - the difference is 0.0125mm of notch, which no one can
@@ -1137,6 +1145,8 @@ def part_labels(p, code, args=None, neighbours=None):
     were worth on parts this size. The number says which section a loose part
     belongs to, which is what actually gets lost on the bench.
     """
+    if sections == 1 and not TAG:
+        return ''
     gh = 5.0 / 3.0
     code = f'{code}{TAG}'
     _, gw0 = glyphs(code, gh)
@@ -1174,9 +1184,16 @@ def provenance(meta, code, n, sheets, parts, sw, sh):
             f'cube. Blocks {meta["span"]} of the walk, entering on '
             f'{meta["in"]} and leaving on {meta["out"]}, a {meta["plate"]} '
             f'block plate laid flat. Two face plates (mirror images) and the '
-            f'side walls; every part carries the section number only. Inner '
+            f'side walls; '
+            + ('one section, so nothing is engraved - every part would carry '
+               'the same number and the plate is the jig'
+               if meta.get('total', 1) == 1 else
+               'every part carries the section number only')
+            + f'. Inner '
             f'cuts are the port and come before their outline. '
-            f'black #000000 cuts, blue #0000ff engraves.')
+            + ('black #000000 cuts; there is no engrave stage on this sheet.'
+               if meta.get('total', 1) == 1 else
+               'black #000000 cuts, blue #0000ff engraves.'))
     esc = lambda t: t.replace('&', '&amp;').replace('<', '&lt;')
     return f'<title>{esc(title)}</title>\n<desc>{esc(desc)}</desc>\n'
 
@@ -1230,7 +1247,8 @@ def sheet(parts, code, path, bed=BED, bed_h=None, args=None,
             local = (f'<g transform="translate({-p["x0"]:.3f},{-p["y0"]:.3f})">'
                      f'{inner}<path d="{p["d"]}" fill="none" stroke="#000000" '
                      f'stroke-width="0.2"/></g>')
-            lbl = part_labels(p, code, args, neighbours)
+            lbl = part_labels(p, code, args, neighbours,
+                              (meta or {}).get('total', 1))
             t = (f'translate({x+w:.3f},{y:.3f}) rotate(90)' if rot
                  else f'translate({x:.3f},{y:.3f})')
             body.append(f'<g transform="{t}">{local}{lbl}</g>')

@@ -73,7 +73,13 @@ been done, and the README says so.
 
 Shared across these repositories: **blue engraves, then green → orange → cyan →
 black**; black frees the part; **violet `#8000ff` means skip**. Bore nets use two
-stages — blue engraves the section number, black cuts.
+stages — blue engraves the section number, black cuts. **Not this one.** It is
+a single section, so the number would read `1` on all twenty-four parts and
+answer a question nobody can ask; nothing is engraved and black is the only
+colour on the sheet. Marking each wall with its own length was tried and
+reverted: it named the stick, but the plate carries no matching mark and the
+one that would complete it could not be derived. The plate is the jig — a wall
+of length L fits only the run of length L, and all eleven lengths differ.
 
 ## Publishing
 
