@@ -182,7 +182,7 @@ python3 $G/make-preview.py \
 ```
 
 `bore_split.py --write` runs the full gate itself and prints the tally, so a regenerated
-directory has been checked — 253 checks on this design, 0 failed. The design library it
+directory has been checked — 251 checks on this design, 0 failed. The design library it
 regresses against lives at **`~/LaserMadeMusic/test`**, above `GIT` and outside every
 repository.
 

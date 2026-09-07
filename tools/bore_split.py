@@ -1235,8 +1235,8 @@ def sheet(parts, code, path, bed=BED, bed_h=None, args=None,
 
 
 # Only a folder that says nothing but "bore" or a size is dull. 'bore-10mm'
-# is; 'bore-stretched' is not, and climbing past it once titled a page
-# "Git Bore Stretched Bore" off the parent directory.
+# is; a folder like 'bore-stretched' is not, and climbing past one of those once
+# titled a page off its grandparent and got the repository's own name into it.
 DULL = re.compile(r'bores?([-_][\d.]+mm)?|[\d.]+mm')
 # The shape families the walk library is filed under. Since 2026-09-05 the
 # identity of a bore is split between a family directory and a leaf that
@@ -1252,8 +1252,8 @@ def folder_stack(outdir):
 
     A design folder inside a build repository is often just 'bore', which names
     the page fine and titles it uselessly - a browser tab reading "Bore" says
-    nothing. Borrow the parent in that case: trumpet-coiled/bore reads as
-    "Trumpet Coiled Bore". 'bore-10mm' is as parentless as 'bore' is, and so is
+    nothing. Borrow the parent in that case: coil/fold2/bore reads as
+    "Coil Fold2 Bore". 'bore-10mm' is as parentless as 'bore' is, and so is
     a bare size folder that a design/<size>/bore layout puts between them: what
     those name is the size, and the design is still further up. So climb until a
     folder names something, rather than borrowing exactly one level.
@@ -1299,7 +1299,7 @@ def filename(code):
     The suffixes are kept off the alphabet a path uses (U D L R), so a piece
     whose path contains an L cannot have its name shredded by the lap marker.
     Hyphens, not underscores, because the bell and mouthpiece sheets in
-    trumpet-parts are hyphenated and one project reads better in one style.
+    ../parts are hyphenated and one project reads better in one style.
     """
     base = code
     bits = []
@@ -1517,8 +1517,8 @@ def main(text, outdir=None):
         # the same stack the file names were built from, so a page and the
         # sheets beside it cannot end up naming two different designs
         words = ' '.join(stack)
-        # folder names are hyphenated across these repositories
-        # (trumpet-coiled, torus-octagonal), so a hyphen is a word break
+        # folder names are hyphenated throughout the library
+        # (coil/flat-drop, spiral/telescope-wide), so a hyphen is a word break
         # here exactly as an underscore is
         title = ' '.join(
             w if w[:1].isdigit() else w.title()      # '10mm', not '10Mm'

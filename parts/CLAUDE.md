@@ -154,7 +154,7 @@ floors are solved in closed form in `stations()`; do not reduce it to one.
 `bell-view.py` and `mouthpiece-view.py` each draw ONE fixed isometric SVG. That
 is the right thing for a page and no use for looking at an object.
 `part-view.py` draws the same geometry as a solid you can drag, in the family
-of the bore viewers in `bore-ribbon`, and writes `<name>-turn.html` beside the
+of the bore viewers in `bore/concept/swept-curve`, and writes `<name>-turn.html` beside the
 PART — climbing out of `cut-files/`, because a turn page is not a cut file.
 
 ```sh

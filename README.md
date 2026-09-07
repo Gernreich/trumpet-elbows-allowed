@@ -9,6 +9,8 @@ The instrument that has been built is a **coil of 1096mm in 12 sections**, with 
 turns, right-handed, about a north–south axis. Everything else here is a
 candidate for the next one.
 
+**[Read the writeup](https://gernreich.github.io/trumpet/)**
+
 ![The built bore, twelve sections glued up](parts/bore/built/coil/fold2-long-straight-3t/bore10-coil-fold2-long-straight-3t_web.jpg)
 
 ---
@@ -249,9 +251,14 @@ coupon that would settle it.
 **The bell is cut more than once.** Each sheet draws every ring once, and the
 `x3` in its filename is how many times the sheet goes through the machine.
 
-## Licence
+## More, and licence
 
-CC0 1.0 Universal. Do what you like with it.
+**[The rest of the build files](https://gernreich.github.io/)** — every instrument,
+each with its own writeup.
 
-`parts/LICENSE` and `tools/LICENSE` are copies of the same text, so that a
-directory taken on its own still carries it.
+**[Download everything as a ZIP](https://github.com/Gernreich/trumpet/archive/refs/heads/main.zip)**
+— the generators, the gate, every cut file and every candidate bore.
+
+Released under [CC0 1.0](LICENSE). Do what you like with it. `parts/LICENSE` and
+`tools/LICENSE` are copies of the same text, so a directory taken on its own still
+carries it.

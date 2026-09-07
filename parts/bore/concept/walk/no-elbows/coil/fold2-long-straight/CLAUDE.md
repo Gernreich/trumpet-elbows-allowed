@@ -162,7 +162,7 @@ repositories depend on, to remove a scorch mark in the waste.
 
 ## Do not trust a passing gate
 
-194 checks and 0 failed is not the evidence. Two of those checks were vacuous on this
+195 checks and 0 failed is not the evidence. Two of those checks were vacuous on this
 geometry until the voxel model was rewritten, and a passing gate means no check failed, not
 that the part is buildable. The number that means something:
 
@@ -271,7 +271,7 @@ is cutting.
 straight block is, and `check.py` computes the expected bore volume from that same function.
 Break `extent` and the measured volume and the expected volume move together, so the check
 that looks strongest here cannot see it: adding 1mm to every straight block still passes
-392 checks. What the volume check proves is that the voxel model agrees with the formula,
+all 393 checks on the 3t. What the volume check proves is that the voxel model agrees with the formula,
 not that either is right. **A change to `extent()` has to be checked by hand.**
 
 `bore/` describes cut parts. A rebuild that changes it needs asking about first.

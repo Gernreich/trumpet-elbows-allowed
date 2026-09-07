@@ -52,11 +52,14 @@ at a pitch the sheets were not cut at reports a clean run on a design nobody cut
 
 ## Sheet 1 is 592mm on a 600mm bed
 
-The largest sheet in any of these repositories, with 8mm to spare on the width. The
-gate's `sheet fits the bed` check passes it, and it will keep passing it right up to
-600.0. Anything that grows the walk, or the block, will fail there first — and the
-nester may split differently rather than failing, so compare the reported sheet sizes
-after any change and do not assume two sheets stays two.
+The largest sheet in the repository **by area** — 592.4 x 284.6mm, 1686cm2, half again
+the next one — with 7.6mm to spare on the width. It is **not** the widest: `telescope-wide`
+section 9 is 599.2mm and `hilbert/open` section 14 is 598.8mm, so if anything is going to
+fail the bed check first it is one of those, at 0.8 and 1.2mm of margin. This one has room.
+
+The gate's `sheet fits the bed` check passes all three, and will keep passing right up to
+600.0. The nester may split differently rather than failing, so compare the reported sheet
+sizes after any change and do not assume two sheets stays two.
 
 ## Not yet in the generator's corpus
 

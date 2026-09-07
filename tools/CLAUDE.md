@@ -76,8 +76,8 @@ the mouthpiece and the bell each glue a flat plate onto the end face, and a prou
 it off. This renames end sections that used to share a shape with an inner one (`BDL` ->
 `BDL~a`, `01_bend_DL.svg` -> `01_bend_DL_buttin.svg`) and **orphans the old file**, which
 nothing deletes for you. `check_sheets` then globs the folder and gates the orphan too, at
-three checks a sheet: `coil fold2` reported 200 checks instead of 194 purely because two
-stale files were still sitting there. **A check count that rises after a rename is a
+three checks a sheet: `coil fold2` once reported six checks more than its own total purely
+because two stale files were still sitting there. **A check count that rises after a rename is a
 warning.**
 
 **The tab is floored at the finger tooth, and the notch carries the play.** Two bench
@@ -124,7 +124,7 @@ than "Bore", and would still read that under a `10mm/` level.
 overlaps and engraving on material, all of which a folder cut at one pitch passes when
 the gate is told another.
 The pitch decides the *geometry* half of the gate, which is recut in-process. Gate a folder
-at the wrong blocksize and it reports 194 checks and 0 failed on a design nobody cut.
+at the wrong blocksize and it reports its full 195 checks and 0 failed on a design nobody cut.
 
 ## One viewer, one bore or several
 

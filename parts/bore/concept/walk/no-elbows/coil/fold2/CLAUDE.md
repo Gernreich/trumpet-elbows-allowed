@@ -31,7 +31,8 @@ that level went on 2026-09-06, and the machinery that would put one back —
 `--blocksize`, `sizes.py`, `folder_stack` climbing past a size folder — is
 untouched. Cut this folder and you have the tube; the two ends come from
 `../../../../../..`.
-`index.html` is still at the root and still the published page; nothing else is loose there.
+There is no page in this folder: every `index.html` under `trumpet/` went on 2026-09-05,
+and the repository's one writeup is `README.md` at its root.
 
 **Three moves got here.** On 2026-08-31 the sheets came off the root into `<size>/bore/`,
 so a pitch read as a sibling of any other rather than as a design and an afterthought;
@@ -45,10 +46,14 @@ Regenerating after each move left every bore SVG **byte-identical**.
 from 2026-08-31 to 2026-09-02 on the grounds that nothing else cut them — true of what had
 been cut, false of what fits. A mouthpiece and a bell suit any tube on the same channel,
 and the coiled and octagonal trumpets were both on one, so keeping them here hid two
-general parts inside one instrument. The rule `trumpet-coiled` states is what decides it:
-neither end is touched by the way a bore turns, so **only the tube belongs to an
-instrument**. The 10mm pair suit no other bore today, which is an accident of the lineup
-rather than a principle, so they went too.
+general parts inside one instrument. What decides it: neither end is touched by the way a
+bore turns, so **only the tube belongs to an instrument**.
+
+At the time it was noted that the 10mm pair suited no other bore *that day*, and that this
+was an accident of the lineup rather than a principle. The accident has since gone the
+other way — **every bore in the repository is now on the 10mm channel**, all 96 lattice
+sheets and every swept-curve one — so the pair serves all of them, which is the whole
+reason they live in `../../../../../..`.
 
 **Do not move them back** without deciding what changed about that argument.
 
@@ -269,7 +274,7 @@ D=.
 `--files` only looks at the sheets as the machine sees them — bed fit, overlaps, engraving
 on material — and never at the pitch, so it passes on either folder at either
 `--blocksize`. What the switch decides is the *geometry* half of the gate, which is recut
-in-process. Pass the wrong one and 194 checks still say pass, having checked a design you
+in-process. Pass the wrong one and 195 checks still say pass, having checked a design you
 are not cutting.
 
 `regress.py` passes `sys.executable` down to `check.py`, so it must be started with the
@@ -327,7 +332,7 @@ python3 $G/svg-stroke-check.py --dir . --quiet   # stroke declared twice, disagr
 cd $S && ~/boxes/venv/bin/python regress.py      # every design in the library
 ```
 
-The gate reports **213 checks, 0 failed** on this bore, and `regress.py` covers
+The gate reports **195 checks, 0 failed** on this bore, and `regress.py` covers
 26 designs. It does not look at the bell or the mouthpiece at all — those are checked by
 `bell-round.py` and `mouthpiece-round.py` themselves, before they write, in
 `../../../../../..`. Nothing here should be cut from a file that has not passed one or the
