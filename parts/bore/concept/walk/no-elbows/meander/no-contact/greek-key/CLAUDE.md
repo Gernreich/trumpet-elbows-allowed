@@ -73,7 +73,12 @@ been done, and the README says so.
 
 Shared across these repositories: **blue engraves, then green → orange → cyan →
 black**; black frees the part; **violet `#8000ff` means skip**. Bore nets use two
-stages — blue engraves the section number, black cuts.
+stages — blue engraves, black cuts. This design is a single section, so the
+number would be `1` on all twenty-four parts and tell nobody anything: the two
+face plates carry it, and each wall carries **its own length in mm** instead.
+The eleven lengths are all different, each fits one run of the meander, and the
+two walls that share a length are the same part — so a ruler identifies any
+stick on the bench.
 
 ## Publishing
 
