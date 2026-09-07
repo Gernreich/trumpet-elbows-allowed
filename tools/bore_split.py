@@ -1124,27 +1124,8 @@ def label_spot(part, gw, gh, step=1.5):
 TAG = ''             # --tag=, appended to every part's engraved number
 
 
-def part_labels(p, code, args=None, neighbours=None, sections=1):
-    """The engraving for one part: what tells it apart, and TAG if there is one.
-
-    The section number is that, until there is only one section. Then every
-    part on the sheet reads 1, which distinguishes nothing - the greek key
-    comes off the bed as two face plates and twenty-two sticks, all marked 1.
-    So a single-section design engraves each WALL with its own length in mm
-    instead. Its eleven lengths are all different and each fits one run of the
-    meander, and the two walls that share a length are the same part, checked
-    against their point lists rather than assumed - so the number identifies a
-    stick completely and a ruler confirms it.
-
-    Not a running number along the flow, which was the other candidate: the
-    parts arrive in the order Boxes.py emits them, left to right across a
-    strip, and that is not the order you assemble in. The walk is palindromic
-    and the emitted lengths are not, which is how that was ruled out. A
-    position number nobody has derived would lie, and the comment in main()
-    about numbering by position exists because that matters.
-
-    The face plates keep the section number: there are two, they are mirrors
-    of each other, and their size tells them apart from nothing.
+def part_labels(p, code, args=None, neighbours=None):
+    """The engraving for one part: its section number, and TAG if there is one.
 
     A coupon cut three times at three clearances comes off the bed as three
     identical piles - the difference is 0.0125mm of notch, which no one can
@@ -1157,8 +1138,6 @@ def part_labels(p, code, args=None, neighbours=None, sections=1):
     belongs to, which is what actually gets lost on the bench.
     """
     gh = 5.0 / 3.0
-    if sections == 1 and p.get('role') == 'W':
-        code = f'{round(max(p["w"], p["h"]))}'
     code = f'{code}{TAG}'
     _, gw0 = glyphs(code, gh)
     spot = label_spot(p, gw0, gh)
@@ -1195,12 +1174,7 @@ def provenance(meta, code, n, sheets, parts, sw, sh):
             f'cube. Blocks {meta["span"]} of the walk, entering on '
             f'{meta["in"]} and leaving on {meta["out"]}, a {meta["plate"]} '
             f'block plate laid flat. Two face plates (mirror images) and the '
-            f'side walls; '
-            + ('the plates carry the section number and each wall carries its '
-               'own length in mm, every one of them different'
-               if meta.get('total', 1) == 1 else
-               'every part carries the section number only')
-            + f'. Inner '
+            f'side walls; every part carries the section number only. Inner '
             f'cuts are the port and come before their outline. '
             f'black #000000 cuts, blue #0000ff engraves.')
     esc = lambda t: t.replace('&', '&amp;').replace('<', '&lt;')
@@ -1256,8 +1230,7 @@ def sheet(parts, code, path, bed=BED, bed_h=None, args=None,
             local = (f'<g transform="translate({-p["x0"]:.3f},{-p["y0"]:.3f})">'
                      f'{inner}<path d="{p["d"]}" fill="none" stroke="#000000" '
                      f'stroke-width="0.2"/></g>')
-            lbl = part_labels(p, code, args, neighbours,
-                              (meta or {}).get('total', 1))
+            lbl = part_labels(p, code, args, neighbours)
             t = (f'translate({x+w:.3f},{y:.3f}) rotate(90)' if rot
                  else f'translate({x:.3f},{y:.3f})')
             body.append(f'<g transform="{t}">{local}{lbl}</g>')

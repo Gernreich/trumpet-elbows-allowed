@@ -124,15 +124,6 @@ the outline releases the part.
 shape are cut separately so each carries its own. The built bore has two such
 pairs — 3 and 6, and 7 and 10.
 
-**Except where there is only one section**, and then the number says nothing: the
-greek key comes off the bed as two face plates and twenty-two sticks, every one
-of them marked `1`. Its walls carry their own length in mm instead. The eleven
-lengths are all different, each fits one run of the meander, and the two walls
-that share a length are the same part — so a ruler tells you where a stick goes.
-Not a running number along the walk, which would have to be derived: the parts
-arrive in the order Boxes.py emits them, and that is not the order you assemble
-in.
-
 Sections are numbered from the mouthpiece. Assemble in order; the first piece is
 marked `buttin` and the last `buttout`, and those two are the only plain ends.
 
