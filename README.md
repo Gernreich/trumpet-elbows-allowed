@@ -190,10 +190,40 @@ draws one, because the mitring it needs is the same mitring every other shape
 needs, but nothing here is a candidate bore.
 
 The **swept curve** (`parts/bore/concept/swept-curve/`) sweeps a rectangle along a
-planar curve, so two faces are flat and two are faceted. Five shapes are cut:
+planar curve, so two faces are flat and two are faceted. Seven designs are cut:
 a serpentine and an opposed pair at 1000mm, three spirals at 1000, 1458 and
-1767mm, and a wave at 836mm — plus a 30° coupon that exists to prove the tooth
-survives the bend.
+1767mm, a wave at 836mm and a double spiral at 1506mm — plus a 30° coupon that
+exists to prove the tooth survives the bend.
+
+The **double spiral** is the one shape here whose two arms interleave. Two of
+them half a turn apart about one centre, crossed in the middle by a straight:
+1506.4mm of bore on a cheek plate 237 × 244mm. Arm B *is* arm A turned through
+180°, so the gap between neighbouring passes is half the radial pitch by
+construction rather than by search — choose the pitch and you have chosen the
+gap. The cheek is a 20mm band, so 46mm a turn is the first pitch that clears it,
+and the two passes come out 23.00mm apart.
+
+Its centreline is the one that does not step its arc radius facet by facet.
+Vertices sit on a smooth spiral `r = R0 + b·θ` sampled every facet instead, which
+the note beside `--shape=spiral` warns is the construction `offset()` cannot
+follow. That note is about offsetting a smooth curve and faceting the result
+separately; offsetting the faceted centreline is exact whatever placed its
+vertices, and the airway measures 4.4e-14mm from the bore here. The stepping
+construction could not be used anyway — its polar radius advances 7mm across one
+half turn and 32mm across another, and two arms interleaved at those radii
+collide.
+
+The open middle is forced, not styled. A straight through the centre is tangent
+to the crossover arc only when the arm's inner end lies outside **twice** that
+arc's radius, so R62 against R30 is a floor; tighten it and the inner panels stop
+being long enough to hold a 6mm tooth, and the generator refuses rather than
+drawing one. Both openings still come out on the rim facing opposite ways, which
+is what a total turning of 0° buys.
+
+Two arms wound into each other is the one arrangement here that could have run
+the bore back into itself, and the check that would have caught it already
+existed: *the cheek outline does not cross itself*. It passes, at 85 edges and no
+crossings.
 
 ### The coil search
 
