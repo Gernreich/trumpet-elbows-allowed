@@ -1590,7 +1590,14 @@ def main(text, outdir=None):
         # having been made means it has been checked, rather than meaning
         # somebody remembered to check it
         import check
-        nchecks, bad, fails = check.main(text, outdir, report=False)
+        # the sheets went into cut-files/ under the design, so that is the
+        # folder to check. Handing check.main the design folder instead made
+        # its "folder holds cut files" guard glob an empty directory and
+        # report 0 matched on every single write - the one guard written to
+        # catch a filter that matches nothing, matching nothing itself.
+        # regress.py has always joined 'cut-files' here; this did not.
+        nchecks, bad, fails = check.main(
+            text, os.path.join(outdir, 'cut-files'), report=False)
         print(f'  {"checked":<44}{nchecks} checks, {bad} failed')
         for name, msgs in fails:
             print(f'    !! {name}')
