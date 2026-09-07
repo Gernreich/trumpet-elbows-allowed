@@ -98,9 +98,9 @@ The one this started from is ${L(yours)}; the other ${rows.length - 1} came out 
 exhaustive search for something tighter.
 
 <!-- readme-only -->
-**[Read it as a page](https://gernreich.github.io/trumpet/parts/bore/concept/walk/no-elbows/spirals/)** — the same text set for
-reading, and the only place the viewer links below open a model you can turn rather
-than a page of HTML source.
+**[Read it as a page](https://gernreich.github.io/trumpet/)** — the trumpet writeup.
+Every per-design page in that repository was removed on 2026-09-05, so this is
+where the reading version lives.
 
 **[Download the whole repository as a ZIP](https://github.com/Gernreich/trumpet/archive/refs/heads/main.zip)**
 — every trumpet and every tool, not the walks alone; these pages are under \`spirals/\`.
