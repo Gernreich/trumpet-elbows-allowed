@@ -23,11 +23,14 @@ this repository is authored by hand except `README.md` and this file.
 
 One design, one pitch:
 
-    10mm/  bore/          16mm block
+    bore/          10mm of air, a 16mm block
 
-The folder still names its bore, because the machinery that would cut a second
-pitch beside it is untouched. Cut this folder and you have the tube; the two
-ends come from `../../../../../..`.
+`bore/` sits directly under the design, the same shape as every sibling under
+`no-elbows/`. It was `10mm/bore/` while a second pitch was expected beside it;
+that level went on 2026-09-06, and the machinery that would put one back —
+`--blocksize`, `sizes.py`, `folder_stack` climbing past a size folder — is
+untouched. Cut this folder and you have the tube; the two ends come from
+`../../../../../..`.
 `index.html` is still at the root and still the published page; nothing else is loose there.
 
 **Three moves got here.** On 2026-08-31 the sheets came off the root into `<size>/bore/`,
@@ -87,7 +90,7 @@ The first letter is the way in; each term after it turns where you stand and the
 *n* blocks, so **the bore is 1 + the sum of the numbers** — 22 blocks here. Axes match
 Minecraft: `U`/`D` are +Y/−Y, `N` is −Z, `S` is +Z, `E` is +X, `W` is −X.
 
-**The walk is stored in `../../../../../../../tools/walks/trumpet_switchback.txt`**,
+**The walk is stored in `../../../../../../../tools/walks/meander_fold2.txt`**,
 and `regress.py` there names this repository as where its cut files live. Unlike
 `../../coil/flat-drop`, which keeps its walk in its page, the file is the record here — the
 page carries the same string in its `<div class="walk">` and `bore_split.py` will read
@@ -110,7 +113,7 @@ A block is 10 × 10 × 10mm of sound space wrapped in **3mm of wall**, so its ou
 **16mm**, and coring it out for air does not shrink it. A run of *N* blocks is **16N mm**
 along the bore. The 22 blocks are 352mm of centreline at that size.
 
-**The folder is named for the bore, the switch is the block.** `10mm/bore/` is
+**The bore is not the block, and this design is gated on the block.** 10mm of air is
 `--blocksize=16`. The two numbers are 6mm apart and naming them the same thing is the
 mistake this section exists to stop: the bore is the air, the block is the air plus two
 walls, and a folder named for one gated at the other cuts a tube nobody asked for.
@@ -127,7 +130,7 @@ builds them from its own constants, so `--blocksize` moves the plan and the shee
 `--pin_width=12` was in this list once. A 12mm tab does not fit a 10mm end
 frame, which is the whole of the section below.
 
-## `10mm/bore/` is a walk and a square, and the folder names the square
+## The walk and the square are separate: the walk is here, the square is a flag
 
 The **block pitch is the sound square plus two walls**, so a 10mm bore in 3mm stock is a
 **16mm** block: `--blocksize=16`, and nothing else changes. Six sections, no elbows,
@@ -148,7 +151,7 @@ that has been renamed or moved can still be asked what it is.
 tooth** (`2 × thickness`, which does not shrink with the block) — so 6mm here, the floor
 rather than the fraction.
 
-**Omitting `--blocksize=16` fills `10mm/bore/` with parts at the stock pitch under this
+**Omitting `--blocksize=16` fills `bore/` with parts at the stock pitch under this
 set's names**, and nothing in the sheet's own name would say so. This design is an entry in
 `regress.py` carrying a fourth field, the pitch, which is what keeps `--blocksize` honest.
 
@@ -259,9 +262,9 @@ with `ModuleNotFoundError` — **the files are written and ungated**. shapely li
 Boxes.py virtualenv, so run the gate from there:
 
 ```sh
-W="$(cat walks/trumpet_switchback.txt)"
+W="$(cat walks/meander_fold2.txt)"
 D=.
-~/boxes/venv/bin/python check.py "$W" --blocksize=16 --files $D/10mm/bore/cut-files
+~/boxes/venv/bin/python check.py "$W" --blocksize=16 --files $D/bore/cut-files
 ```
 
 `--files` only looks at the sheets as the machine sees them — bed fit, overlaps, engraving
@@ -295,9 +298,9 @@ cd $S && python3 bore_split.py --no-write --refuse-elbows "N N1 W3 U2 E3 N3 D3 W
 
 ```sh
 cd $S
-W="$(cat walks/trumpet_switchback.txt)"
+W="$(cat walks/meander_fold2.txt)"
 D=.
-python3 bore_split.py --blocksize=16 --refuse-elbows "$W" --write $D/10mm/bore
+~/boxes/venv/bin/python bore_split.py --blocksize=16 --refuse-elbows "$W" --write $D/bore
 ```
 
 The mouthpiece and the bell are **not generated here** — they come from
@@ -363,18 +366,19 @@ gh run list -L5 --json status,conclusion,headSha \
   -q ".[] | select(.headSha==\"$SHA\") | .status+\" \"+(.conclusion//\"-\")"
 ```
 
-## The name, twice changed
+## The name, three times changed
 
 It was **twin switchback** until 2026-08-29, when it was moved out of the shared library at
-`~/LaserMadeMusic/test` and given a repository — and **trumpet-final-youtube-candidate**
-until 2026-09-01, when that name was dropped because it claimed a decision that had not been
-made. Which bore the video ends up using kept changing, and a repository name is a bad place
-to record a preference.
+`~/LaserMadeMusic/test` and given a repository — **trumpet-final-youtube-candidate** until
+2026-09-01, when that name was dropped because it claimed a decision that had not been made
+— and **trumpet-switchback** until 2026-09-06, when the repositories were consolidated and
+a design stopped being a repository at all.
 
-**trumpet-switchback** describes the design instead: the bore folds back on itself twice,
-which is exactly the two hairpins the elbow rule counts. That is a fact about the walk, so
-it cannot go stale. It also matches `../../coil/flat-drop`, which is named the same way.
+**meander/fold2** is the design's place in the library, and it describes the walk: a
+meander that folds back on itself twice, which is exactly the two hairpins the elbow rule
+counts. That is a fact about the walk, so it cannot go stale, and it reads the same way as
+every sibling — `../greek-key`, `../fold2-long-straight`, `../../coil/flat-drop`.
 
-Renamed together each time: the folder, the walk file, the `regress.py` entries, the GitHub
-repository, the Pages URL and the artifact. If you find either old name anywhere, it is a
-leftover.
+Renamed together each time: the folder, the walk file (`tools/walks/meander_fold2.txt`),
+the `regress.py` entry and its label, and the page title. If you find any earlier name
+anywhere, it is a leftover.

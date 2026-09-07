@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """One page holding a design at every block size it is cut at.
 
-    python3 sizes.py trumpet_switchback /tmp/sizes.html
+    python3 sizes.py meander_fold2 /tmp/sizes.html
 
 Nothing here is cut at two sizes: every design is on the 16mm block, so this
 writes no page that is kept. It is left in place because the next design cut at

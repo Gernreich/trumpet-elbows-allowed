@@ -11,7 +11,7 @@ Boxes.py
 
 # The mouthpiece and the bell live in ../trumpet-parts: neither is touched by
 # the way a bore turns. Named here so a builder knows which sheets to cut with
-# this bore. They are the same 10mm pair ../trumpet-switchback uses.
+# this bore. They are the same 10mm pair ../fold2 uses.
 
 mouthpiece-bore10-trumpet-parts-cut-files.svg
 bell-round10-153mm-17rings-x3-rim86-cut-files.svg

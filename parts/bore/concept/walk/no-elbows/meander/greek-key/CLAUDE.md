@@ -30,7 +30,7 @@ one is planar, so it splits into **one**, and that changes what matters:
   filenames is not a sequence.
 - **The seam clearance is inert.** `PLAY_BY_BORE` gives 0.025 per side at the 10mm
   bore and nothing on this design uses it — there is no section-to-section joint.
-  Do not cite the switchback's measured play as evidence about this bore.
+  Do not cite `meander/fold2`'s measured play as evidence about this bore.
 - **Both ends are plain**, not just one. `plain_ends()` marks the first piece's
   entry and the last piece's exit; on a one-piece bore that is the same piece, so
   it carries both `~a` and `~b` and the filename says `-buttin-buttout-`.

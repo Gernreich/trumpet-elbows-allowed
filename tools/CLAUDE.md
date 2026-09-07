@@ -1,7 +1,7 @@
 # CLAUDE.md
 
 **Nothing here is cut at two pitches.** Every design is on the 16mm block - 10mm of
-air inside 3mm walls - so `regress.py` names one switchback design rather than two,
+air inside 3mm walls - so `regress.py` names one `meander fold2` design rather than two,
 and `sizes.py` writes no page that is kept. Notes below about a design held at two
 sizes describe machinery that still works and currently has nothing to show.
 
@@ -76,7 +76,7 @@ the mouthpiece and the bell each glue a flat plate onto the end face, and a prou
 it off. This renames end sections that used to share a shape with an inner one (`BDL` ->
 `BDL~a`, `01_bend_DL.svg` -> `01_bend_DL_buttin.svg`) and **orphans the old file**, which
 nothing deletes for you. `check_sheets` then globs the folder and gates the orphan too, at
-three checks a sheet: the switchback reported 200 checks instead of 194 purely because two
+three checks a sheet: `meander fold2` reported 200 checks instead of 194 purely because two
 stale files were still sitting there. **A check count that rises after a rename is a
 warning.**
 
@@ -115,10 +115,10 @@ SnakeBox cuts to. Both now come from `set_blocksize()`, and `COMMON` is built by
 from the constants rather than typed out — `check.py` and `piece_render.py` used to keep
 their own copies of that list, which is a second place to forget. Use `bore_split.COMMON`.
 
-A design folder may sit below its repository — the switchback's are `<size>/bore/` — so a
-page title climbs past any ancestor that only names a size or says "bore" until it reaches
-one that names the instrument. `trumpet-coiled/bore` still reads "Trumpet Coiled Bore"; the
-switchback's reads "Trumpet Switchback 10mm Bore" rather than "10mm Bore".
+A design folder is usually just `bore/`, and may sit under a size folder as `<size>/bore/`
+— so a page title climbs past any ancestor that only names a size or says "bore" until it
+reaches one that names the design. `meander/fold2/bore` reads "Meander Fold2 Bore" rather
+than "Bore", and would still read that under a `10mm/` level.
 
 `check.py --files` never looks at the pitch: it checks the written sheets for bed fit,
 overlaps and engraving on material, all of which a folder cut at one pitch passes when

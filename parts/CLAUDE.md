@@ -23,7 +23,7 @@ channel, and nothing about the pair is tied to 10. See `--bore` is the channel, 
 only that below.
 
 **Every mouthpiece and every bell lives here, whichever instrument cuts it.** The four
-switchback sheets moved out to that repository on 2026-08-31 and came back on 2026-09-02:
+fold2 sheets moved out to that design's folder on 2026-08-31 and came back on 2026-09-02:
 holding them there rested on "nothing else cuts them", which described what had been cut
 rather than what fits. A mouthpiece and a bell suit any tube on the same channel, and
 the coiled and octagonal trumpets were both on one, so two general parts were
@@ -257,7 +257,7 @@ These have been cut. Treat every SVG as concurrently modified in Inkscape:
   This was not always so: numbering used to be a separate command you had to remember, and
   a regenerate silently threw the engraving away — `mouthpiece-round.py` with no arguments
   cost `mouthpiece-bore10-trumpet-parts-cut-files.svg` its numbering on 2026-08-31, restored from git. Changing
-  the default was checked by regenerating all four sheets the switchback trumpet is cut from
+  the default was checked by regenerating all four sheets the fold2 trumpet is cut from
   and diffing against the cut files: **byte-identical**, numbering included.
 
   **`mouthpiece-cup.py` continues a stack rather than starting one.** Its rings are glued

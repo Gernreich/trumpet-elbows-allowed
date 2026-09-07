@@ -76,9 +76,9 @@ UNIFORM = [
     # explicitly rather than taking the default, so it is the one thing keeping
     # --blocksize honest: everything scales with the block except SnakeBox's
     # 12mm tab, which does not fit a 10mm frame.
-    ('trumpet switchback',
-     'walks/trumpet_switchback.txt',
-     '../parts/bore/concept/walk/no-elbows/meander/fold2/10mm/bore', 16),
+    ('meander fold2',
+     'walks/meander_fold2.txt',
+     '../parts/bore/concept/walk/no-elbows/meander/fold2/bore', 16),
     # The elbow-free walks. Every design above either contains elbows or is too
     # small to be interesting, so nothing was checking that a long walk still
     # splits without one - the property every build is chosen for.

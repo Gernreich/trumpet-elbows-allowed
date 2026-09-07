@@ -1254,8 +1254,8 @@ def folder_stack(outdir):
     the page fine and titles it uselessly - a browser tab reading "Bore" says
     nothing. Borrow the parent in that case: trumpet-coiled/bore reads as
     "Trumpet Coiled Bore". 'bore-10mm' is as parentless as 'bore' is, and so is
-    the '10mm' that a candidate/10mm/bore layout puts between them: what those
-    name is the size, and the instrument is still further up. So climb until a
+    a bare size folder that a design/<size>/bore layout puts between them: what
+    those name is the size, and the design is still further up. So climb until a
     folder names something, rather than borrowing exactly one level.
     """
     full = os.path.normpath(os.path.abspath(outdir))
@@ -1277,7 +1277,7 @@ def design_slug(stack):
     """The design's part of a cut file's name.
 
     The size terms come out, because the bore is stated separately and a name
-    that says it twice - bore10-switchback-10mm - reads as a mistake.
+    that says it twice - bore10-fold2-10mm - reads as a mistake.
     """
     keep = [w for w in stack if not DULL.fullmatch(w.lower())]
     return '-'.join(keep).lower().replace('_', '-')
