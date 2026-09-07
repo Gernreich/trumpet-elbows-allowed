@@ -290,6 +290,9 @@ coupon that would settle it.
 
 ## More, and licence
 
+Built for **[LaserMadeMusic](https://www.youtube.com/@LaserMadeMusic)**, where the
+cutting and the playing are shown.
+
 **[The rest of the build files](https://gernreich.github.io/)** — every instrument,
 each with its own writeup.
 
