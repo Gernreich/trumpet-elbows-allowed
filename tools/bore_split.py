@@ -1245,6 +1245,13 @@ DULL = re.compile(r'bores?([-_][\d.]+mm)?|[\d.]+mm')
 # family is borrowed into the slug for that reason, the same way a dull
 # 'bore' folder borrows its parent.
 FAMILY = {'coil', 'meander', 'spiral', 'hilbert', 'swept-curve'}
+# Folders that SORT designs rather than name them. A design's identity is its
+# family and its leaf; whether it has elbows, and whether the bore touches
+# itself, are facts about it that the library files it under and the sheet
+# states elsewhere. They sit between the family and the leaf, so the family
+# borrow has to climb past them or every sheet in a sorted folder loses the
+# family from its name.
+CLASSIFIER = {'elbows', 'no-elbows', 'contact', 'no-contact'}
 
 
 def folder_stack(outdir):
@@ -1267,7 +1274,11 @@ def folder_stack(outdir):
         if not cur:
             break
         stack.insert(0, cur)
-    parent = os.path.basename(os.path.dirname(at))
+    up = os.path.dirname(at)
+    parent = os.path.basename(up)
+    while parent.lower() in CLASSIFIER:
+        up = os.path.dirname(up)
+        parent = os.path.basename(up)
     if parent.lower() in FAMILY:
         stack.insert(0, parent)
     return name, stack
@@ -1323,7 +1334,7 @@ def filename(code):
 def cutname(code, total, raw, stack):
     """The whole name of one section's sheet.
 
-    bore10-coil-10x10x30-1.5t-01of06-bend-DL-buttin-cut-files.svg
+    bore10-coil-10x10x30-1.25t-01of06-bend-DL-buttin-cut-files.svg
 
     Every part of that earns its place. The bore, because the same walk at two
     bores makes two different sets of parts under one name - which is what
@@ -1526,8 +1537,8 @@ def main(text, outdir=None):
         if 'Bore' not in title:
             title += ' Bore'
         # A folder name has to sort, stay unambiguous and survive a URL;
-        # a page title has to read. 'coil-10x10x30-3t' is the right folder
-        # and "Coil 10x10x30 3t Bore" is a filename read aloud, so --title
+        # a page title has to read. 'coil-10x10x30-2.75t' is the right folder
+        # and "Coil 10x10x30 2.75t Bore" is a filename read aloud, so --title
         # lets the two differ rather than forcing one to serve both.
         if TITLE:
             title = TITLE

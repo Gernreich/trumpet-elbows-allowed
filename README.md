@@ -12,7 +12,7 @@ candidate for the next one.
 <!-- readme-only -->
 **[Read the writeup](https://gernreich.github.io/trumpet/)**
 
-![The built bore, twelve sections glued up](parts/bore/built/coil/fold2-long-straight-3t/bore10-coil-fold2-long-straight-3t_web.jpg)
+![The built bore, twelve sections glued up](parts/bore/built/coil/fold2-long-straight-2.75t/bore10-coil-fold2-long-straight-2.75t_web.jpg)
 
 ---
 
@@ -78,12 +78,17 @@ writes anything rather than handing you a folder to inspect.
 For scale, a B♭ trumpet is about 1480mm of tube, so this is a little shorter and
 should sit a little higher.
 
-**The pitch has not been measured.** A plain closed-open pipe of 1.339m gives
-`c/4L` = 64 Hz and odd modes at 64, 192, 320, 448, 576, 704 Hz, but a real brass
-instrument's bell and mouthpiece pull those modes into a harmonic series and that
-calculation does not model either. Treat it as the ballpark it is; the four
-truncations above are a ready-made experiment in what the end correction
-actually does, since their bores are an exact 1:2:3:4.
+**It plays. One of its notes is F4** — 349.2 Hz, measured off the built
+instrument.
+
+**Do not size a bore from a pipe formula.** F4 lands on no simple mode of a
+1.339m tube: it is 2.73 times the open-open fundamental (`c/2L` = 128 Hz) and
+5.45 times the closed-open one (`c/4L` = 64 Hz), and neither multiple is a whole
+number. That is what a bell and a mouthpiece do — they pull the resonances away
+from where a plain tube would put them, and how far is not something either
+formula knows. Length still sets the register, which is why the four truncations
+above are worth cutting: their bores are an exact 1:2:3:4, so what the ends
+actually contribute is measurable rather than assumed.
 
 ### The mouthpiece and the bell are shared
 
@@ -134,9 +139,36 @@ parts/
 tools/              the generator, the gate, and the walks
 ```
 
-**`built/` is one design.** `concept/` holds eighteen folders that ship cut
-files and a good many more that are only a walk and a viewer. Nothing in
-`concept/` has been cut, and a folder there is not a promise that it should be.
+**`built/` is one design.** Nothing in `concept/` has been cut, and a folder
+there is not a promise that it should be.
+
+A walk is filed under three facts about it, each of which costs something at the
+machine:
+
+```
+concept/walk/<elbows|no-elbows>/<family>/<contact|no-contact>/<design>
+```
+
+**Family** is the shape — `coil`, `meander`, `spiral`, `hilbert` — and it is
+measured, not asserted: a coil has an axis it advances along and a handedness,
+a meander has neither.
+
+**Elbows** is whether any turn is stranded as its own one-block piece.
+
+**Contact** is whether the bore comes back and touches itself: two blocks
+sharing a face, an edge or a vertex without being joined along the tube. At a
+face the airway runs past 6mm of wood rather than 3; at an edge or a vertex the
+two walls meet on a line or a point, which is a place for the glue-up to go out
+of true. None of it is fatal, and a tight coil can rarely avoid it — but it is a
+property of the walk, decided before anything is cut, so the library sorts on it.
+
+> Blocks **two** apart along the walk are edge-neighbours at every single turn —
+> that is the geometry of turning, not the bore touching itself, and counting it
+> would file every walk here under `contact`. So contact is measured between
+> blocks **three or more** apart. Of the 20 designs filed this way, 11 are both
+> elbow-free and touch-free, 7 touch, and 2 are touch-free but carry an elbow.
+> `coil/search/` is not among them: it is the search that the promoted coils came
+> out of, and its ten remaining walks split 4 to 6 across the line.
 
 ### Three ways to make a tube
 
@@ -146,12 +178,16 @@ much is the whole comparison:
 | | curve | section at a turn | why it exists |
 | --- | --- | --- | --- |
 | lattice walk | 90° turns | +41.4% | fits a walk into a box |
-| closed ring | a circle, 45° facets | +8.2% | a constant-section loop |
 | swept curve | any planar curve | +3.5% at 30° | constant section on a smooth curve |
 
-The lattice walk is what the built instrument uses, and it is the most expensive
-per turn by a wide margin. It buys packing: a walk folds into a box no other
-method reaches.
+The lattice walk is what the built instrument uses, and it is the more expensive
+per turn by a wide margin. It buys packing: a walk folds into a box a smooth
+curve does not reach.
+
+A third construction, a closed ring of facets, is not listed: a loop has no ends,
+so it cannot take a mouthpiece or a bell. `ribbon_bore.py --shape=torus` still
+draws one, because the mitring it needs is the same mitring every other shape
+needs, but nothing here is a candidate bore.
 
 The **swept curve** (`parts/bore/concept/swept-curve/`) sweeps a rectangle along a
 planar curve, so two faces are flat and two are faceted. Five shapes are cut:
@@ -239,7 +275,7 @@ coupon that would settle it.
 ## Building it
 
 1. Cut the twelve bore sections from
-   `parts/bore/built/coil/fold2-long-straight-3t/cut-files/`, in order.
+   `parts/bore/built/coil/fold2-long-straight-2.75t/cut-files/`, in order.
 2. Cut the bell — 17 rings, **three passes**, 51 pieces. Cut once and you get a
    51mm stub instead of a 153mm bell.
 3. Cut the mouthpiece — 30 rings, one pass.

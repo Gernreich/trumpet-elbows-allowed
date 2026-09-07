@@ -22,10 +22,10 @@ import viewer                                                 # noqa: E402
 # label, walk file. Order is shortest first, which is also the order they
 # truncate in, so the control reads as a length rather than a list of designs.
 COILS = [
-    ('¾',  'walks/coil-0.75t.txt'),
-    ('1½',  'walks/coil_fold2.txt'),
-    ('2¼',  'walks/coil-2.25t.txt'),
-    ('3',   'walks/coil-3t.txt'),
+    ('¼',  'walks/coil-0.25t.txt'),
+    ('1¼',  'walks/coil_fold2.txt'),
+    ('2',   'walks/coil-2t.txt'),
+    ('2¾',  'walks/coil-2.75t.txt'),
 ]
 TITLE = '10x10x30 Coils'
 
@@ -53,7 +53,7 @@ def main(out):
 # -- the repository root -- which was this design's parent before the repositories
 # were consolidated, and stayed pointing there afterwards.
 DEST = ('..', 'parts', 'bore', 'concept', 'walk', 'no-elbows', 'coil',
-        'fold2-long-straight', 'coils.html')
+        'no-contact', 'fold2-long-straight', 'coils.html')
 
 if __name__ == '__main__':
     a = sys.argv[1:]
