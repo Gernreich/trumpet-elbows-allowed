@@ -16,11 +16,25 @@
 // Usage: node tools/standardise.js [--write]
 const fs = require('fs'), cp = require('child_process'), path = require('path');
 const root = path.join(__dirname, '..');
-// The bore toolchain, six levels up since the 2026-09-05 restructure. Built
+// The bore toolchain, seven levels up since the 2026-09-05 restructure. Built
 // from fragments, which is why three path sweeps walked straight past it:
 // nothing in this file ever contains the string '../tools' to match on.
 const GEN  = path.join(root, '..', '..', '..', '..', '..', '..', '..', 'tools');
-const PY   = process.env.BORE_PY || (process.env.HOME + '/boxes/venv/bin/python');
+const CANDIDATES = ['~/Software/boxes', '~/boxes'];   // as bore_split.py searches
+function py() {
+  const found = process.env.BORE_PY ||
+    CANDIDATES.map(c => c.replace('~', process.env.HOME) + '/venv/bin/python')
+              .find(p => fs.existsSync(p));
+  // BORE_PY is checked too: taken on trust, a wrong one fails later and deeper,
+  // as a spawn error against a walk rather than a bad setting.
+  if (!found || !fs.existsSync(found)) {
+    console.error(found ? 'BORE_PY is set to ' + found + ', which does not exist.'
+                        : 'no Boxes.py venv found. Looked in ' + CANDIDATES.join(', ') +
+                          '.\n  Set BORE_PY=/path/to/venv/bin/python.');
+    process.exit(1);
+  }
+  return found;
+}
 const WRITE = process.argv.includes('--write');
 
 const MAIN = require.main === module;
@@ -89,7 +103,7 @@ function periodOf(t){
 }
 function split(walk){
   try {
-    const out = cp.execSync(`${JSON.stringify(PY)} bore_split.py --no-write ${JSON.stringify(walk)}`,
+    const out = cp.execSync(`${JSON.stringify(py())} bore_split.py --no-write ${JSON.stringify(walk)}`,
       { cwd: GEN, encoding:'utf8', maxBuffer:1<<24, stdio:['pipe','pipe','pipe'] });
     const kinds = {};
     for (const l of out.split('\n')){ const m = l.match(/^\s+\d+\s+\d+-\d+\s+(\w+)\s/); if (m) kinds[m[1]] = (kinds[m[1]]||0)+1; }

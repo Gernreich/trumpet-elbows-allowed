@@ -11,17 +11,31 @@
 // Usage: node tools/parts.js            (rebuild the cache)
 const fs = require('fs'), cp = require('child_process'), path = require('path');
 const root = path.join(__dirname, '..');
-// The bore toolchain, six levels up since the 2026-09-05 restructure. Built
+// The bore toolchain, seven levels up since the 2026-09-05 restructure. Built
 // from fragments, which is why three path sweeps walked straight past it:
 // nothing in this file ever contains the string '../tools' to match on.
 const GEN  = path.join(root, '..', '..', '..', '..', '..', '..', '..', 'tools');
-const PY   = process.env.BORE_PY || (process.env.HOME + '/boxes/venv/bin/python');
+const CANDIDATES = ['~/Software/boxes', '~/boxes'];   // as bore_split.py searches
+function py() {
+  const found = process.env.BORE_PY ||
+    CANDIDATES.map(c => c.replace('~', process.env.HOME) + '/venv/bin/python')
+              .find(p => fs.existsSync(p));
+  // BORE_PY is checked too: taken on trust, a wrong one fails later and deeper,
+  // as a spawn error against a walk rather than a bad setting.
+  if (!found || !fs.existsSync(found)) {
+    console.error(found ? 'BORE_PY is set to ' + found + ', which does not exist.'
+                        : 'no Boxes.py venv found. Looked in ' + CANDIDATES.join(', ') +
+                          '.\n  Set BORE_PY=/path/to/venv/bin/python.');
+    process.exit(1);
+  }
+  return found;
+}
 
 const out = {};
 for (const f of fs.readdirSync(path.join(root, 'walks')).filter(f => f.endsWith('.txt')).sort()) {
   const name = f.replace(/\.txt$/, '');
   const walk = fs.readFileSync(path.join(root, 'walks', f), 'utf8').trim();
-  const res = cp.execSync(`${JSON.stringify(PY)} bore_split.py --no-write ${JSON.stringify(walk)}`,
+  const res = cp.execSync(`${JSON.stringify(py())} bore_split.py --no-write ${JSON.stringify(walk)}`,
                           { cwd: GEN, encoding: 'utf8', maxBuffer: 1 << 24 });
   const pieces = +(res.match(/(\d+) pieces to assemble/) || [])[1];
   const plates = [];

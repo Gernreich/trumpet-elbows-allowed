@@ -470,13 +470,13 @@ by hand.
     node tools/table.js          # both tables, plain text
     node tools/table.js --md     # the same as markdown
     node tools/gen_readme.js     # this file
-    python3 ../../../../../../../lasermade-tools/md2html.py README.md index.html    # the published page
+    python3 ../../../../../../../../lasermade-tools/md2html.py README.md index.html    # the published page
 
     node tools/spiral_metrics.js "$(cat walks/${rows[0].name}.txt)"   # measure one walk
 
-    cd .            # rebuild a viewer page
-    ~/Software/boxes/venv/bin/python viewer.py "$(cat ../spirals/walks${rows[0].name}.txt)" \\
-        --out ../spirals/pages${rows[0].name}.html --title "${rows[0].name.replace(/_/g,' ')}"
+    ~/Software/boxes/venv/bin/python ../../../../../../../tools/viewer.py \\
+        "$(cat walks/${rows[0].name}.txt)" \\
+        --out pages/${rows[0].name}.html --title "${rows[0].name.replace(/_/g,' ')}"
 
 ## What has not been done
 
