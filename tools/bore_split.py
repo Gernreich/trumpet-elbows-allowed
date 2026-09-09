@@ -1193,7 +1193,8 @@ def provenance(meta, code, n, sheets, parts, sw, sh):
              f'{part}, {meta["kind"]} {meta["raw"][1:]}, '
              f'{len(parts)} parts on {sw:.0f}x{sh:.0f}mm')
     desc = (f'1 user unit = 1mm. {bore:g}mm square bore in {THICKNESS:g}mm '
-            f'stock, so a {BLOCK:g}mm block pitch; a block that runs straight '
+            f'stock, cut for a {SHEET:g}mm sheet at {BURN:g}mm kerf, '
+            f'so a {BLOCK:g}mm block pitch; a block that runs straight '
             f'is {STRAIGHT:g}mm long and a block that turns is a {BLOCK:g}mm '
             f'cube. Blocks {meta["span"]} of the walk, entering on '
             f'{meta["in"]} and leaving on {meta["out"]}, a {meta["plate"]} '

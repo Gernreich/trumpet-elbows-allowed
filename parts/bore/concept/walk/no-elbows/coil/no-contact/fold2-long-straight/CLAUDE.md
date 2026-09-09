@@ -68,6 +68,21 @@ turn count from that tool without checking it closes.
   which walks a square circuit in cross-section while stepping north. The first design laid
   out for this lattice. Nothing cut yet.
 
+
+**These two folders were NOT regenerated on 2026-09-09**, when the sheet was
+calipered at 2.94mm and the kerf measured at 0.13mm and every other design was
+cut again to those numbers. `coil-10x10x30-1.5t/` and
+`../../../../../../built/coil/fold2-long-straight-3t/` hold files drawn at the
+old 3.0mm and 0.1mm, because those files describe wood that exists and a record
+of what was cut is worth more than a file nobody is cutting.
+
+**So do not cut from either of them as they stand.** Their joints will come out
+0.11mm slack along the tooth and 0.09mm across the ply, which is what the
+dspiral halftest assembled like and why the numbers were measured at all.
+Regenerate the folder first -- the switches are in `tools/regress.py`, which is
+what drove every other folder -- and know that you are then overwriting the
+record of the instrument.
+
 None of them is an instrument on its own: this repository is all bore, and nothing here
 closes either end. The 10mm mouthpiece and bell in `../../../../../../../mouthpiece` and
 `../../../../../../../bell` fit any of
