@@ -164,6 +164,31 @@ gates geometry, and a page whose every face is white is geometrically perfect. *
 the page after any change to the drawing code**; nothing that reads the file will catch
 this class.
 
+## bore_split.py's guards, audited the same way
+
+Twenty-one of them, given inputs they should refuse. **Nearly all hold.** A
+stray character, a walk that reverses instead of turning, a walk too short to
+have a direction, a walk that revisits a cell, a run of zero length, a one-cell
+piece that is not a cube, a notch narrower than its own play, a notch that
+leaves no ply beside it, and `--refuse-elbows` against a walk with an elbow --
+every one refuses, with a message naming the block or section at fault.
+
+Two probes were confounded before they were right, and both times the probe was
+wrong, not the guard: the notch guards sit behind a code path a walk without a
+notched joint never reaches, and `--refuse-elbows` needs a walk that actually
+strands a turn. **A guard that does not fire has not been tested until you know
+your input reached it.**
+
+**One defect found.** `--bore` and `--blocksize` are two spellings of one
+number -- `set_bore()` calls `set_blocksize(bore + 2t)` -- and they were applied
+in that order unconditionally, so `--bore` silently overwrote `--blocksize`
+whichever way round they were typed. `--bore=30 --blocksize=16` cut 49mm blocks
+and reported them as though asked for. The pair is now refused unless the two
+agree. This is the same fault as the section below it, one flag along.
+
+**Known and not fixed:** a run of absurd length (`N9999`) builds until it hangs
+rather than refusing. Nothing guards the total block count.
+
 ## check.py, audited against artefacts it should reject
 
 Done 2026-09-08, alongside the same audit of `ribbon_bore.py`. Method: hand the

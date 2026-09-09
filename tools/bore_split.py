@@ -1656,10 +1656,24 @@ if __name__ == '__main__':
         a.remove('--refuse-elbows')
         B.REFUSE_ELBOWS = True
     bs = [x for x in a if x.startswith('--blocksize=')]
+    bo = [x for x in a if x.startswith('--bore=')]
+    # --bore and --blocksize are two spellings of one number: set_bore() calls
+    # set_blocksize(bore + 2t). Applied in this order --bore always overwrote
+    # --blocksize, whichever way round they were typed, and said nothing:
+    # "--bore=30 --blocksize=16" cut 49mm blocks and reported them as if asked
+    # for. A switch that is silently ignored is the fault this file already
+    # carries a section about; refuse the pair unless they agree.
+    if bs and bo:
+        want = float(bo[0].split('=', 1)[1]) + 2 * B.THICKNESS
+        got = float(bs[0].split('=', 1)[1])
+        if abs(want - got) > 1e-9:
+            sys.exit(f'error: --bore={bo[0].split("=", 1)[1]} means '
+                     f'--blocksize={want:g} at {B.THICKNESS:g}mm ply, and '
+                     f'--blocksize={got:g} was asked for as well. They are two '
+                     f'spellings of one number. Pass one.')
     if bs:
         a.remove(bs[0])
         B.set_blocksize(bs[0].split('=', 1)[1])
-    bo = [x for x in a if x.startswith('--bore=')]
     if bo:
         a.remove(bo[0])
         B.set_bore(bo[0].split('=', 1)[1])
