@@ -333,6 +333,14 @@ def pin_width():
 def _common():
     # Boxes.py is handed the MATERIAL thickness: it cuts the finger slots,
     # and a slot has to fit the sheet, not the sheet's nominal size.
+    # --spacing is "multiples of thickness", and Boxes computes
+    #     spacing = 2*burn + spacing[0]*thickness + spacing[1]
+    # so the gap between parts on a sheet moves with BOTH numbers changed on
+    # 2026-09-09: 2(0.1) + 0.5(3.0) = 1.70mm became 2(0.065) + 0.5(2.94) =
+    # 1.60mm. Parts are untouched; the sheets they sit on come out 0.1mm
+    # tighter per gap. That is most of why every sheet's width and height moved
+    # when only the joint was meant to, and it is the harmless direction --
+    # nothing is near the bed except telescope-wide's 09of09 at 598.7mm of 600.
     return [f'--blocksize={BLOCK:g}', f'--thickness={SHEET:g}',
             f'--burn={BURN:g}',
             f'--pin_width={pin_width():g}', f'--pin_play={pin_play():g}',
