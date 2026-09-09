@@ -72,11 +72,21 @@ if not os.path.isdir(BOXES):
              + '.\n  Set SNAKEBOX_BOXES=/path/to/your/boxes checkout.')
 PY = os.environ.get('SNAKEBOX_PY', os.path.join(BOXES, 'venv/bin/python'))
 BED_W, BED_H = 600.0, 308.0   # xTool P2S work area, mm
-BLOCK, PIN, BURN = 16.0, 1.5, 0.13  # block pitch, tab reach, kerf allowance
-# BURN was 0.1 by assumption until 2026-09-09, when the laser's kerf was
-# measured at 0.13. Every kerf compensation was 0.03mm out in the direction
-# that makes parts smaller and holes bigger -- 0.06mm of slack across a
-# joint. It is settable now: --burn=.
+BLOCK, PIN = 16.0, 1.5              # block pitch, tab reach
+# KERF is the full width the laser takes out, MEASURED 2026-09-09. BURN is what
+# Boxes.py calls it, and Boxes means the RADIUS: it offsets each side of a line
+# by burn, so a drawing comes out nominal + 2*burn, and its own line width is
+# set to 2*burn. Every use of BURN in this file spends it as 2*BURN for the same
+# reason.
+#
+# The two are NOT the same number, and this file and ribbon_bore.py do not agree
+# on what the name means -- ribbon_bore draws its own outlines, offsets by
+# BURN/2 a side, and its BURN is the full width. Setting 0.13 here, as was done
+# earlier today, tells Boxes the kerf is 0.26mm and compensates every part by
+# twice what the laser removes. The old 0.1 was the same mistake at a different
+# size: it meant a 0.2mm kerf.
+KERF = 0.13                         # measured full width of the cut
+BURN = KERF / 2                     # what Boxes.py wants: the radius
 # 16mm is 10mm of air in 3mm stock, which is the bore this project cuts.
 FEWEST_ELBOWS = True          # --fewest-pieces turns this off
 # Fewest is not none. A build repository wants none, and wants to be told rather
@@ -1193,7 +1203,7 @@ def provenance(meta, code, n, sheets, parts, sw, sh):
              f'{part}, {meta["kind"]} {meta["raw"][1:]}, '
              f'{len(parts)} parts on {sw:.0f}x{sh:.0f}mm')
     desc = (f'1 user unit = 1mm. {bore:g}mm square bore in {THICKNESS:g}mm '
-            f'stock, cut for a {SHEET:g}mm sheet at {BURN:g}mm kerf, '
+            f'stock, cut for a {SHEET:g}mm sheet at {KERF:g}mm kerf, '
             f'so a {BLOCK:g}mm block pitch; a block that runs straight '
             f'is {STRAIGHT:g}mm long and a block that turns is a {BLOCK:g}mm '
             f'cube. Blocks {meta["span"]} of the walk, entering on '
@@ -1700,10 +1710,13 @@ if __name__ == '__main__':
         a.remove(sh[0])
         B.SHEET = float(sh[0].split('=', 1)[1])
         B.COMMON = B._common()
-    bn = [x for x in a if x.startswith('--burn=')]
-    if bn:
-        a.remove(bn[0])
-        B.BURN = float(bn[0].split('=', 1)[1])
+    # --kerf, not --burn: the flag takes the width you measure with a caliper,
+    # and the halving into Boxes' radius happens here where it can be seen.
+    kf = [x for x in a if x.startswith('--kerf=')]
+    if kf:
+        a.remove(kf[0])
+        B.KERF = float(kf[0].split('=', 1)[1])
+        B.BURN = B.KERF / 2
         B.COMMON = B._common()
     tg = [x for x in a if x.startswith('--tag=')]
     if tg:
