@@ -1,11 +1,16 @@
 """Nest a bore's parts onto sheets, four ways, and report which wins.
 
-    python3 nest.py "N N10 U2 ..." --out ../parts/bore/concept/nest.svg
+    python3 nest.py "N N10 U2 W2 S7 U2 E4 N9 W2 D2 N4 N"
 
   shelf     rows of parts, tallest first          (what cram.py did)
   maxrects  free-rectangle packing, best short side fit
   skyline   bottom-left against a skyline profile
   raster    irregular: the real outline on a 1 mm raster, four rotations
+
+Writes one sheet per method beside you -- nest_shelf.svg, nest_maxrects.svg,
+nest_skyline.svg, nest_raster.svg -- and --out renames the stem rather than the
+file, which the old example did not say while it also named a walk too short to
+run and a destination in the tree.
 
 The first three pack bounding boxes, so they can never do better than the sum
 of those boxes. Only `raster` can put a wall inside an L-shaped plate's notch,
