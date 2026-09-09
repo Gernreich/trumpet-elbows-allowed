@@ -5,9 +5,16 @@ A trumpet cut flat from 3mm birch ply and glued into a tube. The airway is a
 and it never changes section from the mouthpiece to the throat of the bell.
 
 The instrument that has been built is a **coil of 1096mm in 12 sections**, with a
-90mm mouthpiece at one end and a 153mm bell at the other. It winds 990° — 2.75
-turns, right-handed, about a north–south axis. Everything else here is a
-candidate for the next one.
+**72mm** mouthpiece at one end and a 153mm bell at the other. It winds 1080° —
+**three** turns, right-handed, about a north–south axis. Everything else here is
+a candidate for the next one.
+
+Two things about that sentence were wrong until 2026-09-08. The mouthpiece on
+this instrument is 24 rings, not the 30 the design cuts: 72mm rather than 90,
+and it is the instrument that is short, not the drawing. And the coil winds
+three whole turns, not 2¾ — its walk is `W U E D` three times over, and its
+first and last blocks sit on the same cross-section point, which a fractional
+number of turns cannot do.
 
 <!-- readme-only -->
 **[Read the writeup](https://gernreich.github.io/trumpet/)**
