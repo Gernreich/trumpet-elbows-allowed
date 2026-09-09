@@ -72,7 +72,11 @@ if not os.path.isdir(BOXES):
              + '.\n  Set SNAKEBOX_BOXES=/path/to/your/boxes checkout.')
 PY = os.environ.get('SNAKEBOX_PY', os.path.join(BOXES, 'venv/bin/python'))
 BED_W, BED_H = 600.0, 308.0   # xTool P2S work area, mm
-BLOCK, PIN, BURN = 16.0, 1.5, 0.1   # block pitch, tab reach, kerf allowance
+BLOCK, PIN, BURN = 16.0, 1.5, 0.13  # block pitch, tab reach, kerf allowance
+# BURN was 0.1 by assumption until 2026-09-09, when the laser's kerf was
+# measured at 0.13. Every kerf compensation was 0.03mm out in the direction
+# that makes parts smaller and holes bigger -- 0.06mm of slack across a
+# joint. It is settable now: --burn=.
 # 16mm is 10mm of air in 3mm stock, which is the bore this project cuts.
 FEWEST_ELBOWS = True          # --fewest-pieces turns this off
 # Fewest is not none. A build repository wants none, and wants to be told rather
@@ -82,7 +86,14 @@ REFUSE_ELBOWS = False
 BED = BED_W                   # sheets wrap to the bed width
 OUTDIR = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                       '..', '..', 'test')
-THICKNESS = 3.0
+THICKNESS = 3.0     # ply, NOMINAL: what the lattice is dimensioned on
+# What the sheet calipers, 2026-09-09. Two numbers, for the reason ribbon_bore
+# gives at more length: THICKNESS is a DRAWN dimension and moving it moves the
+# design -- the airway is BLOCK - 2*THICKNESS, so 2.94 would make this a
+# 10.12mm bore and rename every cut file from bore10- to bore10.12-. SHEET is
+# the MATERIAL, and it belongs where Boxes.py cuts a slot for it to pass
+# through. Settable as --sheet=.
+SHEET = 2.94
 # A port lets a change of plane happen inside a piece, but the joint has not
 # survived assembly: the plate it opens leaves the walls of that cell supported
 # on one side, with their fingers facing nothing. Off unless asked for.
@@ -231,7 +242,8 @@ def pin_width():
 
     At a wider bore the fraction wins and nothing moves; at 10mm the floor does.
     """
-    tooth = 2.0 * THICKNESS                     # Boxes.py FingerJointSettings
+    tooth = 2.0 * SHEET                         # Boxes.py FingerJointSettings,
+    #                                           which is handed SHEET, not THICKNESS
     frame = BLOCK - 2 * THICKNESS               # the opening the tab sits in
     if NOTCH is not None:
         # MIN_SHOULDER is the target the automatic sizing aims for, not a limit
@@ -253,7 +265,9 @@ def pin_width():
 
 
 def _common():
-    return [f'--blocksize={BLOCK:g}', f'--thickness={THICKNESS:g}',
+    # Boxes.py is handed the MATERIAL thickness: it cuts the finger slots,
+    # and a slot has to fit the sheet, not the sheet's nominal size.
+    return [f'--blocksize={BLOCK:g}', f'--thickness={SHEET:g}',
             f'--burn={BURN:g}',
             f'--pin_width={pin_width():g}', f'--pin_play={pin_play():g}',
             '--labels=0', '--reference=0',
@@ -1677,6 +1691,19 @@ if __name__ == '__main__':
     if bo:
         a.remove(bo[0])
         B.set_bore(bo[0].split('=', 1)[1])
+    # The sheet and the kerf were module constants until 2026-09-09, reachable
+    # only by editing the file -- and both were wrong. A number that describes
+    # the material in front of you should not need a commit.
+    sh = [x for x in a if x.startswith('--sheet=')]
+    if sh:
+        a.remove(sh[0])
+        B.SHEET = float(sh[0].split('=', 1)[1])
+        B.COMMON = B._common()
+    bn = [x for x in a if x.startswith('--burn=')]
+    if bn:
+        a.remove(bn[0])
+        B.BURN = float(bn[0].split('=', 1)[1])
+        B.COMMON = B._common()
     tg = [x for x in a if x.startswith('--tag=')]
     if tg:
         a.remove(tg[0])
