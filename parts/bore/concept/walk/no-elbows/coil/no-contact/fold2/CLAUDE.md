@@ -127,9 +127,14 @@ outside dimension still matches, which no drawing shows. Do not type them: `bore
 builds them from its own constants, so `--blocksize` moves the plan and the sheet together.
 
 ```
---blocksize=16 --thickness=3 --burn=0.1 --labels=0
---reference=0 --inner_corners=corner --spacing=0.5
+--blocksize=16 --thickness=2.94 --burn=0.065 --labels=0 --reference=0
+--inner_corners=corner --spacing=0.5
 ```
+
+`--thickness` is the SHEET, not the nominal 3mm, and `--burn` is HALF the kerf,
+because that is what Boxes.py means by it. Both come from `bore_split._common()`
+and change with `--sheet=` and `--kerf=`; print them rather than trusting this
+block, which recorded `--thickness=3 --burn=0.1` until 2026-09-09.
 
 `--pin_width=12` was in this list once. A 12mm tab does not fit a 10mm end
 frame, which is the whole of the section below.

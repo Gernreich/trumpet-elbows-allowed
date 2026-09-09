@@ -60,9 +60,14 @@ Standard flags, and they must stay uniform across the set — mixing `burn` chan
 joint fit while every outside dimension still matches, which no drawing shows:
 
 ```
---blocksize=16 --thickness=3 --burn=0.1 --labels=0 --reference=0
+--blocksize=16 --thickness=2.94 --burn=0.065 --labels=0 --reference=0
 --inner_corners=corner --spacing=0.5
 ```
+
+`--thickness` is the SHEET, not the nominal 3mm, and `--burn` is HALF the kerf,
+because that is what Boxes.py means by it. Both come from `bore_split._common()`
+and change with `--sheet=` and `--kerf=`; print them rather than trusting this
+block, which recorded `--thickness=3 --burn=0.1` until 2026-09-09.
 
 ## No elbows — the rule that shapes every walk
 
