@@ -8,8 +8,11 @@ itself still comes out a single connected tunnel with nothing to mark the fault.
 This walks permissively, keeps every step in placement order, and draws the
 cells that result - lighting up the ones that got placed more than once.
 
-    python3 mcwalk.py "N N3 U3 W5 N10 E5 S8 W3 S3 N12 N" \
-        --out ../parts/bore/concept/walk/no-elbows/doubled_walk/doubled_walk.html --title "..."
+    python3 mcwalk.py "N N3 U3 W5 N10 E5 S8 W3 S3 N12 N"
+
+Writes mcwalk.html in the working directory; --out and --title override that. It
+named a page under walk/no-elbows/doubled_walk/ until 2026-09-08, which had been
+deleted, so the one line here that could go stale was the one nothing needed.
 """
 import json
 import os

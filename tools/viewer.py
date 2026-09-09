@@ -4,8 +4,11 @@ The still renders answer "what shape is it"; this answers "where does the bore
 go", which on a spiral needs you to move it. One HTML file, no libraries, no
 network: the walk is baked in as data and drawn on a canvas.
 
-    python3 viewer.py "U U3 N2 W2 S4 E4 U2 N6 W6 S8 E8 U2 N10 W10 S12 E12 U3 U" \
-        --out ../parts/bore/concept/walk/elbows/spiral_trumpet/spiral.html --title "Spiral Trumpet Bore"
+    python3 viewer.py "U U3 N2 W2 S4 E4 U2 N6 W6 S8 E8 U2 N10 W10 S12 E12 U3 U"
+
+Writes bore.html in the working directory; --out and --title override that. It
+named a page under walk/elbows/spiral_trumpet/ until 2026-09-08, which had been
+deleted, so the one line here that could go stale was the one nothing needed.
 """
 import json
 import os
