@@ -87,6 +87,24 @@ BLOCK, PIN = 16.0, 1.5              # block pitch, tab reach
 # size: it meant a 0.2mm kerf.
 KERF = 0.13                         # measured full width of the cut
 BURN = KERF / 2                     # what Boxes.py wants: the radius
+#
+# WHY SHEET, AND NOT THICKNESS, IS WHAT SnakeBoxVar IS HANDED. It looked wrong
+# on a later reading: snakeWalls computes h = blocksize - 2*t and that h IS the
+# airway, so passing 2.94 seemed to open a 10mm bore to 10.12. Measured, every
+# part is 16.13mm drawn and 16.00mm cut at BOTH thicknesses, because a wall
+# stands between two plates and its drawn height is h + 2t, which is the block
+# pitch whatever t is.
+#
+# The airway here is not drawn at all. It is what is left between two plates,
+# 16 - 2*(the real one), and that is 10.12mm whatever number the drawing was
+# made with. Passing the true sheet cannot move it; it only makes the drawing
+# agree with the object, and it shortens the three wall runs that carry a
+# thickness in their length by exactly 0.06mm each.
+#
+# ribbon_bore.py is the opposite, and this is the whole reason the two files
+# treat their sheet differently: there the airway IS drawn, at
+# wall_off = (BORE + THICK)/2, so putting the sheet in THICK moves the bore.
+# There the sheet reaches the slot only. Here it reaches everything, correctly.
 # 16mm is 10mm of air in 3mm stock, which is the bore this project cuts.
 FEWEST_ELBOWS = True          # --fewest-pieces turns this off
 # Fewest is not none. A build repository wants none, and wants to be told rather
