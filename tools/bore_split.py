@@ -71,6 +71,44 @@ if not os.path.isdir(BOXES):
              + ', '.join(CANDIDATES)
              + '.\n  Set SNAKEBOX_BOXES=/path/to/your/boxes checkout.')
 PY = os.environ.get('SNAKEBOX_PY', os.path.join(BOXES, 'venv/bin/python'))
+
+
+def _installed_matches_source():
+    """The generators here are COPIES. Say so when the two have drifted.
+
+    snakebox.py and snakeboxvar.py live in this folder and are installed into
+    the Boxes.py checkout, and it is the INSTALLED copy that runs -- this file
+    shells out to `scripts/boxes SnakeBoxVar`. So editing the one beside you and
+    re-running changes nothing, silently, and the sheets come out of the old
+    generator. Found on 2026-09-09 with the two already one comment apart, which
+    was harmless; the drift itself was not being watched at all.
+
+    Compared as syntax trees, so a comment or a reflowed line is not an alarm
+    and a changed number is.
+    """
+    import ast
+    here = os.path.dirname(os.path.abspath(__file__))
+    out = []
+    for name in ('snakebox.py', 'snakeboxvar.py'):
+        mine = os.path.join(here, name)
+        theirs = os.path.join(BOXES, 'boxes', 'generators', name)
+        if not (os.path.exists(mine) and os.path.exists(theirs)):
+            continue
+        try:
+            a = ast.dump(ast.parse(open(mine).read()))
+            b = ast.dump(ast.parse(open(theirs).read()))
+        except SyntaxError:
+            continue
+        if a != b:
+            out.append(name)
+    return out
+
+
+_drifted = _installed_matches_source()
+if _drifted:
+    print(f'warning: {", ".join(_drifted)} differ between tools/ and the Boxes '
+          f'checkout at {BOXES}.\n  The INSTALLED copy is what runs. Copy them '
+          f'over before trusting a sheet.', file=sys.stderr)
 BED_W, BED_H = 600.0, 308.0   # xTool P2S work area, mm
 BLOCK, PIN = 16.0, 1.5              # block pitch, tab reach
 # KERF is the full width the laser takes out, MEASURED 2026-09-09. BURN is what
