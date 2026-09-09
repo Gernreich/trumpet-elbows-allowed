@@ -321,7 +321,7 @@ def check_pairing(rec, groups, norms, flats, laps):
              '; '.join(bad))
 
 
-def check_sheets(folder):
+def check_sheets(folder, want_sections=None):
     """The written sheets, as the machine will see them."""
     def xf(g):
         m = re.match(r'translate\(([-\d.]+),([-\d.]+)\)(?:\s*rotate\((\d+)\))?',
@@ -349,7 +349,7 @@ def check_sheets(folder):
                 L.append([f(float(a), float(b)) for a, b in
                           (t.split(',') for t in ch.get('points').split())])
 
-    seen = 0
+    seen, names = 0, []
     for fn in sorted(glob.glob(os.path.join(folder, '*.svg'))):
         name = os.path.basename(fn)
         # deepnest_* is a layout aid, not a cut file: parts are spread out on
@@ -359,6 +359,7 @@ def check_sheets(folder):
         if not re.match(r'(bore[\d.]+-|\d\d_|nest_|recut_)', name):
             continue
         seen += 1
+        names.append(name)
         root = ET.parse(fn).getroot()
         W = float(root.get('width')[:-2]); H = float(root.get('height')[:-2])
         P, L = [], []
@@ -384,6 +385,32 @@ def check_sheets(folder):
     note(seen > 0, os.path.basename(os.path.normpath(folder)),
          'folder holds cut files', f'{seen} matched *.svg')
 
+    # --- and the files have to be THIS walk's sections, all of them
+    # "seen > 0" was the answer to a folder whose files had been renamed out
+    # from under the filter, and it is not enough. Deleting one of the built
+    # trumpet's twelve sheets took the run from 393 checks to 390 and still
+    # said 0 failed; pointing the gate at another coil's three sheets gave 366
+    # and 0 failed. Nothing compared the folder with the walk, so the gate
+    # could not tell you the sheets in front of you belong to the bore you
+    # asked for -- which, in a repository whose whole claim is that the cut
+    # file IS the design, is the thing it most needs to say.
+    #
+    # The section number is in every name: -NNofMM-. MM must be the number of
+    # sections this walk splits into, and NN must run 1..MM with none missing.
+    if want_sections:
+        nums, tot = set(), set()
+        for name in names:
+            m = re.search(r'-(\d+)of(\d+)-', name)
+            if m:
+                nums.add(int(m.group(1))); tot.add(int(m.group(2)))
+        ok = (tot == {want_sections} and nums == set(range(1, want_sections + 1)))
+        missing = sorted(set(range(1, want_sections + 1)) - nums)
+        note(ok, os.path.basename(os.path.normpath(folder)),
+             'the sheets are this walk\'s sections',
+             f'{len(nums)} of {want_sections}'
+             + (f', file names say {sorted(tot)} sections' if tot != {want_sections} else '')
+             + (f', missing {missing}' if missing else ''))
+
 
 def main(text, folder=None, report=True):
     del results[:]                      # a caller may run more than one walk
@@ -404,7 +431,7 @@ def main(text, folder=None, report=True):
     check_pairing(rec, groups, [p['norm'] for p in plan], flats,
                   [p['lap'] for p in plan])
     if folder:
-        check_sheets(folder)
+        check_sheets(folder, len(groups))
 
     by = {}
     for ok, sec, name, detail in results:

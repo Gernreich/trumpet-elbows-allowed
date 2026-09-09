@@ -164,6 +164,42 @@ gates geometry, and a page whose every face is white is geometrically perfect. *
 the page after any change to the drawing code**; nothing that reads the file will catch
 this class.
 
+## check.py, audited against artefacts it should reject
+
+Done 2026-09-08, alongside the same audit of `ribbon_bore.py`. Method: hand the
+gate something wrong and see whether it says so.
+
+**Effective.** *no two parts overlap* and *engraving on material* both fire when
+one part is dragged on top of another. *bore volume matches the walk* is sound
+by construction, and the comment above it says why: the expected volume is
+computed here, from the walk, and must never be refactored to call
+`bore_split.extent()`, because a check that shares its source with the thing it
+checks is comparing something to itself.
+
+**The gap, now closed.** Nothing compared the FOLDER with the WALK.
+
+    the built trumpet, all twelve sheets     393 checks, 0 failed
+    with one of the twelve deleted           390 checks, 0 failed
+    pointed at another coil's three sheets   366 checks, 0 failed
+    pointed at an empty folder               357 checks, 1 failed
+
+Only the empty folder was caught, by `seen > 0` — which was itself added after
+renamed sheets slipped through the filter and 194 checks quietly became 176.
+That fix stopped at "some files", and the same hole stayed open one step along:
+the gate could not tell you the sheets in front of you belong to the bore you
+asked for. In a repository whose whole claim is that the cut file IS the design,
+that is the thing it most needs to say.
+
+*the sheets are this walk's sections* now reads `-NNofMM-` out of every
+filename, and requires MM to be the section count this walk splits into and NN
+to run 1..MM with none missing. All four rows above now come out right, and
+every design in `regress.py` gains one check.
+
+**Still unaudited**, and worth the same treatment before being trusted:
+`bore_split.py`'s guards, `volute.py`, `ribbon_view.py`, and the checkers in
+`lasermade-tools` — `doc-audit.py` and `flat-part-check.py` especially, since
+both are used to clear work for publication.
+
 ## Never regenerate what you cannot check
 
 `regress.py` runs the full gate over every design in `walks/` and the design
