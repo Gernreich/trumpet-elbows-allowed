@@ -1365,7 +1365,7 @@ def filename(code):
 def cutname(code, total, raw, stack):
     """The whole name of one section's sheet.
 
-    bore10-coil-10x10x30-1.25t-01of06-bend-DL-buttin-cut-files.svg
+    bore10-coil-10x10x30-1.5t-01of06-bend-DL-buttin-cut-files.svg
 
     Every part of that earns its place. The bore, because the same walk at two
     bores makes two different sets of parts under one name - which is what
@@ -1568,8 +1568,8 @@ def main(text, outdir=None):
         if 'Bore' not in title:
             title += ' Bore'
         # A folder name has to sort, stay unambiguous and survive a URL;
-        # a page title has to read. 'coil-10x10x30-2.75t' is the right folder
-        # and "Coil 10x10x30 2.75t Bore" is a filename read aloud, so --title
+        # a page title has to read. 'coil-10x10x30-3t' is the right folder
+        # and "Coil 10x10x30 3t Bore" is a filename read aloud, so --title
         # lets the two differ rather than forcing one to serve both.
         if TITLE:
             title = TITLE

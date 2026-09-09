@@ -22,10 +22,10 @@ import viewer                                                 # noqa: E402
 # label, walk file. Order is shortest first, which is also the order they
 # truncate in, so the control reads as a length rather than a list of designs.
 COILS = [
-    ('¼',  'walks/coil-0.25t.txt'),
+    ('¼',  'walks/coil-0.75t.txt'),
     ('1¼',  'walks/coil_fold2.txt'),
-    ('2',   'walks/coil-2t.txt'),
-    ('2¾',  'walks/coil-2.75t.txt'),
+    ('2',   'walks/coil-2.25t.txt'),
+    ('2¾',  'walks/coil-3t.txt'),
 ]
 TITLE = '10x10x30 Coils'
 

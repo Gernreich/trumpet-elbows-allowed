@@ -32,22 +32,36 @@ cross-section because the first three stop mid-circuit. The reachable lengths ar
 multiples of one group, and nothing between them is available without moving the spacer,
 which makes a different coil rather than a shorter one.
 
-**The folders are named for measured rotation, not for group count.** Each group is not a
-whole number of turns: `spiral_metrics.js` gives the four 90°, 450°, 720° and 990° — 0.25,
-1.25, 2 and 2.75 turns. They were named 0.75, 1.5, 2.25 and 3t until 2026-09-06, one group
-read as ¾ of a turn, and every one of those names was a quarter to a half turn high.
+**The folders are named for measured rotation, and one group is three-quarters of a
+turn.** Each group is three lateral legs, each leg is one side of the circuit, so a group
+sweeps 270° and the four come to 270°, 540°, 810° and 1080° — 0.75, 1.5, 2.25 and 3.00
+turns. Measured by sweeping the angle of the lateral position about the circuit's own
+centre, and the longest agrees three ways: its legs are `W U E D` three times over, and
+its first and last blocks sit on the same cross-section point, which only a whole number
+of turns can do.
 
-- **`coil-10x10x30-0.25t/`** — 11 blocks, 274mm, 3 sections. The shortest the walk goes.
+**These names were wrong between 2026-09-06 and 2026-09-08**, when they read 0.25, 1.25,
+2 and 2.75 — a quarter to a half turn LOW — and this paragraph said the older, correct
+names had been high. The source was `spiral_metrics.js`, which sums the turn between
+CONSECUTIVE PAIRS of lateral legs: twelve legs give eleven quarter turns, 990°, and it
+reads as 2.75. That is the tangent's rotation from the first leg to the last, not the
+winding, and the two differ by exactly one quarter turn whenever the walk closes its
+circuit. **The tool still reports it that way** — the obvious fix, wrapping the sum from
+the last leg back to the first, is right for a walk that closes and wrong for one that
+does not: it takes `../fold2` from 450° to 360° against a measured 540°. Do not take a
+turn count from that tool without checking it closes.
+
+- **`coil-10x10x30-0.75t/`** — 11 blocks, 274mm, 3 sections. The shortest the walk goes.
   Uncut.
-- **`coil-10x10x30-1.25t/`** — 22 blocks, 548mm. **All six parts are cut**; treat its files
+- **`coil-10x10x30-1.5t/`** — 22 blocks, 548mm. **All six parts are cut**; treat its files
   as describing wood. It is `../fold2`'s walk exactly — one file,
   `tools/walks/coil_fold2.txt`, named by both — and nobody noticed it was a coil until the
   other two existed, which is why its folder was called `bore/` until 2026-09-01.
-- **`coil-10x10x30-2t/`** — 33 blocks, 822mm, 9 sections. Uncut.
-- **`coil-10x10x30-2.75t/`** — 44 blocks, 1096mm, and the longest; it is the one that was
-  BUILT, and it lives in `../../../../../../built/coil/fold2-long-straight-2.75t`.
+- **`coil-10x10x30-2.25t/`** — 33 blocks, 822mm, 9 sections. Uncut.
+- **`coil-10x10x30-3t/`** — 44 blocks, 1096mm, and the longest; it is the one that was
+  BUILT, and it lives in `../../../../../../built/coil/fold2-long-straight-3t`.
   **Coils are named for the block and the measured turns**: a 10 x 10mm airway on a 30mm
-  straight, 2¾ times round. That is
+  straight, three times round. That is
   what differs between two coils before anything else does; the circuit size and the pitch
   live in the walk, not the name. Its page title comes from `--title`, not the folder — a
   folder has to sort and survive a URL, a title has to read. `WUED` repeated with an `N` spacer every three terms,
@@ -186,9 +200,9 @@ it is a silent change to a shipped page.
 
 ```sh
 cd tools
-# the 1.25t's walk is named for its design, because ../fold2 is cut from the same file
-for t in 0.25:coil-0.25t:"¼ Turn" 1.25:coil_fold2:"1¼ Turns" \
-         2:coil-2t:"2 Turns" 2.75:coil-2.75t:"2¾ Turns"; do
+# the 1.5t's walk is named for its design, because ../fold2 is cut from the same file
+for t in 0.75:coil-0.75t:"¾ Turn" 1.5:coil_fold2:"1½ Turns" \
+         2.25:coil-2.25t:"2¼ Turns" 3:coil-3t:"3 Turns"; do
   n=${t%%:*}; rest=${t#*:}; w=${rest%%:*}; lab=${rest#*:}
   W="$(cat walks/$w.txt)"
   ~/Software/boxes/venv/bin/python bore_split.py --bore=10 --straight=30 --refuse-elbows \
@@ -203,7 +217,7 @@ python3 coils.py                    # coils.html here, all four in one viewer
 ```sh
 ~/Software/boxes/venv/bin/python check.py "$(cat walks/coil_fold2.txt)" \
     --bore=10 --straight=30 \
-    --files ../parts/bore/concept/walk/no-elbows/coil/no-contact/fold2-long-straight/coil-10x10x30-1.25t/cut-files
+    --files ../parts/bore/concept/walk/no-elbows/coil/no-contact/fold2-long-straight/coil-10x10x30-1.5t/cut-files
 ```
 
 **Tune the fit with `PIN_PLAY`. Do not move the tab.** Two standing decisions, both the

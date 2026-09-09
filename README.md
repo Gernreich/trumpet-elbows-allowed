@@ -19,7 +19,7 @@ number of turns cannot do.
 <!-- readme-only -->
 **[Read the writeup](https://gernreich.github.io/trumpet/)**
 
-![The built bore, twelve sections glued up](parts/bore/built/coil/fold2-long-straight-2.75t/bore10-coil-fold2-long-straight-2.75t_web.jpg)
+![The built bore, twelve sections glued up](parts/bore/built/coil/fold2-long-straight-3t/bore10-coil-fold2-long-straight-3t_web.jpg)
 
 ---
 
@@ -53,9 +53,12 @@ lower. The four coils in `parts/bore/concept/walk/no-elbows/coil/fold2-long-stra
 are one shape cut at four lengths — **274, 548, 822 and 1096mm, an exact
 1:2:3:4** — and the built instrument is the longest of them.
 
-> Their folder names say 0.75, 1.5, 2.25 and 3 turns. Measured off the walks,
-> the rotations are 0.25, 1.25, 2 and 2.75 — each name is a quarter to a half
-> turn high. The lengths are exact; the turn counts in the names are not.
+> Their folder names say 0.75, 1.5, 2.25 and 3 turns, and measurement agrees:
+> the four sweep 270°, 540°, 810° and 1080° about the coil axis, one group of
+> three lateral legs being three-quarters of a turn. Both the lengths and the
+> turn counts are exact. This note said the opposite between 2026-09-06 and
+> 2026-09-08, and the folders were renamed down a quarter turn on the strength
+> of it; `spiral_metrics.js` still reports the figure that caused it.
 
 **Section, because section is tone.** The airway must stay 10mm square the whole
 way. That is what makes a turn expensive: a block that turns has openings on two
@@ -312,7 +315,7 @@ coupon that would settle it.
 ## Building it
 
 1. Cut the twelve bore sections from
-   `parts/bore/built/coil/fold2-long-straight-2.75t/cut-files/`, in order.
+   `parts/bore/built/coil/fold2-long-straight-3t/cut-files/`, in order.
 2. Cut the bell — 17 rings, **three passes**, 51 pieces. Cut once and you get a
    51mm stub instead of a 153mm bell.
 3. Cut the mouthpiece — 30 rings, one pass.
