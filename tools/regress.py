@@ -39,6 +39,12 @@ UNIFORM = [
     ('helix, rise 1', 'N N4 U1 E4 U1 S4 U1 W4 U1 N4 N', None),
     ('helix, side 6', 'N N6 U2 E6 U2 S6 U2 W6 U2 N6 U2 E6 E', None),
     ('test bore', 'U U2 E2 S2 U2 U', None),
+    # The same bore with --flat. Nothing in this table carried that switch, and
+    # check.py had no spelling for it, so the whole plain-butt path -- every
+    # section drawn with no tab and no notch -- was gated by nothing at all.
+    # That is how its own check came to be written inside a branch it could
+    # never fire in and stay green for as long as it did.
+    ('test bore, flat ends', 'U U2 E2 S2 U2 U', None, ['--flat']),
     ('three blocks', 'W D3 E4 N', None),
     # corners in a row. A leg of one block makes its block a corner, so these
     # are chains of touching corners - the case that used to raise rather than
@@ -171,10 +177,22 @@ def check_page(here, folder, text, switches):
     # first, explicitly, so each design is measured on its own lattice.
     B.STRAIGHT = B.BLOCK
     B.set_blocksize(_DEFAULT_BLOCK)
+    # FLAT leaks forward exactly as STRAIGHT did, and for the same reason: it is
+    # a module global that only a switch sets and nothing clears.
+    B.FLAT = False
     for sw in switches:
         k, _, v = sw.lstrip('-').partition('=')
-        {'bore': B.set_bore, 'straight': B.set_straight,
-         'blocksize': B.set_blocksize}[k](v)
+        if k == 'flat':
+            B.FLAT = True
+            continue
+        setter = {'bore': B.set_bore, 'straight': B.set_straight,
+                  'blocksize': B.set_blocksize}.get(k)
+        # A switch this does not know used to raise KeyError here, which reads
+        # as a crash rather than as the omission it is. Name it.
+        if setter is None:
+            return (f'{folder}: check_page does not know the switch --{k}, so '
+                    f'it cannot measure this design')
+        setter(v)
     rec, groups, _, _, _ = B.specs_for(B.walk_text(text))
     want_blocks = len(rec)
     want_mm = round(sum(B.extent(r, B.AXIS[r['out']]) for r in rec))
@@ -204,11 +222,12 @@ def check_page(here, folder, text, switches):
 
 def main(pattern=None):
     here = os.path.dirname(os.path.abspath(__file__))
-    bad = 0
+    bad = ran = 0
     for entry in DESIGNS:
         name, walk, folder, switches = _norm(entry)
         if pattern and pattern.lower() not in name.lower():
             continue
+        ran += 1
         text = walk_of(walk, here)
         args = [sys.executable, 'check.py', text] + switches
         if folder:
@@ -252,6 +271,16 @@ def main(pattern=None):
                     print(f'          {line.strip()}')
             if r.stderr.strip():
                 print(f'          {r.stderr.strip().splitlines()[-1]}')
+    # A PATTERN THAT MATCHES NOTHING IS A FAILURE, not a clean run. `regress.py
+    # zzz` used to print "all designs pass" and exit 0 having gated nothing at
+    # all, which is the same shape as every other fault this file records: a
+    # filter that stops matching reads as good news. all-gates.sh greps for
+    # that exact sentence, so the silence would have carried into the tally.
+    if not ran:
+        print(f'  no design name contains {pattern!r}. '
+              f'{len(DESIGNS)} designs are in the table.')
+        print('\n  0 designs run')
+        return 1
     print(f'\n  {bad} design(s) failing' if bad else '\n  all designs pass')
     return 1 if bad else 0
 

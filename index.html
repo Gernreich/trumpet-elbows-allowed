@@ -158,7 +158,7 @@ tools/              the generator, the gate, and the walks</code></pre>
 <h2 id="the-gate">The gate</h2>
 <p>Nothing here is cut on trust. <code>bore_split.py --write</code> runs the checks itself and refuses to leave a folder unchecked; <code>tools/regress.py</code> runs the whole library.</p>
 <pre><code>cd tools &amp;&amp; ~/Software/boxes/venv/bin/python regress.py</code></pre>
-<p><strong>26 designs, 0 failed, 7681 individual checks.</strong></p>
+<p><strong>27 designs, 0 failed, 7767 individual checks.</strong></p>
 <p>It checks that each section closes round its bore, that the assembled bore is one sealed passage, that its volume matches the walk, that no feature is under 1.5mm, that every sheet fits the bed, that every seam is one tab side and one slot side, and that no engraving lands in a slot or off the material.</p>
 <p><strong>Use the virtualenv python.</strong> <code>check.py</code> imports shapely, which the system <code>python3</code> does not have — and <code>bore_split.py</code> writes every file <em>before</em> it gates them, so a system-python <code>--write</code> leaves a folder of finished-looking cut files and a traceback where the gate should be.</p>
 <blockquote><p>A passing gate means no check failed, not that the part is buildable. Two real fit problems have reached the bench past a clean gate. The gate's floor is 1.5mm and nothing compares a feature against the features beside it.</p></blockquote>

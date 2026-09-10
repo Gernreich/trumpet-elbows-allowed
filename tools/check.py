@@ -59,19 +59,42 @@ def check_section(i, args, parts, flat=('', '')):
     note(len(plates) == 2 and len(walls) == want, i, 'part count',
          f'{len(plates)} plates + {len(walls)} walls, expected 2 + {want}')
 
-    # --- flat means flat: no part may carry a coupling. A tab shows as a
-    # protrusion a pin_width wide, a notch as a recess the same.
+    # --- flat means flat: --flat must actually reach the drawing.
+    #
+    # This asked whether any outline held a step `pin_length` deep, INSIDE a
+    # branch that only runs when pin_length is zero or less. The two conditions
+    # cannot both hold, so the counter was never incremented and the check has
+    # passed since the day it was written. Worse, there is no step to look for:
+    # endProfile draws a plain `edge(length)` when pin_length <= 0, so the
+    # depth the search was keyed on is exactly the thing that is missing. A
+    # tab's width is no help either -- pin_width is floored at the finger tooth,
+    # 2 x thickness, so at the 10mm bore a coupling and an ordinary tooth are
+    # the same 5.88mm across and no width test can tell them apart.
+    #
+    # So ask the drawing instead of guessing at it: draw the same piece with the
+    # coupling ON and require the flat one to differ from it, and to be the
+    # simpler of the two. A --flat that never reached SnakeBox gives two
+    # identical drawings, which is precisely the failure.
+    #
+    # A piece whose ends are BOTH already plain -- a single-section walk, or one
+    # butting a port either side -- has no coupling to drop, and then the two
+    # drawings agreeing is the right answer rather than the wrong one.
     if b.pin_length <= 0:
-        found = 0
-        for p in parts:
-            xs = sorted({round(x, 2) for x, _ in p['pts']})
-            ys = sorted({round(y, 2) for _, y in p['pts']})
-            for vals, span in ((xs, p['w']), (ys, p['h'])):
-                # a coupling sits pin_width across, set in or out by pin_length
-                for a, c in zip(vals, vals[1:]):
-                    if abs((c - a) - b.pin_length) < 0.3 and b.pin_length > 0:
-                        found += 1
-        note(found == 0, i, 'no coupling left anywhere', f'{found} found')
+        was = bore_split.FLAT
+        bore_split.FLAT = False
+        try:
+            coupled = cut(args, f'chkc{i}')
+        finally:
+            bore_split.FLAT = was
+        couplings = sum(1 for x in (b.plain_in, b.plain_out) if not x)
+        differ = sum(1 for p, q in zip(parts, coupled) if p['d'] != q['d'])
+        simpler = all(len(p['pts']) <= len(q['pts'])
+                      for p, q in zip(parts, coupled))
+        note(len(parts) == len(coupled) and simpler
+             and (differ > 0 if couplings else differ == 0),
+             i, 'the flat ends dropped their couplings',
+             f'{differ} of {len(parts)} part(s) differ from the coupled '
+             f'drawing, {couplings} coupling(s) there to drop')
 
     for p in parts:
         g = poly(p)
@@ -463,13 +486,32 @@ if __name__ == '__main__':
                     help='the square airway, if you would rather say that')
     ap.add_argument('--straight', type=float, metavar='MM',
                     help='length of a straight block; turns stay cubic')
+    # --flat had no spelling here at all, so the one design switch the gate
+    # could not be told about was the one whose check was broken. Nothing in
+    # the corpus exercised it and nothing could have.
+    ap.add_argument('--flat', action='store_true',
+                    help='plain butt ends, no tabs and no notches')
     a = ap.parse_args()
+    # --bore and --blocksize are two spellings of one number, and applied in
+    # this order --bore silently overwrote --blocksize whichever way round they
+    # were typed. bore_split.py refuses that pair in so many words and this did
+    # not, so the WRITER would stop and the GATE would carry on and measure a
+    # design nobody asked for. Refuse it here in the same words.
+    if a.blocksize and a.bore:
+        want = a.bore + 2 * bore_split.THICKNESS
+        if abs(want - a.blocksize) > 1e-9:
+            sys.exit(f'error: --bore={a.bore:g} means --blocksize={want:g} at '
+                     f'{bore_split.THICKNESS:g}mm ply, and '
+                     f'--blocksize={a.blocksize:g} was asked for as well. They '
+                     f'are two spellings of one number. Pass one.')
     if a.blocksize:
         bore_split.set_blocksize(a.blocksize)
     if a.bore:
         bore_split.set_bore(a.bore)
     if a.straight:
         bore_split.set_straight(a.straight)
+    if a.flat:
+        bore_split.FLAT = True
     try:
         sys.exit(main(walk_text(' '.join(a.walk)), a.files))
     except ValueError as e:

@@ -284,7 +284,7 @@ refuses to leave a folder unchecked; `tools/regress.py` runs the whole library.
 cd tools && ~/Software/boxes/venv/bin/python regress.py
 ```
 
-**26 designs, 0 failed, 7681 individual checks.**
+**27 designs, 0 failed, 7767 individual checks.**
 
 It checks that each section closes round its bore, that the assembled bore is one
 sealed passage, that its volume matches the walk, that no feature is under 1.5mm,

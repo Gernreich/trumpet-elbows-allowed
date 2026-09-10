@@ -338,7 +338,7 @@ cd $S && ~/Software/boxes/venv/bin/python regress.py      # every design in the 
 ```
 
 The gate reports **196 checks, 0 failed** on this bore, and `regress.py` covers
-26 designs. It was 195 until 2026-09-09, when *the sheets are this walk's sections*
+27 designs. It was 195 until 2026-09-09, when *the sheets are this walk's sections*
 was added to `check.py`; a check count that moves is worth chasing to the reason,
 which is the whole argument of the section below. It does not look at the bell or the mouthpiece at all — those are checked by
 `bell-round.py` and `mouthpiece-round.py` themselves, before they write, in
