@@ -1,0 +1,30 @@
+# How every shipped SVG under parts/bell is drawn. Checked by
+# lasermade-tools/repro-svg.py; $OUT is where the file must be written.
+#
+# NOTHING RAN THESE GENERATORS AT ALL until 2026-09-10. The block bores had two
+# byte gates and the ribbon sheets a third; knotwork-soundholes and living-hinge
+# grew one each when it turned out four of their knots recorded their command
+# nowhere. The bell and the mouthpiece -- eleven generators between them -- were
+# watched by none of it, and the one thing that did touch this directory, the
+# previews gate, checks the preview against the cut file rather than the cut
+# file against the code. So the sheet on disk could be one the current code
+# would no longer draw, and every gate would still have been green.
+#
+# It also matters more here than elsewhere: these generators WRITE when you run
+# them. A stray argument used to be dropped in silence and the defaults drawn,
+# so `bell.py --help` wrote eight sheets rather than printing anything. They
+# refuse a valueless switch now, and this manifest is what says the sheets they
+# do write are the ones that shipped.
+
+cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg :: python3 bell-round.py 17 --bore=10 --length=152 --mouth=80 --out=$OUT
+
+# The two display drawings. Both are read back OUT of the cut file above rather
+# than recomputed, so they cannot describe a bell the sheet does not cut.
+bell-round10-153mm-17rings-x3-rim86-section.svg :: python3 bell-section.py cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg $OUT
+bell-round10-153mm-17rings-x3-rim86-view.svg :: python3 bell-view.py cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg $OUT
+
+# The preview. all-gates.sh walks every previews/ directory and checks this one
+# too; it is claimed here as well so that nothing under this directory is
+# unaccounted for, which is the whole point of the manifest. The tool lives in
+# the sibling lasermade-tools checkout, hence the climb.
+previews/bell-round10-153mm-17rings-x3-rim86-cut-files.svg :: python3 ../../../lasermade-tools/make-preview.py cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg $OUT

@@ -1,0 +1,14 @@
+# How every shipped SVG under parts/mouthpiece is drawn. Checked by
+# lasermade-tools/repro-svg.py; $OUT is where the file must be written.
+# The reasoning is in ../bell/.repro: these generators were run by no gate at
+# all, and they write to disk when run.
+
+cut-files/mouthpiece-bore10-trumpet-parts-cut-files.svg :: python3 mouthpiece-round.py $OUT
+
+# The view is the mouthpiece's own, because bell-view.py draws square section
+# and would render these round rings as squares. The section is bell-section.py,
+# which is read by the mouthpiece too -- which is why its output path is derived
+# from the SOURCE file rather than from the script, or a mouthpiece drawing ends
+# up filed under bell/.
+mouthpiece-bore10-trumpet-parts-view.svg :: python3 mouthpiece-view.py $OUT
+mouthpiece-bore10-trumpet-parts-section.svg :: python3 ../bell/bell-section.py cut-files/mouthpiece-bore10-trumpet-parts-cut-files.svg $OUT
