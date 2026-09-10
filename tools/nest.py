@@ -320,43 +320,6 @@ def bake(d, dx, dy):
     """Shift an absolute path's coordinates, keeping every curve exact.
 
     Nesters vary in how well they apply a <g transform>, so the file hands
-    them plain top-level paths with nothing to interpret.
-    """
-    out, i, n = [], 0, len(d)
-    tok = re.findall(r'[MLHVCSQTAZmlhvcsqtaz]|-?\d*\.?\d+', d)
-    i = 0
-    while i < len(tok):
-        c = tok[i]
-        if c in 'Zz':
-            out.append('Z'); i += 1; continue
-        if c not in 'MLHVCSQTA':
-            raise ValueError(f'relative or unknown command {c!r}; '
-                             'this only shifts absolute paths')
-        counts = {'M': 2, 'L': 2, 'H': 1, 'V': 1, 'C': 6, 'S': 4, 'Q': 4,
-                  'T': 2, 'A': 7}[c]
-        i += 1
-        out.append(c)
-        vals = []
-        while i < len(tok) and tok[i] not in 'MLHVCSQTAZmlhvcsqtaz':
-            vals.append(float(tok[i])); i += 1
-        for j in range(0, len(vals), counts):
-            grp = vals[j:j + counts]
-            if c == 'H':
-                grp = [grp[0] + dx]
-            elif c == 'V':
-                grp = [grp[0] + dy]
-            elif c == 'A':
-                grp = grp[:5] + [grp[5] + dx, grp[6] + dy]
-            else:
-                grp = [v + (dx if k % 2 == 0 else dy) for k, v in enumerate(grp)]
-            out.append(' '.join(f'{v:.3f}' for v in grp))
-    return ' '.join(out)
-
-
-def bake(d, dx, dy):
-    """Shift an absolute path's coordinates, keeping every curve exact.
-
-    Nesters vary in how well they apply a <g transform>, so the file hands
     them plain top-level paths with nothing left to interpret.
     """
     tok = re.findall(r'[MLHVCSQTAZmlhvcsqtaz]|-?\d*\.?\d+', d)
