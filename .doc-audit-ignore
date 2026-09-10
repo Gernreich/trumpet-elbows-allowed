@@ -1,7 +1,9 @@
-# The per-directory licence files. The README states the licence once, for the
-# whole repository; naming each copy would say nothing a reader needs.
-parts/LICENSE
-tools/LICENSE
+# The per-directory licence files needed no exemption: doc-audit's orphan check
+# matches a tracked file by BASENAME as well as by path, so the README's own
+# mention of LICENSE already covers every copy of it. Removed 2026-09-11 after
+# testing that dropping them changes nothing. An exemption that suppresses
+# nothing is worse than none: it is a standing claim nobody re-reads, in the one
+# list whose whole job is to be trusted.
 
 # Named in prose as the library the section generators are built on. It is an
 # external project (festi.info/boxes.py), not a file here.
