@@ -1,7 +1,8 @@
 """Draw one assembled piece from several angles, each face coloured by its part.
 
-Reads the piece's outline from SnakeBox itself and its part sizes from the cut
-files, so the picture cannot drift from what is actually cut.
+Reads the piece's outline from SnakeBoxVar itself -- the generator that cuts it --
+and its part sizes from the cut files, so the picture cannot drift from what is
+actually cut.
 
     python3 piece_render.py --path UUR --label B1
     python3 piece_render.py --open_faces N,E --label E1
@@ -12,7 +13,14 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import bore_split                          # noqa: E402
 from bore_split import BOXES, cut          # noqa: E402
 sys.path.insert(0, BOXES)
-from boxes.generators.snakebox import SnakeBox      # noqa: E402
+# SnakeBoxVar, which is the generator that actually CUTS these pieces:
+# bore_split shells out to `scripts/boxes SnakeBoxVar`, and check.py reads
+# its geometry too. This file read the outline from plain SnakeBox while
+# taking the parts from cut(), which runs the Var -- so the topology and the
+# parts came from two different generators, under a docstring saying the
+# picture cannot drift from what is cut. They agree today, cell for cell and
+# run for run; nothing was watching whether they went on agreeing.
+from boxes.generators.snakeboxvar import SnakeBoxVar as SnakeBox   # noqa: E402
 
 PLATE_COL = '#b8b2a4'
 WALL_COLS = ['#3a5f8a', '#3f7d55', '#c8532f', '#d9962f',
