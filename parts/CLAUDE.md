@@ -113,6 +113,38 @@ a full wall thickness per side. It was reported as gaps at the joint, which is e
 was. The mouthpiece had it right all along — its station one is a bore-sized square hole in a
 plate-sized square — and the bell now does the same.
 
+**Nothing here compensates for the kerf, and nothing here says so.** `bell.py`,
+`bell-round.py`, `mouthpiece.py` and `mouthpiece-round.py` contain not one
+mention of it between them, while the bore generators next door subtract half a
+kerf from every hole and add it to every part. For a laminated stack that is
+defensible -- the rings glue face to face and the lap below absorbs an outer
+profile 0.13mm small -- but it was never a decision anyone wrote down, and it
+has two consequences that were not being counted.
+
+**Apertures come out one kerf oversize**, because a hole opens as the laser goes
+round it. At the 0.13mm measured on 2026-09-09:
+
+    the throat    drawn  3.66 -> cut  3.79mm   +7.2% in area
+    the bore      drawn 10.00 -> cut 10.13mm   +2.6%
+    the lip       drawn 17.00 -> cut 17.13mm   +1.5%
+
+The throat is the smallest hole in the instrument and the one that voices it, so
+that is where a fixed 0.13mm hurts most. Whether it wants compensating is a
+voicing question, not a drawing one, which is why this is written down rather
+than changed.
+
+**Stack heights are nominal.** They are ring count times WALL, and WALL is 3.0
+against a sheet that calipers 2.94:
+
+    30 rings   90.0mm reported,  88.2mm actual   the design
+    24 rings   72.0mm reported,  70.6mm actual   the one that was built
+
+Worth noticing: the built mouthpiece was reported as 72mm, which is exactly 24 x
+3.0. That is the nominal figure, so it is probably a count rather than a caliper
+reading -- if the stack really measures 72mm then the ply under it is nearer
+3.0mm than the 2.94 measured elsewhere, and one of the two numbers wants
+checking before either is trusted.
+
 **The lap is 3mm, not 1.5.** 1.5mm is the width of the glue land, and it left nothing for
 kerf or for a ring set down slightly off centre; joints opened up along the bell. `--lap`
 moves it.
