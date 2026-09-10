@@ -58,7 +58,7 @@ reason they live in `../../../../../..`.
 **Do not move them back** without deciding what changed about that argument.
 
 Regenerating any of the four still means running a generator in `../../../../../..` and
-writing it where it belongs. Two things to know:
+writing it where it belongs. Three things to know:
 
 - **Since 2026-09-06 a generated sheet lands in the generator's own `cut-files/`**, not
   loose beside the script, and a bare run there rebuilds the shipped sheet byte for byte.

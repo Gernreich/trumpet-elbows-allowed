@@ -6,3 +6,54 @@ tools/LICENSE
 # Named in prose as the library the section generators are built on. It is an
 # external project (festi.info/boxes.py), not a file here.
 Boxes.py
+
+# The shared gate tools. They live in the sibling repository
+# github.com/Gernreich/lasermade-tools, checked out beside this one, and are
+# named all through tools/CLAUDE.md and the per-design notes as the commands you
+# run. Every one of them exists -- just not in THIS repository, which is all the
+# existence check can see. Same case as Boxes.py above.
+doc-audit.py
+md2html.py
+svg-stroke-check.py
+make-preview.py
+flat-part-check.py
+
+# Names that appear in the design notes precisely BECAUSE they are not here.
+# Each was checked by hand on 2026-09-10; none is a stale reference:
+#   sizes.html            named by the sentence saying it was deleted
+#   01_bend_DL*.svg       the pre-2026-09-05 naming scheme, quoted to show the
+#   06_bend_RD*.svg       rename it was replaced by
+#   x.svg, x-ported.svg   throwaway trial outputs, written to /tmp on purpose
+#   *-cut-files.svg (bare) "...-cheek-x2-cut-files.svg" is a filename TEMPLATE
+#                         with the design's part elided, not a file
+#   bore-viewer.html      a --out= destination in the sibling pages repository
+#   turn.html             likewise, written by the viewer generator
+# A NEW stale name still fails the gate: these are listed one by one, not
+# waved through by pattern.
+sizes.html
+01_bend_DL.svg
+01_bend_DL_buttin.svg
+06_bend_RD.svg
+06_bend_RDD.svg
+x.svg
+x-ported.svg
+cheek-x2-cut-files.svg
+panels-cut-files.svg
+bore-viewer.html
+turn.html
+
+# The names the notes use to describe a RENAME. Each is quoted as the old form
+# in a sentence explaining why it was replaced, so it existing would mean the
+# rename never happened. Checked by hand on 2026-09-10 against what ships:
+#   bell-round-67rings.svg          "said nothing about the tube it fits"
+#   bell-round-99mm-11rings.svg     "said one of the two"
+#   mouthpiece-parts-cut-files.svg  "that file was renamed the same day"
+# and one example of a sheet no shipped design produces:
+#   bell-square10-...-cut-files.svg marked "# SQUARE bells only" in the block
+# and a command kept for when a deleted previews/ comes back:
+#   bore10-coil-flat-drop-03of08.svg
+bell-round-67rings.svg
+bell-round-99mm-11rings.svg
+bell-square10-204mm-17rings-x4-rim129-cut-files.svg
+mouthpiece-parts-cut-files.svg
+bore10-coil-flat-drop-03of08.svg

@@ -83,6 +83,15 @@ Regenerate the folder first -- the switches are in `tools/regress.py`, which is
 what drove every other folder -- and know that you are then overwriting the
 record of the instrument.
 
+Since **2026-09-09** that last sentence is enforced rather than hoped for. Both
+folders are pinned by hash in `tools/as-built.sha256`, and `tools/repro.py`
+checks them against those hashes instead of redrawing them -- redrawing them
+*should* differ, which is why an ordinary reproduction gate cannot protect
+them. Overwrite either one and the gate fails with the line *this file describes
+wood that was cut*. Re-pin with `repro.py --update`, which is the deliberate act
+this paragraph was already asking for; nothing else in the tree would have
+noticed, because every invariant still passes on a regenerated sheet.
+
 None of them is an instrument on its own: this repository is all bore, and nothing here
 closes either end. The 10mm mouthpiece and bell in `../../../../../../../mouthpiece` and
 `../../../../../../../bell` fit any of

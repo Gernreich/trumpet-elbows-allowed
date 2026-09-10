@@ -62,6 +62,14 @@ DIRS = {'E': (1, 0, 0), 'W': (-1, 0, 0), 'U': (0, 1, 0),
 # all 26 designs failing with "No module named 'boxes'", which reads like a
 # broken install rather than a path that no longer exists. A missing checkout
 # now says that, in those words, instead of surfacing 26 rows down.
+# The checkout is SHARED and its revision is not pinned anywhere: these sheets
+# are drawn by whatever Boxes.py happens to be checked out, and `git pull` in a
+# directory this repository does not own could move them. Checked on 2026-09-09
+# against the three upstream commits the checkout was behind -- two of which
+# touch boxes/__init__.py and boxes/edges.py, the burn handling and
+# FingerJointSettings -- by redrawing every design with repro.py at both
+# revisions: 64 of 64 byte-identical, so nothing in them reaches the geometry.
+# If that stops being true, repro.py is what says so.
 CANDIDATES = ('~/Software/boxes', '~/boxes')
 BOXES = os.environ.get('SNAKEBOX_BOXES') or next(
     (p for p in (os.path.expanduser(c) for c in CANDIDATES)

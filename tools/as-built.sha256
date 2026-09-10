@@ -1,0 +1,29 @@
+# The cut files that describe wood which has already been cut.
+#
+# These were NOT regenerated on 2026-09-09 with the rest of the tree, when
+# the sheet was calipered at 2.94mm and the kerf at 0.13mm. They are drawn
+# at the old 3.0mm and 0.1mm because they record an instrument that exists.
+# repro.py checks them against these hashes instead of redrawing them, so a
+# regenerate sweep that overwrites the record fails the gate rather than
+# passing every invariant in silence.
+#
+# Rewrite with: repro.py --update -- and only when you have decided to
+# overwrite the record, which is what fold2-long-straight/CLAUDE.md asks.
+0cdfb3628b6f77399f7ee754b835a07bf35e23d4b71e9372cb1a6e7468b912cd  parts/bore/built/coil/fold2-long-straight-3t/cut-files/bore10-coil-fold2-long-straight-3t-10of12-bend-DR-cut-files.svg
+118dccde5a48cb21257ea71e799654be14144e28a4a75c86d3f6d4ff3e17993a  parts/bore/concept/walk/no-elbows/coil/no-contact/fold2-long-straight/coil-10x10x30-1.5t/cut-files/bore10-coil-10x10x30-1.5t-03of06-bend-RD-cut-files.svg
+19195c1376575166afa32132fcf8ca960894bc3e69d8427f81d710caceeff7a2  parts/bore/concept/walk/no-elbows/coil/no-contact/fold2-long-straight/coil-10x10x30-1.5t/cut-files/bore10-coil-10x10x30-1.5t-05of06-bend-DLLU-cut-files.svg
+66ad478888d6094de8160fa35a52902490c04c106f38a906a587f56a9ec2b785  parts/bore/concept/walk/no-elbows/coil/no-contact/fold2-long-straight/coil-10x10x30-1.5t/cut-files/bore10-coil-10x10x30-1.5t-06of06-bend-RD-buttout-cut-files.svg
+851f51dc9d00176c8bb353937f4d433e234e3e4928f96b1dee922ca2aebc765d  parts/bore/concept/walk/no-elbows/coil/no-contact/fold2-long-straight/coil-10x10x30-1.5t/cut-files/bore10-coil-10x10x30-1.5t-04of06-bend-DL-cut-files.svg
+979eb677e4a046686b788a0984d2875e5960af0998b4e0c5961f3266246afe76  parts/bore/built/coil/fold2-long-straight-3t/cut-files/bore10-coil-fold2-long-straight-3t-08of12-bend-RDDL-cut-files.svg
+9e6aa6382c00830eb86adba69b3497ae447d307a73c5aeed5e70a3fac86521ec  parts/bore/built/coil/fold2-long-straight-3t/cut-files/bore10-coil-fold2-long-straight-3t-04of12-bend-DL-cut-files.svg
+b88fac9c42902d945716372909a6c62d82a0af1602a2b79171dca96536071472  parts/bore/concept/walk/no-elbows/coil/no-contact/fold2-long-straight/coil-10x10x30-1.5t/cut-files/bore10-coil-10x10x30-1.5t-02of06-bend-LUUR-cut-files.svg
+bd5300bfe82d48827a1c64c63944d60a5b06cf1b54fd93680379961f415169d7  parts/bore/built/coil/fold2-long-straight-3t/cut-files/bore10-coil-fold2-long-straight-3t-03of12-bend-RD-cut-files.svg
+c473f9a849226d3a54b057150f22caad9591f17e52caed02c1e7e6c0d6a57d3f  parts/bore/built/coil/fold2-long-straight-3t/cut-files/bore10-coil-fold2-long-straight-3t-12of12-bend-LD-buttout-cut-files.svg
+cc3cf4c70def99423f1a51909150f3c8c77d9e2a51f8e3ddd4243d0349e38593  parts/bore/concept/walk/no-elbows/coil/no-contact/fold2-long-straight/coil-10x10x30-1.5t/cut-files/bore10-coil-10x10x30-1.5t-01of06-bend-DL-buttin-cut-files.svg
+dde12dbe04b172b5eae53c4681f30c262d1280bab0291d2d1093edcfe235b126  parts/bore/built/coil/fold2-long-straight-3t/cut-files/bore10-coil-fold2-long-straight-3t-06of12-bend-RD-cut-files.svg
+e5dc426b3c3b3d2d5e121498ea5474aef740086ebf4dd6ea9422b44b615341b8  parts/bore/built/coil/fold2-long-straight-3t/cut-files/bore10-coil-fold2-long-straight-3t-05of12-bend-DLLU-cut-files.svg
+ebb47778e0d633ae7c68878f3ad481c5aa88b5814cf298bf0a20824e41d450ee  parts/bore/built/coil/fold2-long-straight-3t/cut-files/bore10-coil-fold2-long-straight-3t-07of12-bend-DR-cut-files.svg
+edb84df5111bef57c5857b4b80beadea31c876a98bda42d7e325da463507b11c  parts/bore/built/coil/fold2-long-straight-3t/cut-files/bore10-coil-fold2-long-straight-3t-02of12-bend-LUUR-cut-files.svg
+eff9d912c9d7d65b1bd51a8a68f2457a0b2b812cfb751b047cb3942de0e29be4  parts/bore/built/coil/fold2-long-straight-3t/cut-files/bore10-coil-fold2-long-straight-3t-11of12-bend-URRD-cut-files.svg
+f074d7ccdba64ace01827573b5504cba2214eb86de805598bd3ba3236c024108  parts/bore/built/coil/fold2-long-straight-3t/cut-files/bore10-coil-fold2-long-straight-3t-01of12-bend-DL-buttin-cut-files.svg
+ff914992436e074e0654d63f6f8b73cd32767d429f6bd77bbc7cafa52d11dedc  parts/bore/built/coil/fold2-long-straight-3t/cut-files/bore10-coil-fold2-long-straight-3t-09of12-bend-LD-cut-files.svg
