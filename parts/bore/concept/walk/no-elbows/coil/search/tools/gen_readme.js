@@ -451,6 +451,46 @@ after it to make it interior, so it is always its own piece. Then every candidat
 through the splitter, and only zero-elbow walks are kept. **The splitter decides, not the
 rule.**
 
+## The tools
+
+Every file in \`tools/\`, and what each one is for. Ten of them were named nowhere
+any document could be read from between 2026-09-05, when every README under
+\`trumpet/\` was removed, and 2026-09-11: this file mentioned them in passing but
+never said what they were, and a directory-level exemption in
+\`.doc-audit-generated\` kept the orphan check from noticing. The index is
+generated here rather than written by hand for the same reason every number
+above is -- \`tools/build.sh\` rewrites \`README.md\`, so a hand-written list would
+survive exactly until the next build.
+
+**Finding and shaping walks**
+
+| tool | what it does |
+| --- | --- |
+| \`search_spirals.js\` | Searches for the tightest elbow-free coil. Applies the corpus rule -- three consecutive terms naming three axes force the middle term to 3 or more -- then lets the splitter decide, because the rule is a filter and not the answer. |
+| \`mknotation.js\` | Expands one period to about 196 blocks and writes it in the corpus notation: bare lead-in term, numbered middle terms, bare lead-out term. |
+| \`standardise.js\` | Puts every coil in one orientation -- north for all of them, opening on a north term -- so that two coils differ only where they really differ. Writes \`standardised.json\`. |
+| \`minimal.js\` | Asks whether a walk can be shortened without introducing an elbow, against a purely local rule: a term's floor is set by the window of three around it. Reports slack; does not take it. |
+| \`reduce.js\` | Takes that slack, one leg at a time, keeping the coil. Taking all of it at once usually destroys the walk, which is why this is separate from \`minimal.js\`. Writes \`reduced.json\`. |
+
+**Measuring and ranking**
+
+| tool | what it does |
+| --- | --- |
+| \`spiral_metrics.js\` | Rotation metrics for one walk. The lateral projection -- the walk with the advancing axis dropped -- is what actually turns, and on a cubic lattice only in quarter turns. |
+| \`parts.js\` | Piece counts, distinct piece shapes and plate sizes, read off \`bore_split.py\` and cached in \`parts.json\` so the tables need not shell out on every run. |
+| \`score.js\` | Composite scoring across the common means: seven metrics normalised to (0,1], plus the touching count at an explicit weight. |
+| \`iterate.js\` | Iterated ranking -- rank, cut the bottom half, re-rank the survivors, repeat -- to ask whether the survivors keep their order once the losers leave. They do not, under a normalisation computed over the set. |
+| \`table.js\` | The metrics tables, as plain text or with \`--md\` as markdown. |
+
+**Producing what is committed**
+
+| tool | what it does |
+| --- | --- |
+| \`run_checks.sh\` | Runs \`check.py\` over every walk in \`walks/\` and writes the transcript to \`checks/\`. It resolves the Boxes.py checkout and the interpreter *before* the loop and stops if either is missing, because a missing interpreter captured with \`2>&1\` writes the shell's error into the transcript instead of the check, and the tally then reads as a pass. |
+| \`gen_scoring.js\` | Regenerates \`SCORING.md\`. Every number in it comes from \`score.js\`. |
+| \`gen_readme.js\` | Regenerates this file. Every number in it comes from the tools, so the page cannot drift from the walks. |
+| \`build.sh\` | All of the above that produce committed files, in dependency order. \`index.html\` and \`SCORING.html\` are committed rather than built on the server, so they go stale silently unless this is run after every edit. |
+
 ## The files behind the tables
 
 Each coil is one line of notation in \`walks/\`, named for the coil, and each has a gate
