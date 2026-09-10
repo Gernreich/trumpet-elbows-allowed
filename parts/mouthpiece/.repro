@@ -12,3 +12,7 @@ cut-files/mouthpiece-bore10-trumpet-parts-cut-files.svg :: python3 mouthpiece-ro
 # up filed under bell/.
 mouthpiece-bore10-trumpet-parts-view.svg :: python3 mouthpiece-view.py $OUT
 mouthpiece-bore10-trumpet-parts-section.svg :: python3 ../bell/bell-section.py cut-files/mouthpiece-bore10-trumpet-parts-cut-files.svg $OUT
+
+# The turn page, drawn by the shared part-view.py rather than a mouthpiece one.
+# See ../bell/.repro for why a page needs claiming here at all.
+mouthpiece-bore10-trumpet-parts-turn.html :: python3 ../part-view.py cut-files/mouthpiece-bore10-trumpet-parts-cut-files.svg $OUT

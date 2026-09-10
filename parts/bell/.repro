@@ -28,3 +28,9 @@ bell-round10-153mm-17rings-x3-rim86-view.svg :: python3 bell-view.py cut-files/b
 # unaccounted for, which is the whole point of the manifest. The tool lives in
 # the sibling lasermade-tools checkout, hence the climb.
 previews/bell-round10-153mm-17rings-x3-rim86-cut-files.svg :: python3 ../../../lasermade-tools/make-preview.py cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg $OUT
+
+# The turn page: the same rings as a solid you can rotate. It is a shipped
+# artefact that no gate reached until .repro learned to walk *.html -- doc-audit
+# pairs a page with a markdown document of the same name, and this one has no
+# markdown at all, so it sat outside every check there was.
+bell-round10-153mm-17rings-x3-rim86-turn.html :: python3 ../part-view.py cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg $OUT
