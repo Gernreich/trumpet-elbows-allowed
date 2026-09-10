@@ -9,7 +9,7 @@ The instrument that has been built is a **coil of 1096mm in 12 sections**, with 
 **three** turns, right-handed, about a north–south axis. Everything else here is
 a candidate for the next one.
 
-Two things about that sentence were wrong until 2026-09-08. The mouthpiece on
+Both halves of that sentence were wrong until 2026-09-08. The mouthpiece on
 this instrument is 24 rings, not the 30 the design cuts: 72mm rather than 90,
 and it is the instrument that is short, not the drawing. And the coil winds
 three whole turns, not 2¾ — its walk is `W U E D` three times over, and its
