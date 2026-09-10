@@ -1,9 +1,15 @@
 #!/usr/bin/env node
-// Regenerate README.md. Every number in it comes from the tools, so the page
-// cannot drift from the walks: node tools/gen_readme.js
+// Regenerate README.md. Every number in it comes from the tools and the tool index
+// is read from tools/ itself, so the page cannot drift from the walks or from the
+// directory: node tools/gen_readme.js
 const fs = require('fs'), path = require('path'), cp = require('child_process');
 const { metrics, period, MM } = require('./spiral_metrics.js');
+const { METRICS } = require('./score.js');
 const root = path.join(__dirname, '..');
+
+const NUM = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight',
+             'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen'];
+const word = n => NUM[n] || String(n);
 
 const parts = JSON.parse(fs.readFileSync(path.join(root, 'parts.json'), 'utf8'));
 
@@ -86,6 +92,65 @@ const wins = SM.map(M => srows.slice().sort((a,b) => SR[M.k].get(a.name) - SR[M.
 const tally = {}; for (const w of wins) tally[w] = (tally[w] || 0) + 1;
 const [bestName, bestN] = Object.entries(tally).sort((a,b) => b[1] - a[1])[0];
 const unanimous = `\`${bestName}\` comes first under ${bestN} of the ${SM.length} means.`;
+
+// The README's tool index is read from tools/ rather than typed into the page. This
+// holds the descriptions; the set is checked against the directory just below, and a
+// tool with no description -- or a description with no tool -- stops the build. A
+// hand-written list would have gone stale the first time a tool was added, and the
+// reproduction gate could not have noticed: the generator would still have produced
+// exactly the bytes it produced yesterday.
+const TOOL_GROUPS = [
+  ["Finding and shaping walks", [
+    ["search_spirals.js",
+     "Searches for the tightest elbow-free coil. Applies the corpus rule -- three consecutive terms naming three axes force the middle term to 3 or more -- then lets the splitter decide, because the rule is a filter and not the answer."],
+    ["mknotation.js",
+     "Expands one period to about 196 blocks and writes it in the corpus notation: bare lead-in term, numbered middle terms, bare lead-out term."],
+    ["standardise.js",
+     "Puts every coil in one orientation -- north for all of them, opening on a north term -- so that two coils differ only where they really differ. Writes `standardised.json`."],
+    ["minimal.js",
+     "Asks whether a walk can be shortened without introducing an elbow, against a purely local rule: a term's floor is set by the window of three around it. Reports slack; does not take it."],
+    ["reduce.js",
+     "Takes that slack, one leg at a time, keeping the coil. Taking all of it at once usually destroys the walk, which is why this is separate from `minimal.js`. Writes `reduced.json`."],
+  ]],
+  ["Measuring and ranking", [
+    ["spiral_metrics.js",
+     "Rotation metrics for one walk. The lateral projection -- the walk with the advancing axis dropped -- is what actually turns, and on a cubic lattice only in quarter turns."],
+    ["parts.js",
+     "Piece counts, distinct piece shapes and plate sizes, read off `bore_split.py` and cached in `parts.json` so the tables need not shell out on every run."],
+    ["score.js",
+     `Composite scoring across the common means: ${word(METRICS.length)} metrics normalised to (0,1], plus the touching count at an explicit weight.`],
+    ["iterate.js",
+     "Iterated ranking -- rank, cut the bottom half, re-rank the survivors, repeat -- to ask whether the survivors keep their order once the losers leave. They do not, under a normalisation computed over the set."],
+    ["table.js",
+     "The metrics tables, as plain text or with `--md` as markdown."],
+  ]],
+  ["Producing what is committed", [
+    ["run_checks.sh",
+     "Runs `check.py` over every walk in `walks/` and writes the transcript to `checks/`. It resolves the Boxes.py checkout and the interpreter *before* the loop and stops if either is missing, because a missing interpreter captured with `2>&1` writes the shell's error into the transcript instead of the check, and the tally then reads as a pass."],
+    ["gen_scoring.js",
+     "Regenerates `SCORING.md`. Every number in it comes from `score.js`."],
+    ["gen_readme.js",
+     "Regenerates this file. Every number in it comes from the tools and the index above is read from `tools/` itself, so the page cannot drift."],
+    ["build.sh",
+     "All of the above that produce committed files, in dependency order. `index.html` and `SCORING.html` are committed rather than built on the server, so they go stale silently unless this is run after every edit."],
+  ]],
+];
+// Directories count: a subdirectory of tools/ needs describing as much as a file does.
+// node_modules is the one exception, because npm would otherwise stop the build.
+const toolsOnDisk = fs.readdirSync(__dirname)
+  .filter(f => !f.startsWith('.') && f !== 'node_modules').sort();
+const described = TOOL_GROUPS.flatMap(([, t]) => t.map(([n]) => n));
+const undescribed = toolsOnDisk.filter(f => !described.includes(f));
+const phantom = described.filter(f => !toolsOnDisk.includes(f));
+if (undescribed.length || phantom.length) {
+  console.error('tools/ and the index in gen_readme.js disagree, so README.md would lie:');
+  if (undescribed.length) console.error('  present, described nowhere: ' + undescribed.join(', '));
+  if (phantom.length) console.error('  described here, not present: ' + phantom.join(', '));
+  process.exit(1);
+}
+const toolTables = TOOL_GROUPS.map(([title, t]) => `**${title}**\n\n` +
+  '| tool | what it does |\n| --- | --- |\n' +
+  t.map(([n, d]) => '| `' + n + '` | ' + d + ' |').join('\n')).join('\n\n');
 
 const md = `# Spirals
 
@@ -399,7 +464,7 @@ and are still worth reading.
 
 ## Scoring them against each other
 
-[**SCORING.md**](SCORING.md) combines seven of the metrics and the touching count into
+[**SCORING.md**](SCORING.md) combines ${word(METRICS.length)} of the metrics and the touching count into
 a single ranking under every common mean — harmonic, geometric, arithmetic, quadratic,
 cubic, median, midrange, contraharmonic — and reports what the choice of mean does to
 the answer. It does a great deal: \`coil_2x2_146\` places 1st under one and 17th under
@@ -453,43 +518,14 @@ rule.**
 
 ## The tools
 
-Every file in \`tools/\`, and what each one is for. Ten of them were named nowhere
-any document could be read from between 2026-09-05, when every README under
-\`trumpet/\` was removed, and 2026-09-11: this file mentioned them in passing but
-never said what they were, and a directory-level exemption in
-\`.doc-audit-generated\` kept the orphan check from noticing. The index is
-generated here rather than written by hand for the same reason every number
-above is -- \`tools/build.sh\` rewrites \`README.md\`, so a hand-written list would
-survive exactly until the next build.
+Every file in \`tools/\`, and what each one is for -- all ${word(toolsOnDisk.length)} of them.
+The list is read from the directory rather than typed into this page, so it cannot fall
+behind it: a tool with no description, or a description with no tool, stops the build.
+There was no such list until 2026-09-10, and none of these was described anywhere, here
+or elsewhere. This file named some of them in passing but never said what they were, and
+a passing mention is all the orphan check asks for.
 
-**Finding and shaping walks**
-
-| tool | what it does |
-| --- | --- |
-| \`search_spirals.js\` | Searches for the tightest elbow-free coil. Applies the corpus rule -- three consecutive terms naming three axes force the middle term to 3 or more -- then lets the splitter decide, because the rule is a filter and not the answer. |
-| \`mknotation.js\` | Expands one period to about 196 blocks and writes it in the corpus notation: bare lead-in term, numbered middle terms, bare lead-out term. |
-| \`standardise.js\` | Puts every coil in one orientation -- north for all of them, opening on a north term -- so that two coils differ only where they really differ. Writes \`standardised.json\`. |
-| \`minimal.js\` | Asks whether a walk can be shortened without introducing an elbow, against a purely local rule: a term's floor is set by the window of three around it. Reports slack; does not take it. |
-| \`reduce.js\` | Takes that slack, one leg at a time, keeping the coil. Taking all of it at once usually destroys the walk, which is why this is separate from \`minimal.js\`. Writes \`reduced.json\`. |
-
-**Measuring and ranking**
-
-| tool | what it does |
-| --- | --- |
-| \`spiral_metrics.js\` | Rotation metrics for one walk. The lateral projection -- the walk with the advancing axis dropped -- is what actually turns, and on a cubic lattice only in quarter turns. |
-| \`parts.js\` | Piece counts, distinct piece shapes and plate sizes, read off \`bore_split.py\` and cached in \`parts.json\` so the tables need not shell out on every run. |
-| \`score.js\` | Composite scoring across the common means: seven metrics normalised to (0,1], plus the touching count at an explicit weight. |
-| \`iterate.js\` | Iterated ranking -- rank, cut the bottom half, re-rank the survivors, repeat -- to ask whether the survivors keep their order once the losers leave. They do not, under a normalisation computed over the set. |
-| \`table.js\` | The metrics tables, as plain text or with \`--md\` as markdown. |
-
-**Producing what is committed**
-
-| tool | what it does |
-| --- | --- |
-| \`run_checks.sh\` | Runs \`check.py\` over every walk in \`walks/\` and writes the transcript to \`checks/\`. It resolves the Boxes.py checkout and the interpreter *before* the loop and stops if either is missing, because a missing interpreter captured with \`2>&1\` writes the shell's error into the transcript instead of the check, and the tally then reads as a pass. |
-| \`gen_scoring.js\` | Regenerates \`SCORING.md\`. Every number in it comes from \`score.js\`. |
-| \`gen_readme.js\` | Regenerates this file. Every number in it comes from the tools, so the page cannot drift from the walks. |
-| \`build.sh\` | All of the above that produce committed files, in dependency order. \`index.html\` and \`SCORING.html\` are committed rather than built on the server, so they go stale silently unless this is run after every edit. |
+${toolTables}
 
 ## The files behind the tables
 

@@ -1,6 +1,6 @@
 # Scoring
 
-Seven metrics, one touching count, and every common mean, so the ranking can be
+Eight metrics, one touching count, and every common mean, so the ranking can be
 read against the thing that produced it. Regenerate with `node tools/gen_scoring.js`.
 
 ## What is scored

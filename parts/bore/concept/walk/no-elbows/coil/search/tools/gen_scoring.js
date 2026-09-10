@@ -5,6 +5,11 @@ const { rows, METRICS, MEANS, R, inputs, TOUCH_WEIGHT, EPS } = require('./score.
 const { results: iter } = require('./iterate.js');
 const root = path.join(__dirname, '..');
 
+// Counted, not remembered: this line read "Seven metrics" while METRICS held eight,
+// and the wrong number had been copied into README.md as well.
+const NUM = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight',
+             'Nine', 'Ten', 'Eleven', 'Twelve'];
+
 const table = cp.execSync(`node ${JSON.stringify(path.join(__dirname,'score.js'))} --md`,
   { encoding: 'utf8' }).trim().split('\n').filter(l => l.startsWith('|')).join('\n');
 
@@ -34,7 +39,7 @@ const thin = rows.slice().sort((a,b) =>
   (a.v.crossArea) - (b.v.crossArea))[0];
 const md = `# Scoring
 
-Seven metrics, one touching count, and every common mean, so the ranking can be
+${NUM[METRICS.length]} metrics, one touching count, and every common mean, so the ranking can be
 read against the thing that produced it. Regenerate with \`node tools/gen_scoring.js\`.
 
 ## What is scored

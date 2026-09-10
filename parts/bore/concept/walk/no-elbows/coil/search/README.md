@@ -327,7 +327,7 @@ and are still worth reading.
 
 ## Scoring them against each other
 
-[**SCORING.md**](SCORING.md) combines seven of the metrics and the touching count into
+[**SCORING.md**](SCORING.md) combines eight of the metrics and the touching count into
 a single ranking under every common mean — harmonic, geometric, arithmetic, quadratic,
 cubic, median, midrange, contraharmonic — and reports what the choice of mean does to
 the answer. It does a great deal: `coil_2x2_146` places 1st under one and 17th under
@@ -381,14 +381,12 @@ rule.**
 
 ## The tools
 
-Every file in `tools/`, and what each one is for. Ten of them were named nowhere
-any document could be read from between 2026-09-05, when every README under
-`trumpet/` was removed, and 2026-09-11: this file mentioned them in passing but
-never said what they were, and a directory-level exemption in
-`.doc-audit-generated` kept the orphan check from noticing. The index is
-generated here rather than written by hand for the same reason every number
-above is -- `tools/build.sh` rewrites `README.md`, so a hand-written list would
-survive exactly until the next build.
+Every file in `tools/`, and what each one is for -- all fourteen of them.
+The list is read from the directory rather than typed into this page, so it cannot fall
+behind it: a tool with no description, or a description with no tool, stops the build.
+There was no such list until 2026-09-10, and none of these was described anywhere, here
+or elsewhere. This file named some of them in passing but never said what they were, and
+a passing mention is all the orphan check asks for.
 
 **Finding and shaping walks**
 
@@ -406,7 +404,7 @@ survive exactly until the next build.
 | --- | --- |
 | `spiral_metrics.js` | Rotation metrics for one walk. The lateral projection -- the walk with the advancing axis dropped -- is what actually turns, and on a cubic lattice only in quarter turns. |
 | `parts.js` | Piece counts, distinct piece shapes and plate sizes, read off `bore_split.py` and cached in `parts.json` so the tables need not shell out on every run. |
-| `score.js` | Composite scoring across the common means: seven metrics normalised to (0,1], plus the touching count at an explicit weight. |
+| `score.js` | Composite scoring across the common means: eight metrics normalised to (0,1], plus the touching count at an explicit weight. |
 | `iterate.js` | Iterated ranking -- rank, cut the bottom half, re-rank the survivors, repeat -- to ask whether the survivors keep their order once the losers leave. They do not, under a normalisation computed over the set. |
 | `table.js` | The metrics tables, as plain text or with `--md` as markdown. |
 
@@ -416,7 +414,7 @@ survive exactly until the next build.
 | --- | --- |
 | `run_checks.sh` | Runs `check.py` over every walk in `walks/` and writes the transcript to `checks/`. It resolves the Boxes.py checkout and the interpreter *before* the loop and stops if either is missing, because a missing interpreter captured with `2>&1` writes the shell's error into the transcript instead of the check, and the tally then reads as a pass. |
 | `gen_scoring.js` | Regenerates `SCORING.md`. Every number in it comes from `score.js`. |
-| `gen_readme.js` | Regenerates this file. Every number in it comes from the tools, so the page cannot drift from the walks. |
+| `gen_readme.js` | Regenerates this file. Every number in it comes from the tools and the index above is read from `tools/` itself, so the page cannot drift. |
 | `build.sh` | All of the above that produce committed files, in dependency order. `index.html` and `SCORING.html` are committed rather than built on the server, so they go stale silently unless this is run after every edit. |
 
 ## The files behind the tables
