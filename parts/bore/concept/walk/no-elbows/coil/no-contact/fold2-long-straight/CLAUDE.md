@@ -111,7 +111,7 @@ Its generator installs into Boxes.py as **`SnakeBoxVar`**, beside `SnakeBox` rat
 than over it, so both are available at once. That has not changed, and it is still the
 reason installing anything into `~/Software/boxes` deserves care — it is a shared checkout.
 
-**`PIN_PLAY` is worth remembering as provenance.** It went to 0.025 per side on
+**The play figure is worth remembering as provenance.** It went to 0.025 per side on
 2026-09-01 because the fit was *measured here*, four times in ply, while `../fold2`
 was carrying 0.3 — a value the bench had already rejected as loose — in files someone
 might cut. Measurement beat convention, which is the right order.
@@ -235,7 +235,7 @@ python3 coils.py                    # coils.html here, all four in one viewer
     --files ../parts/bore/concept/walk/no-elbows/coil/no-contact/fold2-long-straight/coil-10x10x30-1.5t/cut-files
 ```
 
-**Tune the fit with `PIN_PLAY`. Do not move the tab.** Two standing decisions, both the
+**Tune the fit with `PLAY_BY_BORE`, which `pin_play()` reads. Do not move the tab.** Two standing decisions, both the
 author's:
 
 - **One tab size and one notch size across the whole bore.** Every joint is the same joint.

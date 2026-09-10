@@ -425,7 +425,9 @@ used to appear only when it was not 201mm, so a 100mm bell landing on 17 rings w
 overwrite `bell-round10-153mm-17rings-x3-rim86-cut-files.svg`, which is hand-nested and not reproducible from
 the script. It also left `bell-round-67rings.svg` saying nothing about the tube it fits or
 how long it was, while `bell-round-99mm-11rings.svg` said one of the two. Both go in every
-name now, and in the `<title>`. Do not "tidy" `STEM` back.
+name now, and in the `<title>`. Do not "tidy" that name back: it is built inline at
+`bell-round.py:337` and there is no stem variable to shorten, which is the point --
+the length and the ring count have to survive being read off a sheet.
 
 Short bells make the overshoot matter: 99mm divides evenly by 3, 9 and 33mm of rise, 100mm
 divides by none of them. Both generators report it and name a length that would have worked.

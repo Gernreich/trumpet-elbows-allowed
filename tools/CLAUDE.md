@@ -86,7 +86,8 @@ block while the finger teeth did not (Boxes.py sizes those at `2 x thickness`), 
 10mm bore the seam tab came out 4.8mm against 6mm teeth — the narrowest feature on the
 sheet, where it should be the strongest. And `--pin_play` was 0, so the notch was drawn
 exactly the tab's width and section 1 would not enter section 2. `pin_width()` now floors
-at the tooth and caps at `MIN_SHOULDER`, and `PIN_PLAY` is 0.025 per side. Both are in
+at the tooth and caps at `MIN_SHOULDER`, and `pin_play()` returns 0.025 per side out of
+`PLAY_BY_BORE`. Both are in
 `COMMON`, so `check.py` sees the same geometry.
 
 The gate did not catch either. Its floor is `MIN_FEATURE`, 1.5mm, which 4.8 clears
