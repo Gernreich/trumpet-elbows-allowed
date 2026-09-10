@@ -31,10 +31,42 @@ function py() {
   return found;
 }
 
+// The walk this whole search started from is no longer in walks/: it won a category and
+// was promoted out to a sibling directory of its own. Every "against the walk this
+// started from" figure on the page still compares to it, so it is measured here too,
+// from wherever it now lives. gen_readme.js used to fall back to the first row when it
+// could not find it, and so named a different coil in the opening sentence and down a
+// whole column of the winners table without saying anything.
+// Found rather than written down: derived.txt says which coil came from staircase_coil,
+// and the promotion convention is the same identifier with coil_ dropped and the
+// underscores hyphenated.
+const origin = (() => {
+  const rows = fs.readFileSync(path.join(root, 'derived.txt'), 'utf8').split('\n')
+    .map(l => l.trim()).filter(l => l && !l.startsWith('#')).map(l => l.split(/\s+/));
+  const row = rows.find(([, ...src]) => src.includes('staircase_coil'));
+  if (!row) return null;
+  const [name] = row;
+  if (fs.existsSync(path.join(root, 'walks', name + '.txt'))) return null;   // still in the set
+  const dir = name.replace(/^coil_/, '').replace(/_/g, '-');
+  const family = path.join(root, '..');
+  for (const group of fs.readdirSync(family)) {
+    const f = path.join(family, group, dir, dir + '.txt');
+    if (fs.existsSync(f)) return { name, walk: fs.readFileSync(f, 'utf8').trim(),
+                                   promotedTo: path.posix.join('..', group, dir, dir + '.html') };
+  }
+  console.error(`derived.txt says the search started from ${name}, which is neither in
+walks/ nor anywhere under ${path.resolve(family)}. Nothing can be measured against it,
+and guessing a substitute is what this replaced.`);
+  process.exit(1);
+})();
+
+const sources = fs.readdirSync(path.join(root, 'walks')).filter(f => f.endsWith('.txt')).sort()
+  .map(f => ({ name: f.replace(/\.txt$/, ''),
+               walk: fs.readFileSync(path.join(root, 'walks', f), 'utf8').trim() }));
+if (origin) sources.push(origin);
+
 const out = {};
-for (const f of fs.readdirSync(path.join(root, 'walks')).filter(f => f.endsWith('.txt')).sort()) {
-  const name = f.replace(/\.txt$/, '');
-  const walk = fs.readFileSync(path.join(root, 'walks', f), 'utf8').trim();
+for (const { name, walk, promotedTo } of sources) {
   const res = cp.execSync(`${JSON.stringify(py())} bore_split.py --no-write ${JSON.stringify(walk)}`,
                           { cwd: GEN, encoding: 'utf8', maxBuffer: 1 << 24 });
   const pieces = +(res.match(/(\d+) pieces to assemble/) || [])[1];
@@ -79,6 +111,7 @@ for (const f of fs.readdirSync(path.join(root, 'walks')).filter(f => f.endsWith(
   const inner = plates.slice(1, -1);
   const areas = (inner.length ? inner : plates).map(p => p.mm2);
   out[name] = { pieces, kinds, elbows: kinds.elbow || 0,
+                ...(promotedTo ? { promotedTo, walk } : {}),
                 interiorBlocks,
                 innerPieces: Math.max(0, pieces - 2),
                 distinct: shapes.size, shapes: [...shapes].sort(),

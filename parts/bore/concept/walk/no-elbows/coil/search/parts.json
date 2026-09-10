@@ -278,5 +278,39 @@
   "maxPlate": 2905,
   "minPlate": 1785,
   "totalPlate": 70350
+ },
+ "coil_4x4_50": {
+  "pieces": 47,
+  "kinds": {
+   "bend": 47
+  },
+  "elbows": 0,
+  "promotedTo": "../no-contact/4x4-50/4x4-50.html",
+  "walk": "N N3 D3 E3 U3 N3 W3 D3 E3 N3 U3 W3 D3 N3 E3 U3 W3 N3 D3 E3 U3 N3 W3 D3 E3 N3 U3 W3 D3 N3 E3 U3 W3 N3 D3 E3 U3 N3 W3 D3 E3 N3 U3 W3 D3 N3 E3 U3 W3 N3 D3 E3 U3 N3 W3 D3 E3 N3 U3 W3 D3 N3 E3 U3 W3 W",
+  "interiorBlocks": [
+   6,
+   185
+  ],
+  "innerPieces": 45,
+  "distinct": 10,
+  "shapes": [
+   "bend_DDDL_buttin",
+   "bend_DL",
+   "bend_DR",
+   "bend_DRRRU",
+   "bend_LD",
+   "bend_LDDDR",
+   "bend_RD",
+   "bend_RUUUL",
+   "bend_RUUULLL_buttout",
+   "bend_ULLLD"
+  ],
+  "rhythm": 12,
+  "repeats": 3.75,
+  "interiorDistinct": 8,
+  "meanPlate": 1598.3333333333333,
+  "maxPlate": 2345,
+  "minPlate": 1225,
+  "totalPlate": 71925
  }
 }

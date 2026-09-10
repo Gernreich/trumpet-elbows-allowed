@@ -5,7 +5,8 @@ numbers that say how hard each one spirals and what each one costs to build. Eve
 here splits with **no elbows** — every turn folds into a piece as an L, none is stranded
 as a single-block piece of its own — and every one passes the full gate.
 
-The one this started from is [`coil_3x8_20`](pages/coil_3x8_20.html); the other 9 came out of an
+The one this started from is [`coil_4x4_50`](../no-contact/4x4-50/4x4-50.html), which has since won a category and
+moved to a directory of its own; the ten came out of an
 exhaustive search for something tighter.
 
 <!-- readme-only -->
@@ -139,7 +140,7 @@ only 6 of 10 places. `coil_3x8_20` is 4 shapes laid in a
 **Mean plate** is the average bounding box a piece is cut from, in mm2 — the
 laser-cutting number. Fewer, larger parts means less weeding, less sorting and fewer
 fingers to align, and it is the size of the part in your hand rather than the count of
-them. `coil_4x9_18` averages 2,881 mm2 against `coil_3x8_20`'s 2,193.
+them. `coil_4x9_18` averages 2,881 mm2 against `coil_4x4_50`'s 1,598.
 
 Average *blocks* per piece was the other reading of the same idea and is not used: the
 block count varies by only 11.0% across the set, so blocks-per-piece is very nearly the
@@ -201,19 +202,20 @@ No single spiral wins, because the measures disagree.
 
 | | winner | against the walk this started from |
 | --- | --- | --- |
-| smallest box | [`coil_3x8_20`](pages/coil_3x8_20.html) — 432 | 432, so 1.00x larger |
-| tightest spiral (least rise per turn) | [`coil_3x8_20`](pages/coil_3x8_20.html) — 32mm | 32mm, so 1.0x slacker |
-| least tube per turn | [`coil_3x4_68`](pages/coil_3x4_68.html) — 16.3 blk | 20.0 blk, within 23% |
-| fewest pieces | [`coil_3x9_18`](pages/coil_3x9_18.html) — 30 | 34 |
-| fewest distinct shapes | [`coil_3x8_20`](pages/coil_3x8_20.html) — 4 | 4 |
-| largest average plate | [`coil_4x9_18`](pages/coil_4x9_18.html) — 2,881 mm2 | 2,193 mm2 |
-| calmest bore (fewest turns/m) | [`coil_4x9_18`](pages/coil_4x9_18.html) — 20.83 | 25.00 |
-| smallest box with no shared wall | [`coil_3x3_54_2`](pages/coil_3x3_54_2.html) — 441 | 432, also 15 shared |
+| smallest box | [`coil_3x8_20`](pages/coil_3x8_20.html) — 432 | 736, so 1.70x larger |
+| tightest spiral (least rise per turn) | [`coil_3x8_20`](pages/coil_3x8_20.html) — 32mm | 64mm, so 2.0x slacker |
+| least tube per turn | [`coil_3x4_68`](pages/coil_3x4_68.html) — 16.3 blk | 16.0 blk, within -2% |
+| fewest pieces | [`coil_3x9_18`](pages/coil_3x9_18.html) — 30 | 45 |
+| fewest distinct shapes | [`coil_3x8_20`](pages/coil_3x8_20.html) — 4 | 8 |
+| largest average plate | [`coil_4x9_18`](pages/coil_4x9_18.html) — 2,881 mm2 | 1,598 mm2 |
+| calmest bore (fewest turns/m) | [`coil_4x9_18`](pages/coil_4x9_18.html) — 20.83 | 20.83 |
+| smallest box with no shared wall | [`coil_3x3_54_2`](pages/coil_3x3_54_2.html) — 441 | 736, also 0 shared |
 
-The two staircase coils — `coil_3x8_20` as submitted and `its reduction` reduced — lose the
-packing categories outright and win the turning ones. The reduction spends **less tube per
-revolution than anything else here**, and the original is tied for the fewest turns per
-metre. They are last and second-to-last on box per block, on pieces per block and on distinct shapes.
+`coil_4x4_50`, the coil this started from, loses the packing categories and wins the
+turning ones. Set beside the ten it produced, it places 9th on box per block,
+10th on pieces per block and 11th on distinct shapes, against **1st on tube per
+revolution** and 2nd on turns per metre. Its reduction, [`coil_5x5_50`](../no-contact/5x5-50/5x5-50.html), won a category too and
+was promoted out beside it, so only one of the two staircase coils is measured here now.
 
 That is not a split verdict so much as one fact seen twice: **packing tighter costs
 bends**, and bends are what a bore notices. A coil that turns economically is a coil that

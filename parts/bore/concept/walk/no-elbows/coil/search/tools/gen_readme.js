@@ -16,19 +16,12 @@ const parts = JSON.parse(fs.readFileSync(path.join(root, 'parts.json'), 'utf8'))
 
 // The reduction table was hardcoded, and every figure in it had gone stale: it claimed 14
 // walks reduce where reduce.js reports 13, and all four of its counts were wrong. Counting
-// them here is the whole point of this file -- reduced.json is what `reduce.js --write`
-// leaves behind, so the table cannot drift from the pass again.
-const reduced = JSON.parse(fs.readFileSync(path.join(root, 'reduced.json'), 'utf8'))
-  .filter(r => r.status === 'reduced');
-const RED = (f) => reduced.filter(f).length;
-const redRows = [
-  ['box smaller',        RED(r => r.after.vol < r.before.vol)],
-  ['box bigger',         RED(r => r.after.vol > r.before.vol)],
-  ['box unchanged',      RED(r => r.after.vol === r.before.vol)],
-  ['touching reduced',   RED(r => r.after.touching < r.before.touching)],
-  ['touching increased', RED(r => r.after.touching > r.before.touching)],
-  ['touching unchanged', RED(r => r.after.touching === r.before.touching)],
-];
+// them here is the whole point of this file.
+// Counted from the pass itself rather than from reduced.json: that file is what
+// `reduce.js --write` leaves behind, it is in .gitignore, and build.sh never writes it --
+// so a fresh clone had no reduced.json, and the first `bash tools/build.sh` in it died
+// here on ENOENT before writing a line of the page.
+const RED = (f) => redOK.filter(f).length;
 const rows = fs.readdirSync(path.join(root, 'walks')).filter(f => f.endsWith('.txt'))
   .map(f => { const name = f.replace(/\.txt$/, '');
     const walk = fs.readFileSync(path.join(root,'walks',f),'utf8').trim();
@@ -64,7 +57,50 @@ const derived = Object.fromEntries(
   fs.readFileSync(path.join(root,'derived.txt'),'utf8').split('\n')
     .map(l => l.replace(/#.*/,'').trim()).filter(Boolean)
     .map(l => { const [n, ...src] = l.split(/\s+/); return [n, src]; }));
-const yours = rows.find(r => (derived[r.name] || []).includes('staircase_coil')) || rows[0];
+// The coil the search started from. It is not in walks/ any more -- it won a category
+// and was promoted out -- and this read `|| rows[0]`, so it silently named the
+// smallest-box coil instead, in the opening sentence and down a whole column of the
+// winners table. parts.js measures it where it now lives and marks it with promotedTo,
+// so it can still be compared against; if it can be found nowhere, this stops rather
+// than substituting a coil that is not it.
+const promotedName = Object.keys(parts).find(n => parts[n].promotedTo);
+const inSet = rows.find(r => (derived[r.name] || []).includes('staircase_coil'));
+const yours = inSet || (promotedName && (() => {
+  const p = parts[promotedName];
+  return { name: promotedName, p, per: period(p.walk), full: metrics(p.walk),
+           m: metrics(p.walk, p.interiorBlocks), href: p.promotedTo };
+})());
+if (!yours) {
+  console.error('derived.txt names no coil from staircase_coil and parts.json marks none\n' +
+                'as promoted, so there is nothing to compare against. README.md would have\n' +
+                'to invent the walk this started from.');
+  process.exit(1);
+}
+
+const ord = n => { const v = n % 100;
+  return n + (['th','st','nd','rd'][(v - 20) % 10] || ['th','st','nd','rd'][v] || 'th'); };
+// Where the originating coil sits once it is put back beside the set it produced.
+// The ranks were prose -- "last and second-to-last" -- against a set it is no longer in.
+const field = inSet ? rows : [...rows, yours];
+const rankOf = f => field.slice().sort((a, b) => f(a) - f(b))
+                          .findIndex(r => r.name === yours.name) + 1;
+const rBox      = rankOf(r => r.m.vol / r.m.blocks);
+const rPieces   = rankOf(r => r.p.innerPieces / r.m.blocks);
+const rDistinct = rankOf(r => r.p.interiorDistinct);
+const rTube     = rankOf(r => r.m.blocksPer360);
+const rTurns    = rankOf(r => r.m.turnsPerMetre);
+// Its reduction was promoted out beside it, so it too is no longer in the set. Named
+// from derived.txt and linked only where the file is actually there.
+const redOrigin = (Object.entries(derived).find(([, src]) => src.includes('coil_5x5_28')) || [])[0];
+const siblingHref = name => {
+  if (!name) return null;
+  const dir = name.replace(/^coil_/, '').replace(/_/g, '-');
+  for (const group of fs.readdirSync(path.join(root, '..'))) {
+    const rel = path.posix.join('..', group, dir, dir + '.html');
+    if (fs.existsSync(path.join(root, '..', group, dir, dir + '.html'))) return rel;
+  }
+  return null;
+};
 const box   = best(r => r.m.vol);
 const rise  = best(r => r.m.risePer360);
 const tube  = best(r => r.m.blocksPer360);
@@ -78,40 +114,30 @@ const fewestShapes = rows.slice().sort((a,b) => a.p.interiorDistinct - b.p.inter
 const thinnest = rows.slice().sort((a,b) => (a.m.cross[0]*a.m.cross[1]) - (b.m.cross[0]*b.m.cross[1]))[0];
 const fattest  = rows.slice().sort((a,b) => (b.m.cross[0]*b.m.cross[1]) - (a.m.cross[0]*a.m.cross[1]))[0];
 const worstEnds = rows.slice().sort((a,b) => (b.p.distinct - b.p.interiorDistinct) - (a.p.distinct - a.p.interiorDistinct))[0];
-const L = r => `[\`${r.name}\`](pages/${r.name}.html)`;
+const L = r => `[\`${r.name}\`](${r.href || `pages/${r.name}.html`})`;
 const { rows: srows, R: SR } = require('./score.js');
 const { results: minres } = require('./minimal.js');
 const { results: redres } = require('./reduce.js');
 const redOK = redres.filter(r => r.status === 'reduced');
+const redRows = [
+  ['box smaller',        RED(r => r.after.vol < r.before.vol)],
+  ['box bigger',         RED(r => r.after.vol > r.before.vol)],
+  ['box unchanged',      RED(r => r.after.vol === r.before.vol)],
+  ['touching reduced',   RED(r => r.after.touching < r.before.touching)],
+  ['touching increased', RED(r => r.after.touching > r.before.touching)],
+  ['touching unchanged', RED(r => r.after.touching === r.before.touching)],
+];
 const redStat = { total: redres.length, reduced: redOK.length,
                   distinct: new Set(redOK.map(r => r.walk)).size };
 
-// WHERE the reductions land, counted rather than remembered. This paragraph read "seven
-// different coils reduce to the same one, four more to another, one reduces to itself" --
-// twelve reductions described in a sentence whose own template said nine -- and claimed
-// the set was closed under reduction. Both were true of the seventeen-coil corpus and
-// neither was re-checked when the category winners were promoted out of it. reduce.js
-// compares nothing against the catalogue, so nothing could have caught it.
-// Periods are matched up to rotation: a coil and the same coil entered a term later are
-// the same coil, and standardise.js is free to pick either.
-const interiorPeriod = w => { const t = w.trim().split(/\s+/).slice(1, -1);
-  for (let L = 1; L <= t.length; L++) { if (t.length % L) continue;
-    let same = true;
-    for (let i = L; i < t.length; i++) if (t[i] !== t[i % L]) { same = false; break; }
-    if (same) return t.slice(0, L).join(' '); }
-  return t.join(' '); };
-const rotations = p => { const t = p.split(' ');
-  return t.map((_, i) => t.slice(i).concat(t.slice(0, i)).join(' ')); };
-const catalogue = fs.readdirSync(path.join(root, 'walks')).filter(f => f.endsWith('.txt'))
-  .map(f => ({ name: f.replace(/\.txt$/, ''),
-               per: interiorPeriod(fs.readFileSync(path.join(root,'walks',f), 'utf8')) }));
+// WHERE the reductions land. reduce.js works this out now and reports it per coil, so
+// the page reads it off the pass instead of asserting it: this paragraph said "seven
+// different coils reduce to the same one, four more to another, one reduces to itself"
+// -- twelve reductions described in a sentence whose own template said nine.
 const redGroups = [];
 for (const r of redOK) {
-  const per = r.red.trim().split(/\s+/).join(' ');
-  let g = redGroups.find(g => rotations(g.per).includes(per));
-  if (!g) { g = { per, from: [],
-                  lands: (catalogue.find(c => rotations(c.per).includes(per)) || {}).name };
-            redGroups.push(g); }
+  let g = redGroups.find(g => g.per === r.red);
+  if (!g) { g = { per: r.red, lands: r.lands, from: [] }; redGroups.push(g); }
   g.from.push(r.name);
 }
 redGroups.sort((a, b) => b.from.length - a.from.length);
@@ -195,7 +221,7 @@ numbers that say how hard each one spirals and what each one costs to build. Eve
 here splits with **no elbows** — every turn folds into a piece as an L, none is stranded
 as a single-block piece of its own — and every one passes the full gate.
 
-The one this started from is ${L(yours)}; the other ${rows.length - 1} came out of an
+The one this started from is ${L(yours)}${inSet ? '' : ', which has since won a category and\nmoved to a directory of its own'}; the ${inSet ? `other ${rows.length - 1}` : word(rows.length)} came out of an
 exhaustive search for something tighter.
 
 <!-- readme-only -->
@@ -388,10 +414,12 @@ No single spiral wins, because the measures disagree.
 | calmest bore (fewest turns/m) | ${names(allBest(r => r.m.turnsPerMetre))} — ${calm.m.turnsPerMetre.toFixed(2)} | ${yours.m.turnsPerMetre.toFixed(2)} |
 | smallest box with no shared wall | ${L(clean)} — ${clean.m.vol} | ${yours.m.vol}, also ${yours.m.touching} shared |
 
-The two staircase coils — \`${yours.name}\` as submitted and \`${rows.find(r=>(derived[r.name]||[]).includes('coil_5x5_28'))?.name || 'its reduction'}\` reduced — lose the
-packing categories outright and win the turning ones. The reduction spends **less tube per
-revolution than anything else here**, and the original is tied for the fewest turns per
-metre. They are ${rows.length===0?'':'last and second-to-last'} on box per block, on pieces per block and on distinct shapes.
+\`${yours.name}\`, the coil this started from, loses the packing categories and wins the
+turning ones. Set beside the ${word(rows.length)} it produced, it places ${ord(rBox)} on box per block,
+${ord(rPieces)} on pieces per block and ${ord(rDistinct)} on distinct shapes, against **${ord(rTube)} on tube per
+revolution** and ${ord(rTurns)} on turns per metre.${redOrigin ? ` Its reduction, ${
+  siblingHref(redOrigin) ? `[\`${redOrigin}\`](${siblingHref(redOrigin)})` : `\`${redOrigin}\``
+}, won a category too and\nwas promoted out beside it, so only one of the two staircase coils is measured here now.` : ''}
 
 That is not a split verdict so much as one fact seen twice: **packing tighter costs
 bends**, and bends are what a bore notices. A coil that turns economically is a coil that
@@ -480,7 +508,7 @@ Shortening a leg still does not make a better coil — it cuts how far the coil 
 per turn, so the same tube buys more revolutions in a fatter package. The best box per
 block and the best walls-free box per block are both unchanged by the pass.
 
-What those ${reduced.length} reductions buy:
+What those ${redOK.length} reductions buy:
 
 | | |
 | --- | ---: |

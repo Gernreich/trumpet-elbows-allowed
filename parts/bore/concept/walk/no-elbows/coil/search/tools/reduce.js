@@ -64,6 +64,23 @@ function isCoil(t){
 const names = fs.readdirSync(path.join(root,'walks')).filter(f => f.endsWith('.txt'))
   .map(f => f.replace(/\.txt$/,'')).sort();
 
+// WHERE A REDUCTION LANDS. This tool compared its output against nothing at all, so the
+// page it feeds could say "every one lands on a coil already here" for as long as nobody
+// checked by hand -- which it did, through the promotion of the category winners and the
+// corpus going from seventeen coils to ten, by which time it was false.
+// Periods are matched up to rotation: a coil and the same coil entered a term later are
+// the same coil, and standardise.js is free to write either. Full walks cannot be
+// compared instead, because the repeat count comes from a target computed over whatever
+// is in walks/ at the time, so the same coil at two corpus sizes is two different walks.
+const rotations = p => { const t = p.split(' ');
+  return t.map((_, i) => t.slice(i).concat(t.slice(0, i)).join(' ')); };
+const catalogue = names.map(name => {
+  const per = periodOf(parse(fs.readFileSync(path.join(root,'walks',name+'.txt'),'utf8').trim()));
+  return { name, per: per ? per.map(m => m.d + m.n).join(' ') : null };
+}).filter(c => c.per);
+const landsOn = red =>
+  (catalogue.find(c => rotations(c.per).includes(red)) || {}).name || null;
+
 const results = [];
 for (const name of names){
   const walk = fs.readFileSync(path.join(root,'walks',name+'.txt'),'utf8').trim();
@@ -100,7 +117,8 @@ for (const name of names){
 
   const before = metrics(walk), after = metrics(found.walk);
   results.push({ name, status: 'reduced', ...found, before, after,
-                 periodBefore: per.map(m=>m.d+m.n).join(' ') });
+                 periodBefore: per.map(m=>m.d+m.n).join(' '),
+                 lands: landsOn(found.red) });
 }
 
 if (require.main === module) for (const r of results){
@@ -110,11 +128,21 @@ if (require.main === module) for (const r of results){
     '   blocks ' + String(r.before.blocks).padStart(3) + ' -> ' + String(r.after.blocks).padStart(3) +
     '   touching ' + String(r.before.touching).padStart(2) + ' -> ' + String(r.after.touching).padStart(2) +
     '   blk/360 ' + r.before.blocksPer360.toFixed(1) + ' -> ' + r.after.blocksPer360.toFixed(1) +
-    '   ' + r.s.pieces + ' pieces');
+    '   ' + r.s.pieces + ' pieces' +
+    '   -> ' + (r.lands === r.name ? 'itself' : r.lands || 'NOT IN walks/'));
 }
 const won = results.filter(r => r.status === 'reduced');
-if (require.main === module)
+const stray = won.filter(r => !r.lands);
+if (require.main === module) {
   console.log('\n' + won.length + ' of ' + results.length + ' reduced while staying a coil; ' +
     won.filter(r => r.after.vol < r.before.vol).length + ' came out smaller.');
+  // Said out loud, because "the set is closed under reduction" was a claim on the page
+  // and nothing here was in a position to contradict it.
+  console.log(stray.length
+    ? stray.length + ' land on ' + new Set(stray.map(r => r.red)).size +
+      ' period(s) that walks/ does not have: ' +
+      [...new Set(stray.map(r => r.red))].map(p => '`' + p + '`').join(', ')
+    : 'every reduction lands on a coil already in walks/.');
+}
 if (WRITE) fs.writeFileSync(path.join(root,'reduced.json'), JSON.stringify(won, null, 1));
 module.exports = { results };
