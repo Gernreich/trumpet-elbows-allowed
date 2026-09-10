@@ -337,8 +337,10 @@ python3 $G/svg-stroke-check.py --dir . --quiet   # stroke declared twice, disagr
 cd $S && ~/Software/boxes/venv/bin/python regress.py      # every design in the library
 ```
 
-The gate reports **195 checks, 0 failed** on this bore, and `regress.py` covers
-26 designs. It does not look at the bell or the mouthpiece at all — those are checked by
+The gate reports **196 checks, 0 failed** on this bore, and `regress.py` covers
+26 designs. It was 195 until 2026-09-09, when *the sheets are this walk's sections*
+was added to `check.py`; a check count that moves is worth chasing to the reason,
+which is the whole argument of the section below. It does not look at the bell or the mouthpiece at all — those are checked by
 `bell-round.py` and `mouthpiece-round.py` themselves, before they write, in
 `../../../../../..`. Nothing here should be cut from a file that has not passed one or the
 other.
