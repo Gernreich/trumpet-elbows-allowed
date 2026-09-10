@@ -242,11 +242,19 @@ cut file.
 `#8000ff` means skip.
 
 **No sheet here is nested today.** Every one cuts in a single black stage with its numbers
-in blue. The **black → red ramp** `ramp_bell.py` applies belongs to a *nested* sheet, where
-a ring sitting inside another's aperture must be cut first or it is freed with the waste;
-one stage per ring by size says so in the only channel an importer always reads. The
-hand-nested 17-ring sheet that needed it was deleted 2026-08-25 and regenerated flat.
-`verify_bell.py` still checks that a ramp, if present, rises with ring size.
+in blue. A **black → red ramp** belongs to a *nested* sheet, where a ring sitting inside
+another's aperture must be cut first or it is freed with the waste; one stage per ring by
+size says so in the only channel an importer always reads. The hand-nested 17-ring sheet
+that needed one was deleted 2026-08-25 and regenerated flat.
+
+**The tool that applied it is gone, deleted 2026-09-10.** `ramp_bell.py` rewrote a
+`stroke:` property inside a style attribute, and the sheets these generators write carry a
+single stroke ATTRIBUTE on the enclosing `<g>` and nothing on the paths — so it matched
+nothing, every ring came back `#000000`, and its own guard refused to write. Correctly, and
+on every sheet in the repository: it had no valid input left. It was in no gate either, so
+that had gone unnoticed since the nested sheet was deleted. Recolour a nest in the tool
+that made it. `verify_bell.py` still checks that a ramp, if present, rises with ring size,
+which is the half of this that was worth keeping.
 
 ## Cut files belong to the author
 

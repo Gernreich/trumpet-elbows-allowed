@@ -59,3 +59,10 @@ bell-round-99mm-11rings.svg
 bell-square10-204mm-17rings-x4-rim129-cut-files.svg
 mouthpiece-parts-cut-files.svg
 bore10-coil-flat-drop-03of08.svg
+
+# Deleted 2026-09-10, and named in parts/CLAUDE.md by the paragraph that says
+# so. It rewrote a `stroke:` style property; these sheets carry a stroke
+# ATTRIBUTE on the enclosing <g>, so it matched nothing on every sheet in the
+# repository and its own guard refused to write. The paragraph is the record of
+# why the tool is gone, and it cannot be written without naming it.
+ramp_bell.py
