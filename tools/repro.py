@@ -67,6 +67,9 @@ def read_pins():
     return pins
 
 
+_said = set()
+
+
 def draw(name, walk, dest, switches):
     """Redraw one design into dest. Returns its cut-files/ or None."""
     os.makedirs(dest, exist_ok=True)
@@ -79,12 +82,34 @@ def draw(name, walk, dest, switches):
         last = ((r.stdout + r.stderr).strip().splitlines() or ['no output'])[-1]
         print(f'  ERROR     {name}: {last[:90]}')
         return None
+    # WHAT THE WRITER SAID ON THE WAY PAST. stderr was captured and then thrown
+    # away on every successful run, and the generator writes two things there
+    # that a person redrawing 84 sheets needs: the warning that the INSTALLED
+    # Boxes generator no longer matches tools/ -- so the sheets came out of code
+    # that is not in this repository -- and the note that a bore's joint
+    # clearance is a guess rather than a measurement. Both were invisible here,
+    # which is the one place they were certain to be seen if they were shown at
+    # all. Once per distinct message, not once per design, or the drift warning
+    # would print 24 times.
+    for line in r.stderr.strip().splitlines():
+        line = line.strip()
+        if line and line not in _said:
+            _said.add(line)
+            print(f'  note      {line[:100]}')
     return out
 
 
 def main(update=False):
     pins, bad, same, frozen = read_pins(), 0, 0, 0
     lines = []
+    # Every pin this run actually accounted for. The as-built loop walks the
+    # files on DISK and asks whether each one is pinned; nothing walked the
+    # pins and asked whether each one still has a file. So deleting a sheet
+    # that records wood which exists removed it from the comparison and failed
+    # nothing -- the one direction this file was written to protect, missed in
+    # the one direction nobody looked. Same shape as the deletion a7e36bc that
+    # all-gates.sh had to grow a guard for.
+    honoured = set()
     with tempfile.TemporaryDirectory() as T:
         for entry in DESIGNS:
             name, walk, folder, switches = _norm(entry)
@@ -104,6 +129,7 @@ def main(update=False):
                 for f in committed:
                     key = f'{rel}/cut-files/{f}'
                     got = sha(os.path.join(sheets, f))
+                    honoured.add(key)
                     if update:
                         lines.append(f'{got}  {key}')
                         frozen += 1
@@ -141,6 +167,15 @@ def main(update=False):
                     print(f'  DIFFERS   {name}: {f[:60]}')
                     bad += 1
             print(f'  ok        {name:<22} {n}/{len(committed)}')
+
+    # ... and now the other direction: a pin whose file has gone.
+    if not update:
+        for key in sorted(set(pins) - honoured):
+            print(f'  GONE      {key[:70]}')
+            print('            pinned as cut, and no such file is there now. '
+                  'If the sheet was deleted on purpose, re-pin with '
+                  'repro.py --update.')
+            bad += 1
 
     if update:
         with open(PINS, 'w') as fh:
