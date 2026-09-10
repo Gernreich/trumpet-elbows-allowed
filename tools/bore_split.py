@@ -91,8 +91,16 @@ def _installed_matches_source():
     generator. Found on 2026-09-09 with the two already one comment apart, which
     was harmless; the drift itself was not being watched at all.
 
-    Compared as syntax trees, so a comment or a reflowed line is not an alarm
-    and a changed number is.
+    Compared as syntax trees, so a COMMENT or a reflowed line is not an alarm
+    and a changed number is. A docstring is not a comment -- it is a string
+    constant and it is in the tree -- so rewrapping one does speak up.
+
+    EVERY WAY OF NOT KNOWING IS NOW SAID OUT LOUD. This returned silently when
+    either file was missing and again when either would not parse, which are
+    the two cases where the question matters most: an installed copy that is
+    absent or broken is exactly the state this exists to report, and it read as
+    agreement. Verified against a scratch checkout -- an unparseable installed
+    generator and a deleted one both produced no output at all.
     """
     import ast
     here = os.path.dirname(os.path.abspath(__file__))
@@ -100,23 +108,29 @@ def _installed_matches_source():
     for name in ('snakebox.py', 'snakeboxvar.py'):
         mine = os.path.join(here, name)
         theirs = os.path.join(BOXES, 'boxes', 'generators', name)
-        if not (os.path.exists(mine) and os.path.exists(theirs)):
+        if not os.path.exists(mine):
+            out.append(f'{name} is missing from tools/')
             continue
-        try:
-            a = ast.dump(ast.parse(open(mine).read()))
-            b = ast.dump(ast.parse(open(theirs).read()))
-        except SyntaxError:
+        if not os.path.exists(theirs):
+            out.append(f'{name} is not installed in the checkout')
             continue
-        if a != b:
-            out.append(name)
+        trees = {}
+        for where, path in (('tools/', mine), ('the installed ', theirs)):
+            try:
+                trees[where] = ast.dump(ast.parse(open(path).read()))
+            except (SyntaxError, OSError) as e:
+                out.append(f'{where}{name} will not read: {e}')
+        if len(trees) == 2 and len(set(trees.values())) != 1:
+            out.append(f'{name} differs')
     return out
 
 
 _drifted = _installed_matches_source()
 if _drifted:
-    print(f'warning: {", ".join(_drifted)} differ between tools/ and the Boxes '
-          f'checkout at {BOXES}.\n  The INSTALLED copy is what runs. Copy them '
-          f'over before trusting a sheet.', file=sys.stderr)
+    print('warning: the generators here and the ones that run do not agree:'
+          + ''.join(f'\n  {x}' for x in _drifted)
+          + f'\n  The INSTALLED copy, under {BOXES}, is what draws every sheet.'
+            '\n  Copy them over before trusting one.', file=sys.stderr)
 BED_W, BED_H = 600.0, 308.0   # xTool P2S work area, mm
 BLOCK, PIN = 16.0, 1.5              # block pitch, tab reach
 # KERF is the full width the laser takes out, MEASURED 2026-09-09. BURN is what
@@ -564,12 +578,28 @@ def touching(rec):
     two blocks each keep their own wall, so the bore runs through 6 mm of wood
     there rather than 3, and a walk that folds back hard enough can end up with
     its openings blocked by the piece it folded past.
+
+    Measured off the BOXES, not off the lattice. This asked whether two blocks
+    were one lattice step apart, which is the same question only while every
+    cell is a cube: once --straight makes a straight block longer than a turn,
+    the index stops mapping to a coordinate -- which is the reason block_boxes()
+    exists -- and neighbouring indices need not touch while distant ones may.
+    The report went out on both lattices regardless. Two boxes touch when they
+    abut on exactly one axis and overlap on the other two.
     """
-    pos = [r['pos'] for r in rec]
+    boxes = block_boxes(rec)
     out = []
-    for i in range(len(pos)):
-        for j in range(i + 2, len(pos)):
-            if sum(abs(pos[i][k] - pos[j][k]) for k in range(3)) == 1:
+    for i in range(len(boxes)):
+        for j in range(i + 2, len(boxes)):
+            (a0, a1), (b0, b1) = boxes[i], boxes[j]
+            abut = 0
+            for k in range(3):
+                if abs(a1[k] - b0[k]) < 1e-9 or abs(b1[k] - a0[k]) < 1e-9:
+                    abut += 1
+                elif min(a1[k], b1[k]) - max(a0[k], b0[k]) <= 1e-9:
+                    abut = -1               # apart on this axis: no contact
+                    break
+            if abut == 1:
                 out.append((i + 1, j + 1))
     return out
 
@@ -1125,12 +1155,30 @@ def subtract(part, mark):
     if left.geom_type == 'MultiPolygon':
         left = max(left.geoms, key=lambda g: g.area)
     left = shave_stubs(left, THICKNESS)
-    ring = list(left.exterior.coords)[:-1]
-    d = ('M ' + ' L '.join(f'{x:.3f} {y:.3f}' for x, y in ring) + ' Z')
-    xs = [x for x, _ in ring]; ys = [y for _, y in ring]
+
+    def ring_of(coords):
+        pts = list(coords)[:-1]
+        xs = [x for x, _ in pts]
+        ys = [y for _, y in pts]
+        return {'d': 'M ' + ' L '.join(f'{x:.3f} {y:.3f}' for x, y in pts)
+                     + ' Z',
+                'pts': pts + [pts[0]], 'role': part['role'],
+                'x0': min(xs), 'y0': min(ys),
+                'w': max(xs) - min(xs), 'h': max(ys) - min(ys)}
+
     out = dict(part)
-    out.update({'d': d, 'pts': ring + [ring[0]], 'x0': min(xs), 'y0': min(ys),
-                'w': max(xs) - min(xs), 'h': max(ys) - min(ys)})
+    out.update(ring_of(left.exterior.coords))
+    out['role'] = part['role']
+    # THE RINGS THE SUBTRACTION OPENS UP ARE CUTS TOO. This kept the exterior
+    # and nothing else, so a marked region that does not reach the plate's edge
+    # came back as a plate with no hole in it at all -- the outline closes round
+    # the mark, shapely puts it in an interior ring, and taking .exterior alone
+    # hands back the solid plate. A 10x10 square minus a 2x2 in the middle went
+    # from 96mm2 of material to 100. Every port drawn so far sits at an end of a
+    # piece and so does break the rim, which is the only reason no sheet has
+    # been cut wrong by it; the marker is not required to.
+    out['holes'] = list(part.get('holes', ())) + [
+        ring_of(r.coords) for r in left.interiors]
     return out
 
 
@@ -1586,7 +1634,14 @@ def main(text, outdir=None):
     print('  #    blocks   kind       in   out   plate            shape')
     toobig = []
     facts = {}
-    for (g, code, args, note, raw), k in zip(specs, [p['plan'][0] for p in plan]):
+    # norm, not plan[0]: assign_laps rolls a straight whose roll is free so its
+    # tongue lands on a wall, and the piece is CUT in the rolled frame.
+    # specs_for says in so many words that anything reasoning about which side
+    # is a plate has to use the same normal, and this table -- which decides
+    # the plate size printed and the bed verdict beside it -- used the other
+    # one. Only straights roll, and a straight's plate measures the same either
+    # way, so no verdict moves today. It would the moment anything else rolls.
+    for (g, code, args, note, raw), k in zip(specs, [p['norm'] for p in plan]):
         r0, r1 = rec[g[0]], rec[g[-1]]
         span = f'{g[0]+1}-{g[-1]+1}'
         bl, mm = plate_size(rec, g, k)
