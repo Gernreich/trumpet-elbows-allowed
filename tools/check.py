@@ -141,6 +141,18 @@ def check_section(i, args, parts, flat=('', '')):
             note(gap <= 40 * sum(1 for f in flat if f) + 4, i,
                  'the plates differ only by the dropped coupling',
                  f'{gap:.1f} mm2 apart, {sum(1 for f in flat if f)} end(s) flattened')
+        elif ports:
+            # A PORT MEANS THE TWO PLATES ARE DELIBERATELY NOT MIRRORS. One of
+            # them stops a cell short so the bore can leave through the face.
+            # This branch did not exist, so every ported section failed a check
+            # about a property it is not supposed to have -- the same shape as
+            # the flat branch beside it, which was written when --flat hit the
+            # same wall. What must still hold is that the pair differ by no more
+            # than the cell that was removed.
+            gap = abs(A.area - B.area)
+            cell = bore_split.BLOCK ** 2
+            note(gap <= cell + 4, i, 'the plates differ only by the ported cell',
+                 f'{gap:.1f} mm2 apart, a cell is {cell:.0f} mm2')
         else:
             note(same, i, 'the two plates are one part mirrored',
                  f'{A.area:.1f} vs {B.area:.1f} mm2')
@@ -180,8 +192,16 @@ def check_seam(i, a_args, b_args):
     # section i leaves by its exit, section i+1 is entered by its entry
     exit_tabs = (ends_a[1] == tab_a)
     entry_tabs = (ends_b[0] == tab_b)
-    plain_a = bool(ba.plain_out)
-    plain_b = bool(bb.plain_in)
+    # AN END THAT IS A PORT PRESENTS NOTHING, exactly as a plain end does: a
+    # port is a bare hole and cannot carry a tab, nor a notch, because a notch
+    # needs material in a band where the plate has already stopped.
+    # plain_ends() marks the NEIGHBOUR of a port plain and not the ported end
+    # itself, so the two sides of a ported seam read as one plain end against
+    # one live coupling and this check failed a seam that is right for what it
+    # is. The objections to a port are the orphaned fingers and the bare hole at
+    # the joint, and both have a check of their own below.
+    plain_a = bool(ba.plain_out) or bool(ba.port_out)
+    plain_b = bool(bb.plain_in) or bool(bb.port_in)
     if ba.pin_length <= 0 or bb.pin_length <= 0:
         # no coupling at all: the two end frames butt and are glued, so there
         # is no gender to get wrong - but say so rather than pass silently
@@ -203,8 +223,16 @@ def check_seam(i, a_args, b_args):
          'both sides agree on bore and tab size',
          f'{ba.blocksize}/{ba.pin_width} vs {bb.blocksize}/{bb.pin_width}')
 
-    # --- neither end may be a port: a port cannot carry a coupling at all.
-    note(not ports_a and not ports_b, f'{i}-{i+1}', 'seam has no port', '')
+    # --- neither end may be a port: a port cannot carry a coupling at all, so
+    # the two end frames butt and are glued with nothing locating them. This is
+    # the standing objection to ports, alongside the orphaned fingers, and it
+    # printed an EMPTY detail -- a failure that named no number and no side, in
+    # a report whose every other line says what made it true.
+    at = ' and '.join(w for w, p in ((f'section {i}', ports_a),
+                                     (f'section {i+1}', ports_b)) if p)
+    note(not ports_a and not ports_b, f'{i}-{i+1}', 'seam has no port',
+         f'{at} opens through a face plate here, so the joint is a glued butt '
+         f'with no tab' if at else '')
 
 
 def sections_3d(rec, groups):
@@ -491,6 +519,10 @@ if __name__ == '__main__':
     # the corpus exercised it and nothing could have.
     ap.add_argument('--flat', action='store_true',
                     help='plain butt ends, no tabs and no notches')
+    # --ports had no spelling here either, so the one way to gate the ports path
+    # was to import this file and set the global by hand. Nothing did.
+    ap.add_argument('--ports', action='store_true',
+                    help='let a piece open through a face plate')
     a = ap.parse_args()
     # --bore and --blocksize are two spellings of one number, and applied in
     # this order --bore silently overwrote --blocksize whichever way round they
@@ -512,6 +544,8 @@ if __name__ == '__main__':
         bore_split.set_straight(a.straight)
     if a.flat:
         bore_split.FLAT = True
+    if a.ports:
+        bore_split.ALLOW_PORTS = True
     try:
         sys.exit(main(walk_text(' '.join(a.walk)), a.files))
     except ValueError as e:
