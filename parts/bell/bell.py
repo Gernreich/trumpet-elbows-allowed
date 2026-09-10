@@ -43,9 +43,21 @@ OVERHANG = 3.0       # and stand proud of it, to glue against and to locate the 
 # ring's outer edge lands a wall further out, which is the figure the report prints.
 _args = [a for a in sys.argv[1:] if not a.startswith("--")]
 _opts = dict(a[2:].split("=", 1) for a in sys.argv[1:] if a.startswith("--") and "=" in a)
+# A SWITCH WITH NO "=" WAS DROPPED ON THE FLOOR. The line above keeps only
+# --name=value, and the loop below rejects a name it does not know -- but a bare
+# --name never reaches either, so it was discarded in silence and the sheet drawn
+# with every default. `bell.py --help` therefore drew and WROTE eight cut files
+# instead of printing anything, and a mistyped `--rim 129` would have written a
+# bell nobody asked for just as quietly. bore_split.py carries a section on this
+# exact fault under its own flags; these five generators had it too.
+_bare = [a for a in sys.argv[1:] if a.startswith("--") and "=" not in a]
+if _bare:
+    sys.exit(f"{_bare[0]} takes a value: write it as {_bare[0]}=VALUE. "
+             "Nothing has been drawn.")
 for k in _opts:
-    if k not in ("length", "rim", "gamma", "lap", "overhang", "numbers"):
-        sys.exit(f"unknown option --{k}: length, rim, gamma, lap, overhang or numbers")
+    if k not in ("length", "rim", "gamma", "lap", "overhang", "numbers", "out"):
+        sys.exit(f"unknown option --{k}: length, rim, gamma, lap, overhang, "
+                 f"numbers or out")
 # Numbering is part of writing the sheet. Every sheet this run writes gets its own rings
 # numbered from 0 -- each is a complete bell, not a continuation of the one before.
 NUMBERS = _opts.get("numbers", "yes")
@@ -163,8 +175,17 @@ for want in budgets:
     # square: every ring on this sheet is a square, throat to rim, and no ring carries an
     # arc. bell-round.py's are square at the throat and circular by the rim, which is what
     # "round" means there. Naming this one round was backwards and was fixed on 2026-09-02.
-    name = in_cut_files(f"bell-square{rs[0][0]:.0f}-{len(rs)*step:.0f}mm-{len(rs)}rings"
-                        f"-x{plies}-rim{rs[-1][1]:.0f}-cut-files.svg")
+    # --out, spelled as bell-round.py spells it. Without it this file could only
+    # ever write into cut-files/, so there was no way to run it that did not
+    # change the repository -- which is most of why no gate ever ran it.
+    if "out" in _opts:
+        if len(budgets) > 1:
+            sys.exit("  --out names one sheet; give a ring budget too, "
+                     "or drop --out and take the generated names")
+        name = _opts["out"]
+    else:
+        name = in_cut_files(f"bell-square{rs[0][0]:.0f}-{len(rs)*step:.0f}mm-{len(rs)}rings"
+                            f"-x{plies}-rim{rs[-1][1]:.0f}-cut-files.svg")
     W, H = emit(rs, plies, step, name)
     numbered = number(name, len(rs))
     angles = [r[3] for r in rs]

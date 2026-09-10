@@ -66,6 +66,17 @@ GAP     = 2.0
 MARGIN  = 3.0
 
 opts = dict(a[2:].split("=", 1) for a in sys.argv[1:] if a.startswith("--") and "=" in a)
+# A SWITCH WITH NO "=" WAS DROPPED ON THE FLOOR. The line above keeps only
+# --name=value, and the loop below rejects a name it does not know -- but a bare
+# --name never reaches either, so it was discarded in silence and the sheet drawn
+# with every default. `bell.py --help` therefore drew and WROTE eight cut files
+# instead of printing anything, and a mistyped `--rim 129` would have written a
+# bell nobody asked for just as quietly. bore_split.py carries a section on this
+# exact fault under its own flags; these five generators had it too.
+_bare = [a for a in sys.argv[1:] if a.startswith("--") and "=" not in a]
+if _bare:
+    sys.exit(f"{_bare[0]} takes a value: write it as {_bare[0]}=VALUE. "
+             "Nothing has been drawn.")
 for k in opts:
     if k not in ("rim", "rings", "onto", "start", "numbers"):
         sys.exit(f"unknown option --{k}: rim, rings, onto, start or numbers")
