@@ -9,6 +9,25 @@ const root = path.join(__dirname, '..');
 // and the wrong number had been copied into README.md as well.
 const NUM = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight',
              'Nine', 'Ten', 'Eleven', 'Twelve'];
+// With a fallback, for the reason the list exists at all: NUM stops at twelve, and a
+// thirteenth metric would have shipped the word "undefined" in the first line of the page
+// and still reproduced byte for byte, so no gate here would have said anything.
+const word = n => NUM[n] || String(n);
+const lower = n => word(n).toLowerCase();
+const ord = n => { const v = n % 100;
+  return n + (['th', 'st', 'nd', 'rd'][(v - 20) % 10] || ['th', 'st', 'nd', 'rd'][v] || 'th'); };
+
+// Counted off the ranking, not remembered. These read "places 3rd, above 6 coils that
+// have none" against a table that says 2nd and 3 -- written when the corpus was
+// seventeen coils and left alone when the category winners were promoted out of it.
+const byHarm = rows.slice().sort((a, b) => R.harm.get(a.name) - R.harm.get(b.name));
+const firstTouch = byHarm.find(r => r.v.touching > 0);
+const cleanBelow = byHarm.slice(byHarm.indexOf(firstTouch) + 1)
+                         .filter(r => r.v.touching === 0).length;
+const clean = rows.filter(r => r.v.touching === 0);
+// --solid's own test, copied from score.js so the two cannot disagree.
+const cleanSolid = rows.filter(r => r.v.touching === 0 && Math.min(...r.m.size) >= 3);
+const solid = rows.filter(r => Math.min(...r.m.size) >= 3);
 
 const table = cp.execSync(`node ${JSON.stringify(path.join(__dirname,'score.js'))} --md`,
   { encoding: 'utf8' }).trim().split('\n').filter(l => l.startsWith('|')).join('\n');
@@ -39,7 +58,7 @@ const thin = rows.slice().sort((a,b) =>
   (a.v.crossArea) - (b.v.crossArea))[0];
 const md = `# Scoring
 
-${NUM[METRICS.length]} metrics, one touching count, and every common mean, so the ranking can be
+${word(METRICS.length)} metrics, one touching count, and every common mean, so the ranking can be
 read against the thing that produced it. Regenerate with \`node tools/gen_scoring.js\`.
 
 ## What is scored
@@ -70,9 +89,9 @@ Override the weight with \`SPIRAL_TOUCH_WEIGHT=8 node tools/score.js\`.
 ### A heavy weight is a preference, not a guarantee
 
 Weighting touching at ${TOUCH_WEIGHT} does not stop a coil with contact from beating a clean one.
-Under the harmonic mean the first coil *with* touching places **3rd**, above **6** coils
+Under the harmonic mean the first coil *with* touching places **${ord(R.harm.get(firstTouch.name))}**, above **${cleanBelow}** coils
 that have none — because each of those has some other metric sitting on the ${EPS} floor,
-and the harmonic mean punishes that harder than it punishes 8 contacts.
+and the harmonic mean punishes that harder than it punishes ${firstTouch.v.touching} contacts.
 
 If no touching walls is a *requirement* rather than a preference, filter:
 
@@ -83,13 +102,20 @@ which is the same advice as everywhere else here — cut on the property, then r
 
 ### Two filters, arrived at from judgements rather than argument
 
-Ten coils were judged by eye, seven liked and three not. Two filters reproduce that split
-exactly, and between them they select the liked set and nothing else:
+**This is a record of how the filters were arrived at, against the corpus of the time.**
+Ten coils were judged by eye then, seven liked and three not, and two filters reproduced
+that split exactly — selecting the liked set and nothing else:
 
 * **no touching walls** — perfect on its own: no coil with any wall contact was liked, and
   seven of the eight without were.
 * **at least 3 blocks thick in every direction** — a coil 2 thick is a ribbon rather than
   a rod.
+
+That corpus is not this one. The search has since grown to seventeen coils, and the coils
+winning a category have been promoted out to siblings of their own, leaving ${lower(rows.length)} here,
+${lower(clean.length)} of them walls-free. The judgements were never re-taken over the set as it stands, so
+the counts in this section are history and the counts everywhere else on this page are
+measurements.
 
 The second took a designed test to establish. The one rejected walls-free coil was extreme
 on two things at once, thinness and elongation, and nothing else in the set separated them.
@@ -99,9 +125,11 @@ coil can be at this tube length (aspect 49). The long one was liked and the thin
 not, which rules out elongation on its own — aspect 43 is fine when the coil has a core.
 
 Both are filters and neither is scored. Thickness is not a gradient: 3 is acceptable, and
-being thicker is not better — the 5x5 coil packs worst of anything here and was liked.
+being thicker is not better — the 5x5 coil packed worst of anything in that corpus and was
+liked. Thickness sorts nothing here any more: all ${lower(solid.length)} of the remaining coils are at
+least 3 thick, so \`--solid\` removes none of them and \`--clean\` alone does the work.
 
-    node tools/score.js --clean --solid    # exactly the seven
+    node tools/score.js --clean --solid    # ${cleanSolid.length} of the ${rows.length} coils here
 
 One honest limit. At this tube length the two properties are coupled: a 2-thick coil has
 nowhere to put 177 blocks but lengthwise, so thin coils start at aspect 49 while 3-thick

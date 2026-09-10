@@ -38,9 +38,9 @@ Override the weight with `SPIRAL_TOUCH_WEIGHT=8 node tools/score.js`.
 ### A heavy weight is a preference, not a guarantee
 
 Weighting touching at 5 does not stop a coil with contact from beating a clean one.
-Under the harmonic mean the first coil *with* touching places **3rd**, above **6** coils
+Under the harmonic mean the first coil *with* touching places **2nd**, above **3** coils
 that have none — because each of those has some other metric sitting on the 0.01 floor,
-and the harmonic mean punishes that harder than it punishes 8 contacts.
+and the harmonic mean punishes that harder than it punishes 13 contacts.
 
 If no touching walls is a *requirement* rather than a preference, filter:
 
@@ -51,13 +51,20 @@ which is the same advice as everywhere else here — cut on the property, then r
 
 ### Two filters, arrived at from judgements rather than argument
 
-Ten coils were judged by eye, seven liked and three not. Two filters reproduce that split
-exactly, and between them they select the liked set and nothing else:
+**This is a record of how the filters were arrived at, against the corpus of the time.**
+Ten coils were judged by eye then, seven liked and three not, and two filters reproduced
+that split exactly — selecting the liked set and nothing else:
 
 * **no touching walls** — perfect on its own: no coil with any wall contact was liked, and
   seven of the eight without were.
 * **at least 3 blocks thick in every direction** — a coil 2 thick is a ribbon rather than
   a rod.
+
+That corpus is not this one. The search has since grown to seventeen coils, and the coils
+winning a category have been promoted out to siblings of their own, leaving ten here,
+four of them walls-free. The judgements were never re-taken over the set as it stands, so
+the counts in this section are history and the counts everywhere else on this page are
+measurements.
 
 The second took a designed test to establish. The one rejected walls-free coil was extreme
 on two things at once, thinness and elongation, and nothing else in the set separated them.
@@ -67,9 +74,11 @@ coil can be at this tube length (aspect 49). The long one was liked and the thin
 not, which rules out elongation on its own — aspect 43 is fine when the coil has a core.
 
 Both are filters and neither is scored. Thickness is not a gradient: 3 is acceptable, and
-being thicker is not better — the 5x5 coil packs worst of anything here and was liked.
+being thicker is not better — the 5x5 coil packed worst of anything in that corpus and was
+liked. Thickness sorts nothing here any more: all ten of the remaining coils are at
+least 3 thick, so `--solid` removes none of them and `--clean` alone does the work.
 
-    node tools/score.js --clean --solid    # exactly the seven
+    node tools/score.js --clean --solid    # 4 of the 10 coils here
 
 One honest limit. At this tube length the two properties are coupled: a 2-thick coil has
 nowhere to put 177 blocks but lengthwise, so thin coils start at aspect 49 while 3-thick

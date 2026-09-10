@@ -270,13 +270,21 @@ box of 423 to **10,452** — still elbow-free, no longer a coil.
 
 Keeping only the reductions that still close and still wind a whole number of turns, and
 putting the result back through the standardiser so it can be compared with what it came
-from, **9 of the 10 coils reduce — and every one lands on a coil already here.**
-3 distinct walks come out of 9 reductions, all of them already in the set: seven
-different coils reduce to the same one, four more to another, one reduces to itself, and
-the staircase coil reduces to the hand reduction of it that started all this.
+from, **9 of the 10 coils reduce**, and three distinct walks come out of
+those 9 reductions:
 
-**The set is closed under reduction.** There is nothing left to take out that does not
-either break the coil or land somewhere already catalogued.
+* six coils reduce to `D3 E2 U3 N1 U3 W2 D3 N1`, which is **not in the catalogue**: `coil_3x8_20`, `coil_3x9_18`, `coil_4x7_20`, `coil_4x8_18`, `coil_4x9_18`, `coil_5x7_18`
+* two coils reduce to `coil_3x3_59`, one of them being `coil_3x3_59` itself: `coil_3x3_54_2`, `coil_3x3_59`
+* `coil_3x4_68` reduces to itself — the pass finds slack in it and gives back the same period
+
+**The set is not closed under reduction.** Six of the 9 reductions land on
+a walk that is catalogued nowhere here. That is a gap in the set rather than a
+turn of phrase: either those walks belong in it, or the reduction that produces them
+does not really close and `reduce.js` should be rejecting it.
+
+This page said the opposite until the claim was counted. It was written when the
+search held seventeen coils, and nothing re-checked it when the category winners were
+promoted out to siblings of their own.
 
 That is a much cleaner result than the first attempt, and the difference is
 canonicalisation: before the representation was pinned, the same coil could appear

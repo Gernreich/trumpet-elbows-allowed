@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 // Composite scoring across the common means.
 //
-// Seven metrics, each normalized to (0,1] with 1 = best in the set, plus the
-// touching count carried the same way and given an explicit weight. Then the
-// power-mean family and three means that sit outside it.
+// The metrics in METRICS below, each normalized to (0,1] with 1 = best in the set,
+// plus the touching count carried the same way and given an explicit weight. Then
+// the power-mean family and three means that sit outside it. The count is not
+// written here on purpose: this comment said "Seven" while METRICS held eight, and
+// the pages that quote the number now read it off the array.
 //
 // blocks/360 is deliberately absent: it is anti-correlated with turns/m by
 // construction -- a tighter spiral must turn more often -- so carrying both let
@@ -45,8 +47,9 @@ const TOUCH_WEIGHT = +(process.env.SPIRAL_TOUCH_WEIGHT || 5);
 const CLEAN_ONLY = process.argv.includes('--clean');
 // A coil two blocks thick in any direction is a ribbon rather than a rod. That is
 // a shape judgement, not a score: 3 is acceptable and so are 4 and 5, and being
-// thicker is not better -- the 5x5 coil packs worst of anything here. So it is a
-// filter, like --clean, and not a metric.
+// thicker is not better -- the 5x5 coil packed worst of anything in the corpus this
+// was judged against, before it was promoted out. So it is a filter, like --clean,
+// and not a metric. It removes nothing from the set as it now stands.
 const SOLID_ONLY = process.argv.includes('--solid');
 const EPS = 0.01;              // a floor, so one worst-in-set value cannot zero a product
 

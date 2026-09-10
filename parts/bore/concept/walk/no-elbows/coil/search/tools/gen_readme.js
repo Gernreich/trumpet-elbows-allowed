@@ -10,6 +10,7 @@ const root = path.join(__dirname, '..');
 const NUM = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight',
              'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen'];
 const word = n => NUM[n] || String(n);
+const Word = n => { const w = word(n); return w[0].toUpperCase() + w.slice(1); };
 
 const parts = JSON.parse(fs.readFileSync(path.join(root, 'parts.json'), 'utf8'));
 
@@ -84,6 +85,38 @@ const { results: redres } = require('./reduce.js');
 const redOK = redres.filter(r => r.status === 'reduced');
 const redStat = { total: redres.length, reduced: redOK.length,
                   distinct: new Set(redOK.map(r => r.walk)).size };
+
+// WHERE the reductions land, counted rather than remembered. This paragraph read "seven
+// different coils reduce to the same one, four more to another, one reduces to itself" --
+// twelve reductions described in a sentence whose own template said nine -- and claimed
+// the set was closed under reduction. Both were true of the seventeen-coil corpus and
+// neither was re-checked when the category winners were promoted out of it. reduce.js
+// compares nothing against the catalogue, so nothing could have caught it.
+// Periods are matched up to rotation: a coil and the same coil entered a term later are
+// the same coil, and standardise.js is free to pick either.
+const interiorPeriod = w => { const t = w.trim().split(/\s+/).slice(1, -1);
+  for (let L = 1; L <= t.length; L++) { if (t.length % L) continue;
+    let same = true;
+    for (let i = L; i < t.length; i++) if (t[i] !== t[i % L]) { same = false; break; }
+    if (same) return t.slice(0, L).join(' '); }
+  return t.join(' '); };
+const rotations = p => { const t = p.split(' ');
+  return t.map((_, i) => t.slice(i).concat(t.slice(0, i)).join(' ')); };
+const catalogue = fs.readdirSync(path.join(root, 'walks')).filter(f => f.endsWith('.txt'))
+  .map(f => ({ name: f.replace(/\.txt$/, ''),
+               per: interiorPeriod(fs.readFileSync(path.join(root,'walks',f), 'utf8')) }));
+const redGroups = [];
+for (const r of redOK) {
+  const per = r.red.trim().split(/\s+/).join(' ');
+  let g = redGroups.find(g => rotations(g.per).includes(per));
+  if (!g) { g = { per, from: [],
+                  lands: (catalogue.find(c => rotations(c.per).includes(per)) || {}).name };
+            redGroups.push(g); }
+  g.from.push(r.name);
+}
+redGroups.sort((a, b) => b.from.length - a.from.length);
+const strayRed = redGroups.filter(g => !g.lands);
+const strayCount = strayRed.reduce((a, g) => a + g.from.length, 0);
 const minimal = minres.filter(r => r.saving === 0).map(r => r.name);
 const slackiest = minres.slice().sort((a, b) => b.saving - a.saving)[0];
 const stair = minres.find(r => r.name === yours.name) || minres[0];
@@ -136,9 +169,12 @@ const TOOL_GROUPS = [
   ]],
 ];
 // Directories count: a subdirectory of tools/ needs describing as much as a file does.
-// node_modules is the one exception, because npm would otherwise stop the build.
+// What npm leaves behind is the exception, because otherwise installing anything here
+// stops the build -- and node_modules alone was not the whole of what it leaves, so a
+// plain `npm install` still killed it on package.json a moment later.
+const NOT_A_TOOL = ['node_modules', 'package.json', 'package-lock.json'];
 const toolsOnDisk = fs.readdirSync(__dirname)
-  .filter(f => !f.startsWith('.') && f !== 'node_modules').sort();
+  .filter(f => !f.startsWith('.') && !NOT_A_TOOL.includes(f)).sort();
 const described = TOOL_GROUPS.flatMap(([, t]) => t.map(([n]) => n));
 const undescribed = toolsOnDisk.filter(f => !described.includes(f));
 const phantom = described.filter(f => !toolsOnDisk.includes(f));
@@ -412,13 +448,28 @@ box of 423 to **10,452** — still elbow-free, no longer a coil.
 
 Keeping only the reductions that still close and still wind a whole number of turns, and
 putting the result back through the standardiser so it can be compared with what it came
-from, **${redStat.reduced} of the ${redStat.total} coils reduce — and every one lands on a coil already here.**
-${redStat.distinct} distinct walks come out of ${redStat.reduced} reductions, all of them already in the set: seven
-different coils reduce to the same one, four more to another, one reduces to itself, and
-the staircase coil reduces to the hand reduction of it that started all this.
+from, **${redStat.reduced} of the ${redStat.total} coils reduce**, and ${word(redStat.distinct)} distinct walks come out of
+those ${redStat.reduced} reductions:
 
-**The set is closed under reduction.** There is nothing left to take out that does not
-either break the coil or land somewhere already catalogued.
+${redGroups.map(g => {
+  const list = g.from.map(n => '`' + n + '`').join(', ');
+  if (g.lands && g.from.length === 1 && g.from[0] === g.lands)
+    return `* \`${g.lands}\` reduces to itself — the pass finds slack in it and gives back the same period`;
+  if (g.lands)
+    return `* ${word(g.from.length)} coils reduce to \`${g.lands}\`, one of them being \`${g.lands}\` itself: ${list}`;
+  return `* ${word(g.from.length)} coils reduce to \`${g.per}\`, which is **not in the catalogue**: ${list}`;
+}).join('\n')}
+
+${strayRed.length === 0
+  ? '**The set is closed under reduction.** There is nothing left to take out that does not\n' +
+    'either break the coil or land somewhere already catalogued.'
+  : `**The set is not closed under reduction.** ${Word(strayCount)} of the ${redStat.reduced} reductions land on\n` +
+    `${strayRed.length === 1 ? 'a walk that is' : word(strayRed.length) + ' walks that are'} catalogued nowhere here. That is a gap in the set rather than a\n` +
+    'turn of phrase: either those walks belong in it, or the reduction that produces them\n' +
+    'does not really close and `reduce.js` should be rejecting it.\n\n' +
+    'This page said the opposite until the claim was counted. It was written when the\n' +
+    'search held seventeen coils, and nothing re-checked it when the category winners were\n' +
+    'promoted out to siblings of their own.'}
 
 That is a much cleaner result than the first attempt, and the difference is
 canonicalisation: before the representation was pinned, the same coil could appear
