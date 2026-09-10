@@ -28,4 +28,13 @@ function build(period){
   if(last[1]>1){ last[1]--; terms.push([last[0],1]); }
   return terms.map(([d,L],i)=> (i===0||i===terms.length-1) ? d : d+L).join(' ');
 }
+// A missing argument reached build() and came back as a TypeError on
+// `undefined.split` -- a stack trace where a usage line belongs. Every other
+// tool here reads the corpus and needs no argument; these two take a period and
+// said so nowhere.
+if (!process.argv[2]) {
+  console.error('usage: node tools/mknotation.js "<period>"   e.g. "N1 D4 E3 U4"');
+  console.error('  Expands a period to about ' + TARGET + ' blocks in the corpus notation.');
+  process.exit(2);
+}
 console.log(build(process.argv[2]));

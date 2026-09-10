@@ -142,6 +142,13 @@ function period(walk){
 module.exports = { metrics, blockDirs, period, MM };
 
 if (require.main === module) {
+  // See tools/mknotation.js: run bare, this died on `undefined.split` inside
+  // metrics() rather than saying what it wanted.
+  if (!process.argv[2]) {
+    console.error('usage: node tools/spiral_metrics.js "<walk>"');
+    console.error('  Prints the metrics for one walk. Imported by the other tools.');
+    process.exit(2);
+  }
   const m = metrics(process.argv[2]);
   console.log(JSON.stringify(m, null, 2));
 }
