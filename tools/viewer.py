@@ -623,8 +623,26 @@ def build(text, title):
 def build_many(items, title):
     """items is [(label, walk)]. One item hides the selector, so a single
     page is what it always was."""
-    sets = [{'label': lab or '', 'walk': txt.strip(), 'd': data_for(txt)}
-            for lab, txt in items]
+    return build_sets([(lab, txt, data_for(txt)) for lab, txt in items], title)
+
+
+def build_sets(items, title):
+    """items is [(label, walk, data)], with the data ALREADY computed.
+
+    sizes.py needs this and build_many cannot serve it: sizes.py changes the
+    block pitch between sets, and data_for() reads that pitch when it is called.
+    Computing lazily in here would give every set the LAST pitch -- two sets both
+    at 16mm with one of them labelled 682mm regardless, which is the bug
+    sizes.py carries a comment about.
+
+    The name existed until 4cbf437 collapsed the forked toolchain into tools/,
+    where build_many replaced it and this was not kept. sizes.py went on calling
+    it and has raised AttributeError on every run since 2026-09-05 -- truncating
+    its own output file first, because open(out, 'w') runs before the call. No
+    gate ran sizes.py, so nothing said so for five days.
+    """
+    sets = [{'label': lab or '', 'walk': txt.strip(), 'd': d}
+            for lab, txt, d in items]
     first = sets[0]
     return (HTML.replace('__SETS__', json.dumps(sets, separators=(',', ':')))
                 .replace('__TITLE__', title)
