@@ -119,6 +119,10 @@ def poly(points):
     return "".join(f"{'M' if i == 0 else 'L'}{q[0]:.2f},{q[1]:.2f}"
                    for i, q in enumerate(points)) + "Z"
 
+# A MISSING FILE CAME BACK AS AN IndexError. Every tool here that takes a sheet
+# answered the same way: a stack trace where a usage line belongs.
+if len(sys.argv) < 2:
+    sys.exit("  usage: python3 bell-view.py SHEET.svg [OUT.svg]")
 src = sys.argv[1]
 s = pathlib.Path(src).read_text()
 

@@ -96,6 +96,10 @@ def ring_sizes(path):
     rise = float(r.group(1)) if r else DEFAULT_RISE
     return out, rise
 
+# A MISSING FILE CAME BACK AS AN IndexError. Every tool here that takes a sheet
+# answered the same way: a stack trace where a usage line belongs.
+if len(sys.argv) < 2:
+    sys.exit("  usage: python3 bell-section.py SHEET.svg [OUT.svg]")
 src = sys.argv[1]
 rings, rise = ring_sizes(src)
 assert rings, f"no rings found in {src}"

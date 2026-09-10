@@ -222,6 +222,8 @@ def is_bell_sheet(path):
 
 
 def main():
+    if len(sys.argv) < 2:
+        sys.exit("  usage: python3 verify_bell.py SHEET.svg [REFERENCE.svg]")
     ok, why = is_bell_sheet(sys.argv[1])
     if not ok:
         print(f"  skipped {pathlib.Path(sys.argv[1]).name}: {why}")

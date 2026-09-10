@@ -227,6 +227,18 @@ def main():
     for k in opts:
         if k not in ("cap", "order", "start", "mark"):
             sys.exit(f"  unknown option --{k}: cap, order, start or mark")
+    # A SWITCH WITH NO "=" WAS DROPPED ON THE FLOOR, as it was in the five sheet
+    # generators: the line that builds opts keeps only --name=value and the loop
+    # above rejects a name it does not know, so a bare --mark reached neither and
+    # the default was used in silence. And with no file at all this died on
+    # args[0] with an IndexError, which is what `number_rings.py --help` did.
+    bare = [a for a in sys.argv[1:] if a.startswith("--") and "=" not in a]
+    if bare:
+        sys.exit(f"  {bare[0]} takes a value: write it as {bare[0]}=VALUE. "
+                 f"Nothing has been engraved.")
+    if not args:
+        sys.exit("  usage: number_rings.py SHEET.svg [--cap=MM] [--order=document] "
+                 "[--start=N] [--mark=no]")
     src_path = pathlib.Path(args[0])
     src = src_path.read_text()
 
