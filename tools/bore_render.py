@@ -67,7 +67,23 @@ def layout(text):
 
     Uses the same grouping bore_split cuts from, so the picture and the cut
     list cannot drift apart.
+
+    CUBIC CELLS ONLY, and it now says so. Everything below draws each cell as a
+    unit cube at its LATTICE position, which is a true picture exactly while
+    every cell is a cube. Once --straight runs the straights longer than the
+    turns, the index stops mapping to a coordinate -- the reason block_boxes()
+    exists -- and this would draw a bore nobody is cutting while looking
+    entirely reasonable. viewer.py hit that and was changed to real mm boxes;
+    this file was not, and had no way to notice. Run as a script it cannot
+    reach the case, because there is no --straight here; imported after one, it
+    can. Refusing beats drawing the wrong instrument.
     """
+    import bore_split
+    if not bore_split.cubic():
+        raise ValueError(
+            f'bore_render draws lattice cubes, and this lattice is not cubic '
+            f'(section {bore_split.BLOCK:g}, straight {bore_split.STRAIGHT:g}). '
+            f'Use viewer.py, which measures the real boxes.')
     rec, groups, plans, plan, unfilled = specs_for(text)
     cells, pieces = [], []
     for i, (g, p) in enumerate(zip(groups, plan)):
@@ -75,7 +91,9 @@ def layout(text):
                        p['code']))
         for j in g:
             cells.append((rec[j]['pos'], i))
-    return cells, pieces, pieces
+    # `pieces` was returned twice and the second copy unpacked into a name
+    # nothing read.
+    return cells, pieces
 
 
 def render(cells, pieces, az, w, h, title, el=0.0, openings=None,
@@ -160,8 +178,8 @@ def render(cells, pieces, az, w, h, title, el=0.0, openings=None,
     return '\n'.join(out), S, (ox, oy)
 
 
-def main(text, by_direction=False):
-    cells, pieces, bl = layout(text)
+def main(text, by_direction=False, out=None):
+    cells, pieces = layout(text)
     rec, groups, plans = coplanar_pieces(text)
     seen, clash = {}, []
     for c, pid in cells:
@@ -236,7 +254,11 @@ def main(text, by_direction=False):
            f'.pn{{font:700 12px ui-sans-serif,sans-serif;fill:#111;text-anchor:middle}}'
            f'</style><rect width="{W*3}" height="{HH}" fill="#fff"/>'
            + ''.join(body) + ''.join(leg) + '</svg>')
-    name = 'bore3d_directions.svg' if by_direction else 'bore3d.svg'
+    # --out, because there was none: the name was fixed and the directory was
+    # whatever you happened to be standing in. So there was no way to run this
+    # file that did not change the tree, which is why no gate ran it -- the
+    # same reason bell.py went ungated until it grew the same flag.
+    name = out or ('bore3d_directions.svg' if by_direction else 'bore3d.svg')
     open(name, 'w').write(svg)
     print(f'\n  wrote {name}  ({W*3} x {HH})')
 
@@ -248,8 +270,16 @@ if __name__ == '__main__':
         if flag in argv:
             argv.remove(flag)
             by_dir = True
+    dest = None
+    for a in list(argv):
+        if a.startswith('--out='):
+            argv.remove(a)
+            dest = a.split('=', 1)[1]
+    bad = [a for a in argv if a.startswith('-')]
+    if bad:
+        sys.exit(f'unknown option {bad[0]}: --directions or --out=FILE')
     try:
-        main(' '.join(argv), by_dir)
+        main(' '.join(argv), by_dir, dest)
     except ValueError as e:
         print(f'error: {e}')
         sys.exit(1)
