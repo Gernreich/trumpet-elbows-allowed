@@ -40,7 +40,13 @@ def main(walk_name, out):
         B.set_blocksize(block)
         sets.append((label, text, viewer.data_for(text)))
         rec, groups, _, _, _ = B.specs_for(B.walk_text(text))
-        stats.append((label, block, len(rec), len(rec) * block, len(groups)))
+        # Summed the way bore_split sums it, not blocks times pitch. The two
+        # agree only while every cell is a cube; a stretched lattice runs its
+        # straights longer than its turns, and this file exists to sit beside a
+        # design cut at more than one size, which is precisely where a second
+        # implementation of the same number goes wrong first.
+        mm = sum(B.extent(r, B.AXIS[r['out']]) for r in rec)
+        stats.append((label, block, len(rec), mm, len(groups)))
     title = walk_name.replace('_', ' ').title() + ' Bore'
     open(out, 'w').write(viewer.build_sets(sets, title))
     print(f'  {os.path.basename(out)}')
