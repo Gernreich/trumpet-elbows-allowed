@@ -66,3 +66,11 @@ bore10-coil-flat-drop-03of08.svg
 # repository and its own guard refused to write. The paragraph is the record of
 # why the tool is gone, and it cannot be written without naming it.
 ramp_bell.py
+
+# Deleted 2026-09-10 and named in tools/CLAUDE.md by the paragraph that says so.
+# It was the simpler Boxes.py generator, superseded by SnakeBoxVar everywhere:
+# bore_split names only the Var to scripts/boxes, check.py has imported the Var
+# since it was written, and piece_render.py was moved over the same day. Same
+# case as ramp_bell.py above -- the record of why a tool is gone cannot be
+# written without naming it.
+snakebox.py

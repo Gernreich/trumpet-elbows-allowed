@@ -265,7 +265,7 @@ tied with one of them. The scoring is in
 | `bore_split.py` | the generator: a walk in, per-piece cut files out |
 | `check.py` | the gate, run automatically by every `--write` |
 | `regress.py` | runs the gate over the whole library |
-| `snakebox.py`, `snakeboxvar.py` | the Boxes.py generators that draw a section |
+| `snakeboxvar.py` | the Boxes.py generator that draws a section |
 | `svgpath.py` | reads back what was written — the gate parses the file, not the plan |
 | `assemble.py` | builds a section as a solid and asks directly whether it is sealed, rather than testing a proxy |
 | `viewer.py` | the one page builder; every viewer page here comes from it |

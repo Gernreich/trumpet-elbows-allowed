@@ -53,12 +53,20 @@ across unchanged.
     bore_split   <- bore_render, check, viewer, mcwalk, nest, hilbert, piece_render
     bore_render  <- viewer, mcwalk
     assemble     <- check
-    snakebox     is a Boxes.py generator, driven by subprocess, not imported
+    snakeboxvar  is a Boxes.py generator, driven by subprocess, not imported
 
-`snakebox.py` is not standalone — it installs into a Boxes.py checkout, which
+`snakeboxvar.py` is not standalone — it installs into a Boxes.py checkout, which
 supplies the finger joints, burn compensation and SVG writer. `bore_split.py`
 shells out to it. Point `SNAKEBOX_BOXES` at the checkout and `SNAKEBOX_PY` at
 its venv python.
+
+**`snakebox.py` was deleted on 2026-09-10.** It was the simpler generator, without
+the variable cell widths, the ports, the laps or the plain ends, and `SnakeBoxVar`
+had superseded it everywhere: `bore_split.py` names only `SnakeBoxVar` to
+`scripts/boxes`, `check.py` has imported the Var since it was written, and
+`piece_render.py` was moved over the same day. Nothing imported it and nothing
+invoked it. A copy may still be sitting in your Boxes checkout, untracked and
+unused; the drift check no longer watches it.
 
 ## The switches must reach the gate
 

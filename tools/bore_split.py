@@ -54,7 +54,7 @@ import svgpath as V
 # Facing north, east is to your right. North is away from you, south toward you.
 DIRS = {'E': (1, 0, 0), 'W': (-1, 0, 0), 'U': (0, 1, 0),
         'D': (0, -1, 0), 'S': (0, 0, 1), 'N': (0, 0, -1)}
-# Point BOXES at your Boxes.py checkout with snakebox.py installed (see the
+# Point BOXES at your Boxes.py checkout with snakeboxvar.py installed (see the
 # install section of README.md). Override with the SNAKEBOX_BOXES env var.
 #
 # Searched rather than hardcoded, because it WAS hardcoded to ~/boxes and the
@@ -105,7 +105,11 @@ def _installed_matches_source():
     import ast
     here = os.path.dirname(os.path.abspath(__file__))
     out = []
-    for name in ('snakebox.py', 'snakeboxvar.py'):
+    # snakebox.py was on this list until it was deleted on 2026-09-10. It was the
+    # simpler generator and nothing had invoked or imported it for some time; a
+    # copy may still be sitting untracked in the checkout, and it is not this
+    # file's business any more.
+    for name in ('snakeboxvar.py',):
         mine = os.path.join(here, name)
         theirs = os.path.join(BOXES, 'boxes', 'generators', name)
         if not os.path.exists(mine):
