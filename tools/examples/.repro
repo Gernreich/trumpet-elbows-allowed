@@ -1,0 +1,28 @@
+# How the three example pages here are drawn. Checked by
+# lasermade-tools/repro-svg.py; $OUT is where the file must be written.
+#
+# THEY WERE STALE, and this directory is exempted from doc-audit's orphan check
+# as "generated" -- a declaration that something generates them, which nothing
+# did. Redrawing all three on 2026-09-10 found the same fault as the ten pages
+# under coil/search: one sentence of comment inside viewer.py's own template,
+# changed under them and never carried through. Invisible on the page.
+#
+# TWO OF THE THREE TITLES DO NOT DESCRIBE WHAT THEY DRAW, and that is left for
+# the author rather than guessed at here:
+#
+#   three_block_example  titled "D R1 F, the three-block example". D R1 F is not
+#                        a walk -- R and F are not letters this notation has, the
+#                        same dead spelling that was in bore_split.py's own usage
+#                        block until today -- and the page draws D D2 E4 N1,
+#                        which is eight blocks in two pieces.
+#   test_bore            titled "The nine-block test bore" and drawing
+#                        U U1 E2 S2 U3. The test bore is U U2 E2 S2 U2 U, which
+#                        is what regress.py gates under that name. Both are nine
+#                        blocks; they are not the same walk.
+#
+# The titles are reproduced here exactly as they ship, so this gate asserts only
+# that the pages are what the code draws. Correcting a title means changing the
+# line below with it.
+notation_example.html :: ~/Software/boxes/venv/bin/python ../viewer.py "N E2 S3 U2 N2" --out $OUT --title "The notation worked through"
+test_bore.html :: ~/Software/boxes/venv/bin/python ../viewer.py "U U1 E2 S2 U3" --out $OUT --title "The nine-block test bore"
+three_block_example.html :: ~/Software/boxes/venv/bin/python ../viewer.py "D D2 E4 N1" --out $OUT --title "D R1 F, the three-block example"
