@@ -1,0 +1,30 @@
+# How every shipped page in this directory is drawn. Checked by
+# lasermade-tools/repro-svg.py; $OUT is where the file must be written.
+#
+# THE TEN VIEWER PAGES WERE STALE and nothing could have said so. They are drawn
+# by tools/viewer.py, the command is written out in README.md, and no gate ran
+# it: build.sh regenerates index.html and SCORING.html and stops there. Found on
+# 2026-09-10 by redrawing them, and all ten differed -- by one sentence of
+# comment inside the viewer's own template, changed under them at some point and
+# never carried through. Invisible on the page, which is exactly why it lasted:
+# the pages looked right and were not what the code draws, which is the one
+# property every byte gate in this project exists to assert.
+#
+# Regenerated and claimed here. The pages a reader sees are unchanged.
+pages/coil_3x3_54_2.html :: ~/Software/boxes/venv/bin/python ../../../../../../../tools/viewer.py "$(cat walks/coil_3x3_54_2.txt)" --out $OUT --title "coil 3x3 54 2"
+pages/coil_3x3_59.html :: ~/Software/boxes/venv/bin/python ../../../../../../../tools/viewer.py "$(cat walks/coil_3x3_59.txt)" --out $OUT --title "coil 3x3 59"
+pages/coil_3x4_68.html :: ~/Software/boxes/venv/bin/python ../../../../../../../tools/viewer.py "$(cat walks/coil_3x4_68.txt)" --out $OUT --title "coil 3x4 68"
+pages/coil_3x4_79.html :: ~/Software/boxes/venv/bin/python ../../../../../../../tools/viewer.py "$(cat walks/coil_3x4_79.txt)" --out $OUT --title "coil 3x4 79"
+pages/coil_3x8_20.html :: ~/Software/boxes/venv/bin/python ../../../../../../../tools/viewer.py "$(cat walks/coil_3x8_20.txt)" --out $OUT --title "coil 3x8 20"
+pages/coil_3x9_18.html :: ~/Software/boxes/venv/bin/python ../../../../../../../tools/viewer.py "$(cat walks/coil_3x9_18.txt)" --out $OUT --title "coil 3x9 18"
+pages/coil_4x7_20.html :: ~/Software/boxes/venv/bin/python ../../../../../../../tools/viewer.py "$(cat walks/coil_4x7_20.txt)" --out $OUT --title "coil 4x7 20"
+pages/coil_4x8_18.html :: ~/Software/boxes/venv/bin/python ../../../../../../../tools/viewer.py "$(cat walks/coil_4x8_18.txt)" --out $OUT --title "coil 4x8 18"
+pages/coil_4x9_18.html :: ~/Software/boxes/venv/bin/python ../../../../../../../tools/viewer.py "$(cat walks/coil_4x9_18.txt)" --out $OUT --title "coil 4x9 18"
+pages/coil_5x7_18.html :: ~/Software/boxes/venv/bin/python ../../../../../../../tools/viewer.py "$(cat walks/coil_5x7_18.txt)" --out $OUT --title "coil 5x7 18"
+
+# The two published pages. all-gates.sh already runs the whole of build.sh and
+# compares these, so this is a second statement of the same fact -- kept because
+# a manifest that claims only some of a directory's files cannot tell you the
+# rest are accounted for, which is the whole job of the unclaimed check.
+index.html :: python3 ../../../../../../../../lasermade-tools/md2html.py README.md $OUT
+SCORING.html :: python3 ../../../../../../../../lasermade-tools/md2html.py SCORING.md $OUT

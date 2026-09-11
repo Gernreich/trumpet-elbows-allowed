@@ -301,8 +301,8 @@ function fit(cells, c) {
 
 /* The scale is locked to the biggest set, not fitted to whichever is shown.
    Fitting each one to the canvas draws four coils the same size, which is the
-   one thing a page comparing lengths must not do: the 3t is four times the
-   0.75t and has to look it. Each set still centres on itself, so the shown one
+   one thing a page comparing lengths must not do: the longest coil is four
+   times the shortest and has to look it. Each set still centres on itself, so the shown one
    stays in the middle rather than drifting off with its own origin. */
 const bboxOf = (cells) => {
   const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
