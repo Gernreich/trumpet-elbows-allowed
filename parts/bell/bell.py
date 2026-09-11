@@ -5,6 +5,13 @@
     python3 bell.py 20              # one, at most 20 rings
     python3 bell.py --length=100    # a 100mm bell, same throat and rim
     python3 bell.py --length=100 --rim=80    # ... and a narrower rim to suit
+    python3 bell.py 20 --out=FILE.svg   # one sheet, named, not into cut-files/
+    python3 bell.py --numbers=no       # no engraved ring numbers
+
+Also `--gamma` (the profile exponent), `--lap` (the seat, per side) and
+`--overhang` (how far ring 0 stands proud of the bore's face). Every one of
+these was accepted and named nowhere in this docstring; the error message you
+get for a wrong one has always listed them, which is not documentation.
 
 A trumpet bell is not a cone. Its radius follows roughly a Bessel profile,
 r = b (u + u0)^-gamma with u measured back from the rim and gamma near 0.7, so the wall

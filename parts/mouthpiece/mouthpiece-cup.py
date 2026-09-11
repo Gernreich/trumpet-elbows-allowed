@@ -6,6 +6,7 @@
     python3 mouthpiece-cup.py --rings=5         # a deeper bowl, 15mm instead of 12
     python3 mouthpiece-cup.py --onto=10.06      # stack onto a different aperture
     python3 mouthpiece-cup.py --start=23        # the number its first ring carries
+    python3 mouthpiece-cup.py --numbers=no      # no engraved ring numbers
 
 THE NUMBERS CONTINUE A STACK, THEY DO NOT START ONE. These rings are glued on top of a
 mouthpiece whose rings are already numbered 0 upward, so numbering these from 0 would put

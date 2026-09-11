@@ -8,6 +8,13 @@
     python3 bell-round.py --length=100        # a 100mm bell, same throat and rim
     python3 bell-round.py --length=100 --rim=80   # ... and a narrower rim to suit
     python3 bell-round.py --length=152 --mouth=80 --bore=10   # the 10mm trumpet's bell
+    python3 bell-round.py 20 --out=FILE.svg   # one sheet, named, not into cut-files/
+    python3 bell-round.py --numbers=no       # no engraved ring numbers
+
+Also `--gamma` (the profile exponent), `--lap` (the seat, per side) and
+`--overhang` (how far ring 0 stands proud of the bore's face). Every one of
+these was accepted and named nowhere in this docstring; the error message you
+get for a wrong one has always listed them, which is not documentation.
 
 The four bells bell.py makes are square end to end: a square bore opening into a square
 rim. This one keeps the square only where it has to. Station one is the same 16mm square

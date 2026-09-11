@@ -7,6 +7,7 @@
     python3 mouthpiece-round.py --rim=16.5      # a narrower rim
     python3 mouthpiece-round.py --bowl=5        # a 15mm cup instead of 12mm
     python3 mouthpiece-round.py --layout=trumpet   # real proportions, for a new one
+    python3 mouthpiece-round.py --numbers=no      # no engraved ring numbers
 
 `mouthpiece.py` puts a 10mm ROUND aperture in its 16mm square plate, so the joint that
 meets the bore throws away the bore's corners: a 10mm square channel opens into a 10mm
