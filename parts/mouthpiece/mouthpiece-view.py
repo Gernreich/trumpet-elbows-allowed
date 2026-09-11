@@ -47,10 +47,20 @@ iso = lambda X, Y, Z: ((X - Y) * C30, (X + Y) * S30 - Z)
 # this script has always taken. Making argv[1] the source instead silently
 # turned the output path into the input path, and the run wrote a display SVG
 # straight over a cut file.
+# THE DEFAULT IS RESOLVED AGAINST THIS SCRIPT, not against wherever you happen
+# to be standing. It was a bare relative path, so the tool worked from this one
+# directory and answered from anywhere else with a FileNotFoundError naming a
+# path that looked wrong rather than misplaced. display_out() below already
+# derives its output from the source for the same kind of reason. A path given
+# on the command line is still honoured exactly as given.
 _s = [a for a in sys.argv[1:] if a.startswith("--src=")]
-SRC = _s[0].split("=", 1)[1] if _s else \
-      "cut-files/mouthpiece-bore10-trumpet-parts-cut-files.svg"
+SRC = (_s[0].split("=", 1)[1] if _s else
+       str(pathlib.Path(__file__).resolve().parent
+           / "cut-files/mouthpiece-bore10-trumpet-parts-cut-files.svg"))
 sys.argv = [sys.argv[0]] + [a for a in sys.argv[1:] if not a.startswith("--src=")]
+if not pathlib.Path(SRC).exists():
+    sys.exit(f"  no such cut file: {SRC}\n"
+             f"  usage: python3 mouthpiece-view.py [OUT.svg] [--src=SHEET.svg]")
 src = pathlib.Path(SRC).read_text()
 
 # A RING IS TWO PATHS NOW, NOT ONE. The apertures moved into their own orange
