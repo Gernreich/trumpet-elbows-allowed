@@ -5,6 +5,11 @@ what you follow when you are trying to read the shape:
 
     python3 bore_render.py "W D3 E4 N"
     python3 bore_render.py --directions "W D3 E4 N"
+    python3 bore_render.py "W D3 E4 N" --out=/tmp/bore.svg
+
+Writes bore3d.svg, or bore3d_directions.svg, into the current directory unless
+--out names a file. It had no --out at all until 2026-09-10, which is why no
+gate ran it: there was no way to run this that did not leave a file behind.
 """
 import math, sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

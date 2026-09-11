@@ -33,18 +33,26 @@ World axes: +X right, +Y up, +Z toward you.
 Every elbow is the same part whichever way it turns, so a bore needs one elbow
 file plus one file per distinct run length.
 
-    python3 bore_split.py "D R1 F"              report only
-    python3 bore_split.py "D R1 F" --write DIR  also cut the files
-    python3 bore_split.py "D R1 F" --refuse-elbows   refuse a walk with any
-    python3 bore_split.py "D R1 F" --bore=10          the airway, square,
+EVERY EXAMPLE BELOW USED TO READ "D R1 F", which is not a walk: R and F are
+not letters this notation has, and the table four lines above says so. The tool
+answers `unexpected characters: 'RF'`. They are written in the letters the file
+actually parses now.
+
+    python3 bore_split.py "N N2 U2 U" --no-write   report only
+    python3 bore_split.py "N N2 U2 U" --write DIR  cut the files into DIR
+    python3 bore_split.py "N N2 U2 U" --refuse-elbows   refuse a walk with any
+    python3 bore_split.py "N N2 U2 U" --bore=10         the airway, square,
         rather than the block outside: --bore=10 is --blocksize=16 at 3mm ply.
-    python3 bore_split.py "D R1 F" --bore=10 --straight=30
+    python3 bore_split.py "N N2 U2 U" --bore=10 --straight=30
         straights 30mm long with the turns left cubic, so the bore lengthens
         without the walk changing. The cross-section stays square either way.
-    python3 bore_split.py "D R1 F" --blocksize=22    a wider bore: the
+    python3 bore_split.py "N N2 U2 U" --blocksize=22    a wider bore: the
         pitch is the sound square plus two walls, so 22 is 16mm of air in 3mm
         stock, where the default 16 is 10mm of air. Pass the same number to
         check.py or the gate measures the wrong design.
+
+--no-write is not decoration on the first line either: with neither switch the
+files go to ../../test, which is a write and was described as "report only".
 """
 import html, os, re, subprocess, sys, xml.etree.ElementTree as ET
 
