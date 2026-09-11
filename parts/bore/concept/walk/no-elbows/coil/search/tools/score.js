@@ -108,13 +108,33 @@ function power(vals, p) {
   return Math.pow(vals.reduce((a, v) => a + v.w * Math.pow(v.x, p), 0) / W, 1 / p);
 }
 // Outside the family: order statistics and a ratio of moments.
+//
+// THE MEDIAN IS WEIGHTED PROPERLY, not by copying each value w times. The
+// expansion loop ran `for (i = 0; i < v.w; i++)`, so a weight of 2.5 pushed
+// three copies and a weight of 0.5 pushed one: the touching term silently
+// carried a different weight here than in every power mean beside it, and
+// rounded UP, which is the direction that matters most for the one input
+// weighted five times. SPIRAL_TOUCH_WEIGHT is an env var, so a fraction is a
+// thing someone can type. At the shipped integer 5 this returns exactly what
+// the expansion returned, and every published score is unchanged.
 function median(vals) {
-  const xs = [];
-  for (const v of vals) for (let i = 0; i < v.w; i++) xs.push(v.x);
-  xs.sort((a, b) => a - b);
-  const n = xs.length;
-  return n % 2 ? xs[(n - 1) / 2] : (xs[n/2 - 1] + xs[n/2]) / 2;
+  const xs = vals.slice().sort((a, b) => a.x - b.x);
+  const W = xs.reduce((a, v) => a + v.w, 0);
+  let seen = 0;
+  for (let i = 0; i < xs.length; i++) {
+    seen += xs[i].w;
+    if (seen > W / 2) return xs[i].x;
+    // Landing exactly on the half-way mark means the two neighbours share the
+    // middle, which is the even-count case the expansion averaged.
+    if (seen === W / 2) return (xs[i].x + xs[i + 1].x) / 2;
+  }
+  return xs[xs.length - 1].x;
 }
+// WEIGHTS CANNOT REACH THE MIDRANGE, and that is arithmetic rather than an
+// oversight: it is (max + min) / 2, and repeating a value moves neither end. So
+// the touching term counts once here however heavily it is weighted elsewhere.
+// Stated because the comment above says every mean sees the same numbers -- it
+// does; this is the one mean for which the WEIGHT on them makes no difference.
 const midrange = vals => (Math.max(...vals.map(v => v.x)) + Math.min(...vals.map(v => v.x))) / 2;
 const contra   = vals => {
   const num = vals.reduce((a, v) => a + v.w * v.x * v.x, 0);
