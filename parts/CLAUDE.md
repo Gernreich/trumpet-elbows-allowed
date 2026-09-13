@@ -161,6 +161,44 @@ moves it.
   exactly instead of being inflated by it. That is why all four bells now reach the same
   129.0mm rim where the 67-ring used to run out to 145.7.
 
+## The adapter is what makes a ported bore take a bell
+
+`bell-adapter.py` is a third part and not a third bell. A ported bore does not open at
+its mouth; it opens through the **7 x 14mm slot** in the cheek that `ribbon_bore.py`
+cuts, and a bell's throat is the bore's own 10mm square. The adapter is the stack of
+rings that turns one into the other, and it is why the bell needs no change at all:
+its last ring is a **collar, 10mm square in a 16mm square face**, which is exactly the
+end face the bore presents, so `bell-round.py`'s ring 0 glues onto it as it was always
+going to glue onto the bore.
+
+**Why the port is not square** is argued next door beside `PORT_ACROSS`, and it is the
+whole reason this part exists. The tab slots run up both cheek walls the length of the
+bore, so a port's clearance is measured **across** the run and nothing else; length
+**along** the run is free. 7 x 14 clears by 1.66mm where a bore-square 10 x 10 clears
+by 0.16mm, and buys the area back in the direction that costs nothing. The price is an
+opening the wrong shape for a horn, and it is paid here rather than in the bore.
+
+**Area is the schedule and the aspect ratio is what moves** — 98mm2 to 100mm2 while the
+two half-widths run 2:1 down to 1:1. Interpolating the half-widths straight is the
+obvious thing and it **dips the area 4% mid-transition**, because the long axis loses
+faster than the short axis gains.
+
+**Both ends are tangent.** The schedule is a smoothstep on the area and the aspect
+alike, so the section leaves the port and reaches the throat with zero rate of change.
+That is what "smooth" has to mean for a part bolted to two others; a linear schedule
+meets the port at full tilt and creases the first joint.
+
+The section stays a **sharp rectangle** the whole way. Both ends are sharp, so unlike
+`bell-round.py` there is nothing to round and nothing to round back.
+
+**How fast the section may move is set by the lap**, not by taste: a half-width may
+shrink by at most `LAP - MINWALL` = 1mm in one ring or that side's wall goes under the
+minimum. The long axis has 2mm to lose, so **three rings is the hard floor** and the
+default is six plus the collar. The generator refuses a smaller `--rings` and says so.
+
+At the default it is 7 rings of one ply, 21mm tall, with a 13.14 x 19.75mm footprint on
+a cheek whose narrow band is 15.85mm — 1.35mm of cheek each side of it.
+
 ## Two bell families
 
 `bell.py` makes four bells that are **square end to end**. `bell-round.py` makes four whose
