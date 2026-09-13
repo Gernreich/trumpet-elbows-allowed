@@ -74,3 +74,14 @@ ramp_bell.py
 # case as ramp_bell.py above -- the record of why a tool is gone cannot be
 # written without naming it.
 snakebox.py
+
+# Placeholder --out= names in the swept-curve command block, added 2026-09-13.
+# The three lines that demonstrate --port-square, --merge-lead and --narrow on
+# their own write to a scratch name rather than a shipped one, precisely so a
+# reader trying the flag does not overwrite a sheet. "x-" is the prefix that
+# says scratch. They are arguments in a code fence, not files, and no file of
+# these names should ever exist -- which is what makes the exemption safe: it
+# suppresses a name the repository is never meant to contain.
+x-ported-square.svg
+x-merged.svg
+x-narrow.svg

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="127.316mm" height="25.749mm"
+     viewBox="0 0 127.316 25.749">
+<!-- DISPLAY ONLY - not a cut file.
+     The stroke is thickened, a light ground painted in, and the lightest inks
+     darkened: green, cyan and orange sit below the 3:1 graphics minimum against any
+     light background, so the cut order cannot be read from a faithful rendering. Hue
+     and sequence are unchanged. Geometry and sheet position are untouched, and the
+     CUT FILE keeps the exact values your laser keys on.
+     Cut the file in the repository root, not this one. -->
+  <rect x="0.0" y="0.0" width="127.316" height="25.749" fill="#faf7f0"/>
+  <title>Port-to-bell adapter - 7 rings of 1 ply, 21mm, 7 x 14 port to a 10mm square throat</title>
+  <desc>1 user unit = 1mm. The section runs from the cheek's 7 x 14 port to the bore's 10mm square, holding area on a smoothstep so both ends are tangent. The last ring is a collar, 10mm square in a 16mm square face: that is the bore's own end face, so the bell stacks on it unchanged. Each ring is 1 lamination(s) of 3mm ply, 3mm of rise, seating on the ring below over 3mm per side. Rings stack; they do not telescope. No kerf compensation: these are glued, as bell.py's are. The wide side of each ring lies ALONG the duct; the narrow side goes across the cheek's band. orange #ff8000 cuts the apertures first, black #000000 frees the rings.</desc>
+  <g fill="none" stroke="#a85800" stroke-width="0.255">
+  <path d="M 6.0694,5.8743 H 13.0694 V 19.8743 H 6.0694 Z"/>
+  <path d="M 22.3309,6.0000 H 29.4696 V 19.7487 H 22.3309 Z"/>
+  <path d="M 38.9623,6.3265 H 46.4853 V 19.4221 H 38.9623 Z"/>
+  <path d="M 56.1679,6.7813 H 64.2919 V 18.9674 H 56.1679 Z"/>
+  <path d="M 74.0508,7.2781 H 82.9390 V 18.4706 H 74.0508 Z"/>
+  <path d="M 92.4949,7.6963 H 102.1368 V 18.0524 H 92.4949 Z"/>
+  <path d="M 111.3158,7.8743 H 121.3158 V 17.8743 H 111.3158 Z"/>
+  </g>
+  <g fill="none" stroke="#000000" stroke-width="0.255">
+  <path d="M 3.0000,3.0000 H 16.1387 V 22.7487 H 3.0000 Z"/>
+  <path d="M 19.1387,3.3265 H 32.6617 V 22.4221 H 19.1387 Z"/>
+  <path d="M 35.6617,3.7813 H 49.7858 V 21.9674 H 35.6617 Z"/>
+  <path d="M 52.7858,4.2781 H 67.6740 V 21.4706 H 52.7858 Z"/>
+  <path d="M 70.6740,4.6963 H 86.3158 V 21.0524 H 70.6740 Z"/>
+  <path d="M 89.3158,4.8743 H 105.3158 V 20.8743 H 89.3158 Z"/>
+  <path d="M 108.3158,4.8743 H 124.3158 V 20.8743 H 108.3158 Z"/>
+  </g>
+</svg>

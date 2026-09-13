@@ -34,3 +34,12 @@ previews/bell-round10-153mm-17rings-x3-rim86-cut-files.svg :: python3 ../../../l
 # pairs a page with a markdown document of the same name, and this one has no
 # markdown at all, so it sat outside every check there was.
 bell-round10-153mm-17rings-x3-rim86-turn.html :: python3 ../part-view.py cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg $OUT
+
+# The port-to-bell adapter, added 2026-09-13. It carries the 7 x 14mm port of a
+# swept-curve bore into the 10mm round throat this bell starts at, over seven
+# rings and 21mm, holding area across the change rather than diameter. It was
+# unclaimed here for the three days it existed, which is exactly the hole the
+# header above describes: a generator nothing ran, shipping a sheet nothing
+# compared. repro-svg.py reported it as UNCLAIMED and that is how it was found.
+cut-files/bell-adapter-port7x14-to-bore10-7rings-x1-cut-files.svg :: python3 bell-adapter.py --out=$OUT
+previews/bell-adapter-port7x14-to-bore10-7rings-x1-cut-files.svg :: python3 ../../../lasermade-tools/make-preview.py cut-files/bell-adapter-port7x14-to-bore10-7rings-x1-cut-files.svg $OUT
