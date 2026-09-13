@@ -234,6 +234,40 @@ every design in `regress.py` gains one check.
 `lasermade-tools` — `doc-audit.py` and `flat-part-check.py` especially, since
 both are used to clear work for publication.
 
+## The ply is 3.0 and the kerf 0.15, from 2026-09-13
+
+`SHEET` 2.94 → 3.0 and `KERF` 0.13 → 0.15, matching `ribbon_bore.py` next door.
+`THICKNESS` is untouched at 3.0 and still dimensions the lattice; `SHEET` reaches
+only the slot Boxes cuts for a sheet to pass through, so this moved no airway and
+shortened the three wall runs that carry a thickness by 0.06mm each.
+
+**`KERF` here is the full width and `BURN` is the radius Boxes wants.** The
+paragraph above the constant records that confusion twice, in both directions.
+
+**Every sheet drawn before that date is stale** — cut for 2.94mm ply — and lives
+in an `old/` beside the sheets that replace it, nine folders of them. Seventy-seven
+sheets were redrawn.
+
+**The two as-built folders were not touched and must not be.** They are pinned by
+hash in `as-built.sha256` and record wood that exists; `repro.py` still reports
+them `frozen`, 18 sheets. An `old/` inside `cut-files/` is invisible to `repro.py`,
+which lists `.svg` and ignores directories.
+
+## A page could never be turned back into cut files
+
+`walk_text()` matched `<div class="walk">` exactly, and every page this repository
+has written emits `<div class="walk" id="walk">`. All 37 of them. So the route
+`flat-drop/CLAUDE.md` documents — *the walk is stored in the page … the cut files
+regenerate from it and nothing else* — raised "no walk in it" on every page it was
+ever pointed at.
+
+Nothing caught it because `regress.py`'s `DESIGNS` carries the walk as a string
+too, so every design listed there could still be redrawn. The two whose walk lived
+**only** in a page, `flat-drop` and `square-rise3`, could not be redrawn at all,
+and they are also the two with `cut-files/` that no `DESIGNS` entry claims — so
+`repro.py` never looked at them either. Fixed 2026-09-13; the regex now allows
+attributes, and both redraw from their pages.
+
 ## Never regenerate what you cannot check
 
 `regress.py` runs the full gate over every design in `walks/` and the design

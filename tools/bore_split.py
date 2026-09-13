@@ -157,7 +157,11 @@ BLOCK, PIN = 16.0, 1.5              # block pitch, tab reach
 # earlier today, tells Boxes the kerf is 0.26mm and compensates every part by
 # twice what the laser removes. The old 0.1 was the same mistake at a different
 # size: it meant a 0.2mm kerf.
-KERF = 0.13                         # measured full width of the cut
+# 0.15 from 2026-09-13, on the author's instruction, matching ribbon_bore.py
+# next door. It is the FULL WIDTH here, and BURN below halves it for Boxes --
+# get that backwards and every part is compensated by twice what the laser
+# takes, which is the mistake the paragraph above records twice.
+KERF = 0.15                         # measured full width of the cut
 BURN = KERF / 2                     # what Boxes.py wants: the radius
 #
 # WHY SHEET, AND NOT THICKNESS, IS WHAT SnakeBoxVar IS HANDED. It looked wrong
@@ -193,7 +197,17 @@ THICKNESS = 3.0     # ply, NOMINAL: what the lattice is dimensioned on
 # 10.12mm bore and rename every cut file from bore10- to bore10.12-. SHEET is
 # the MATERIAL, and it belongs where Boxes.py cuts a slot for it to pass
 # through. Settable as --sheet=.
-SHEET = 2.94
+# 3.0 from 2026-09-13, on the author's instruction, for stock that measures it.
+# It reaches the slot Boxes cuts for a sheet to pass through and nothing else,
+# so this shortens the three wall runs that carry a thickness in their length
+# by 0.06mm each and moves no airway. THICKNESS above stays 3.0 and still
+# dimensions the lattice; the two are separate for the reason set out overhead.
+#
+# EVERY SHEET DRAWN BEFORE THIS DATE IS STALE, the two as-built folders aside:
+# they were cut for 2.94mm ply, and are kept in an old/ beside the sheets that
+# replace them. The as-built pair is pinned by hash in as-built.sha256 and was
+# deliberately NOT redrawn -- it records wood that exists.
+SHEET = 3.0
 # A port lets a change of plane happen inside a piece, but the joint has not
 # survived assembly: the plate it opens leaves the walls of that cell supported
 # on one side, with their fingers facing nothing. Off unless asked for.
@@ -1577,7 +1591,16 @@ def walk_text(arg):
         return arg
     body = open(arg).read()
     if arg.lower().endswith(('.html', '.htm')):
-        m = re.search(r'<div class="walk">([^<]+)</div>', body)
+        # ATTRIBUTES ALLOWED, and they have to be: this read
+        # '<div class="walk">' exactly, and every page this repository has ever
+        # written emits '<div class="walk" id="walk">'. All 37 of them. So the
+        # route the flat-drop CLAUDE.md documents -- "the walk is stored in the
+        # page ... the cut files regenerate from it and nothing else" -- raised
+        # "no walk in it" on every page it was pointed at, and the only designs
+        # that could be redrawn were the ones whose walk was also written out in
+        # regress.py's DESIGNS. The two that were not, flat-drop and
+        # square-rise3, could not be redrawn at all.
+        m = re.search(r'<div\s[^>]*class="walk"[^>]*>([^<]+)</div>', body)
         if not m:
             raise ValueError(f'{arg} is not one of these pages: no walk in it')
         return html.unescape(m.group(1)).strip()
