@@ -52,14 +52,25 @@ at a pitch the sheets were not cut at reports a clean run on a design nobody cut
 
 ## Sheet 1 is 592mm on a 600mm bed
 
-The largest sheet in the repository **by area** — 592.4 x 284.6mm, 1686cm2, half again
-the next one — with 7.6mm to spare on the width. It is **not** the widest: `telescope-wide`
-section 9 is 599.2mm and `hilbert/open` section 14 is 598.8mm, so if anything is going to
-fail the bed check first it is one of those, at 0.8 and 1.2mm of margin. This one has room.
+The largest sheet in the repository **by area** — 592.0 x 284.4mm, 1684cm2 — with 8.0mm
+to spare on the width. It is **not** the widest, and the width is what runs out first.
 
-The gate's `sheet fits the bed` check passes all three, and will keep passing right up to
-600.0. The nester may split differently rather than failing, so compare the reported sheet
-sizes after any change and do not assume two sheets stays two.
+Three sheets sit within 1.5mm of the 600mm bed, and they are the ones to watch:
+
+| sheet | width | margin | gated by |
+|---|---|---|---|
+| `telescope-wide` section 9 | 598.9mm | 1.1mm | `check.py` |
+| `volute` narrow panels | 598.9mm | 1.1mm | `ribbon_bore.py` |
+| `hilbert/open` section 14 | 598.6mm | 1.4mm | `check.py` |
+
+**The volute panel sheet is a swept-curve sheet, so a different generator gates it** —
+`ribbon_bore.py` refuses at `BED_W`, `check.py` never sees it. Two gates, one bed: a
+change that moves either one has to be read against both, and neither reports the other's
+sheets. It ties `telescope-wide` for the widest thing in the repository.
+
+The gate's `sheet fits the bed` check passes the block sheets, and will keep passing right
+up to 600.0. The nester may split differently rather than failing, so compare the reported
+sheet sizes after any change and do not assume two sheets stays two.
 
 ## Not yet in the generator's corpus
 

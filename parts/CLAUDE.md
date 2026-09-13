@@ -500,10 +500,14 @@ the second, climbing back out of `cut-files/` — so a section drawing never lan
 cut files and never gets sent to a laser. Name a path yourself and it is used exactly as
 given, wherever it points.
 
-All eighteen lines below were run in order from a clean tree on 2026-09-06, and all
-eighteen exit 0. **No line modifies a tracked sheet**: every shipped sheet it rewrites comes
-back byte-identical, which is the property worth having — a command block nobody can run is
-a command block nobody can trust.
+All nineteen lines below were run in order from a clean tree, most recently on
+2026-09-13, and all nineteen exit 0. **No line modifies a tracked sheet**: every shipped
+sheet it rewrites comes back byte-identical, which is the property worth having — a command
+block nobody can run is a command block nobody can trust.
+
+`bell-adapter.py` was missing from this block for the three days it existed, which is the
+same gap `.repro` had and was found the same way — by asking which generators in
+`bell/` are absent from the list that claims to run them all. It was the only one.
 
 Six of them do **add** sheets, fifteen in all: the four lines that survey a range (a bare
 `bell.py` and a bare `bell-round.py` write four budgets each, `--morph=flare` and
@@ -517,6 +521,7 @@ cd bell && python3 bell-round.py      # all four square-to-round bells, at the d
 cd bell && python3 bell-round.py 67 --morph=flare --law=width
 cd bell && python3 bell-round.py --length=99 --rim=80          # a half-size bell
 cd bell && python3 bell-round.py 17 --bore=10 --length=152 --mouth=80   # THE SHIPPED BELL
+cd bell && python3 bell-adapter.py                             # THE SHIPPED ADAPTER
 cd mouthpiece && python3 mouthpiece-round.py                   # THE SHIPPED MOUTHPIECE
 cd bell && python3 bell-section.py cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg
 cd bell && python3 bell-view.py cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg
