@@ -248,10 +248,20 @@ paragraph above the constant records that confusion twice, in both directions.
 in an `old/` beside the sheets that replace it, nine folders of them. Seventy-seven
 sheets were redrawn.
 
-**The two as-built folders were not touched and must not be.** They are pinned by
-hash in `as-built.sha256` and record wood that exists; `repro.py` still reports
-them `frozen`, 18 sheets. An `old/` inside `cut-files/` is invisible to `repro.py`,
-which lists `.svg` and ignores directories.
+**The as-built folders were not touched by that sweep.** An `old/` inside
+`cut-files/` is invisible to `repro.py`, which lists `.svg` and ignores
+directories, so archiving beside a design never disturbs the gate.
+
+**`fold2-long-straight-3t` was then redrawn anyway, on 2026-09-13, on the
+author's instruction.** It left `AS_BUILT` and its twelve pins were removed, so
+`repro.py` now reproduces it like any other design — 76 reproduce, 6 frozen,
+where it used to be 64 and 18. The record of the instrument that was cut is in
+that folder's `cut-files/old/`, byte for byte, and in git before that date.
+Pinning the redrawn sheets would have claimed they record wood, and they do not.
+
+**`coil-10x10x30-1.5t` is now the only folder here whose sheets describe an
+object rather than an intention.** Six pins. Redrawing it SHOULD differ, and
+that difference failing the gate is the entire point of the mechanism.
 
 ## A page could never be turned back into cut files
 

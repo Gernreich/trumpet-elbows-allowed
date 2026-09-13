@@ -37,8 +37,17 @@ from regress import DESIGNS, _norm, walk_of
 PINS = os.path.join(HERE, 'as-built.sha256')
 # Folders whose cut files describe wood that has already been cut. Keep in step
 # with the paragraph in fold2-long-straight/CLAUDE.md that names them.
+# fold2-long-straight-3t LEFT THIS SET on 2026-09-13, on the author's
+# instruction to redraw it at the current ply and kerf. The record of the
+# instrument that was cut is not gone: those twelve sheets are in that folder's
+# cut-files/old/, byte for byte, and in git before this date. What changed is
+# what the folder's cut-files/ now holds -- a design drawn at 3.0mm stock and a
+# 0.15mm kerf, which is reproducible and is checked by redrawing like every
+# other design. Pinning it would have claimed it records wood, and it does not.
+#
+# coil-10x10x30-1.5t stays. It is still the one folder here whose sheets
+# describe an object rather than an intention.
 AS_BUILT = {
-    'parts/bore/built/coil/fold2-long-straight-3t',
     'parts/bore/concept/walk/no-elbows/coil/no-contact/'
     'fold2-long-straight/coil-10x10x30-1.5t',
 }
