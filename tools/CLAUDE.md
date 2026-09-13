@@ -256,8 +256,15 @@ directories, so archiving beside a design never disturbs the gate.
 author's instruction.** It left `AS_BUILT` and its twelve pins were removed, so
 `repro.py` now reproduces it like any other design — 76 reproduce, 6 frozen,
 where it used to be 64 and 18. The record of the instrument that was cut is in
-that folder's `cut-files/old/`, byte for byte, and in git before that date.
-Pinning the redrawn sheets would have claimed they record wood, and they do not.
+that folder's `cut-files/old/`, byte for byte. Pinning the redrawn sheets would
+have claimed they record wood, and they do not.
+
+**That record is no longer tracked.** Every `old/` was gitignored later the same
+day, on the author's instruction — twenty-one folders, 169 files, this one among
+them. They remain on the working disk and in git history up to that date, but a
+fresh clone does not carry them, and no gate can see them. The distinction
+matters for exactly one folder: this is the only archive here that records wood
+somebody cut rather than a drawing somebody replaced.
 
 **`coil-10x10x30-1.5t` is now the only folder here whose sheets describe an
 object rather than an intention.** Six pins. Redrawing it SHOULD differ, and

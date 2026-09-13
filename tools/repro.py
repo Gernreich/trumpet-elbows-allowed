@@ -39,8 +39,12 @@ PINS = os.path.join(HERE, 'as-built.sha256')
 # with the paragraph in fold2-long-straight/CLAUDE.md that names them.
 # fold2-long-straight-3t LEFT THIS SET on 2026-09-13, on the author's
 # instruction to redraw it at the current ply and kerf. The record of the
-# instrument that was cut is not gone: those twelve sheets are in that folder's
-# cut-files/old/, byte for byte, and in git before this date. What changed is
+# instrument that was cut is not gone, but it is no longer IN this repository:
+# those twelve sheets sit in that folder's cut-files/old/, byte for byte, and
+# every old/ became gitignored on 2026-09-13 at the author's instruction. So
+# the record now lives on the working disk, and in git history up to that date,
+# rather than in what a fresh clone gets. Worth knowing before relying on it.
+# What changed is
 # what the folder's cut-files/ now holds -- a design drawn at 3.0mm stock and a
 # 0.15mm kerf, which is reproducible and is checked by redrawing like every
 # other design. Pinning it would have claimed it records wood, and it does not.

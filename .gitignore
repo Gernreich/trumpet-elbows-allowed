@@ -1,1 +1,16 @@
 .DS_Store
+
+# Superseded cut files and previews, set aside rather than deleted.
+#
+# Every cut-files/old/ holds sheets that a later regeneration replaced -- a
+# different ply, a different kerf, a full-width cheek where the design is now
+# narrow. They are kept on disk because a superseded sheet is still the only
+# record of what a particular run drew, and untracked because they are a local
+# archive rather than part of what this repository ships. git history before
+# 2026-09-13 still holds every one of them.
+#
+# previews/old/ is the same set seen through make-preview.py, and moves with it.
+#
+# The pattern matches any directory named "old" at any depth, which is every
+# one of them: twenty-one folders, 169 files.
+old/
