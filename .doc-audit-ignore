@@ -50,7 +50,6 @@ turn.html
 # rename never happened. Checked by hand on 2026-09-10 against what ships:
 #   bell-round-67rings.svg          "said nothing about the tube it fits"
 #   bell-round-99mm-11rings.svg     "said one of the two"
-#   mouthpiece-parts-cut-files.svg  "that file was renamed the same day"
 # and one example of a sheet no shipped design produces:
 #   bell-square10-...-cut-files.svg marked "# SQUARE bells only" in the block
 # and a command kept for when a deleted previews/ comes back:
@@ -58,7 +57,6 @@ turn.html
 bell-round-67rings.svg
 bell-round-99mm-11rings.svg
 bell-square10-204mm-17rings-x4-rim129-cut-files.svg
-mouthpiece-parts-cut-files.svg
 bore10-coil-flat-drop-03of08.svg
 
 # Deleted 2026-09-10, and named in parts/CLAUDE.md by the paragraph that says
