@@ -5,30 +5,31 @@ World axes: +X right, +Y up, +Z toward you.
     N S  away / toward you    E W  east / west    U D  up / down
     (facing north, east is on your right)
 
-    <entry> <run> <run> ... <exit>
+    <run> <run> <run> ...
 
     You walk the tunnel's centreline.
 
-        first   the way you are facing at the tunnel mouth
-        N.5     half a block in, to the centre of block 1 (second term)
-        E       re-point east, standing in the block you are already in
-        E2      move two blocks east
-        E.5     half a block out, leaving through that face (last term)
+        E2      re-point east, standing in the block you are already in,
+                then move two blocks east
 
-    You leave facing whatever direction you last pointed. A trailing letter is
-    therefore optional: repeating your heading is a no-op, but naming a new one
-    turns the final block into an elbow and you exit that way.
+    EVERY TERM CARRIES A DISTANCE. You start at the centre of block 1 facing
+    the first term -- nothing turns there -- and you leave facing the last.
+    The turn at the head of a term costs no block, because it happens inside
+    the block you arrived at. So the tunnel is 1 + the sum of the numbers
+    blocks long, and every block where the heading changes is an elbow.
 
-    A bare letter costs no block: the turn happens inside the block you
-    arrived at. So the tunnel is 1 + the sum of the numbers blocks long, and
-    every block where the heading changes is an elbow.
+        E4 U2 E6        13 blocks: four east, turn up for two, turn east
+                        for six. The two turning blocks are the 5th and 7th.
 
-        D E1 S          elbow(D->E), straight 1, elbow(E->S)
-        D E4 U2 E6 S    4 elbows and 3 straights
-
-    A bare heading in the middle is rejected: it would mean two elbows butted
-    with no run between, which is only sound when both turns lie in the same
-    plane. Write U1 if you really want a one-cell jog.
+    A bare letter is rejected wherever it appears. In the middle it would mean
+    two elbows butted with no run between, which is only sound when both turns
+    lie in the same plane; write U1 if you really want a one-cell jog. At
+    either end it used to be legal and is not: a walk opened with the heading
+    you came in on and could close with the heading you left on. Both only ever
+    said one of two things -- the same direction as the term beside it, which
+    is nothing at all, or a turn in the first or last block, which strands that
+    block as an elbow of its own. Neither is worth a term, so the ends are
+    written like everywhere else.
 
 Every elbow is the same part whichever way it turns, so a bore needs one elbow
 file plus one file per distinct run length.
@@ -38,15 +39,15 @@ not letters this notation has, and the table four lines above says so. The tool
 answers `unexpected characters: 'RF'`. They are written in the letters the file
 actually parses now.
 
-    python3 bore_split.py "N N2 U2 U" --no-write   report only
-    python3 bore_split.py "N N2 U2 U" --write DIR  cut the files into DIR
-    python3 bore_split.py "N N2 U2 U" --refuse-elbows   refuse a walk with any
-    python3 bore_split.py "N N2 U2 U" --bore=10         the airway, square,
+    python3 bore_split.py "N2 U2" --no-write   report only
+    python3 bore_split.py "N2 U2" --write DIR  cut the files into DIR
+    python3 bore_split.py "N2 U2" --refuse-elbows   refuse a walk with any
+    python3 bore_split.py "N2 U2" --bore=10         the airway, square,
         rather than the block outside: --bore=10 is --blocksize=16 at 3mm ply.
-    python3 bore_split.py "N N2 U2 U" --bore=10 --straight=30
+    python3 bore_split.py "N2 U2" --bore=10 --straight=30
         straights 30mm long with the turns left cubic, so the bore lengthens
         without the walk changing. The cross-section stays square either way.
-    python3 bore_split.py "N N2 U2 U" --blocksize=22    a wider bore: the
+    python3 bore_split.py "N2 U2" --blocksize=22    a wider bore: the
         pitch is the sound square plus two walls, so 22 is 16mm of air in 3mm
         stock, where the default 16 is 10mm of air. Pass the same number to
         check.py or the gate measures the wrong design.
@@ -260,7 +261,7 @@ MIN_FEATURE = 1.5    # and what check.py will actually refuse below
 # and the 48% fraction binds -- at 0, 0.0125 and 0.025 per side. If elastic
 # take-up scales, the middle one fits.
 #
-#   W="N N2 U3 E3 E"
+#   W="N2 U3 E3"
 #   for t in A:0 B:0.0125 C:0.025; do
 #     bore_split.py --blocksize=22 --play=${t#*:} --tag=${t%%:*} \
 #         --refuse-elbows "$W" --write ../test/coupon-16mm/notch-${t%%:*}
@@ -544,37 +545,54 @@ def parse(text):
     if '.' in t:
         raise ValueError(
             'half blocks are no longer written: the first term already puts '
-            'you half a block in, at the centre of block 1')
+            'you at the centre of block 1, facing the way it points')
     toks = re.findall(r'([NSEWUD])(\d*)', t)
-    if len(toks) < 2:
-        raise ValueError('need the way you came in, then at least one move')
-    if toks[0][1]:
-        raise ValueError(
-            f'"{toks[0][0]}{toks[0][1]}": the first term is only the way you '
-            'came in. Put that travel in the next term.')
+    if not toks:
+        raise ValueError('need at least one term: a direction and how many '
+                         'blocks to travel')
     out = [(d, int(n) if n else 0) for d, n in toks]
     for i, (d, n) in enumerate(out):
-        if 0 < i < len(out) - 1 and n == 0:
+        if n:
+            continue
+        # A bare letter at either end used to be the heading you came in on and
+        # the heading you left on. Both are gone: they either repeated the term
+        # beside them or stranded the end block as an elbow, and the second is
+        # not a thing to buy by accident at the end of a line.
+        if i == 0:
             raise ValueError(
-                f'"{d}" in the middle does nothing. Turning without travelling '
-                'either repeats the term after it or tries to bend one block '
-                f'twice. Give it a distance, or drop it.')
+                f'"{d}" carries no distance. The way you came in is no longer '
+                'a term: you enter facing the first term. Drop it if the term '
+                'after it points the same way -- if it does not, it was '
+                'turning block 1, and that elbow cannot be written now.')
+        if i == len(out) - 1:
+            raise ValueError(
+                f'"{d}" carries no distance. The way you leave is no longer a '
+                'term: you leave facing the last term. Drop it if it repeats '
+                'the term before it -- if it does not, it was turning the last '
+                'block, and that elbow cannot be written now.')
+        raise ValueError(
+            f'"{d}" in the middle does nothing. Turning without travelling '
+            'either repeats the term after it or tries to bend one block '
+            f'twice. Give it a distance, or drop it.')
     return out
 
 
 def walk(text):
     """Walk the tunnel. One record per block: position, heading in, heading out.
 
-    You start half a block in, at the centre of block 1, facing the first term.
-    Every term after that turns you where you stand and then moves you n blocks,
-    so the turn costs nothing and the tunnel is 1 + the sum of the numbers.
+    You start at the centre of block 1 facing the first term, so block 1 is
+    where the first term's travel begins and nothing turns there. Every term
+    turns you where you stand and then moves you n blocks, so the turn costs
+    nothing and the tunnel is 1 + the sum of the numbers.
     """
     toks = parse(text)
     heading = toks[0][0]
     pos = (0, 0, 0)
     rec = [{'pos': pos, 'in': heading, 'out': heading}]
     seen = {pos: 1}
-    for d, n in toks[1:]:
+    # The first term is walked like the rest. It cannot turn -- heading is its
+    # own direction -- so the loop needs no case for it.
+    for d, n in toks:
         if d != heading:
             if sum(a*b for a, b in zip(DIRS[heading], DIRS[d])) != 0:
                 raise ValueError(f'{heading} -> {d} reverses the bore, not a turn')

@@ -1,6 +1,6 @@
 """Nest a bore's parts onto sheets, four ways, and report which wins.
 
-    python3 nest.py "N N10 U2 W2 S7 U2 E4 N9 W2 D2 N4 N"
+    python3 nest.py "N10 U2 W2 S7 U2 E4 N9 W2 D2 N4"
 
   shelf     rows of parts, tallest first          (what cram.py did)
   maxrects  free-rectangle packing, best short side fit

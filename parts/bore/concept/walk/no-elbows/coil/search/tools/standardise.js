@@ -8,10 +8,11 @@
 //   ends      one block in, one block out, and no partial period between them
 //
 // A bore opens at both ends, so the first and last piece cannot be got rid of:
-// they are bounded by the mouth and the exit rather than by a neighbour, and the
-// notation says as much -- the first term is only the way you came in. What can
-// be done is to make them the same on every walk, which is what this does, and
-// the judged metrics ignore them anyway.
+// they are bounded by the mouth and the exit rather than by a neighbour. What
+// can be done is to make them the same on every walk, which is what this does,
+// and the judged metrics ignore them anyway. The mouth block is free in the
+// notation -- you start in block 1, facing the first term -- so it costs no
+// term of its own at either end.
 //
 // Usage: node tools/standardise.js [--write]
 const fs = require('fs'), cp = require('child_process'), path = require('path');
@@ -93,7 +94,10 @@ function orient(period){
 }
 
 function periodOf(t){
-  const body = t.slice(2,-2).map(x => x.d + x.n);
+  // One term off each end, not two: the walk used to open with a bare heading
+  // and close with one, and neither is written any more. What is dropped now is
+  // the lead-in run and the lead-out run themselves.
+  const body = t.slice(1,-1).map(x => x.d + x.n);
   for (let p = 1; p <= body.length - p; p++){
     let ok = true;
     for (let i = 0; i + p < body.length; i++) if (body[i] !== body[i+p]){ ok = false; break; }
@@ -119,7 +123,11 @@ function buildWalk(period, target){
   if (!o) return null;
   const pb = blocksOf(o), k = Math.max(1, Math.round(target / pb));
   const body = Array.from({length:k}, () => o.map(m => m.d + m.n).join(' ')).join(' ');
-  return { walk: 'N ' + body + ' ' + o[o.length-1].d, oriented: o, k, periodBlocks: pb };
+  // No 'N ' in front and no bare heading behind: the walk opens on its first
+  // numbered term, which is a north term by orient(), and leaves facing the
+  // last. Block 1 is still the one block in -- you start in it -- and the last
+  // block of the closing run is still the one block out.
+  return { walk: body, oriented: o, k, periodBlocks: pb };
 }
 
 // gather periods first, so the set decides the target

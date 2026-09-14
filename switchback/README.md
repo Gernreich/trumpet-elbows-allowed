@@ -17,11 +17,12 @@ the slider reveals the bore a block at a time in the order you would glue it.
 ## The walk is the whole design
 
 ```
-N N1 W3 U2 E3 N3 D3 W2 U3 N1
+N1 W3 U2 E3 N3 D3 W2 U3 N1
 ```
 
-The first letter is the way you face at the mouth; every term after it turns
-where you stand and then travels that many blocks. So **the bore is 1 + the sum
+The first term is the way you face at the mouth and how far you go before
+anything turns; every term after it turns where you stand and then travels that
+many blocks. So **the bore is 1 + the sum
 of the numbers** — 21 + 1 = 22. Axes are Minecraft's: `U`/`D` are +Y/−Y, `N` is
 −Z, `S` is +Z, `E` is +X, `W` is −X.
 
@@ -30,14 +31,15 @@ names this folder as where its cut files land. The viewer page carries the same
 string, and the generator will read either, but they are only equal because the
 page was generated from the file. Read it out of the file.
 
-## No lead-out, and why that costs nothing
+## No lead-out to write, and why that costs nothing
 
-A walk may end with a bare letter naming the way you leave. This one does not.
-A term whose direction matches your heading does not turn, and a bare term
-carries no distance, so after `N1` a trailing `N` would only restate a heading
-the walk already has. Written either way, the six SVGs come out byte-identical.
-It would matter if the exit differed from the last term: `N1 U`
-turns the final block and buys an elbow.
+A walk used to be allowed to end with a bare letter naming the way you leave.
+This one never did, and the notation no longer has one: you leave facing the
+last term. Nothing is lost. A bare letter carrying your own heading only
+restated it, and the six SVGs come out byte-identical written either way. What
+it could also do was name a *different* heading — `N1 U` turned the final block
+and bought an elbow — and that is the half of it worth losing: the last block
+cannot be an elbow any more, because there is no longer a way to ask for one.
 
 ## The numbers
 
@@ -103,7 +105,7 @@ cuts** — blue writes the section number on every part, black frees it.
 The generator lives in `../tools`. Report only, writing nothing:
 
 ```
-python3 tools/bore_split.py "N N1 W3 U2 E3 N3 D3 W2 U3 N1" --bore=10 --no-write --refuse-elbows
+python3 tools/bore_split.py "N1 W3 U2 E3 N3 D3 W2 U3 N1" --bore=10 --no-write --refuse-elbows
 ```
 
 `--bore=10` is the airway; the 16mm block follows from it at 3mm ply, and

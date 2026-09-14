@@ -67,11 +67,12 @@ documentation tooling lives in **`../../../../../../../../../lasermade-tools`** 
 The bore is a walk through a lattice of blocks, and the walk is the whole specification:
 
 ```
-N N1 W3 U2 E3 N3 D3 W2 U3 N1
+N1 W3 U2 E3 N3 D3 W2 U3 N1
 ```
 
-The first letter is the way in; each term after it turns where you stand and then travels
-*n* blocks, so **the bore is 1 + the sum of the numbers** — 22 blocks here. Axes match
+The first term is the way in and how far you go before anything turns; each term after it
+turns where you stand and then travels *n* blocks, so **the bore is 1 + the sum of the
+numbers** — 22 blocks here. Axes match
 Minecraft: `U`/`D` are +Y/−Y, `N` is −Z, `S` is +Z, `E` is +X, `W` is −X.
 
 **The walk is stored in `../../../../../../../../tools/walks/coil_fold2.txt`**,
@@ -82,14 +83,14 @@ either, but they are only equal because the page was generated from the file.
 
 Never transcribe the walk from memory. Read it out of the file.
 
-## No lead-out, and why that is not a change
+## No lead-out to write, and why that is not a change
 
-A walk may end with a bare letter naming the way you leave. This one does not, and that
-costs nothing: a term whose direction matches your heading does not turn, and a bare term
-carries no distance, so after `N1` a trailing `N` would only restate a heading the walk
-already has. Written either way, **the six SVGs come out byte-identical**. It would
-matter if the exit direction differed from the last term: `N1 U`
-turns the final block and buys an elbow.
+A walk used to be allowed to end with a bare letter naming the way you leave. This one
+never did, and the notation no longer has one: you leave facing the last term. That costs
+nothing here — a bare letter carrying your own heading only restated it, and **the six
+SVGs come out byte-identical** written either way. It would have mattered if the exit
+direction differed from the last term: `N1 U` turned the final block and bought an elbow,
+which is a thing that can no longer be asked for.
 
 ## One block is 16mm, not 10
 
@@ -279,7 +280,7 @@ S=../../../../../../../../tools
 **Test a walk without writing anything** — always do this before proposing a change:
 
 ```sh
-cd $S && python3 bore_split.py --no-write --refuse-elbows "N N1 W3 U2 E3 N3 D3 W2 U3 N1"
+cd $S && python3 bore_split.py --no-write --refuse-elbows "N1 W3 U2 E3 N3 D3 W2 U3 N1"
 ```
 
 **Regenerate the cut files** (rewrites everything — ask first). The bores:

@@ -8,7 +8,7 @@ itself still comes out a single connected tunnel with nothing to mark the fault.
 This walks permissively, keeps every step in placement order, and draws the
 cells that result - lighting up the ones that got placed more than once.
 
-    python3 mcwalk.py "N N3 U3 W5 N10 E5 S8 W3 S3 N12 N"
+    python3 mcwalk.py "N3 U3 W5 N10 E5 S8 W3 S3 N12"
 
 Writes mcwalk.html in the working directory; --out and --title override that. It
 named a page under walk/no-elbows/doubled_walk/ until 2026-09-08, which had been
@@ -32,7 +32,9 @@ def place(text):
     pos = (0, 0, 0)
     steps = [{'p': pos, 'd': h, 'turn': False}]
     reversals = []
-    for d, n in toks[1:]:
+    # Every term, the first included: it sets the heading and then travels,
+    # exactly as bore_split.walk does. There is no entry term to skip.
+    for d, n in toks:
         if d != h:
             if sum(a * b for a, b in zip(DIRS[h], DIRS[d])) != 0:
                 reversals.append({'at': len(steps), 'from': h, 'to': d})

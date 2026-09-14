@@ -183,12 +183,13 @@ change to the drawing code**; nothing that reads the file will catch this class.
 
 ## bore_split.py's guards
 
-Twenty-one of them, each given inputs it should refuse. **Nearly all hold.** A
+Twenty-two of them, each given inputs it should refuse. **Nearly all hold.** A
 stray character, a walk that reverses instead of turning, a walk too short to
-have a direction, a walk that revisits a cell, a run of zero length, a one-cell
-piece that is not a cube, a notch narrower than its own play, a notch that
-leaves no ply beside it, and `--refuse-elbows` against a walk with an elbow --
-every one refuses, with a message naming the block or section at fault.
+have a direction, a bare letter at either end -- the entry and exit headings the
+notation used to carry -- a walk that revisits a cell, a run of zero length, a
+one-cell piece that is not a cube, a notch narrower than its own play, a notch
+that leaves no ply beside it, and `--refuse-elbows` against a walk with an elbow
+-- every one refuses, with a message naming the block or section at fault.
 
 **A guard that does not fire has not been tested until you know your input
 reached it.** Two of these are easy to probe wrongly: the notch guards sit behind
@@ -313,9 +314,9 @@ Consecutive terms are always on different axes, which leaves three cases:
 Steps are free; hairpins are not — the distinction is the one most easily lost.
 Probed with `--no-write`:
 
-    N N3 U1 N3 N   step      0 elbows      N N3 U1 E3 E   coil   2 elbows
-    N N3 U1 S3 S   hairpin   2 elbows      N N3 U2 E3 E   coil   1 elbow
-    N N3 U2 S3 S   hairpin   0 elbows      N N3 U3 E3 E   coil   0 elbows
+    N3 U1 N3   step      0 elbows      N3 U1 E3   coil   2 elbows
+    N3 U1 S3   hairpin   2 elbows      N3 U2 E3   coil   1 elbow
+    N3 U2 S3   hairpin   0 elbows      N3 U3 E3   coil   0 elbows
 
 `bore_split.py` is the authority on this, not this file and not a
 reimplementation of the rule.

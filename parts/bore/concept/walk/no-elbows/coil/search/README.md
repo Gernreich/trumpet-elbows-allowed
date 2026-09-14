@@ -37,9 +37,10 @@ differ:
 * **one block in, one block out**, and no partial period between them
 
 A bore opens at both ends, so the first and last piece cannot be removed — they are
-bounded by the mouth and the exit rather than by a neighbour, and the notation says as
-much: the first term is only the way you came in. What is standardised is that every
-walk has exactly one of each, and the judged metrics ignore them regardless.
+bounded by the mouth and the exit rather than by a neighbour. The notation gives the
+mouth block away free: you start in block 1, facing the first term, so the one block in
+and the one block out cost no term of their own. What is standardised is that every walk
+has exactly one of each, and the judged metrics ignore them regardless.
 
 Fixing forward and the sense of rotation is not enough on its own. The four rotations
 about the forward axis all satisfy both, and so does every rotation of the cycle that
@@ -250,7 +251,7 @@ at all.
 It says something about the search. Only **1 of 10** walks here are minimal:
 `coil_3x4_79`. The search enumerated periods with legs up to
 4 and never asked whether a leg was longer than it had to be, so most of what it found
-carries slack — `coil_4x9_18` could lose 48 blocks.
+carries slack — `coil_4x9_18` could lose 47 blocks.
 
 Removing slack is not automatically safe. The rule is local, and a shortened walk can
 run into itself or start touching, so what the tool reports are candidates to put back
@@ -395,7 +396,7 @@ behind it: a tool with no description, or a description with no tool, stops the 
 | tool | what it does |
 | --- | --- |
 | `search_spirals.js` | Searches for the tightest elbow-free coil. Applies the corpus rule -- three consecutive terms naming three axes force the middle term to 3 or more -- then lets the splitter decide, because the rule is a filter and not the answer. |
-| `mknotation.js` | Expands one period to about 196 blocks and writes it in the corpus notation: bare lead-in term, numbered middle terms, bare lead-out term. |
+| `mknotation.js` | Expands one period to about 196 blocks and writes it in the corpus notation: every term numbered, the lead-in and lead-out blocks carried by the runs at each end. |
 | `standardise.js` | Puts every coil in one orientation -- north for all of them, opening on a north term -- so that two coils differ only where they really differ. Writes `standardised.json`. |
 | `minimal.js` | Asks whether a walk can be shortened without introducing an elbow, against a purely local rule: a term's floor is set by the window of three around it. Reports slack; does not take it. |
 | `reduce.js` | Takes that slack, one leg at a time, keeping the coil. Taking all of it at once usually destroys the walk, which is why this is separate from `minimal.js`. Writes `reduced.json`. |

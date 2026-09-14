@@ -14,17 +14,20 @@ const V = {N:[0,0,-1], S:[0,0,1], E:[1,0,0], W:[-1,0,0], U:[0,1,0], D:[0,-1,0]};
 const AXNAME = ['x (east/west)', 'y (up/down)', 'z (north/south)'];
 const ALONG = [{p:'E', n:'W'}, {p:'U', n:'D'}, {p:'S', n:'N'}];  // +axis, -axis (north is -z)
 
-// One direction per block: the way the bore travels through it. The walk's
-// LAST term is the exit direction of the final block and adds no block of its
-// own -- "N N5 U" is six blocks, the sixth of them turning up on the way out --
-// so it is dropped here and the block count matches bore_split.py.
+// One direction per block: the way the bore travels through it. You start IN
+// block 1 facing the first term, so the blocks are 1 + the sum of the numbers --
+// "N5" is six blocks -- and the count matches bore_split.py. This used to drop
+// the walk's last term instead, which was the exit heading back when a walk
+// could end on a bare letter; a numbered term at the end is travel, not a
+// heading, and dropping it lost a whole leg.
 function blockDirs(walk){
   const terms = walk.trim().split(/\s+/);
   const out=[];
-  for(const t of terms.slice(0, -1)){
-    const m=t.match(/^([NSEWUD])(\d*)$/);
+  for(const t of terms){
+    const m=t.match(/^([NSEWUD])(\d+)$/);
     if(!m) throw new Error('bad term: '+t);
-    const n=m[2]?parseInt(m[2],10):1;
+    const n=parseInt(m[2],10);
+    if(!out.length) out.push(m[1]);          // block 1: where you start
     for(let i=0;i<n;i++) out.push(m[1]);
   }
   return out;

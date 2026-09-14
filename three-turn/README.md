@@ -19,11 +19,12 @@ the slider reveals the bore a block at a time in the order it was glued.
 ## The walk is the whole design
 
 ```
-N N1 W3 U2 E3 N3 D3 W2 U3 N3 E3 D2 W3 N3 U3 E2 D3 N1
+N1 W3 U2 E3 N3 D3 W2 U3 N3 E3 D2 W3 N3 U3 E2 D3 N1
 ```
 
-The first letter is the way you face at the mouth; every term after it turns
-where you stand and then travels that many blocks. So **the bore is 1 + the sum
+The first term is the way you face at the mouth and how far you go before
+anything turns; every term after it turns where you stand and then travels that
+many blocks. So **the bore is 1 + the sum
 of the numbers** — 43 + 1 = 44.
 
 **It is `W U E D` three times over.** Strip the north advances and the lateral
@@ -134,8 +135,9 @@ through `12of12`. **Blue engraves, then black cuts.**
 4. Glue each bore section closed, then join them in engraved order.
 5. Stack the bell rings from ring 0 at the bore; stack the mouthpiece rings from
    ring 0 likewise. Both are engraved in hex, `0` at the bore.
-6. Sand and fill the mouthpiece's staircase and round its rim over before you
-   put a lip to it.
+6. **Do not finish the mouthpiece.** It goes to the lip as it comes off the
+   sheet — the staircase is not sanded, the rim is not filled, and the
+   instrument that plays has had neither.
 
 <p><img src="../parts/bell/bell-round10-153mm-17rings-x3-rim86-built_web.jpg" alt="The bell as built, lying on a workbench: laminated ply rings stacked from a small square block at the throat, widening and rounding as they climb to a flat round rim"><img src="../parts/mouthpiece/mouthpiece-bore10-trumpet-parts-built_web.jpg" alt="The mouthpiece as built, lying on a workbench: a square block at one end, a ring-stacked shaft narrowing to a waist, and a small cup at the other end"></p>
 
@@ -176,7 +178,7 @@ becomes a measurement instead of a guess.
 The generator lives in `../tools`. Report only, writing nothing:
 
 ```
-python3 tools/bore_split.py "N N1 W3 U2 E3 N3 D3 W2 U3 N3 E3 D2 W3 N3 U3 E2 D3 N1" \
+python3 tools/bore_split.py "N1 W3 U2 E3 N3 D3 W2 U3 N3 E3 D2 W3 N3 U3 E2 D3 N1" \
     --bore=10 --straight=30 --no-write --refuse-elbows
 ```
 

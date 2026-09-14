@@ -26,11 +26,12 @@ Only four of the six appear, because the walk has no `U` and no `D` in it.
 ## The walk is the whole design
 
 ```
-N N10 W9 S6 E5 N2 W3 N2 E5 S6 W9 N10
+N10 W9 S6 E5 N2 W3 N2 E5 S6 W9 N10
 ```
 
-The first letter is the way you face at the mouth; every term after it turns
-where you stand and then travels that many blocks. So **the bore is 1 + the sum
+The first term is the way you face at the mouth and how far you go before
+anything turns; every term after it turns where you stand and then travels that
+many blocks. So **the bore is 1 + the sum
 of the numbers** — 67 + 1 = 68. Axes are Minecraft's: `U`/`D` are +Y/−Y, `N` is
 −Z, `S` is +Z, `E` is +X, `W` is −X. There is no `U` or `D` in it at all, which
 is the whole point: the walk never leaves its plane.
@@ -125,7 +126,7 @@ Every file is millimetre-true at 1 user unit = 1mm.
 The generator lives in `../tools`. Report only, writing nothing:
 
 ```
-python3 tools/bore_split.py "N N10 W9 S6 E5 N2 W3 N2 E5 S6 W9 N10" --bore=10 --no-write --refuse-elbows
+python3 tools/bore_split.py "N10 W9 S6 E5 N2 W3 N2 E5 S6 W9 N10" --bore=10 --no-write --refuse-elbows
 ```
 
 Writing rewrites both sheets, and must run under the venv python: `check.py`

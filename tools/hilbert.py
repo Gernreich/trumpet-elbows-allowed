@@ -91,7 +91,11 @@ def to_walk(pts, scale=1):
             runs.append((cur, n))
             cur, n = s, 1
     runs.append((cur, n))
-    return runs[0][0] + ' ' + ' '.join(f'{d}{k}' for d, k in runs)
+    # No heading in front of the runs: a walk enters facing its first term, so
+    # the leading bare letter this used to emit is no longer part of the
+    # notation -- and it never said anything here, being the first run's own
+    # direction every time.
+    return ' '.join(f'{d}{k}' for d, k in runs)
 
 
 def main(order, split=False, scale=1):

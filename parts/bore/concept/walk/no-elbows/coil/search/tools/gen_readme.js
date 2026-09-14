@@ -173,7 +173,7 @@ const TOOL_GROUPS = [
     ["search_spirals.js",
      "Searches for the tightest elbow-free coil. Applies the corpus rule -- three consecutive terms naming three axes force the middle term to 3 or more -- then lets the splitter decide, because the rule is a filter and not the answer."],
     ["mknotation.js",
-     "Expands one period to about 196 blocks and writes it in the corpus notation: bare lead-in term, numbered middle terms, bare lead-out term."],
+     "Expands one period to about 196 blocks and writes it in the corpus notation: every term numbered, the lead-in and lead-out blocks carried by the runs at each end."],
     ["standardise.js",
      "Puts every coil in one orientation -- north for all of them, opening on a north term -- so that two coils differ only where they really differ. Writes `standardised.json`."],
     ["minimal.js",
@@ -262,9 +262,10 @@ differ:
 * **one block in, one block out**, and no partial period between them
 
 A bore opens at both ends, so the first and last piece cannot be removed — they are
-bounded by the mouth and the exit rather than by a neighbour, and the notation says as
-much: the first term is only the way you came in. What is standardised is that every
-walk has exactly one of each, and the judged metrics ignore them regardless.
+bounded by the mouth and the exit rather than by a neighbour. The notation gives the
+mouth block away free: you start in block 1, facing the first term, so the one block in
+and the one block out cost no term of their own. What is standardised is that every walk
+has exactly one of each, and the judged metrics ignore them regardless.
 
 Fixing forward and the sense of rotation is not enough on its own. The four rotations
 about the forward axis all satisfy both, and so does every rotation of the cycle that

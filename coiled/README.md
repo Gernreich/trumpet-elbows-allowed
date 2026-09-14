@@ -17,11 +17,12 @@ the slider reveals the bore a block at a time in the order you would glue it.
 ## The walk is the whole design
 
 ```
-N N2 U6 W5 N10 E5 D3 S8 W3 D3 N13
+N2 U6 W5 N10 E5 D3 S8 W3 D3 N13
 ```
 
-The first letter is the way you face at the mouth; every term after it turns
-where you stand and then travels that many blocks. So **the bore is 1 + the sum
+The first term is the way you face at the mouth and how far you go before
+anything turns; every term after it turns where you stand and then travels that
+many blocks. So **the bore is 1 + the sum
 of the numbers** — 58 + 1 = 59. Axes are Minecraft's: `U`/`D` are +Y/−Y, `N` is
 −Z, `S` is +Z, `E` is +X, `W` is −X.
 
@@ -110,7 +111,7 @@ cuts** — blue writes the section number on every part, black frees it.
 The generator lives in `../tools`. Report only, writing nothing:
 
 ```
-python3 tools/bore_split.py "N N2 U6 W5 N10 E5 D3 S8 W3 D3 N13" --bore=10 --no-write
+python3 tools/bore_split.py "N2 U6 W5 N10 E5 D3 S8 W3 D3 N13" --bore=10 --no-write
 ```
 
 `--bore=10` is the airway; the 16mm block follows from it at 3mm ply.

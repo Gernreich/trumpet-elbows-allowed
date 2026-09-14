@@ -1,5 +1,8 @@
 // expand a period to ~TARGET blocks and write it in the corpus notation:
-// bare lead-in term, numbered middle terms, bare lead-out term.
+// every term numbered. The bare lead-in and lead-out terms this used to write
+// are not part of the notation any more -- a walk enters facing its first term
+// and leaves facing its last -- so the two blocks they stood for are carried by
+// the runs at each end instead.
 const TARGET=196;
 function steps(period){
   const out=[];
@@ -22,11 +25,14 @@ function build(period){
   //  leave it alone rather than trimming it away to nothing)
   if(terms.some(t=>t[1]>=2))
     while(terms.length>1 && terms[terms.length-1][1]<2) terms.pop();
-  // lead-in and lead-out must be single straight blocks
-  if(terms[0][1]>1){ terms[0][1]--; terms.unshift([terms[0][0],1]); }
+  // Lead-in and lead-out are still single straight blocks, but they cost no
+  // term now. You start IN block 1 facing the first term, so the opening run
+  // carries one move fewer than the period asks for and block 1 is the lead-in;
+  // the closing run's last block is the lead-out, so it gives up a move too.
+  if(terms[0][1]>1) terms[0][1]--;
   const last=terms[terms.length-1];
-  if(last[1]>1){ last[1]--; terms.push([last[0],1]); }
-  return terms.map(([d,L],i)=> (i===0||i===terms.length-1) ? d : d+L).join(' ');
+  if(last[1]>1) last[1]--;
+  return terms.map(([d,L]) => d+L).join(' ');
 }
 // A missing argument reached build() and came back as a TypeError on
 // `undefined.split` -- a stack trace where a usage line belongs. Every other

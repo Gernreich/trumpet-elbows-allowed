@@ -27,8 +27,9 @@ function terms(walk){
 function floors(walk){
   const t = terms(walk);
   const out = [];
-  // the first and last term are the mouth and the exit; they have no window of
-  // their own and are not the design's to choose, so they are left alone
+  // the first and last term are the lead-in and the lead-out runs -- the mouth
+  // block and the exit block; they have no window of their own and are not the
+  // design's to choose, so they are left alone
   for (let i = 1; i < t.length - 1; i++){
     const a = t[i-1], m = t[i], c = t[i+1];
     const kind = AX[a.d] !== AX[c.d] ? 'coil'

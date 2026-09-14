@@ -25,12 +25,12 @@ follow the same conventions. Shared documentation tooling lives in
 The bore is a walk through a lattice of blocks, and the walk is the whole specification:
 
 ```
-N N2 U6 W5 N10 E5 D3 S8 W3 D3 N13
+N2 U6 W5 N10 E5 D3 S8 W3 D3 N13
 ```
 
-The first letter is the way in and the last is the way out; each term between them turns
-where you stand and then travels *n* blocks, so **the bore is 1 + the sum of the numbers**
-— 59 blocks here. Axes match Minecraft: `U`/`D` are +Y/−Y, `N` is −Z, `S` is +Z, `E` is
+The first term is the way in, the last is the way out, and each turns where you stand and
+then travels *n* blocks — the first from block 1, which you start in rather than in front
+of, so **the bore is 1 + the sum of the numbers** — 59 blocks here. Axes match Minecraft: `U`/`D` are +Y/−Y, `N` is −Z, `S` is +Z, `E` is
 +X, `W` is −X, so north is away from the sun at noon.
 
 **The walk is stored in the page**, in `bore/bore.html` as a
@@ -172,7 +172,7 @@ cd $S && python3 bore_split.py \
 **Test a walk without writing anything** — always do this before proposing a change:
 
 ```sh
-cd $S && python3 bore_split.py --no-write "N N2 U6 W5 N10 E5 D3 S8 W3 D3 N13"
+cd $S && python3 bore_split.py --no-write "N2 U6 W5 N10 E5 D3 S8 W3 D3 N13"
 ```
 
 **Checks:**

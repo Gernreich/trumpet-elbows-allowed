@@ -29,19 +29,20 @@ does it with three tight bends and a lot of drawn brass. This does it by
 **treating the tube as a walk through a lattice of cubes** — north three, up two,
 east three — and cutting each run of that walk as a flat-packed box.
 
-The walk is written down. `N N1 W3 U2 E3 N3 D3 W2 U3 N3 E3 D2 W3 N3 U3 E2 D3 N1`
-is the bore of the built instrument: the first letter is the direction you enter
-from, and every term after it moves that many blocks. A generator turns that
-string into cut files, checks them, and tells you what you are holding.
+The walk is written down. `N1 W3 U2 E3 N3 D3 W2 U3 N3 E3 D2 W3 N3 U3 E2 D3 N1`
+is the bore of the built instrument: the first term is the direction you enter
+from and how far you go before anything turns, and every term after it turns
+where you stand and then moves that many blocks. A generator turns that string
+into cut files, checks them, and tells you what you are holding.
 
 ```
-python3 tools/bore_split.py "N N1 W3 U2 E3 N3 D3 W2 U3 N3 E3 D2 W3 N3 U3 E2 D3 N1" \
+python3 tools/bore_split.py "N1 W3 U2 E3 N3 D3 W2 U3 N3 E3 D2 W3 N3 U3 E2 D3 N1" \
     --bore=10 --straight=30 --no-write
 ```
 
-**A bare letter costs no block.** The turn happens inside the block you arrived
-at, so the tube is `1 + the sum of the numbers` blocks long. Forty-three steps,
-forty-four blocks.
+**A turn costs no block.** It happens inside the block you arrived at, and you
+start in block 1 rather than in front of it, so the tube is `1 + the sum of the
+numbers` blocks long. Forty-three steps, forty-four blocks.
 
 ## What decides a good bore
 
@@ -358,8 +359,9 @@ coupon that would settle it.
 4. Glue each bore section closed, then join them in engraved order.
 5. Stack the bell rings from ring 0 at the bore; stack the mouthpiece rings from
    ring 0 likewise. Both are engraved in hex, `0` at the bore.
-6. Sand and fill the mouthpiece's staircase and round its rim over before you
-   put a lip to it.
+6. **Do not finish the mouthpiece.** It goes to the lip as it comes off the
+   sheet — the staircase is not sanded, the rim is not filled, and the
+   instrument that plays has had neither.
 
 **The bell is cut more than once.** Each sheet draws every ring once, and the
 `x3` in its filename is how many times the sheet goes through the machine.

@@ -18,7 +18,7 @@
 #   A copy is in tools/LICENSE.GPL-3.0.txt.
 """Check a bore's cut files before any of it goes on the machine.
 
-    python3 check.py "N N10 U2 W2 S7 U2 E4 N9 W2 D2 N4 N"
+    python3 check.py "N10 U2 W2 S7 U2 E4 N9 W2 D2 N4"
 
 Every check here exists because something got cut and thrown away. The name of
 each says what it looks for; the comment says what it caught.

@@ -1,1 +1,1 @@
-U U3 N1 W1 S2 E3 E
+U3 N1 W1 S2 E3

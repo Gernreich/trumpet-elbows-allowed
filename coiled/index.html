@@ -93,8 +93,8 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <p><strong><a href="../parts/bore/concept/walk/no-elbows/coil/no-contact/flat-drop/bore/bore.html">Turn it →</a></strong> The viewer is a page of its own, not a frame in this one: drag to rotate, and the slider reveals the bore a block at a time in the order you would glue it.</p>
 <figure><img src="../parts/bore/concept/walk/no-elbows/coil/no-contact/flat-drop/bore/trumpet-coiled_minecraft.png" alt="The walk laid out in Minecraft: 59 translucent cubes running as a flat rectangular coil, dropping through two short vertical legs, each section a different colour"></figure>
 <h2 id="the-walk-is-the-whole-design">The walk is the whole design</h2>
-<pre><code>N N2 U6 W5 N10 E5 D3 S8 W3 D3 N13</code></pre>
-<p>The first letter is the way you face at the mouth; every term after it turns where you stand and then travels that many blocks. So <strong>the bore is 1 + the sum of the numbers</strong> — 58 + 1 = 59. Axes are Minecraft's: <code>U</code>/<code>D</code> are +Y/−Y, <code>N</code> is −Z, <code>S</code> is +Z, <code>E</code> is +X, <code>W</code> is −X.</p>
+<pre><code>N2 U6 W5 N10 E5 D3 S8 W3 D3 N13</code></pre>
+<p>The first term is the way you face at the mouth and how far you go before anything turns; every term after it turns where you stand and then travels that many blocks. So <strong>the bore is 1 + the sum of the numbers</strong> — 58 + 1 = 59. Axes are Minecraft's: <code>U</code>/<code>D</code> are +Y/−Y, <code>N</code> is −Z, <code>S</code> is +Z, <code>E</code> is +X, <code>W</code> is −X.</p>
 <p>The walk is stored in the viewer page, in a <code>&lt;div class="walk"&gt;</code>, which makes that page the complete record of the design — the cut files regenerate from it and from nothing else. Read it out of the file rather than from here.</p>
 <h2 id="the-numbers">The numbers</h2>
 <div class='tw'><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td>blocks</td><td>59</td></tr><tr><td>centreline</td><td>944mm</td></tr><tr><td>sections</td><td>8</td></tr><tr><td>parts</td><td>50, over 8 sheets</td></tr><tr><td>bounding box</td><td>96 × 112 × 288mm — 6 × 7 × 18 blocks</td></tr><tr><td>airway</td><td>10mm square, constant</td></tr><tr><td>block pitch</td><td>16mm — 10mm of air in 3mm walls</td></tr><tr><td>elbows</td><td>none</td></tr><tr><td>contact</td><td>none</td></tr><tr><td>legs</td><td>north 26, south 8, west 8, up 6, down 6, east 5</td></tr></tbody></table></div>
@@ -121,7 +121,7 @@ bore10-coil-flat-drop-08of08-bend-LDDDDDDDDDDDDD-buttout-cut-files.svg</code></p
 <figure><img src="../parts/bore/concept/walk/no-elbows/coil/no-contact/flat-drop/bore/trumpet-coiled_parts_web.jpg" alt="A pile of finger-jointed birch plates on the ground, cut and not yet glued, their teeth and notches visible along every edge"></figure>
 <h2 id="rebuild-it">Rebuild it</h2>
 <p>The generator lives in <code>../tools</code>. Report only, writing nothing:</p>
-<pre><code>python3 tools/bore_split.py "N N2 U6 W5 N10 E5 D3 S8 W3 D3 N13" --bore=10 --no-write</code></pre>
+<pre><code>python3 tools/bore_split.py "N2 U6 W5 N10 E5 D3 S8 W3 D3 N13" --bore=10 --no-write</code></pre>
 <p><code>--bore=10</code> is the airway; the 16mm block follows from it at 3mm ply. Add <code>--refuse-elbows</code> and the walk still passes. Writing rewrites every sheet in the folder, so it runs under the venv python that has the gate's dependencies:</p>
 <pre><code>cd tools &amp;&amp; ~/Software/boxes/venv/bin/python bore_split.py \
     ../parts/bore/concept/walk/no-elbows/coil/no-contact/flat-drop/bore/bore.html \

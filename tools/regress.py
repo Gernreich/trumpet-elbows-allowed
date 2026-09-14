@@ -26,44 +26,51 @@ import sys
 
 # (name, walk or walks/*.txt, folder of cut files or None[, block pitch mm])
 UNIFORM = [
-    ('first trumpet', 'N N10 U2 W2 S7 U2 E4 N9 W2 D2 N4 N',
+    ('first trumpet', 'N10 U2 W2 S7 U2 E4 N9 W2 D2 N4',
      '../parts/bore/concept/walk/elbows/meander/no-contact/first'),
     # No folder: ../parts/bore/concept/walk/elbows/spiral/expanding holds a page and two photographs and
     # no cut files at all. It was named here until 2026-09-03, and check.py
     # globbed nothing, added no sheet checks and still reported 0 failed - the
     # design looked covered for as long as nobody counted. check.py now fails a
     # folder it was pointed at and found empty, which is how this surfaced.
-    ('spiral trumpet', 'U U3 N2 W2 S4 E4 U2 N6 W6 S8 E8 U2 N10 W10 S12 E12 U3 U',
+    ('spiral trumpet', 'U3 N2 W2 S4 E4 U2 N6 W6 S8 E8 U2 N10 W10 S12 E12 U3',
      None),
-    ('helix, rise 2', 'N N4 U2 E4 U2 S4 U2 W4 U2 N4 N', None),
-    ('helix, rise 1', 'N N4 U1 E4 U1 S4 U1 W4 U1 N4 N', None),
-    ('helix, side 6', 'N N6 U2 E6 U2 S6 U2 W6 U2 N6 U2 E6 E', None),
-    ('test bore', 'U U2 E2 S2 U2 U', None),
+    ('helix, rise 2', 'N4 U2 E4 U2 S4 U2 W4 U2 N4', None),
+    ('helix, rise 1', 'N4 U1 E4 U1 S4 U1 W4 U1 N4', None),
+    ('helix, side 6', 'N6 U2 E6 U2 S6 U2 W6 U2 N6 U2 E6', None),
+    ('test bore', 'U2 E2 S2 U2', None),
     # The same bore with --flat. Nothing in this table carried that switch, and
     # check.py had no spelling for it, so the whole plain-butt path -- every
     # section drawn with no tab and no notch -- was gated by nothing at all.
     # That is how its own check came to be written inside a branch it could
     # never fire in and stay green for as long as it did.
-    ('test bore, flat ends', 'U U2 E2 S2 U2 U', None, ['--flat']),
-    ('three blocks', 'W D3 E4 N', None),
+    ('test bore, flat ends', 'U2 E2 S2 U2', None, ['--flat']),
+    # WAS 'three blocks', 'W D3 E4 N': the same eight blocks entered
+    # sideways and left sideways, so the first and last sections were
+    # one-block elbows. That is unwritable now -- a walk enters facing
+    # its first term and leaves facing its last, so block 1 and block n
+    # cannot turn -- and with it went the only design here whose end
+    # section was an elbow. What is left is the bend itself, in one
+    # piece with a butt end at each end.
+    ('one bend', 'D3 E4', None),
     # corners in a row. A leg of one block makes its block a corner, so these
     # are chains of touching corners - the case that used to raise rather than
     # cut, because the lap was named in the walk's frame and an elbow is drawn
     # in a canonical one.
-    ('4 corners, flat', 'N N2 U1 N1 U1 N2 N', None),
-    ('4 corners, solid', 'N N2 U1 E1 S1 E4 E', None),
-    ('5 corners, solid', 'N N2 U1 E1 S1 W1 S3 S', None),
-    ('6 corners, solid', 'N N2 E1 U1 E1 U1 E1 U3 U', None),
+    ('4 corners, flat', 'N2 U1 N1 U1 N2', None),
+    ('4 corners, solid', 'N2 U1 E1 S1 E4', None),
+    ('5 corners, solid', 'N2 U1 E1 S1 W1 S3', None),
+    ('6 corners, solid', 'N2 E1 U1 E1 U1 E1 U3', None),
     # coils tight enough to touch themselves. The second used to be refused by
     # the generator: a piece came back alongside its own blocks, so one cell
     # had three neighbours and it was no longer a snake.
-    ('tightest coil', 'U U3 N1 E1 S1 U1 W1 U1 N1 E1 S1 U1 W1 U1 '
-                      'N1 E1 S1 U1 W1 U1 U', None),
-    ('touching coil', 'N N2 E1 S2 U1 W1 U1 N2 E1 S2 U1 W1 U1 '
-                      'N2 E1 S2 U1 W1 U1 U', None),
+    ('tightest coil', 'U3 N1 E1 S1 U1 W1 U1 N1 E1 S1 U1 W1 U1 '
+                      'N1 E1 S1 U1 W1 U1', None),
+    ('touching coil', 'N2 E1 S2 U1 W1 U1 N2 E1 S2 U1 W1 U1 '
+                      'N2 E1 S2 U1 W1 U1', None),
     # a space-filling curve: every cell of a 2x2x2 used, so it touches itself
     # everywhere it can. python3 hilbert.py 1 prints it.
-    ('hilbert cube 1', 'S S1 U1 N1 E1 S1 D1 N1', None),
+    ('hilbert cube 1', 'S1 U1 N1 E1 S1 D1 N1', None),
     # the same curve at scale 2: the open knot rather than the solid block.
     # Too long to sit in this list, so it is kept beside it.
     ('hilbert cube 2', 'walks/hilbert_cube.txt', None),
@@ -72,7 +79,7 @@ UNIFORM = [
     ('corner to corner', 'walks/corner_to_corner.txt', None),
     # a piece spiralling inward touches its own arms at a corner, which the
     # generator refuses as a pinch. This one used to raise.
-    ('double spiral', 'N N4 W4 S3 E3 N2 W2 U2 E2 N3 W3 S4 E4 E', None),
+    ('double spiral', 'N4 W4 S3 E3 N2 W2 U2 E2 N3 W3 S4 E4', None),
     ('metre spring', 'walks/metre_spring.txt', None),
     # a folded run that doubles back twice inside a 4x4 cross-section, cut
     # short at both ends to leave room for the mouthpiece and the bell. Four
