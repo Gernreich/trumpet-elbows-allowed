@@ -121,6 +121,18 @@ was taken from the bore's *outside* rather than its channel and ring 0 sat
 entirely outside the face it was supposed to seal. It was reported as gaps at the
 joint, which is exactly what it was.
 
+## A page for each
+
+Three candidate bores are written up on their own, each with the walk it is cut
+from, its sections and sheets, and a link to a viewer you can turn at tab size:
+
+| | |
+| --- | --- |
+| **[the coiled trumpet](coiled/)** | 59 blocks, 944mm, eight sections — coils flat and drops twice |
+| **[the switchback trumpet](switchback/)** | 22 blocks, 352mm, six sections — folds back on itself twice |
+| **[the greek spiral](greek-spiral/)** | 68 blocks, 1088mm, **one** section — a flat meander, the only bore here that cuts in one piece |
+| **[the bell and the mouthpiece](ends/)** | The two ends, shared by every bore on the 10mm channel |
+
 ## Cutting
 
 Everything is **3mm birch ply on an xTool P2S**, 600 × 308mm of bed.
@@ -147,7 +159,15 @@ parts/
     built/          the bore that exists as an object
     concept/        every candidate, none of them cut
 tools/              the generator, the gate, and the walks
+coiled/             a page each, for the three bores worth reading about
+switchback/         on their own, plus one for the two shared ends
+greek-spiral/
+ends/
 ```
+
+The four page directories hold nothing but a `README.md` and the `index.html`
+rendered from it. Every number on them is read back out of the walk, the cut
+file or the generator, never typed from memory.
 
 **`built/` is one design.** Nothing in `concept/` has been cut, and a folder
 there is not a promise that it should be.

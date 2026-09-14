@@ -19,6 +19,7 @@ md2html.py
 svg-stroke-check.py
 make-preview.py
 flat-part-check.py
+repro-svg.py
 
 # Names that appear in the design notes precisely BECAUSE they are not here.
 # Each was checked by hand on 2026-09-10; none is a stale reference:

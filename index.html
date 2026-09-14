@@ -86,7 +86,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <body>
 <button class="tog" type="button">theme</button>
 <div class="wrap">
-<nav><b>Contents</b><a class="l1" href="#trumpet">Trumpet</a><a class="l2" href="#the-idea">The idea</a><a class="l2" href="#what-decides-a-good-bore">What decides a good bore</a><a class="l2" href="#the-instrument-end-to-end">The instrument, end to end</a><a class="l2" href="#cutting">Cutting</a><a class="l2" href="#what-is-in-here">What is in here</a><a class="l2" href="#the-toolchain">The toolchain</a><a class="l2" href="#the-gate">The gate</a><a class="l2" href="#clearance">Clearance</a><a class="l2" href="#building-it">Building it</a><a class="l2" href="#more-and-licence">More, and licence</a></nav>
+<nav><b>Contents</b><a class="l1" href="#trumpet">Trumpet</a><a class="l2" href="#the-idea">The idea</a><a class="l2" href="#what-decides-a-good-bore">What decides a good bore</a><a class="l2" href="#the-instrument-end-to-end">The instrument, end to end</a><a class="l2" href="#a-page-for-each">A page for each</a><a class="l2" href="#cutting">Cutting</a><a class="l2" href="#what-is-in-here">What is in here</a><a class="l2" href="#the-toolchain">The toolchain</a><a class="l2" href="#the-gate">The gate</a><a class="l2" href="#clearance">Clearance</a><a class="l2" href="#building-it">Building it</a><a class="l2" href="#more-and-licence">More, and licence</a></nav>
 <main>
 <h1 id="trumpet">Trumpet</h1>
 <p>A trumpet cut flat from 3mm birch ply and glued into a tube. The airway is a <strong>10mm square</strong> running through <strong>16mm blocks</strong> — 10mm of air inside 3mm walls — and it never changes section from the mouthpiece to the throat of the bell.</p>
@@ -118,6 +118,9 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 cd parts/bell &amp;&amp; python3 bell-round.py 17 --bore=10 --length=152 --mouth=80</code></pre>
 <p>Each rebuilds its shipped sheet byte for byte and writes it into its own <code>cut-files/</code>.</p>
 <p>The joint at each end is a <strong>square annulus of ply 3mm wide</strong> — 10mm inside, 16mm out. The bell's ring 0 is a flange that covers all of it: a 22mm square with a 10mm hole, standing 3mm proud. This was wrong until 2026-08-26, when the throat was taken from the bore's <em>outside</em> rather than its channel and ring 0 sat entirely outside the face it was supposed to seal. It was reported as gaps at the joint, which is exactly what it was.</p>
+<h2 id="a-page-for-each">A page for each</h2>
+<p>Three candidate bores are written up on their own, each with the walk it is cut from, its sections and sheets, and a link to a viewer you can turn at tab size:</p>
+<div class='tw'><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td><strong><a href="coiled/">the coiled trumpet</a></strong></td><td>59 blocks, 944mm, eight sections — coils flat and drops twice</td></tr><tr><td><strong><a href="switchback/">the switchback trumpet</a></strong></td><td>22 blocks, 352mm, six sections — folds back on itself twice</td></tr><tr><td><strong><a href="greek-spiral/">the greek spiral</a></strong></td><td>68 blocks, 1088mm, <strong>one</strong> section — a flat meander, the only bore here that cuts in one piece</td></tr><tr><td><strong><a href="ends/">the bell and the mouthpiece</a></strong></td><td>The two ends, shared by every bore on the 10mm channel</td></tr></tbody></table></div>
 <h2 id="cutting">Cutting</h2>
 <p>Everything is <strong>3mm birch ply on an xTool P2S</strong>, 600 × 308mm of bed.</p>
 <p><strong>Colour is the cut order</strong>: blue engraves, then green → orange → cyan → black, and black frees the part. On a bore section blue engraves the section number and black cuts. On a ring, orange takes the aperture first so the hole is in before the outline releases the part.</p>
@@ -130,7 +133,12 @@ cd parts/bell &amp;&amp; python3 bell-round.py 17 --bore=10 --length=152 --mouth
   bore/
     built/          the bore that exists as an object
     concept/        every candidate, none of them cut
-tools/              the generator, the gate, and the walks</code></pre>
+tools/              the generator, the gate, and the walks
+coiled/             a page each, for the three bores worth reading about
+switchback/         on their own, plus one for the two shared ends
+greek-spiral/
+ends/</code></pre>
+<p>The four page directories hold nothing but a <code>README.md</code> and the <code>index.html</code> rendered from it. Every number on them is read back out of the walk, the cut file or the generator, never typed from memory.</p>
 <p><strong><code>built/</code> is one design.</strong> Nothing in <code>concept/</code> has been cut, and a folder there is not a promise that it should be.</p>
 <p>A walk is filed under three facts about it, each of which costs something at the machine:</p>
 <pre><code>concept/walk/&lt;elbows|no-elbows&gt;/&lt;family&gt;/&lt;contact|no-contact&gt;/&lt;design&gt;</code></pre>

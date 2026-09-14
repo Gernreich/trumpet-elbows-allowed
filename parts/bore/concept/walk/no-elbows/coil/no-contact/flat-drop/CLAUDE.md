@@ -28,7 +28,7 @@ lives in **`../../../../../../../../../lasermade-tools`** (its own repository).
 The bore is a walk through a lattice of blocks, and the walk is the whole specification:
 
 ```
-N N3 U6 W5 N10 E5 D3 S8 W3 D3 N12 N
+N N2 U6 W5 N10 E5 D3 S8 W3 D3 N13
 ```
 
 The first letter is the way in and the last is the way out; each term between them turns
@@ -96,15 +96,23 @@ none — and `W5 N10 E5` is a hairpin, free here only because its middle leg is 
 Checking the current walk by hand:
 
 ```
-N3 U6 W5      3 axes, middle = 6    OK
+N2 U6 W5      3 axes, middle = 6    OK
 U6 W5 N10     3 axes, middle = 5    OK
 W5 N10 E5     hairpin, middle = 10   OK
 N10 E5 D3     3 axes, middle = 5    OK
 E5 D3 S8      3 axes, middle = 3    OK
 D3 S8 W3      3 axes, middle = 8    OK
 S8 W3 D3      3 axes, middle = 3    OK
-W3 D3 N12     3 axes, middle = 3    OK
+W3 D3 N13     3 axes, middle = 3    OK
 ```
+
+**This file quoted `N N3 U6 W5 N10 E5 D3 S8 W3 D3 N12 N` until 2026-09-13**, in
+both places, and the table above was worked on it. That walk is also 59 blocks,
+so no count ever disagreed — but it is a different tube. It draws `BDDDR` where
+the shipped sheet is `BDDR`, and a fourteen-block last section where the shipped
+sheet is fifteen. The page and the cut files agreed with each other throughout;
+only the note was wrong, which is the failure mode the rule above exists to
+stop: **read the walk out of `bore/bore.html`, never from prose.**
 
 **A drop out of the plane costs sections, not elbows.** The mid-spiral `D3` splits what
 would be one flat coil into four pieces. It is elbow-free either way; it is the section
@@ -164,7 +172,7 @@ cd $S && python3 bore_split.py \
 **Test a walk without writing anything** — always do this before proposing a change:
 
 ```sh
-cd $S && python3 bore_split.py --no-write "N N3 U6 W5 N10 E5 D3 S8 W3 D3 N12 N"
+cd $S && python3 bore_split.py --no-write "N N2 U6 W5 N10 E5 D3 S8 W3 D3 N13"
 ```
 
 **Checks:**

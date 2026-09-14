@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The greek spiral</title>
+<style>
+:root{--bg:#fbfbfa;--fg:#1a1c1e;--mut:#5b6067;--line:#e2e4e7;--card:#fff;--accent:#1d4ed8;
+--codebg:#f4f5f7;--thbg:#f0f1f3;--mark:#fff8c4}
+@media (prefers-color-scheme:dark){:root{--bg:#15171a;--fg:#e6e8ea;--mut:#9aa1a9;--line:#2b2f34;
+--card:#1b1e22;--accent:#7aa2f7;--codebg:#22262b;--thbg:#23272c;--mark:#4a411c}}
+:root[data-theme=dark]{--bg:#15171a;--fg:#e6e8ea;--mut:#9aa1a9;--line:#2b2f34;--card:#1b1e22;
+--accent:#7aa2f7;--codebg:#22262b;--thbg:#23272c;--mark:#4a411c}
+:root[data-theme=light]{--bg:#fbfbfa;--fg:#1a1c1e;--mut:#5b6067;--line:#e2e4e7;--card:#fff;
+--accent:#1d4ed8;--codebg:#f4f5f7;--thbg:#f0f1f3;--mark:#fff8c4}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:16px/1.62 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+-webkit-text-size-adjust:100%}
+.wrap{display:grid;grid-template-columns:250px minmax(0,1fr);gap:44px;max-width:1180px;
+margin:0 auto;padding:40px 28px 96px}
+nav{position:sticky;top:28px;align-self:start;max-height:calc(100vh - 56px);overflow:auto;
+border-right:1px solid var(--line);padding-right:16px;font-size:13.5px;line-height:1.45}
+nav b{display:block;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--mut);
+margin:0 0 12px}
+nav a{display:block;color:var(--mut);text-decoration:none;padding:3px 0;border-radius:4px}
+nav a:hover{color:var(--accent)}
+nav a.l1{color:var(--fg);font-weight:640;margin-top:11px}
+nav a.l2{padding-left:12px}
+main{min-width:0}
+h1{font-size:1.62rem;line-height:1.25;letter-spacing:-.015em;margin:2.4em 0 .5em;
+padding-bottom:.32em;border-bottom:2px solid var(--line)}
+main>h1:first-child{margin-top:0;border-bottom:none;font-size:1.95rem}
+h2{font-size:1.16rem;margin:2em 0 .5em;letter-spacing:-.01em}
+h3{font-size:1.02rem;font-weight:650;margin:1.7em 0 .45em}
+p{margin:.85em 0}
+ul,ol{margin:.85em 0;padding-left:1.35em}
+li{margin:.3em 0}
+hr{border:0;border-top:1px solid var(--line);margin:2.6em 0}
+figure{margin:1.6em 0}
+/* A paragraph holding two or more images is a gallery. Left to inline layout they
+   wrap at whatever fits, which put three bells on one row and the fourth alone
+   underneath - directly above the caption, so it read as the caption for that one
+   picture rather than for the set. Flex lets them share the row instead. */
+p:has(img + img){display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start;
+justify-content:center}
+p:has(img + img) img{flex:1 1 140px;min-width:0;width:auto;max-width:100%;height:auto;
+border:1px solid var(--line);border-radius:10px}
+figure svg,figure img{display:block;width:100%;max-width:100%;height:auto;
+border:1px solid var(--line);border-radius:10px}
+a{color:var(--accent)}
+code{font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+background:var(--codebg);padding:.1em .32em;border-radius:4px;
+border:1px solid color-mix(in srgb,var(--line) 70%,transparent)}
+pre{background:var(--codebg);border:1px solid var(--line);border-radius:9px;
+padding:14px 16px;overflow-x:auto;margin:1.1em 0}
+pre code{background:none;border:0;padding:0;font-size:12.8px;line-height:1.62;white-space:pre}
+blockquote{margin:1.15em 0;padding:.7em 1.1em;border-left:4px solid var(--accent);
+background:var(--codebg);border-radius:0 7px 7px 0}
+blockquote p{margin:0}
+.tw{overflow-x:auto;margin:1.15em 0;border:1px solid var(--line);border-radius:9px;
+background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:8px 13px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+/* honour align="center" on gallery cells: a presentation attribute loses to any
+   CSS rule, so the line above would silently left-align every thumbnail caption */
+td[align=center],th[align=center]{text-align:center}
+th{background:var(--thbg);font-weight:630;white-space:nowrap;font-size:13px;
+letter-spacing:.01em}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:color-mix(in srgb,var(--thbg) 45%,transparent)}
+td code,th code{white-space:nowrap}
+/* A walk inside a link is one token: breaking it mid-walk put "N" at the end of one
+   line and "N5 U" at the start of the next, which reads as two things. */
+a code{white-space:nowrap}
+.tog{position:fixed;top:14px;right:14px;z-index:9;background:var(--card);color:var(--mut);
+border:1px solid var(--line);border-radius:7px;padding:6px 11px;font-size:12.5px;cursor:pointer}
+.tog:hover{color:var(--accent)}
+@media (max-width:900px){.wrap{grid-template-columns:1fr;gap:20px;padding:26px 18px 72px}
+nav{position:static;max-height:none;border-right:0;border-bottom:1px solid var(--line);
+padding:0 0 16px;columns:2;column-gap:20px}}
+@media print{nav,.tog{display:none}.wrap{display:block;max-width:none;padding:0}
+pre,.tw{break-inside:avoid}h1{break-after:avoid}}
+</style>
+</head>
+<body>
+<button class="tog" type="button">theme</button>
+<div class="wrap">
+<nav><b>Contents</b><a class="l1" href="#the-greek-spiral">The greek spiral</a><a class="l2" href="#the-walk-is-the-whole-design">The walk is the whole design</a><a class="l2" href="#the-numbers">The numbers</a><a class="l2" href="#one-section-is-the-whole-design">One section is the whole design</a><a class="l2" href="#two-sheets-and-one-of-them-is-the-biggest-in-the-repository">Two sheets, and one of them is the biggest in the repository</a><a class="l2" href="#the-cut-files">The cut files</a><a class="l2" href="#rebuild-it">Rebuild it</a><a class="l2" href="#the-two-ends">The two ends</a><a class="l2" href="#more-and-licence">More, and licence</a></nav>
+<main>
+<h1 id="the-greek-spiral">The greek spiral</h1>
+<p>A trumpet bore drawn as a flat meander — the Greek key, wound in and brought back out beside itself. <strong>68 blocks, 1088mm of centreline, one section, no elbows and no contact.</strong> It is the only lattice bore in this repository that cuts as a single section — every other one splits into six, eight, twenty-seven — because it is planar: there is nothing to fold, and no section-to-section joint to glue square.</p>
+<p><strong><a href="../parts/bore/concept/walk/no-elbows/meander/no-contact/greek-key/bore/bore.html">Turn it →</a></strong> The viewer is a page of its own, not a frame in this one: drag to rotate, and the slider reveals the bore a block at a time. Turn it edge-on and the whole design is one block thick.</p>
+<h2 id="the-walk-is-the-whole-design">The walk is the whole design</h2>
+<pre><code>N N10 W9 S6 E5 N2 W3 N2 E5 S6 W9 N10</code></pre>
+<p>The first letter is the way you face at the mouth; every term after it turns where you stand and then travels that many blocks. So <strong>the bore is 1 + the sum of the numbers</strong> — 67 + 1 = 68. Axes are Minecraft's: <code>U</code>/<code>D</code> are +Y/−Y, <code>N</code> is −Z, <code>S</code> is +Z, <code>E</code> is +X, <code>W</code> is −X. There is no <code>U</code> or <code>D</code> in it at all, which is the whole point: the walk never leaves its plane.</p>
+<p>Read it out of <code>../tools/walks/greek_spiral.txt</code> rather than from here.</p>
+<p><strong>It is a palindrome about its middle.</strong> <code>N10 W9 S6 E5 N2</code> winds in, <code>W3</code> crosses the centre, and <code>N2 E5 S6 W9 N10</code> comes back out — the same five legs in reverse. That is what puts both openings on the outside of the figure rather than stranding one of them at the eye, which is the failure a plain spiral has.</p>
+<h2 id="the-numbers">The numbers</h2>
+<div class='tw'><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td>blocks</td><td>68</td></tr><tr><td>centreline</td><td>1088mm</td></tr><tr><td>sections</td><td>1</td></tr><tr><td>parts</td><td>24, over 2 sheets</td></tr><tr><td>bounding box</td><td>192 × 16 × 208mm — 12 × 1 × 13 blocks</td></tr><tr><td>airway</td><td>10mm square, constant</td></tr><tr><td>block pitch</td><td>16mm — 10mm of air in 3mm walls</td></tr><tr><td>elbows</td><td>none</td></tr><tr><td>contact</td><td>none</td></tr><tr><td>legs</td><td>north 25, west 21, south 12, east 10</td></tr></tbody></table></div>
+<p><strong>A block is 16mm, not 10.</strong> Ten millimetres of sound space wrapped in 3mm of wall is 16mm outside. A run of <em>N</em> blocks is 16<em>N</em> mm along the bore, which is where 1088 comes from.</p>
+<h2 id="one-section-is-the-whole-design">One section is the whole design</h2>
+<p>Every other lattice bore here splits into several sections that couple tab-into-notch. This one is planar, so it splits into one, and that changes three things:</p>
+<ul><li><strong>There is no assembly order.</strong> Two sheets, one section. The <code>01of01</code> in the filename is not a sequence.</li><li><strong>The seam clearance is inert.</strong> The 0.025mm per side that the 10mm bore gets at a section joint has nothing to apply to here, because there is no section-to-section joint. Do not cite the switchback's measured play as evidence about this bore.</li><li><strong>Both ends are plain</strong>, not just one. On a one-piece bore the first piece's entry and the last piece's exit are the same piece, so it carries both marks and the filename says <code>-buttin-buttout-</code>.</li></ul>
+<p>A change that makes this design split into more than one section has changed the walk, not the toolchain. Check the walk first.</p>
+<p><strong>Nothing is engraved.</strong> The other bores write a section number on every part in blue before black cuts. Here the number would read <code>1</code> on all twenty-four parts and answer a question nobody can ask, so black is the only colour on the sheet. Marking each wall with its own length was tried and reverted: it named the stick, but the plate carries no matching mark, and the one that would complete it could not be derived. The plate is the jig: a wall of length <em>L</em> fits only the run of length <em>L</em>.</p>
+<h2 id="two-sheets-and-one-of-them-is-the-biggest-in-the-repository">Two sheets, and one of them is the biggest in the repository</h2>
+<div class='tw'><table><thead><tr><th>sheet</th><th>parts</th><th>size</th></tr></thead><tbody><tr><td>1 of 2</td><td>13</td><td>592.0 × 284.4mm</td></tr><tr><td>2 of 2</td><td>11</td><td>539.8 × 92.5mm</td></tr></tbody></table></div>
+<p>Sheet 1 is <strong>1684cm², the largest sheet here by area</strong>, with 8.0mm to spare on a 600mm bed. It is not the widest — <code>telescope-wide</code> section 9 and the volute's narrow panels both reach 598.9mm, and width is what runs out first. The gate's <code>sheet fits the bed</code> check passes everything up to 600.0, and the nester may split differently rather than failing, so compare the reported sheet sizes after any change and do not assume two sheets stays two.</p>
+<h2 id="the-cut-files">The cut files</h2>
+<p>In <code>../parts/bore/concept/walk/no-elbows/meander/no-contact/greek-key/bore/cut-files/</code>, both named for the same single section:</p>
+<pre><code>bore10-meander-greek-key-01of01-bend-DDDDDDDDDDLLLLLLLLLUUUUUURRRRRDDLLLDDRRRRRUUUUUULLLLLLLLLDDDDDDDDDD-buttin-buttout-cut-files-sheet1.svg
+bore10-meander-greek-key-01of01-bend-DDDDDDDDDDLLLLLLLLLUUUUUURRRRRDDLLLDDRRRRRUUUUUULLLLLLLLLDDDDDDDDDD-buttin-buttout-cut-files-sheet2.svg</code></pre>
+<p>The long middle is the flattened shape of the whole snake — sixty-eight letters of <code>D</code>, <code>L</code>, <code>U</code> and <code>R</code> saying which way the plate turns at each block, with <code>~a~b</code> collapsed into the <code>-buttin-buttout-</code> that says both ends are plain. Every file is millimetre-true at 1 user unit = 1mm.</p>
+<h2 id="rebuild-it">Rebuild it</h2>
+<p>The generator lives in <code>../tools</code>. Report only, writing nothing:</p>
+<pre><code>python3 tools/bore_split.py "N N10 W9 S6 E5 N2 W3 N2 E5 S6 W9 N10" --bore=10 --no-write --refuse-elbows</code></pre>
+<p>Writing rewrites both sheets, and must run under the venv python: <code>check.py</code> imports shapely, and <code>bore_split.py</code> writes every file <em>before</em> it gates them, so a system-python <code>--write</code> leaves a folder of finished-looking cut files and a traceback where the gate should be.</p>
+<pre><code>cd tools &amp;&amp; ~/Software/boxes/venv/bin/python bore_split.py \
+    walks/greek_spiral.txt --bore=10 \
+    --write ../parts/bore/concept/walk/no-elbows/meander/no-contact/greek-key/bore</code></pre>
+<p>This walk is in the regression corpus — <code>regress.py</code> names it <em>greek spiral</em> and gates it at <code>--bore=10</code> on every toolchain change, so a change that broke it would be caught.</p>
+<h2 id="the-two-ends">The two ends</h2>
+<p>Only the tube belongs to an instrument. Neither the mouthpiece nor the bell is touched by the way a bore turns, and every bore here is on the same 10mm channel, so one of each serves all of them — <strong><a href="../ends/">the bell and the mouthpiece</a></strong>.</p>
+<h2 id="more-and-licence">More, and licence</h2>
+<p><strong><a href="../">The trumpet writeup</a></strong> — the idea, the notation, the gate, and the one bore that exists as an object.</p>
+<p><strong><a href="https://gernreich.github.io/">The rest of the build files</a></strong> — every instrument, each with its own writeup.</p>
+<p>Released under <a href="../LICENSE">CC0 1.0</a>.</p>
+</main>
+</div>
+<script>
+var r=document.documentElement,b=document.querySelector('.tog');
+function set(t){r.setAttribute('data-theme',t);try{localStorage.setItem('ctg-theme',t)}catch(e){}
+b.textContent=t==='dark'?'\u2600 light':'\u263e dark';}
+var saved=null;try{saved=localStorage.getItem('ctg-theme')}catch(e){}
+set(saved||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));
+b.addEventListener('click',function(){set(r.getAttribute('data-theme')==='dark'?'light':'dark')});
+</script>
+</body>
+</html>
