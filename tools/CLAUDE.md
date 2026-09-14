@@ -59,6 +59,18 @@ its venv python.
 <https://github.com/florianfesti/boxes>. It is an external dependency: a
 checkout of it, not a copy in this repository.
 
+**Three files here are GPL-3.0-or-later, not CC0**, and say so in a header:
+`snakeboxvar.py`, which subclasses `Boxes` and so derives from it, and `check.py`
+and `piece_render.py`, which both `from boxes.generators.snakeboxvar import
+SnakeBoxVar` at module level and so link against it when they run. Boxes.py
+grants no linking exception, so those three cannot offer more than it does.
+`LICENSE.GPL-3.0.txt` beside them is that licence; `LICENSE` is the CC0 covering
+everything else in this directory. A new file in `tools/` that imports `boxes`,
+directly or through the Var, joins the first list -- give it the header.
+
+Nothing this produces is affected: a cut file is geometry, carrying no Boxes.py
+code or metadata, so the sheets stay CC0.
+
 
 **There is one generator, and it is `SnakeBoxVar`.** The simpler `snakebox.py` — no
 variable cell widths, no ports, no laps, no plain ends — is not part of this toolchain:

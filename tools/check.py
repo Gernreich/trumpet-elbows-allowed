@@ -1,3 +1,21 @@
+# Copyright (C) 2026 Gernreich
+#
+#   GPL-3.0-or-later, NOT the CC0 the rest of this repository is under.
+#   It imports snakeboxvar, and through it Boxes.py, at run time.
+#
+#   This program is free software: you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation, either version 3 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#   A copy is in tools/LICENSE.GPL-3.0.txt.
 """Check a bore's cut files before any of it goes on the machine.
 
     python3 check.py "N N10 U2 W2 S7 U2 E4 N9 W2 D2 N4 N"

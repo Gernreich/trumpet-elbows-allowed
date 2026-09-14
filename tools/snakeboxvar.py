@@ -1,3 +1,21 @@
+# Copyright (C) 2026 Gernreich
+#
+#   GPL-3.0-or-later, NOT the CC0 the rest of this repository is under.
+#   It subclasses Boxes.py's Boxes, so it is a work derived from it.
+#
+#   This program is free software: you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation, either version 3 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#   A copy is in tools/LICENSE.GPL-3.0.txt.
 """Open-ended tube following a polyomino snake, one unit cube per cell.
 
 Both ends are open. The end frame is a square annulus of width `thickness`:

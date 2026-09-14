@@ -298,9 +298,10 @@ tied with one of them. The scoring is in
 **[Boxes.py](https://github.com/florianfesti/boxes)**, Florian Festi's box
 generator, which supplies the finger joints, the burn compensation and the SVG
 writer; `snakeboxvar.py` is a generator that installs into a Boxes.py checkout
-rather than a program of its own. Boxes.py is GPL-3.0-or-later, and is used here
-as an external dependency — it is not included in this repository and is not
-covered by its licence.
+rather than a program of its own. Boxes.py is GPL-3.0-or-later and is not
+included here — you supply the checkout. Because `snakeboxvar.py` subclasses it,
+that file and the two that import it are GPL-3.0-or-later as well; the licence
+note at the end says which three and why.
 
 | | |
 | --- | --- |
@@ -380,11 +381,23 @@ each with its own writeup.
 **[Download everything as a ZIP](https://github.com/Gernreich/trumpet/archive/refs/heads/main.zip)**
 — the generators, the gate, every cut file and every candidate bore.
 
-Released under [CC0 1.0](LICENSE). Do what you like with it. `parts/LICENSE` and
-`tools/LICENSE` are copies of the same text, so a directory taken on its own still
-carries it. That covers what is here; **[Boxes.py](https://github.com/florianfesti/boxes)**,
-which `snakeboxvar.py` installs into and which draws every finger joint on these
-sheets, is Florian Festi's and is GPL-3.0-or-later.
+**Almost all of this is [CC0 1.0](LICENSE)** — every cut file, every walk, every
+page, and every generator but three. `parts/LICENSE` and `tools/LICENSE` are
+copies of that text, so a directory taken on its own still carries it.
+
+**Three files in `tools/` are GPL-3.0-or-later instead**, and each carries a
+header saying so: `snakeboxvar.py`, `check.py` and `piece_render.py`.
+`snakeboxvar.py` subclasses **[Boxes.py](https://github.com/florianfesti/boxes)**'s
+`Boxes` class — it is a Boxes.py generator, the same shape as the ones that ship
+with Boxes.py, all of which are GPL — and the other two import it, so all three
+link against GPL code when they run. Boxes.py is Florian Festi's, GPL-3.0-or-later,
+with no linking exception, so those three cannot offer more than it does.
+[`tools/LICENSE.GPL-3.0.txt`](tools/LICENSE.GPL-3.0.txt) is the licence they are
+under.
+
+**Nothing you cut is affected.** Boxes.py is not in this repository, and none of
+it reaches the sheets: a cut file is geometry, with no Boxes.py code or metadata
+in it. The SVGs, the walks and the writeups are CC0 like the rest.
 
 The walks are laid out in **Minecraft** before they are cut, and the lattice
 screenshots on the bore pages are frames from it.
