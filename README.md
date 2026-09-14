@@ -224,10 +224,29 @@ draws one, because the mitring it needs is the same mitring every other shape
 needs, but nothing here is a candidate bore.
 
 The **swept curve** (`parts/bore/concept/swept-curve/`) sweeps a rectangle along a
-planar curve, so two faces are flat and two are faceted. Seven designs are cut:
+planar curve, so two faces are flat and two are faceted. Seven designs are drawn:
 a serpentine and an opposed pair at 1000mm, three spirals at 1000, 1458 and
 1767mm, a wave at 836mm and a double spiral at 1506mm — plus a 30° coupon that
 exists to prove the tooth survives the bend.
+
+One of the seven is in ply. The 1000mm spiral — `R35to113`, 19 segments of 45°,
+its radius growing 34.7 → 112.9mm — has had its cheek sheet cut, and cut twice,
+because the two cheeks are the same part and both go on the same way up.
+
+![The two cheek plates as cut, one lying on the other on a scratched workbench: a
+faceted band of pale masked ply winding a little over two turns out from a small
+centre to a straight tail, both rims crenellated with open notches, a number
+engraved beside each notch, and a small square hole at the inner end](parts/bore/concept/swept-curve/spiral/ribbon-spiral-bore10-45deg-R35to113/ribbon-spiral-bore10-45deg-R35to113-1000mm-ported-square-narrow-cheek-x2-as-cut_web.jpg)
+
+The band is a single closed outline of 40 vertices, 216.50 × 218.51mm on a
+236.50 × 238.51mm sheet, and it carries **149 mortices** for 38 wall panels.
+Every one of those mortices is open at the rim, which is what `--narrow` buys:
+the cheek is no wider than the duct, so each tab is held across its thickness on
+one side only. The square hole near the inner end is the port — a 10mm square,
+drawn 9.85mm because the 0.15mm kerf opens it the rest of the way, and square
+rather than round because `--port-square` asks for the bore's own section. The
+wall panels that stand in the mortices are a second sheet, 574.95 × 96.60mm, and
+are not in the photograph.
 
 The **double spiral** is the one shape here whose two arms interleave. Two of
 them half a turn apart about one centre, crossed in the middle by a straight:
