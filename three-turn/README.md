@@ -1,0 +1,200 @@
+# The three-turn trumpet
+
+**The one that exists.** Every other bore here is a drawing; this one is an
+object, glued up, varnished and blown. A coil of **1096mm in 12 sections**
+winding **three whole turns** about a north–south axis, with a mouthpiece at one
+end and a 153mm bell at the other.
+
+<!-- readme-only -->
+**[Read this page](https://gernreich.github.io/trumpet/three-turn/)**
+
+**It plays. One of its notes is F4** — 349.2 Hz, measured off the instrument.
+
+![The finished trumpet lying on concrete: a ring-stacked mouthpiece at the left, the square-section bore folding through its coil in the middle, and the laminated bell flaring at the right, all of it varnished dark over scorched birch](../parts/bore/built/coil/fold2-long-straight-3t/bore10-coil-fold2-long-straight-3t_web.jpg)
+
+**[Turn it →](../parts/bore/built/coil/fold2-long-straight-3t/fold2-long-straight-3t.html)**
+The viewer is a page of its own, not a frame in this one: drag to rotate, and
+the slider reveals the bore a block at a time in the order it was glued.
+
+## The walk is the whole design
+
+```
+N N1 W3 U2 E3 N3 D3 W2 U3 N3 E3 D2 W3 N3 U3 E2 D3 N1
+```
+
+The first letter is the way you face at the mouth; every term after it turns
+where you stand and then travels that many blocks. So **the bore is 1 + the sum
+of the numbers** — 43 + 1 = 44.
+
+**It is `W U E D` three times over.** Strip the north advances and the lateral
+legs read `W U E D W U E D W U E D`: twelve of them, four to a turn, each
+followed by a step north. That is the whole coil, written out.
+
+```
+N1  W3 U2 E3  N3   D3 W2 U3  N3   E3 D2 W3  N3   U3 E2 D3  N1
+```
+
+The first and last blocks sit on the same point of the cross-section, which a
+fractional number of turns cannot do. It sweeps **1080°**, right-handed.
+
+> **It was called 2¾ turns for two days.** Between 2026-09-06 and 2026-09-08 this
+> project had the count a quarter turn short, and the four folders in the family
+> were renamed down on the strength of it. Measurement says otherwise — the four
+> sweep 270°, 540°, 810° and 1080°, one group of three lateral legs being
+> three-quarters of a turn — and the folder names were put back. The multi-bore
+> viewer at `../parts/bore/concept/walk/no-elbows/coil/no-contact/fold2-long-straight/coils.html`
+> still labels its four sets ¼, 1¼, 2 and 2¾, and `spiral_metrics.js` still
+> reports the figure that caused it. Those two are the stale ones, not the
+> folder names.
+
+## The numbers
+
+| | |
+| --- | --- |
+| blocks | 44 |
+| centreline | 1096mm |
+| sections | 12 |
+| parts | 80, over 12 sheets |
+| bounding box | 122 × 122 × 304mm |
+| turns | 3, right-handed, 1080° about a north–south axis |
+| airway | 10mm square, constant |
+| elbows | none |
+| whole instrument | 1339mm — 90mm mouthpiece + 1096mm bore + 153mm bell |
+| as actually built | 1321mm — the mouthpiece on it is 24 rings, not 30 |
+| measured note | F4, 349.2 Hz |
+
+## The straights are stretched, the turns are not
+
+Forty-four blocks at the plain 16mm pitch would be **704mm**. This bore is 1096.
+The difference is `--straight=30`: a block that runs straight is drawn 30mm long
+while a block that turns stays a 16mm cube, so the tube lengthens without the
+walk changing and the cross-section stays square throughout.
+
+That is the cheapest length in the project. A turn is what costs — in pieces, in
+glue joints, and in the +41.4% the section grows through a 90° lattice corner —
+and stretching the straights buys metres without buying any more of them.
+
+## One walk, four lengths
+
+The same shape truncated at four places, and the truncations are exact:
+
+| | walk ends at | blocks | centreline | sections |
+| --- | --- | --- | --- | --- |
+| 0.75 turn | `E3 N1` | 11 | 274mm | 3 |
+| 1.5 turns | `U3 N1` | 22 | 548mm | 6 |
+| 2.25 turns | `W3 N1` | 33 | 822mm | 9 |
+| **3 turns** | `D3 N1` | **44** | **1096mm** | **12** |
+
+**274 : 548 : 822 : 1096 is exactly 1 : 2 : 3 : 4.** A tube twice as long sounds
+an octave lower, so four bores in that ratio are worth cutting: what the bell and
+the mouthpiece actually contribute becomes measurable rather than assumed. The
+three shorter ones are candidates in
+`../parts/bore/concept/walk/no-elbows/coil/no-contact/fold2-long-straight/`; this
+one is the object.
+
+## The twelve sections
+
+Numbered from the mouthpiece; assemble in order. Every part is engraved with its
+section number, because they only go together one way.
+
+| # | blocks | in → out | shape | parts | sheet |
+| --- | --- | --- | --- | --- | --- |
+| 1 | 1–3 | N → W | `BDL~a` | 6 | 325 × 70mm |
+| 2 | 4–8 | W → E | `BLUUR` | 8 | 455 × 86mm |
+| 3 | 9–11 | E → N | `BRD` | 6 | 337 × 70mm |
+| 4 | 12–14 | N → D | `BDL` | 6 | 331 × 73mm |
+| 5 | 15–19 | D → U | `BDLLU` | 8 | 481 × 73mm |
+| 6 | 20–22 | U → N | `BRD` | 6 | 337 × 70mm |
+| 7 | 23–25 | N → E | `BDR` | 6 | 331 × 73mm |
+| 8 | 26–30 | E → W | `BRDDL` | 8 | 455 × 86mm |
+| 9 | 31–33 | W → N | `BLD` | 6 | 337 × 70mm |
+| 10 | 34–36 | N → U | `BDR` | 6 | 331 × 73mm |
+| 11 | 37–41 | U → D | `BURRD` | 8 | 481 × 73mm |
+| 12 | 42–44 | D → N | `BLD~b` | 6 | 337 × 70mm |
+
+**Eight distinct shapes over twelve sheets.** The four three-block turns —
+`BDL`, `BRD`, `BDR`, `BLD` — are each cut twice; the four five-block folds are
+each cut once. `~a` and `~b` are the two plain ends, the only faces that do not
+couple to another section: the mouthpiece lands on one and the bell on the
+other. The widest sheet is 481mm and the largest 455 × 86mm, both well inside
+the 600mm bed.
+
+The cut files are in
+`../parts/bore/built/coil/fold2-long-straight-3t/cut-files/`, named `01of12`
+through `12of12`. **Blue engraves, then black cuts.**
+
+## Building it
+
+1. Cut the twelve bore sections, in order.
+2. Cut the bell — 17 rings, **three passes**, 51 pieces. Cut it once and you get
+   a 51mm stub instead of a 153mm bell.
+3. Cut the mouthpiece — 30 rings, one pass.
+4. Glue each bore section closed, then join them in engraved order.
+5. Stack the bell rings from ring 0 at the bore; stack the mouthpiece rings from
+   ring 0 likewise. Both are engraved in hex, `0` at the bore.
+6. Sand and fill the mouthpiece's staircase and round its rim over before you
+   put a lip to it.
+
+Both ends are **[the bell and the mouthpiece](../ends/)**, shared by every bore
+on this 10mm channel.
+
+## Clearance is one measurement, not a curve
+
+`PLAY_BY_BORE` is a lookup of what has actually been cut, and it has **one row**:
+0.025mm per side at the 10mm bore. A bore not in the table gets that value too — too loose is a worse joint than too tight
+is no joint — and the generator says on stderr that it is guessing, because a
+guess that looks like a measurement is the dangerous kind.
+
+Whether the requirement is absolute, a fraction of the tab, or something else
+takes a second bore to say, and there is one bore. `../tools/coupon-16mm/` is the
+coupon that would settle it.
+
+## Do not size a bore from a pipe formula
+
+F4 lands on no simple mode of a 1.339m tube. It is **2.73 times** the open–open
+fundamental (`c/2L` = 128 Hz) and **5.45 times** the closed–open one (`c/4L` =
+64 Hz), and neither multiple is a whole number. That is what a bell and a
+mouthpiece do: they pull the resonances away from where a plain tube would put
+them, and how far is not something either formula knows.
+
+Length still sets the register, which is why the 1 : 2 : 3 : 4 family above is
+worth cutting — their bores are exact multiples, so what the ends contribute
+becomes a measurement instead of a guess.
+
+## Rebuild it
+
+The generator lives in `../tools`. Report only, writing nothing:
+
+```
+python3 tools/bore_split.py "N N1 W3 U2 E3 N3 D3 W2 U3 N3 E3 D2 W3 N3 U3 E2 D3 N1" \
+    --bore=10 --straight=30 --no-write --refuse-elbows
+```
+
+Drop `--straight=30` and the same walk reports 704mm. Writing rewrites all
+twelve sheets and must run under the venv python that has the gate's
+dependencies:
+
+```
+cd tools && ~/Software/boxes/venv/bin/python bore_split.py \
+    ../parts/bore/built/coil/fold2-long-straight-3t/fold2-long-straight-3t.html \
+    --straight=30 \
+    --write ../parts/bore/built/coil/fold2-long-straight-3t
+```
+
+**These sheets were cut.** Regenerating them changes the drawing of a thing that
+already exists in wood — check what moved before you replace them.
+
+## The candidates
+
+**[the coiled trumpet](../coiled/)** · **[the switchback trumpet](../switchback/)**
+· **[the greek spiral](../greek-spiral/)** — none of them cut.
+
+## More, and licence
+
+**[The trumpet writeup](../)** — the idea, the notation, the gate, and the whole
+library.
+
+**[The rest of the build files](https://gernreich.github.io/)** — every
+instrument, each with its own writeup.
+
+Released under [CC0 1.0](../LICENSE).

@@ -123,11 +123,14 @@ joint, which is exactly what it was.
 
 ## A page for each
 
-Three candidate bores are written up on their own, each with the walk it is cut
-from, its sections and sheets, and a link to a viewer you can turn at tab size:
+Each of these carries the walk it is cut from, its blocks and centreline, its
+sections with their plates and sheet sizes, and a link to a viewer you can turn
+at tab size. The first is the instrument that exists; the next three are
+candidates that have not been cut.
 
 | | |
 | --- | --- |
+| **[the three-turn trumpet](three-turn/)** | 44 blocks, 1096mm, twelve sections — **the one that was built**, and it plays |
 | **[the coiled trumpet](coiled/)** | 59 blocks, 944mm, eight sections — coils flat and drops twice |
 | **[the switchback trumpet](switchback/)** | 22 blocks, 352mm, six sections — folds back on itself twice |
 | **[the greek spiral](greek-spiral/)** | 68 blocks, 1088mm, **one** section — a flat meander, the only bore here that cuts in one piece |
@@ -159,8 +162,9 @@ parts/
     built/          the bore that exists as an object
     concept/        every candidate, none of them cut
 tools/              the generator, the gate, and the walks
-coiled/             a page each, for the three bores worth reading about
-switchback/         on their own, plus one for the two shared ends
+three-turn/         a page each: the instrument that exists, the three
+coiled/             candidates worth reading about on their own, and the
+switchback/         two ends they all share
 greek-spiral/
 ends/
 ```

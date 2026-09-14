@@ -128,14 +128,15 @@ every gate still green. The adapter was found exactly that way — reported
 
 ## The bores these fit
 
-**[the coiled trumpet](../coiled/)** · **[the switchback trumpet](../switchback/)**
-· **[the greek spiral](../greek-spiral/)** — and every other candidate in
-`../parts/bore/`, all of them on the same 10mm channel.
+**[the three-turn trumpet](../three-turn/)** — the one they are actually glued
+to — and the candidates: **[the coiled trumpet](../coiled/)** ·
+**[the switchback trumpet](../switchback/)** · **[the greek spiral](../greek-spiral/)**,
+plus every other bore in `../parts/bore/`, all of them on the same 10mm channel.
 
 ## More, and licence
 
-**[The trumpet writeup](../)** — the idea, the notation, the gate, and the one
-bore that exists as an object.
+**[The trumpet writeup](../)** — the idea, the notation, the gate, and the whole
+library.
 
 **[The rest of the build files](https://gernreich.github.io/)** — every
 instrument, each with its own writeup.
