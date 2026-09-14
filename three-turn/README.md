@@ -135,8 +135,16 @@ through `12of12`. **Blue engraves, then black cuts.**
 6. Sand and fill the mouthpiece's staircase and round its rim over before you
    put a lip to it.
 
-Both ends are **[the bell and the mouthpiece](../ends/)**, shared by every bore
-on this 10mm channel.
+<p><img src="../parts/bell/bell-round10-153mm-17rings-x3-rim86-built_web.jpg" alt="The bell as built, lying on a workbench: laminated ply rings stacked from a small square block at the throat, widening and rounding as they climb to a flat round rim"><img src="../parts/mouthpiece/mouthpiece-bore10-trumpet-parts-built_web.jpg" alt="The mouthpiece as built, lying on a workbench: a square block at one end, a ring-stacked shaft narrowing to a waist, and a small cup at the other end"></p>
+
+The two on this instrument. Both are **[the bell and the mouthpiece](../ends/)**,
+shared by every bore on the 10mm channel — the square block on each is a bore
+block exactly, 10mm of air in a 16mm face, which is the whole reason one of each
+serves every tube here.
+
+**The mouthpiece is the one part of this instrument that is not what the drawing
+says.** It is 24 rings and 72mm; the sheet cuts 30 and 90. The instrument is
+short, not the drawing, and that is where the 1339mm above becomes 1321 in wood.
 
 ## Clearance is one measurement, not a curve
 
