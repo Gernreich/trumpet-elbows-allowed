@@ -224,7 +224,7 @@ needs, but nothing here is a candidate bore.
 The **swept curve** (`parts/bore/concept/swept-curve/`) sweeps a rectangle along a
 planar curve, so two faces are flat and two are faceted. Eight designs are drawn:
 a serpentine and an opposed pair at 1000mm, three spirals at 1000, 1458 and
-1767mm, a wave at 836mm and two double spirals at 1506 and 956mm — plus a 30°
+1767mm, a wave at 836mm and two double spirals at 1506 and 1000mm — plus a 30°
 coupon that exists to prove the tooth survives the bend.
 
 One of the eight is in ply, and it is the only design here besides the
@@ -236,7 +236,7 @@ shellac is for on a glue-up with this many joints.
 
 The **double spiral** is the one shape here whose two arms interleave. Two of
 them half a turn apart about one centre, crossed in the middle by a straight:
-1506.4mm of bore on a cheek plate 237 × 244mm. Arm B *is* arm A turned through
+1506.4mm of bore on a cheek plate 232 × 241mm. Arm B *is* arm A turned through
 180°, so the gap between neighbouring passes is half the radial pitch by
 construction rather than by search — choose the pitch and you have chosen the
 gap. The cheek is a 20mm band, so 46mm a turn is the first pitch that clears it,
@@ -267,11 +267,18 @@ crossings.
 The **short double spiral** is that same spiral with five facets taken off each
 arm, 14 down to 9 — a trim and not a redraw: the pitch, the R62 start and the
 R30 crossover are the shipped design's, and the shape stays point-symmetric
-because a facet comes off each end at once. 956.0mm on a 191 × 225mm plate,
-against 1506.4mm on 237 × 244mm. Length here is quantised by the facet — 10
-facets an arm give 1058.2mm and 9 give 956.0mm, so nothing lands on 1000
-without stretching the leads, which is a straight tail at the rim and not a
-trim.
+because a facet comes off each end at once. 1000.0mm on a 186 × 236mm cheek,
+against 1506.4mm on 232 × 241mm.
+
+The **facet** is what quantises it and the **lead** is what lands it. Nine
+facets an arm give 956.0mm and ten give 1058.2, so the trim alone cannot reach
+1000 —
+whole facets are the only thing that comes off, and they come off about 100mm
+at a time. The last 44mm is bought by lengthening both leads from 20mm to 42:
+the lead is a straight run tangent to the arm, so it adds length without moving
+a single facet of the coil. That it costs 42mm of straight tail at each rim is
+the price, and the reason the figure is quoted as a choice and not as what the
+generator happened to give.
 
 It is also the only design in this repository **ported at both ends**. One
 square port is bought by folding the mouth lead into the facet it already lies
