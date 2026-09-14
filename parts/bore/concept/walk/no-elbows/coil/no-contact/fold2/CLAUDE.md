@@ -115,6 +115,11 @@ builds them from its own constants, so `--blocksize` moves the plan and the shee
 Boxes.py means by it. Both come from `bore_split._common()` and change with
 `--sheet=` and `--kerf=`; print them rather than trusting this block.
 
+**Boxes.py is Florian Festi's**, GPL-3.0-or-later, at
+<https://github.com/florianfesti/boxes>. It is an external dependency: a
+checkout of it, not a copy in this repository.
+
+
 `--pin_width=12` does not belong in that list: a 12mm tab does not fit a 10mm end
 frame, which is the whole of the section below.
 

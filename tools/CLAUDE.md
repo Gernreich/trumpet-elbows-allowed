@@ -55,6 +55,11 @@ supplies the finger joints, burn compensation and SVG writer. `bore_split.py`
 shells out to it. Point `SNAKEBOX_BOXES` at the checkout and `SNAKEBOX_PY` at
 its venv python.
 
+**Boxes.py is Florian Festi's**, GPL-3.0-or-later, at
+<https://github.com/florianfesti/boxes>. It is an external dependency: a
+checkout of it, not a copy in this repository.
+
+
 **There is one generator, and it is `SnakeBoxVar`.** The simpler `snakebox.py` — no
 variable cell widths, no ports, no laps, no plain ends — is not part of this toolchain:
 `bore_split.py` names only `SnakeBoxVar` to `scripts/boxes`, `check.py` imports the Var,

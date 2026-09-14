@@ -66,6 +66,11 @@ because that is what Boxes.py means by it. Both come from `bore_split._common()`
 and change with `--sheet=` and `--kerf=`; print them rather than trusting this
 block.
 
+**Boxes.py is Florian Festi's**, GPL-3.0-or-later, at
+<https://github.com/florianfesti/boxes>. It is an external dependency: a
+checkout of it, not a copy in this repository.
+
+
 ## No elbows — the rule that shapes every walk
 
 An **elbow** is a single block that turns. Its opening frame has **three sides, not

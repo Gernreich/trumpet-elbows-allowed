@@ -107,8 +107,13 @@ designs pass on it with check counts identical line for line.
 what everything uses; there is no second version for a fix to fail to flow back to.
 
 Its generator installs into Boxes.py as **`SnakeBoxVar`**, beside `SnakeBox` rather
-than over it, so both are available at once. That has not changed, and it is still the
-reason installing anything into `~/Software/boxes` deserves care — it is a shared checkout.
+than over it, so both are available at once — which is the reason installing anything
+into `~/Software/boxes` deserves care: it is a shared checkout.
+
+**Boxes.py is Florian Festi's**, GPL-3.0-or-later, at
+<https://github.com/florianfesti/boxes>. It is an external dependency: a
+checkout of it, not a copy in this repository.
+
 
 **The play figure is measured here, not conventional.** 0.025 per side, from four goes
 in ply. A measured fit beats a conventional one, which is the order to keep.

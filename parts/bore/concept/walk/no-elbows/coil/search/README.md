@@ -354,6 +354,11 @@ in `checks/`.
 `~/Software/boxes/venv/bin/python`, as `README.md` says. The system python3 does
 not have them.
 
+**Boxes.py is Florian Festi's**, GPL-3.0-or-later, at
+<https://github.com/florianfesti/boxes>. It draws the finger joints on every
+block sheet these walks turn into, and it is an external dependency: a checkout
+of it, not a copy in this repository.
+
 ## How they were found
 
 `tools/search_spirals.js` walks every periodic term sequence up to eight terms with legs up

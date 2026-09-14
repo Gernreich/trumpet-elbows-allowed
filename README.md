@@ -294,6 +294,14 @@ tied with one of them. The scoring is in
 
 `tools/` ships no cut files of its own — only the thing that makes them.
 
+**The finger joints are not ours.** Every section net is drawn by
+**[Boxes.py](https://github.com/florianfesti/boxes)**, Florian Festi's box
+generator, which supplies the finger joints, the burn compensation and the SVG
+writer; `snakeboxvar.py` is a generator that installs into a Boxes.py checkout
+rather than a program of its own. Boxes.py is GPL-3.0-or-later, and is used here
+as an external dependency — it is not included in this repository and is not
+covered by its licence.
+
 | | |
 | --- | --- |
 | `bore_split.py` | the generator: a walk in, per-piece cut files out |
@@ -374,4 +382,9 @@ each with its own writeup.
 
 Released under [CC0 1.0](LICENSE). Do what you like with it. `parts/LICENSE` and
 `tools/LICENSE` are copies of the same text, so a directory taken on its own still
-carries it.
+carries it. That covers what is here; **[Boxes.py](https://github.com/florianfesti/boxes)**,
+which `snakeboxvar.py` installs into and which draws every finger joint on these
+sheets, is Florian Festi's and is GPL-3.0-or-later.
+
+The walks are laid out in **Minecraft** before they are cut, and the lattice
+screenshots on the bore pages are frames from it.

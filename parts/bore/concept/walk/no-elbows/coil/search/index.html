@@ -169,6 +169,7 @@ node tools/gen_scoring.js    # SCORING.md</code></pre>
 <p>Every walk here has been through <code>check.py</code> — the parts, the sections, the seams, and a voxel model of the assembled bore flooded from the outside to prove it is one sealed passage. <strong>11,872 checks across 10 spirals, 0 failed.</strong> The per-walk output is in <code>checks/</code>.</p>
 <pre><code>node tools/run_checks.sh     # re-run the gate over every walk</code></pre>
 <p><code>check.py</code> needs shapely, numpy and scipy, which live in the Boxes.py venv — run it with <code>~/Software/boxes/venv/bin/python</code>, as <code>README.md</code> says. The system python3 does not have them.</p>
+<p><strong>Boxes.py is Florian Festi's</strong>, GPL-3.0-or-later, at <a href="https://github.com/florianfesti/boxes">https://github.com/florianfesti/boxes</a>. It draws the finger joints on every block sheet these walks turn into, and it is an external dependency: a checkout of it, not a copy in this repository.</p>
 <h2 id="how-they-were-found">How they were found</h2>
 <p><code>tools/search_spirals.js</code> walks every periodic term sequence up to eight terms with legs up to four blocks, keeping those that never reverse, return to the same lateral position each period so the thing coils rather than drifts, wind a whole number of turns per period, stay self-avoiding when repeated, and satisfy the elbow-free rule.</p>
 <p>That rule, for a window of three consecutive terms — outer A, middle m, outer C:</p>
