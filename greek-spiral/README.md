@@ -15,6 +15,14 @@ The viewer is a page of its own, not a frame in this one: drag to rotate, and
 the slider reveals the bore a block at a time. Turn it edge-on and the whole
 design is one block thick.
 
+![The walk laid out in Minecraft: sixty-eight translucent blocks lying flat as a Greek key, winding in to a short bar at the centre and coming back out beside itself, the runs coloured blue, purple, orange and green](../parts/bore/concept/walk/no-elbows/meander/no-contact/greek-key/bore/greek-key_minecraft.png)
+
+**The colours are the compass, not the cut order.** Everywhere else in this
+project a coloured bore block says which section it belongs to; this bore has
+only one section, so there is nothing for that to distinguish and the blocks are
+coloured by the direction you are travelling instead — north, west, south, east.
+Only four of the six appear, because the walk has no `U` and no `D` in it.
+
 ## The walk is the whole design
 
 ```
@@ -32,7 +40,10 @@ Read it out of `../tools/walks/greek_spiral.txt` rather than from here.
 **It is a palindrome about its middle.** `N10 W9 S6 E5 N2` winds in, `W3` crosses
 the centre, and `N2 E5 S6 W9 N10` comes back out — the same five legs in reverse.
 That is what puts both openings on the outside of the figure rather than
-stranding one of them at the eye, which is the failure a plain spiral has.
+stranding one of them at the eye, which is the failure a plain spiral has. It is
+also what you are looking at in the picture above: the figure is mirror-symmetric
+about the short bar at its centre, and the two longest runs — the outer legs at
+either side — are the two `N10`.
 
 ## The numbers
 
