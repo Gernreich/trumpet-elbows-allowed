@@ -87,9 +87,9 @@ which is the point of it.
 ![The mouthpiece as built, lying on a scratched workbench: a square block at one end, a long ring-stacked shaft narrowing to a waist, and a small cup opening at the other end, the ply laminations visible as rings along its whole length](../parts/mouthpiece/mouthpiece-bore10-trumpet-parts-built_web.jpg)
 
 The square block is what meets the bore; the cup is what meets the lip, and the
-waist between them is the throat. **The staircase in that photograph is the
-thing to sand.** Every ring is a 3mm step, and the rim
-is the one part of the instrument a player feels directly.
+waist between them is the throat. **The staircase in that photograph is left as
+it is.** Every ring is a 3mm step, and the rim is the one part of the instrument
+a player feels directly — this one meets a lip unsanded and unfilled.
 
 **[Turn it →](../parts/mouthpiece/mouthpiece-bore10-trumpet-parts-turn.html)**
 Again a page of its own, and again the slider stacks it a ring at a time.
@@ -121,9 +121,9 @@ cd parts/mouthpiece && python3 mouthpiece-round.py \
     cut-files/mouthpiece-bore10-trumpet-parts-cut-files.svg
 ```
 
-**Sand and fill the staircase and round the rim over before you put a lip to
-it.** Thirty 3mm rings make a 90mm cone out of thirty steps, and the lip is the
-one part of this instrument that can feel every one of them.
+**The staircase is not sanded or filled.** Thirty 3mm rings make a 90mm cone out
+of thirty steps, and the lip is the one part of this instrument that can feel
+every one of them — it is played that way, off the sheet and unfinished.
 
 > The mouthpiece on the instrument that has been built is **24 rings, 72mm** —
 > not the 30 this sheet cuts. It is the instrument that is short, not the

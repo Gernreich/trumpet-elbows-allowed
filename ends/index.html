@@ -153,7 +153,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <h2 id="the-mouthpiece">The mouthpiece</h2>
 <p><strong>30 rings of 3mm, 90mm tall.</strong> A 16mm square plate at the instrument and a ø23mm rim at the lip — ø17 where the lip actually sits — narrowing to a <strong>ø3.66mm throat</strong> before the backbore. Full size on a quarter-size instrument, which is the point of it.</p>
 <figure><img src="../parts/mouthpiece/mouthpiece-bore10-trumpet-parts-built_web.jpg" alt="The mouthpiece as built, lying on a scratched workbench: a square block at one end, a long ring-stacked shaft narrowing to a waist, and a small cup opening at the other end, the ply laminations visible as rings along its whole length"></figure>
-<p>The square block is what meets the bore; the cup is what meets the lip, and the waist between them is the throat. <strong>The staircase in that photograph is the thing to sand.</strong> Every ring is a 3mm step, and the rim is the one part of the instrument a player feels directly.</p>
+<p>The square block is what meets the bore; the cup is what meets the lip, and the waist between them is the throat. <strong>The staircase in that photograph is left as it is.</strong> Every ring is a 3mm step, and the rim is the one part of the instrument a player feels directly — this one meets a lip unsanded and unfilled.</p>
 <p><strong><a href="../parts/mouthpiece/mouthpiece-bore10-trumpet-parts-turn.html">Turn it →</a></strong> Again a page of its own, and again the slider stacks it a ring at a time.</p>
 <figure><img src="../parts/mouthpiece/mouthpiece-bore10-trumpet-parts-view.svg" alt="The mouthpiece assembled from 30 rings, seen from above the cup: the cup narrowing to a throat, then the backbore opening slowly below it"
   style="width:auto;max-width:100%;max-height:560px;margin:0 auto"></figure>
@@ -229,7 +229,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <p>Station one is a <strong>sharp</strong> 10mm square aperture in a <strong>sharp</strong> 16mm square plate, matching the bore corner for corner. The corners round away going up, and the section is a true circle from the 9.026mm station on, so the throat and the whole cup are round.</p>
 <pre><code>cd parts/mouthpiece &amp;&amp; python3 mouthpiece-round.py \
     cut-files/mouthpiece-bore10-trumpet-parts-cut-files.svg</code></pre>
-<p><strong>Sand and fill the staircase and round the rim over before you put a lip to it.</strong> Thirty 3mm rings make a 90mm cone out of thirty steps, and the lip is the one part of this instrument that can feel every one of them.</p>
+<p><strong>The staircase is not sanded or filled.</strong> Thirty 3mm rings make a 90mm cone out of thirty steps, and the lip is the one part of this instrument that can feel every one of them — it is played that way, off the sheet and unfinished.</p>
 <blockquote><p>The mouthpiece on the instrument that has been built is <strong>24 rings, 72mm</strong> — not the 30 this sheet cuts. It is the instrument that is short, not the drawing.</p></blockquote>
 <h2 id="every-sheet-is-claimed">Every sheet is claimed</h2>
 <p>Both directories carry a <code>.repro</code> manifest naming the exact command that draws each shipped SVG, checked by <code>repro-svg.py</code>. It runs every command into a temp path and compares the result byte for byte against the sheet on disk, so a sheet the current code would not draw is caught rather than shipped. A sheet with no command behind it is reported <code>UNCLAIMED</code>, which is why the manifest has to grow whenever a drawing does.</p>
