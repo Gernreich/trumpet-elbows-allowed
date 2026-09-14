@@ -239,6 +239,18 @@ rather than round because `--port-square` asks for the bore's own section. The
 wall panels that stand in the mortices are a second sheet, 574.95 × 96.60mm, and
 are not in the photograph.
 
+Both sheets are cut now, and the bore is glued up — the wall panels standing in
+the mortices between the two cheeks, a mouthpiece on the straight tail and a
+bell on the port at the inner end.
+
+![The spiral glued up on a dark wood floor: a pale ply band winding a little over two turns, cornered at every facet, both rims crenellated with tabs and a number engraved beside each one; a straight tail leaves the outer end and carries a dark, glossy mouthpiece, and a bell engraved 10. stands on a dark ribbed throat at the inner end](parts/bore/concept/swept-curve/spiral/ribbon-spiral-bore10-45deg-R35to113/ribbon-spiral-bore10-45deg-R35to113-1000mm-glued-up_web.jpg)
+It is not airtight. A glue-up with this many joints — a mitre at every facet and
+a tab at every mortice — leaves air gaps all along both rims, and they are
+closed the same way they are closed on the built instrument: **several coats of
+shellac**, which seal the ply and fill the gaps in the same pass. The three-turn
+coil at the top of this page is the colour it is because it has had them. This
+spiral is still bare ply.
+
 The **double spiral** is the one shape here whose two arms interleave. Two of
 them half a turn apart about one centre, crossed in the middle by a straight:
 1506.4mm of bore on a cheek plate 237 × 244mm. Arm B *is* arm A turned through
