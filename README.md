@@ -121,7 +121,9 @@ ring 0 lands squarely on the face it seals.
 Each of these carries the walk it is cut from, its blocks and centreline, its
 sections with their plates and sheet sizes, and a link to a viewer you can turn
 at tab size. The first is the instrument that exists; the next three are
-candidates that have not been cut.
+candidates that have not been cut. The spiral after them is neither: it is a
+swept curve rather than a walk, it has been cut and glued up, and its link goes
+to a viewer rather than a page of its own.
 
 | | |
 | --- | --- |
@@ -129,6 +131,7 @@ candidates that have not been cut.
 | **[the coiled trumpet](coiled/)** | 59 blocks, 944mm, eight sections — coils flat and drops twice |
 | **[the switchback trumpet](switchback/)** | 22 blocks, 352mm, six sections — folds back on itself twice |
 | **[the greek spiral](greek-spiral/)** | 68 blocks, 1088mm, **one** section — a flat meander, the only bore here that cuts in one piece |
+| **[the spiral bore](parts/bore/concept/swept-curve/spiral/ribbon-spiral-bore10-45deg-R35to113/ribbon-spiral-bore10-45deg-R35to113.html)** | 19 facets of 45°, 1000mm, R34.7 to R112.9 — a swept curve, cut in ply and glued up |
 | **[the bell and the mouthpiece](ends/)** | The two ends, shared by every bore on the 10mm channel |
 
 ## Cutting
