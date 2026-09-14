@@ -84,3 +84,11 @@ snakebox.py
 x-ported-square.svg
 x-merged.svg
 x-narrow.svg
+
+# The --out= stem on the spiral bore's page, added 2026-09-14. ribbon_bore.py
+# takes ONE name and writes TWO sheets from it, appending -cheek-x2-cut-files
+# and -panels-cut-files, so the stem itself is never a file and never should be.
+# Same class as the x-*.svg scratch names above: the exemption is safe precisely
+# because a file of this name would mean the generator had gone wrong. The two
+# sheets it does write are named on that page and both exist.
+ribbon-spiral-bore10-45deg-R35to113-1000mm-ported-square-narrow.svg

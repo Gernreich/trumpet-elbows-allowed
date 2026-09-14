@@ -122,8 +122,7 @@ Each of these carries the walk it is cut from, its blocks and centreline, its
 sections with their plates and sheet sizes, and a link to a viewer you can turn
 at tab size. The first is the instrument that exists; the next three are
 candidates that have not been cut. The spiral after them is neither: it is a
-swept curve rather than a walk, it has been cut and glued up, and its link goes
-to a viewer rather than a page of its own.
+swept curve rather than a walk, and it has been cut and glued up.
 
 | | |
 | --- | --- |
@@ -131,7 +130,7 @@ to a viewer rather than a page of its own.
 | **[the coiled trumpet](coiled/)** | 59 blocks, 944mm, eight sections — coils flat and drops twice |
 | **[the switchback trumpet](switchback/)** | 22 blocks, 352mm, six sections — folds back on itself twice |
 | **[the greek spiral](greek-spiral/)** | 68 blocks, 1088mm, **one** section — a flat meander, the only bore here that cuts in one piece |
-| **[the spiral bore](parts/bore/concept/swept-curve/spiral/ribbon-spiral-bore10-45deg-R35to113/ribbon-spiral-bore10-45deg-R35to113.html)** | 19 facets of 45°, 1000mm, R34.7 to R112.9 — a swept curve, cut in ply and glued up |
+| **[the spiral bore](ribbon-spiral/)** | 17 facets of 45°, 1000mm, R34.7 to R112.9 — a swept curve rather than a walk, cut in ply and glued up |
 | **[the bell and the mouthpiece](ends/)** | The two ends, shared by every bore on the 10mm channel |
 
 ## Cutting
@@ -227,32 +226,12 @@ a serpentine and an opposed pair at 1000mm, three spirals at 1000, 1458 and
 1767mm, a wave at 836mm and a double spiral at 1506mm — plus a 30° coupon that
 exists to prove the tooth survives the bend.
 
-One of the seven is in ply. The 1000mm spiral — `R35to113`, 19 segments of 45°,
-its radius growing 34.7 → 112.9mm — has had its cheek sheet cut, and cut twice,
-because the two cheeks are the same part and both go on the same way up.
-
-![The two cheek plates as cut, one lying on the other on a scratched workbench: a faceted band of pale masked ply winding a little over two turns out from a small centre to a straight tail, both rims crenellated with open notches, a number engraved beside each notch, and a small square hole at the inner end](parts/bore/concept/swept-curve/spiral/ribbon-spiral-bore10-45deg-R35to113/ribbon-spiral-bore10-45deg-R35to113-1000mm-ported-square-narrow-cheek-x2-as-cut_web.jpg)
-The band is a single closed outline of 40 vertices, 216.50 × 218.51mm on a
-236.50 × 238.51mm sheet, and it carries **149 mortices** for 38 wall panels.
-Every one of those mortices is open at the rim, which is what `--narrow` buys:
-the cheek is no wider than the duct, so each tab is held across its thickness on
-one side only. The square hole near the inner end is the port — a 10mm square,
-drawn 9.85mm because the 0.15mm kerf opens it the rest of the way, and square
-rather than round because `--port-square` asks for the bore's own section. The
-wall panels that stand in the mortices are a second sheet, 574.95 × 96.60mm, and
-are not in the photograph.
-
-Both sheets are cut now, and the bore is glued up — the wall panels standing in
-the mortices between the two cheeks, a mouthpiece on the straight tail and a
-bell on the port at the inner end.
-
-![The spiral glued up on a dark wood floor: a pale ply band winding a little over two turns, cornered at every facet, both rims crenellated with tabs and a number engraved beside each one; a straight tail leaves the outer end and carries a dark, glossy mouthpiece, and a bell engraved 10. stands on a dark ribbed throat at the inner end](parts/bore/concept/swept-curve/spiral/ribbon-spiral-bore10-45deg-R35to113/ribbon-spiral-bore10-45deg-R35to113-1000mm-ported-square-narrow-cheek-x2-glued-up_web.jpg)
-It is not airtight. A glue-up with this many joints — a mitre at every facet and
-a tab at every mortice — leaves air gaps all along both rims, and they are
-closed the same way they are closed on the built instrument: **several coats of
-shellac**, which seal the ply and fill the gaps in the same pass. The three-turn
-coil at the top of this page is the colour it is because it has had them. This
-spiral is still bare ply.
+One of the seven is in ply, and it is the only design here besides the
+three-turn coil that exists as an object. The 1000mm spiral — `R35to113`, 17
+facets of 45°, its radius growing 34.7 → 112.9mm — has had both its sheets cut
+and the bore glued up, and carries **[a page of its own](ribbon-spiral/)**: the
+cheek and its 149 mortices, the two panels the square port costs, and what
+shellac is for on a glue-up with this many joints.
 
 The **double spiral** is the one shape here whose two arms interleave. Two of
 them half a turn apart about one centre, crossed in the middle by a straight:
