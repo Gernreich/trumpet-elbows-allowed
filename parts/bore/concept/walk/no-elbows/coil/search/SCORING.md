@@ -49,33 +49,31 @@ If no touching walls is a *requirement* rather than a preference, filter:
 
 which is the same advice as everywhere else here — cut on the property, then rank.
 
-### Two filters, arrived at from judgements rather than argument
+### Two filters, from judgement rather than argument
 
-**This is a record of how the filters were arrived at, against the corpus of the time.**
-Ten coils were judged by eye then, seven liked and three not, and two filters reproduced
-that split exactly — selecting the liked set and nothing else:
+**Neither filter was argued for; both were read off coils judged by eye.** Ten were
+judged, seven liked and three not, and these two filters reproduce that split exactly —
+selecting the liked set and nothing else:
 
 * **no touching walls** — perfect on its own: no coil with any wall contact was liked, and
   seven of the eight without were.
 * **at least 3 blocks thick in every direction** — a coil 2 thick is a ribbon rather than
   a rod.
 
-That corpus is not this one. The search has since grown to seventeen coils, and the coils
-winning a category have been promoted out to siblings of their own, leaving ten here,
-four of them walls-free. The judgements were never re-taken over the set as it stands, so
-the counts in this section are history and the counts everywhere else on this page are
-measurements.
+Those judgements are over a set of ten, not over this page's ten — of
+which four are walls-free. The filters are what carries across; the split
+they reproduce is not a ranking of what is here.
 
-The second took a designed test to establish. The one rejected walls-free coil was extreme
-on two things at once, thinness and elongation, and nothing else in the set separated them.
-So two candidates were built: one 3 thick but far longer than anything previously liked
-(aspect 43 against a previous ceiling of 24), and one 2 thick but as short as a 2-thick
-coil can be at this tube length (aspect 49). The long one was liked and the thin one was
-not, which rules out elongation on its own — aspect 43 is fine when the coil has a core.
+The thickness filter took a designed test. The one rejected walls-free coil is extreme on
+two things at once, thinness and elongation, and nothing else in the set separates them,
+so two candidates settle it: one 3 thick but far longer than anything else liked (aspect
+43 against a ceiling of 24), and one 2 thick but as short as a 2-thick coil gets at this
+tube length (aspect 49). The long one is liked and the thin one is not, which rules out
+elongation on its own — aspect 43 is fine when the coil has a core.
 
 Both are filters and neither is scored. Thickness is not a gradient: 3 is acceptable, and
-being thicker is not better — the 5x5 coil packed worst of anything in that corpus and was
-liked. Thickness sorts nothing here any more: all ten of the remaining coils are at
+being thicker is not better — the 5x5 coil packs worst of anything judged and is liked all
+the same. Thickness sorts nothing here: all ten of the coils are at
 least 3 thick, so `--solid` removes none of them and `--clean` alone does the work.
 
     node tools/score.js --clean --solid    # 4 of the 10 coils here

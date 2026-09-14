@@ -1,11 +1,10 @@
 # CLAUDE.md
 
 
-**The README is gone.** Every `README.md` and `index.html` under `trumpet/` was
-removed on 2026-09-05, pending one new writeup for the trumpet as a whole once
-the renaming and reorganising is finished. Git has them all. Until it exists,
-this file is the documentation, and any recipe below that renders or audits a
-README is waiting on that writeup rather than describing something present.
+**There is no README in this folder.** The reading page for the coil that was
+built out of this family is `../../../../../../../../three-turn/`, and the
+repository's writeup is at the root. This file is the note that sits beside the
+cut files.
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
@@ -40,13 +39,11 @@ centre, and the longest agrees three ways: its legs are `W U E D` three times ov
 its first and last blocks sit on the same cross-section point, which only a whole number
 of turns can do.
 
-**These names were wrong between 2026-09-06 and 2026-09-08**, when they read 0.25, 1.25,
-2 and 2.75 — a quarter to a half turn LOW — and this paragraph said the older, correct
-names had been high. The source was `spiral_metrics.js`, which sums the turn between
+**`spiral_metrics.js` reads a quarter turn low on a walk that closes.** It sums the turn between
 CONSECUTIVE PAIRS of lateral legs: twelve legs give eleven quarter turns, 990°, and it
 reads as 2.75. That is the tangent's rotation from the first leg to the last, not the
 winding, and the two differ by exactly one quarter turn whenever the walk closes its
-circuit. **The tool still reports it that way** — the obvious fix, wrapping the sum from
+circuit. The obvious fix, wrapping the sum from
 the last leg back to the first, is right for a walk that closes and wrong for one that
 does not: it takes `../fold2` from 450° to 360° against a measured 540°. Do not take a
 turn count from that tool without checking it closes.
@@ -55,8 +52,7 @@ turn count from that tool without checking it closes.
   Uncut.
 - **`coil-10x10x30-1.5t/`** — 22 blocks, 548mm. **All six parts are cut**; treat its files
   as describing wood. It is `../fold2`'s walk exactly — one file,
-  `tools/walks/coil_fold2.txt`, named by both — and nobody noticed it was a coil until the
-  other two existed, which is why its folder was called `bore/` until 2026-09-01.
+  `tools/walks/coil_fold2.txt`, named by both.
 - **`coil-10x10x30-2.25t/`** — 33 blocks, 822mm, 9 sections. Uncut.
 - **`coil-10x10x30-3t/`** — 44 blocks, 1096mm, and the longest; it is the one that was
   BUILT, and it lives in `../../../../../../built/coil/fold2-long-straight-3t`.
@@ -69,72 +65,63 @@ turn count from that tool without checking it closes.
   out for this lattice. Nothing cut yet.
 
 
-**These two folders were NOT regenerated on 2026-09-09**, when the sheet was
-calipered at 2.94mm and the kerf measured at 0.13mm and every other design was
-cut again to those numbers. `coil-10x10x30-1.5t/` and
-`../../../../../../built/coil/fold2-long-straight-3t/` hold files drawn at the
-old 3.0mm and 0.1mm, because those files describe wood that exists and a record
-of what was cut is worth more than a file nobody is cutting.
+**One folder here is pinned rather than reproduced.** `coil-10x10x30-1.5t/` holds
+six sheets drawn to a 0.1mm kerf where the generator assumes 0.15, because those
+files describe wood that exists and a record of what was cut is worth more than a
+file nobody is cutting.
 
-**So do not cut from either of them as they stand.** Their joints will come out
-0.11mm slack along the tooth and 0.09mm across the ply, which is what the
-dspiral halftest assembled like and why the numbers were measured at all.
+**So do not cut from it as it stands.** A slot drawn for a narrower kerf than the
+machine takes comes out about 0.05mm wide, and the joints are slack to match.
 Regenerate the folder first -- the switches are in `tools/regress.py`, which is
-what drove every other folder -- and know that you are then overwriting the
-record of the instrument.
+what drives every other folder -- and know that you are then overwriting the
+record.
 
-Since **2026-09-09** that last sentence is enforced rather than hoped for. Both
-folders are pinned by hash in `tools/as-built.sha256`, and `tools/repro.py`
-checks them against those hashes instead of redrawing them -- redrawing them
-*should* differ, which is why an ordinary reproduction gate cannot protect
-them. Overwrite either one and the gate fails with the line *this file describes
-wood that was cut*. Re-pin with `repro.py --update`, which is the deliberate act
-this paragraph was already asking for; nothing else in the tree would have
-noticed, because every invariant still passes on a regenerated sheet.
+That is enforced rather than hoped for. The six sheets are pinned by hash in
+`tools/as-built.sha256`, and `tools/repro.py` checks them against those hashes
+instead of redrawing them -- redrawing them *should* differ, which is why an
+ordinary reproduction gate cannot protect them. Overwrite one and the gate fails
+with the line *this file describes wood that was cut*. Re-pin with
+`repro.py --update`, which is the deliberate act this paragraph asks for; nothing
+else in the tree would notice, because every invariant still passes on a
+regenerated sheet.
 
 None of them is an instrument on its own: this repository is all bore, and nothing here
 closes either end. The 10mm mouthpiece and bell in `../../../../../../../mouthpiece` and
 `../../../../../../../bell` fit any of
 them — a coil's mouth is a 10mm square in a 16mm face, which is what both seat onto, and
 neither cares how long the bore behind it is. They are **named, not copied**: two copies of
-a cut file drift, which has cost this project once already.
+a cut file drift.
 
-## The toolchain was forked here, and is not any more
+## One toolchain, not a fork
 
-Until **2026-09-05** `tools/` was a copy of the bore generator and the other
-repositories were frozen against it. Both facts are gone: the repositories are one
-repository, and the fork was collapsed into [`../../../../../../../../tools`](../../../../../../../../tools).
+There is one generator for every bore here,
+[`../../../../../../../../tools`](../../../../../../../../tools), and every design in the
+tree is gated against it.
 
-**Do not reintroduce a copy.** The generalisation was a superset of the frozen code —
-cell indices became real millimetre boxes, so a straight block can run longer than a
-turn, and a cubic lattice is the case where every box is the same size. That was
-checked before the copy was deleted: all 24 uniform designs passed on the generalised
-toolchain with check counts identical line for line, and `../fold2`'s bore
-regenerated byte-identical in geometry.
+**Do not introduce a copy.** The generator is a superset of a cubic-lattice one —
+cell indices are real millimetre boxes, so a straight block can run longer than a
+turn, and a cubic lattice is the case where every box is the same size. All 24 uniform
+designs pass on it with check counts identical line for line.
 
-The two files this document used to name as diverged are the ones that were promoted.
 `bore_split.py`'s tightened page-title rule and `viewer.py`'s real-box rendering are
-now what everything uses; there is no other version for a fix to fail to flow back to.
+what everything uses; there is no second version for a fix to fail to flow back to.
 
 Its generator installs into Boxes.py as **`SnakeBoxVar`**, beside `SnakeBox` rather
 than over it, so both are available at once. That has not changed, and it is still the
 reason installing anything into `~/Software/boxes` deserves care — it is a shared checkout.
 
-**The play figure is worth remembering as provenance.** It went to 0.025 per side on
-2026-09-01 because the fit was *measured here*, four times in ply, while `../fold2`
-was carrying 0.3 — a value the bench had already rejected as loose — in files someone
-might cut. Measurement beat convention, which is the right order.
+**The play figure is measured here, not conventional.** 0.025 per side, from four goes
+in ply. A measured fit beats a conventional one, which is the order to keep.
 
-**The render is the weak point, and only partly gated now.** `check.py` never looks at
-the page, and a render can be wrong while every geometry check passes — which is exactly
-what happened once: the geometry, the plates and the voxel model were all correct and
-the picture still showed a uniform 10mm lattice. `regress.py`'s `check_page` now
-asserts that the page beside a design was handed that design's walk, block count and
+**The render is the weak point, and only partly gated.** `check.py` never looks at
+the page, and a render can be wrong while every geometry check passes: the geometry, the
+plates and the voxel model can all be right and the picture still show a uniform 10mm
+lattice. `regress.py`'s `check_page` asserts that the page beside a design was handed that design's walk, block count and
 centreline, so a stale page fails. It still does not judge the picture. **Look at the
 render after changing the geometry.**
 
 **Check a shipped file still reproduces after touching Boxes.py.** The output folder has
-to be named the way the real one is, because since 2026-09-03 the design's name is in the
+to be named the way the real one is, because the design's name is in the
 file's name and in its `<title>` — write to `/tmp/f` and you get `bore10-f-...`, which
 will not compare against anything.
 
@@ -175,8 +162,8 @@ Everything downstream of that had to stop counting cells:
   first cell**, because SnakeBox lays its own cells out from (0,0) following `--path`.
 - `assemble.build()` takes real boxes and decides face contact geometrically, so a face a
   neighbour only partly covers is walled over the rest of itself.
-- `plate_span_mm()` sums column widths for the bed-fit test. It used to be `blocksize x
-  blocks`, which under-reported by 13mm a side here.
+- `plate_span_mm()` sums column widths for the bed-fit test. `blocksize x blocks` would
+  under-report it by 13mm a side here.
 
 **The grid still has to hold within a piece.** `piece_widths()` raises, naming the column,
 when a straight and a turn share one — a plate is drawn on a rectilinear grid even though
@@ -185,11 +172,11 @@ the bore as a whole is not on one. This walk happens to satisfy it; most will no
 ## The 1mm spurs are known, benign, and not worth fixing
 
 Five of the six plates carry **four 1.00mm zero-width spurs** each: the cut path runs 1mm
-past a corner and retraces the same line. Spotted on 2026-08-31 and deliberately left.
+past a corner and retraces the same line. They are left there deliberately.
 
 - **They cut into waste, not into the part.** Every spur tip tests outside the plate
   outline, so it is a slit in the offcut, not a nick in the piece. No dimension moves.
-- **They are not from the stretched lattice.** The frozen 10mm bore in
+- **They are not from the stretched lattice.** The 10mm bore in
   `../fold2` has the identical 20.
   They appear once the end frame drops below 12mm: zero at block 18 and above, four at 17
   and 16.
@@ -198,15 +185,14 @@ past a corner and retraces the same line. Spotted on 2026-08-31 and deliberately
   Narrowing the coupling does not help: at a 4.0mm notch there are still four, and at 4.6
   and 5.3 there are eight.
 
-Section 1 is the only one with none, which is why the first part cut looked right.
+Section 1 is the only one with none.
 
-**Do not "fix" this.** Chasing it means changing `~/Software/boxes`, the shared checkout the frozen
-repositories depend on, to remove a scorch mark in the waste.
+**Do not "fix" this.** Chasing it means changing `~/Software/boxes`, a shared checkout
+every design here depends on, to remove a scorch mark in the waste.
 
 ## Do not trust a passing gate
 
-195 checks and 0 failed is not the evidence. Two of those checks were vacuous on this
-geometry until the voxel model was rewritten, and a passing gate means no check failed, not
+195 checks and 0 failed is not the evidence: a passing gate means no check failed, not
 that the part is buildable. The number that means something:
 
     voxelised bore volume   55520 mm3
@@ -253,7 +239,7 @@ author's:
   width and the load-bearing half; a notch is a hole. `--notch` exists and would move the
   tab to suit — this design does not use it.
 
-Sized on the bench over four goes, all 2026-08-31:
+Sized on the bench, over four goes:
 
 | clearance | outcome |
 | ---: | --- |
@@ -262,9 +248,8 @@ Sized on the bench over four goes, all 2026-08-31:
 | 0.1mm | very slightly loose |
 | **0.05mm** | current: tab 6.0, notch 6.05 — **confirmed on the bench**, parts 1 and 2 fit themselves and each other |
 
-The 0.1mm round widened the tab to 6.2 and held the notch at 6.3, because parts 1 and 2
-were cut and a cut notch cannot be narrowed. That left two tab sizes in one bore. The
-author chose to recut instead, which is what restored a single size.
+A cut notch cannot be narrowed, so a clearance change made once parts exist has to widen
+the tab instead — which leaves two tab sizes in one bore unless the cut parts are recut.
 
 **Before changing this again, ask what is already cut.** A regenerate that moves a joint
 leaves parts in wood that no file describes — and if recutting is on the table, say so,
@@ -295,24 +280,22 @@ lengths must not do. `draw()` takes its **scale** from the reference set and its
 centred. That ratio is bounding box, not centreline: the centrelines are 274mm and 1096mm,
 a factor of four, but a coil folds, so its box grows more slowly than its length.
 
-The switch therefore **keeps** the camera. It used to reset, and it had to when each coil
-fitted itself — a zoom held from the 3-turn threw the ¾ off-screen. Nothing can leave the
-frame now, and holding the angle is the point: you are comparing lengths, which you cannot
-do if the view jumps each time you swap. Reset is still a button.
+The switch **keeps** the camera. Nothing can leave the frame, and holding the angle is
+the point: you are comparing lengths, which you cannot do if the view jumps each time you
+swap. Reset is still a button.
 
-## `regress.py` gates both designs, and what it cannot see
+## `regress.py` gates these designs, and what it cannot see
 
 ```sh
-cd tools && ~/Software/boxes/venv/bin/python regress.py        # both designs
-cd tools && ~/Software/boxes/venv/bin/python regress.py coil   # one
+cd ../../../../../../../../tools && ~/Software/boxes/venv/bin/python regress.py        # every design
+cd ../../../../../../../../tools && ~/Software/boxes/venv/bin/python regress.py coil   # the coils
 ```
 
-The frozen corpus in `../../../../../../../../tools` gates the frozen toolchain and has no stretched
-lattice in it, so it cannot catch a change made here. Each design carries the switches it is
-cut with, because `--files` never looks at the pitch and will happily gate a design nobody
-is cutting.
+Every folder here has a row in that corpus, carrying the switches it is cut with —
+`--bore=10 --straight=30` — because `--files` never looks at the pitch and will happily
+gate a design nobody is cutting.
 
-**It bites.** Adding 1mm to `SnakeBoxVar.span()` fails both designs and names the sections.
+**It bites.** Adding 1mm to `SnakeBoxVar.span()` fails these designs and names the sections.
 
 **It has one blind spot, and it is the interesting one.** `extent()` decides how long a
 straight block is, and `check.py` computes the expected bore volume from that same function.
@@ -321,22 +304,25 @@ that looks strongest here cannot see it: adding 1mm to every straight block stil
 all 393 checks on the 3t. What the volume check proves is that the voxel model agrees with the formula,
 not that either is right. **A change to `extent()` has to be checked by hand.**
 
-`bore/` describes cut parts. A rebuild that changes it needs asking about first.
+`coil-10x10x30-1.5t/` describes cut parts. A rebuild that changes it needs asking about
+first.
 
-**After editing `README.md`** — regenerate the page, then audit:
+**After editing this family's page** — regenerate it, then audit, and check the strokes
+here:
 
 ```sh
 G=../../../../../../../../../lasermade-tools
-python3 $G/md2html.py README.md index.html
-python3 $G/doc-audit.py README.md --html index.html
 python3 $G/svg-stroke-check.py --dir . --quiet
+cd ../../../../../../../../three-turn
+python3 ../../lasermade-tools/md2html.py README.md index.html
+python3 ../../lasermade-tools/doc-audit.py README.md --html index.html
 ```
 
 ## Cut files belong to the author
 
 The author edits SVGs in Inkscape during a session. **Stage by name** — never `git add -A`.
 A changed section length renames a file and the generator does not delete what it stops
-writing, so check `bore/` for orphans after a regenerate.
+writing, so check the design folder for orphans after a regenerate.
 
 ## Colour is the cut order
 

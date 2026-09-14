@@ -1,10 +1,9 @@
 # CLAUDE.md
 
-**Nothing in this repository has been cut.** It was generated on 2026-09-04, moved
-here out of the design library the same day, and gated at 85 checks. A passing gate
-means no check failed, not that the part is buildable — see `../../../../../../../../tools/CLAUDE.md`,
-which lists two bench failures the gate could not see. Say "gated" and not "built"
-until one exists.
+**Nothing in this repository has been cut.** It is gated at 85 checks, and a passing
+gate means no check failed, not that the part is buildable — see
+`../../../../../../../../tools/CLAUDE.md` for what the gate cannot see. Say "gated"
+and not "built" until one exists.
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
@@ -14,11 +13,9 @@ The bore of a trumpet whose walk is a flat meander — the Greek key. It ships c
 files only; the thing that makes them is **`../../../../../../../../tools`**, and the mouthpiece
 and bell are **`../../../../..`**.
 
-**The README is gone.** Every `README.md` and `index.html` under `trumpet/` was
-removed on 2026-09-05, pending one new writeup for the trumpet as a whole once
-the renaming and reorganising is finished. Git has them all. Until it exists,
-this file is the documentation, and any recipe below that renders or audits a
-README is waiting on that writeup rather than describing something present.
+**There is no README in this folder.** The reading page for this bore is
+`../../../../../../../../greek-spiral/`, and the repository's writeup is at the
+root. This file is the note that sits beside the cut files.
 
 
 ## One section is the whole design
@@ -72,13 +69,12 @@ The gate's `sheet fits the bed` check passes the block sheets, and will keep pas
 up to 600.0. The nester may split differently rather than failing, so compare the reported
 sheet sizes after any change and do not assume two sheets stays two.
 
-## Not yet in the generator's corpus
+## In the generator's corpus
 
-`../../../../../../../../tools/regress.py` gates every design in `walks/` on every toolchain
-change. This walk is passed on the command line instead, so a regression that broke
-it would not be caught by anything. Adding `walks/greek_spiral.txt` and a row in
-`regress.py` pointing at `./bore` at pitch 16 is the fix; it has not
-been done, and the README says so.
+`../../../../../../../../tools/regress.py` gates every design in `walks/` on every
+toolchain change, and this walk is one of them: `walks/greek_spiral.txt`, with a row
+pointing at `./bore` at `--bore=10`. A toolchain change that breaks this bore is
+caught there rather than on the bench.
 
 ## Colour is the cut order
 
@@ -87,20 +83,22 @@ black**; black frees the part; **violet `#8000ff` means skip**. Bore nets use tw
 stages — blue engraves the section number, black cuts. **Not this one.** It is
 a single section, so the number would read `1` on all twenty-four parts and
 answer a question nobody can ask; nothing is engraved and black is the only
-colour on the sheet. Marking each wall with its own length was tried and
-reverted: it named the stick, but the plate carries no matching mark and the
-one that would complete it could not be derived. The plate is the jig — a wall
-of length L fits only the run of length L, and all eleven lengths differ.
+colour on the sheet. Marking each wall with its own length would name the stick
+and nothing else: the plate carries no matching mark, and the one that would
+complete it cannot be derived. The plate is the jig — a wall of length L fits
+only the run of length L, and all eleven lengths differ.
 
 ## Publishing
 
-Pages deploys from `main` through `.github/workflows/pages.yml`, keyed per commit.
-`index.html` is `README.md` rendered by `md2html.py` and committed, not built on the
-server, so a stale `index.html` publishes stale content — regenerate it after editing
-the README, and read the audit before pushing:
+This folder publishes nothing of its own. The page that describes this bore is
+`../../../../../../../../greek-spiral/`, and Pages deploys it from `main` through
+`.github/workflows/pages.yml`, keyed per commit. Its `index.html` is `README.md`
+rendered by `md2html.py` and committed, not built on the server, so regenerate it
+there after editing that README and read the audit before pushing:
 
 ```sh
-G=../../../../../../../../../lasermade-tools
+cd ../../../../../../../../greek-spiral
+G=../../lasermade-tools
 python3 $G/md2html.py README.md index.html
 python3 $G/doc-audit.py README.md --html index.html
 ```

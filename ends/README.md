@@ -8,10 +8,8 @@ channel — so one bell and one mouthpiece serve all of them.
 <!-- readme-only -->
 **[Read this page](https://gernreich.github.io/trumpet/ends/)**
 
-They were kept inside one instrument's folder from 2026-08-31 to 2026-09-02, on
-the grounds that nothing else cut them. That was true of what had been cut and
-false of what fits, and it hid two general parts inside one design. They live in
-`../parts/` now.
+Both live in `../parts/` rather than inside any one instrument's folder, because
+neither belongs to a single bore: what cuts them is not what fits them.
 
 ## The bell
 
@@ -134,13 +132,11 @@ one part of this instrument that can feel every one of them.
 ## Every sheet is claimed
 
 Both directories carry a `.repro` manifest naming the exact command that draws
-each shipped SVG, checked by `repro-svg.py`. Nothing ran these eleven generators
-at all until 2026-09-10: the block bores had two byte gates and the ribbon
-sheets a third, and the one thing that did touch these directories checked the
-preview against the cut file rather than the cut file against the code. So a
-sheet on disk could have been one the current code would no longer draw, with
-every gate still green. The adapter was found exactly that way — reported
-`UNCLAIMED` three days after it was added.
+each shipped SVG, checked by `repro-svg.py`. It runs every command into a temp
+path and compares the result byte for byte against the sheet on disk, so a sheet
+the current code would not draw is caught rather than shipped. A sheet with no
+command behind it is reported `UNCLAIMED`, which is why the manifest has to grow
+whenever a drawing does.
 
 ## The bores these fit
 

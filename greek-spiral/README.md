@@ -86,9 +86,9 @@ walk, not the toolchain. Check the walk first.
 **Nothing is engraved.** The other bores write a section number on every part in
 blue before black cuts. Here the number would read `1` on all twenty-four parts
 and answer a question nobody can ask, so black is the only colour on the sheet.
-Marking each wall with its own length was tried and reverted: it named the stick,
-but the plate carries no matching mark, and the one that would complete it
-could not be derived. The plate is the jig: a wall of length *L* fits only the
+Marking each wall with its own length would name the stick and nothing else:
+the plate carries no matching mark, and the one that would complete it cannot
+be derived. The plate is the jig: a wall of length *L* fits only the
 run of length *L*.
 
 ## Two sheets, and one of them is the biggest in the repository

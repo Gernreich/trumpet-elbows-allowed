@@ -1,14 +1,12 @@
 # CLAUDE.md
 
 
-**The README is gone.** Every `README.md` and `index.html` under `trumpet/` was
-removed on 2026-09-05, pending one new writeup for the trumpet as a whole once
-the renaming and reorganising is finished. Git has them all. Until it exists,
-this file is the documentation, and any recipe below that renders or audits a
-README is waiting on that writeup rather than describing something present.
+**There is no README in this folder.** The reading page for this bore is
+`../../../../../../../../switchback/`, and the repository's writeup is at its root.
+This file is the note that sits beside the cut files.
 
 **This is a 10mm bore**: six sections on a 16mm block, 352mm of centreline. There is
-no `sizes.html` - it existed to hold two pitches in one page, and there is only one.
+one pitch here, so there is no `sizes.html`.
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
@@ -17,50 +15,35 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 A laser-cutting build repository, not a software project. The deliverable is **one bore**,
 six sections, as **SVG cut files**
 that someone sends to a laser, plus the pages describing them. The bores are **generated**
-by the sibling repository **`../../../../../../../../tools`**
+by **`../../../../../../../../tools`**
 ([CLAUDE.md](https://github.com/Gernreich/trumpet/blob/main/tools/CLAUDE.md)); nothing in
-this repository is authored by hand except `README.md` and this file.
+this folder is authored by hand except this file.
 
 One design, one pitch:
 
     bore/          10mm of air, a 16mm block
 
 `bore/` sits directly under the design, the same shape as every sibling under
-`no-elbows/`. It was `10mm/bore/` while a second pitch was expected beside it;
-that level went on 2026-09-06, and the machinery that would put one back —
-`--blocksize`, `sizes.py`, `folder_stack` climbing past a size folder — is
-untouched. Cut this folder and you have the tube; the two ends come from
-`../../../../../..`.
-There is no page in this folder: every `index.html` under `trumpet/` went on 2026-09-05,
-and the repository's one writeup is `README.md` at its root.
-
-**Three moves got here.** On 2026-08-31 the sheets came off the root into `<size>/bore/`,
-so a pitch read as a sibling of any other rather than as a design and an afterthought;
-then the mouthpiece and bell joined them, so a folder was a whole instrument. On 2026-09-02 those two ends left again for `../../../../../..`.
-Regenerating after each move left every bore SVG **byte-identical**.
+`no-elbows/`. The machinery for a second pitch beside it — `--blocksize`, `sizes.py`,
+`folder_stack` climbing past a size folder — is there and unused. Cut this folder and you
+have the tube; the two ends come from `../../../../../../..`.
 
 **Where the parts come from.** The bell and the mouthpiece are generated in
-`../../../../../..`, which is where the two square-to-round generators live:
+`../../../../../../..`, which is where the two square-to-round generators live:
 
-**All four sheets live in `../../../../../..`, and none of them here.** They were held here
-from 2026-08-31 to 2026-09-02 on the grounds that nothing else cut them — true of what had
-been cut, false of what fits. A mouthpiece and a bell suit any tube on the same channel,
-and the coiled and octagonal trumpets were both on one, so keeping them here hid two
+**All four sheets live in `../../../../../../..`, and none of them here.** A mouthpiece and
+a bell suit any tube on the same channel, so holding them beside one bore would hide two
 general parts inside one instrument. What decides it: neither end is touched by the way a
-bore turns, so **only the tube belongs to an instrument**.
-
-At the time it was noted that the 10mm pair suited no other bore *that day*, and that this
-was an accident of the lineup rather than a principle. The accident has since gone the
-other way — **every bore in the repository is now on the 10mm channel**, all 96 lattice
-sheets and every swept-curve one — so the pair serves all of them, which is the whole
-reason they live in `../../../../../..`.
+bore turns, so **only the tube belongs to an instrument**. **Every bore in the repository
+is on the 10mm channel** — all 96 lattice sheets and every swept-curve one — so one pair
+serves all of them, which is the whole reason they live in `../../../../../../..`.
 
 **Do not move them back** without deciding what changed about that argument.
 
-Regenerating any of the four still means running a generator in `../../../../../..` and
+Regenerating any of the four means running a generator in `../../../../../../..` and
 writing it where it belongs. Three things to know:
 
-- **Since 2026-09-06 a generated sheet lands in the generator's own `cut-files/`**, not
+- **A generated sheet lands in the generator's own `cut-files/`**, not
   loose beside the script, and a bare run there rebuilds the shipped sheet byte for byte.
   So there is nothing to name and nothing to move: `mouthpiece-round.py` and
   `bell-round.py 17 --bore=10 --length=152 --mouth=80` write
@@ -69,17 +52,14 @@ writing it where it belongs. Three things to know:
 - **A bare `bell-round.py` writes four budgets, not one.** The shipped sheet is among them
   and comes back identical; the other three are scratch in the same directory. Pass a ring
   budget to write one.
-- **The generators number their own rings.** Every sheet here carries a
+- **The generators number their own rings.** Every sheet there carries a
   `<g id="ring-numbers">`, and `bell-round.py` and `mouthpiece-round.py` write it themselves
-  as the last step, so a regenerate keeps it. **A regenerate also adds an orientation tick**
-  beside each number. All four sheets carry it as of 2026-09-02; the parts already glued up
-  predate it. Those sheets are in `../../../../../..` now. `--numbers=no` opts out; a numbering failure
-  deletes the sheet rather than leaving an unnumbered one to be cut. This used to be a
-  separate command you had to remember, and forgetting it cost a sheet its numbering once.
+  as the last step, so a regenerate keeps it, and writes an orientation tick beside each
+  number with it. `--numbers=no` opts out; a numbering failure
+  deletes the sheet rather than leaving an unnumbered one to be cut.
 
 Sibling repositories — `knotwork-soundholes`, `living-hinge` and others — follow
-the same conventions. The coiled trumpet is a directory in this repository now, not a
-repository of its own, and the two octagonal ones left it on 2026-09-05. Shared
+the same conventions. Shared
 documentation tooling lives in **`../../../../../../../../../lasermade-tools`** (its own repository).
 
 ## The design is one line
@@ -107,8 +87,8 @@ Never transcribe the walk from memory. Read it out of the file.
 A walk may end with a bare letter naming the way you leave. This one does not, and that
 costs nothing: a term whose direction matches your heading does not turn, and a bare term
 carries no distance, so after `N1` a trailing `N` would only restate a heading the walk
-already has. Checked on 2026-08-29 by writing it both ways — **the six SVGs came back
-byte-identical**. It would matter if the exit direction differed from the last term: `N1 U`
+already has. Written either way, **the six SVGs come out byte-identical**. It would
+matter if the exit direction differed from the last term: `N1 U`
 turns the final block and buys an elbow.
 
 ## One block is 16mm, not 10
@@ -127,16 +107,15 @@ outside dimension still matches, which no drawing shows. Do not type them: `bore
 builds them from its own constants, so `--blocksize` moves the plan and the sheet together.
 
 ```
---blocksize=16 --thickness=2.94 --burn=0.065 --labels=0 --reference=0
+--blocksize=16 --thickness=3 --burn=0.075 --labels=0 --reference=0
 --inner_corners=corner --spacing=0.5
 ```
 
-`--thickness` is the SHEET, not the nominal 3mm, and `--burn` is HALF the kerf,
-because that is what Boxes.py means by it. Both come from `bore_split._common()`
-and change with `--sheet=` and `--kerf=`; print them rather than trusting this
-block, which recorded `--thickness=3 --burn=0.1` until 2026-09-09.
+`--thickness` is the SHEET and `--burn` is HALF the kerf, because that is what
+Boxes.py means by it. Both come from `bore_split._common()` and change with
+`--sheet=` and `--kerf=`; print them rather than trusting this block.
 
-`--pin_width=12` was in this list once. A 12mm tab does not fit a 10mm end
+`--pin_width=12` does not belong in that list: a 12mm tab does not fit a 10mm end
 frame, which is the whole of the section below.
 
 ## The walk and the square are separate: the walk is here, the square is a flag
@@ -182,12 +161,11 @@ different axes, so there are three cases:
 | same axis, opposite direction | hairpin | >= 2 |
 | different axes | coil | >= 3 |
 
-`../../../../../../../../tools/CLAUDE.md`, `../flat-drop/CLAUDE.md` and that repository's
-`README.md` all stated only the coil case until 2026-08-29, lumping the other two together
+`../../../../../../../../tools/CLAUDE.md`, `../flat-drop/CLAUDE.md` and the repository's
+`README.md` all carry that table. Stating only the coil case lumps the other two together
 as a fold that "costs nothing at any spacing" — right for steps, wrong for hairpins, and
-this walk has two hairpins sitting exactly on the limit. All three now carry the table
-above. Treat `bore_split.py` as the authority, not any document and not a reimplementation
-of the rule.
+this walk has two hairpins sitting exactly on the limit. Treat `bore_split.py` as the
+authority, not any document and not a reimplementation of the rule.
 
 Checking the current walk:
 
@@ -201,43 +179,40 @@ D3 W2 U3     D/U opposed    hairpin, m = 2   OK
 W2 U3 N1     3 axes         coil,    m = 3   OK
 ```
 
-**Every window sits exactly on its minimum.** Verified 2026-08-29 by decrementing each
-interior term in turn: all seven produce elbows, the two hairpins two apiece and the rest
-one. There is no slack anywhere in this walk — it cannot be tightened by a single block
+**Every window sits exactly on its minimum.** Decrement any interior term and it produces
+elbows — all seven do, the two hairpins two apiece and the rest one. There is no slack
+anywhere in this walk — it cannot be tightened by a single block
 without paying for it, and any proposal to shorten it must add length elsewhere.
 
 ## The ends are as short as a section can be
 
 Sections 1 and 6 have a single straight block either side of their turn, which is the least
-a section can hold. That was deliberate — the mouth and bell runs were cut back to leave
-room for the mouthpiece and the bell to seat — but it means **neither end will absorb
+a section can hold. That is deliberate — the mouth and bell runs are short so the
+mouthpiece and the bell have room to seat — and it means **neither end will absorb
 another block of trimming**. If a socket needs to seat *into* a section rather than butt
 against it, the walk has to grow, not shrink.
 
-## Six sections, six shapes — and why that changed
+## Six sections, six shapes
 
-Sections 1 and 4 were both `BDL` and sections 3 and 6 both `BRD` until 2026-08-31, when the
-bore's two outer ends were made plain. Section 1 is now `BDL~a` and section 6 `BRD~b`,
-`_buttin` and `_buttout` in the filenames, so all six are distinct.
+The bore's two outer ends are plain, so section 1 is `BDL~a` and section 6 `BRD~b` —
+`buttin` and `buttout` in the filenames — and all six sections are distinct. Without
+those plain ends, 1 and 4 would both be `BDL` and 3 and 6 both `BRD`.
 
 **The outer ends carry no coupling because there is nothing to couple to.** The mouthpiece
 meets one and the bell the other, and both present a flat plate that glues onto the end
 face — the mouthpiece's station one, the bell's ring 0. A tab standing 3mm proud holds that
-plate off the face and leaves the joint resting on the tab. Reported from the bench.
-`plain_ends()` in `bore_split.py` had the mechanism already but only ever fired for ports;
-it now always marks the first piece's entry and the last piece's exit.
+plate off the face and leaves the joint resting on the tab, which is what the bench
+reports. `plain_ends()` in `bore_split.py` marks the first piece's entry and the last
+piece's exit.
 
-**That rename orphans files, and the gate counts them.** `01_bend_DL.svg` and
-`06_bend_RD.svg` are no longer written by anything and had to be deleted by hand — the
-generator does not remove what it stops writing. Until they were, the gate reported **200
-checks instead of 194**: `check_sheets` globs the folder and adds three checks per sheet it
-finds, so two stale files bought six checks on parts nothing was cutting. A rising check
-count after a rename is a warning, not reassurance. Check both bore folders for orphans
+**A rename orphans files, and the gate counts them.** The generator does not remove what
+it stops writing, and `check_sheets` globs the folder and adds three checks per sheet it
+finds — so an orphan left behind buys checks on a part nothing is cutting. A rising check
+count after a rename is a warning, not reassurance. Check the bore folder for orphans
 after any regenerate.
 
-This design was in `regress.py` because it was the only one checking that a repeated shape
-still gets its own number. It no longer has a repeated shape, so **that coverage has moved
-off this design** — if you need it back, some other walk has to carry it.
+This design has no repeated shape, so it is not the walk that checks a repeated shape
+still gets its own number. Some other walk has to carry that.
 
 ## Colour is the cut order
 
@@ -256,12 +231,12 @@ concurrently modified:
   Inkscape save.
 - **Never regenerate a cut file** the author has hand-edited (nesting, numbering, curve
   conversion) without asking.
-- Regenerating rewrites **every** SVG in the folder you point it at — and only that
-  folder, so the two sizes have to be rebuilt one command each. A changed section length
-  renames a file: `06_bend_RDD.svg` became `06_bend_RD.svg` when the last term went from
-  `N2` to `N1`. Since the names carry `NNofTT`, a walk that gains or loses a *section*
-  now renames **all** of them at once — six orphans, not one. The old files are not
-  deleted for you, in either folder. Check both for orphans after a regenerate.
+- Regenerating rewrites **every** SVG in the folder you point it at, and only that
+  folder. A changed section length renames a file — a last term of `N2` rather than `N1`
+  writes `06_bend_RDD.svg` where the shipped sheet is `06_bend_RD.svg`. Since the names
+  carry `NNofTT`, a walk that gains or loses a *section* renames **all** of them at once —
+  six orphans, not one. The old files are not deleted for you. Check for orphans after a
+  regenerate.
 
 ## The gate does not run under the system python
 
@@ -277,16 +252,15 @@ D=.
 ```
 
 `--files` only looks at the sheets as the machine sees them — bed fit, overlaps, engraving
-on material — and never at the pitch, so it passes on either folder at either
-`--blocksize`. What the switch decides is the *geometry* half of the gate, which is recut
+on material — and never at the pitch, so it passes at any `--blocksize`. What the switch decides is the *geometry* half of the gate, which is recut
 in-process. Pass the wrong one and 195 checks still say pass, having checked a design you
 are not cutting.
 
 `regress.py` passes `sys.executable` down to `check.py`, so it must be started with the
 same interpreter or every design fails on the import.
 
-`regress.py` also only passes `--files` **when the folder exists**. Both `DESIGNS` entries
-name a subfolder now, not the repository root, so a rename of either one — as well as of
+`regress.py` also only passes `--files` **when the folder exists**. Its `DESIGNS` entries
+name a subfolder rather than the repository root, so a rename of one — as well as of
 this repository — leaves the gate printing `pass` while checking the geometry alone and
 never touching these SVGs.
 
@@ -313,7 +287,7 @@ D=.
 ```
 
 The mouthpiece and the bell are **not generated here** — they live in
-`../../../../../..` and are cut from there, not copied in. Each generator writes into its
+`../../../../../../..` and are cut from there, not copied in. Each generator writes into its
 own `cut-files/`, and engraves the ring numbers itself, so these two commands are the
 whole job:
 
@@ -338,18 +312,18 @@ cd $S && ~/Software/boxes/venv/bin/python regress.py      # every design in the 
 ```
 
 The gate reports **196 checks, 0 failed** on this bore, and `regress.py` covers
-27 designs. It was 195 until 2026-09-09, when *the sheets are this walk's sections*
-was added to `check.py`; a check count that moves is worth chasing to the reason,
-which is the whole argument of the section below. It does not look at the bell or the mouthpiece at all — those are checked by
+27 designs. A check count that moves is worth chasing to the reason, which is the
+whole argument of the section below. It does not look at the bell or the mouthpiece at all — those are checked by
 `bell-round.py` and `mouthpiece-round.py` themselves, before they write, in
-`../../../../../..`. Nothing here should be cut from a file that has not passed one or the
+`../../../../../../..`. Nothing here should be cut from a file that has not passed one or the
 other.
 
-**After editing `README.md`** — regenerate the page, then audit:
+**After editing this bore's page** — regenerate it, then audit:
 
 ```sh
-python3 $G/md2html.py README.md index.html
-python3 $G/doc-audit.py README.md --html index.html
+cd ../../../../../../../../switchback
+python3 ../../lasermade-tools/md2html.py README.md index.html
+python3 ../../lasermade-tools/doc-audit.py README.md --html index.html
 ```
 
 **Read the audit output before pushing.** It ends with a pass/fail tally. `.doc-audit-ignore`
@@ -365,9 +339,9 @@ site. A single shared group means a run that wedges holds the lock and every lat
 queues behind it; keyed on the sha, a stuck run can only block a re-run of its own commit.
 
 `index.html` is generated and committed, not built on the server, so **a stale `index.html`
-publishes stale content**. Pages was switched to Actions with
-`gh api -X POST repos/Gernreich/trumpet/pages -f build_type=workflow`
-on 2026-08-29; without that the deploy has nowhere to publish to.
+publishes stale content**. Pages has to be set to build from a workflow —
+`gh api -X POST repos/Gernreich/trumpet/pages -f build_type=workflow` — or the
+deploy has nowhere to publish to.
 
 **Match the deploy to your SHA**, not to "the most recent run":
 
@@ -377,25 +351,16 @@ gh run list -L5 --json status,conclusion,headSha \
   -q ".[] | select(.headSha==\"$SHA\") | .status+\" \"+(.conclusion//\"-\")"
 ```
 
-## The name, four times changed
+## Why this is filed as a coil and not a meander
 
-It was **twin switchback** until 2026-08-29, when it was moved out of the shared library at
-`~/LaserMadeMusic/test` and given a repository — **trumpet-final-youtube-candidate** until
-2026-09-01, when that name was dropped because it claimed a decision that had not been made
-— **trumpet-switchback** until 2026-09-06, when the repositories were consolidated and a
-design stopped being a repository at all — and **meander/fold2** for a few hours the same
-day, which was wrong about the shape.
-
-**coil/fold2** is where it belongs, and the correction is worth recording because the old
-name was plausible. Seen from the side the walk folds back on itself twice, which is what
-"fold2" describes and what got it filed under `meander/`. Measured, it is a coil:
+Seen from the side the walk folds back on itself twice, which is what "fold2" describes
+and which reads as a meander. Measured, it is a coil:
 `spiral_metrics.js` gives it a coil axis (z, north–south), a handedness (right), and 450°
 — 1.25 turns — of rotation about that axis. A real meander scores 0° and no handedness;
 `../../../meander/no-contact/greek-key` does exactly that. The walk advances monotonically along one axis
 while circulating in the other two, and that is a coil however it looks in projection.
 
-Renamed together each time: the folder, the walk file (`tools/walks/coil_fold2.txt`), the
-`regress.py` entry and its label, the cut-file names — which are built from the folder
-stack, so `bore10-meander-fold2-…` became `bore10-coil-fold2-…` — and the page title. Every
-sheet was regenerated and compared: the geometry is byte-identical, only the names moved.
-If you find any earlier name anywhere, it is a leftover.
+The name is carried in five places at once: the folder, the walk file
+(`tools/walks/coil_fold2.txt`), the `regress.py` entry and its label, the cut-file names —
+which are built from the folder stack, so they read `bore10-coil-fold2-…` — and the page
+title. They move together or not at all.

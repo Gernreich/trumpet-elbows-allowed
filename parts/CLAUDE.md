@@ -4,43 +4,30 @@
 square-to-round pair take when `--bore` is not given, and it is the channel every tube
 under `bore/` is cut to. Another bore is `--bore=N` away; nothing is shipped at one.
 
-Where a note below is *about* a sheet that is no longer here - the legacy mouthpiece
-layout, the hand-nested square bell - it is kept, because the reason it was written has
-not stopped being true.
-
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## What this is
 
 The **bell** and the **mouthpiece**, shared by every trumpet in this repository rather
 than owned by one of them. Every bore under `bore/` is cut at the 10mm channel, so one
-bell and one mouthpiece serve all of them; only the tube between them differs. The
-octagonal trumpet, which was on a channel of its own, left this repository on
-2026-09-05.
+bell and one mouthpiece serve all of them; only the tube between them differs.
 
-`--bore` on the two square-to-round generators still makes the parts to suit any
+`--bore` on the two square-to-round generators makes the parts to suit any
 channel, and nothing about the pair is tied to 10. See `--bore` is the channel, and
 only that below.
 
-**Every mouthpiece and every bell lives here, whichever instrument cuts it.** The four
-fold2 sheets moved out to that design's folder on 2026-08-31 and came back on 2026-09-02:
-holding them there rested on "nothing else cuts them", which described what had been cut
-rather than what fits. A mouthpiece and a bell suit any tube on the same channel, and
-the coiled and octagonal trumpets were both on one, so two general parts were
-hidden inside one instrument. The rule is the one the coiled trumpet states: neither end
-is touched by the way a bore turns, so **only the tube belongs to an instrument**, and a
-bore directory holds only bore.
+**Every mouthpiece and every bell lives here, whichever instrument cuts it.** A
+mouthpiece and a bell suit any tube on the same channel, so holding a set beside one bore
+would hide two general parts inside one instrument — "nothing else cuts them" describes
+what has been cut rather than what fits. The rule is the one the coiled trumpet states:
+neither end is touched by the way a bore turns, so **only the tube belongs to an
+instrument**, and a bore directory holds only bore.
 
 **A bare `bell-round.py` writes all four budgets**, the 17-ring among them. Pass a ring
 budget when you want one sheet, and `--out` to name it.
 
-**The README is gone.** Every `README.md` and `index.html` under `trumpet/` was
-removed on 2026-09-05, pending one new writeup for the trumpet as a whole once
-the renaming and reorganising is finished. Git has them all. Until it exists,
-this file is the documentation, and any recipe below that renders or audits a
-README is waiting on that writeup rather than describing something present.
-
-It used to say: read `README.md` first, it carries the geometry. This file covers the code.
+**The writeup is `README.md` at the repository root**, and the two ends have a page of
+their own at `../ends/`. Those carry the geometry; this file covers the code.
 
 ## The bore is cylindrical
 
@@ -70,11 +57,9 @@ and every bell lives here, and a bore directory holds only bore.
 
 **The mouthpiece reproduces exactly**: a bare `mouthpiece-round.py` gives the shipped
 sheet byte for byte. `RIM` is 17 because the shipped sheet is, and a bare run has to
-rebuild what is shipped. It was 16.5 until 2026-09-06, which was a live hazard once the
-generators started writing into `cut-files/`: the rim is not in the filename, so a bare
-run silently replaced a mouthpiece that had been cut with one 0.5mm narrower at the lip.
-The bell has no such hazard — its rim IS in its name, so a different rim writes a
-different file. **The bell reproduces exactly too**:
+rebuild what is shipped. **The rim is not in the filename**, so moving `RIM` makes a bare
+run silently replace a mouthpiece that has been cut with one of a different lip. The bell
+has no such hazard — its rim IS in its name, so a different rim writes a different file. **The bell reproduces exactly too**:
 `bell-round.py 17 --bore=10 --length=152 --mouth=80` gives the shipped sheet byte for
 byte. The built height rounds up to the 153mm in its name, and `--mouth=80` is ø86 at the
 outer, which is the rim the name carries. A bare run writes all four ring budgets at the
@@ -88,7 +73,7 @@ form and gives 80. The outer diameter is 6mm larger again — the rim ring's 3mm
 side — and the `section` line prints both, so a wall floor biting at the rim would show up
 rather than pass as the number that was asked for.
 
-The README's **"Rim diameter" column is the outer**, and always has been. `bell-round.py`
+The README's **"Rim diameter" column is the outer**. `bell-round.py`
 reports `rim = 2*rings[-1]["oh"]`, which is the outer too. Neither is the hole.
 
 ## A bell file is cut more than once
@@ -106,60 +91,52 @@ cover all of it. It is a sharp 22mm square with a 10mm square hole, standing 3mm
 plate all round: the one ring whose outer is not the next station offset, and **wider than
 the several rings above it**. A run prints it — `flange  ø10 aperture in a ø22 square`.
 
-This was wrong until 2026-08-26. The throat was taken from the bore's *outside* rather than
-its channel, so ring 0 sat entirely outside the end face and did not overlap it **at all**;
-the only contact was the tube's outer wall against a thin lip, and the airway stepped out by
-a full wall thickness per side. It was reported as gaps at the joint, which is exactly what it
-was. The mouthpiece had it right all along — its station one is a bore-sized square hole in a
-plate-sized square — and the bell now does the same.
+**The throat is the bore's channel, not its outside.** Take it from the outside and ring 0
+sits entirely outside the end face without overlapping it **at all**: the only contact is
+the tube's outer wall against a thin lip, the airway steps out by a full wall thickness per
+side, and it shows on the bench as gaps at the joint. The mouthpiece has the same shape —
+its station one is a bore-sized square hole in a plate-sized square.
 
 **Nothing here compensates for the kerf, and nothing here says so.** `bell.py`,
 `bell-round.py`, `mouthpiece.py` and `mouthpiece-round.py` contain not one
 mention of it between them, while the bore generators next door subtract half a
 kerf from every hole and add it to every part. For a laminated stack that is
 defensible -- the rings glue face to face and the lap below absorbs an outer
-profile 0.13mm small -- but it was never a decision anyone wrote down, and it
-has two consequences that were not being counted.
+profile a kerf small -- but it is a consequence to count rather than a decision
+anyone made.
 
 **Apertures come out one kerf oversize**, because a hole opens as the laser goes
-round it. At the 0.13mm measured on 2026-09-09:
+round it. At the 0.15mm kerf the bore generators use:
 
-    the throat    drawn  3.66 -> cut  3.79mm   +7.2% in area
-    the bore      drawn 10.00 -> cut 10.13mm   +2.6%
-    the lip       drawn 17.00 -> cut 17.13mm   +1.5%
+    the throat    drawn  3.66 -> cut  3.81mm   +8.4% in area
+    the bore      drawn 10.00 -> cut 10.15mm   +3.0%
+    the lip       drawn 17.00 -> cut 17.15mm   +1.8%
 
 The throat is the smallest hole in the instrument and the one that voices it, so
-that is where a fixed 0.13mm hurts most. Whether it wants compensating is a
+that is where a fixed 0.15mm hurts most. Whether it wants compensating is a
 voicing question, not a drawing one, which is why this is written down rather
 than changed.
 
-**Stack heights are nominal.** They are ring count times WALL, and WALL is 3.0
-against a sheet that calipers 2.94:
+**Stack heights are nominal.** They are ring count times WALL, and WALL is 3.0: 30 rings
+reports 90.0mm and 24 rings 72.0mm. A glued stack measures whatever the ply under it
+actually is, so caliper a stack rather than reading its height off a ring count — a
+reported height that is exactly `count x 3.0` is a count and not a measurement.
 
-    30 rings   90.0mm reported,  88.2mm actual   the design
-    24 rings   72.0mm reported,  70.6mm actual   the one that was built
-
-Worth noticing: the built mouthpiece was reported as 72mm, which is exactly 24 x
-3.0. That is the nominal figure, so it is probably a count rather than a caliper
-reading -- if the stack really measures 72mm then the ply under it is nearer
-3.0mm than the 2.94 measured elsewhere, and one of the two numbers wants
-checking before either is trusted.
-
-**The lap is 3mm, not 1.5.** 1.5mm is the width of the glue land, and it left nothing for
-kerf or for a ring set down slightly off centre; joints opened up along the bell. `--lap`
+**The lap is 3mm, not 1.5.** 1.5mm is the width of the glue land, and it leaves nothing for
+kerf or for a ring set down slightly off centre, so joints open up along the bell. `--lap`
 moves it.
 
 **Consequences that bite tooling:**
 
-- **Ring sizes are no longer monotonic**, because the flange is wider than the rings above
-  it. Anything recovering assembly order by sorting on the OUTER diameter is now wrong.
+- **Ring sizes are not monotonic**, because the flange is wider than the rings above
+  it. Anything recovering assembly order by sorting on the OUTER diameter is wrong.
   `verify_bell.py` sorts on the **aperture** instead — the airway only ever opens, so that
   is assembly order on any sheet however it was nested. `number_rings.py` refuses and wants
   `--order=document`.
-- **The minimum-wall floor no longer binds.** `wall = gain + LAP >= 3mm` on its own, so the
-  old `max(gain, MINWALL - LAP)` floor is inactive and the profile follows the Bessel curve
-  exactly instead of being inflated by it. That is why all four bells now reach the same
-  129.0mm rim where the 67-ring used to run out to 145.7.
+- **The minimum-wall floor does not bind.** `wall = gain + LAP >= 3mm` on its own, so the
+  `max(gain, MINWALL - LAP)` floor is inactive and the profile follows the Bessel curve
+  exactly rather than being inflated by it. That is why all four bells reach the same
+  129.0mm rim.
 
 ## The adapter is what makes a ported bore take a bell
 
@@ -246,19 +223,14 @@ Two things it has to do that the isometrics do not:
 - **Every ring draws its full top annulus.** Working out which part the ring
   above covers is unnecessary: the painter's order overdraws it.
 
-## The view generators broke when the apertures moved colour
+## How the view generators find rings
 
-On 2026-09-03 the apertures were split into their own orange group so they cut
-before the outline that frees the part. **Both view generators found rings by
-looking for one path holding two subpaths**, so after the split they found none
-at all - `bell-view.py` on all ten bells, `mouthpiece-view.py` on all three
-mouthpieces. Nothing noticed, because nothing ran them afterwards.
+The apertures sit in their own orange group so they cut before the outline that
+frees the part. A reader that looks for **one path holding two subpaths** finds
+no rings at all on these sheets, and nothing in any gate runs the viewers, so it
+would find none silently.
 
-`mouthpiece-view.py` was broken twice over: it also opened
-`mouthpiece-parts-cut-files.svg` by name, and that file was renamed the same
-day to carry its bore and layout.
-
-Both now read the two groups and **pair ring i's aperture with ring i's
+Both viewers read the two groups and **pair ring i's aperture with ring i's
 outline, in file order.** That is what the generators write - both groups come
 off one list - and it is assembly order.
 
@@ -266,13 +238,12 @@ off one list - and it is assembly order.
 zipping works only while a profile grows monotonically; a mouthpiece narrows to
 its throat and opens again, so it drew the cup as a stack of alternating
 bulges. Containment is no better: an aperture also contains any ring nested in
-its spare space. Both were tried here and both drew a plausible object that was
-not the one on the sheet - which is the warning the mouthpiece viewer's own
-docstring already carried, about sorting by diameter.
+its spare space. Either draws a plausible object that is not the one on the
+sheet - which is the warning the mouthpiece viewer's own docstring carries,
+about sorting by diameter.
 
-`mouthpiece-view.py` takes `--src=`; a bare argument is still the OUTPUT, as it
-always was. Making the source positional wrote a display SVG straight over a
-cut file.
+`mouthpiece-view.py` takes `--src=`; a bare argument is the OUTPUT. Making the
+source positional would write a display SVG straight over a cut file.
 
 ## Colour is the cut order
 
@@ -282,17 +253,13 @@ cut file.
 **No sheet here is nested today.** Every one cuts in a single black stage with its numbers
 in blue. A **black → red ramp** belongs to a *nested* sheet, where a ring sitting inside
 another's aperture must be cut first or it is freed with the waste; one stage per ring by
-size says so in the only channel an importer always reads. The hand-nested 17-ring sheet
-that needed one was deleted 2026-08-25 and regenerated flat.
+size says so in the only channel an importer always reads.
 
-**The tool that applied it is gone, deleted 2026-09-10.** `ramp_bell.py` rewrote a
-`stroke:` property inside a style attribute, and the sheets these generators write carry a
-single stroke ATTRIBUTE on the enclosing `<g>` and nothing on the paths — so it matched
-nothing, every ring came back `#000000`, and its own guard refused to write. Correctly, and
-on every sheet in the repository: it had no valid input left. It was in no gate either, so
-that had gone unnoticed since the nested sheet was deleted. Recolour a nest in the tool
-that made it. `verify_bell.py` still checks that a ramp, if present, rises with ring size,
-which is the half of this that was worth keeping.
+**There is no tool here that applies one.** `ramp_bell.py` rewrote a `stroke:` property
+inside a style attribute, and the sheets these generators write carry a single stroke
+ATTRIBUTE on the enclosing `<g>` and nothing on the paths, so it matches nothing on every
+sheet in the repository. Recolour a nest in the tool that made it. `verify_bell.py` checks
+that a ramp, if present, rises with ring size, which is the half of this worth keeping.
 
 ## Cut files belong to the author
 
@@ -300,20 +267,17 @@ These have been cut. Treat every SVG as concurrently modified in Inkscape:
 
 - **Stage by name.** Never `git add -A` or `git add .`.
 - **`bell.py` with no argument rewrites all four sheets.** Pass a ring budget to
-  regenerate one — `python3 bell.py 20` writes only the 17-ring. The other three used to
-  lose their numbering to a full run; they no longer do, but rewriting four sheets to
-  change one is still four files to review instead of one.
+  regenerate one — `python3 bell.py 20` writes only the 17-ring. Rewriting four sheets to
+  change one is four files to review instead of one.
 - **A mouthpiece sheet is named by its bore AND its layout**, and says both in its
   `<title>`. Two mouthpieces exist — `legacy` and `trumpet` — with the same ring
-  count, bore, throat and rim, and until 2026-09-02 they carried character-for-character
-  identical titles while their profiles were nothing alike: 9 backbore rings plus 17
-  entrance rings against 26 backbore and none. Neither the filename nor the file itself
-  could tell you which part you had. Naming only the non-default parameter is what caused
-  it, so both now go in every name.
+  count, bore, throat and rim, and profiles nothing alike: 9 backbore rings plus 17
+  entrance rings against 26 backbore and none. Name only the non-default parameter and
+  neither the filename nor the file itself can tell you which part you have, so both go in
+  every name.
 - **A ring is two cuts in two colours.** Orange `#ff8000` takes the aperture, black
-  `#000000` the outline, and the orange group is written first. One path holding both, as
-  these sheets had until 2026-09-02, lets a per-colour job free the part before its hole is
-  in. Anything that reads a ring back -- `number_rings.py`, `bell-section.py` -- pairs the
+  `#000000` the outline, and the orange group is written first. One path holding both lets
+  a per-colour job free the part before its hole is in. Anything that reads a ring back -- `number_rings.py`, `bell-section.py` -- pairs the
   two by their shared centre, and still handles the one-path form for hand-edited files.
 - **Every label carries an orientation mark**, a short tick on the baseline right of the
   last character. A ring is a circle, so nothing about the part says which way up it was
@@ -336,11 +300,8 @@ These have been cut. Treat every SVG as concurrently modified in Inkscape:
   **deleted**, because a sheet left on disk gets cut and an unnumbered one is rings nobody
   can order.
 
-  This was not always so: numbering used to be a separate command you had to remember, and
-  a regenerate silently threw the engraving away — `mouthpiece-round.py` with no arguments
-  cost `mouthpiece-bore10-trumpet-parts-cut-files.svg` its numbering on 2026-08-31, restored from git. Changing
-  the default was checked by regenerating all four sheets the fold2 trumpet is cut from
-  and diffing against the cut files: **byte-identical**, numbering included.
+  Numbering as a separate command you have to remember is how a regenerate silently throws
+  the engraving away, which is why it is not one.
 
   **`mouthpiece-cup.py` continues a stack rather than starting one.** Its rings are glued
   on top of a mouthpiece already numbered from 0, so it numbers from `--start`, which
@@ -349,8 +310,8 @@ These have been cut. Treat every SVG as concurrently modified in Inkscape:
   the script refuses rather than guessing. Numbering a cup from 0 would put a second ring 0
   in one mouthpiece, which is the confusion the numbers exist to prevent.
 
-  `mouthpiece.py` had no option parsing at all — `sys.argv[1]` was the output path — so it
-  would have written a file called `--numbers=no`. Options are separated from the path now.
+  `mouthpiece.py` separates options from the path. Without that, `sys.argv[1]` is the
+  output path and `--numbers=no` writes a file of that name.
 - **These scripts have no `--help`**; a bare run to see the options IS a run. Read the
   docstring, or write to a scratch path.
 - Verify a hand-edited bell with `verify_bell.py` rather than diffing path data — once
@@ -360,10 +321,10 @@ These have been cut. Treat every SVG as concurrently modified in Inkscape:
   that answers about a file it does not understand teaches you to ignore it.
 - **`verify_bell.py` pairs an aperture with the outline concentric with it**, so it reads
   both the one-path form and the two-group form the generators write now, and survives a
-  nest that reorders the paths. It was blind to the two-group form from 2026-09-03 until
-  2026-09-06: it found no rings, called every generated sheet "a section drawing or a
-  sheet of something else", and skipped it — passing silently on sheets nobody had
-  checked. An outline that finds no aperture is now reported as what it is, a solid disc.
+  nest that reorders the paths. An outline that finds no aperture is reported as what it
+  is, a solid disc — a reader blind to the two-group form instead calls every generated
+  sheet "a section drawing or a sheet of something else" and skips it, passing silently on
+  sheets nobody has checked.
 
 ## The mouthpiece's taper is 2.5mm because it has to be
 
@@ -427,10 +388,10 @@ to inverted — a 48mm-deep cup by any honest reading.
 
 **`legacy` is a record of a part, not a design to cut.** A mouthpiece was built to it before
 the trumpet layout existed and its rings are numbered for it, which is the only reason its
-sheet is kept. It was the default, and called `asbuilt`, until 2026-09-03: that name said
-when the profile was made rather than whether to cut it, and being the default meant a bare
-run produced the profile nobody wants. `--layout=asbuilt` now exits saying so rather than
-quietly doing something else.
+sheet is kept. It is not the default and it is not called `asbuilt`: that name says when a
+profile was made rather than whether to cut it, and as a default it would make a bare run
+produce the profile nobody wants. `--layout=asbuilt` exits saying so rather than quietly
+doing something else.
 
 Check `mouthpiece-bore10-trumpet-parts-cut-files.svg` still comes out byte-identical if you
 touch the profile code.
@@ -466,12 +427,12 @@ ours to scale. `--length`, `--rim` and `--gamma` on both generators move the pro
 `--rim` is the bore's diameter **at** the rim, before the wall, so it reads a wall smaller
 than the "Rim diameter" the README tabulates.
 
-**Every filename states its length, and `bell-round`'s its bore as well** — the length
-used to appear only when it was not 201mm, so a 100mm bell landing on 17 rings would
-overwrite `bell-round10-153mm-17rings-x3-rim86-cut-files.svg`, which is hand-nested and not reproducible from
-the script. It also left `bell-round-67rings.svg` saying nothing about the tube it fits or
-how long it was, while `bell-round-99mm-11rings.svg` said one of the two. Both go in every
-name now, and in the `<title>`. Do not "tidy" that name back: it is built inline at
+**Every filename states its length, and `bell-round`'s its bore as well.** A length that
+appeared only when it was not 201mm would let a 100mm bell landing on 17 rings overwrite
+`bell-round10-153mm-17rings-x3-rim86-cut-files.svg`, and would leave
+`bell-round-67rings.svg` saying nothing about the tube it fits or how long it is, where
+`bell-round-99mm-11rings.svg` says one of the two. Both go in every name, and in the
+`<title>`. Do not "tidy" that name back: it is built inline at
 `bell-round.py:337` and there is no stem variable to shorten, which is the point --
 the length and the ring count have to survive being read off a sheet.
 
@@ -500,14 +461,14 @@ the second, climbing back out of `cut-files/` — so a section drawing never lan
 cut files and never gets sent to a laser. Name a path yourself and it is used exactly as
 given, wherever it points.
 
-All nineteen lines below were run in order from a clean tree, most recently on
-2026-09-13, and all nineteen exit 0. **No line modifies a tracked sheet**: every shipped
+All nineteen lines below run in order from a clean tree and exit 0. **No line
+modifies a tracked sheet**: every shipped
 sheet it rewrites comes back byte-identical, which is the property worth having — a command
 block nobody can run is a command block nobody can trust.
 
-`bell-adapter.py` was missing from this block for the three days it existed, which is the
-same gap `.repro` had and was found the same way — by asking which generators in
-`bell/` are absent from the list that claims to run them all. It was the only one.
+Keep the block complete the way `.repro` is kept complete: ask which generators in
+`bell/` are absent from the list that claims to run them all. A generator missing from it
+is the gap both mechanisms have.
 
 Six of them do **add** sheets, fifteen in all: the four lines that survey a range (a bare
 `bell.py` and a bare `bell-round.py` write four budgets each, `--morph=flare` and

@@ -9,10 +9,9 @@ The instrument that has been built is a **coil of 1096mm in 12 sections**, with 
 **three** turns, right-handed, about a north–south axis. Everything else here is
 a candidate for the next one.
 
-Both halves of that sentence were wrong until 2026-09-08. The mouthpiece on
-this instrument is 24 rings, not the 30 the design cuts: 72mm rather than 90,
-and it is the instrument that is short, not the drawing. And the coil winds
-three whole turns, not 2¾ — its walk is `W U E D` three times over, and its
+The mouthpiece on this instrument is 24 rings where the design cuts 30 — 72mm
+rather than 90 — so it is the instrument that is short, not the drawing. The
+coil winds three whole turns: its walk is `W U E D` three times over, and its
 first and last blocks sit on the same cross-section point, which a fractional
 number of turns cannot do.
 
@@ -56,9 +55,7 @@ are one shape cut at four lengths — **274, 548, 822 and 1096mm, an exact
 > Their folder names say 0.75, 1.5, 2.25 and 3 turns, and measurement agrees:
 > the four sweep 270°, 540°, 810° and 1080° about the coil axis, one group of
 > three lateral legs being three-quarters of a turn. Both the lengths and the
-> turn counts are exact. This note said the opposite between 2026-09-06 and
-> 2026-09-08, and the folders were renamed down a quarter turn on the strength
-> of it; `spiral_metrics.js` still reports the figure that caused it.
+> turn counts are exact.
 
 **Section, because section is tone.** The airway must stay 10mm square the whole
 way. That is what makes a turn expensive: a block that turns has openings on two
@@ -116,10 +113,8 @@ Each rebuilds its shipped sheet byte for byte and writes it into its own
 
 The joint at each end is a **square annulus of ply 3mm wide** — 10mm inside,
 16mm out. The bell's ring 0 is a flange that covers all of it: a 22mm square with
-a 10mm hole, standing 3mm proud. This was wrong until 2026-08-26, when the throat
-was taken from the bore's *outside* rather than its channel and ring 0 sat
-entirely outside the face it was supposed to seal. It was reported as gaps at the
-joint, which is exactly what it was.
+a 10mm hole, standing 3mm proud. The throat is taken from the bore's channel, so
+ring 0 lands squarely on the face it seals.
 
 ## A page for each
 
@@ -335,9 +330,8 @@ and that no engraving lands in a slot or off the material.
 them, so a system-python `--write` leaves a folder of finished-looking cut files
 and a traceback where the gate should be.
 
-> A passing gate means no check failed, not that the part is buildable. Two
-> real fit problems have reached the bench past a clean gate. The gate's floor is
-> 1.5mm and nothing compares a feature against the features beside it.
+> A passing gate means no check failed, not that the part is buildable: its
+> floor is 1.5mm, and nothing compares a feature against the features beside it.
 
 ## Clearance
 

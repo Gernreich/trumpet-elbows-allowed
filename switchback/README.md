@@ -35,8 +35,8 @@ page was generated from the file. Read it out of the file.
 A walk may end with a bare letter naming the way you leave. This one does not.
 A term whose direction matches your heading does not turn, and a bare term
 carries no distance, so after `N1` a trailing `N` would only restate a heading
-the walk already has. Written both ways on 2026-08-29, the six SVGs came back
-byte-identical. It would matter if the exit differed from the last term: `N1 U`
+the walk already has. Written either way, the six SVGs come out byte-identical.
+It would matter if the exit differed from the last term: `N1 U`
 turns the final block and buys an elbow.
 
 ## The numbers

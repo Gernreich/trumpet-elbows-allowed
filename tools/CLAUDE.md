@@ -5,10 +5,10 @@ air inside 3mm walls - so `regress.py` names one `coil fold2` design rather than
 and `sizes.py` writes no page that is kept. Notes below about a design held at two
 sizes describe machinery that still works and currently has nothing to show.
 
-**A design naming a folder that is not there now fails.** It used to fall through to
-a geometry-only run - deleting a design's folder took it from 195 checks to
-176 and it still said pass. `check.py`'s empty-folder guard could not catch it,
-because that fires on a folder which exists and is empty.
+**A design naming a folder that is not there fails.** Without that it falls through to
+a geometry-only run and still says pass, on a design whose sheets are not where it
+says they are. `check.py`'s empty-folder guard cannot catch it, because that fires
+on a folder which exists and is empty.
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
@@ -20,19 +20,14 @@ sibling repositories this **is** a software project — it ships no cut files of
 its own, only the thing that makes them.
 
 It produces every bore under **`../parts/bore`** - the one that has been built and
-every one that is only a candidate. Split out of `octomino-snakes`, which enumerated the
-369 octominoes and is archived and private; a live instrument should not depend on a
-frozen repository to rebuild its parts.
+every one that is only a candidate. It depends on nothing in `octomino-snakes`, which
+enumerated the 369 octominoes and is archived and private: a live instrument should not
+need a frozen repository to rebuild its parts.
 
-**The README is gone.** Every `README.md` and `index.html` under `trumpet/` was
-removed on 2026-09-05, pending one new writeup for the trumpet as a whole once
-the renaming and reorganising is finished. Git has them all. Until it exists,
-this file is the documentation, and any recipe below that renders or audits a
-README is waiting on that writeup rather than describing something present.
-
-It used to say: read `README.md` first — 447 lines carrying the geometry, why an elbow's
-opening frame has three sides, what a lap closes, how the notation splits into
-pieces. This file covers only how to work on the code.
+**The writeup is `README.md` at the repository root**, with a page each for the bores
+beside it. It carries the geometry — why an elbow's opening frame has three sides, what a
+lap closes, how the notation splits into pieces. This file covers only how to work on the
+code.
 
 ## Where things are
 
@@ -60,42 +55,39 @@ supplies the finger joints, burn compensation and SVG writer. `bore_split.py`
 shells out to it. Point `SNAKEBOX_BOXES` at the checkout and `SNAKEBOX_PY` at
 its venv python.
 
-**`snakebox.py` was deleted on 2026-09-10.** It was the simpler generator, without
-the variable cell widths, the ports, the laps or the plain ends, and `SnakeBoxVar`
-had superseded it everywhere: `bore_split.py` names only `SnakeBoxVar` to
-`scripts/boxes`, `check.py` has imported the Var since it was written, and
-`piece_render.py` was moved over the same day. Nothing imported it and nothing
-invoked it. A copy may still be sitting in your Boxes checkout, untracked and
-unused; the drift check no longer watches it.
+**There is one generator, and it is `SnakeBoxVar`.** The simpler `snakebox.py` — no
+variable cell widths, no ports, no laps, no plain ends — is not part of this toolchain:
+`bore_split.py` names only `SnakeBoxVar` to `scripts/boxes`, `check.py` imports the Var,
+and `piece_render.py` uses it. A copy may still be sitting in your Boxes checkout,
+untracked and unused; the drift check does not watch it.
 
 ## The switches must reach the gate
 
 `--ports`, `--flat` and `--fewest-pieces` are module globals. Run as a script this file
 is `__main__`, and `check.py`'s `import bore_split` loads it a second time with its own
-globals — so setting a switch on `__main__` set it for the writer and not for the gate.
-`--ports --write` wrote ported cut files, gated the *unported* design, and reported
-226 checks and 0 failed on parts nothing had looked at. The `__main__` block now
-delegates to the imported module so there is one set of globals. If another switch is
+globals — so a switch set on `__main__` would reach the writer and not the gate, and
+`--ports --write` would write ported cut files, gate the *unported* design, and report a
+clean run on parts nothing had looked at. The `__main__` block delegates to the imported
+module so there is one set of globals. If another switch is
 added, set it on `B`, not on `globals()`.
 
 **The bore's outer ends are plain.** `plain_ends()` always marks the first piece's entry
 and the last piece's exit, not just the openings that meet a port. Nothing couples there —
 the mouthpiece and the bell each glue a flat plate onto the end face, and a proud tab holds
-it off. This renames end sections that used to share a shape with an inner one (`BDL` ->
-`BDL~a`, `01_bend_DL.svg` -> `01_bend_DL_buttin.svg`) and **orphans the old file**, which
-nothing deletes for you. `check_sheets` then globs the folder and gates the orphan too, at
-three checks a sheet: `coil fold2` once reported six checks more than its own total purely
-because two stale files were still sitting there. **A check count that rises after a rename is a
-warning.**
+it off. It gives an end section its own shape where it would otherwise share one with an
+inner section (`BDL` -> `BDL~a`, `01_bend_DL.svg` -> `01_bend_DL_buttin.svg`), and a
+rename like that **orphans the old file**, which nothing deletes for you. `check_sheets`
+then globs the folder and gates the orphan too, at three checks a sheet, so a folder with
+stale files in it reports more checks than its design has. **A check count that rises
+after a rename is a warning.**
 
-**The tab is floored at the finger tooth, and the notch carries the play.** Two bench
-failures, both on 2026-08-31, both invisible to the gate. `--pin_width` scaled with the
-block while the finger teeth did not (Boxes.py sizes those at `2 x thickness`), so at the
-10mm bore the seam tab came out 4.8mm against 6mm teeth — the narrowest feature on the
-sheet, where it should be the strongest. And `--pin_play` was 0, so the notch was drawn
-exactly the tab's width and section 1 would not enter section 2. `pin_width()` now floors
-at the tooth and caps at `MIN_SHOULDER`, and `pin_play()` returns 0.025 per side out of
-`PLAY_BY_BORE`. Both are in
+**The tab is floored at the finger tooth, and the notch carries the play.** Both are
+failures the gate cannot see. A `--pin_width` that scales with the block while the finger
+teeth do not (Boxes.py sizes those at `2 x thickness`) puts a 4.8mm seam tab against 6mm
+teeth at the 10mm bore — the narrowest feature on the sheet, where it should be the
+strongest. A `--pin_play` of 0 draws the notch exactly the tab's width, and section 1 will
+not enter section 2. `pin_width()` floors at the tooth and caps at `MIN_SHOULDER`, and
+`pin_play()` returns 0.025 per side out of `PLAY_BY_BORE`. Both are in
 `COMMON`, so `check.py` sees the same geometry.
 
 The gate did not catch either. Its floor is `MIN_FEATURE`, 1.5mm, which 4.8 clears
@@ -120,9 +112,9 @@ the play comes off the notch and never off the tab.
 
 `--blocksize` is the same hazard with a quieter failure. It is two numbers, not one:
 `BLOCK`, the pitch the plan is laid out on, and `--blocksize` in `COMMON`, the pitch
-SnakeBox cuts to. Both now come from `set_blocksize()`, and `COMMON` is built by `_common()`
-from the constants rather than typed out — `check.py` and `piece_render.py` used to keep
-their own copies of that list, which is a second place to forget. Use `bore_split.COMMON`.
+SnakeBox cuts to. Both come from `set_blocksize()`, and `COMMON` is built by `_common()`
+from the constants rather than typed out, so there is one copy of that list and not a
+second place to forget. Use `bore_split.COMMON`.
 
 A design folder is usually just `bore/`, and may sit under a size folder as `<size>/bore/`
 — so a page title climbs past any ancestor that only names a size or says "bore" until it
@@ -142,8 +134,8 @@ with a single item, and a single item hides the selector, so a per-bore page is 
 always was. `sizes.py` passes two and writes one page holding a design at both the block
 sizes it is cut at.
 
-A gallery is **more sets in the same viewer**, not a second viewer: two templates would
-drift, and the drawing code is the part that has been wrong before.
+A gallery is **more sets in the same viewer**, not a second viewer: two templates drift,
+and the drawing code is the part most easily got wrong.
 
 Anything derived from `D` has to be rebuilt when the set changes — `occAll` and `centre`
 both are, and a stale `occAll` hides faces the new set has no neighbour for. The switch
@@ -151,57 +143,53 @@ both are, and a stale `occAll` hides faces the new set has no neighbour for. The
 cannot compare them if the view jumps every time you swap.
 
 **The scale is locked to the biggest set, and the cells are drawn in millimetres.** Two
-things had to be true before the comparison meant anything, and neither was:
+things have to be true before the comparison means anything:
 
 - `data_for` emits **lattice** positions, because occupancy and adjacency need a lattice.
-  The pitch reached the caption and nothing else, so `sizes.html` drew two different
-  pitches as the same picture — literally the same, the two `cells` lists compared equal. The
-  data now carries `u`, the millimetres per step, and `rotC` scales by it.
-- Each set fitted itself to the canvas, which normalises away exactly what a size control
-  exists to show. `draw()` now takes its **scale** from the reference set and its
-  **position** from the set on screen, so the small one is small and still centred.
+  If the pitch reaches the caption and nothing else, two different pitches draw as the
+  same picture — literally the same, the two `cells` lists comparing equal. The data
+  carries `u`, the millimetres per step, and `rotC` scales by it.
+- A set that fits itself to the canvas normalises away exactly what a size control exists
+  to show. `draw()` takes its **scale** from the reference set and its **position** from
+  the set on screen, so the small one is small and still centred.
 
 Together those make the smaller pitch draw smaller in exact proportion, and the ¾ coil at
 just under half the 3-turn. Change one without the other and the page silently goes back to lying.
 
 **`rot()` scales millimetres, so anything that is a direction must not go through it.**
 `shade()` takes a face normal and its dot product with the light as a number in `[-1, 1]`.
-The normal was being rotated by `rot()` like a position, which multiplied it by the block
-size once `u` existed, drove the dot product to ±16, and clamped every face to pure white or
-pure black. Use `rotC(p, centre.c, 1)` for a direction. `regress.py` passed throughout — it
-gates geometry, and a page whose every face is white is geometrically perfect. **Screenshot
-the page after any change to the drawing code**; nothing that reads the file will catch
-this class.
+Rotate that normal with `rot()` like a position and it is multiplied by the block size,
+driving the dot product to ±16 and clamping every face to pure white or pure black. Use
+`rotC(p, centre.c, 1)` for a direction. `regress.py` cannot see it — it gates geometry, and
+a page whose every face is white is geometrically perfect. **Screenshot the page after any
+change to the drawing code**; nothing that reads the file will catch this class.
 
-## bore_split.py's guards, audited the same way
+## bore_split.py's guards
 
-Twenty-one of them, given inputs they should refuse. **Nearly all hold.** A
+Twenty-one of them, each given inputs it should refuse. **Nearly all hold.** A
 stray character, a walk that reverses instead of turning, a walk too short to
 have a direction, a walk that revisits a cell, a run of zero length, a one-cell
 piece that is not a cube, a notch narrower than its own play, a notch that
 leaves no ply beside it, and `--refuse-elbows` against a walk with an elbow --
 every one refuses, with a message naming the block or section at fault.
 
-Two probes were confounded before they were right, and both times the probe was
-wrong, not the guard: the notch guards sit behind a code path a walk without a
-notched joint never reaches, and `--refuse-elbows` needs a walk that actually
-strands a turn. **A guard that does not fire has not been tested until you know
-your input reached it.**
+**A guard that does not fire has not been tested until you know your input
+reached it.** Two of these are easy to probe wrongly: the notch guards sit behind
+a code path a walk without a notched joint never reaches, and `--refuse-elbows`
+needs a walk that actually strands a turn.
 
-**One defect found.** `--bore` and `--blocksize` are two spellings of one
-number -- `set_bore()` calls `set_blocksize(bore + 2t)` -- and they were applied
-in that order unconditionally, so `--bore` silently overwrote `--blocksize`
-whichever way round they were typed. `--bore=30 --blocksize=16` cut 49mm blocks
-and reported them as though asked for. The pair is now refused unless the two
-agree. This is the same fault as the section below it, one flag along.
+**`--bore` and `--blocksize` are two spellings of one number** -- `set_bore()`
+calls `set_blocksize(bore + 2t)` -- so the pair is refused unless the two agree.
+Applied in order unconditionally, `--bore` would silently overwrite
+`--blocksize`: `--bore=30 --blocksize=16` would cut 49mm blocks and report them
+as though asked for.
 
-**Known and not fixed:** a run of absurd length (`N9999`) builds until it hangs
+**Not guarded:** a run of absurd length (`N9999`) builds until it hangs
 rather than refusing. Nothing guards the total block count.
 
-## check.py, audited against artefacts it should reject
+## check.py, against artefacts it should reject
 
-Done 2026-09-08, alongside the same audit of `ribbon_bore.py`. Method: hand the
-gate something wrong and see whether it says so.
+The method: hand the gate something wrong and see whether it says so.
 
 **Effective.** *no two parts overlap* and *engraving on material* both fire when
 one part is dragged on top of another. *bore volume matches the walk* is sound
@@ -210,80 +198,52 @@ computed here, from the walk, and must never be refactored to call
 `bore_split.extent()`, because a check that shares its source with the thing it
 checks is comparing something to itself.
 
-**The gap, now closed.** Nothing compared the FOLDER with the WALK.
+**The folder is compared with the walk.** *the sheets are this walk's sections*
+reads `-NNofMM-` out of every filename, and requires MM to be the section count
+this walk splits into and NN to run 1..MM with none missing. Every other check
+passes on a folder missing a sheet, and on a folder holding another coil's
+sheets entirely; `seen > 0` catches only the empty one. In a repository whose
+whole claim is that the cut file IS the design, that the sheets in front of you
+belong to the bore you asked for is the thing the gate most needs to say.
 
-    the built trumpet, all twelve sheets     393 checks, 0 failed
-    with one of the twelve deleted           390 checks, 0 failed
-    pointed at another coil's three sheets   366 checks, 0 failed
-    pointed at an empty folder               357 checks, 1 failed
+**Untested this way**, and worth the same treatment before being trusted: the
+checkers in `lasermade-tools` — `doc-audit.py` and `flat-part-check.py`
+especially, since both are used to clear work for publication.
 
-Only the empty folder was caught, by `seen > 0` — which was itself added after
-renamed sheets slipped through the filter and 194 checks quietly became 176.
-That fix stopped at "some files", and the same hole stayed open one step along:
-the gate could not tell you the sheets in front of you belong to the bore you
-asked for. In a repository whose whole claim is that the cut file IS the design,
-that is the thing it most needs to say.
+## The ply is 3.0 and the kerf 0.15
 
-*the sheets are this walk's sections* now reads `-NNofMM-` out of every
-filename, and requires MM to be the section count this walk splits into and NN
-to run 1..MM with none missing. All four rows above now come out right, and
-every design in `regress.py` gains one check.
-
-**Still unaudited**, and worth the same treatment before being trusted:
-`bore_split.py`'s guards, `volute.py`, `ribbon_view.py`, and the checkers in
-`lasermade-tools` — `doc-audit.py` and `flat-part-check.py` especially, since
-both are used to clear work for publication.
-
-## The ply is 3.0 and the kerf 0.15, from 2026-09-13
-
-`SHEET` 2.94 → 3.0 and `KERF` 0.13 → 0.15, matching `ribbon_bore.py` next door.
-`THICKNESS` is untouched at 3.0 and still dimensions the lattice; `SHEET` reaches
-only the slot Boxes cuts for a sheet to pass through, so this moved no airway and
-shortened the three wall runs that carry a thickness by 0.06mm each.
+`SHEET` is 3.0 and `KERF` 0.15, matching `ribbon_bore.py` next door. `THICKNESS`
+is 3.0 as well and is what dimensions the lattice; `SHEET` reaches only the slot
+Boxes cuts for a sheet to pass through. They are two numbers that happen to
+agree, so moving `SHEET` moves no airway.
 
 **`KERF` here is the full width and `BURN` is the radius Boxes wants.** The
-paragraph above the constant records that confusion twice, in both directions.
+paragraph above the constant says so twice, in both directions, because the two
+are easy to swap.
 
-**Every sheet drawn before that date is stale** — cut for 2.94mm ply — and lives
-in an `old/` beside the sheets that replace it, nine folders of them. Seventy-seven
-sheets were redrawn.
+**An `old/` inside `cut-files/` is invisible to `repro.py`**, which lists `.svg`
+and ignores directories, so a superseded sheet archived beside a design never
+disturbs the gate. Every `old/` is gitignored: they sit on the working disk, a
+fresh clone does not carry them, and no gate can see them.
 
-**The as-built folders were not touched by that sweep.** An `old/` inside
-`cut-files/` is invisible to `repro.py`, which lists `.svg` and ignores
-directories, so archiving beside a design never disturbs the gate.
+**`coil-10x10x30-1.5t` is the only folder here whose sheets describe an object
+rather than an intention.** Six pins in `as-built.sha256`; `repro.py` redraws the
+other 76 designs and holds these 6 frozen. Redrawing it SHOULD differ, and that
+difference failing the gate is the entire point of the mechanism. Pinning a
+redrawn sheet would claim it records wood when it does not.
 
-**`fold2-long-straight-3t` was then redrawn anyway, on 2026-09-13, on the
-author's instruction.** It left `AS_BUILT` and its twelve pins were removed, so
-`repro.py` now reproduces it like any other design — 76 reproduce, 6 frozen,
-where it used to be 64 and 18. The record of the instrument that was cut is in
-that folder's `cut-files/old/`, byte for byte. Pinning the redrawn sheets would
-have claimed they record wood, and they do not.
+## A page turns back into cut files
 
-**That record is no longer tracked.** Every `old/` was gitignored later the same
-day, on the author's instruction — twenty-one folders, 169 files, this one among
-them. They remain on the working disk and in git history up to that date, but a
-fresh clone does not carry them, and no gate can see them. The distinction
-matters for exactly one folder: this is the only archive here that records wood
-somebody cut rather than a drawing somebody replaced.
+`walk_text()` reads the walk out of `<div class="walk">` and allows attributes on
+it, because every page this repository writes emits `<div class="walk" id="walk">`.
+That is the route `flat-drop/CLAUDE.md` documents — *the walk is stored in the
+page … the cut files regenerate from it and nothing else*.
 
-**`coil-10x10x30-1.5t` is now the only folder here whose sheets describe an
-object rather than an intention.** Six pins. Redrawing it SHOULD differ, and
-that difference failing the gate is the entire point of the mechanism.
-
-## A page could never be turned back into cut files
-
-`walk_text()` matched `<div class="walk">` exactly, and every page this repository
-has written emits `<div class="walk" id="walk">`. All 37 of them. So the route
-`flat-drop/CLAUDE.md` documents — *the walk is stored in the page … the cut files
-regenerate from it and nothing else* — raised "no walk in it" on every page it was
-ever pointed at.
-
-Nothing caught it because `regress.py`'s `DESIGNS` carries the walk as a string
-too, so every design listed there could still be redrawn. The two whose walk lived
-**only** in a page, `flat-drop` and `square-rise3`, could not be redrawn at all,
-and they are also the two with `cut-files/` that no `DESIGNS` entry claims — so
-`repro.py` never looked at them either. Fixed 2026-09-13; the regex now allows
-attributes, and both redraw from their pages.
+**Two designs have no other route.** `flat-drop` and `square-rise3` keep their
+walk **only** in a page: `regress.py`'s `DESIGNS` carries a walk as a string for
+every other design, and these two are also the ones with `cut-files/` that no
+`DESIGNS` entry claims, so `repro.py` does not look at them either. A break in
+the page route is invisible everywhere except on those two.
 
 ## Never regenerate what you cannot check
 
@@ -319,7 +279,7 @@ a build repository.
 
 The rest are there for the opposite reason: `hilbert open` (190 blocks,
 27 pieces), `wide telescope`, `metre spring`, `4 corners, flat` and the trumpet
-candidate at both of its sizes all split with **no** elbows, so a
+candidate all split with **no** elbows, so a
 change that started stranding turns would break them and leave the elbow-heavy
 designs looking fine.
 
@@ -333,9 +293,8 @@ Consecutive terms are always on different axes, which leaves three cases:
 | same axis, opposite direction | hairpin | >= 2 |
 | different axes | coil | >= 3 |
 
-This said, until 2026-08-29, that three different axes need a middle of 3 and
-that anything else was "a fold, free at any spacing". Steps are indeed free;
-hairpins are not. Probed with `--no-write`:
+Steps are free; hairpins are not — the distinction is the one most easily lost.
+Probed with `--no-write`:
 
     N N3 U1 N3 N   step      0 elbows      N N3 U1 E3 E   coil   2 elbows
     N N3 U1 S3 S   hairpin   2 elbows      N N3 U2 E3 E   coil   1 elbow

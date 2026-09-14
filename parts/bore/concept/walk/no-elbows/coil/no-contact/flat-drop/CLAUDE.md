@@ -1,11 +1,9 @@
 # CLAUDE.md
 
 
-**The README is gone.** Every `README.md` and `index.html` under `trumpet/` was
-removed on 2026-09-05, pending one new writeup for the trumpet as a whole once
-the renaming and reorganising is finished. Git has them all. Until it exists,
-this file is the documentation, and any recipe below that renders or audits a
-README is waiting on that writeup rather than describing something present.
+**There is no README in this folder.** The reading page for this bore is
+`../../../../../../../../coiled/`, and the repository's writeup is at the root.
+This file is the note that sits beside the cut files.
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
@@ -19,9 +17,8 @@ are not here — they live in `../../../../..`, shared by every bore in this
 repository.
 
 Sibling repositories — `knotwork-soundholes`, `living-hinge` and others —
-follow the same conventions. The octagonal torus and the octagonal trumpet were
-among them, then were merged in, and left again on 2026-09-05. Shared documentation tooling
-lives in **`../../../../../../../../../lasermade-tools`** (its own repository).
+follow the same conventions. Shared documentation tooling lives in
+**`../../../../../../../../../lasermade-tools`** (its own repository).
 
 ## The design is one line
 
@@ -60,14 +57,14 @@ Standard flags, and they must stay uniform across the set — mixing `burn` chan
 joint fit while every outside dimension still matches, which no drawing shows:
 
 ```
---blocksize=16 --thickness=2.94 --burn=0.065 --labels=0 --reference=0
+--blocksize=16 --thickness=3 --burn=0.075 --labels=0 --reference=0
 --inner_corners=corner --spacing=0.5
 ```
 
-`--thickness` is the SHEET, not the nominal 3mm, and `--burn` is HALF the kerf,
+`--thickness` is the SHEET and `--burn` is HALF the kerf,
 because that is what Boxes.py means by it. Both come from `bore_split._common()`
 and change with `--sheet=` and `--kerf=`; print them rather than trusting this
-block, which recorded `--thickness=3 --burn=0.1` until 2026-09-09.
+block.
 
 ## No elbows — the rule that shapes every walk
 
@@ -88,10 +85,10 @@ over **every window of three consecutive terms**, not once per walk:
 Steps are free and coils are not, which is why `W5 N10 E5` and the rest of a flat coil
 collapse into a single piece and why every leg that changes plane is a 3.
 
-This file said until 2026-08-29 that a window on two axes was a free fold at any spacing.
-That is true of a step and false of a hairpin — `U3 N1 D3` costs two elbows, `U3 N2 D3`
-none — and `W5 N10 E5` is a hairpin, free here only because its middle leg is 10. Treat
-`bore_split.py --no-write` as the authority.
+A window on two axes is not a free fold at any spacing. That is true of a step and false
+of a hairpin — `U3 N1 D3` costs two elbows, `U3 N2 D3` none — and `W5 N10 E5` is a
+hairpin, free here only because its middle leg is 10. Treat `bore_split.py --no-write` as
+the authority.
 
 Checking the current walk by hand:
 
@@ -106,13 +103,11 @@ S8 W3 D3      3 axes, middle = 3    OK
 W3 D3 N13     3 axes, middle = 3    OK
 ```
 
-**This file quoted `N N3 U6 W5 N10 E5 D3 S8 W3 D3 N12 N` until 2026-09-13**, in
-both places, and the table above was worked on it. That walk is also 59 blocks,
-so no count ever disagreed — but it is a different tube. It draws `BDDDR` where
-the shipped sheet is `BDDR`, and a fourteen-block last section where the shipped
-sheet is fifteen. The page and the cut files agreed with each other throughout;
-only the note was wrong, which is the failure mode the rule above exists to
-stop: **read the walk out of `bore/bore.html`, never from prose.**
+**Read the walk out of `bore/bore.html`, never from prose.** A walk quoted in a
+note can carry the right block count and still be a different tube: one term
+apart turns a `BDDR` section into `BDDDR` and moves a block out of the last
+section, and no count disagrees while it does. The page and the cut files are
+the pair that has to agree; prose is not part of it.
 
 **A drop out of the plane costs sections, not elbows.** The mid-spiral `D3` splits what
 would be one flat coil into four pieces. It is elbow-free either way; it is the section
@@ -127,8 +122,8 @@ standing in it, so a build that looks right is evidence the bore works.
 What goes wrong is the transcription. A walk is a long string of letters and numbers taken
 off a build by eye, and one wrong letter is enough — a job a human is bad at and a script
 is good at. When `bore_split.py` refuses a walk whose build was fine, suspect the writing
-down, and suspect a direction before a length: the known case was an `S3` where the build
-turned `D3`, and no adjustment of the numbers could fix it.
+down, and suspect a direction before a length: a wrong axis letter cannot be repaired by
+adjusting numbers, so no amount of renumbering will make such a walk gate.
 
 A doubled cell is fatal because the cells are the air path: entered twice it is a junction
 with two ways out, and no box section has an opening in four sides. `mcwalk.py` in
@@ -184,9 +179,8 @@ cd $S && python3 regress.py                        # every design in the library
 
 **Previews** — display-only renderings with a thickened stroke, a light ground and the
 lightest inks darkened — are not kept in this repository. They exist to illustrate a
-writeup, there is no writeup here yet, and `make-preview.py` regenerates one in a second.
-When they come back, note that a flat `previews/` alongside parts held in subdirectories
-means the output path has to be given explicitly:
+writeup, and `make-preview.py` regenerates one in a second. A flat `previews/` alongside
+parts held in subdirectories means the output path has to be given explicitly:
 
 ```sh
 python3 $G/make-preview.py \
@@ -199,15 +193,15 @@ directory has been checked — 251 checks on this design, 0 failed. The design l
 regresses against lives at **`~/LaserMadeMusic/test`**, above `GIT` and outside every
 repository.
 
-**After editing either document** — regenerate the page, then audit both:
+**After editing this bore's page** — regenerate it, then audit both halves:
 
 ```sh
-python3 $G/md2html.py README.md index.html
-python3 $G/doc-audit.py README.md --html index.html
+cd ../../../../../../../../coiled
+python3 ../../lasermade-tools/md2html.py README.md index.html
+python3 ../../lasermade-tools/doc-audit.py README.md --html index.html
 ```
 
-**Read the audit output before pushing.** It ends with a pass/fail tally, and a tally with
-failures has been committed unread more than once in the sibling repository.
+**Read the audit output before pushing.** It ends with a pass/fail tally.
 
 ## Publishing
 
@@ -228,6 +222,6 @@ gh run list -L5 --json status,conclusion,headSha \
 ## Known checker blind spot
 
 `doc-audit`'s file check asks whether a name exists **anywhere** under the repository root. That is right for prose and
-wrong for an `<img src>` or `<a href>`, where the path must resolve from the page. It
-passed a page 15/15 whose every image 404'd after files moved into subdirectories. **After
-moving any file, fetch the deployed page and check each reference returns 200.**
+wrong for an `<img src>` or `<a href>`, where the path must resolve from the page: a page
+can audit clean with every image on it 404ing. **After moving any file, fetch the deployed
+page and check each reference returns 200.**

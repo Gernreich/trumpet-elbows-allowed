@@ -5,14 +5,14 @@ numbers that say how hard each one spirals and what each one costs to build. Eve
 here splits with **no elbows** — every turn folds into a piece as an L, none is stranded
 as a single-block piece of its own — and every one passes the full gate.
 
-The one this started from is [`coil_4x4_50`](../no-contact/4x4-50/4x4-50.html), which has since won a category and
-moved to a directory of its own; the ten came out of an
+The one this started from is [`coil_4x4_50`](../no-contact/4x4-50/4x4-50.html), which won a category and
+lives in a directory of its own; the ten came out of an
 exhaustive search for something tighter.
 
 <!-- readme-only -->
 **[Read it as a page](https://gernreich.github.io/trumpet/)** — the trumpet writeup.
-Every per-design page in that repository was removed on 2026-09-05, so this is
-where the reading version lives.
+That writeup carries no page of its own for the search, so this is where the
+reading version lives.
 
 **[Download the whole repository as a ZIP](https://github.com/Gernreich/trumpet/archive/refs/heads/main.zip)**
 — every trumpet and every tool, not the walks alone; these pages are under `spirals/`.
@@ -224,12 +224,12 @@ choice.
 
 ## A metric deliberately left out
 
-Fill density — blocks over box volume — was tried and dropped. At a fixed tube length it
+Fill density — blocks over box volume — is left out on purpose. At a fixed tube length it
 is not independent of the box: blocks is near enough constant, so density is just the
 reciprocal of box volume rescaled. Ranking these 10 spirals by density puts them in the
-same order as ranking by box in 16 of 10 positions, and the two that swap are a tie at
-477 broken by a one-block difference in length. It reads like a second opinion and is not
-one. It would earn its place only in comparing walks of genuinely different lengths.
+same order as ranking by box in 8 of 10 positions. It reads like a second
+opinion and is not one. It would earn its place only in comparing walks of genuinely
+different lengths.
 
 **Touching** is the metric density was reaching for. It answers the question density
 sounds like it answers — how hard is this bore packed against itself — and unlike density
@@ -237,9 +237,9 @@ it disagrees with the box often enough to change which coil you would build.
 
 ## Every block load-bearing
 
-The staircase coil was reduced by hand — blocks removed wherever one could go without
-introducing an elbow — and that reduction is in this set. (The names below predate
-standardising, which renamed every coil; [`derived.txt`](derived.txt) maps them.)
+One walk in this set is a hand reduction of the staircase coil — blocks taken out
+wherever one could go without introducing an elbow. ([`derived.txt`](derived.txt) maps
+every name here to the walk it derives from.)
 `tools/minimal.js` checks the claim: a term's floor is 3 in a coil window, 2 in a
 hairpin, 1 in a step, and a walk whose every term sits on its floor cannot be shortened
 at all.
@@ -247,15 +247,10 @@ at all.
     node tools/minimal.js            # every walk
     node tools/minimal.js --terms    # and which terms have slack
 
-Before it was reduced, the staircase coil had 16 terms with slack, every one a hairpin
-sitting at 3 where 2 would do, and the reduction left **none**. It was exhaustive: the
-tool later reproduced it exactly, and standardising then showed the two to be one coil.
-
-It also says something about the search. Only **1 of 10** walks here are minimal:
+It says something about the search. Only **1 of 10** walks here are minimal:
 `coil_3x4_79`. The search enumerated periods with legs up to
 4 and never asked whether a leg was longer than it had to be, so most of what it found
-carries slack — `coil_4x9_18` could lose 48 blocks. Two of the 1 minimal walks are
-the two that were reduced by hand.
+carries slack — `coil_4x9_18` could lose 48 blocks.
 
 Removing slack is not automatically safe. The rule is local, and a shortened walk can
 run into itself or start touching, so what the tool reports are candidates to put back
@@ -284,14 +279,9 @@ a walk that is catalogued nowhere here. That is a gap in the set rather than a
 turn of phrase: either those walks belong in it, or the reduction that produces them
 does not really close and `reduce.js` should be rejecting it.
 
-This page said the opposite until the claim was counted. It was written when the
-search held seventeen coils, and nothing re-checked it when the category winners were
-promoted out to siblings of their own.
-
-That is a much cleaner result than the first attempt, and the difference is
-canonicalisation: before the representation was pinned, the same coil could appear
-several times looking different, and reductions of it looked like new designs when they
-were not.
+Canonicalisation is what makes that readable: with the representation pinned, one coil
+cannot appear several times looking different, and a reduction of it is recognisable as
+the walk it came from rather than as a new design.
 
 Shortening a leg still does not make a better coil — it cuts how far the coil advances
 per turn, so the same tube buys more revolutions in a fatter package. The best box per
@@ -315,13 +305,13 @@ That is the point worth keeping. Shortening a leg reduces how far the coil advan
 turn, so the same tube buys more revolutions in a fatter, shorter package — a different
 design, not a better one. Every block being load-bearing is a property, not a virtue.
 
-One thing the pass did find: four results the search reported as distinct all reduce to
+One thing the pass finds: four results the search reports as distinct all reduce to
 **the same walk**, `E2 S3 U1 S3 W2 N3 U1 N3` — one design wearing four amounts of slack.
-Standardising later found more of the same, and `derived.txt` records every merge.
+Standardising finds more of the same, and `derived.txt` records every merge.
 
 The reduced walks are kept, named `*_min`, with their sources recorded in
 [`derived.txt`](derived.txt). They are in the scoring like anything else, so the
-composite is now over a set that contains both a design and its own reduction — worth
+composite is over a set that contains both a design and its own reduction — worth
 remembering when reading a rank, since the normalization is across whatever is present.
 
     node tools/reduce.js             # the pass
@@ -394,9 +384,6 @@ rule.**
 Every file in `tools/`, and what each one is for -- all fourteen of them.
 The list is read from the directory rather than typed into this page, so it cannot fall
 behind it: a tool with no description, or a description with no tool, stops the build.
-There was no such list until 2026-09-10, and none of these was described anywhere, here
-or elsewhere. This file named some of them in passing but never said what they were, and
-a passing mention is all the orphan check asks for.
 
 **Finding and shaping walks**
 

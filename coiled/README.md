@@ -29,13 +29,6 @@ The walk is stored in the viewer page, in a `<div class="walk">`, which makes
 that page the complete record of the design — the cut files regenerate from it
 and from nothing else. Read it out of the file rather than from here.
 
-> The per-design note beside the cut files quoted
-> `N N3 U6 W5 N10 E5 D3 S8 W3 D3 N12 N` until 2026-09-13. That walk is also 59
-> blocks, so the count never disagreed, but it draws a different tube: its first
-> section is `BDDDR` where the shipped sheet is `BDDR`, and its last is fourteen
-> blocks where the shipped sheet is fifteen. The page and the sheets agree with
-> each other; the note did not, and has been corrected.
-
 ## The numbers
 
 | | |

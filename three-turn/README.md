@@ -37,15 +37,17 @@ N1  W3 U2 E3  N3   D3 W2 U3  N3   E3 D2 W3  N3   U3 E2 D3  N1
 The first and last blocks sit on the same point of the cross-section, which a
 fractional number of turns cannot do. It sweeps **1080°**, right-handed.
 
-> **It was called 2¾ turns for two days.** Between 2026-09-06 and 2026-09-08 this
-> project had the count a quarter turn short, and the four folders in the family
-> were renamed down on the strength of it. Measurement says otherwise — the four
-> sweep 270°, 540°, 810° and 1080°, one group of three lateral legs being
-> three-quarters of a turn — and the folder names were put back. The multi-bore
-> viewer at `../parts/bore/concept/walk/no-elbows/coil/no-contact/fold2-long-straight/coils.html`
-> still labels its four sets ¼, 1¼, 2 and 2¾, and `spiral_metrics.js` still
-> reports the figure that caused it. Those two are the stale ones, not the
-> folder names.
+> **Two counts of the same winding differ by a quarter turn.** The four coils in
+> the family sweep 270°, 540°, 810° and 1080° about the circuit's own centre —
+> one group of three lateral legs is three-quarters of a turn — and the folder
+> names are those figures. `spiral_metrics.js` sums the turn between
+> *consecutive pairs* of lateral legs instead: twelve legs give eleven quarter
+> turns, 990°, and read as 2¾. That is the tangent's rotation from the first leg
+> to the last rather than the winding, and the two differ by exactly one quarter
+> turn whenever the walk closes its circuit. The multi-bore viewer at
+> `../parts/bore/concept/walk/no-elbows/coil/no-contact/fold2-long-straight/coils.html`
+> labels its four sets ¼, 1¼, 2 and 2¾ from that same count. Do not take a turn
+> count from the tool without checking that the walk closes.
 
 ## The numbers
 
