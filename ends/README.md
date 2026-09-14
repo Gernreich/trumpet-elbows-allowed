@@ -20,11 +20,19 @@ rim** — ø80 of air. The section morphs square to round on the way up while
 holding area, so the bore never steps in cross-section even though the shape of
 it changes completely.
 
+![The bell as built, lying on a scratched workbench: a stack of laminated ply rings rising from a small square block at the throat, widening and rounding as it climbs to a flat round rim, every glue line showing as a stripe up the side](../parts/bell/bell-round10-153mm-17rings-x3-rim86-built_web.jpg)
+
+That is the one on the instrument. The small square block is the throat — 10mm
+of air in a 16mm face, which is a bore block exactly — and the flat disc is the
+rim. Everything between them is the section changing from square to round while
+holding area, three plies at a time.
+
 **[Turn it →](../parts/bell/bell-round10-153mm-17rings-x3-rim86-turn.html)**
 The viewer is a page of its own: drag to rotate, and the slider stacks the rings
 one at a time, which is the useful part.
 
-![A 17-ring bell seen from above the rim: rings stacked and morphing from square at the throat to round at the rim, widening toward the viewer, the bore visible down the middle](../parts/bell/bell-round10-153mm-17rings-x3-rim86-view.svg)
+<figure><img src="../parts/bell/bell-round10-153mm-17rings-x3-rim86-view.svg" alt="A 17-ring bell seen from above the rim: rings stacked and morphing from square at the throat to round at the rim, widening toward the viewer, the bore visible down the middle"
+  style="width:auto;max-width:100%;max-height:560px;margin:0 auto"></figure>
 
 ![Axial section of a 17-ring bell: the bore climbing one staircase and the outside another, wall between them](../parts/bell/bell-round10-153mm-17rings-x3-rim86-section.svg)
 
@@ -78,10 +86,18 @@ cd parts/bell && python3 bell-adapter.py \
 **ø3.66mm throat** before the backbore. Full size on a quarter-size instrument,
 which is the point of it.
 
+![The mouthpiece as built, lying on a scratched workbench: a square block at one end, a long ring-stacked shaft narrowing to a waist, and a small cup opening at the other end, the ply laminations visible as rings along its whole length](../parts/mouthpiece/mouthpiece-bore10-trumpet-parts-built_web.jpg)
+
+The square block is what meets the bore; the cup is what meets the lip, and the
+waist between them is the throat. **The staircase in that photograph is the
+thing to sand.** Every ring is a 3mm step, and the rim
+is the one part of the instrument a player feels directly.
+
 **[Turn it →](../parts/mouthpiece/mouthpiece-bore10-trumpet-parts-turn.html)**
 Again a page of its own, and again the slider stacks it a ring at a time.
 
-![The mouthpiece assembled from 30 rings, seen from above the cup: the cup narrowing to a throat, then the backbore opening slowly below it](../parts/mouthpiece/mouthpiece-bore10-trumpet-parts-view.svg)
+<figure><img src="../parts/mouthpiece/mouthpiece-bore10-trumpet-parts-view.svg" alt="The mouthpiece assembled from 30 rings, seen from above the cup: the cup narrowing to a throat, then the backbore opening slowly below it"
+  style="width:auto;max-width:100%;max-height:560px;margin:0 auto"></figure>
 
 ![Axial section of the 30-ring mouthpiece: the bore narrowing to the throat and opening again, the outside stepping the other way, wall between them](../parts/mouthpiece/mouthpiece-bore10-trumpet-parts-section.svg)
 
