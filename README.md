@@ -222,12 +222,12 @@ draws one, because the mitring it needs is the same mitring every other shape
 needs, but nothing here is a candidate bore.
 
 The **swept curve** (`parts/bore/concept/swept-curve/`) sweeps a rectangle along a
-planar curve, so two faces are flat and two are faceted. Seven designs are drawn:
+planar curve, so two faces are flat and two are faceted. Eight designs are drawn:
 a serpentine and an opposed pair at 1000mm, three spirals at 1000, 1458 and
-1767mm, a wave at 836mm and a double spiral at 1506mm — plus a 30° coupon that
-exists to prove the tooth survives the bend.
+1767mm, a wave at 836mm and two double spirals at 1506 and 956mm — plus a 30°
+coupon that exists to prove the tooth survives the bend.
 
-One of the seven is in ply, and it is the only design here besides the
+One of the eight is in ply, and it is the only design here besides the
 three-turn coil that exists as an object. The 1000mm spiral — `R35to113`, 17
 facets of 45°, its radius growing 34.7 → 112.9mm — has had both its sheets cut
 and the bore glued up, and carries **[a page of its own](ribbon-spiral/)**: the
@@ -263,6 +263,24 @@ Two arms wound into each other is the one arrangement here that could have run
 the bore back into itself, and the check that would have caught it already
 existed: *the cheek outline does not cross itself*. It passes, at 85 edges and no
 crossings.
+
+The **short double spiral** is that same spiral with five facets taken off each
+arm, 14 down to 9 — a trim and not a redraw: the pitch, the R62 start and the
+R30 crossover are the shipped design's, and the shape stays point-symmetric
+because a facet comes off each end at once. 956.0mm on a 191 × 225mm plate,
+against 1506.4mm on 237 × 244mm. Length here is quantised by the facet — 10
+facets an arm give 1058.2mm and 9 give 956.0mm, so nothing lands on 1000
+without stretching the leads, which is a straight tail at the rim and not a
+trim.
+
+It is also the only design in this repository **ported at both ends**. One
+square port is bought by folding the mouth lead into the facet it already lies
+on, and the far end wants the same thing: `--port-both` folds the tail lead
+too, or the second port lands on that lead's single tooth and the generator
+refuses — the refusal being correct, and the reason the flag does the fold
+rather than overruling the check. Two ports mean two open ends, so `--cap`
+draws two caps. The mortices do not move: against the unmerged build, four
+lead panels drop and not one surviving tooth shifts.
 
 ### The coil search
 

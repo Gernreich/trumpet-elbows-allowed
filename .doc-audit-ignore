@@ -85,6 +85,11 @@ x-ported-square.svg
 x-merged.svg
 x-narrow.svg
 
+# The fourth of them, added 2026-09-14 with --port-both. Same class and the
+# same reason: a scratch stem in a code fence, and a file of this name would
+# mean somebody had run the example in the folder it documents.
+x-ported-both-square.svg
+
 # The --out= stem on the spiral bore's page, added 2026-09-14. ribbon_bore.py
 # takes ONE name and writes TWO sheets from it, appending -cheek-x2-cut-files
 # and -panels-cut-files, so the stem itself is never a file and never should be.
