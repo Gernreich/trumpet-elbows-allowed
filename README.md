@@ -233,11 +233,7 @@ One of the seven is in ply. The 1000mm spiral — `R35to113`, 19 segments of 45�
 its radius growing 34.7 → 112.9mm — has had its cheek sheet cut, and cut twice,
 because the two cheeks are the same part and both go on the same way up.
 
-![The two cheek plates as cut, one lying on the other on a scratched workbench: a
-faceted band of pale masked ply winding a little over two turns out from a small
-centre to a straight tail, both rims crenellated with open notches, a number
-engraved beside each notch, and a small square hole at the inner end](parts/bore/concept/swept-curve/spiral/ribbon-spiral-bore10-45deg-R35to113/ribbon-spiral-bore10-45deg-R35to113-1000mm-ported-square-narrow-cheek-x2-as-cut_web.jpg)
-
+![The two cheek plates as cut, one lying on the other on a scratched workbench: a faceted band of pale masked ply winding a little over two turns out from a small centre to a straight tail, both rims crenellated with open notches, a number engraved beside each notch, and a small square hole at the inner end](parts/bore/concept/swept-curve/spiral/ribbon-spiral-bore10-45deg-R35to113/ribbon-spiral-bore10-45deg-R35to113-1000mm-ported-square-narrow-cheek-x2-as-cut_web.jpg)
 The band is a single closed outline of 40 vertices, 216.50 × 218.51mm on a
 236.50 × 238.51mm sheet, and it carries **149 mortices** for 38 wall panels.
 Every one of those mortices is open at the rim, which is what `--narrow` buys:
