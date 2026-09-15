@@ -153,8 +153,8 @@ channel, so one of each serves all of them —
 
 ## More, and licence
 
-**[The three-turn trumpet](../three-turn/)** — the bore that exists as an
-object, glued up and blown, rather than a candidate.
+**[The three-turn trumpet](../three-turn/)** — the bore that plays, glued up
+and blown, rather than a candidate.
 
 **[The trumpet writeup](../)** — the idea, the notation, the gate, and the whole
 library.

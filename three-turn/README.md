@@ -1,7 +1,7 @@
 # The three-turn trumpet
 
-**The one that exists.** Every other bore here is a drawing; this one is an
-object, glued up, varnished and blown. A coil of **1096mm in 12 sections**
+**The one that plays.** The spiral is in wood too; this one is glued up,
+varnished and blown, and it makes a note. A coil of **1096mm in 12 sections**
 winding **three whole turns** about a north–south axis, with a mouthpiece at one
 end and a 153mm bell at the other.
 

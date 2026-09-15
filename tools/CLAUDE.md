@@ -19,8 +19,9 @@ cut files come out, and every one of them is checked before you cut. Unlike its
 sibling repositories this **is** a software project — it ships no cut files of
 its own, only the thing that makes them.
 
-It produces every bore under **`../parts/bore`**, all of them candidates, and the
-bore of the instrument that exists under **`../built`**. It depends on nothing in `octomino-snakes`, which
+It produces every bore under **`../parts/bore`**, all of them candidates, and one of the
+two bores under **`../built`** — the three-turn trumpet's. The spiral beside it is a swept
+curve and comes from `ribbon_bore.py`. It depends on nothing in `octomino-snakes`, which
 enumerated the 369 octominoes and is archived and private: a live instrument should not
 need a frozen repository to rebuild its parts.
 

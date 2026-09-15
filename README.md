@@ -121,16 +121,16 @@ ring 0 lands squarely on the face it seals.
 
 Each of these carries the walk it is cut from, its blocks and centreline, its
 sections with their plates and sheet sizes, and a link to a viewer you can turn
-at tab size. The first is the instrument that exists; the next three are
-candidates that have not been cut. The spiral after them is neither: it is a
-swept curve rather than a walk, and it has been cut and glued up.
+at tab size. The first is the one that plays; the next three are candidates that
+have not been cut. The spiral after them is in wood too, but it is not a walk —
+it is a swept curve, cut and glued up and not yet blown.
 
 | | |
 | --- | --- |
-| **[the three-turn trumpet](three-turn/)** | 44 blocks, 1096mm, twelve sections — **the one that was built**, and it plays |
+| **[the three-turn trumpet](three-turn/)** | 44 blocks, 1096mm, twelve sections — **the one that plays** |
 | **[the switchback trumpet](switchback/)** | 22 blocks, 352mm, six sections — folds back on itself twice |
 | **[the greek spiral](greek-spiral/)** | 68 blocks, 1088mm, **one** section — a flat meander, the only bore here that cuts in one piece |
-| **[the spiral bore](ribbon-spiral/)** | 17 facets of 45°, 1000mm, R34.7 to R112.9 — a swept curve rather than a walk, cut in ply and glued up |
+| **[the spiral bore](ribbon-spiral/)** | 19 facets of 45°, 1000mm, R34.7 to R112.9 — a swept curve rather than a walk, cut in ply and glued up |
 | **[the bell and the mouthpiece](ends/)** | The two ends, shared by every bore on the 10mm channel |
 
 ## Cutting
@@ -235,7 +235,7 @@ Two more double-spiral folders hold cut files and are **not** designs: the 196
 and 240mm halftests, which are there to try the joint. Sheets, not bores.
 
 One of the nine is in ply, and it is **not in that folder any more**: the 1000mm
-spiral — `R35to113`, 17 facets of 45°, its radius growing 34.7 → 112.9mm — has
+spiral — `R35to113`, 19 facets of 45°, its radius growing 34.7 → 112.9mm — has
 had both its sheets cut, the bore glued up and both ends fitted, so it is filed
 with the instruments in `built/` while its swept-curve siblings stay under
 `concept/`. `ribbon_bore.py` draws it either way. It carries **[a page of

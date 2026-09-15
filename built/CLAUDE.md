@@ -55,7 +55,7 @@ object.
 
 ## `ribbon-spiral-bore10-45deg-R35to113/` — the spiral
 
-1000mm of centreline in 17 facets of 45°, winding out from R34.7 to R112.9. A
+1000mm of centreline in 19 facets of 45°, winding out from R34.7 to R112.9. A
 swept curve, not a lattice walk: two faces flat, two faceted. Writeup at
 `../ribbon-spiral/`.
 
