@@ -225,14 +225,16 @@ draws one, because the mitring it needs is the same mitring every other shape
 needs, but nothing here is a candidate bore.
 
 The **swept curve** (`parts/bore/concept/swept-curve/`) sweeps a rectangle along a
-planar curve, so two faces are flat and two are faceted. **Eleven designs are
+planar curve, so two faces are flat and two are faceted. **Nine designs are
 drawn** — counted as folders holding cut files, which is the only count that
 cannot drift from what is on disk: a serpentine and an opposed pair at 1000mm,
-three spirals at 1000, 1458 and 1767mm, a volute at 1180mm, a wave at 836mm, two
-double spirals at 1506 and 1000mm, and two double-spiral halftests at 196 and
-240mm. The halftests are there to try the joint, not to be an instrument.
+three spirals at 1000, 1458 and 1767mm, a volute at 1180mm, a wave at 836mm, and
+two double spirals at 1506 and 1000mm.
 
-One of them is in ply, and it is **not in that folder any more**: the 1000mm
+Two more double-spiral folders hold cut files and are **not** designs: the 196
+and 240mm halftests, which are there to try the joint. Sheets, not bores.
+
+One of the nine is in ply, and it is **not in that folder any more**: the 1000mm
 spiral — `R35to113`, 17 facets of 45°, its radius growing 34.7 → 112.9mm — has
 had both its sheets cut, the bore glued up and both ends fitted, so it is filed
 with the instruments in `built/` while its swept-curve siblings stay under
