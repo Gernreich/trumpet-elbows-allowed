@@ -25,7 +25,7 @@ number of turns cannot do.
 ## The idea
 
 A brass instrument is a long tube you have to fit into a small space. A trumpet
-does it with three tight bends and a lot of drawn brass. This does it by
+could be done with three tight bends and a lot of drawn brass. This does it by
 **treating the tube as a walk through a lattice of cubes** — north three, up two,
 east three — and cutting each run of that walk as a flat-packed box.
 
@@ -288,6 +288,19 @@ refuses — the refusal being correct, and the reason the flag does the fold
 rather than overruling the check. Two ports mean two open ends, so `--cap`
 draws two caps. The mortices do not move: against the unmerged build, four
 lead panels drop and not one surviving tooth shifts.
+
+The two ports are then **split between the two cheeks**, which is what makes it
+an instrument rather than a coil with holes in it. A port through both cheeks is
+a socket right through, and the side you are not using is an open hole to plug;
+two of those are waste. `--port-per-cheek` puts one port on each sheet instead —
+`cheek-a` carries the mouth, `cheek-b` the far end, each cut once — so the
+mouthpiece **enters one face and the bell leaves the other**, at points
+222.5mm apart and exactly opposite through the coil's centre. The openings are no longer
+in the plane at all, so the total-turning-zero argument that sets the two rim
+ends on opposite headings has stopped describing how it is played: those ends
+are the capped ones. `rotatable()` reports that the two sheets are the same part
+half a turn apart, to 9e-16mm — so one sheet cut twice with one turned round
+would also do, at the price of engraved numbers upside down on the turned one.
 
 ### The coil search
 
