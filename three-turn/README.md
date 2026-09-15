@@ -10,9 +10,9 @@ end and a 153mm bell at the other.
 
 **It plays. One of its notes is F4** — 349.2 Hz, measured off the instrument.
 
-![The finished trumpet lying on concrete: a ring-stacked mouthpiece at the left, the square-section bore folding through its coil in the middle, and the laminated bell flaring at the right, all of it varnished dark over scorched birch](../parts/bore/built/coil/fold2-long-straight-3t/bore10-coil-fold2-long-straight-3t_web.jpg)
+![The finished trumpet lying on concrete: a ring-stacked mouthpiece at the left, the square-section bore folding through its coil in the middle, and the laminated bell flaring at the right, all of it varnished dark over scorched birch](../built/coil-fold2-long-straight-3t/bore10-coil-fold2-long-straight-3t_web.jpg)
 
-**[Turn it →](../parts/bore/built/coil/fold2-long-straight-3t/fold2-long-straight-3t.html)**
+**[Turn it →](../built/coil-fold2-long-straight-3t/fold2-long-straight-3t.html)**
 The viewer is a page of its own, not a frame in this one: drag to rotate, and
 the slider reveals the bore a block at a time in the order it was glued.
 
@@ -123,7 +123,7 @@ other. The widest sheet is 481mm and the largest 455 × 86mm, both well inside
 the 600mm bed.
 
 The cut files are in
-`../parts/bore/built/coil/fold2-long-straight-3t/cut-files/`, named `01of12`
+`../built/coil-fold2-long-straight-3t/cut-files/`, named `01of12`
 through `12of12`. **Blue engraves, then black cuts.**
 
 ## Building it
@@ -189,9 +189,9 @@ dependencies:
 
 ```
 cd tools && ~/Software/boxes/venv/bin/python bore_split.py \
-    ../parts/bore/built/coil/fold2-long-straight-3t/fold2-long-straight-3t.html \
+    ../built/coil-fold2-long-straight-3t/fold2-long-straight-3t.html \
     --straight=30 \
-    --write ../parts/bore/built/coil/fold2-long-straight-3t
+    --write ../built/coil-fold2-long-straight-3t
 ```
 
 **These sheets were cut.** Regenerating them changes the drawing of a thing that

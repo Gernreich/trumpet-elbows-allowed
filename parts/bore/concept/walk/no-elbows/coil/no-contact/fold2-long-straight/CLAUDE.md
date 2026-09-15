@@ -55,7 +55,7 @@ turn count from that tool without checking it closes.
   `tools/walks/coil_fold2.txt`, named by both.
 - **`coil-10x10x30-2.25t/`** — 33 blocks, 822mm, 9 sections. Uncut.
 - **`coil-10x10x30-3t/`** — 44 blocks, 1096mm, and the longest; it is the one that was
-  BUILT, and it lives in `../../../../../../built/coil/fold2-long-straight-3t`.
+  BUILT, and it lives in `../../../../../../../../built/coil-fold2-long-straight-3t`.
   **Coils are named for the block and the measured turns**: a 10 x 10mm airway on a 30mm
   straight, three times round. That is
   what differs between two coils before anything else does; the circuit size and the pitch

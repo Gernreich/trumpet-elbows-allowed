@@ -18,7 +18,7 @@ number of turns cannot do.
 <!-- readme-only -->
 **[Read the writeup](https://gernreich.github.io/trumpet/)**
 
-![The built bore, twelve sections glued up](parts/bore/built/coil/fold2-long-straight-3t/bore10-coil-fold2-long-straight-3t_web.jpg)
+![The built bore, twelve sections glued up](built/coil-fold2-long-straight-3t/bore10-coil-fold2-long-straight-3t_web.jpg)
 
 ---
 
@@ -152,17 +152,16 @@ marked `buttin` and the last `buttout`, and those two are the only plain ends.
 ## What is in here
 
 ```
+built/              the two instruments that exist in wood, a folder each
 parts/
   mouthpiece/       the shared mouthpiece, and its viewers
   bell/             the shared bell, square and square-to-round
-  bore/
-    built/          the bore that exists as an object
-    concept/        every candidate, one of them in ply
+  bore/concept/     every candidate, none of them cut
 tools/              the generator, the gate, and the walks
-three-turn/         a page each: the instrument that exists, the two
-switchback/         candidates worth reading about on their own, the
-greek-spiral/       spiral that is an object too, and the two ends
-ribbon-spiral/      they all share
+three-turn/         a page each: the two instruments that exist, the
+switchback/         two candidates worth reading about on their own,
+greek-spiral/       and the two ends they all share
+ribbon-spiral/
 ends/
 ```
 
@@ -170,12 +169,13 @@ The five page directories hold nothing but a `README.md` and the `index.html`
 rendered from it. Every number on them is read back out of the walk, the cut
 file or the generator, never typed from memory.
 
-**`built/` is one design**, the lattice walk that exists as an object. It is no
-longer the only thing here in ply: the 1000mm spiral is cut, glued up and
-carrying both ends, and it is still filed under `concept/swept-curve/` because
-that tree sorts by how a bore is drawn, not by whether it was made. Every other
-folder in `concept/` is a drawing, and a folder there is not a promise that it
-should be cut.
+**`built/` is what exists and `concept/` is what is drawn**, and the line between
+them is wood. Two instruments are in `built/`: the three-turn coil, shellacked
+and playing, and the 1000mm spiral, glued up in bare ply. Both carry a bell and
+a mouthpiece, which is what earns the word — an instrument is a bore *and* its
+two ends, so `built/` sits at the root rather than inside `parts/bore/`. Nothing
+in `concept/` has been cut, and a folder there is not a promise that it should
+be.
 
 A walk is filed under three facts about it, each of which costs something at the
 machine:
@@ -229,12 +229,13 @@ planar curve, so two faces are flat and two are faceted. Seven designs are drawn
 a serpentine and an opposed pair at 1000mm, three spirals at 1000, 1458 and
 1767mm, a wave at 836mm and two double spirals at 1506 and 1000mm.
 
-One of the seven is in ply, and it is the only design here besides the
-three-turn coil that exists as an object. The 1000mm spiral — `R35to113`, 17
-facets of 45°, its radius growing 34.7 → 112.9mm — has had both its sheets cut
-and the bore glued up, and carries **[a page of its own](ribbon-spiral/)**: the
-cheek and its 149 mortices, the two panels the square port costs, and what
-shellac is for on a glue-up with this many joints.
+One of them is in ply, and it is **not in that folder any more**: the 1000mm
+spiral — `R35to113`, 17 facets of 45°, its radius growing 34.7 → 112.9mm — has
+had both its sheets cut, the bore glued up and both ends fitted, so it is filed
+with the instruments in `built/` while its swept-curve siblings stay under
+`concept/`. `ribbon_bore.py` draws it either way. It carries **[a page of
+its own](ribbon-spiral/)**: the cheek and its 149 mortices, the two panels the
+square port costs, and what shellac is for on a glue-up with this many joints.
 
 The **double spiral** is the one shape here whose two arms interleave. Two of
 them half a turn apart about one centre, crossed in the middle by a straight:
@@ -296,23 +297,26 @@ made before. The one-port set is the spiral's: the port takes the bell, its stub
 is capped, and the far rim end stays open so the mouthpiece seats on the tube
 end, where four walls grip the full 16mm. That is the arrangement standing in
 ply on **[the spiral bore's page](ribbon-spiral/)**, where the photograph shows
-the bell on its throat in the port and the mouthpiece out on the tail. The two-port set below is the one where the
-mouthpiece must seat in a port — 10 × 10mm through a single 3mm cheek — which
-a bell has done and a mouthpiece has not. A bell sits where it is put; a
+the bell on its throat in the port and the mouthpiece out on the tail.
+
+The two-port set below is the one where the mouthpiece must seat in a port —
+10 × 10mm through a single 3mm cheek — which a bell has done and a mouthpiece
+has not. A bell sits where it is put; a
 mouthpiece takes lip pressure.
 
-In the two-port set the ports are **split between the two cheeks**, which is what
-makes it an instrument rather than a coil with holes in it. A port through both cheeks is
-a socket right through, and the side you are not using is an open hole to plug;
-two of those are waste. `--port-per-cheek` puts one port on each sheet instead —
-`cheek-a` carries the mouth, `cheek-b` the far end, each cut once — so the
-mouthpiece **enters one face and the bell leaves the other**, at points
-222.5mm apart and exactly opposite through the coil's centre. The openings are no longer
-in the plane at all, so the total-turning-zero argument that sets the two rim
-ends on opposite headings has stopped describing how it is played: those ends
-are the capped ones. `rotatable()` reports that the two sheets are the same part
-half a turn apart, to 9e-16mm — so one sheet cut twice with one turned round
-would also do, at the price of engraved numbers upside down on the turned one.
+In the two-port set the ports are **split between the two cheeks**, which is
+what makes it an instrument rather than a coil with holes in it. A port through
+both cheeks is a socket right through, and the side you are not using is an
+open hole to plug; two of those are waste. `--port-per-cheek` puts one port on
+each sheet instead — `cheek-a` carries the mouth, `cheek-b` the far end, each
+cut once — so the mouthpiece **enters one face and the bell leaves the other**,
+at points 222.5mm apart and exactly opposite through the coil's centre. The
+openings are no longer in the plane at all, so the total-turning-zero argument
+that sets the two rim ends on opposite headings has stopped describing how it
+is played: those ends are the capped ones. `rotatable()` reports that the two
+sheets are the same part half a turn apart, to 9e-16mm — so one sheet cut twice
+with one turned round would also do, at the price of engraved numbers upside
+down on the turned one.
 
 ### The coil search
 
@@ -403,7 +407,7 @@ would settle it, and `--play` is the flag that cuts it.
 ## Building it
 
 1. Cut the twelve bore sections from
-   `parts/bore/built/coil/fold2-long-straight-3t/cut-files/`, in order.
+   `built/coil-fold2-long-straight-3t/cut-files/`, in order.
 2. Cut the bell — 17 rings, **three passes**, 51 pieces. Cut once and you get a
    51mm stub instead of a 153mm bell.
 3. Cut the mouthpiece — 30 rings, one pass.

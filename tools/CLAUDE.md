@@ -19,8 +19,8 @@ cut files come out, and every one of them is checked before you cut. Unlike its
 sibling repositories this **is** a software project — it ships no cut files of
 its own, only the thing that makes them.
 
-It produces every bore under **`../parts/bore`** - the one that has been built and
-every one that is only a candidate. It depends on nothing in `octomino-snakes`, which
+It produces every bore under **`../parts/bore`**, all of them candidates, and the
+bore of the instrument that exists under **`../built`**. It depends on nothing in `octomino-snakes`, which
 enumerated the 369 octominoes and is archived and private: a live instrument should not
 need a frozen repository to rebuild its parts.
 
@@ -36,9 +36,9 @@ puts them at the same depth `octomino-snakes/generator/` had, so every relative 
 across unchanged.
 
     ../parts/bore/concept   the design library - candidates, not instruments
-    ../parts/bore/built     the bores that have actually been cut
     ../parts/bell           the two ends, shared by every bore
     ../parts/mouthpiece
+    ../built                the instruments that exist, one folder each
 
 `bore_split.py` writes to `../parts/bore/concept` when `--write` is given no path.
 

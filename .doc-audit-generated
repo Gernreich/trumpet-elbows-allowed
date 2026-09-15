@@ -7,8 +7,13 @@
 # it carries the detail. Declared here rather than inferred, so nothing hides from
 # the check by accident.
 
-# Every bore, built and candidate: cut files, viewer pages, walks and check logs.
+# Every candidate bore: cut files, viewer pages and check logs.
 parts/bore
+
+# The instruments that exist, one folder each: the sheets they were cut from,
+# their previews and their viewer pages. Moved out of parts/bore on 2026-09-15,
+# because an instrument is a bore and its two ends, not a bore.
+built
 
 # The two shared parts: their cut files and their display drawings.
 parts/bell
