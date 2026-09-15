@@ -115,8 +115,10 @@ section number, because they only go together one way.
 | 11 | 37–41 | U → D | `BURRD` | 8 | 481 × 73mm |
 | 12 | 42–44 | D → N | `BLD~b` | 6 | 337 × 70mm |
 
-**Eight distinct shapes over twelve sheets.** The four three-block turns —
-`BDL`, `BRD`, `BDR`, `BLD` — are each cut twice; the four five-block folds are
+**Ten distinct sheets over twelve sections.** Only two shapes repeat: `BRD`
+(sections 3 and 6) and `BDR` (7 and 10), each cut twice. `BDL` and `BLD` each
+appear once coupled and once plain-ended, and a plain end is a different cut —
+`BDL~a` is 325 × 70mm against `BDL`'s 331 × 73mm. The four five-block folds are
 each cut once. `~a` and `~b` are the two plain ends, the only faces that do not
 couple to another section: the mouthpiece lands on one and the bell on the
 other. The widest sheet is 481mm and the largest 455 × 86mm, both well inside

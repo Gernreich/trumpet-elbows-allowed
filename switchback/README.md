@@ -81,8 +81,10 @@ another section, and the ones the mouthpiece and the bell land on. The
 filenames say `buttin` and `buttout`.
 
 Sections 2 and 5 are the folds: five blocks each, carrying a hairpin internally
-rather than stranding its turn as a separate piece. Sections 3 and 6 are the
-same shape, `BRD`, cut twice.
+rather than stranding its turn as a separate piece. Sections 3 and 6 are both
+`BRD` and share a 253 × 56mm footprint, but they are not the same cut: section 6
+ends plain at `~b`, so that face carries no fingers. All six sheets are
+distinct.
 
 ## The cut files
 
