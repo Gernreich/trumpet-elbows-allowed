@@ -157,20 +157,25 @@ parts/
   bell/             the shared bell, square and square-to-round
   bore/
     built/          the bore that exists as an object
-    concept/        every candidate, none of them cut
+    concept/        every candidate, one of them in ply
 tools/              the generator, the gate, and the walks
 three-turn/         a page each: the instrument that exists, the two
-switchback/         candidates worth reading about on their own, and the
-greek-spiral/       two ends they all share
+switchback/         candidates worth reading about on their own, the
+greek-spiral/       spiral that is an object too, and the two ends
+ribbon-spiral/      they all share
 ends/
 ```
 
-The four page directories hold nothing but a `README.md` and the `index.html`
+The five page directories hold nothing but a `README.md` and the `index.html`
 rendered from it. Every number on them is read back out of the walk, the cut
 file or the generator, never typed from memory.
 
-**`built/` is one design.** Nothing in `concept/` has been cut, and a folder
-there is not a promise that it should be.
+**`built/` is one design**, the lattice walk that exists as an object. It is no
+longer the only thing here in ply: the 1000mm spiral is cut, glued up and
+carrying both ends, and it is still filed under `concept/swept-curve/` because
+that tree sorts by how a bore is drawn, not by whether it was made. Every other
+folder in `concept/` is a drawing, and a folder there is not a promise that it
+should be cut.
 
 A walk is filed under three facts about it, each of which costs something at the
 machine:
@@ -286,8 +291,18 @@ rather than overruling the check. Two ports mean two open ends, so `--cap`
 draws two caps. The mortices do not move: against the unmerged build, four
 lead panels drop and not one surviving tooth shifts.
 
-The two ports are then **split between the two cheeks**, which is what makes it
-an instrument rather than a coil with holes in it. A port through both cheeks is
+It ships **two port arrangements**, and the difference is which joints have been
+made before. The one-port set is the spiral's: the port takes the bell, its stub
+is capped, and the far rim end stays open so the mouthpiece seats on the tube
+end, where four walls grip the full 16mm. That is the arrangement standing in
+ply on **[the spiral bore's page](ribbon-spiral/)**, where the photograph shows
+the bell on its throat in the port and the mouthpiece out on the tail. The two-port set below is the one where the
+mouthpiece must seat in a port — 10 × 10mm through a single 3mm cheek — which
+a bell has done and a mouthpiece has not. A bell sits where it is put; a
+mouthpiece takes lip pressure.
+
+In the two-port set the ports are **split between the two cheeks**, which is what
+makes it an instrument rather than a coil with holes in it. A port through both cheeks is
 a socket right through, and the side you are not using is an open hole to plug;
 two of those are waste. `--port-per-cheek` puts one port on each sheet instead —
 `cheek-a` carries the mouth, `cheek-b` the far end, each cut once — so the
