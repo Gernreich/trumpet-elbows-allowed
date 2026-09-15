@@ -43,7 +43,12 @@ north–south axis. **It plays; one of its notes is F4.** Walk in
 **`cut-files/` is a REDRAW, not the record.** On 2026-09-13 the twelve pins for
 this coil were removed from `../tools/as-built.sha256` on the author's
 instruction to redraw it at the current ply and kerf, so `cut-files/` is drawn
-at 2.94mm and 0.13mm while the wood was cut at 3.0mm and 0.1mm. The twelve
+at 3.0mm and 0.15mm while the wood was cut at 3.0mm and 0.1mm. **The ply is the
+same; only the kerf moved.** Boxes.py insets each outline by BURN = KERF/2, so
+0.1 → 0.15 takes 0.025mm off every side and every part comes out 0.05mm smaller
+in each axis. Measured against `cut-files/old/`, that is the whole difference —
+each sheet is 0.05mm shorter, and narrower by 0.05mm times the parts across it
+(0.30mm on the six-part sheets, 0.40mm on the eight-part ones). The twelve
 sheets as actually cut are in `cut-files/old/` — gitignored, a local archive —
 and in git before that date. Do not read `cut-files/` as a description of the
 object.
