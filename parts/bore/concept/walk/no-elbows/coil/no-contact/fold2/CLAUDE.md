@@ -77,7 +77,7 @@ Minecraft: `U`/`D` are +Y/−Y, `N` is −Z, `S` is +Z, `E` is +X, `W` is −X.
 
 **The walk is stored in `../../../../../../../../tools/walks/coil_fold2.txt`**,
 and `regress.py` there names this repository as where its cut files live. Unlike
-`../flat-drop`, which keeps its walk in its page, the file is the record here — the
+`../square-rise3`, which keeps its walk in its page, the file is the record here — the
 page carries the same string in its `<div class="walk">` and `bore_split.py` will read
 either, but they are only equal because the page was generated from the file.
 
@@ -167,8 +167,8 @@ different axes, so there are three cases:
 | same axis, opposite direction | hairpin | >= 2 |
 | different axes | coil | >= 3 |
 
-`../../../../../../../../tools/CLAUDE.md`, `../flat-drop/CLAUDE.md` and the repository's
-`README.md` all carry that table. Stating only the coil case lumps the other two together
+`../../../../../../../../tools/CLAUDE.md` and the repository's
+`README.md` both carry that table. Stating only the coil case lumps the other two together
 as a fold that "costs nothing at any spacing" — right for steps, wrong for hairpins, and
 this walk has two hairpins sitting exactly on the limit. Treat `bore_split.py` as the
 authority, not any document and not a reimplementation of the rule.

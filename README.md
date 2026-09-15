@@ -128,7 +128,6 @@ swept curve rather than a walk, and it has been cut and glued up.
 | | |
 | --- | --- |
 | **[the three-turn trumpet](three-turn/)** | 44 blocks, 1096mm, twelve sections — **the one that was built**, and it plays |
-| **[the coiled trumpet](coiled/)** | 59 blocks, 944mm, eight sections — coils flat and drops twice |
 | **[the switchback trumpet](switchback/)** | 22 blocks, 352mm, six sections — folds back on itself twice |
 | **[the greek spiral](greek-spiral/)** | 68 blocks, 1088mm, **one** section — a flat meander, the only bore here that cuts in one piece |
 | **[the spiral bore](ribbon-spiral/)** | 17 facets of 45°, 1000mm, R34.7 to R112.9 — a swept curve rather than a walk, cut in ply and glued up |
@@ -160,10 +159,9 @@ parts/
     built/          the bore that exists as an object
     concept/        every candidate, none of them cut
 tools/              the generator, the gate, and the walks
-three-turn/         a page each: the instrument that exists, the three
-coiled/             candidates worth reading about on their own, and the
-switchback/         two ends they all share
-greek-spiral/
+three-turn/         a page each: the instrument that exists, the two
+switchback/         candidates worth reading about on their own, and the
+greek-spiral/       two ends they all share
 ends/
 ```
 
@@ -222,12 +220,11 @@ draws one, because the mitring it needs is the same mitring every other shape
 needs, but nothing here is a candidate bore.
 
 The **swept curve** (`parts/bore/concept/swept-curve/`) sweeps a rectangle along a
-planar curve, so two faces are flat and two are faceted. Eight designs are drawn:
+planar curve, so two faces are flat and two are faceted. Seven designs are drawn:
 a serpentine and an opposed pair at 1000mm, three spirals at 1000, 1458 and
-1767mm, a wave at 836mm and two double spirals at 1506 and 1000mm — plus a 30°
-coupon that exists to prove the tooth survives the bend.
+1767mm, a wave at 836mm and two double spirals at 1506 and 1000mm.
 
-One of the eight is in ply, and it is the only design here besides the
+One of the seven is in ply, and it is the only design here besides the
 three-turn coil that exists as an object. The 1000mm spiral — `R35to113`, 17
 facets of 45°, its radius growing 34.7 → 112.9mm — has had both its sheets cut
 and the bore glued up, and carries **[a page of its own](ribbon-spiral/)**: the
@@ -384,8 +381,9 @@ joint — and says on stderr that it is guessing, because a guess that looks lik
 measurement is the dangerous kind.
 
 Whether the requirement is absolute, a fraction of the tab, or something else
-takes a second bore to say, and there is one bore. `tools/coupon-16mm/` is the
-coupon that would settle it.
+takes a second bore to say, and there is one bore. The comment above
+`pin_play()`'s table in `tools/bore_split.py` sets out the coupon that
+would settle it, and `--play` is the flag that cuts it.
 
 ## Building it
 

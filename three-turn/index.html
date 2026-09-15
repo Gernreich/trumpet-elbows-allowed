@@ -121,7 +121,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <p><strong>The mouthpiece is the one part of this instrument that is not what the drawing says.</strong> It is 24 rings and 72mm; the sheet cuts 30 and 90. The instrument is short, not the drawing, and that is where the 1339mm above becomes 1321 in wood.</p>
 <h2 id="clearance-is-one-measurement-not-a-curve">Clearance is one measurement, not a curve</h2>
 <p><code>PLAY_BY_BORE</code> is a lookup of what has actually been cut, and it has <strong>one row</strong>: 0.025mm per side at the 10mm bore. A bore not in the table gets that value too — too loose is a worse joint than too tight is no joint — and the generator says on stderr that it is guessing, because a guess that looks like a measurement is the dangerous kind.</p>
-<p>Whether the requirement is absolute, a fraction of the tab, or something else takes a second bore to say, and there is one bore. <code>../tools/coupon-16mm/</code> is the coupon that would settle it.</p>
+<p>Whether the requirement is absolute, a fraction of the tab, or something else takes a second bore to say, and there is one bore. The comment above <code>pin_play()</code>'s table in <code>../tools/bore_split.py</code> sets out the coupon that would settle it, and <code>--play</code> is the flag that cuts it.</p>
 <h2 id="do-not-size-a-bore-from-a-pipe-formula">Do not size a bore from a pipe formula</h2>
 <p>F4 lands on no simple mode of a 1.339m tube. It is <strong>2.73 times</strong> the open–open fundamental (<code>c/2L</code> = 128 Hz) and <strong>5.45 times</strong> the closed–open one (<code>c/4L</code> = 64 Hz), and neither multiple is a whole number. That is what a bell and a mouthpiece do: they pull the resonances away from where a plain tube would put them, and how far is not something either formula knows.</p>
 <p>Length still sets the register, which is why the 1 : 2 : 3 : 4 family above is worth cutting — their bores are exact multiples, so what the ends contribute becomes a measurement instead of a guess.</p>
@@ -136,7 +136,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
     --write ../parts/bore/built/coil/fold2-long-straight-3t</code></pre>
 <p><strong>These sheets were cut.</strong> Regenerating them changes the drawing of a thing that already exists in wood — check what moved before you replace them.</p>
 <h2 id="the-candidates">The candidates</h2>
-<p><strong><a href="../coiled/">the coiled trumpet</a></strong> · <strong><a href="../switchback/">the switchback trumpet</a></strong> · <strong><a href="../greek-spiral/">the greek spiral</a></strong> — none of them cut.</p>
+<p><strong><a href="../switchback/">the switchback trumpet</a></strong> · <strong><a href="../greek-spiral/">the greek spiral</a></strong> — neither of them cut.</p>
 <h2 id="more-and-licence">More, and licence</h2>
 <p><strong><a href="../">The trumpet writeup</a></strong> — the idea, the notation, the gate, and the whole library.</p>
 <p><strong><a href="https://gernreich.github.io/">The rest of the build files</a></strong> — every instrument, each with its own writeup.</p>

@@ -14,7 +14,6 @@ parts/bore
 parts/bell
 parts/mouthpiece
 
-# The toolchain's own worked examples and its clearance coupon.
+# The toolchain's own worked examples.
 tools/examples
-tools/coupon-16mm
 tools/walks

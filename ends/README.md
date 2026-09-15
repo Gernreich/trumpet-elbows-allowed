@@ -141,7 +141,7 @@ whenever a drawing does.
 ## The bores these fit
 
 **[the three-turn trumpet](../three-turn/)** — the one they are actually glued
-to — and the candidates: **[the coiled trumpet](../coiled/)** ·
+to — and the candidates:
 **[the switchback trumpet](../switchback/)** · **[the greek spiral](../greek-spiral/)**,
 plus every other bore in `../parts/bore/`, all of them on the same 10mm channel.
 

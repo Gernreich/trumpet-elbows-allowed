@@ -158,8 +158,9 @@ is no joint — and the generator says on stderr that it is guessing, because a
 guess that looks like a measurement is the dangerous kind.
 
 Whether the requirement is absolute, a fraction of the tab, or something else
-takes a second bore to say, and there is one bore. `../tools/coupon-16mm/` is the
-coupon that would settle it.
+takes a second bore to say, and there is one bore. The comment above
+`pin_play()`'s table in `../tools/bore_split.py` sets out the coupon
+that would settle it, and `--play` is the flag that cuts it.
 
 ## Do not size a bore from a pipe formula
 
@@ -198,8 +199,8 @@ already exists in wood — check what moved before you replace them.
 
 ## The candidates
 
-**[the coiled trumpet](../coiled/)** · **[the switchback trumpet](../switchback/)**
-· **[the greek spiral](../greek-spiral/)** — none of them cut.
+**[the switchback trumpet](../switchback/)**
+· **[the greek spiral](../greek-spiral/)** — neither of them cut.
 
 ## More, and licence
 

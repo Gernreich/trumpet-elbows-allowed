@@ -254,14 +254,15 @@ redrawn sheet would claim it records wood when it does not.
 
 `walk_text()` reads the walk out of `<div class="walk">` and allows attributes on
 it, because every page this repository writes emits `<div class="walk" id="walk">`.
-That is the route `flat-drop/CLAUDE.md` documents — *the walk is stored in the
+That is the route the design notes describe — *the walk is stored in the
 page … the cut files regenerate from it and nothing else*.
 
-**Two designs have no other route.** `flat-drop` and `square-rise3` keep their
-walk **only** in a page: `regress.py`'s `DESIGNS` carries a walk as a string for
-every other design, and these two are also the ones with `cut-files/` that no
-`DESIGNS` entry claims, so `repro.py` does not look at them either. A break in
-the page route is invisible everywhere except on those two.
+**One design has no other route.** `square-rise3` keeps its walk **only** in a
+page: `regress.py`'s `DESIGNS` carries a walk as a string for every other
+design, and it is also the one with `cut-files/` that no `DESIGNS` entry claims,
+so `repro.py` does not look at it either. A break in the page route is invisible
+everywhere except there. It used to be two; `flat-drop` was the other, and was
+deleted 2026-09-14.
 
 ## Never regenerate what you cannot check
 

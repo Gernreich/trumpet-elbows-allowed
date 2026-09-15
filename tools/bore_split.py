@@ -1612,12 +1612,12 @@ def walk_text(arg):
         # ATTRIBUTES ALLOWED, and they have to be: this read
         # '<div class="walk">' exactly, and every page this repository has ever
         # written emits '<div class="walk" id="walk">'. All 37 of them. So the
-        # route the flat-drop CLAUDE.md documents -- "the walk is stored in the
+        # route the design notes document -- "the walk is stored in the
         # page ... the cut files regenerate from it and nothing else" -- raised
         # "no walk in it" on every page it was pointed at, and the only designs
         # that could be redrawn were the ones whose walk was also written out in
-        # regress.py's DESIGNS. The two that were not, flat-drop and
-        # square-rise3, could not be redrawn at all.
+        # regress.py's DESIGNS. The two that were not, flat-drop (deleted
+        # 2026-09-14) and square-rise3, could not be redrawn at all.
         m = re.search(r'<div\s[^>]*class="walk"[^>]*>([^<]+)</div>', body)
         if not m:
             raise ValueError(f'{arg} is not one of these pages: no walk in it')
@@ -1765,7 +1765,8 @@ def main(text, outdir=None):
         # sheets beside it cannot end up naming two different designs
         words = ' '.join(stack)
         # folder names are hyphenated throughout the library
-        # (coil/flat-drop, spiral/telescope-wide), so a hyphen is a word break
+        # (coil/fold2-long-straight, spiral/telescope-wide), so a hyphen is a
+        # word break
         # here exactly as an underscore is
         title = ' '.join(
             w if w[:1].isdigit() else w.title()      # '10mm', not '10Mm'

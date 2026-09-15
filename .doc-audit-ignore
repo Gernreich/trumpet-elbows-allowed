@@ -52,12 +52,9 @@ turn.html
 #   bell-round-99mm-11rings.svg     "said one of the two"
 # and one example of a sheet no shipped design produces:
 #   bell-square10-...-cut-files.svg marked "# SQUARE bells only" in the block
-# and a command kept for when a deleted previews/ comes back:
-#   bore10-coil-flat-drop-03of08.svg
 bell-round-67rings.svg
 bell-round-99mm-11rings.svg
 bell-square10-204mm-17rings-x4-rim129-cut-files.svg
-bore10-coil-flat-drop-03of08.svg
 
 # Deleted 2026-09-10, and named in parts/CLAUDE.md by the paragraph that says
 # so. It rewrote a `stroke:` style property; these sheets carry a stroke
