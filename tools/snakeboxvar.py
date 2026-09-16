@@ -389,6 +389,25 @@ class SnakeBoxVar(Boxes):
                 along = (cx - ax) * dx + (cy - ay) * dy
                 perp = (cx - ax) * -dy + (cy - ay) * dx
                 if abs(abs(perp) - 0.5) < 1e-9 and 0 < along < m:
+                    # The airway has to run STRAIGHT THROUGH the cell along
+                    # this run. A mouth is longer than the bore is wide, so it
+                    # reaches into the cells either side: at an end of the piece
+                    # that leaves 1.15 mm of plate to the rim, and at a turn it
+                    # runs through the wall across the bend and out of the
+                    # plate's edge. Both were accepted and both passed the gate.
+                    ahead = (ci + dx, cj + dy)
+                    behind = (ci - dx, cj - dy)
+                    beside = {cells[x] for x in (cell - 1, cell + 1)
+                              if 0 <= x < len(cells)}
+                    if not {ahead, behind} <= beside:
+                        raise ValueError(
+                            f"--mouths cell {cell} is "
+                            + ("an end of the piece" if len(beside) < 2
+                               else "a turn")
+                            + f": a {self.MOUTH_ALONG:g}mm mouth reaches the "
+                            f"cells either side of it along the bore, and "
+                            f"there the bore does not continue. Name a cell "
+                            f"the airway runs straight through.")
                     head = turns[k - 1] * inset[(k - 1) % n]
                     out.append((plate, k, along * s - head, s / 2. - t))
                     break
@@ -490,18 +509,27 @@ class SnakeBoxVar(Boxes):
     def plateBorders(self, borders, tips, caps, tab_run, plains=(), short=()):
         """Borders with the cap runs replaced by a tab / notch profile.
 
+        Returns (borders, edge types, starts): starts[k] is the index of run
+        k's first edge, which is what polygonWall numbers its callbacks by. A
+        coupled cap is five edges and a plain one is one, and render() used to
+        count that for itself -- five for every cap -- so on a plate with a
+        plain cap every mouth after it was drawn on the wrong edge, 214 mm from
+        its block under --flat. The count is taken here, where the edges are
+        made, and nowhere else.
+
         `short` names port runs this plate must stop a cell short of. The
         plate is only as wide as the bore - it sits between the side walls -
         so a bore-sized hole through it would sever it. Ending it a cell early
         instead leaves that cell's face open, bounded by the piece's own walls,
         with the plate never cut through.
         """
-        out, edgetypes = [], []
+        out, edgetypes, starts = [], [], []
         w_pin = self.pin_width
         w_slot = self.pin_width + 2. * self.pin_play
         n = len(borders) // 2
         for k in range(n):
             length, angle = borders[2 * k], borders[2 * k + 1]
+            starts.append(len(edgetypes))
             # A run beside the removed cell loses that cell, but gains back
             # the thickness it was set in by: the new edge has no wall behind
             # it, so it runs out flush to the cell boundary.
@@ -542,7 +570,7 @@ class SnakeBoxVar(Boxes):
             else:
                 out += [length, angle]
                 edgetypes += ["f"]
-        return out, edgetypes
+        return out, edgetypes, starts
 
     def snakeWalls(self, borders, tips, laps=(), tab_run=None, plains=()):
         """Walls for every run except the two caps, with pin/slot ends."""
@@ -621,7 +649,7 @@ class SnakeBoxVar(Boxes):
         # is the cut order (green cuts before black) and an etched cell
         # division would be sliced clean through the plate.
         borders, tips, caps, ports, tab_run, plains = self.geometry()
-        pb, pe = self.plateBorders(borders, tips, caps, tab_run, plains)
+        pb, pe, ps = self.plateBorders(borders, tips, caps, tab_run, plains)
         runs, _ = self.outline(self.cells())
 
         ends = self.tipRuns(self.cells(), runs)
@@ -633,17 +661,28 @@ class SnakeBoxVar(Boxes):
         # has to mate with. The marker is a magenta rectangle over the cell to
         # remove; bore_split subtracts it, which leaves every surviving edge
         # exactly as it was drawn, teeth included.
-        seg, i = {}, 0
-        for k in range(len(borders) // 2):
-            seg[k] = i
-            i += 5 if k in tips else 1
-        port_seg = {seg[k]: borders[2 * k] for k in ports}
-
         cells = self.cells()
         _, turns = self.outline(cells)
         mouths = self.mouthSpots(cells, runs, turns, tips)
 
-        def plate_callback(plate):
+        # One plate can lose its coupling at an end while the other keeps it -
+        # for the side that meets a one-block turn's missing face, where a tab has
+        # nothing to enter and a notch nothing to fill. The two plates stop
+        # being mirror images, so they are drawn from separate border lists --
+        # and so number their edges separately, which is why each plate's
+        # callback is keyed by its own starts.
+        fa = {e for e, w in ((ends[0], self.flat_in),
+                             (ends[1], self.flat_out)) if w == 'first'}
+        fb = {e for e, w in ((ends[0], self.flat_in),
+                             (ends[1], self.flat_out)) if w == 'mirror'}
+        ab, ae, astart = (self.plateBorders(borders, tips, caps, tab_run,
+                                            set(plains) | fa)
+                          if fa else (pb, pe, ps))
+        bb, be, bstart = (self.plateBorders(borders, tips, caps, tab_run,
+                                            set(plains) | fb)
+                          if fb else (pb, pe, ps))
+
+        def plate_callback(plate, seg):
             """The port mark if this plate carries it, and its mouths.
 
             With no mouths this returns exactly what the old two lines did --
@@ -653,6 +692,7 @@ class SnakeBoxVar(Boxes):
             """
             port_here = bool(ports) and ((plate == 'mirror') ==
                                          bool(self.port_mirror))
+            port_seg = {seg[k]: borders[2 * k] for k in ports}
             mine = {}
             for pl, k, x, y in mouths:
                 if pl == plate:
@@ -676,21 +716,8 @@ class SnakeBoxVar(Boxes):
                                          self.MOUTH_ACROSS, color=Color.BLACK)
             return cb
 
-        first = plate_callback('first')
-        second = plate_callback('mirror')
-
-        # One plate can lose its coupling at an end while the other keeps it -
-        # for the side that meets a one-block turn's missing face, where a tab has
-        # nothing to enter and a notch nothing to fill. The two plates stop
-        # being mirror images, so they are drawn from separate border lists.
-        fa = {e for e, w in ((ends[0], self.flat_in),
-                             (ends[1], self.flat_out)) if w == 'first'}
-        fb = {e for e, w in ((ends[0], self.flat_in),
-                             (ends[1], self.flat_out)) if w == 'mirror'}
-        ab, ae = (self.plateBorders(borders, tips, caps, tab_run,
-                                    set(plains) | fa) if fa else (pb, pe))
-        bb, be = (self.plateBorders(borders, tips, caps, tab_run,
-                                    set(plains) | fb) if fb else (pb, pe))
+        first = plate_callback('first', astart)
+        second = plate_callback('mirror', bstart)
         self.polygonWall(borders=ab, edge=ae, move="right", callback=first)
         self.polygonWall(borders=bb, edge=be, move="mirror right",
                          callback=second)

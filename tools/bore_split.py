@@ -237,7 +237,7 @@ FLAT = False        # --flat: plain butt ends, no tabs and no notches
 # fingers and is a comb.
 #
 # Blocks are 1-based, as the report numbers them. The mouths go on alternate
-# cheeks in the order given -- the first on one face plate, the second on the
+# cheeks in block order -- the lowest on one face plate, the next on the
 # other -- so the mouthpiece enters one face and the bell leaves the other, the
 # arrangement every ported ribbon design in this repository uses.
 MOUTH_AT = None
@@ -1115,6 +1115,28 @@ def glyphs(text, h):
     return out, right + tg + tl
 
 
+def hosts(outlines):
+    """For each closed path, the index of the path it is a hole in, or None.
+
+    A path is a hole when it lies wholly inside another; its host is the
+    smallest such path. ONE rule, used by cut() here and by check.py's reading
+    of the written sheets. They had one each: this tested bounding boxes and
+    check.py tested the polygons, so a mouth cut through the edge of an L-shaped
+    plate sat inside the plate's box and was a hole to cut(), and crossed its
+    outline and was a part to check.py. That disagreement was the only thing
+    catching such a mouth, and it caught it by accident. A path that crosses its
+    plate's outline is not a hole in it -- it is a second cut through the plate
+    -- and both readers now say so, so the part count says so too.
+    """
+    from shapely.geometry import Polygon
+    gs = [Polygon(q[:-1] if q[0] == q[-1] else q).buffer(0) for q in outlines]
+    out = []
+    for i, g in enumerate(gs):
+        inside = [j for j in range(len(gs)) if j != i and gs[j].contains(g)]
+        out.append(min(inside, key=lambda j: gs[j].area) if inside else None)
+    return out
+
+
 def cut(args, tag):
     """Run SnakeBox and read back its parts.
 
@@ -1132,6 +1154,13 @@ def cut(args, tag):
                        + (['--pin_length=0'] if FLAT else [])
                        + [f'--output={out}'], cwd=BOXES, capture_output=True,
                       text=True)
+    # A ValueError out of SnakeBox is a refusal written for whoever asked --
+    # a mouth on a turn, a tab too wide for its frame -- and it came back as a
+    # traceback wrapped in a crash. Hand the sentence on as the ValueError it
+    # is, so bore_split and check.py print it as "error: ..." like their own.
+    said = re.findall(r'^ValueError: (.*)$', r.stderr or '', re.M)
+    if r.returncode != 0 and said:
+        raise ValueError(f'{said[-1]} ({" ".join(args)})')
     if r.returncode != 0 or not os.path.exists(out):
         raise RuntimeError('SnakeBox failed for %s\n  %s\n%s'
                            % (tag, ' '.join(args),
@@ -1151,14 +1180,8 @@ def cut(args, tag):
                 marks.append(rec)
             elif p.get('stroke') == 'rgb(0,0,0)':
                 paths.append(rec)
-        host = {}
-        for q in paths:
-            inside = [o for o in paths if o is not q
-                      and o['x0'] <= q['x0'] + 1e-6 and o['y0'] <= q['y0'] + 1e-6
-                      and o['x0'] + o['w'] >= q['x0'] + q['w'] - 1e-6
-                      and o['y0'] + o['h'] >= q['y0'] + q['h'] - 1e-6]
-            if inside:
-                host[id(q)] = min(inside, key=lambda o: o['w'] * o['h'])
+        host = {id(q): paths[h] for q, h in
+                zip(paths, hosts([q['pts'] for q in paths])) if h is not None}
         for o in paths:
             if id(o) in host:
                 continue
@@ -1618,8 +1641,11 @@ def specs_for(text):
                     f'numbered 1 to {len(rec)}.')
         if len(set(MOUTH_AT)) != len(MOUTH_AT):
             raise ValueError(f'--mouth-at names a block twice: {MOUTH_AT}.')
+    # In BLOCK order, not the order typed: --mouth-at=50,31 used to put the
+    # block-31 mouth on the other cheek from --mouth-at=31,50, the same design
+    # cut two ways by a difference nobody would read as a design choice.
     plate_of = {b: ('first' if n % 2 == 0 else 'mirror')
-                for n, b in enumerate(MOUTH_AT or [])}
+                for n, b in enumerate(sorted(MOUTH_AT or []))}
     for i, g in enumerate(groups):
         code, args, note = piece_spec(rec, g, norm[i], laps[i],
                                       (plans[i][1], plans[i][2]), plains[i],

@@ -27,6 +27,7 @@ import argparse, glob, math, os, re, sys
 import xml.etree.ElementTree as ET
 from shapely.geometry import Polygon, box
 from shapely import affinity
+from shapely.ops import unary_union
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import bore_split
@@ -48,6 +49,20 @@ def note(ok, section, name, detail=''):
 def poly(p):
     q = p['pts'][:-1] if p['pts'][0] == p['pts'][-1] else p['pts']
     return Polygon(q).buffer(0)
+
+
+def material(p):
+    """The part as it comes off the bed: its outline with its holes taken out.
+
+    poly() is the outline alone, and it was what the per-part checks measured
+    until a mouth was moved to 0.5 mm from its plate's edge and the sliver
+    check found nothing: a hole was invisible to every check that looks at a
+    part's material, so a plate could be cut through by its own mouth and pass.
+    """
+    g = poly(p)
+    for h in p.get('holes', ()):
+        g = g.difference(poly(h))
+    return g
 
 
 def geometry_of(args):
@@ -115,7 +130,7 @@ def check_section(i, args, parts, flat=('', '')):
              f'drawing, {couplings} coupling(s) there to drop')
 
     for p in parts:
-        g = poly(p)
+        g = material(p)
         # --- a part must be one closed piece. Caught nothing yet; would catch
         # a subtraction that split a plate in two.
         note(g.geom_type == 'Polygon' and g.is_valid, i, 'part is one closed piece',
@@ -196,6 +211,109 @@ def check_section(i, args, parts, flat=('', '')):
     note(not ports, i, 'no wall finger left unengaged',
          'a port removes a plate over one cell, orphaning the fingers there'
          if ports else '')
+
+
+def cells_on(plate, cells, s):
+    """Every placement of the piece's cells that fits this drawn plate.
+
+    [(a, b, d, e, x, y)], the affine map taking a point in cell space, mm, to the
+    plate as drawn. Worked out from the plate's OUTLINE and the walk's cells
+    alone -- not from anything snakeboxvar used to place a hole -- by trying the
+    eight ways a grid can be turned and mirrored, butted to each corner of the
+    plate, and keeping whichever leaves least of the two shapes uncovered. The
+    plate's teeth reach the cell boundary, so the right placement leaves only the
+    tooth gaps and the couplings over.
+
+    A piece that is symmetric fits more than one way, and then every placement
+    that fits as well as the best is returned: a hole over cell c in one of them
+    is over the cell asked for in a part that can be picked up and turned round.
+    Couplings break most symmetries, since a tab and a notch do not fit alike.
+    """
+    body = poly(plate)
+    cell_sq = unary_union([box(i * s, j * s, (i + 1) * s, (j + 1) * s)
+                           for i, j in cells])
+    fits = []
+    for a, b, d, e in ((1, 0, 0, 1), (-1, 0, 0, 1), (1, 0, 0, -1),
+                       (-1, 0, 0, -1), (0, 1, 1, 0), (0, -1, 1, 0),
+                       (0, 1, -1, 0), (0, -1, -1, 0)):
+        u = affinity.affine_transform(cell_sq, [a, b, d, e, 0, 0])
+        for kx in (0, 2):
+            for ky in (1, 3):
+                x = body.bounds[kx] - u.bounds[kx]
+                y = body.bounds[ky] - u.bounds[ky]
+                miss = affinity.translate(u, x, y).symmetric_difference(body).area
+                fits.append((miss, (a, b, d, e, x, y)))
+    best = min(m for m, _ in fits)
+    return sorted({f for m, f in fits if m <= best + 5.0})
+
+
+def check_mouths(i, group, b, parts):
+    """Each mouth is over the block it names, on its cheek, and opens onto bore.
+
+    Counting holes was all the gate did, and every way a mouth went wrong kept
+    the count: drawn on the wrong edge of the plate (--flat put one asked at
+    block 34 214 mm away, 120 checks, 0 failed), at an end cell 1.15 mm from the
+    rim, or both on one plate. The asking is the walk's: block numbers from
+    --mouth-at, the piece's own cells, and the rule bore_split states -- in
+    block order, the first mouth on the first plate and the next on the other.
+    """
+    asked = sorted(bore_split.MOUTH_AT or [])
+    mine = [blk for blk in asked if group[0] <= blk - 1 <= group[-1]]
+    if not mine:
+        return
+    s, t = b.blocksize, b.thickness
+    cells = b.cells()
+    plates = [p for p in parts if p['role'] == 'P']
+    if len(plates) != 2:
+        return                      # the part count has already failed
+    # the bore inside the piece, cell space: each pair of neighbouring cells as
+    # one box set in by the wall thickness all round, so a turn is an L and an
+    # end stops a wall short of the rim
+    channel = unary_union([
+        box(min(c[0] for c in pr) * s + t, min(c[1] for c in pr) * s + t,
+            (max(c[0] for c in pr) + 1) * s - t,
+            (max(c[1] for c in pr) + 1) * s - t)
+        for pr in (cells[k:k + 2] for k in range(max(1, len(cells) - 1)))])
+    fits = [cells_on(p, cells, s) for p in plates]
+
+    def over(pi, hole):
+        """Cells this hole lies over on plate pi, under any fitting placement."""
+        c = hole.centroid
+        return {n for f in fits[pi] for n, (ci, cj) in enumerate(cells)
+                if affinity.affine_transform(
+                    box(ci * s, cj * s, (ci + 1) * s, (cj + 1) * s), f)
+                .contains(c)}
+
+    holes = [[poly(h) for h in p.get('holes', ())] for p in plates]
+    found = {}
+    for blk in mine:
+        cell = blk - 1 - group[0]
+        want = asked.index(blk) % 2
+        at = [(pi, h) for pi in (0, 1) for h in holes[pi] if cell in over(pi, h)]
+        found[blk] = [pi for pi, _ in at]
+        where = '; '.join(f'P{pi + 1} has holes over cell(s) '
+                          + (', '.join(str(sorted(over(pi, h))) for h in holes[pi])
+                             or 'none') for pi in (0, 1))
+        note([pi for pi, _ in at] == [want], i, 'mouth is over the block it names',
+             f'block {blk} is cell {cell}, asked on P{want + 1}; {where}')
+    # every hole on the piece, not only those found where asked: a mouth drawn
+    # over the wrong cell can run into a wall there as well
+    for pi in (0, 1):
+        for h in holes[pi]:
+            ok = any(affinity.affine_transform(channel, f).buffer(0.05)
+                     .contains(h) for f in fits[pi])
+            note(ok, i, 'mouth opens onto the bore',
+                 f'the hole on P{pi + 1} over cell(s) {sorted(over(pi, h))} '
+                 f'runs past the airway into a wall or the rim')
+    for p0, p1 in zip(mine, mine[1:]):
+        note(len(found[p0]) == 1 and len(found[p1]) == 1
+             and found[p0] != found[p1], i,
+             'mouths in a piece on opposite cheeks',
+             f'blocks {p0} and {p1} on P{[x + 1 for x in found[p0]]} and '
+             f'P{[x + 1 for x in found[p1]]}')
+    n_holes = sum(len(h) for h in holes)
+    note(n_holes == len(mine), i, 'one hole per mouth, no more',
+         f'{n_holes} hole(s) against {len(mine)} mouth(s)')
 
 
 def check_seam(i, a_args, b_args):
@@ -437,8 +555,10 @@ def check_sheets(folder, want_sections=None):
         note(W <= BED_W + 1e-6 and H <= BED_H + 1e-6, name,
              'sheet fits the bed', f'{W:.0f}x{H:.0f}')
         gs = [Polygon(q).buffer(0) for q in P]
-        # A path WHOLLY inside another is a hole in it, not a part -- the rule
-        # bore_split's cut() already reads the drawing by. Until --mouth-at no
+        # A path WHOLLY inside another is a hole in it, not a part -- and that
+        # is bore_split.hosts(), the one rule cut() reads the drawing by too.
+        # This comment used to say the rule here WAS cut()'s, while cut() tested
+        # bounding boxes and this tested polygons. Until --mouth-at no
         # walk sheet had a hole (a port is subtracted from its plate's outline,
         # not cut inside it), so every path here was a part and this check
         # counted a mouth as a 14 x 7 part lying on its own plate: "1 pairs".
@@ -446,8 +566,7 @@ def check_sheets(folder, want_sections=None):
         # This does not blind the check to the bug it was written for. Parts
         # that cut THROUGH each other overlap partly; a hole lies wholly inside.
         # The nester's twelve bad pairs would still be twelve.
-        hole = [any(j != i and gs[j].contains(gs[i]) for j in range(len(gs)))
-                for i in range(len(gs))]
+        hole = [h is not None for h in bore_split.hosts(P)]
         parts = [i for i in range(len(gs)) if not hole[i]]
         holes = [i for i in range(len(gs)) if hole[i]]
         holes_seen += len(holes)
@@ -477,10 +596,11 @@ def check_sheets(folder, want_sections=None):
     # out of SnakeBox with both mouths drawn in Boxes.py's blue inner-cut
     # colour, cut() kept only black, and the part was written with no holes in
     # it -- and this file reported 117 checks, 0 failed, because nothing here
-    # asked whether a hole it had been told about existed. Holes are counted,
-    # not sized: no walk sheet has any hole but a mouth, so the count IS the
-    # mouths, and the size stays in snakeboxvar.py where it is drawn rather
-    # than copied here to drift.
+    # asked whether a hole it had been told about existed. Holes are counted
+    # here, on the sheets; WHERE each one is, and whether it opens onto the
+    # bore, is check_mouths() on the piece as drawn. A count alone passed a
+    # mouth cut 214 mm from the block it was asked at, because the hole was
+    # still there to count.
     if bore_split.MOUTH_AT:
         note(holes_seen == len(bore_split.MOUTH_AT),
              os.path.basename(os.path.normpath(folder)),
@@ -528,6 +648,7 @@ def main(text, folder=None, report=True):
         parts = cut(args, f'chk{i}')
         allparts.append(parts)
         check_section(i, args, parts, flats[i - 1])
+        check_mouths(i, groups[i - 1], geometry_of(args)[0], parts)
     for i in range(len(specs) - 1):
         check_seam(i + 1, specs[i][0], specs[i+1][0])
     check_seams_3d(rec, groups, THICKNESS)

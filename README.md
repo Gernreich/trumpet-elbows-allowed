@@ -397,12 +397,14 @@ refuses to leave a folder unchecked; `tools/regress.py` runs the whole library.
 cd tools && ~/Software/boxes/venv/bin/python regress.py
 ```
 
-**25 designs, 0 failed, 7012 individual checks.**
+**25 designs, 0 failed, 7018 individual checks.**
 
 It checks that each section closes round its bore, that the assembled bore is one
 sealed passage, that its volume matches the walk, that no feature is under 1.5mm,
 that every sheet fits the bed, that every seam is one tab side and one slot side,
-and that no engraving lands in a slot or off the material.
+and that no engraving lands in a slot or off the material. A mouth is checked for
+where it is, not only that it exists: over the block it names, on the right
+cheek, opening onto the airway, and with the plate around it counted as material.
 
 **Use the virtualenv python.** `check.py` imports shapely, which the system
 `python3` does not have — and `bore_split.py` writes every file *before* it gates
