@@ -26,7 +26,7 @@ enumerated the 369 octominoes and is archived and private: a live instrument sho
 need a frozen repository to rebuild its parts.
 
 **The writeup is `README.md` at the repository root**, with a page each for the bores
-beside it. It carries the geometry — why an elbow's opening frame has three sides, what a
+beside it. It carries the geometry — why a stranded turn's opening frame has three sides, what a
 lap closes, how the notation splits into pieces. This file covers only how to work on the
 code.
 
@@ -81,7 +81,7 @@ untracked and unused; the drift check does not watch it.
 
 ## The switches must reach the gate
 
-`--ports`, `--flat` and `--fewest-pieces` are module globals. Run as a script this file
+`--ports` and `--flat` are module globals. Run as a script this file
 is `__main__`, and `check.py`'s `import bore_split` loads it a second time with its own
 globals — so a switch set on `__main__` would reach the writer and not the gate, and
 `--ports --write` would write ported cut files, gate the *unported* design, and report a
@@ -189,13 +189,13 @@ stray character, a walk that reverses instead of turning, a walk too short to
 have a direction, a bare letter at either end -- the entry and exit headings the
 notation used to carry -- a walk that revisits a cell, a run of zero length, a
 one-cell piece that is not a cube, a notch narrower than its own play, a notch
-that leaves no ply beside it, and `--refuse-elbows` against a walk with an elbow
+that leaves no ply beside it, and a walk that strands a turn as a one-block piece
 -- every one refuses, with a message naming the block or section at fault.
 
 **A guard that does not fire has not been tested until you know your input
 reached it.** Two of these are easy to probe wrongly: the notch guards sit behind
-a code path a walk without a notched joint never reaches, and `--refuse-elbows`
-needs a walk that actually strands a turn.
+a code path a walk without a notched joint never reaches, and the stranded-turn
+refusal needs a walk that actually strands one — `N3 U1 E3` does.
 
 **`--bore` and `--blocksize` are two spellings of one number** -- `set_bore()`
 calls `set_blocksize(bore + 2t)` -- so the pair is refused unless the two agree.
@@ -280,28 +280,35 @@ it has been proved not obviously wrong. Say which it is.
 
 ## Standing decisions
 
-**Fewest elbows at any cost** unless told otherwise. An elbow's opening frame has
-three sides rather than four, so both neighbours need flattened plates butt-glued
-to it, plus tongues, plus an unfilled void in the corner. Flat-to-flat gluing is
-the difficulty of the whole build. `FEWEST_ELBOWS` is the switch and
-`--fewest-pieces` turns it off.
+**Every turn folds into a bend, at any cost in pieces.** A turn stranded as its
+own one-block piece has an opening frame with three sides rather than four, so
+both neighbours need flattened plates butt-glued to it, plus tongues, plus an
+unfilled void in the corner. Flat-to-flat gluing is the difficulty of the whole
+build. `FEWEST_ELBOWS` is what biases the split toward folding, and since
+2026-09-15 there is no flag that turns it off: `--fewest-pieces` is gone,
+because the refusal below would reject anything it produced.
 
-**For a build, fewest is not the standard — none is.** `--refuse-elbows` raises
-before a single file is written, naming the sections at fault, so a walk that
-would cost one cannot be cut by accident:
+**None is the standard, and it is no longer opt-in.** `REFUSE_ELBOWS` raises
+before a single file is written, naming the sections at fault, and exits 1:
 
-    error: --refuse-elbows: section 2 of 3 is an elbow. Nothing written.
+    error: sections 2, 3 of 4 strand a turn as a one-block piece. Every turn
+    here has to fold into a bend. Nothing written. Lengthen the term between
+    the turns: a hairpin needs 2 and a coil 3.
 
-It is off by default because much of the library exists to exercise elbows —
-17 of the 27 designs in `regress.py` contain them, the Hilbert curves 22 and 24 —
-so turning it on globally would refuse the corpus. Use it on anything headed for
-a build repository.
+It was off by default until 2026-09-15, because 17 of the then 27 designs in
+`regress.py` existed to exercise stranded turns and turning it on globally would
+have refused the corpus. Those designs and the `elbows/` tree they sat in were
+deleted the same day. **All 24 designs in `regress.py` now split bend-only**, so
+the guard costs the corpus nothing — that is the check that it is safe to leave
+on, and it is why the number of designs and the default moved together.
 
-The rest are there for the opposite reason: `hilbert open` (190 blocks,
-27 pieces), `wide telescope`, `metre spring`, `4 corners, flat` and the trumpet
-candidate all split with **no** elbows, so a
-change that started stranding turns would break them and leave the elbow-heavy
-designs looking fine.
+`--refuse-elbows` is still accepted and does nothing, so commands quoted in the
+writeups keep working.
+
+The long ones are in the corpus for the opposite reason: `hilbert open` (190
+blocks, 27 pieces), `metre spring`, `4 corners, flat` and the trumpet candidate
+split bend-only at a size where a change that started stranding turns would show
+up as a refusal rather than as a quietly different sheet.
 
 **What a turn costs is set by the window of three consecutive terms around it**,
 outer A, middle m, outer C — checked over every window, not once per walk.
@@ -316,9 +323,9 @@ Consecutive terms are always on different axes, which leaves three cases:
 Steps are free; hairpins are not — the distinction is the one most easily lost.
 Probed with `--no-write`:
 
-    N3 U1 N3   step      0 elbows      N3 U1 E3   coil   2 elbows
-    N3 U1 S3   hairpin   2 elbows      N3 U2 E3   coil   1 elbow
-    N3 U2 S3   hairpin   0 elbows      N3 U3 E3   coil   0 elbows
+    N3 U1 N3   step      folds          N3 U1 E3   coil   REFUSED, 2 stranded
+    N3 U1 S3   hairpin   REFUSED, 2     N3 U2 E3   coil   REFUSED, 1 stranded
+    N3 U2 S3   hairpin   folds          N3 U3 E3   coil   folds
 
 `bore_split.py` is the authority on this, not this file and not a
 reimplementation of the rule.

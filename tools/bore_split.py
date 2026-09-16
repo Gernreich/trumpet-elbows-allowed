@@ -183,11 +183,21 @@ BURN = KERF / 2                     # what Boxes.py wants: the radius
 # wall_off = (BORE + THICK)/2, so putting the sheet in THICK moves the bore.
 # There the sheet reaches the slot only. Here it reaches everything, correctly.
 # 16mm is 10mm of air in 3mm stock, which is the bore this project cuts.
-FEWEST_ELBOWS = True          # --fewest-pieces turns this off
-# Fewest is not none. A build repository wants none, and wants to be told rather
-# than handed a folder to inspect, so --refuse-elbows stops before anything is
-# written. Off by default: most of the library exists to exercise elbows.
-REFUSE_ELBOWS = False
+# A turn folded into a bend, never stranded as a one-block piece of its own.
+# This biases the split toward folding, and it is what FINDS a bend-only split
+# in the first place -- it is not the guard, it is what lets the guard pass. It
+# is a constant now: --fewest-pieces used to turn it off, and since the refusal
+# below is unconditional, turning it off could only produce a walk the next line
+# rejects. The flag is gone for that reason.
+FEWEST_ELBOWS = True
+# THE LIBRARY IS BEND-ONLY, so this is on and there is no way to turn it off.
+# It was False until 2026-09-15, when the elbow-bearing designs were deleted and
+# the elbows/ and no-elbows/ directory levels collapsed: with no library of them
+# left to exercise, a stranded turn is a fault rather than a category. The word
+# survives here and nowhere else, because this is the code that has to recognise
+# one in order to refuse it. --refuse-elbows is still accepted and does nothing,
+# so the commands quoted in the writeups keep working.
+REFUSE_ELBOWS = True
 BED = BED_W                   # sheets wrap to the bed width
 OUTDIR = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                       '..', '..', 'test')
@@ -760,8 +770,9 @@ def coplanar_pieces(text):
     """Split the walk into the fewest cuttable pieces.
 
     Shortest path over block positions. What it minimises is set by
-    FEWEST_ELBOWS: by default the single-block elbows first and the number of
-    pieces second, and with --fewest-pieces the other way round. Ties after
+    FEWEST_ELBOWS: the single-block elbows first and the number of
+    pieces second. It is always on, so a split that folds a turn into a bend
+    wins over one that strands it, whatever that costs in pieces. Ties after
     that go to fewer ports. Returns the plan for each piece too, since which
     plane it lies in and which ends are ports are decided here.
 
@@ -1465,13 +1476,12 @@ DULL = re.compile(r'bores?([-_][\d.]+mm)?|[\d.]+mm')
 # family is borrowed into the slug for that reason, the same way a dull
 # 'bore' folder borrows its parent.
 FAMILY = {'coil', 'meander', 'spiral', 'hilbert', 'swept-curve'}
-# Folders that SORT designs rather than name them. A design's identity is its
-# family and its leaf; whether it has elbows, and whether the bore touches
-# itself, are facts about it that the library files it under and the sheet
-# states elsewhere. They sit between the family and the leaf, so the family
-# borrow has to climb past them or every sheet in a sorted folder loses the
-# family from its name.
-CLASSIFIER = {'elbows', 'no-elbows', 'contact', 'no-contact'}
+# There were sorting folders between the family and the leaf until 2026-09-15 --
+# elbows/no-elbows and contact/no-contact -- and a CLASSIFIER set here that the
+# family borrow below had to climb past, or every sheet in a sorted folder lost
+# the family from its name. The library is bend-only and non-contact now, so
+# nothing sorts on either and the levels are gone from the tree. If a sorting
+# folder ever comes back, this is the mechanism it needs.
 
 
 def folder_stack(outdir):
@@ -1496,9 +1506,6 @@ def folder_stack(outdir):
         stack.insert(0, cur)
     up = os.path.dirname(at)
     parent = os.path.basename(up)
-    while parent.lower() in CLASSIFIER:
-        up = os.path.dirname(up)
-        parent = os.path.basename(up)
     if parent.lower() in FAMILY:
         stack.insert(0, parent)
     return name, stack
@@ -1711,9 +1718,10 @@ def main(text, outdir=None):
         bad = [code for _, code, _, note, _ in specs if note == 'elbow']
         if bad:
             raise ValueError(
-                f'--refuse-elbows: section{"s" if len(bad) > 1 else ""} '
+                f'section{"s" if len(bad) > 1 else ""} '
                 f'{", ".join(bad)} of {len(specs)} '
-                f'{"are elbows" if len(bad) > 1 else "is an elbow"}. '
+                f'strand{"" if len(bad) > 1 else "s"} a turn as a one-block '
+                'piece. Every turn here has to fold into a bend. '
                 'Nothing written. Lengthen the term between the turns: a '
                 'hairpin needs 2 and a coil 3.')
 
@@ -1855,12 +1863,9 @@ if __name__ == '__main__':
     if '--ports' in a:
         a.remove('--ports')
         B.ALLOW_PORTS = True
-    if '--fewest-pieces' in a:
-        a.remove('--fewest-pieces')
-        B.FEWEST_ELBOWS = False
     if '--refuse-elbows' in a:
-        a.remove('--refuse-elbows')
-        B.REFUSE_ELBOWS = True
+        a.remove('--refuse-elbows')      # the default since 2026-09-15; accepted
+                                         # so quoted commands keep working
     bs = [x for x in a if x.startswith('--blocksize=')]
     bo = [x for x in a if x.startswith('--bore=')]
     # --bore and --blocksize are two spellings of one number: set_bore() calls

@@ -1,18 +1,18 @@
 # The switchback trumpet
 
 A trumpet bore that folds back on itself twice. **22 blocks, 352mm of
-centreline, six sections, no elbows and no contact** — the shortest lattice
+centreline, six sections, every turn a bend and nothing touching** — the shortest lattice
 walk in the repository, and the one to cut first if you want to find out
 whether the joints go together before you commit a metre of ply to it.
 
 <!-- readme-only -->
 **[Read this page](https://gernreich.github.io/trumpet/switchback/)**
 
-**[Turn it →](../parts/bore/concept/walk/no-elbows/coil/no-contact/fold2/bore/bore.html)**
+**[Turn it →](../parts/bore/concept/walk/coil/fold2/bore/bore.html)**
 The viewer is a page of its own, not a frame in this one: drag to rotate, and
 the slider reveals the bore a block at a time in the order you would glue it.
 
-![The walk laid out in Minecraft: twenty-two translucent cubes, two straight legs reaching out left and right and a stack of turns folding between them, each section a different colour](../parts/bore/concept/walk/no-elbows/coil/no-contact/fold2/bore/minecraft_bore.png)
+![The walk laid out in Minecraft: twenty-two translucent cubes, two straight legs reaching out left and right and a stack of turns folding between them, each section a different colour](../parts/bore/concept/walk/coil/fold2/bore/minecraft_bore.png)
 
 ## The walk is the whole design
 
@@ -38,8 +38,9 @@ This one never did, and the notation no longer has one: you leave facing the
 last term. Nothing is lost. A bare letter carrying your own heading only
 restated it, and the six SVGs come out byte-identical written either way. What
 it could also do was name a *different* heading — `N1 U` turned the final block
-and bought an elbow — and that is the half of it worth losing: the last block
-cannot be an elbow any more, because there is no longer a way to ask for one.
+and stranded the final turn as a piece of its own — and that is the half of it
+worth losing: the last block cannot be stranded any more, because there is no
+longer a way to ask for one.
 
 ## The numbers
 
@@ -52,7 +53,7 @@ cannot be an elbow any more, because there is no longer a way to ask for one.
 | bounding box | 64 × 64 × 96mm — 4 × 4 × 6 blocks |
 | airway | 10mm square, constant |
 | block pitch | 16mm — 10mm of air in 3mm walls |
-| elbows | none |
+| stranded turns | none; every turn is a bend |
 | contact | none |
 | legs | north 6, west 5, up 5, east 3, down 3 |
 
@@ -88,7 +89,7 @@ distinct.
 
 ## The cut files
 
-In `../parts/bore/concept/walk/no-elbows/coil/no-contact/fold2/bore/cut-files/`:
+In `../parts/bore/concept/walk/coil/fold2/bore/cut-files/`:
 
 ```
 bore10-coil-fold2-01of06-bend-DL-buttin-cut-files.svg
@@ -107,18 +108,19 @@ cuts** — blue writes the section number on every part, black frees it.
 The generator lives in `../tools`. Report only, writing nothing:
 
 ```
-python3 tools/bore_split.py "N1 W3 U2 E3 N3 D3 W2 U3 N1" --bore=10 --no-write --refuse-elbows
+python3 tools/bore_split.py "N1 W3 U2 E3 N3 D3 W2 U3 N1" --bore=10 --no-write
 ```
 
-`--bore=10` is the airway; the 16mm block follows from it at 3mm ply, and
-`--refuse-elbows` makes the elbow-free claim a gate rather than a reading.
+`--bore=10` is the airway; the 16mm block follows from it at 3mm ply. The
+generator refuses a stranded turn by default, so the bend-only claim is a gate
+rather than a reading.
 Writing rewrites every sheet in the folder, so it runs under the venv python
 that has the gate's dependencies:
 
 ```
 cd tools && ~/Software/boxes/venv/bin/python bore_split.py \
-    ../parts/bore/concept/walk/no-elbows/coil/no-contact/fold2/bore/bore.html \
-    --write ../parts/bore/concept/walk/no-elbows/coil/no-contact/fold2/bore
+    ../parts/bore/concept/walk/coil/fold2/bore/bore.html \
+    --write ../parts/bore/concept/walk/coil/fold2/bore
 ```
 
 ## Stretched, the same walk is longer

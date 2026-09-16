@@ -46,7 +46,7 @@ fractional number of turns cannot do. It sweeps **1080°**, right-handed.
 > turns, 990°, and read as 2¾. That is the tangent's rotation from the first leg
 > to the last rather than the winding, and the two differ by exactly one quarter
 > turn whenever the walk closes its circuit. The multi-bore viewer at
-> `../parts/bore/concept/walk/no-elbows/coil/no-contact/fold2-long-straight/coils.html`
+> `../parts/bore/concept/walk/coil/fold2-long-straight/coils.html`
 > labels its four sets ¼, 1¼, 2 and 2¾ from that same count. Do not take a turn
 > count from the tool without checking that the walk closes.
 
@@ -61,7 +61,7 @@ fractional number of turns cannot do. It sweeps **1080°**, right-handed.
 | bounding box | 122 × 122 × 304mm |
 | turns | 3, right-handed, 1080° about a north–south axis |
 | airway | 10mm square, constant |
-| elbows | none |
+| stranded turns | none; every turn is a bend |
 | whole instrument | 1339mm — 90mm mouthpiece + 1096mm bore + 153mm bell |
 | as actually built | 1321mm — the mouthpiece on it is 24 rings, not 30 |
 | measured note | F4, 349.2 Hz |
@@ -92,7 +92,7 @@ The same shape truncated at four places, and the truncations are exact:
 an octave lower, so four bores in that ratio are worth cutting: what the bell and
 the mouthpiece actually contribute becomes measurable rather than assumed. The
 three shorter ones are candidates in
-`../parts/bore/concept/walk/no-elbows/coil/no-contact/fold2-long-straight/`; this
+`../parts/bore/concept/walk/coil/fold2-long-straight/`; this
 one is the object.
 
 ## The twelve sections
@@ -182,7 +182,7 @@ The generator lives in `../tools`. Report only, writing nothing:
 
 ```
 python3 tools/bore_split.py "N1 W3 U2 E3 N3 D3 W2 U3 N3 E3 D2 W3 N3 U3 E2 D3 N1" \
-    --bore=10 --straight=30 --no-write --refuse-elbows
+    --bore=10 --straight=30 --no-write
 ```
 
 Drop `--straight=30` and the same walk reports 704mm. Writing rewrites all

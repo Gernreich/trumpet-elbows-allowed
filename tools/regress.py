@@ -25,16 +25,19 @@ import subprocess
 import sys
 
 # (name, walk or walks/*.txt, folder of cut files or None[, block pitch mm])
+#
+# THREE ENTRIES WENT ON 2026-09-15, with the designs they covered: 'first
+# trumpet' and 'spiral trumpet', which were the elbow-bearing meander and
+# spiral, and 'wide telescope', which was the last contact design. The library
+# is bend-only and non-contact now and they had nothing left to point at. 27
+# designs became 24.
+#
+# The self-touching walks below STAY -- 'touching coil', 'tightest coil',
+# 'hilbert cube 1'. They are generator tests with no folder and no page, not
+# library designs: the splitter still has to handle a walk that meets itself,
+# and hilbert cube 1 fills a 2x2x2 so it touches everywhere it can. Deleting
+# them would drop coverage without removing a design.
 UNIFORM = [
-    ('first trumpet', 'N10 U2 W2 S7 U2 E4 N9 W2 D2 N4',
-     '../parts/bore/concept/walk/elbows/meander/no-contact/first'),
-    # No folder: ../parts/bore/concept/walk/elbows/spiral/expanding holds a page and two photographs and
-    # no cut files at all. It was named here until 2026-09-03, and check.py
-    # globbed nothing, added no sheet checks and still reported 0 failed - the
-    # design looked covered for as long as nobody counted. check.py now fails a
-    # folder it was pointed at and found empty, which is how this surfaced.
-    ('spiral trumpet', 'U3 N2 W2 S4 E4 U2 N6 W6 S8 E8 U2 N10 W10 S12 E12 U3',
-     None),
     ('helix, rise 2', 'N4 U2 E4 U2 S4 U2 W4 U2 N4', None),
     ('helix, rise 1', 'N4 U1 E4 U1 S4 U1 W4 U1 N4', None),
     ('helix, side 6', 'N6 U2 E6 U2 S6 U2 W6 U2 N6 U2 E6', None),
@@ -91,23 +94,20 @@ UNIFORM = [
     # 12mm tab, which does not fit a 10mm frame.
     ('coil fold2',
      'walks/coil_fold2.txt',
-     '../parts/bore/concept/walk/no-elbows/coil/no-contact/fold2/bore', 16),
+     '../parts/bore/concept/walk/coil/fold2/bore', 16),
     # The elbow-free walks. Every design above either contains elbows or is too
     # small to be interesting, so nothing was checking that a long walk still
     # splits without one - the property every build is chosen for.
     # 190 blocks and 27 pieces, no elbows: the open Hilbert knot is the largest
     # elbow-free walk here by a factor of three, and gates 1010 checks.
-    ('hilbert open', 'walks/hilbert_open.txt', '../parts/bore/concept/walk/no-elbows/hilbert/no-contact/open'),
-    # a telescope whose legs grow 4, 5, 6 ... so every turn is a fold and the
-    # risers between loops are the only thing leaving the plane
-    ('wide telescope', 'walks/wide_telescope.txt', '../parts/bore/concept/walk/no-elbows/spiral/contact/telescope-wide'),
+    ('hilbert open', 'walks/hilbert_open.txt', '../parts/bore/concept/walk/hilbert/open'),
     # A flat meander -- the Greek key wound all the way in and brought back out
     # beside itself. 68 blocks that split into ONE piece, so it has no section
     # seam at all. '4 corners, flat' is single-piece too, but at 8 blocks; this
     # one exercises that path at a size where it matters, and is the only design
     # here whose cut files run to two sheets.
     ('greek spiral', 'walks/greek_spiral.txt',
-     '../parts/bore/concept/walk/no-elbows/meander/no-contact/greek-key/bore', ['--bore=10']),
+     '../parts/bore/concept/walk/meander/greek-key/bore', ['--bore=10']),
 ]
 
 # (name, walk file, folder of cut files, switches it is cut with)
@@ -117,15 +117,15 @@ STRETCHED = [
     # 0.75, 1.5, 2.25 and 3 turns, measured off the walks. Parts are cut from the 1.5t, so a change that moves
     # it needs asking about.
     #
-    # The 1.5t IS ../parts/bore/concept/walk/no-elbows/coil/no-contact/fold2's walk -- one file,
+    # The 1.5t IS ../parts/bore/concept/walk/coil/fold2's walk -- one file,
     # walks/coil_fold2.txt, named by two entries. There were two identical files until
     # 2026-09-06. The two entries stay: one cuts it at the uniform 16mm pitch and one
     # with 30mm straights, which is the pair that keeps --straight honest.
-    ('coil 10x10x30 0.75t', 'walks/coil-0.75t.txt', '../parts/bore/concept/walk/no-elbows/coil/no-contact/fold2-long-straight/coil-10x10x30-0.75t',
+    ('coil 10x10x30 0.75t', 'walks/coil-0.75t.txt', '../parts/bore/concept/walk/coil/fold2-long-straight/coil-10x10x30-0.75t',
      ['--bore=10', '--straight=30']),
-    ('coil 10x10x30 1.5t', 'walks/coil_fold2.txt', '../parts/bore/concept/walk/no-elbows/coil/no-contact/fold2-long-straight/coil-10x10x30-1.5t',
+    ('coil 10x10x30 1.5t', 'walks/coil_fold2.txt', '../parts/bore/concept/walk/coil/fold2-long-straight/coil-10x10x30-1.5t',
      ['--bore=10', '--straight=30']),
-    ('coil 10x10x30 2.25t', 'walks/coil-2.25t.txt', '../parts/bore/concept/walk/no-elbows/coil/no-contact/fold2-long-straight/coil-10x10x30-2.25t',
+    ('coil 10x10x30 2.25t', 'walks/coil-2.25t.txt', '../parts/bore/concept/walk/coil/fold2-long-straight/coil-10x10x30-2.25t',
      ['--bore=10', '--straight=30']),
     # WUED repeated with an N spacer every three terms: a square circuit in
     # cross-section that steps north. The first walk laid out for this lattice.

@@ -49,7 +49,7 @@ numbers` blocks long. Forty-three steps, forty-four blocks.
 Three things, and they pull against each other.
 
 **Length, because length is pitch.** A tube twice as long sounds an octave
-lower. The four coils in `parts/bore/concept/walk/no-elbows/coil/fold2-long-straight/`
+lower. The four coils in `parts/bore/concept/walk/coil/fold2-long-straight/`
 are one shape cut at four lengths — **274, 548, 822 and 1096mm, an exact
 1:2:3:4** — and the built instrument is the longest of them.
 
@@ -64,22 +64,24 @@ different faces and both must sit square, so **a turning block has to stay
 cubic** even when the straights are stretched. The built bore is 28 straight
 blocks at 30mm and 16 turns at 16mm, which is where its 1096mm comes from.
 
-**Elbows, because an elbow is a bad part.** An elbow is a turn stranded as its
-own one-block piece: three tabs, fiddly to hold, weak at the seam. Every walk
-offered here is elbow-free, and `--refuse-elbows` stops the generator before it
-writes anything rather than handing you a folder to inspect.
+**Bends, because every turn has to fold into one.** A bend is a turn folded
+into the piece it belongs to. The alternative is a turn stranded as its own
+one-block piece — three tabs, fiddly to hold, weak at the seam — and nothing
+here is built that way. The generator refuses to write one rather than handing
+you a folder to inspect; there is no flag for it and no library of them to look
+at.
 
-> Fewest elbows is **not** cheapest in parts. Measured over 133 walks it trades
-> 23 elbows for 46 more pieces, because folding a turn into a bend adds two walls
-> to that bend while a lone elbow is only four parts for its whole block. It is
-> still the right trade: parts are cheap and bad seams are not.
+> Folding is **not** cheapest in parts. Measured over 133 walks it trades 23
+> stranded turns for 46 more pieces, because folding a turn into a bend adds two
+> walls to that bend while a stranded one is only four parts for its whole
+> block. It is still the right trade: parts are cheap and bad seams are not.
 
 ## The instrument, end to end
 
 | | length | what it is |
 | --- | ---: | --- |
 | mouthpiece | 90mm | 30 rings, 10mm square → ø3.66 throat → ø17 lip |
-| bore | 1096mm | 44 blocks, 12 sections, no elbows |
+| bore | 1096mm | 44 blocks, 12 sections, every turn a bend |
 | bell | 153mm | 17 rings, 10mm square → ø86 rim (ø80 of air) |
 | **total** | **1339mm** | |
 
@@ -177,33 +179,43 @@ two ends, so `built/` sits at the root rather than inside `parts/bore/`. Nothing
 in `concept/` has been cut, and a folder there is not a promise that it should
 be.
 
-A walk is filed under three facts about it, each of which costs something at the
-machine:
+A walk is filed under its shape alone, and has to pass two rules to be here at
+all:
 
 ```
-concept/walk/<elbows|no-elbows>/<family>/<contact|no-contact>/<design>
+concept/walk/<family>/<design>
 ```
 
-**Family** is the shape — `coil`, `meander`, `spiral`, `hilbert` — and it is
-measured, not asserted: a coil has an axis it advances along and a handedness,
-a meander has neither.
+**Family** is the shape — `coil`, `meander`, `hilbert` — and it is measured, not
+asserted: a coil has an axis it advances along and a handedness, a meander has
+neither.
 
-**Elbows** is whether any turn is stranded as its own one-block piece.
+**Every turn is a bend**, folded into the piece it belongs to. A turn stranded
+as its own one-block piece is a fault rather than a category, and `bore_split.py`
+refuses to write one.
 
-**Contact** is whether the bore comes back and touches itself: two blocks
-sharing a face, an edge or a vertex without being joined along the tube. At a
-face the airway runs past 6mm of wood rather than 3; at an edge or a vertex the
-two walls meet on a line or a point, which is a place for the glue-up to go out
-of true. None of it is fatal, and a tight coil can rarely avoid it — but it is a
-property of the walk, decided before anything is cut, so the library sorts on it.
+**Nothing comes back and touches itself** — two blocks sharing a face, an edge
+or a vertex without being joined along the tube. At a face the airway runs past
+6mm of wood rather than 3; at an edge or a vertex the two walls meet on a line
+or a point, which is a place for the glue-up to go out of true. A tight coil can
+rarely avoid it, which is why it used to be sorted on rather than refused.
 
 > Blocks **two** apart along the walk are edge-neighbours at every single turn —
 > that is the geometry of turning, not the bore touching itself, and counting it
-> would file every walk here under `contact`. So contact is measured between
-> blocks **three or more** apart. Of the 20 designs filed this way, 11 are both
-> elbow-free and touch-free, 7 touch, and 2 are touch-free but carry an elbow.
-> `coil/search/` is not among them: it is the search that the promoted coils came
-> out of, and its ten remaining walks split 4 to 6 across the line.
+> would condemn every walk here. So contact is measured between blocks **three
+> or more** apart.
+
+**Both rules used to be sorting folders**, `elbows`/`no-elbows` and
+`contact`/`no-contact`, sitting between the family and the design. Of the 20
+designs filed that way, 11 were both bend-only and touch-free, 7 touched, and 2
+were touch-free but stranded a turn. On 2026-09-15 the 9 were deleted and the
+sorting levels came out: what is left is the 11, and there is nothing to sort.
+
+> `coil/search/` is the exception, and deliberately. It is the record of an
+> exhaustive search rather than a shelf of buildable designs, so its ten walks
+> are kept as they were measured — 4 of them touch-free and 6 not — because
+> removing the ones that touch would change the field the winners were scored
+> against.
 
 ### Three ways to make a tube
 
@@ -325,24 +337,34 @@ down on the turned one.
 
 ### The coil search
 
-`parts/bore/concept/walk/no-elbows/coil/` holds seven coils promoted out of a
-search of seventeen, each because it won a category outright or tied for one.
+`parts/bore/concept/walk/coil/` holds four coils promoted out of a
+search of fourteen, each because it won a category outright or tied for one.
 Each carries a `why.txt` with its walk, its win, and twelve metrics recomputed
 from that walk:
 
 | coil | wins |
 | --- | --- |
-| `3x3-51` | smallest box, 459 |
 | `2x2-134` | fewest distinct shapes, 2 |
-| `3x7-22` | tightest spiral, 34mm rise per turn |
-| `5x5-50` | least tube per turn, 15.1 blocks |
-| `4x4-50` | calmest bore, 20.40 turns/m (tied) |
-| `5x8-18` | largest average plate, 3009mm²; and two ties |
 | `3x3-54` | fewest pieces, 30 (tied); smallest box with no shared wall (tied) |
+| `4x4-50` | calmest bore, 20.40 turns/m (tied) |
+| `5x5-50` | least tube per turn, 15.1 blocks |
 
-Ten of the seventeen remain in `search/`, and a coil listed above as tied is
-tied with one of them. The scoring is in
-[`search/SCORING.md`](parts/bore/concept/walk/no-elbows/coil/search/SCORING.md).
+**It was seven of seventeen until 2026-09-15.** `3x3-51`, `3x7-22` and `5x8-18`
+were the three that touch themselves, and the library is non-contact now, so
+they went with the rest of the contact designs. Their three categories did not
+go with them — they are led from inside `search/`, by margins the promoted four
+never beat:
+
+| category | now led by | figure | the deleted holder |
+| --- | --- | --- | --- |
+| smallest box | `coil_3x8_20` | 432 | `3x3-51`, 459 |
+| tightest spiral | `coil_3x8_20` | 32mm rise per turn | `3x7-22`, 34mm |
+| largest average plate | `coil_4x9_18` | 2,881mm² | `5x8-18`, 3009mm² |
+
+So two of the three categories are led better than they were, and only the
+largest-plate figure fell. Ten of the fourteen remain in `search/`, and a coil
+listed above as tied is tied with one of them. The scoring is in
+[`search/SCORING.md`](parts/bore/concept/walk/coil/search/SCORING.md).
 
 ## The toolchain
 

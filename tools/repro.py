@@ -52,7 +52,7 @@ PINS = os.path.join(HERE, 'as-built.sha256')
 # coil-10x10x30-1.5t stays. It is still the one folder here whose sheets
 # describe an object rather than an intention.
 AS_BUILT = {
-    'parts/bore/concept/walk/no-elbows/coil/no-contact/'
+    'parts/bore/concept/walk/coil/'
     'fold2-long-straight/coil-10x10x30-1.5t',
 }
 PY_ = os.environ.get('SNAKEBOX_PY',

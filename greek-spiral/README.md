@@ -2,7 +2,7 @@
 
 A trumpet bore drawn as a flat meander — the Greek key, wound in and brought
 back out beside itself. **68 blocks, 1088mm of centreline, one section, no
-elbows and no contact.** It is the only lattice bore in this repository that
+stranded turns and no contact.** It is the only lattice bore in this repository that
 cuts as a single section — every other one splits into six, eight,
 twenty-seven — because it is planar: there is nothing to fold, and no
 section-to-section joint to glue square.
@@ -10,12 +10,12 @@ section-to-section joint to glue square.
 <!-- readme-only -->
 **[Read this page](https://gernreich.github.io/trumpet/greek-spiral/)**
 
-**[Turn it →](../parts/bore/concept/walk/no-elbows/meander/no-contact/greek-key/bore/bore.html)**
+**[Turn it →](../parts/bore/concept/walk/meander/greek-key/bore/bore.html)**
 The viewer is a page of its own, not a frame in this one: drag to rotate, and
 the slider reveals the bore a block at a time. Turn it edge-on and the whole
 design is one block thick.
 
-![The walk laid out in Minecraft: sixty-eight translucent blocks lying flat as a Greek key, winding in to a short bar at the centre and coming back out beside itself, the runs coloured blue, purple, orange and green](../parts/bore/concept/walk/no-elbows/meander/no-contact/greek-key/bore/greek-key_minecraft.png)
+![The walk laid out in Minecraft: sixty-eight translucent blocks lying flat as a Greek key, winding in to a short bar at the centre and coming back out beside itself, the runs coloured blue, purple, orange and green](../parts/bore/concept/walk/meander/greek-key/bore/greek-key_minecraft.png)
 
 **The colours are the compass, not the cut order.** Everywhere else in this
 project a coloured bore block says which section it belongs to; this bore has
@@ -57,7 +57,7 @@ either side — are the two `N10`.
 | bounding box | 192 × 16 × 208mm — 12 × 1 × 13 blocks |
 | airway | 10mm square, constant |
 | block pitch | 16mm — 10mm of air in 3mm walls |
-| elbows | none |
+| stranded turns | none; every turn is a bend |
 | contact | none |
 | legs | north 25, west 21, south 12, east 10 |
 
@@ -100,15 +100,15 @@ run of length *L*.
 | 2 of 2 | 11 | 539.8 × 92.5mm |
 
 Sheet 1 is **1684cm², the largest sheet here by area**, with 8.0mm to spare on a
-600mm bed. It is not the widest — `telescope-wide` section 9 and the volute's
-narrow panels both reach 598.9mm, and width is what runs out first. The gate's
+600mm bed. It is not the widest — the volute's narrow panels reach 598.9mm, and
+width is what runs out first. The gate's
 `sheet fits the bed` check passes everything up to 600.0, and the nester may
 split differently rather than failing, so compare the reported sheet sizes after
 any change and do not assume two sheets stays two.
 
 ## The cut files
 
-In `../parts/bore/concept/walk/no-elbows/meander/no-contact/greek-key/bore/cut-files/`,
+In `../parts/bore/concept/walk/meander/greek-key/bore/cut-files/`,
 both named for the same single section:
 
 ```
@@ -126,7 +126,7 @@ Every file is millimetre-true at 1 user unit = 1mm.
 The generator lives in `../tools`. Report only, writing nothing:
 
 ```
-python3 tools/bore_split.py "N10 W9 S6 E5 N2 W3 N2 E5 S6 W9 N10" --bore=10 --no-write --refuse-elbows
+python3 tools/bore_split.py "N10 W9 S6 E5 N2 W3 N2 E5 S6 W9 N10" --bore=10 --no-write
 ```
 
 Writing rewrites both sheets, and must run under the venv python: `check.py`
@@ -137,7 +137,7 @@ traceback where the gate should be.
 ```
 cd tools && ~/Software/boxes/venv/bin/python bore_split.py \
     walks/greek_spiral.txt --bore=10 \
-    --write ../parts/bore/concept/walk/no-elbows/meander/no-contact/greek-key/bore
+    --write ../parts/bore/concept/walk/meander/greek-key/bore
 ```
 
 This walk is in the regression corpus — `regress.py` names it *greek spiral* and

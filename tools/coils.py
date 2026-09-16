@@ -52,8 +52,8 @@ def main(out):
 # than dropping a second copy somewhere nothing reads. The default was ../coils.html
 # -- the repository root -- which was this design's parent before the repositories
 # were consolidated, and stayed pointing there afterwards.
-DEST = ('..', 'parts', 'bore', 'concept', 'walk', 'no-elbows', 'coil',
-        'no-contact', 'fold2-long-straight', 'coils.html')
+DEST = ('..', 'parts', 'bore', 'concept', 'walk', 'coil',
+        'fold2-long-straight', 'coils.html')
 
 if __name__ == '__main__':
     a = sys.argv[1:]
