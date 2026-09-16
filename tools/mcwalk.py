@@ -11,7 +11,7 @@ cells that result - lighting up the ones that got placed more than once.
     python3 mcwalk.py "N3 U3 W5 N10 E5 S8 W3 S3 N12"
 
 Writes mcwalk.html in the working directory; --out and --title override that. It
-named a page under walk/no-elbows/doubled_walk/ until 2026-09-08, which had been
+named a page under a walk/ folder until 2026-09-08, which had been
 deleted, so the one line here that could go stale was the one nothing needed.
 """
 import json

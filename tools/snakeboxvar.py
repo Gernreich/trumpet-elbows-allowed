@@ -69,7 +69,7 @@ class SnakeBoxVar(Boxes):
         self.argparser.add_argument(
             "--open_faces", action="store", type=str, default="",
             help="single-cell pieces only: which two faces are open, as two of "
-                 "N/S/E/W (e.g. S,E for an elbow). Longer paths take their two "
+                 "N/S/E/W (e.g. S,E for a one-block turn). Longer paths take their two "
                  "ends from the path itself.")
         self.argparser.add_argument(
             "--pin_width", action="store", type=float, default=12.,
@@ -93,7 +93,7 @@ class SnakeBoxVar(Boxes):
         self.argparser.add_argument(
             "--flat_in", action="store", type=str, default="",
             help="drop the coupling from ONE face plate at the entry: 'first' "
-                 "or 'mirror'. For the side that meets an elbow's missing "
+                 "or 'mirror'. For the side that meets a one-block turn's missing "
                  "face, where a tab has nothing to enter and a notch nothing "
                  "to fill")
         self.argparser.add_argument(
@@ -118,7 +118,7 @@ class SnakeBoxVar(Boxes):
             "--lap_in", action="store", type=str, default="",
             help="face (N/S/E/W) whose wall runs t past the ENTRY opening as a "
                  "full-width tongue instead of a tab; fills the inside of a "
-                 "bend when this piece sits next to an elbow")
+                 "bend when this piece sits next to a one-block turn")
         self.argparser.add_argument(
             "--lap_out", action="store", type=str, default="",
             help="same as --lap_in, at the EXIT opening")
@@ -306,7 +306,7 @@ class SnakeBoxVar(Boxes):
         # *neighbour's* inset at each end, signed by the corner.
         #
         # Deriving it this way rather than special-casing the caps is what lets
-        # the two open faces be adjacent, as they are on a single-cell elbow.
+        # the two open faces be adjacent, as they are on a single-cell turn.
         # The old rule left such a polygon 2t short in both axes.
         n = len(runs)
         inset = [0.0 if k in tips else t for k in range(n)]
@@ -346,7 +346,7 @@ class SnakeBoxVar(Boxes):
     def lapRuns(self, runs, ends, ports=()):
         """{(run, 'l'|'r')} for wall ends that run past an opening as a tongue.
 
-        A tab on the side facing an elbow's missing face meets nothing. Making
+        A tab on the side facing a one-block turn's missing face meets nothing. Making
         that whole side run t further instead fills the inside of the bend, and
         the next piece's end face lands flat on it.
         """
@@ -451,7 +451,7 @@ class SnakeBoxVar(Boxes):
                 w = w_pin if pin else w_slot
                 p = self.pin_length + (0. if pin else self.pin_seat)
                 # Centre the tab on the TUBE, not on this edge. A plate edge is
-                # inset by t only where a wall sits, so on an elbow - whose two
+                # inset by t only where a wall sits, so on a one-block turn - whose two
                 # openings share a corner - the edge is shorter at one end only.
                 # Centring on the edge would put the tab t/2 off the centreline
                 # and it would miss the notch it has to meet.
@@ -573,7 +573,7 @@ class SnakeBoxVar(Boxes):
         second = (mark if ports else None) if self.port_mirror else None
 
         # One plate can lose its coupling at an end while the other keeps it -
-        # for the side that meets an elbow's missing face, where a tab has
+        # for the side that meets a one-block turn's missing face, where a tab has
         # nothing to enter and a notch nothing to fill. The two plates stop
         # being mirror images, so they are drawn from separate border lists.
         fa = {e for e, w in ((ends[0], self.flat_in),

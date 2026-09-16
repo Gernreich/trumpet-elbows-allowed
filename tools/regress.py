@@ -27,7 +27,7 @@ import sys
 # (name, walk or walks/*.txt, folder of cut files or None[, block pitch mm])
 #
 # THREE ENTRIES WENT ON 2026-09-15, with the designs they covered: 'first
-# trumpet' and 'spiral trumpet', which were the elbow-bearing meander and
+# trumpet' and 'spiral trumpet', which were the stranding meander and
 # spiral, and 'wide telescope', which was the last contact design. The library
 # is bend-only and non-contact now and they had nothing left to point at. 27
 # designs became 24.
@@ -50,15 +50,15 @@ UNIFORM = [
     ('test bore, flat ends', 'U1 E3 S3 U1', None, ['--flat']),
     # WAS 'three blocks', 'W D3 E4 N': the same eight blocks entered
     # sideways and left sideways, so the first and last sections were
-    # one-block elbows. That is unwritable now -- a walk enters facing
+    # one-block turns. That is unwritable now -- a walk enters facing
     # its first term and leaves facing its last, so block 1 and block n
     # cannot turn -- and with it went the only design here whose end
-    # section was an elbow. What is left is the bend itself, in one
+    # section was a stranded turn. What is left is the bend itself, in one
     # piece with a butt end at each end.
     ('one bend', 'D3 E4', None),
     # corners in a row. A leg of one block makes its block a corner, so these
     # are chains of touching corners - the case that used to raise rather than
-    # cut, because the lap was named in the walk's frame and an elbow is drawn
+    # cut, because the lap was named in the walk's frame and a stranded turn is drawn
     # in a canonical one.
     ('4 corners, flat', 'N2 U1 N1 U1 N2', None),
     ('4 corners, solid', 'N2 U1 E1 S1 E4', None),
@@ -95,11 +95,11 @@ UNIFORM = [
     ('coil fold2',
      'walks/coil_fold2.txt',
      '../parts/bore/concept/walk/coil/fold2/bore', 16),
-    # The elbow-free walks. Every design above either contains elbows or is too
+    # The bend-only walks. Every design above either strands a turn or is too
     # small to be interesting, so nothing was checking that a long walk still
     # splits without one - the property every build is chosen for.
-    # 190 blocks and 27 pieces, no elbows: the open Hilbert knot is the largest
-    # elbow-free walk here by a factor of three, and gates 1010 checks.
+    # 190 blocks and 27 pieces, all bends: the open Hilbert knot is the largest
+    # bend-only walk here by a factor of three, and gates 1010 checks.
     ('hilbert open', 'walks/hilbert_open.txt', '../parts/bore/concept/walk/hilbert/open'),
     # A flat meander -- the Greek key wound all the way in and brought back out
     # beside itself. 68 blocks that split into ONE piece, so it has no section

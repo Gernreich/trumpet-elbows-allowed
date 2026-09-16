@@ -5,7 +5,7 @@
 
 bell-view.py draws square section and would render these as squares. These rings are
 round -- read from the arc radii in the cut file -- except station one, which is the 16mm
-square that meets the elbow's end face. Circles are sampled and projected, so a circle in
+square that meets the bore's end face. Circles are sampled and projected, so a circle in
 plan becomes a true ellipse in isometric rather than an approximation of one.
 
 DISPLAY ONLY. Not a cut file.

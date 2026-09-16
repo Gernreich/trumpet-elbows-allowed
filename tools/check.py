@@ -234,7 +234,7 @@ def check_seam(i, a_args, b_args):
              f'entry {"tabs" if entry_tabs else "notches"}')
 
     # --- the coupling is sized from pin_width and centred on the tube, so two
-    # pieces meet only if they agree on both. Caught the elbow whose tab sat
+    # pieces meet only if they agree on both. Caught the one-block piece whose tab sat
     # 1.5 mm off the centreline.
     note(ba.pin_width == bb.pin_width and ba.blocksize == bb.blocksize
          and ba.thickness == bb.thickness, f'{i}-{i+1}',
@@ -322,16 +322,16 @@ def check_seams_3d(rec, groups, t):
 def check_pairing(rec, groups, norms, flats, laps):
     """Every tab must meet a notch, and every missing side a flat one.
 
-    An elbow's frame has three sides, so one side of its neighbour's frame has
+    A one-block turn's frame has three sides, so one side of its neighbour's frame has
     no mate. That side must be dealt with, and there are two ways depending on
     what it is. A plate side is flattened: the coupling comes off and the two
     end faces meet flat. A wall side is lapped: the wall runs t past the joint
-    as a tongue and fills the inside of the bend, which the elbow then sits
+    as a tongue and fills the inside of the bend, which the one-block piece then sits
     against. Either way the tab is gone; what is not allowed is a live coupling
     facing nothing.
 
     What this cannot tell you is which of the two face plates was flattened:
-    both are the same shape mirrored, and which one ends up facing the elbow
+    both are the same shape mirrored, and which one ends up facing that piece
     depends on how Boxes lays the mirrored copy out. That one needs a dry fit.
     """
     AX = 'xyz'

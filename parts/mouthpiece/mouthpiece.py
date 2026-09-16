@@ -7,7 +7,7 @@ The profile is a list of apertures in assembly order. Every ring is one path wit
 concentric subpaths -- outer then aperture -- so the pairing is stated in the file rather
 than inferred from two circles that happen to sit near each other.
 
-Station one is square, at PLATE mm, matching the elbow's closing face so the mouthpiece
+Station one is square, at PLATE mm, matching the bore's closing face so the mouthpiece
 meets the bore flat. The rest are round.
 
 WALL is the ring width. Against a given aperture step it fixes the seat: a ring rests on
@@ -35,7 +35,7 @@ def in_cut_files(name):
     return os.path.relpath(d / name, os.getcwd())
 
 WALL   = 3.0        # ring width, mm — also the ply thickness, so a ring is as thick as it is wide
-PLATE  = 16.0       # station one, square, matching the elbow's closing face
+PLATE  = 16.0       # station one, square, matching the bore's closing face
 BORE   = 10.0       # the square bore this meets
 THROAT = 3.66       # a #27 drill, the standard trumpet mouthpiece throat
 GAP    = 2.0        # spacing between parts on the sheet

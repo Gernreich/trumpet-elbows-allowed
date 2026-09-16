@@ -60,8 +60,8 @@ def describe(path, open_faces):
     # --open_faces IS FOR A SINGLE CELL, and a single cell has no path. Passing
     # both made SnakeBoxVar refuse -- "--open_faces is for a single cell only" --
     # so the second example in the docstring above could never have run: --path
-    # carries a default, so it was always sent alongside. An elbow is drawn by
-    # naming its two open faces and nothing else.
+    # carries a default, so it was always sent alongside. A one-block piece is
+    # drawn by naming its two open faces and nothing else.
     args = ([f'--open_faces={open_faces}', '--path=']
             if open_faces else [f'--path={path}'])
     b = SnakeBox()

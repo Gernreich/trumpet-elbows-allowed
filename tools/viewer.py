@@ -7,7 +7,7 @@ network: the walk is baked in as data and drawn on a canvas.
     python3 viewer.py "U3 N2 W2 S4 E4 U2 N6 W6 S8 E8 U2 N10 W10 S12 E12 U3"
 
 Writes bore.html in the working directory; --out and --title override that. It
-named a page under walk/elbows/spiral_trumpet/ until 2026-09-08, which had been
+named a page under a walk/ folder until 2026-09-08, which had been
 deleted, so the one line here that could go stale was the one nothing needed.
 """
 import json
