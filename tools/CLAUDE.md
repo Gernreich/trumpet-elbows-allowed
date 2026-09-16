@@ -247,7 +247,7 @@ fresh clone does not carry them, and no gate can see them.
 
 **`coil-10x10x30-1.5t` is the only folder here whose sheets describe an object
 rather than an intention.** Six pins in `as-built.sha256`; `repro.py` redraws the
-other 76 designs and holds these 6 frozen. Redrawing it SHOULD differ, and that
+other 59 sheets and holds these 6 frozen. Redrawing it SHOULD differ, and that
 difference failing the gate is the entire point of the mechanism. Pinning a
 redrawn sheet would claim it records wood when it does not.
 

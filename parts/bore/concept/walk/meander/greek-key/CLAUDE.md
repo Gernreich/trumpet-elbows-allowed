@@ -56,17 +56,19 @@ Two sheets sit within 1.5mm of the 600mm bed, and they are the ones to watch:
 
 | sheet | width | margin | gated by |
 |---|---|---|---|
-| `volute` narrow panels | 598.9mm | 1.2mm | `ribbon_bore.py` |
-| `hilbert/open` section 14 | 598.6mm | 1.4mm | `check.py` |
+| `volute` narrow panels | 598.85mm | 1.15mm | `ribbon_bore.py` |
+| `hilbert/open` section 14 | 598.60mm | 1.40mm | `check.py` |
 
 There were three until 2026-09-15. `telescope-wide` section 9 was the widest
-thing here at 598.9mm, and it went with the contact designs.
+thing here at 598.90mm, and it went with the contact designs. **Two decimals,
+because it beat the volute by 0.05mm** — both round to 598.9 and the rounding
+hides which one is against the bed.
 
 **The volute panel sheet is a swept-curve sheet, so a different generator gates it** —
 `ribbon_bore.py` refuses at `BED_W`, `check.py` never sees it. Two gates, one bed: a
 change that moves either one has to be read against both, and neither reports the other's
 sheets. Since `telescope-wide` was deleted it is the widest thing in the
-repository outright, at 598.85mm.
+repository outright.
 
 The gate's `sheet fits the bed` check passes the block sheets, and will keep passing right
 up to 600.0. The nester may split differently rather than failing, so compare the reported

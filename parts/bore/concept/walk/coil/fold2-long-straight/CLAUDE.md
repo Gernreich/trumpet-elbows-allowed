@@ -100,8 +100,9 @@ tree is gated against it.
 
 **Do not introduce a copy.** The generator is a superset of a cubic-lattice one —
 cell indices are real millimetre boxes, so a straight block can run longer than a
-turn, and a cubic lattice is the case where every box is the same size. All 24 uniform
-designs pass on it with check counts identical line for line.
+turn, and a cubic lattice is the case where every box is the same size. All 20 uniform
+designs pass on it with check counts identical line for line — 20 because the four
+`coil 10x10x30` entries are the ones that stretch, and 24 - 4 is what is left.
 
 `bore_split.py`'s tightened page-title rule and `viewer.py`'s real-box rendering are
 what everything uses; there is no second version for a fix to fail to flow back to.
