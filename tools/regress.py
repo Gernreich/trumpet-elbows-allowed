@@ -108,6 +108,15 @@ UNIFORM = [
     # here whose cut files run to two sheets.
     ('greek spiral', 'walks/greek_spiral.txt',
      '../parts/bore/concept/walk/meander/greek-key/bore', ['--bore=10']),
+    # A CLOSED meander with two mouths, and the only design here with a hole in
+    # a plate. The walk ends beside where it began -- blocks 1 and 52 touch --
+    # so it is a loop, and the air takes both ways round between the mouths.
+    # It exercises --mouth-at end to end: the SnakeBox hole, cut()'s reading of
+    # it, and check.py's hole rule and mouth count, all of which it found
+    # broken the first time it ran.
+    ('closed loop 52, mouthed', 'walks/closed_loop_52.txt',
+     '../parts/bore/concept/walk/meander/closed-loop-52/bore',
+     ['--bore=10', '--mouth-at=31,50']),
 ]
 
 # (name, walk file, folder of cut files, switches it is cut with)
@@ -187,10 +196,17 @@ def check_page(here, folder, text, switches):
     # FLAT leaks forward exactly as STRAIGHT did, and for the same reason: it is
     # a module global that only a switch sets and nothing clears.
     B.FLAT = False
+    # MOUTH_AT leaks forward the same way, and would do worse: a mouthed
+    # design's holes carried into the next one's page count, which is then
+    # measuring a part nobody drew. Cleared with the others.
+    B.MOUTH_AT = None
     for sw in switches:
         k, _, v = sw.lstrip('-').partition('=')
         if k == 'flat':
             B.FLAT = True
+            continue
+        if k == 'mouth-at':
+            B.MOUTH_AT = [int(x) for x in v.split(',') if x]
             continue
         setter = {'bore': B.set_bore, 'straight': B.set_straight,
                   'blocksize': B.set_blocksize}.get(k)

@@ -223,6 +223,24 @@ SHEET = 3.0
 # on one side, with their fingers facing nothing. Off unless asked for.
 ALLOW_PORTS = False
 FLAT = False        # --flat: plain butt ends, no tabs and no notches
+# --mouth-at=31,50: a hole through a face plate at each named block, for a
+# mouthpiece and a bell. NOT a port, and the word was chosen so it cannot be
+# read as one: ALLOW_PORTS above is a change of plane inside a piece, and a
+# port REPLACES a piece's rim opening with a face opening -- on a closed loop
+# that cuts the loop in two at that block. A mouth ADDS a hole and changes
+# nothing about the piece's ends, so the bore keeps running through the cell.
+#
+# 7 x 14, not bore-square, and snakeboxvar.py's MOUTH_ACROSS says why: every
+# plate here is a bore-wide body with finger teeth along its edges, so a 10mm
+# hole in a 10mm body severs it. The ribbon cheek takes a 10 x 10 because it is
+# joined by tab-and-slot and is solid between its mortices; this is joined by
+# fingers and is a comb.
+#
+# Blocks are 1-based, as the report numbers them. The mouths go on alternate
+# cheeks in the order given -- the first on one face plate, the second on the
+# other -- so the mouthpiece enters one face and the bell leaves the other, the
+# arrangement every ported ribbon design in this repository uses.
+MOUTH_AT = None
 TITLE = None        # --title: the page's title, when the folder makes a poor one
 # Built from the constants above rather than typed out, because BLOCK is the
 # pitch the plan is laid out on and --blocksize is the pitch SnakeBox cuts to.
@@ -1590,10 +1608,38 @@ def specs_for(text):
     norm, laps, unfilled = assign_laps(rec, groups, plans)
     flats = flat_sides(rec, groups, norm)
     out = []
+    # Mouths, placed once here so bore_split, nest and check agree on them --
+    # the same reason this function exists at all.
+    if MOUTH_AT:
+        for b in MOUTH_AT:
+            if not 1 <= b <= len(rec):
+                raise ValueError(
+                    f'--mouth-at names block {b} and the walk has {len(rec)}, '
+                    f'numbered 1 to {len(rec)}.')
+        if len(set(MOUTH_AT)) != len(MOUTH_AT):
+            raise ValueError(f'--mouth-at names a block twice: {MOUTH_AT}.')
+    plate_of = {b: ('first' if n % 2 == 0 else 'mirror')
+                for n, b in enumerate(MOUTH_AT or [])}
     for i, g in enumerate(groups):
         code, args, note = piece_spec(rec, g, norm[i], laps[i],
                                       (plans[i][1], plans[i][2]), plains[i],
                                       flats[i])
+        mine = [(b - 1 - g[0], plate_of[b]) for b in (MOUTH_AT or [])
+                if g[0] <= b - 1 <= g[-1]]
+        if mine:
+            if len(g) == 1:
+                raise ValueError(
+                    f'--mouth-at puts a mouth in block {g[0] + 1}, which is a '
+                    f'one-cell piece shared between rotations: every straight '
+                    f'or stranded turn of that shape is the same file, so a '
+                    f'hole in one is a hole in all of them.')
+            args = args + ['--mouths=' + ','.join(
+                f'{c}:{p}' for c, p in sorted(mine))]
+            # A mouthed piece is a different part from its unmouthed twin and
+            # has to be named so, or the two share a file. f and m for the two
+            # plates; no hyphen, because the cut-file name uses hyphens as its
+            # field separator.
+            code += '~m' + ''.join(f'{c}{p[0]}' for c, p in sorted(mine))
         # norm[i], not plans[i][0]: assign_laps rolls a straight whose roll is
         # free so its tongue lands on a wall, and the piece is cut in the
         # rolled frame. Anything reasoning about which side is a plate has to
@@ -1862,6 +1908,17 @@ if __name__ == '__main__':
     if '--ports' in a:
         a.remove('--ports')
         B.ALLOW_PORTS = True
+    mo = [x for x in a if x.startswith('--mouth-at=')]
+    if mo:
+        a.remove(mo[0])
+        try:
+            B.MOUTH_AT = [int(v) for v in mo[0].split('=', 1)[1].split(',')
+                          if v != '']
+        except ValueError:
+            raise SystemExit(f'error: {mo[0]} is not a comma-separated list of '
+                             f'block numbers.')
+        if not B.MOUTH_AT:
+            raise SystemExit('error: --mouth-at= names no block at all.')
     bs = [x for x in a if x.startswith('--blocksize=')]
     bo = [x for x in a if x.startswith('--bore=')]
     # --bore and --blocksize are two spellings of one number: set_bore() calls

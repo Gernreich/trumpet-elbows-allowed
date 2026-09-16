@@ -419,6 +419,7 @@ def check_sheets(folder, want_sections=None):
                           (t.split(',') for t in ch.get('points').split())])
 
     seen, names = 0, []
+    holes_seen = 0
     for fn in sorted(glob.glob(os.path.join(folder, '*.svg'))):
         name = os.path.basename(fn)
         # deepnest_* is a layout aid, not a cut file: parts are spread out on
@@ -436,15 +437,33 @@ def check_sheets(folder, want_sections=None):
         note(W <= BED_W + 1e-6 and H <= BED_H + 1e-6, name,
              'sheet fits the bed', f'{W:.0f}x{H:.0f}')
         gs = [Polygon(q).buffer(0) for q in P]
+        # A path WHOLLY inside another is a hole in it, not a part -- the rule
+        # bore_split's cut() already reads the drawing by. Until --mouth-at no
+        # walk sheet had a hole (a port is subtracted from its plate's outline,
+        # not cut inside it), so every path here was a part and this check
+        # counted a mouth as a 14 x 7 part lying on its own plate: "1 pairs".
+        #
+        # This does not blind the check to the bug it was written for. Parts
+        # that cut THROUGH each other overlap partly; a hole lies wholly inside.
+        # The nester's twelve bad pairs would still be twelve.
+        hole = [any(j != i and gs[j].contains(gs[i]) for j in range(len(gs)))
+                for i in range(len(gs))]
+        parts = [i for i in range(len(gs)) if not hole[i]]
+        holes = [i for i in range(len(gs)) if hole[i]]
+        holes_seen += len(holes)
         # --- two parts must never share material. Caught 12 pairs cut through
         # each other when the nester's rotation offset was wrong.
-        ov = sum(1 for i in range(len(gs)) for j in range(i + 1, len(gs))
-                 if gs[i].intersection(gs[j]).area > 1e-6)
-        note(ov == 0, name, 'no two parts overlap', f'{ov} pairs')
+        ov = sum(1 for a in range(len(parts)) for b in range(a + 1, len(parts))
+                 if gs[parts[a]].intersection(gs[parts[b]]).area > 1e-6)
+        note(ov == 0, name, 'no two parts overlap', f'{ov} pairs'
+             + (f', {len(holes)} hole(s) inside their parts' if holes else ''))
         # --- engraving must land on the part. Caught labels placed at the
-        # centre of an L-shaped plate's bounding box, out in the notch.
+        # centre of an L-shaped plate's bounding box, out in the notch. And
+        # NOT in a hole: a point inside a mouth is inside the part's outline
+        # and on no material at all.
         off = sum(1 for lab in L for pt in lab
-                  if not any(_inside(p, *pt) for p in P))
+                  if not any(_inside(P[i], *pt) for i in parts)
+                  or any(_inside(P[i], *pt) for i in holes))
         note(off == 0, name, 'engraving on material', f'{off} points off')
 
     # A filter that matches nothing reports a clean run over no files at all.
@@ -453,6 +472,21 @@ def check_sheets(folder, want_sections=None):
     # that had been renamed. Asked to check a folder, say so if it was empty.
     note(seen > 0, os.path.basename(os.path.normpath(folder)),
          'folder holds cut files', f'{seen} matched *.svg')
+
+    # --- every mouth asked for is actually cut. The first mouthed walk came
+    # out of SnakeBox with both mouths drawn in Boxes.py's blue inner-cut
+    # colour, cut() kept only black, and the part was written with no holes in
+    # it -- and this file reported 117 checks, 0 failed, because nothing here
+    # asked whether a hole it had been told about existed. Holes are counted,
+    # not sized: no walk sheet has any hole but a mouth, so the count IS the
+    # mouths, and the size stays in snakeboxvar.py where it is drawn rather
+    # than copied here to drift.
+    if bore_split.MOUTH_AT:
+        note(holes_seen == len(bore_split.MOUTH_AT),
+             os.path.basename(os.path.normpath(folder)),
+             'every mouth asked for is cut',
+             f'{holes_seen} hole(s) against {len(bore_split.MOUTH_AT)} '
+             f'--mouth-at block(s)')
 
     # --- and the files have to be THIS walk's sections, all of them
     # "seen > 0" was the answer to a folder whose files had been renamed out
@@ -541,6 +575,12 @@ if __name__ == '__main__':
     # was to import this file and set the global by hand. Nothing did.
     ap.add_argument('--ports', action='store_true',
                     help='let a piece open through a face plate')
+    # --mouth-at is given a spelling here the day it is written, which is the
+    # lesson of the two notes above: a design switch the gate cannot be told
+    # about is a design the gate measures without it -- here, a piece checked
+    # with no holes in it while the one that is cut has two.
+    ap.add_argument('--mouth-at', metavar='B,B',
+                    help='a 7 x 14 mouth through a face plate at each block')
     a = ap.parse_args()
     # --bore and --blocksize are two spellings of one number, and applied in
     # this order --bore silently overwrote --blocksize whichever way round they
@@ -564,6 +604,8 @@ if __name__ == '__main__':
         bore_split.FLAT = True
     if a.ports:
         bore_split.ALLOW_PORTS = True
+    if a.mouth_at:
+        bore_split.MOUTH_AT = [int(v) for v in a.mouth_at.split(',') if v]
     try:
         sys.exit(main(walk_text(' '.join(a.walk)), a.files))
     except ValueError as e:

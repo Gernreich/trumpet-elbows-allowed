@@ -320,7 +320,7 @@ cd $S && ~/Software/boxes/venv/bin/python regress.py      # every design in the 
 ```
 
 The gate reports **196 checks, 0 failed** on this bore, and `regress.py` covers
-24 designs. A check count that moves is worth chasing to the reason, which is the
+25 designs. A check count that moves is worth chasing to the reason, which is the
 whole argument of the section below. It does not look at the bell or the mouthpiece at all — those are checked by
 `bell-round.py` and `mouthpiece-round.py` themselves, before they write, in
 `../../../../../../..`. Nothing here should be cut from a file that has not passed one or the

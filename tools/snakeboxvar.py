@@ -123,6 +123,13 @@ class SnakeBoxVar(Boxes):
             "--lap_out", action="store", type=str, default="",
             help="same as --lap_in, at the EXIT opening")
         self.argparser.add_argument(
+            "--mouths", action="store", type=str, default="",
+            help="square-ish holes through a face plate MID-RUN, for a "
+                 "mouthpiece or a bell: comma-separated CELL:PLATE, where CELL "
+                 "is the 0-based index along --path and PLATE is 'first' or "
+                 "'mirror'. The bore keeps running through the cell; unlike a "
+                 "port, nothing about the piece's ends changes.")
+        self.argparser.add_argument(
             "--pin_seat", action="store", type=float, default=0.2,
             help="extra depth cut into each notch (in mm); clearance so the "
                  "tab cannot bottom out before the two end faces meet")
@@ -323,6 +330,73 @@ class SnakeBoxVar(Boxes):
                 # run's full length, so the tab can be centred on the tube
                 caps[k] = (head, full)
         return borders, tips, caps, ports, tab_run, plains
+
+    # ------------------------------------------------------------- mouths
+
+    # A mouth is 7 x 14, not bore-square, and the reason is the joint. Every
+    # plate here is a BORE-WIDE body with finger teeth along its edges, and the
+    # teeth alternate, so they are not material you can leave around a hole:
+    # the solid part of a face plate is blocksize - 2t across, 10mm on a 10mm
+    # bore. A 10mm hole in a 10mm body is a plate in two pieces. 7mm leaves
+    # 1.5mm of solid either side, which is MIN_FEATURE exactly and the same
+    # margin swept-curve's 7 x 14 port runs at. The ribbon cheek can take a
+    # 10 x 10 because it is joined by tab-and-slot -- a solid band with
+    # mortices cut in -- and this one cannot because it is joined by fingers.
+    # Length along the run costs no width, so it buys back the area.
+    MOUTH_ACROSS, MOUTH_ALONG = 7.0, 14.0
+
+    def mouthSpots(self, cells, runs, turns, tips):
+        """[(plate, run k, x, y)] -- where each requested mouth is drawn.
+
+        x and y are in the frame polygonWall hands a callback at the start of
+        run k: x along that run from its DRAWN start, y into the piece. That is
+        the frame portMark draws in, so a mouth lands where a port mark would.
+        The run chosen is any long side of the cell, never a cap: a cap is the
+        rim opening, and a mouth sits in the plate beside the bore, not across
+        its end.
+        """
+        spec = self.mouths.strip()
+        if not spec:
+            return []
+        if not self.cubic():
+            raise ValueError(
+                "a mouth on a non-cubic cell is not implemented: the hole is "
+                "placed on one pitch and the cell is not.")
+        s, t = self.blocksize, self.thickness
+        n = len(runs)
+        inset = [0.0 if k in tips else t for k in range(n)]
+        out = []
+        for item in spec.replace(' ', '').split(','):
+            try:
+                cell_s, plate = item.split(':')
+                cell = int(cell_s)
+            except ValueError:
+                raise ValueError(
+                    f"--mouths entry {item!r} is not CELL:PLATE, e.g. 5:first")
+            if plate not in ('first', 'mirror'):
+                raise ValueError(
+                    f"--mouths plate {plate!r} must be 'first' or 'mirror'")
+            if not 0 <= cell < len(cells):
+                raise ValueError(
+                    f"--mouths names cell {cell} and this piece has "
+                    f"{len(cells)}, numbered 0 to {len(cells) - 1}")
+            ci, cj = cells[cell]
+            cx, cy = ci + 0.5, cj + 0.5
+            for k in range(n):
+                if k in tips:
+                    continue
+                (ax, ay), (dx, dy), m = runs[k]
+                along = (cx - ax) * dx + (cy - ay) * dy
+                perp = (cx - ax) * -dy + (cy - ay) * dx
+                if abs(abs(perp) - 0.5) < 1e-9 and 0 < along < m:
+                    head = turns[k - 1] * inset[(k - 1) % n]
+                    out.append((plate, k, along * s - head, s / 2. - t))
+                    break
+            else:
+                raise ValueError(
+                    f"--mouths cell {cell} has no long side to cut into: every "
+                    f"side of it is a neighbouring cell or the rim")
+        return out
 
     # ------------------------------------------------------------- drawing
 
@@ -565,12 +639,45 @@ class SnakeBoxVar(Boxes):
             i += 5 if k in tips else 1
         port_seg = {seg[k]: borders[2 * k] for k in ports}
 
-        def mark(i):
-            if i in port_seg:
-                self.portMark(port_seg[i])
+        cells = self.cells()
+        _, turns = self.outline(cells)
+        mouths = self.mouthSpots(cells, runs, turns, tips)
 
-        first = None if self.port_mirror else (mark if ports else None)
-        second = (mark if ports else None) if self.port_mirror else None
+        def plate_callback(plate):
+            """The port mark if this plate carries it, and its mouths.
+
+            With no mouths this returns exactly what the old two lines did --
+            the port mark on the first plate, or on the mirrored one under
+            --port_mirror, and None where there is nothing to draw -- so every
+            piece cut before mouths existed draws the same bytes.
+            """
+            port_here = bool(ports) and ((plate == 'mirror') ==
+                                         bool(self.port_mirror))
+            mine = {}
+            for pl, k, x, y in mouths:
+                if pl == plate:
+                    mine.setdefault(seg[k], []).append((x, y))
+            if not port_here and not mine:
+                return None
+
+            def cb(i):
+                if port_here and i in port_seg:
+                    self.portMark(port_seg[i])
+                for x, y in mine.get(i, ()):
+                    # BLACK, said out loud. Left to the default, a hole drawn
+                    # inside a plate's callback takes Boxes.py's inner-cut
+                    # colour, which is blue -- and bore_split's cut() keeps
+                    # black paths and magenta marks and nothing else, so the
+                    # first mouthed walk came out with both mouths drawn,
+                    # discarded, and 117 checks passing over a part with no
+                    # holes in it. portMark names its colour for the same
+                    # reason; this file is single-stage black throughout.
+                    self.rectangularHole(x, y, self.MOUTH_ALONG,
+                                         self.MOUTH_ACROSS, color=Color.BLACK)
+            return cb
+
+        first = plate_callback('first')
+        second = plate_callback('mirror')
 
         # One plate can lose its coupling at an end while the other keeps it -
         # for the side that meets a one-block turn's missing face, where a tab has

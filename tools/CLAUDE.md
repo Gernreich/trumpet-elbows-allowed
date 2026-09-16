@@ -272,7 +272,7 @@ library. It is the only reason any of this stays honest, it takes about four
 minutes, and **it must pass before anything is pushed**:
 
 ```sh
-python3 regress.py       # all 24 designs, ~6900 checks
+python3 regress.py       # all 25 designs, ~7000 checks
 ```
 
 A change that alters cut geometry and still passes has not been proved right —
