@@ -111,7 +111,7 @@ for (const name of names){
     const built = buildWalk(t, TARGET);   // buildWalk wants {d,n} terms
     if (!built) continue;
     const r = split(built.walk);
-    if (r.ok && r.elbows === 0 && !r.oversize){ found = { red, walk: built.walk, s: r }; break; }
+    if (r.ok && r.stranded === 0 && !r.oversize){ found = { red, walk: built.walk, s: r }; break; }
   }
   if (!found){ results.push({ name, status: 'no reduction keeps the coil' }); continue; }
 

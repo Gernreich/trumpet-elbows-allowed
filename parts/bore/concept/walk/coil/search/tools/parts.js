@@ -113,7 +113,7 @@ for (const { name, walk, promotedTo } of sources) {
   const rhythm = interior.length ? period(interior) : 0;
   const inner = plates.slice(1, -1);
   const areas = (inner.length ? inner : plates).map(p => p.mm2);
-  out[name] = { pieces, kinds, elbows: kinds.elbow || 0,
+  out[name] = { pieces, kinds, stranded: kinds.stranded || 0,
                 ...(promotedTo ? { promotedTo, walk } : {}),
                 interiorBlocks,
                 innerPieces: Math.max(0, pieces - 2),
@@ -126,7 +126,7 @@ for (const { name, walk, promotedTo } of sources) {
   console.log(name.padEnd(18), pieces + ' pieces', String(shapes.size) + ' distinct',
               'rhythm ' + out[name].rhythm + ' x' + out[name].repeats.toFixed(1),
               'mean plate ' + Math.round(out[name].meanPlate) + ' mm2',
-              'elbows ' + (kinds.elbow || 0));
+              'stranded ' + (kinds.stranded || 0));
 }
 fs.writeFileSync(path.join(root, 'parts.json'), JSON.stringify(out, null, 1));
 console.log('wrote parts.json');

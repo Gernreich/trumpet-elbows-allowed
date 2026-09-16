@@ -16,22 +16,22 @@ World axes: +X right, +Y up, +Z toward you.
     the first term -- nothing turns there -- and you leave facing the last.
     The turn at the head of a term costs no block, because it happens inside
     the block you arrived at. So the tunnel is 1 + the sum of the numbers
-    blocks long, and every block where the heading changes is an elbow.
+    blocks long, and every block where the heading changes is a stranded turn.
 
         E4 U2 E6        13 blocks: four east, turn up for two, turn east
                         for six. The two turning blocks are the 5th and 7th.
 
     A bare letter is rejected wherever it appears. In the middle it would mean
-    two elbows butted with no run between, which is only sound when both turns
+    two stranded turns butted with no run between, which is only sound when both turns
     lie in the same plane; write U1 if you really want a one-cell jog. At
     either end it used to be legal and is not: a walk opened with the heading
     you came in on and could close with the heading you left on. Both only ever
     said one of two things -- the same direction as the term beside it, which
     is nothing at all, or a turn in the first or last block, which strands that
-    block as an elbow of its own. Neither is worth a term, so the ends are
+    block as a stranded turn of its own. Neither is worth a term, so the ends are
     written like everywhere else.
 
-Every elbow is the same part whichever way it turns, so a bore needs one elbow
+Every stranded turn is the same part whichever way it turns, so a bore needs one
 file plus one file per distinct run length.
 
 EVERY EXAMPLE BELOW USED TO READ "D R1 F", which is not a walk: R and F are
@@ -41,7 +41,7 @@ actually parses now.
 
     python3 bore_split.py "N2 U2" --no-write   report only
     python3 bore_split.py "N2 U2" --write DIR  cut the files into DIR
-    python3 bore_split.py "N2 U2" --refuse-elbows   refuse a walk with any
+    python3 bore_split.py "N2 U2"                   a stranded turn refuses;
     python3 bore_split.py "N2 U2" --bore=10         the airway, square,
         rather than the block outside: --bore=10 is --blocksize=16 at 3mm ply.
     python3 bore_split.py "N2 U2" --bore=10 --straight=30
@@ -189,15 +189,14 @@ BURN = KERF / 2                     # what Boxes.py wants: the radius
 # is a constant now: --fewest-pieces used to turn it off, and since the refusal
 # below is unconditional, turning it off could only produce a walk the next line
 # rejects. The flag is gone for that reason.
-FEWEST_ELBOWS = True
+FOLD_TURNS = True
 # THE LIBRARY IS BEND-ONLY, so this is on and there is no way to turn it off.
-# It was False until 2026-09-15, when the elbow-bearing designs were deleted and
-# the elbows/ and no-elbows/ directory levels collapsed: with no library of them
+# It was False until 2026-09-15, when the designs that stranded a turn were
+# deleted and the two sorting levels collapsed: with no library of them
 # left to exercise, a stranded turn is a fault rather than a category. The word
 # survives here and nowhere else, because this is the code that has to recognise
-# one in order to refuse it. --refuse-elbows is still accepted and does nothing,
-# so the commands quoted in the writeups keep working.
-REFUSE_ELBOWS = True
+# one in order to refuse it.
+REFUSE_STRANDED = True
 BED = BED_W                   # sheets wrap to the bed width
 OUTDIR = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                       '..', '..', 'test')
@@ -274,7 +273,7 @@ MIN_FEATURE = 1.5    # and what check.py will actually refuse below
 #   W="N2 U3 E3"
 #   for t in A:0 B:0.0125 C:0.025; do
 #     bore_split.py --blocksize=22 --play=${t#*:} --tag=${t%%:*} \
-#         --refuse-elbows "$W" --write ../test/coupon-16mm/notch-${t%%:*}
+#         "$W" --write ../test/coupon-16mm/notch-${t%%:*}
 #   done
 #
 # FOUR SHEETS, and the tag is not decoration. Section 2 carries the tab and is
@@ -566,20 +565,20 @@ def parse(text):
             continue
         # A bare letter at either end used to be the heading you came in on and
         # the heading you left on. Both are gone: they either repeated the term
-        # beside them or stranded the end block as an elbow, and the second is
+        # beside them or stranded the end block, and the second is
         # not a thing to buy by accident at the end of a line.
         if i == 0:
             raise ValueError(
                 f'"{d}" carries no distance. The way you came in is no longer '
                 'a term: you enter facing the first term. Drop it if the term '
                 'after it points the same way -- if it does not, it was '
-                'turning block 1, and that elbow cannot be written now.')
+                'turning block 1, and that stranded turn cannot be written now.')
         if i == len(out) - 1:
             raise ValueError(
                 f'"{d}" carries no distance. The way you leave is no longer a '
                 'term: you leave facing the last term. Drop it if it repeats '
                 'the term before it -- if it does not, it was turning the last '
-                'block, and that elbow cannot be written now.')
+                'block, and that stranded turn cannot be written now.')
         raise ValueError(
             f'"{d}" in the middle does nothing. Turning without travelling '
             'either repeats the term after it or tries to bend one block '
@@ -659,7 +658,7 @@ def touching(rec):
 
 
 def blocks(text):
-    """Group the walk into pieces: each turning block is an elbow, runs of
+    """Group the walk into pieces: each turning block is stranded, runs of
     straight blocks group together."""
     rec = walk(text)
     out2, run, h = [], 0, None
@@ -667,7 +666,7 @@ def blocks(text):
         if r['in'] != r['out']:
             if run:
                 out2.append(('straight', run, h, h)); run = 0
-            out2.append(('elbow', 1, r['in'], r['out']))
+            out2.append(('stranded', 1, r['in'], r['out']))
         else:
             if run == 0:
                 h = r['in']
@@ -770,16 +769,16 @@ def coplanar_pieces(text):
     """Split the walk into the fewest cuttable pieces.
 
     Shortest path over block positions. What it minimises is set by
-    FEWEST_ELBOWS: the single-block elbows first and the number of
+    FOLD_TURNS: the single-block stranded turns first and the number of
     pieces second. It is always on, so a split that folds a turn into a bend
     wins over one that strands it, whatever that costs in pieces. Ties after
     that go to fewer ports. Returns the plan for each piece too, since which
     plane it lies in and which ends are ports are decided here.
 
-    Fewest elbows is not the cheapest in parts - measured over 133 walks it
-    trades 23 elbows for 46 more parts, because folding a turn into a bend adds
-    two walls to that bend while a lone elbow is only four parts for its whole
-    block. It is what is wanted here regardless: an elbow is a one-block piece
+    Folding is not the cheapest in parts - measured over 133 walks it trades 23
+    stranded turns for 46 more parts, because folding a turn into a bend adds
+    two walls to that bend while a stranded one is only four parts for its whole
+    block. It is what is wanted here regardless: a stranded turn is a one-block piece
     with three tabs, fiddly to hold and weak at the seam, and parts are cheap
     by comparison.
     """
@@ -795,7 +794,7 @@ def coplanar_pieces(text):
             if plan is None:
                 continue
             lone = (i - a == 1 and rec[a]['in'] != rec[a]['out'])
-            head = ((best[a][0] + lone, best[a][1] + 1) if FEWEST_ELBOWS
+            head = ((best[a][0] + lone, best[a][1] + 1) if FOLD_TURNS
                     else (best[a][0] + 1, best[a][1] + lone))
             cost = (head[0], head[1], best[a][2] + plan[1] + plan[2])
             if cost <= best[i]:
@@ -816,8 +815,8 @@ def coplanar_pieces(text):
 def flat_sides(rec, groups, norms):
     """Which plate, at which end, loses its coupling.
 
-    An elbow's opening frame has three sides: the fourth is its other opening.
-    So at every seam with an elbow one side of the neighbour's frame has no
+    A stranded turn's opening frame has three sides: the fourth is its other
+    opening. So at every such seam one side of the neighbour's frame has no
     mate - a notch nothing will fill, or a tab with nowhere to go. That side is
     always a face plate of the neighbour, so one of its two plates loses the
     coupling at that end and the other keeps it.
@@ -831,7 +830,7 @@ def flat_sides(rec, groups, norms):
         for who, other, end in ((i, i + 1, 1), (i + 1, i, 0)):
             g = groups[other]
             if len(g) != 1 or rec[g[0]]['in'] == rec[g[0]]['out']:
-                continue                     # the neighbour is not an elbow
+                continue                     # the neighbour is not stranded
             b = rec[g[0]]
             miss = (DIRS[b['out']] if other > who
                     else tuple(-x for x in DIRS[b['in']]))
@@ -896,7 +895,7 @@ def plane_of(rec, idx):
 
 
 def assign_laps(rec, groups, plans):
-    """Which piece carries the tongue at each elbow, and how each is rolled.
+    """Which piece carries the tongue at each stranded turn, and how each is rolled.
 
     The tongue must land on a WALL, so the piece is rolled to suit where it can
     be: a straight's roll is free, a bend's is fixed by its own turn. Returns
@@ -911,7 +910,7 @@ def assign_laps(rec, groups, plans):
 
     for e, g in enumerate(groups):
         if len(g) != 1 or rec[g[0]]['in'] == rec[g[0]]['out']:
-            continue                                    # not an elbow
+            continue                                    # not stranded
         b = rec[g[0]]
         want = []
         if e > 0:
@@ -922,7 +921,7 @@ def assign_laps(rec, groups, plans):
         for p, d, end in want:
             gp = groups[p]
             # The tongue runs past a wall of the end frame it sits on. Only a
-            # one-cell elbow can have an opening in that frame - its other
+            # one-cell stranded turn can have an opening in that frame - its other
             # opening - and there is no wall to run past there. On any longer
             # piece the far opening is at the other end and irrelevant, so this
             # must not be tested against the piece's openings in general.
@@ -1028,21 +1027,21 @@ def piece_spec(rec, idx, k=None, laps=('', ''), ports=(False, False),
             raise ValueError(
                 f'block {idx[0]+1} is a one-cell piece and the cell is not a '
                 f'cube (section {BLOCK:g}, straight {STRAIGHT:g}). Straights and '
-                'elbows share one file per shape, which only holds for a cube. '
+                'stranded turns share one file per shape, which only holds for a cube. '
                 'Lengthen the run, or use a cubic cell.')
         if first['in'] == first['out']:
             # Every straight is the same part: all four face pairs are congruent.
             return ('S1' + lap_tag(laps),
                     ['--path=', f'--open_faces={FACE2D[a_in]},{FACE2D[a_out]}']
                     + lap_args(laps) + extra, 'straight')
-        # Elbows are NOT all one part. The four rotations of a turn are
+        # Stranded turns are NOT all one part. The four rotations of a turn are
         # congruent, but the two senses are not, so which way the bore turns
         # in its own plane picks one of exactly two parts. Sign of the cross
         # product of the two face normals tells them apart; each sense gets a
         # canonical face pair so the same file serves every rotation of it.
         cross = a_in[0] * a_out[1] - a_in[1] * a_out[0]
         faces = ('N', 'E') if cross < 0 else ('E', 'N')
-        # The drawn elbow is a canonical rotation of the one in the walk - that
+        # The drawn piece is a canonical rotation of the one in the walk - that
         # is how four rotations of a turn share one file. A lap was named in
         # the walk's frame, so it has to be turned into the drawn frame too or
         # it names the wrong side of the part, and half the time that side is
@@ -1053,7 +1052,7 @@ def piece_spec(rec, idx, k=None, laps=('', ''), ports=(False, False),
         laps = tuple(FACE2D[turn2d(VEC2D[L], q)] if L else '' for L in laps)
         return ('E' + ''.join(faces) + lap_tag(laps),
                 ['--path=', f'--open_faces={faces[0]},{faces[1]}']
-                + lap_args(laps) + extra, 'elbow')
+                + lap_args(laps) + extra, 'stranded')
 
     cells = [flat(p) for p in pos]
     steps = [tuple(b[j] - a[j] for j in range(2)) for a, b in zip(cells, cells[1:])]
@@ -1477,7 +1476,7 @@ DULL = re.compile(r'bores?([-_][\d.]+mm)?|[\d.]+mm')
 # 'bore' folder borrows its parent.
 FAMILY = {'coil', 'meander', 'spiral', 'hilbert', 'swept-curve'}
 # There were sorting folders between the family and the leaf until 2026-09-15 --
-# elbows/no-elbows and contact/no-contact -- and a CLASSIFIER set here that the
+# two of them -- and a CLASSIFIER set here that the
 # family borrow below had to climb past, or every sheet in a sorted folder lost
 # the family from its name. The library is bend-only and non-contact now, so
 # nothing sorts on either and the levels are gone from the tree. If a sorting
@@ -1552,7 +1551,7 @@ def filename(code):
             bits.append(name)
     tail = ('-' + '-'.join(bits)) if bits else ''
     if base.startswith('E'):
-        return f'elbow-{base[1:]}{tail}'
+        return f'stranded-{base[1:]}{tail}'
     if base.startswith('S'):
         return f'straight{base[1:]}{tail}'
     return f'bend-{base[1:]}{tail}'
@@ -1714,8 +1713,8 @@ def main(text, outdir=None):
         facts[code] = {'span': span, 'in': r0['in'], 'out': r1['out'],
                        'kind': note, 'plate': f'{bl[0]}x{bl[1]}'}
 
-    if REFUSE_ELBOWS:
-        bad = [code for _, code, _, note, _ in specs if note == 'elbow']
+    if REFUSE_STRANDED:
+        bad = [code for _, code, _, note, _ in specs if note == 'stranded']
         if bad:
             raise ValueError(
                 f'section{"s" if len(bad) > 1 else ""} '
@@ -1839,8 +1838,8 @@ def main(text, outdir=None):
               f'    carry the tongue on a wall, so it would have to go on a plate.')
 
     for i in range(len(specs) - 1):
-        if specs[i][3] == 'elbow' and specs[i+1][3] == 'elbow':
-            print(f'\n  ! pieces {i+1} and {i+2} are both single elbows meeting '
+        if specs[i][3] == 'stranded' and specs[i+1][3] == 'stranded':
+            print(f'\n  ! pieces {i+1} and {i+2} are both single stranded turns meeting '
                   'directly.\n    Only 2 of the 3 tabs engage if their turns are '
                   'in perpendicular\n    planes. Consider a block of straight '
                   'between them.')
@@ -1863,9 +1862,6 @@ if __name__ == '__main__':
     if '--ports' in a:
         a.remove('--ports')
         B.ALLOW_PORTS = True
-    if '--refuse-elbows' in a:
-        a.remove('--refuse-elbows')      # the default since 2026-09-15; accepted
-                                         # so quoted commands keep working
     bs = [x for x in a if x.startswith('--blocksize=')]
     bo = [x for x in a if x.startswith('--bore=')]
     # --bore and --blocksize are two spellings of one number: set_bore() calls

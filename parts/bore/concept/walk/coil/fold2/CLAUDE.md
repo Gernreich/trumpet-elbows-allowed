@@ -306,10 +306,11 @@ cd ../bell && python3 bell-round.py 17 --bore=10 --length=152 --mouth=80
 Both rebuild the shipped sheet byte for byte from a clean tree; the bell's line also
 writes nothing else, where a bare `bell-round.py` would add three more budgets.
 
-**The refusal is on by default and there is no way off it.** `FEWEST_ELBOWS` only
-minimises stranded turns; `REFUSE_ELBOWS` rejects them outright, raises before anything is
-written, names the sections at fault and exits 1 — so a walk that strands one cannot reach
-this folder by accident. It was `--refuse-elbows`, opt-in, until 2026-09-15.
+**The refusal is on and there is no way off it.** `FOLD_TURNS` only biases the split
+toward folding; `REFUSE_STRANDED` rejects a stranded turn outright, raises before anything
+is written, names the sections at fault and exits 1 — so a walk that strands one cannot
+reach this folder by accident. Note it is the command line that refuses: `check.py` does
+not consult it, so a green `regress.py` says nothing about whether a walk can be written.
 
 **Checks:**
 

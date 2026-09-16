@@ -205,12 +205,6 @@ rarely avoid it, which is why it used to be sorted on rather than refused.
 > would condemn every walk here. So contact is measured between blocks **three
 > or more** apart.
 
-**Both rules used to be sorting folders**, `elbows`/`no-elbows` and
-`contact`/`no-contact`, sitting between the family and the design. Of the 20
-designs filed that way, 11 were both bend-only and touch-free, 7 touched, and 2
-were touch-free but stranded a turn. On 2026-09-15 the 9 were deleted and the
-sorting levels came out: what is left is the 11, and there is nothing to sort.
-
 > `coil/search/` is the exception, and deliberately. It is the record of an
 > exhaustive search rather than a shelf of buildable designs, so its ten walks
 > are kept as they were measured — 4 of them touch-free and 6 not — because

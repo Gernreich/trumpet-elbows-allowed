@@ -19,9 +19,9 @@ function build(period){
   for(let i=1;i<s.length;i++){ if(s[i]===cur) n++; else {terms.push([cur,n]); cur=s[i]; n=1;} }
   terms.push([cur,n]);
   // The bore's last block must not be a turn: with nothing after it to make it
-  // interior it is always its own piece, i.e. an elbow. Trim back to a run the
+  // interior it is always its own piece, i.e. stranded. Trim back to a run the
   // lead-out can sit inside.
-  // (a walk with no run of 2 anywhere -- the all-elbow coil -- has no such tail;
+  // (a walk with no run of 2 anywhere -- the all-stranded coil -- has no such tail;
   //  leave it alone rather than trimming it away to nothing)
   if(terms.some(t=>t[1]>=2))
     while(terms.length>1 && terms[terms.length-1][1]<2) terms.pop();

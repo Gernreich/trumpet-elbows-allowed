@@ -17,7 +17,7 @@ from bore_split import coplanar_pieces, specs_for, walk, DIRS
 
 PAL = ['#2f6f4e', '#b5563a', '#3a5f8a', '#8a6b2f', '#6b3a7a',
        '#2f7a7a', '#7a4a2f', '#4a6b2f']
-ELB = '#d94f2b'          # elbows stand out
+ELB = '#d94f2b'          # stranded turns stand out
 OPEN = {'IN': '#1c1c20', 'OUT': '#e0457b'}
 
 # one hue per direction of travel. Opposites are far apart in hue so a leg and
@@ -194,7 +194,7 @@ def main(text, by_direction=False, out=None):
     print(f'bore: {text}')
     print(f'  {len(cells)} cells, {len(pieces)} pieces')
     for i, (k, n, a_, b_, code) in enumerate(pieces, 1):
-        label = k if k == 'elbow' else f'{k} {n}'
+        label = k if k == 'stranded' else f'{k} {n}'
         print(f'   {i:<3} {label:<13} {code:<8} {a_} -> {b_}')
     print('\n  ' + (f'!! the bore runs into itself at {len(clash)} cell(s)'
                     if clash else 'no self-intersection: every cell is used once'))
@@ -238,7 +238,7 @@ def main(text, by_direction=False, out=None):
                 for d in used]
     else:
         rows = [(pal[i % len(pal)],
-                 f'{i+1}. {code:<6} {(k if k == "elbow" else k + " " + str(cnt)):<12}'
+                 f'{i+1}. {code:<6} {(k if k == "stranded" else k + " " + str(cnt)):<12}'
                  f'{a_} to {b_}')
                 for i, (k, cnt, a_, b_, code) in enumerate(pieces)]
     rows.append((OPEN['IN'], 'IN   the bore mouth, tabs'))

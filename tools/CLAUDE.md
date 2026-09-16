@@ -284,26 +284,29 @@ it has been proved not obviously wrong. Say which it is.
 own one-block piece has an opening frame with three sides rather than four, so
 both neighbours need flattened plates butt-glued to it, plus tongues, plus an
 unfilled void in the corner. Flat-to-flat gluing is the difficulty of the whole
-build. `FEWEST_ELBOWS` is what biases the split toward folding, and since
-2026-09-15 there is no flag that turns it off: `--fewest-pieces` is gone,
-because the refusal below would reject anything it produced.
+build. `FOLD_TURNS` is what biases the split toward folding, and there is no
+flag that turns it off: `--fewest-pieces` is gone, because the refusal below
+would reject anything it produced.
 
-**None is the standard, and it is no longer opt-in.** `REFUSE_ELBOWS` raises
-before a single file is written, naming the sections at fault, and exits 1:
+**None is the standard, and it is not opt-in.** `REFUSE_STRANDED` raises before
+a single file is written, naming the sections at fault, and exits 1:
 
     error: sections 2, 3 of 4 strand a turn as a one-block piece. Every turn
     here has to fold into a bend. Nothing written. Lengthen the term between
     the turns: a hairpin needs 2 and a coil 3.
 
-It was off by default until 2026-09-15, because 17 of the then 27 designs in
-`regress.py` existed to exercise stranded turns and turning it on globally would
-have refused the corpus. Those designs and the `elbows/` tree they sat in were
-deleted the same day. **All 24 designs in `regress.py` now split bend-only**, so
-the guard costs the corpus nothing — that is the check that it is safe to leave
-on, and it is why the number of designs and the default moved together.
+**`check.py` DOES NOT CONSULT IT, and `regress.py` runs `check.py`.** 14 of the
+24 designs in the corpus strand a turn — the three helices, both test bores, the
+three solid corner walks, both coils, both Hilbert cubes, corner to corner and
+the double spiral — and every one of them is refused by the command line while
+passing the corpus. That is not a contradiction to fix by deleting them: the
+corpus exercises the splitter's geometry, and the guard is a policy on what may
+be WRITTEN. But it does mean **a green `regress.py` is not evidence that a walk
+can be cut**, and the two must not be read as the same statement.
 
-`--refuse-elbows` is still accepted and does nothing, so commands quoted in the
-writeups keep working.
+Probe the guard through the command line, never through the corpus:
+
+    python3 bore_split.py "U2 E2 S2 U2" --no-write    # refuses, exits 1
 
 The long ones are in the corpus for the opposite reason: `hilbert open` (190
 blocks, 27 pieces), `metre spring`, `4 corners, flat` and the trumpet candidate

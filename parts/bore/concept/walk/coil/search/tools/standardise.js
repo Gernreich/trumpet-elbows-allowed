@@ -111,7 +111,7 @@ function split(walk){
       { cwd: GEN, encoding:'utf8', maxBuffer:1<<24, stdio:['pipe','pipe','pipe'] });
     const kinds = {};
     for (const l of out.split('\n')){ const m = l.match(/^\s+\d+\s+\d+-\d+\s+(\w+)\s/); if (m) kinds[m[1]] = (kinds[m[1]]||0)+1; }
-    return { ok:true, elbows:kinds.elbow||0, pieces:+(out.match(/(\d+) pieces to assemble/)||[])[1],
+    return { ok:true, stranded:kinds.stranded||0, pieces:+(out.match(/(\d+) pieces to assemble/)||[])[1],
              blocks:+(out.match(/(\d+) blocks/)||[])[1], oversize:/does not fit|too big/i.test(out) };
   } catch (e) { return { ok:false, err:(e.stderr||e.stdout||'').toString().split('\n')[0].slice(0,70) }; }
 }
@@ -172,8 +172,8 @@ for (const s of src){
   const r = split(walk);
   say(s.name.padEnd(20) + 'period ' + String(pb).padStart(2) + ' x' + k +
     ' = ' + String(pb*k).padStart(3) + '  -> ' + String(r.blocks ?? '?').padStart(3) + ' blocks, ' +
-    (r.ok ? r.pieces + ' pieces, elbows ' + r.elbows : 'REFUSED ' + r.err));
-  if (r.ok && r.elbows === 0 && !r.oversize) out.push({ name:s.name, walk, period:o.map(m=>m.d+m.n).join(' '), k, r });
+    (r.ok ? r.pieces + ' pieces, stranded ' + r.stranded : 'REFUSED ' + r.err));
+  if (r.ok && r.stranded === 0 && !r.oversize) out.push({ name:s.name, walk, period:o.map(m=>m.d+m.n).join(' '), k, r });
 }
 // standardising can reveal that two walks were the same coil all along
 const byWalk = new Map();

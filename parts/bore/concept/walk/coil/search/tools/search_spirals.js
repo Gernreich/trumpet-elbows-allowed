@@ -1,4 +1,4 @@
-// Tightest ELBOW-FREE spiral. Corpus rule, stated in bore-designs/README:
+// Tightest BEND-ONLY spiral. Corpus rule, stated in bore-designs/README:
 // consecutive terms are always on different axes (a reversal is refused), so a
 // window of three terms names three axes exactly when the outer two differ ---
 // and then the middle term must be >= 3. If the outer two share an axis it is a
@@ -85,7 +85,7 @@ const seen=new Map();
 for(const r of res){ const k=r.size+'|'+r.vol+'|'+r.per; if(!seen.has(k)) seen.set(k,r); }
 const list=[...seen.values()].sort((a,b)=>a.vol-b.vol);
 require('fs').writeFileSync('cands.json', JSON.stringify(list));
-console.log('elbow-free helices found:', res.length, ' distinct:', list.length);
+console.log('bend-only helices found:', res.length, ' distinct:', list.length);
 console.log('\nenvelope   vol   fill   per  rise  turns   terms');
 for(const r of list.slice(0,12))
   console.log(r.size.padStart(9), String(r.vol).padStart(5), (r.dens*100).toFixed(0).padStart(5)+'%',

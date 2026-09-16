@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Can this walk be made shorter without introducing an elbow?
+// Can this walk be made shorter without stranding a turn?
 //
 // A term's floor is set by the window of three around it -- outer A, middle m,
 // outer C. Consecutive terms are always on different axes, so:
@@ -69,7 +69,7 @@ const _log = console.log;
 if (QUIET) console.log = () => {};
 const results = targets.map(t => ({ ...report(t.name, t.walk), floors: floors(t.walk) }));
 console.log('\n' + results.filter(r => r.saving === 0).length + ' of ' + results.length +
-            ' are minimal: nothing can be shortened without an elbow.');
+            ' are minimal: nothing can be shortened without stranding a turn.');
 if (QUIET) console.log = _log;
 const loose = results.filter(r => r.saving > 0);
 if (loose.length && VERBOSE){
