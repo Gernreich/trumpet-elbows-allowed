@@ -1363,6 +1363,143 @@ def label_spot(part, gw, gh, step=1.5):
 TAG = ''             # --tag=, appended to every part's engraved number
 
 
+# THE DESIGN SWITCHES, READ IN ONE PLACE: everything that changes what comes off
+# the bed, for every tool in the walk family.
+#
+# bore_split, check, regress and nest each read these for themselves, and each
+# copy learnt a switch on a different day or never. check.py was taught --flat,
+# then --ports, then --mouth-at, with a note apiece saying the gate had been
+# measuring a design without it, and never learnt --sheet, --kerf, --play,
+# --notch or --tag. regress.py's page check knew four and called the rest
+# unknown. nest.py knew none, so nesting the mouthed loop laid out its parts
+# with no holes in them while the cut files had two. A switch is added here,
+# once, and all four tools have it.
+DESIGN_BARE = ('flat', 'ports')
+DESIGN_VALUED = ('mouth-at', 'blocksize', 'bore', 'straight', 'sheet', 'kerf',
+                 'tag', 'play', 'notch')
+DESIGN_HELP = """design switches, read by bore_split.take_design_switches() and
+so the same in bore_split.py, check.py, nest.py and regress.py:
+  --bore=MM        the square airway; the block is that plus a wall each side
+  --blocksize=MM   the block pitch instead -- one of these two, not both
+  --straight=MM    length of a straight block; turns stay cubic
+  --flat           plain butt ends, no tabs and no notches
+  --ports          let a piece open through a face plate
+  --mouth-at=B,B   a mouth through a face plate at each block, 1-based
+  --sheet=MM       the ply as measured
+  --kerf=MM        the cut width as measured
+  --play=MM        joint clearance per side, for cutting a coupon
+  --notch=MM       size the joint from the notch
+  --tag=X          engraved beside every part number"""
+
+
+_DESIGN_DEFAULTS = {'BLOCK': BLOCK, 'SHEET': SHEET, 'KERF': KERF}
+
+
+def reset_design():
+    """Every design switch back to what it is when nothing was asked for.
+
+    For a caller that measures more than one design in a process. Each of these
+    is a module global only a switch sets, and they leaked forward one at a
+    time: STRAIGHT across the corpus, then FLAT, then MOUTH_AT.
+    """
+    global FLAT, ALLOW_PORTS, MOUTH_AT, TAG, SHEET, KERF, BURN, PLAY_OVERRIDE
+    global NOTCH, STRAIGHT, BLOCK, COMMON
+    d = _DESIGN_DEFAULTS
+    FLAT, ALLOW_PORTS, MOUTH_AT, TAG = False, False, None, ''
+    SHEET, KERF, BURN = d['SHEET'], d['KERF'], d['KERF'] / 2
+    PLAY_OVERRIDE, NOTCH = None, None
+    BLOCK = STRAIGHT = d['BLOCK']
+    COMMON = _common()
+
+
+def take_design_switches(argv):
+    """Set the design switches in argv and return the arguments left over.
+
+    Takes --name=value or --name value. Refuses, with SystemExit and a sentence,
+    a value that does not read, a switch given twice, and --bore with a
+    --blocksize that disagrees with it.
+    """
+    global FLAT, ALLOW_PORTS, MOUTH_AT, SHEET, KERF, BURN, COMMON, TAG
+    got, rest, i = {}, [], 0
+    while i < len(argv):
+        x = argv[i]
+        name, eq, v = (x[2:].partition('=') if x.startswith('--')
+                       else ('', '', ''))
+        if name in DESIGN_BARE and not eq:
+            v = True
+        elif name in DESIGN_VALUED:
+            if not eq:
+                if i + 1 >= len(argv):
+                    raise SystemExit(f'error: --{name} needs a value.')
+                i += 1
+                v = argv[i]
+        else:
+            rest.append(x)
+            i += 1
+            continue
+        if name in got:
+            raise SystemExit(f'error: --{name} is given twice.')
+        got[name] = v
+        i += 1
+
+    def number(k):
+        try:
+            return float(got[k])
+        except ValueError:
+            raise SystemExit(f'error: --{k}={got[k]} is not a number.')
+
+    if 'flat' in got:
+        FLAT = True
+    if 'ports' in got:
+        ALLOW_PORTS = True
+    if 'mouth-at' in got:
+        try:
+            MOUTH_AT = [int(b) for b in got['mouth-at'].split(',') if b != '']
+        except ValueError:
+            raise SystemExit(f'error: --mouth-at={got["mouth-at"]} is not a '
+                             f'comma-separated list of block numbers.')
+        if not MOUTH_AT:
+            raise SystemExit('error: --mouth-at= names no block at all.')
+    # --bore and --blocksize are two spellings of one number: set_bore() calls
+    # set_blocksize(bore + 2t). Applied one after the other the second always
+    # won, whichever way round they were typed, and said nothing: "--bore=30
+    # --blocksize=16" cut 49mm blocks and reported them as if asked for.
+    if 'bore' in got and 'blocksize' in got:
+        want = number('bore') + 2 * THICKNESS
+        if abs(want - number('blocksize')) > 1e-9:
+            raise SystemExit(
+                f'error: --bore={got["bore"]} means --blocksize={want:g} at '
+                f'{THICKNESS:g}mm ply, and --blocksize={got["blocksize"]} was '
+                f'asked for as well. They are two spellings of one number. '
+                f'Pass one.')
+    if 'blocksize' in got:
+        set_blocksize(number('blocksize'))
+    if 'bore' in got:
+        set_bore(number('bore'))
+    # The sheet and the kerf were module constants until 2026-09-09, reachable
+    # only by editing the file -- and both were wrong. A number that describes
+    # the material in front of you should not need a commit. --kerf, not
+    # --burn: it takes the width you measure with a caliper, and the halving
+    # into Boxes' radius happens here where it can be seen.
+    if 'sheet' in got:
+        SHEET = number('sheet')
+        COMMON = _common()
+    if 'kerf' in got:
+        KERF = number('kerf')
+        BURN = KERF / 2
+        COMMON = _common()
+    if 'tag' in got:
+        TAG = got['tag']
+    if 'play' in got:
+        set_play(number('play'))
+    if 'straight' in got:
+        set_straight(number('straight'))
+    if 'notch' in got:
+        set_notch(number('notch'))
+    return rest
+
+
+
 def part_labels(p, code, args=None, neighbours=None, sections=1):
     """The engraving for one part: its section number, and TAG if there is one.
 
@@ -1926,79 +2063,8 @@ if __name__ == '__main__':
     # below runs on the imported copy so there is one set of globals.
     import bore_split as B
 
-    a = sys.argv[1:]
     d = B.OUTDIR
-    if '--flat' in a:
-        a.remove('--flat')
-        B.FLAT = True
-    if '--ports' in a:
-        a.remove('--ports')
-        B.ALLOW_PORTS = True
-    mo = [x for x in a if x.startswith('--mouth-at=')]
-    if mo:
-        a.remove(mo[0])
-        try:
-            B.MOUTH_AT = [int(v) for v in mo[0].split('=', 1)[1].split(',')
-                          if v != '']
-        except ValueError:
-            raise SystemExit(f'error: {mo[0]} is not a comma-separated list of '
-                             f'block numbers.')
-        if not B.MOUTH_AT:
-            raise SystemExit('error: --mouth-at= names no block at all.')
-    bs = [x for x in a if x.startswith('--blocksize=')]
-    bo = [x for x in a if x.startswith('--bore=')]
-    # --bore and --blocksize are two spellings of one number: set_bore() calls
-    # set_blocksize(bore + 2t). Applied in this order --bore always overwrote
-    # --blocksize, whichever way round they were typed, and said nothing:
-    # "--bore=30 --blocksize=16" cut 49mm blocks and reported them as if asked
-    # for. A switch that is silently ignored is the fault this file already
-    # carries a section about; refuse the pair unless they agree.
-    if bs and bo:
-        want = float(bo[0].split('=', 1)[1]) + 2 * B.THICKNESS
-        got = float(bs[0].split('=', 1)[1])
-        if abs(want - got) > 1e-9:
-            sys.exit(f'error: --bore={bo[0].split("=", 1)[1]} means '
-                     f'--blocksize={want:g} at {B.THICKNESS:g}mm ply, and '
-                     f'--blocksize={got:g} was asked for as well. They are two '
-                     f'spellings of one number. Pass one.')
-    if bs:
-        a.remove(bs[0])
-        B.set_blocksize(bs[0].split('=', 1)[1])
-    if bo:
-        a.remove(bo[0])
-        B.set_bore(bo[0].split('=', 1)[1])
-    # The sheet and the kerf were module constants until 2026-09-09, reachable
-    # only by editing the file -- and both were wrong. A number that describes
-    # the material in front of you should not need a commit.
-    sh = [x for x in a if x.startswith('--sheet=')]
-    if sh:
-        a.remove(sh[0])
-        B.SHEET = float(sh[0].split('=', 1)[1])
-        B.COMMON = B._common()
-    # --kerf, not --burn: the flag takes the width you measure with a caliper,
-    # and the halving into Boxes' radius happens here where it can be seen.
-    kf = [x for x in a if x.startswith('--kerf=')]
-    if kf:
-        a.remove(kf[0])
-        B.KERF = float(kf[0].split('=', 1)[1])
-        B.BURN = B.KERF / 2
-        B.COMMON = B._common()
-    tg = [x for x in a if x.startswith('--tag=')]
-    if tg:
-        a.remove(tg[0])
-        B.TAG = tg[0].split('=', 1)[1]
-    pl = [x for x in a if x.startswith('--play=')]
-    if pl:
-        a.remove(pl[0])
-        B.set_play(pl[0].split('=', 1)[1])
-    st = [x for x in a if x.startswith('--straight=')]
-    if st:
-        a.remove(st[0])
-        B.set_straight(st[0].split('=', 1)[1])
-    nt = [x for x in a if x.startswith('--notch=')]
-    if nt:
-        a.remove(nt[0])
-        B.set_notch(nt[0].split('=', 1)[1])
+    a = B.take_design_switches(sys.argv[1:])
     ti = [x for x in a if x.startswith('--title=')]
     if ti:
         a.remove(ti[0])

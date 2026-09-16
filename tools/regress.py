@@ -117,6 +117,15 @@ UNIFORM = [
     ('closed loop 52, mouthed', 'walks/closed_loop_52.txt',
      '../parts/bore/concept/walk/meander/closed-loop-52/bore',
      ['--bore=10', '--mouth-at=31,50']),
+    # The same loop FLAT, with its second mouth on a run drawn after a plain
+    # cap. No folder: this is a generator test. snakeboxvar counted five edges
+    # for every cap, and a flat cap is one, so every mouth after one was drawn
+    # on the wrong edge -- block 34 was cut 214mm from where it was asked -- and
+    # the shipped loop could not show it, because its only plain cap comes after
+    # both its mouths. check.py passed that misplaced mouth, 120 checks and 0
+    # failed, until it learnt to look where a hole is.
+    ('closed loop 52, flat, mouth past a plain cap', 'walks/closed_loop_52.txt',
+     None, ['--bore=10', '--flat', '--mouth-at=31,34']),
 ]
 
 # (name, walk file, folder of cut files, switches it is cut with)
@@ -143,9 +152,6 @@ STRETCHED = [
 ]
 
 DESIGNS = UNIFORM + STRETCHED
-
-# The stock pitch, read once at import and before any design has moved it.
-_DEFAULT_BLOCK = 16.0
 
 
 def _norm(entry):
@@ -191,31 +197,20 @@ def check_page(here, folder, text, switches):
     # corpus. It never showed while the two lattices were gated separately and
     # every design in a run shared its switches. Reset to the cubic default
     # first, explicitly, so each design is measured on its own lattice.
-    B.STRAIGHT = B.BLOCK
-    B.set_blocksize(_DEFAULT_BLOCK)
-    # FLAT leaks forward exactly as STRAIGHT did, and for the same reason: it is
-    # a module global that only a switch sets and nothing clears.
-    B.FLAT = False
-    # MOUTH_AT leaks forward the same way, and would do worse: a mouthed
-    # design's holes carried into the next one's page count, which is then
-    # measuring a part nobody drew. Cleared with the others.
-    B.MOUTH_AT = None
-    for sw in switches:
-        k, _, v = sw.lstrip('-').partition('=')
-        if k == 'flat':
-            B.FLAT = True
-            continue
-        if k == 'mouth-at':
-            B.MOUTH_AT = [int(x) for x in v.split(',') if x]
-            continue
-        setter = {'bore': B.set_bore, 'straight': B.set_straight,
-                  'blocksize': B.set_blocksize}.get(k)
-        # A switch this does not know used to raise KeyError here, which reads
-        # as a crash rather than as the omission it is. Name it.
-        if setter is None:
-            return (f'{folder}: check_page does not know the switch --{k}, so '
-                    f'it cannot measure this design')
-        setter(v)
+    # Every design switch is a module global that only a switch sets and
+    # nothing clears, and they leaked forward across the corpus one at a time:
+    # the pitch, then FLAT, then MOUTH_AT, each found by a design measured with
+    # the one before it's switches. reset_design() puts all of them back, and
+    # the switches are read by the same parser bore_split.py and check.py use,
+    # so this cannot know fewer of them than the tools that cut and gate.
+    B.reset_design()
+    try:
+        left = B.take_design_switches(list(switches))
+    except SystemExit as e:
+        return f'{folder}: {e}'
+    if left:
+        return (f'{folder}: check_page does not know {" ".join(left)}, so it '
+                f'cannot measure this design')
     rec, groups, _, _, _ = B.specs_for(B.walk_text(text))
     want_blocks = len(rec)
     want_mm = round(sum(B.extent(r, B.AXIS[r['out']]) for r in rec))

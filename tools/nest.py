@@ -375,8 +375,12 @@ def deepnest_input(parts, path, bw, bh):
     for p in sorted(parts, key=lambda q: -q['w'] * q['h']):
         if x > 0 and x + p['w'] > bw * 2:
             x, y, rh = 0.0, y + rh + 10.0, 0.0
-        body.append(f'<path d="{bake(p["d"], x - p["x0"], y - p["y0"])}" '
-                    f'fill="none" stroke="#000000" stroke-width="0.2"/>')
+        # A part's holes go with it, as closed paths inside its outline, which
+        # is how a nester reads a hole. They were left out, so a mouthed plate
+        # was exported solid.
+        for q in [p] + list(p.get('holes', ())):
+            body.append(f'<path d="{bake(q["d"], x - p["x0"], y - p["y0"])}" '
+                        f'fill="none" stroke="#000000" stroke-width="0.2"/>')
         x += p['w'] + 10.0
         rh = max(rh, p['h'])
     W, H = bw * 2 + 20, y + rh + 20
@@ -384,14 +388,20 @@ def deepnest_input(parts, path, bw, bh):
         f'<?xml version="1.0" encoding="utf-8"?>\n'
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.2f}mm" '
         f'height="{H:.2f}mm" viewBox="0 0 {W:.2f} {H:.2f}">\n'
-        f'<!-- {len(parts)} parts, each one closed path at top level, no '
-        f'groups, no transforms, no engraving. -->\n'
+        f'<!-- {len(parts)} parts, each one closed path at top level with its '
+        f'holes inside it, no groups, no transforms, no engraving. -->\n'
         + '\n'.join(body) + '\n</svg>\n')
     return sheet_f, parts_f, W, H
 
 
 if __name__ == '__main__':
-    ap = argparse.ArgumentParser(description=__doc__)
+    # The design switches come from bore_split, the parser every walk tool
+    # shares. This had none of them, so nesting a mouthed walk laid out its
+    # parts with no holes, and a --flat or --bore walk nested parts nobody cuts.
+    import bore_split
+    ap = argparse.ArgumentParser(
+        description=__doc__, epilog=bore_split.DESIGN_HELP,
+        formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('walk', nargs='+')
     ap.add_argument('--out', default='nest.svg')
     ap.add_argument('--deepnest', metavar='FILE',
@@ -400,8 +410,8 @@ if __name__ == '__main__':
                     help='search N random orderings for the raster nester, the '
                          'way Deepnest searches: placement is deterministic, '
                          'the order it places in is not')
-    a = ap.parse_args()
-    ps = parts_of(' '.join(a.walk))
+    a = ap.parse_args(bore_split.take_design_switches(sys.argv[1:]))
+    ps = parts_of(bore_split.walk_text(' '.join(a.walk)))
     if a.deepnest:
         sf, pf, W, H = deepnest_input(ps, a.deepnest, BED_W, BED_H)
         print(f'sheet -> {os.path.basename(sf)}  '

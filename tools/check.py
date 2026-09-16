@@ -676,57 +676,18 @@ def main(text, folder=None, report=True):
 
 
 if __name__ == '__main__':
-    ap = argparse.ArgumentParser(description=__doc__)
+    # The design switches -- --bore, --flat, --mouth-at and the rest -- are read
+    # by bore_split.take_design_switches(), the one parser every walk tool uses.
+    # This file used to keep its own, and was taught them one at a time, each
+    # with a note that the gate had been measuring a design without the switch
+    # until then; it never learnt --sheet, --kerf, --play, --notch or --tag.
+    ap = argparse.ArgumentParser(
+        description=__doc__, epilog=bore_split.DESIGN_HELP,
+        formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('walk', nargs='+')
     ap.add_argument('--files', metavar='DIR',
                     help='also check the sheets written into DIR')
-    ap.add_argument('--blocksize', type=float, metavar='MM',
-                    help='block pitch the files were cut at '
-                         f'(default {bore_split.BLOCK:g})')
-    ap.add_argument('--bore', type=float, metavar='MM',
-                    help='the square airway, if you would rather say that')
-    ap.add_argument('--straight', type=float, metavar='MM',
-                    help='length of a straight block; turns stay cubic')
-    # --flat had no spelling here at all, so the one design switch the gate
-    # could not be told about was the one whose check was broken. Nothing in
-    # the corpus exercised it and nothing could have.
-    ap.add_argument('--flat', action='store_true',
-                    help='plain butt ends, no tabs and no notches')
-    # --ports had no spelling here either, so the one way to gate the ports path
-    # was to import this file and set the global by hand. Nothing did.
-    ap.add_argument('--ports', action='store_true',
-                    help='let a piece open through a face plate')
-    # --mouth-at is given a spelling here the day it is written, which is the
-    # lesson of the two notes above: a design switch the gate cannot be told
-    # about is a design the gate measures without it -- here, a piece checked
-    # with no holes in it while the one that is cut has two.
-    ap.add_argument('--mouth-at', metavar='B,B',
-                    help='a 7 x 14 mouth through a face plate at each block')
-    a = ap.parse_args()
-    # --bore and --blocksize are two spellings of one number, and applied in
-    # this order --bore silently overwrote --blocksize whichever way round they
-    # were typed. bore_split.py refuses that pair in so many words and this did
-    # not, so the WRITER would stop and the GATE would carry on and measure a
-    # design nobody asked for. Refuse it here in the same words.
-    if a.blocksize and a.bore:
-        want = a.bore + 2 * bore_split.THICKNESS
-        if abs(want - a.blocksize) > 1e-9:
-            sys.exit(f'error: --bore={a.bore:g} means --blocksize={want:g} at '
-                     f'{bore_split.THICKNESS:g}mm ply, and '
-                     f'--blocksize={a.blocksize:g} was asked for as well. They '
-                     f'are two spellings of one number. Pass one.')
-    if a.blocksize:
-        bore_split.set_blocksize(a.blocksize)
-    if a.bore:
-        bore_split.set_bore(a.bore)
-    if a.straight:
-        bore_split.set_straight(a.straight)
-    if a.flat:
-        bore_split.FLAT = True
-    if a.ports:
-        bore_split.ALLOW_PORTS = True
-    if a.mouth_at:
-        bore_split.MOUTH_AT = [int(v) for v in a.mouth_at.split(',') if v]
+    a = ap.parse_args(bore_split.take_design_switches(sys.argv[1:]))
     try:
         sys.exit(main(walk_text(' '.join(a.walk)), a.files))
     except ValueError as e:
