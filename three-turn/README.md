@@ -206,7 +206,7 @@ already exists in wood — check what moved before you replace them.
 
 ## More, and licence
 
-**[The trumpet writeup](../)** — the idea, the notation, the gate, and the whole
+**[The trumpet writeup](https://gernreich.github.io/trumpet/)** — the idea, the notation, the gate, and the whole
 library.
 
 **[The rest of the build files](https://gernreich.github.io/)** — every

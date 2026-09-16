@@ -156,7 +156,7 @@ channel, so one of each serves all of them —
 **[The three-turn trumpet](../three-turn/)** — the bore that plays, glued up
 and blown, rather than a candidate.
 
-**[The trumpet writeup](../)** — the idea, the notation, the gate, and the whole
+**[The trumpet writeup](https://gernreich.github.io/trumpet/)** — the idea, the notation, the gate, and the whole
 library.
 
 **[The rest of the build files](https://gernreich.github.io/)** — every

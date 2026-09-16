@@ -128,7 +128,7 @@ cd tools && ~/Software/boxes/venv/bin/python bore_split.py \
 Leave the walk alone and lengthen only the blocks that run straight, and the
 tube grows without the shape changing. `--straight=30` turns this 352mm into
 548mm on the same six turns. The built instrument is that idea taken three
-turns further — see **[the trumpet writeup](../)**.
+turns further — see **[the trumpet writeup](https://gernreich.github.io/trumpet/)**.
 
 ## The two ends
 
@@ -142,7 +142,7 @@ channel, so one of each serves all of them —
 **[The three-turn trumpet](../three-turn/)** — the bore that plays, glued up
 and blown, rather than a candidate.
 
-**[The trumpet writeup](../)** — the idea, the notation, the gate, and the whole
+**[The trumpet writeup](https://gernreich.github.io/trumpet/)** — the idea, the notation, the gate, and the whole
 library.
 
 **[The rest of the build files](https://gernreich.github.io/)** — every

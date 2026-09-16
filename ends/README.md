@@ -147,7 +147,7 @@ plus every other bore in `../parts/bore/`, all of them on the same 10mm channel.
 
 ## More, and licence
 
-**[The trumpet writeup](../)** — the idea, the notation, the gate, and the whole
+**[The trumpet writeup](https://gernreich.github.io/trumpet/)** — the idea, the notation, the gate, and the whole
 library.
 
 **[The rest of the build files](https://gernreich.github.io/)** — every
