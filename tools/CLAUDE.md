@@ -272,7 +272,7 @@ library. It is the only reason any of this stays honest, it takes about four
 minutes, and **it must pass before anything is pushed**:
 
 ```sh
-python3 regress.py       # all 27 designs, ~7800 checks
+python3 regress.py       # all 24 designs, ~6900 checks
 ```
 
 A change that alters cut geometry and still passes has not been proved right —
@@ -295,18 +295,34 @@ a single file is written, naming the sections at fault, and exits 1:
     here has to fold into a bend. Nothing written. Lengthen the term between
     the turns: a hairpin needs 2 and a coil 3.
 
-**`check.py` DOES NOT CONSULT IT, and `regress.py` runs `check.py`.** 14 of the
-24 designs in the corpus strand a turn — the three helices, both test bores, the
-three solid corner walks, both coils, both Hilbert cubes, corner to corner and
-the double spiral — and every one of them is refused by the command line while
-passing the corpus. That is not a contradiction to fix by deleting them: the
-corpus exercises the splitter's geometry, and the guard is a policy on what may
-be WRITTEN. But it does mean **a green `regress.py` is not evidence that a walk
-can be cut**, and the two must not be read as the same statement.
+**`check.py` DOES NOT CONSULT IT, and `regress.py` runs `check.py`.** The corpus
+splits 12 bend-only and 12 stranding — the three helices, the three solid corner
+walks, both coils, both Hilbert cubes, corner to corner and the double spiral —
+and every one of the twelve is refused by the command line while passing the
+corpus. That is not a contradiction to fix by deleting them: the corpus
+exercises the splitter's geometry, and the guard is a policy on what may be
+WRITTEN. But it does mean **a green `regress.py` is not evidence that a walk can
+be cut**, and the two must not be read as the same statement.
+
+**Respelling them is not the fix either, and this was measured rather than
+assumed.** Raising every interior term to its window minimum does make nine of
+the twelve fold — but `helix, rise 1` and `helix, rise 2` both become
+`N4 U3 E4 U3 S4 U3 W4 U3 N4`, the same walk, so two cases collapse into one;
+`tightest coil` goes 22 blocks to 47 and is not tightest; `hilbert cube 1` goes
+8 to 15 and a 2x2x2 needs unit steps, so it is not the cube. Their names are
+their parameters. The tenth, `double spiral`, cannot be respelled at all — the
+raised walk runs block 20 into block 10.
+
+**The test bore was the exception and it has been respelled**, on 2026-09-15.
+`U2 E2 S2 U2` stranded its middle turn; it is `U1 E3 S3 U1` now — nine blocks,
+three bends, same shape, same piece count. Its name was never a parameter, so
+nothing was lost. It also settles a second thing: `examples/.repro` drew
+`U1 E2 S2 U3` under the same name, so two different nine-block walks were both
+"the test bore". Both draw `U1 E3 S3 U1` now.
 
 Probe the guard through the command line, never through the corpus:
 
-    python3 bore_split.py "U2 E2 S2 U2" --no-write    # refuses, exits 1
+    python3 bore_split.py "N3 U1 E3" --no-write    # refuses, exits 1
 
 The long ones are in the corpus for the opposite reason: `hilbert open` (190
 blocks, 27 pieces), `metre spring`, `4 corners, flat` and the trumpet candidate

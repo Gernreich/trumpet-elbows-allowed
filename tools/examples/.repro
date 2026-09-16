@@ -15,14 +15,15 @@
 #                        same dead spelling that was in bore_split.py's own usage
 #                        block until today -- and the page draws D2 E4 N1,
 #                        which is eight blocks in two pieces.
-#   test_bore            titled "The nine-block test bore" and drawing
-#                        U1 E2 S2 U3. The test bore is U2 E2 S2 U2, which
-#                        is what regress.py gates under that name. Both are nine
-#                        blocks; they are not the same walk.
+#   test_bore            titled "The nine-block test bore". It drew U1 E2 S2 U3
+#                        while regress.py gated U2 E2 S2 U2 under the same name
+#                        -- both nine blocks, not the same walk. Settled on
+#                        2026-09-15: the test bore is U1 E3 S3 U1, nine blocks
+#                        in three bends, and both places draw it.
 #
 # The titles are reproduced here exactly as they ship, so this gate asserts only
 # that the pages are what the code draws. Correcting a title means changing the
 # line below with it.
 notation_example.html :: ~/Software/boxes/venv/bin/python ../viewer.py "E2 S3 U2 N2" --out $OUT --title "The notation worked through"
-test_bore.html :: ~/Software/boxes/venv/bin/python ../viewer.py "U1 E2 S2 U3" --out $OUT --title "The nine-block test bore"
+test_bore.html :: ~/Software/boxes/venv/bin/python ../viewer.py "U1 E3 S3 U1" --out $OUT --title "The nine-block test bore"
 three_block_example.html :: ~/Software/boxes/venv/bin/python ../viewer.py "D2 E4 N1" --out $OUT --title "D R1 F, the three-block example"

@@ -41,13 +41,13 @@ UNIFORM = [
     ('helix, rise 2', 'N4 U2 E4 U2 S4 U2 W4 U2 N4', None),
     ('helix, rise 1', 'N4 U1 E4 U1 S4 U1 W4 U1 N4', None),
     ('helix, side 6', 'N6 U2 E6 U2 S6 U2 W6 U2 N6 U2 E6', None),
-    ('test bore', 'U2 E2 S2 U2', None),
+    ('test bore', 'U1 E3 S3 U1', None),
     # The same bore with --flat. Nothing in this table carried that switch, and
     # check.py had no spelling for it, so the whole plain-butt path -- every
     # section drawn with no tab and no notch -- was gated by nothing at all.
     # That is how its own check came to be written inside a branch it could
     # never fire in and stay green for as long as it did.
-    ('test bore, flat ends', 'U2 E2 S2 U2', None, ['--flat']),
+    ('test bore, flat ends', 'U1 E3 S3 U1', None, ['--flat']),
     # WAS 'three blocks', 'W D3 E4 N': the same eight blocks entered
     # sideways and left sideways, so the first and last sections were
     # one-block elbows. That is unwritable now -- a walk enters facing
