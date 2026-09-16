@@ -63,7 +63,7 @@ swept curve, not a lattice walk: two faces flat, two faceted. Writeup at
 | --- | --- |
 | bell | `../parts/bell/` — same design, seated in the **square port**, its shank standing out of the plane of the coil through a 10 x 10mm hole in one 3mm cheek |
 | mouthpiece | `../parts/mouthpiece/` — same design, on the straight lead, seated in the TUBE END where four walls grip the full 16mm |
-| finish | bare ply, and **not airtight** — it has not had the shellac the three-turn has |
+| finish | shellac, the same finish as the three-turn — finished 2026-09-16 |
 
 **Only one of the three variants in `cut-files/` is the wood.** The pair named
 `ported-square-narrow` is what was cut; `narrow` and `ported-narrow` are

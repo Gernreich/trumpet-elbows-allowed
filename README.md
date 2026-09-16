@@ -125,14 +125,14 @@ Each of these carries the walk it is cut from, its blocks and centreline, its
 sections with their plates and sheet sizes, and a link to a viewer you can turn
 at tab size. The first is the one that plays; the next three are candidates that
 have not been cut. The spiral after them is in wood too, but it is not a walk —
-it is a swept curve, cut and glued up and not yet blown.
+it is a swept curve, cut, glued up and shellacked, and not yet blown.
 
 | | |
 | --- | --- |
 | **[the three-turn trumpet](three-turn/)** | 44 blocks, 1096mm, twelve sections — **the one that plays** |
 | **[the switchback trumpet](switchback/)** | 22 blocks, 352mm, six sections — folds back on itself twice |
 | **[the greek spiral](greek-spiral/)** | 68 blocks, 1088mm, **one** section — a flat meander, the only bore here that cuts in one piece |
-| **[the spiral bore](ribbon-spiral/)** | 19 facets of 45°, 1000mm, R34.7 to R112.9 — a swept curve rather than a walk, cut in ply and glued up |
+| **[the spiral bore](ribbon-spiral/)** | 19 facets of 45°, 1000mm, R34.7 to R112.9 — a swept curve rather than a walk, cut in ply, glued up and finished |
 | **[the bell and the mouthpiece](ends/)** | The two ends, shared by every bore on the 10mm channel |
 
 ## Cutting
@@ -173,7 +173,7 @@ file or the generator, never typed from memory.
 
 **`built/` is what exists and `concept/` is what is drawn**, and the line between
 them is wood. Two instruments are in `built/`: the three-turn coil, shellacked
-and playing, and the 1000mm spiral, glued up in bare ply. Both carry a bell and
+and playing, and the 1000mm spiral, glued up and shellacked. Both carry a bell and
 a mouthpiece, which is what earns the word — an instrument is a bore *and* its
 two ends, so `built/` sits at the root rather than inside `parts/bore/`. Nothing
 in `concept/` has been cut, and a folder there is not a promise that it should
@@ -242,7 +242,7 @@ and 240mm halftests, which are there to try the joint. Sheets, not bores.
 
 One of the nine is in ply, and it is **not in that folder any more**: the 1000mm
 spiral — `R35to113`, 19 facets of 45°, its radius growing 34.7 → 112.9mm — has
-had both its sheets cut, the bore glued up and both ends fitted, so it is filed
+had both its sheets cut, the bore glued up, both ends fitted and the shellac on, so it is filed
 with the instruments in `built/` while its swept-curve siblings stay under
 `concept/`. `ribbon_bore.py` draws it either way. It carries **[a page of
 its own](ribbon-spiral/)**: the cheek and its 149 mortices, the two panels the
