@@ -8,7 +8,7 @@
 ribbon_bore.py builds every duct as two walls offset a fixed bore either side of
 ONE centreline, so its section is the same all the way round. This one is not.
 The walls are two independent closed outlines, drawn from the author's sketch
-(lyre-harp.svg) as redrawn and approved on 2026-09-16:
+(a rough lyre-harp.svg, since deleted) as redrawn and approved on 2026-09-16:
 
   * the OUTER outline, a stadium 400mm long -- a half-circle at each end and
     two parallel sides;
