@@ -58,6 +58,14 @@ OUT = None
 KNOT = os.path.expanduser('~/LaserMadeMusic/GIT/knotwork-soundholes/'
                           '2-lead_7-bight_knot_radius30mm.svg')
 KNOT_UP = 2.0 / 3.0
+# The hitch-pin block: the strings' loop ends go over pins driven through the
+# bottom wall, and 3mm of ply will not hold a pin under string tension, so a
+# block is laminated inside the bottom end for the pins to bite into. Each
+# layer is one flat part; HITCH_LAYERS of them stack HITCH_LAYERS x THICK deep.
+# In plan the block sits against the outer wall's face round the bottom end,
+# HITCH_WIDTH wide from that face towards the middle, and runs HITCH_FACETS
+# facets' worth along it, centred on the long axis.
+HITCH_FACETS, HITCH_WIDTH, HITCH_LAYERS = 8, 30.0, 6
 
 
 def geometry():
@@ -283,6 +291,44 @@ def knot_centre():
     return lay([(0.0, y)])[0], (bottom, top)
 
 
+def hitch_block(face_o):
+    """(edge, outline) of one lamination, laid down, true size.
+
+    `edge` is the run of the outer wall's face the block lies against. The
+    bottom end has an ODD number of facets with the middle one centred on the
+    axis, so HITCH_FACETS whole facets cannot sit symmetrically under the
+    strings when HITCH_FACETS is even. The span is centred on the axis
+    instead and ends half way along a facet at each end: HITCH_FACETS - 1
+    whole facets and a half at either end. That also keeps both ends of the
+    block off the joints between wall panels.
+    """
+    n = len(face_o) - 1
+    # the facet crossing the long axis (y = 0) at the resonator end
+    _, c = max((max(face_o[i][0], face_o[i + 1][0]), i) for i in range(n)
+               if (face_o[i][1] > 0) != (face_o[i + 1][1] > 0))
+    reach = HITCH_FACETS / 2.0                # facets either side of the middle
+    whole = int(math.floor(reach - 0.5))      # full facets beyond the middle one
+    frac = reach - 0.5 - whole                # what is left, as a fraction
+
+    def at(i, t):
+        a, b = face_o[i % n], face_o[(i + 1) % n]
+        return (a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t)
+    lo, hi = c - whole - 1, c + whole + 1
+    edge = ([at(lo, 1.0 - frac)] + [face_o[(i + 1) % n] for i in range(lo, hi)]
+            + [at(hi, frac)])
+    # an odd count ends the span ON a vertex, which the list above then holds
+    # twice, and a zero-length run has no direction to offset along
+    edge = [q for k, q in enumerate(edge)
+            if k == 0 or B.seglen(edge[k - 1], q) > 1e-9]
+    # inwards is whichever offset lands in the air
+    inner = B.offset(edge, HITCH_WIDTH)
+    probe = inner[len(inner) // 2]
+    if not B.in_poly(face_o, *probe):
+        inner = B.offset(edge, -HITCH_WIDTH)
+    outline = edge + inner[::-1] + [edge[0]]
+    return edge, outline
+
+
 def checks(outer, hole, parts, cheekpoly, written, ink, cut_slots):
     res = []
 
@@ -440,6 +486,44 @@ def checks(outer, hole, parts, cheekpoly, written, ink, cut_slots):
          f'{len(B.contours(cheekpoly))} cheek contour(s), {across} point(s) '
          f'inside the duct')
 
+    # --- the hitch-pin block
+    edge, block = hitch_block(face_o)
+    face_edges = list(zip(face_o, face_o[1:]))
+    on_wall = max(min(B.pt_seg(q, u, v) for u, v in face_edges)
+                  for q in seg_pts(edge))
+    n = len(face_o) - 1
+    facet = min(B.seglen(face_o[i], face_o[i + 1]) for i in range(n))
+    span = sum(B.seglen(u, v) for u, v in zip(edge, edge[1:]))
+    # against the request -- 8 facets, 30mm -- and not against the constants
+    # that drew it, which a check reading its own input could never fail
+    note(on_wall < 1e-6 and abs(span / facet - 8) < 1e-6,
+         'the hitch block lies against the bottom wall',
+         f'{span:.1f}mm of the wall face, {span / facet:g} facets of '
+         f'{facet:.2f}mm, furthest {on_wall:.1e}mm off it')
+    inner_run = block[len(edge):-1]
+    widths = [min(B.pt_seg(q, u, v) for u, v in face_edges)
+              for q in seg_pts(inner_run + [inner_run[-1]])]
+    note(abs(min(widths) - 30.0) < 1e-6,
+         'the hitch block is as wide as asked',
+         f'{min(widths):.4f}mm from the wall face at its narrowest, against '
+         f'{HITCH_WIDTH:g}')
+    kcut, _ = knot_paths()
+    (kx, ky), _ = knot_centre()
+    kpts = [(x + kx, y + ky) for loop in kcut for x, y in loop]
+    bedges = list(zip(block, block[1:]))
+    to_knot = min(min(B.pt_seg(q, u, v) for u, v in bedges) for q in kpts)
+    in_air = all(B.in_poly(face_o, *q) or
+                 min(B.pt_seg(q, u, v) for u, v in face_edges) < 1e-6
+                 for q in block)
+    note(in_air and to_knot > 1.5 and not any(B.in_poly(block, *q)
+                                              for q in kpts),
+         'the hitch block stays clear of the sound hole',
+         f'inside the resonator, {to_knot:.1f}mm from the nearest knot cut')
+    deep = HITCH_LAYERS * B.THICK
+    note(deep <= BORE, 'the laminated block fits between the cheeks',
+         f'{HITCH_LAYERS} layers x {B.THICK:g}mm = {deep:g}mm in a '
+         f'{BORE:g}mm duct')
+
     big = [n for n, w, h, _, _ in written if w > B.BED_W or h > B.BED_H]
     note(written and not big, 'every sheet fits the P2S bed',
          f'{len(written)} sheet(s), largest '
@@ -447,6 +531,69 @@ def checks(outer, hole, parts, cheekpoly, written, ink, cut_slots):
          f'{max(h for _, _, h, _, _ in written):.0f}mm against '
          f'{B.BED_W:g} x {B.BED_H:g}')
     return res
+
+
+def hitch_sheet(face_o, out_path, write, ink):
+    """The laminations on a sheet of their own, numbered 1 to HITCH_LAYERS.
+
+    Drawn BURN/2 outside the true outline, as ribbon_bore draws every part,
+    so the layers come off the bed at size and sit snug against the wall.
+    """
+    _, block = hitch_block(face_o)
+    cut = away(block, B.BURN / 2, True)
+    cut[-1] = cut[0]
+    # the number goes in the middle of the band, on the axis
+    edge_mid = (max(q[0] for q in block), 0.0)
+    spot = (edge_mid[0] - HITCH_WIDTH / 2, 0.0)
+    items = []
+    for k in range(1, HITCH_LAYERS + 1):
+        def marks(dx, dy, _k=k):
+            return B.label(f'{_k:X}', spot[0] + dx, spot[1] + dy, 5.0,
+                           math.pi / 2)
+        items.append({'outline': cut, 'slots': [], 'marks': marks})
+    stem_, ext = os.path.splitext(out_path)
+    name = f'{stem_}-hitch-block-cut-files{ext}'
+    written = []
+    for n, placed in enumerate(B.pack(items), 1):
+        path_here = name if n == 1 else name.replace('-cut-files',
+                                                      f'-sheet{n}-cut-files')
+        marks, cuts = [], []
+        for it, dx, dy in placed:
+            here = [(q[0] + dx, q[1] + dy) for q in it['outline']]
+            cuts.append(B.path(here))
+            for d in it['marks'](dx, dy):
+                marks.append(d)
+                for tok in d.replace('M ', '').split(' L '):
+                    a, b = tok.strip().split(',')
+                    ink.append((float(a), float(b), here, path_here))
+        W = max(B.bbox(it['outline'])[2] + dx for it, dx, dy in placed) + B.MARGIN_S
+        H = max(B.bbox(it['outline'])[3] + dy for it, dx, dy in placed) + B.MARGIN_S
+        note = (f'the hitch-pin block - {HITCH_LAYERS} laminations, glue them '
+                f'in number order')
+
+        def grp(ds, col, gid):
+            return (f'  <g id="{gid}" fill="none" stroke="{col}" '
+                    f'stroke-width="0.2">\n'
+                    + '\n'.join(f'    <path d="{d}"/>' for d in ds)
+                    + '\n  </g>\n')
+        body = (f'<?xml version="1.0" encoding="utf-8"?>\n'
+                f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.2f}mm" '
+                f'height="{H:.2f}mm" viewBox="0 0 {W:.2f} {H:.2f}">\n'
+                f'<title>Lyre-harp frame, hitch-pin block - {note}</title>\n'
+                f'<desc>1 user unit = 1mm. {HITCH_LAYERS} identical '
+                f'laminations of {B.THICK:g}mm ply, {HITCH_LAYERS * B.THICK:g}mm '
+                f'glued up. The long curved edge lies against the inside of the '
+                f'bottom wall over {HITCH_FACETS} facets; the block is '
+                f'{HITCH_WIDTH:g}mm wide from it. The hitch pins go through the '
+                f'bottom wall into it. Drawn {B.BURN / 2:g}mm oversize for a '
+                f'{B.BURN:g}mm kerf. Blue #0000ff engraves, black #000000 cuts.'
+                f'</desc>\n'
+                + grp(marks, B.MARK, 'numbers') + grp(cuts, B.CUT, 'outlines')
+                + '</svg>\n')
+        if write:
+            open(path_here, 'w').write(body)
+        written.append((os.path.basename(path_here), W, H, len(placed), note))
+    return written
 
 
 def stem():
@@ -525,6 +672,8 @@ def main(write=True):
                 body, count=1, flags=re.S)
             open(f, 'w').write(body)
 
+    written += hitch_sheet(faces(outer, hole)[0], out_path, write, ink)
+
     n_in = sum(1 for q in parts if q['wall'] == 'inner')
     print(f'lyre-harp frame   {BORE:g}mm bore, {2 * g["A"]:.1f} x {LENGTH:g}mm')
     print(f'  outer: half-circles R{g["A"]:.1f} and {g["Hs"]:.1f}mm parallel '
@@ -534,8 +683,12 @@ def main(write=True):
           f'{g["sag"]:.1f}mm')
     print(f'  band {g["band"]:g}mm over the arch and sides; resonator below '
           f'the hole')
-    print(f'  {n_in} inner + {len(parts) - n_in} outer panels + 2 cheeks = '
-          f'{len(parts) + 2} parts, {len(written)} sheets')
+    print(f'  hitch-pin block: {HITCH_LAYERS} laminations x {B.THICK:g}mm = '
+          f'{HITCH_LAYERS * B.THICK:g}mm, {HITCH_WIDTH:g}mm wide over '
+          f'{HITCH_FACETS} facets of the bottom wall')
+    print(f'  {n_in} inner + {len(parts) - n_in} outer panels + 2 cheeks + '
+          f'{HITCH_LAYERS} laminations = {len(parts) + 2 + HITCH_LAYERS} '
+          f'parts, {len(written)} sheets')
     for name, w, h, k, note in written:
         print(f'    {name:<58}{k:>3} parts  {w:.0f} x {h:.0f}mm  {note}')
     bad = 0
@@ -621,6 +774,16 @@ def drawing(path):
     for loop in knot_cut:
         body.append(f'<path d="{d([(x + kx, y + ky) for x, y in loop])}" '
                     f'fill="#e9e2cf" stroke="#111" stroke-width="0.3"/>')
+    _, block = hitch_block(face_o)
+    body.append(f'<path d="{d(block)}" fill="#d8b98b" fill-opacity="0.55" '
+                f'stroke="#7a5a36" stroke-width="0.5"/>')
+    b_up = up(block)
+    # just above the block's inner edge, in the open resonator
+    body.append(f'<text x="{ax:.2f}" '
+                f'y="{max(q[1] for q in b_up) - HITCH_WIDTH - 6:.2f}" '
+                f'text-anchor="middle" font-size="8">hitch-pin block, '
+                f'{HITCH_LAYERS} x {B.THICK:g} = {HITCH_LAYERS * B.THICK:g}mm'
+                f'</text>')
     body.append(dim((x0, top_o - 22), (x1, top_o - 22), f'{W:.0f}',
                     (x0 + x1) / 2, top_o - 27))
     body.append(dim((x1 + 30, top_o), (x1 + 30, bot_o), f'{L:.0f}',
@@ -653,6 +816,8 @@ def drawing(path):
         f'and opens below the hole into the resonator.',
         f'Sound hole: the 2-lead 7-bight knot, r30, front cheek only, centred '
         f'on the axis 2/3 up the resonator.',
+        f'Hitch-pin block: {HITCH_LAYERS} laminations, {HITCH_WIDTH:g}mm wide '
+        f'against the bottom wall over {HITCH_FACETS} facets.',
     ]
     for k, t in enumerate(notes):
         body.append(f'<text x="{x0:.2f}" y="{bot_o + 22 + 12 * k:.2f}" '
@@ -681,7 +846,233 @@ def drawing(path):
     return 0
 
 
-RENDER_PAGE = '<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>Lyre-Harp Frame</title>\n<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">\n<style>\n:root{\n  --ground:#e9edf0; --panel:#f6f8f9; --ink:#1d2328; --muted:#5b6770; --rule:#cdd5db;\n  --accent:#2f6b8a; --stage:#dfe5ea; --focus:#2f6b8a;\n  --ply:#d8b98b; --ply-edge:#a9835a; --ply-dark:#c39f6f;\n}\n@media (prefers-color-scheme: dark){\n  :root:not([data-theme="light"]){\n    --ground:#14181b; --panel:#1b2024; --ink:#e3e8ec; --muted:#93a0a9; --rule:#2c343a;\n    --accent:#7fb3cf; --stage:#101316; --focus:#7fb3cf;\n  }\n}\n:root[data-theme="dark"]{\n  --ground:#14181b; --panel:#1b2024; --ink:#e3e8ec; --muted:#93a0a9; --rule:#2c343a;\n  --accent:#7fb3cf; --stage:#101316; --focus:#7fb3cf;\n}\n*{box-sizing:border-box}\nbody{background:var(--ground);color:var(--ink);font:15px/1.5 "IBM Plex Mono",ui-monospace,Menlo,monospace;}\n.wrap{max-width:1180px;margin:0 auto;padding-inline:20px;padding-block:22px 36px;display:grid;gap:18px}\nheader h1{font:600 clamp(26px,4vw,38px)/1.05 "Barlow Semi Condensed","Arial Narrow",system-ui,sans-serif;letter-spacing:.01em;margin:0;text-wrap:balance}\nheader p{margin:6px 0 0;color:var(--muted);max-width:62ch;font-size:13.5px}\n.grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px;align-items:start}\n@media (max-width:860px){.grid{grid-template-columns:minmax(0,1fr)}}\n.stage{position:relative;background:var(--stage);border:1px solid var(--rule);border-radius:6px;overflow:hidden;aspect-ratio:4/5;max-height:78vh;width:100%;touch-action:none;cursor:grab}\n.stage:active{cursor:grabbing}\n.stage canvas{display:block;width:100%;height:100%}\n.hint{position:absolute;left:12px;bottom:10px;font-size:12px;color:var(--muted);pointer-events:none}\n.side{display:grid;gap:14px}\n.controls{display:flex;flex-wrap:wrap;gap:8px}\n.controls label,.controls button{font:500 13px "IBM Plex Mono",ui-monospace,monospace;color:var(--ink);background:var(--panel);border:1px solid var(--rule);border-radius:4px;padding:7px 10px;display:inline-flex;align-items:center;gap:7px;cursor:pointer}\n.controls input{accent-color:var(--accent);margin:0}\n.controls :focus-visible{outline:2px solid var(--focus);outline-offset:2px}\n.spec{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:14px 16px}\n.spec h2{font:600 17px/1.2 "Barlow Semi Condensed","Arial Narrow",system-ui,sans-serif;letter-spacing:.04em;text-transform:uppercase;margin:0 0 8px;color:var(--muted)}\n.spec dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:13px}\n.spec dt{color:var(--muted)}\n.spec dd{margin:0;text-align:right;font-variant-numeric:tabular-nums}\n.spec .note{margin:10px 0 0;font-size:12px;color:var(--muted);line-height:1.45}\n.key{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted)}\n.key span{display:inline-flex;align-items:center;gap:6px}\n.sw{width:12px;height:12px;border-radius:2px;display:inline-block;border:1px solid var(--rule)}\n</style>\n</head>\n<body>\n<div class="wrap">\n  <header>\n    <h1>Lyre-Harp Frame</h1>\n    <p>One closed duct, 30&nbsp;mm deep, in 3&nbsp;mm birch ply. Built from the same geometry as the cut files: two cheeks and 49 wall panels.</p>\n  </header>\n  <div class="grid">\n    <div class="stage" id="stage" aria-label="3D view of the lyre-harp frame. Drag to turn, scroll to zoom.">\n      <span class="hint">Drag to turn &middot; scroll or pinch to zoom</span>\n    </div>\n    <aside class="side">\n      <div class="controls">\n        <label for="t-front"><input type="checkbox" id="t-front" checked> Front cheek</label>\n        <label for="t-back"><input type="checkbox" id="t-back" checked> Back cheek</label>\n        <label for="t-walls"><input type="checkbox" id="t-walls" checked> Walls</label>\n        <button type="button" id="b-front">Front view</button>\n        <button type="button" id="b-reset">Reset view</button>\n      </div>\n      <div class="key">\n        <span><i class="sw" style="background:#d8b98b"></i>Cheeks</span>\n        <span><i class="sw" style="background:#b98f5e"></i>Outer wall</span>\n        <span><i class="sw" style="background:#8f6a44"></i>String-hole wall</span>\n      </div>\n      <section class="spec">\n        <h2>As cut</h2>\n        <dl id="spec"></dl>\n        <p class="note">Tabs, slots and engraving are left off the model. The front cheek carries the knot, and the back cheek is plain.</p>\n      </section>\n    </aside>\n  </div>\n</div>\n\n<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>\n<script>\nconst D = __DATA__;\n(function(){\n  const spec = [\n    [\'Outside\', D.size[0].toFixed(0)+\' × \'+D.size[1].toFixed(0)+\' mm\'],\n    [\'Duct depth\', D.bore+\' mm\'],\n    [\'Upper duct\', D.bore+\' × \'+D.bore+\' mm\'],\n    [\'Ply\', D.t+\' mm\'],\n    [\'String hole\', D.hole_w.toFixed(0)+\' mm wide\'],\n    [\'Resonator\', D.reso.toFixed(0)+\' mm along axis\'],\n    [\'Sound hole\', \'7-bight knot, r30\'],\n    [\'Knot centre\', D.knot_up.toFixed(1)+\' mm up (2/3)\'],\n    [\'Parts\', \'2 cheeks + \'+D.panels.length+\' panels\'],\n  ];\n  const dl = document.getElementById(\'spec\');\n  for (const [k,v] of spec){\n    const dt=document.createElement(\'dt\'); dt.textContent=k;\n    const dd=document.createElement(\'dd\'); dd.textContent=v;\n    dl.append(dt,dd);\n  }\n\n  const stage = document.getElementById(\'stage\');\n  if (!window.THREE){ stage.insertAdjacentHTML(\'beforeend\',\'<p style="padding:20px">The 3D library did not load. Reload the page to try again.</p>\'); return; }\n\n  const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});\n  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));\n  stage.prepend(renderer.domElement);\n  const scene = new THREE.Scene();\n  const camera = new THREE.PerspectiveCamera(32, 1, 1, 5000);\n\n  scene.add(new THREE.HemisphereLight(0xf4f1ea, 0x3a4550, 0.85));\n  const key = new THREE.DirectionalLight(0xffffff, 0.75); key.position.set(250, 400, 520); scene.add(key);\n  const rim = new THREE.DirectionalLight(0xbcd3e0, 0.35); rim.position.set(-400, -200, -300); scene.add(rim);\n\n  // centre the part on the origin\n  const xs = D.rim.map(p=>p[0]), ys = D.rim.map(p=>p[1]);\n  const cx = (Math.min(...xs)+Math.max(...xs))/2, cy = (Math.min(...ys)+Math.max(...ys))/2;\n  const P = p => new THREE.Vector2(p[0]-cx, p[1]-cy);\n\n  const frame = new THREE.Group(); scene.add(frame);\n  const half = D.bore/2, t = D.t;\n\n  function edges(mesh, color, opacity){\n    const e = new THREE.LineSegments(new THREE.EdgesGeometry(mesh.geometry, 25),\n      new THREE.LineBasicMaterial({color, transparent:true, opacity}));\n    mesh.add(e); return e;\n  }\n\n  function cheek(withKnot){\n    const shape = new THREE.Shape(D.rim.map(P));\n    shape.holes.push(new THREE.Path(D.hole.map(P)));\n    if (withKnot) for (const loop of D.knot) shape.holes.push(new THREE.Path(loop.map(P)));\n    const g = new THREE.ExtrudeGeometry(shape, {depth:t, bevelEnabled:false, curveSegments:1});\n    const m = new THREE.Mesh(g, new THREE.MeshStandardMaterial({color:0xd8b98b, roughness:.85, metalness:0}));\n    edges(m, 0x6d5233, .55);\n    return m;\n  }\n  const front = cheek(true);  front.position.z = half;\n  const back  = cheek(false); back.position.z = -half - t;\n  frame.add(front, back);\n\n  const walls = new THREE.Group(); frame.add(walls);\n  const matO = new THREE.MeshStandardMaterial({color:0xb98f5e, roughness:.8});\n  const matI = new THREE.MeshStandardMaterial({color:0x8f6a44, roughness:.8});\n  D.panels.forEach((q,i)=>{\n    const d = D.panels_dir[i];\n    const g = new THREE.BoxGeometry(q.len, t, D.bore);\n    const m = new THREE.Mesh(g, q.wall===\'outer\'?matO:matI);\n    m.position.set(q.x-cx, q.y-cy, 0);\n    m.rotation.z = Math.atan2(d.dy, d.dx);\n    edges(m, 0x4a3822, .45);\n    walls.add(m);\n  });\n\n  // view state\n  const home = {yaw:-0.62, pitch:0.38, dist:760};\n  let yaw=home.yaw, pitch=home.pitch, dist=home.dist;\n  const reduce = window.matchMedia(\'(prefers-reduced-motion: reduce)\').matches;\n  function place(){\n    frame.rotation.set(pitch, yaw, 0);\n    camera.position.set(0, 0, dist); camera.lookAt(0,0,0);\n  }\n  function size(){\n    const r = stage.getBoundingClientRect();\n    renderer.setSize(r.width, r.height, false);\n    camera.aspect = r.width/Math.max(r.height,1); camera.updateProjectionMatrix();\n    render();\n  }\n  function render(){ place(); renderer.render(scene, camera); }\n  new ResizeObserver(size).observe(stage);\n\n  const pts = new Map(); let pinch0 = 0, dist0 = dist;\n  stage.addEventListener(\'pointerdown\', e=>{ stage.setPointerCapture(e.pointerId); pts.set(e.pointerId,{x:e.clientX,y:e.clientY});\n    if (pts.size===2){ const [a,b]=[...pts.values()]; pinch0=Math.hypot(a.x-b.x,a.y-b.y); dist0=dist; } });\n  stage.addEventListener(\'pointermove\', e=>{\n    if (!pts.has(e.pointerId)) return;\n    const prev = pts.get(e.pointerId); pts.set(e.pointerId,{x:e.clientX,y:e.clientY});\n    if (pts.size===1){\n      yaw += (e.clientX-prev.x)*0.008;\n      pitch = Math.max(-1.45, Math.min(1.45, pitch + (e.clientY-prev.y)*0.008));\n    } else if (pts.size===2){\n      const [a,b]=[...pts.values()]; const d=Math.hypot(a.x-b.x,a.y-b.y);\n      if (pinch0) dist = Math.max(260, Math.min(1800, dist0*pinch0/d));\n    }\n    render();\n  });\n  const up = e=>{ pts.delete(e.pointerId); if (pts.size<2) pinch0=0; };\n  stage.addEventListener(\'pointerup\', up); stage.addEventListener(\'pointercancel\', up);\n  stage.addEventListener(\'wheel\', e=>{ e.preventDefault(); dist=Math.max(260,Math.min(1800,dist*(1+Math.sign(e.deltaY)*0.08))); render(); }, {passive:false});\n\n  function goTo(target){\n    if (reduce){ ({yaw,pitch,dist}=target); render(); return; }\n    const s={yaw,pitch,dist}, t0=performance.now();\n    (function step(now){\n      const k=Math.min(1,(now-t0)/450), e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;\n      yaw=s.yaw+(target.yaw-s.yaw)*e; pitch=s.pitch+(target.pitch-s.pitch)*e; dist=s.dist+(target.dist-s.dist)*e;\n      render(); if(k<1) requestAnimationFrame(step);\n    })(t0);\n  }\n  document.getElementById(\'b-reset\').addEventListener(\'click\', ()=>goTo(home));\n  document.getElementById(\'b-front\').addEventListener(\'click\', ()=>goTo({yaw:0,pitch:0,dist:720}));\n  const bind=(id,obj)=>document.getElementById(id).addEventListener(\'change\',e=>{obj.visible=e.target.checked; render();});\n  bind(\'t-front\',front); bind(\'t-back\',back); bind(\'t-walls\',walls);\n  size();\n})();\n</script>\n</body>\n</html>\n'
+RENDER_PAGE = r'''<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lyre-Harp Frame</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#e9edf0; --panel:#f6f8f9; --ink:#1d2328; --muted:#5b6770; --rule:#cdd5db;
+  --accent:#2f6b8a; --stage:#dfe5ea; --focus:#2f6b8a;
+  --ply:#d8b98b; --ply-edge:#a9835a; --ply-dark:#c39f6f;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#14181b; --panel:#1b2024; --ink:#e3e8ec; --muted:#93a0a9; --rule:#2c343a;
+    --accent:#7fb3cf; --stage:#101316; --focus:#7fb3cf;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#14181b; --panel:#1b2024; --ink:#e3e8ec; --muted:#93a0a9; --rule:#2c343a;
+  --accent:#7fb3cf; --stage:#101316; --focus:#7fb3cf;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font:15px/1.5 "IBM Plex Mono",ui-monospace,Menlo,monospace;}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:20px;padding-block:22px 36px;display:grid;gap:18px}
+header h1{font:600 clamp(26px,4vw,38px)/1.05 "Barlow Semi Condensed","Arial Narrow",system-ui,sans-serif;letter-spacing:.01em;margin:0;text-wrap:balance}
+header p{margin:6px 0 0;color:var(--muted);max-width:62ch;font-size:13.5px}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px;align-items:start}
+@media (max-width:860px){.grid{grid-template-columns:minmax(0,1fr)}}
+.stage{position:relative;background:var(--stage);border:1px solid var(--rule);border-radius:6px;overflow:hidden;aspect-ratio:4/5;max-height:78vh;width:100%;touch-action:none;cursor:grab}
+.stage:active{cursor:grabbing}
+.stage canvas{display:block;width:100%;height:100%}
+.hint{position:absolute;left:12px;bottom:10px;font-size:12px;color:var(--muted);pointer-events:none}
+.side{display:grid;gap:14px}
+.controls{display:flex;flex-wrap:wrap;gap:8px}
+.controls label,.controls button{font:500 13px "IBM Plex Mono",ui-monospace,monospace;color:var(--ink);background:var(--panel);border:1px solid var(--rule);border-radius:4px;padding:7px 10px;display:inline-flex;align-items:center;gap:7px;cursor:pointer}
+.controls input{accent-color:var(--accent);margin:0}
+.controls :focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.spec{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:14px 16px}
+.spec h2{font:600 17px/1.2 "Barlow Semi Condensed","Arial Narrow",system-ui,sans-serif;letter-spacing:.04em;text-transform:uppercase;margin:0 0 8px;color:var(--muted)}
+.spec dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:13px}
+.spec dt{color:var(--muted)}
+.spec dd{margin:0;text-align:right;font-variant-numeric:tabular-nums}
+.spec .note{margin:10px 0 0;font-size:12px;color:var(--muted);line-height:1.45}
+.key{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.key span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:12px;height:12px;border-radius:2px;display:inline-block;border:1px solid var(--rule)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Lyre-Harp Frame</h1>
+    <p>One closed duct, 30&nbsp;mm deep, in 3&nbsp;mm birch ply. Built from the same geometry as the cut files: two cheeks, 49 wall panels and a six-layer hitch-pin block.</p>
+  </header>
+  <div class="grid">
+    <div class="stage" id="stage" aria-label="3D view of the lyre-harp frame. Drag to turn, scroll to zoom.">
+      <span class="hint">Drag to turn &middot; scroll or pinch to zoom</span>
+    </div>
+    <aside class="side">
+      <div class="controls">
+        <label for="t-front"><input type="checkbox" id="t-front" checked> Front cheek</label>
+        <label for="t-back"><input type="checkbox" id="t-back" checked> Back cheek</label>
+        <label for="t-walls"><input type="checkbox" id="t-walls" checked> Walls</label>
+        <label for="t-block"><input type="checkbox" id="t-block" checked> Hitch block</label>
+        <button type="button" id="b-front">Front view</button>
+        <button type="button" id="b-reset">Reset view</button>
+      </div>
+      <div class="key">
+        <span><i class="sw" style="background:#d8b98b"></i>Cheeks</span>
+        <span><i class="sw" style="background:#b98f5e"></i>Outer wall</span>
+        <span><i class="sw" style="background:#8f6a44"></i>String-hole wall</span>
+        <span><i class="sw" style="background:#c9a574"></i>Hitch block</span>
+      </div>
+      <section class="spec">
+        <h2>As cut</h2>
+        <dl id="spec"></dl>
+        <p class="note">Tabs, slots and engraving are left off the model. The front cheek carries the knot, and the back cheek is plain.</p>
+      </section>
+    </aside>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const D = __DATA__;
+(function(){
+  const spec = [
+    ['Outside', D.size[0].toFixed(0)+' × '+D.size[1].toFixed(0)+' mm'],
+    ['Duct depth', D.bore+' mm'],
+    ['Upper duct', D.bore+' × '+D.bore+' mm'],
+    ['Ply', D.t+' mm'],
+    ['String hole', D.hole_w.toFixed(0)+' mm wide'],
+    ['Resonator', D.reso.toFixed(0)+' mm along axis'],
+    ['Sound hole', '7-bight knot, r30'],
+    ['Knot centre', D.knot_up.toFixed(1)+' mm up (2/3)'],
+    ['Hitch block', D.hitch_layers+' × '+D.t+' = '+(D.hitch_layers*D.t)+' mm'],
+    ['Parts', '2 cheeks + '+D.panels.length+' panels + '+D.hitch_layers+' layers'],
+  ];
+  const dl = document.getElementById('spec');
+  for (const [k,v] of spec){
+    const dt=document.createElement('dt'); dt.textContent=k;
+    const dd=document.createElement('dd'); dd.textContent=v;
+    dl.append(dt,dd);
+  }
+
+  const stage = document.getElementById('stage');
+  if (!window.THREE){ stage.insertAdjacentHTML('beforeend','<p style="padding:20px">The 3D library did not load. Reload the page to try again.</p>'); return; }
+
+  const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));
+  stage.prepend(renderer.domElement);
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(32, 1, 1, 5000);
+
+  scene.add(new THREE.HemisphereLight(0xf4f1ea, 0x3a4550, 0.85));
+  const key = new THREE.DirectionalLight(0xffffff, 0.75); key.position.set(250, 400, 520); scene.add(key);
+  const rim = new THREE.DirectionalLight(0xbcd3e0, 0.35); rim.position.set(-400, -200, -300); scene.add(rim);
+
+  // centre the part on the origin
+  const xs = D.rim.map(p=>p[0]), ys = D.rim.map(p=>p[1]);
+  const cx = (Math.min(...xs)+Math.max(...xs))/2, cy = (Math.min(...ys)+Math.max(...ys))/2;
+  const P = p => new THREE.Vector2(p[0]-cx, p[1]-cy);
+
+  const frame = new THREE.Group(); scene.add(frame);
+  const half = D.bore/2, t = D.t;
+
+  function edges(mesh, color, opacity){
+    const e = new THREE.LineSegments(new THREE.EdgesGeometry(mesh.geometry, 25),
+      new THREE.LineBasicMaterial({color, transparent:true, opacity}));
+    mesh.add(e); return e;
+  }
+
+  function cheek(withKnot){
+    const shape = new THREE.Shape(D.rim.map(P));
+    shape.holes.push(new THREE.Path(D.hole.map(P)));
+    if (withKnot) for (const loop of D.knot) shape.holes.push(new THREE.Path(loop.map(P)));
+    const g = new THREE.ExtrudeGeometry(shape, {depth:t, bevelEnabled:false, curveSegments:1});
+    const m = new THREE.Mesh(g, new THREE.MeshStandardMaterial({color:0xd8b98b, roughness:.85, metalness:0}));
+    edges(m, 0x6d5233, .55);
+    return m;
+  }
+  const front = cheek(true);  front.position.z = half;
+  const back  = cheek(false); back.position.z = -half - t;
+  frame.add(front, back);
+
+  // the hitch-pin block: laminations glued up against the front cheek
+  const block = new THREE.Group(); frame.add(block);
+  for (let k = 0; k < D.hitch_layers; k++){
+    const g = new THREE.ExtrudeGeometry(new THREE.Shape(D.hitch.map(P)),
+      {depth:t*0.985, bevelEnabled:false, curveSegments:1});
+    const m = new THREE.Mesh(g, new THREE.MeshStandardMaterial({color: k % 2 ? 0xc9a574 : 0xd6b688, roughness:.85}));
+    m.position.z = half - (k + 1) * t;
+    edges(m, 0x5e4528, .5);
+    block.add(m);
+  }
+  const walls = new THREE.Group(); frame.add(walls);
+  const matO = new THREE.MeshStandardMaterial({color:0xb98f5e, roughness:.8});
+  const matI = new THREE.MeshStandardMaterial({color:0x8f6a44, roughness:.8});
+  D.panels.forEach((q,i)=>{
+    const d = D.panels_dir[i];
+    const g = new THREE.BoxGeometry(q.len, t, D.bore);
+    const m = new THREE.Mesh(g, q.wall==='outer'?matO:matI);
+    m.position.set(q.x-cx, q.y-cy, 0);
+    m.rotation.z = Math.atan2(d.dy, d.dx);
+    edges(m, 0x4a3822, .45);
+    walls.add(m);
+  });
+
+  // view state
+  const home = {yaw:-0.62, pitch:0.38, dist:760};
+  let yaw=home.yaw, pitch=home.pitch, dist=home.dist;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function place(){
+    frame.rotation.set(pitch, yaw, 0);
+    camera.position.set(0, 0, dist); camera.lookAt(0,0,0);
+  }
+  function size(){
+    const r = stage.getBoundingClientRect();
+    renderer.setSize(r.width, r.height, false);
+    camera.aspect = r.width/Math.max(r.height,1); camera.updateProjectionMatrix();
+    render();
+  }
+  function render(){ place(); renderer.render(scene, camera); }
+  new ResizeObserver(size).observe(stage);
+
+  const pts = new Map(); let pinch0 = 0, dist0 = dist;
+  stage.addEventListener('pointerdown', e=>{ stage.setPointerCapture(e.pointerId); pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if (pts.size===2){ const [a,b]=[...pts.values()]; pinch0=Math.hypot(a.x-b.x,a.y-b.y); dist0=dist; } });
+  stage.addEventListener('pointermove', e=>{
+    if (!pts.has(e.pointerId)) return;
+    const prev = pts.get(e.pointerId); pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if (pts.size===1){
+      yaw += (e.clientX-prev.x)*0.008;
+      pitch = Math.max(-1.45, Math.min(1.45, pitch + (e.clientY-prev.y)*0.008));
+    } else if (pts.size===2){
+      const [a,b]=[...pts.values()]; const d=Math.hypot(a.x-b.x,a.y-b.y);
+      if (pinch0) dist = Math.max(260, Math.min(1800, dist0*pinch0/d));
+    }
+    render();
+  });
+  const up = e=>{ pts.delete(e.pointerId); if (pts.size<2) pinch0=0; };
+  stage.addEventListener('pointerup', up); stage.addEventListener('pointercancel', up);
+  stage.addEventListener('wheel', e=>{ e.preventDefault(); dist=Math.max(260,Math.min(1800,dist*(1+Math.sign(e.deltaY)*0.08))); render(); }, {passive:false});
+
+  function goTo(target){
+    if (reduce){ ({yaw,pitch,dist}=target); render(); return; }
+    const s={yaw,pitch,dist}, t0=performance.now();
+    (function step(now){
+      const k=Math.min(1,(now-t0)/450), e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+      yaw=s.yaw+(target.yaw-s.yaw)*e; pitch=s.pitch+(target.pitch-s.pitch)*e; dist=s.dist+(target.dist-s.dist)*e;
+      render(); if(k<1) requestAnimationFrame(step);
+    })(t0);
+  }
+  document.getElementById('b-reset').addEventListener('click', ()=>goTo(home));
+  document.getElementById('b-front').addEventListener('click', ()=>goTo({yaw:0,pitch:0,dist:720}));
+  const bind=(id,obj)=>document.getElementById(id).addEventListener('change',e=>{obj.visible=e.target.checked; render();});
+  bind('t-front',front); bind('t-back',back); bind('t-walls',walls); bind('t-block',block);
+  size();
+})();
+</script>
+</body>
+</html>
+'''
 
 
 def render(path):
@@ -709,6 +1100,8 @@ def render(path):
         'panels_dir': [{'dx': round(-math.sin(q['ang']), 6),
                         'dy': round(-math.cos(q['ang']), 6)} for q in parts],
         'bore': BORE, 't': B.THICK,
+        'hitch': [up(p) for p in hitch_block(faces(outer, hole)[0])[1][:-1]],
+        'hitch_layers': HITCH_LAYERS,
     }
     xs = [p[0] for p in data['rim']]
     ys = [p[1] for p in data['rim']]
