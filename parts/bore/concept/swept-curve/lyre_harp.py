@@ -48,6 +48,14 @@ FACET = 15.0         # the most an arc turns per panel
 MIN_PANEL = 14.0     # but no finer than this along an arc: a tooth needs 10
 NARROW = True
 OUT = None
+# The sound hole: a knotwork rosette from the knotwork-soundholes repository,
+# used as its generator wrote it. Its centre sits on the long axis, KNOT_UP of
+# the way from the bottom of the resonator's air to the top of it -- the outer
+# wall's face at the far end, and the hole wall's face at the bump. It goes in
+# ONE cheek, the front, so the two cheeks stop being one part cut twice.
+KNOT = os.path.expanduser('~/LaserMadeMusic/GIT/knotwork-soundholes/'
+                          '2-lead_7-bight_knot_radius30mm.svg')
+KNOT_UP = 2.0 / 3.0
 
 
 def geometry():
@@ -236,6 +244,43 @@ def faces(outer, hole):
     return (away(outer, B.THICK / 2, False), away(hole, B.THICK / 2, True))
 
 
+def knot_paths():
+    """(cut loops, engraved polylines) from the knot file, in its own mm.
+
+    The file is 1 unit = 1mm about the hole's centre. Its black group is the
+    waste that drops out, every path closed; its blue group is the crossing
+    marks, several runs to a path.
+    """
+    body = open(KNOT).read()
+
+    def group(name):
+        m = re.search(r'<g id="%s"[^>]*>(.*?)</g>' % name, body, re.S)
+        if not m:
+            raise ValueError(f'{KNOT} has no <g id="{name}">')
+        runs = []
+        for d in re.findall(r'\bd="([^"]*)"', m.group(1)):
+            for sub in re.split(r'(?=M)', d):
+                pts = [(float(x), float(y)) for x, y in
+                       re.findall(r'(-?[\d.]+)[ ,](-?[\d.]+)', sub)]
+                if len(pts) > 1:
+                    runs.append((pts, 'Z' in sub))
+        return runs
+    cut = [p for p, closed in group('cut')]
+    if not all(closed for p, closed in group('cut')):
+        raise ValueError(f'{KNOT}: a cut path is not closed')
+    return cut, [p for p, _ in group('engrave')]
+
+
+def knot_centre():
+    """Where the knot's centre goes, laid down, and the span it was placed in."""
+    g = geometry()
+    t = B.THICK
+    bottom = -(g['Hs'] + g['A'] - t)                 # outer wall face, far end
+    top = -g['hs'] - g['rc'] + g['sag'] - t          # hole wall face at the bump
+    y = bottom + KNOT_UP * (top - bottom)
+    return lay([(0.0, y)])[0], (bottom, top)
+
+
 def checks(outer, hole, parts, cheekpoly, written, ink, cut_slots):
     res = []
 
@@ -320,11 +365,47 @@ def checks(outer, hole, parts, cheekpoly, written, ink, cut_slots):
     bad = sum(1 for x, y, owner, _ in ink if not B.inside(owner, x, y))
     note(ink and bad == 0, 'every engraved point is on its own part',
          f'{len(ink)} points, {bad} off the material')
+    # Inside a hole means deeper than half a kerf. The knot file ends its
+    # crossing marks ON the edges of its waste, to three decimals, and two of
+    # them land 0.0007 and 0.0018mm over the line: points the cut itself burns
+    # away, not engraving in a hole. The same half kerf the rim check allows a
+    # mortice. A mark genuinely in a hole is still counted.
+    def in_hole(x, y, sl):
+        return (B.inside(sl, x, y) and
+                min(B.pt_seg((x, y), sl[i - 1], sl[i])
+                    for i in range(len(sl))) > B.BURN / 2)
     over = sum(1 for x, y, _, f in ink
-               if any(B.inside(sl, x, y) for sl, f2 in cut_slots if f2 == f))
-    note(over == 0 and len(cut_slots) == len(mortices),
+               if any(in_hole(x, y, sl) for sl, f2 in cut_slots if f2 == f))
+    # two cheek sheets now, both carrying every mortice, and the front the
+    # knot's waste as well
+    knot_cut, _ = knot_paths()
+    want = 2 * len(mortices) + len(knot_cut)
+    note(over == 0 and len(cut_slots) == want,
          'no engraving lands in a slot',
-         f'{len(ink)} points against {len(cut_slots)} slots, {over} inside one')
+         f'{len(ink)} points against {len(cut_slots)} holes ({len(mortices)} '
+         f'mortices on each of 2 cheeks plus {len(knot_cut)} knot cuts, so '
+         f'{want} expected), {over} inside one')
+
+    # --- the sound hole. Wholly over the resonator's air, with ply to spare
+    # before either wall's face: a cut that reaches a face opens into the wall
+    # standing on it rather than into the duct.
+    (kx, ky), (lo, hi) = knot_centre()
+    placed = [[(x + kx, y + ky) for x, y in loop] for loop in knot_cut]
+    pts = [q for loop in placed for q in loop]
+    edges = list(zip(face_o, face_o[1:])) + list(zip(face_i, face_i[1:]))
+    clear = min(min(B.pt_seg(q, u, v) for u, v in edges) for q in pts)
+    inside_air = all(B.in_poly(face_o, *q) and not B.in_poly(face_i, *q)
+                     for q in pts)
+    note(inside_air and clear >= B.MIN_FEATURE + B.BURN,
+         'the sound hole lies over the resonator',
+         f'{len(placed)} cuts, nearest {clear:.1f}mm from a wall face, '
+         f'against {B.MIN_FEATURE + B.BURN:g}mm')
+    up = (-kx - lo) / (hi - lo)
+    # against the request, 2/3, written here rather than read from KNOT_UP: a
+    # check that reads the number it is checking cannot fail
+    note(abs(up - 2.0 / 3.0) < 1e-9, 'the sound hole sits where it was asked',
+         f'centre {up * 100:.1f}% of the way up the resonator\'s '
+         f'{hi - lo:.1f}mm, {-kx - lo:.1f}mm from its bottom')
 
     def crosses(a, b, c, d):
         d1, d2 = (b[0] - a[0], b[1] - a[1]), (d[0] - c[0], d[1] - c[1])
@@ -385,7 +466,38 @@ def main(write=True):
     # both walls' mortices
     mid = geometry()['A'] - geometry()['band'] / 2
     lead = lay([(mid, -10.0), (mid, -60.0)])
-    written, ink, cut_slots = B.sheet(parts, cheekpoly, lead, out_path, write)
+    (kx, ky), _ = knot_centre()
+    knot_cut, knot_ink = knot_paths()
+    holes = [[(x + kx, y + ky) for x, y in loop] for loop in knot_cut]
+    marks = [B.path([(x + kx, y + ky) for x, y in run], close=False)
+             for run in knot_ink]
+    plain_items = B.items_for
+
+    def items_for(parts_, cheekpoly_, cline_):
+        """ribbon_bore's items, with the one cheek made two.
+
+        A, the front, carries the sound hole: its waste goes in with the
+        mortices, cut while the sheet still holds the cheek, and its crossing
+        marks are engraved. B, the back, is the plain cheek. Each is cut once.
+        """
+        cheeks, panels = plain_items(parts_, cheekpoly_, cline_)
+        (ck,) = cheeks
+        front = dict(ck, slots=ck['slots'] + holes,
+                     marks=lambda dx, dy: ck['marks'](dx, dy) + [
+                         B.path([(float(a) + dx, float(b) + dy) for a, b in
+                                 (t.split(',') for t in
+                                  m[2:].split(' L '))], close=False)
+                         for m in marks],
+                     note='cheek A, the front - CUT THIS SHEET ONCE - carries '
+                          'the sound hole')
+        back = dict(ck, note='cheek B, the back - CUT THIS SHEET ONCE')
+        return [front, back], panels
+    B.items_for = items_for
+    try:
+        written, ink, cut_slots = B.sheet(parts, cheekpoly, lead, out_path,
+                                          write)
+    finally:
+        B.items_for = plain_items
     title = (f'Lyre-harp frame, {BORE:g}mm bore, {2 * g["A"]:.0f} x '
              f'{LENGTH:g}mm')
     if write:
