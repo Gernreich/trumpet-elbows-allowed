@@ -1,0 +1,457 @@
+#!/usr/bin/env python3
+"""A lyre-harp frame as one closed duct whose width changes round the loop.
+
+    python3 lyre_harp.py --no-write
+    python3 lyre_harp.py --out=DIR/lyre-harp-....svg
+
+ribbon_bore.py builds every duct as two walls offset a fixed bore either side of
+ONE centreline, so its section is the same all the way round. This one is not.
+The walls are two independent closed outlines, drawn from the author's sketch
+(lyre-harp.svg) as redrawn and approved on 2026-09-16:
+
+  * the OUTER outline, a stadium 400mm long -- a half-circle at each end and
+    two parallel sides;
+  * the HOLE, where the strings go: a half-circle concentric with the outer
+    one, parallel sides, and a bottom of two tangent corners with a small bump
+    rising into the hole between them.
+
+Between them runs the air. Over the arch and down the parallel sides the two
+walls stand a bore apart, so the duct there is BORE x BORE, 30 x 30mm. Below
+the hole the walls part: the duct is still BORE deep, cheek to cheek, but as
+wide as the gap between the hole's bottom and the outer bottom -- the
+resonator, about 200mm across.
+
+Everything that is a part -- the panel with its teeth, the mortice, the
+engraved number, the packing, the sheet and its colours, the ring cheek cut as
+two contours -- is ribbon_bore's own, imported and not copied. What is new is
+only what a single centreline could not describe: the two outlines, which way
+is out from each, and the checks that assumed a constant bore.
+"""
+import math
+import os
+import re
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import ribbon_bore as B                                        # noqa: E402
+
+LENGTH = 400.0       # outer outline, end to end
+BORE = 30.0          # duct depth everywhere; duct width over the arch and sides
+# The approved drawing, as proportions. Width against length is the drawing's
+# 391 : 831. The hole's bottom is scaled on the hole's own half-width, not on
+# the length: the band is a fixed 36mm, so the hole does not shrink in step with
+# the outline, and scaling its corners on the length left them 10mm apart with
+# no room for the bump between them.
+WIDTH_OF_LENGTH = 391.0 / 830.9
+HOLE_STRAIGHT, HOLE_CORNER, HOLE_BUMP = 175.3 / 159.5, 98.9 / 159.5, 10.3 / 159.5
+FACET = 15.0         # the most an arc turns per panel
+MIN_PANEL = 14.0     # but no finer than this along an arc: a tooth needs 10
+NARROW = True
+OUT = None
+
+
+def geometry():
+    """The design numbers, y up, the arch centre at the origin."""
+    t = B.THICK
+    band = BORE + 2 * t
+    A = LENGTH * WIDTH_OF_LENGTH / 2            # outer half-width
+    a = A - band                                # hole half-width
+    Hs = LENGTH - 2 * A                         # outer straight sides
+    hs, rc, sag = HOLE_STRAIGHT * a, HOLE_CORNER * a, HOLE_BUMP * a
+    cx = a - rc                                 # corner centres at +-cx, -hs
+    apex = -hs - rc + sag
+    d = apex + hs
+    # the bump: a circle below the hole, tangent to both corners from outside
+    Rb = (cx * cx + d * d - rc * rc) / (2 * (d + rc))
+    if Rb <= 0:
+        raise ValueError('the hole corners leave no room for the bump between '
+                         'them')
+    return dict(A=A, a=a, Hs=Hs, hs=hs, rc=rc, cx=cx, sag=sag, Rb=Rb,
+                bc=(0.0, apex - Rb), band=band)
+
+
+def arc(cx, cy, r, a0, a1):
+    """Vertices on a circle from angle a0 to a1, both included.
+
+    ON the circle rather than inscribed with tangent chords: nothing here pairs
+    a panel on one wall with a panel on the other, so there is no bore to keep
+    constant across a facet and the simplest faceting is the right one. As fine
+    as FACET, and no finer than MIN_PANEL along the arc.
+    """
+    sweep = a1 - a0
+    n = max(1, math.ceil(abs(math.degrees(sweep)) / FACET))
+    n = max(1, min(n, int(abs(sweep) * r // MIN_PANEL)))
+    return [(cx + r * math.cos(a0 + sweep * i / n),
+             cy + r * math.sin(a0 + sweep * i / n)) for i in range(n + 1)]
+
+
+def tangent_arc(cx, cy, r, a0, a1):
+    """Vertices whose chords TOUCH the circle, for the outer wall's ends.
+
+    arc() puts its vertices on the circle, so every chord cuts inside it by
+    r(1 - cos(step/2)). On the hole that moves the wall away from the air and
+    costs nothing. On the outer wall it moves the wall INTO the air, and the
+    duct over the arch came out 29.72mm against 30. Here each chord is tangent
+    at its middle and the vertices stand outside the circle, so the face never
+    comes inside the radius the section was drawn at.
+
+    The first and last vertex fall on the tangent lines at a0 and a1, which on
+    a stadium are the straight sides themselves, so the sides simply run on
+    to meet them and no end vertex is returned.
+    """
+    sweep = a1 - a0
+    n = max(1, math.ceil(abs(math.degrees(sweep)) / FACET))
+    n = max(1, min(n, int(abs(sweep) * r // MIN_PANEL)))
+    step = sweep / n
+    R = r / math.cos(step / 2)
+    return [(cx + R * math.cos(a0 + step * (i + 0.5)),
+             cy + R * math.sin(a0 + step * (i + 0.5))) for i in range(n)]
+
+
+def join(*runs):
+    out = []
+    for run in runs:
+        out += run if not out else run[1:]
+    return out
+
+
+def outlines(off):
+    """(outer, hole) closed polylines, each moved `off` into the duct.
+
+    off = THICK gives the two faces the air touches, which build() draws first
+    and hangs the walls from; off = 0 is the outline of the drawing. The outer
+    arcs are tangent_arc(), the hole's arcs arc(). Both close exactly.
+    """
+    g = geometry()
+    A, a, Hs, hs, rc, cx, Rb = (g[k] for k in
+                                ('A', 'a', 'Hs', 'hs', 'rc', 'cx', 'Rb'))
+    ro = A - off
+    top = tangent_arc(0.0, 0.0, ro, 0.0, math.pi)
+    outer = top + tangent_arc(0.0, -Hs, ro, math.pi, 2 * math.pi) + [top[0]]
+
+    # The hole grows by `off`: every radius about its own centre, and the
+    # bump's the other way, because its centre lies outside the hole. The
+    # centres do not move, so the corners stay tangent to the bump: the gap
+    # between centres is rc + Rb before and (rc + off) + (Rb - off) after.
+    ri, rcc, rb = a + off, rc + off, Rb - off
+    bx, by = g['bc']
+    theta_l = math.atan2(by + hs, cx)            # left corner -> bump centre
+    theta_r = math.atan2(by + hs, -cx)           # right corner -> bump centre
+    phi_l = math.atan2(-hs - by, -cx)            # bump -> left corner centre
+    phi_r = math.atan2(-hs - by, cx)             # bump -> right corner centre
+    hole = join([(ri, -hs), (ri, 0.0)],
+                arc(0.0, 0.0, ri, 0.0, math.pi),
+                [(-ri, 0.0), (-ri, -hs)],
+                arc(-cx, -hs, rcc, math.pi, 2 * math.pi + theta_l),
+                arc(bx, by, rb, phi_l, phi_r),
+                arc(cx, -hs, rcc, theta_r, 0.0),
+                [(ri, -hs)])
+    hole[-1] = hole[0]
+    return outer, hole
+
+
+def lay(pts):
+    """Long axis along the bed. pack() does not turn a part, and 400 x 188mm
+    fits the 580 x 288 usable area only lying down."""
+    return [(-y, x) for x, y in pts]
+
+
+def turn(poly, k):
+    """How far a closed wall turns at vertex k; the seam is a vertex too."""
+    n = len(poly) - 1
+    p0, p1, p2 = poly[(k - 1) % n], poly[k % n], poly[(k + 1) % n]
+    h1 = math.atan2(p1[1] - p0[1], p1[0] - p0[0])
+    h2 = math.atan2(p2[1] - p1[1], p2[0] - p1[0])
+    return abs((h2 - h1 + math.pi) % (2 * math.pi) - math.pi)
+
+
+def build():
+    """The two wall centrelines and every panel on them."""
+    B.BORE, B.NARROW, B.PORT, B.PORT_AT = BORE, NARROW, False, None
+    # The FACES are drawn, and the walls follow from them. Drawn the other way
+    # round -- wall centrelines on the circles, faces offset from them -- each
+    # mitred vertex of the hole's face stood 1.5/cos(step/2) off its wall
+    # rather than 1.5, and the duct over the arch was 29.987mm. The face is the
+    # section; it is what gets put on the number.
+    face_o, face_i = (lay(p) for p in outlines(B.THICK))
+    outer = away(face_o, B.THICK / 2, True)
+    hole = away(face_i, B.THICK / 2, False)
+    parts, seq = [], 0
+    for name, poly in (('inner', hole), ('outer', outer)):
+        for i, (a, b) in enumerate(zip(poly, poly[1:]), 1):
+            # ribbon_bore's trim, for its reason: a panel end is a square cut,
+            # and two neighbours meeting at a mitre jam on the concave side
+            # unless each is shortened to where their corners just touch
+            e0 = B.THICK / 2 * math.tan(turn(poly, i - 1) / 2)
+            e1 = B.THICK / 2 * math.tan(turn(poly, i) / 2)
+            L = B.seglen(a, b) - e0 - e1
+            if L < B.TOOTH + 2 * B.SHOULDER:
+                raise ValueError(
+                    f'{name} panel {i} is {L:.2f}mm and a tooth needs '
+                    f'{B.TOOTH + 2 * B.SHOULDER:g}mm. Raise MIN_PANEL.')
+            ang = math.atan2(b[1] - a[1], b[0] - a[0])
+            mid = ((a[0] + b[0]) / 2 + (e0 - e1) / 2 * math.cos(ang),
+                   (a[1] + b[1]) / 2 + (e0 - e1) / 2 * math.sin(ang))
+            # OUT means away from the air. For the outer wall that is out of
+            # the outer outline, for the hole's wall it is into the hole. Asked
+            # of the polygon, not of which way round it happens to be drawn.
+            nx, ny = -math.sin(ang), math.cos(ang)
+            probe = B.in_poly(poly, mid[0] + nx, mid[1] + ny)
+            if probe != (name == 'inner'):
+                nx, ny = -nx, -ny
+            seq += 1
+            parts.append({'kind': 'panel', 'wall': name, 'n': i, 'len': L,
+                          'mid': mid, 'ang': ang, 'out': (nx, ny),
+                          'tag': f'{seq:X}'})
+    for q in parts:
+        q['teeth'] = B.teeth(q['len'])
+    return outer, hole, parts
+
+
+def away(poly, d, bigger):
+    """poly offset by d, towards whichever side makes it bigger or smaller."""
+    p, q = B.offset(poly, d), B.offset(poly, -d)
+    lp = sum(B.seglen(u, v) for u, v in zip(p, p[1:]))
+    lq = sum(B.seglen(u, v) for u, v in zip(q, q[1:]))
+    return p if (lp > lq) == bigger else q
+
+
+def cheek(outer, hole):
+    """Both rims, as one list the way ribbon_bore.cheek() writes a ring.
+
+    ribbon_bore.contours() splits it back into two loops for cutting, and its
+    inside() reads the joined list correctly, so every tool downstream takes
+    it unchanged. Each rim stands off its own wall exactly as a ribbon cheek
+    does, flush on the mortices under NARROW.
+    """
+    e = B.cheek_off() - B.wall_off()
+    rim_o = away(outer, e, True)
+    rim_i = away(hole, e, False)
+    rim_o[-1], rim_i[-1] = rim_o[0], rim_i[0]
+    return rim_o + rim_i
+
+
+def faces(outer, hole):
+    """The air's own boundary: each wall's face on the duct side."""
+    return (away(outer, B.THICK / 2, False), away(hole, B.THICK / 2, True))
+
+
+def checks(outer, hole, parts, cheekpoly, written, ink, cut_slots):
+    res = []
+
+    def note(ok, what, detail):
+        res.append((ok, what, detail))
+
+    face_o, face_i = faces(outer, hole)
+    rim = [(r[i], r[i + 1]) for r in B.contours(cheekpoly)
+           for i in range(len(r) - 1)]
+    mortices = [sl for q in parts for sl in B.slots_for(q)]
+
+    # --- the section. Depth is the panel's shoulder-to-shoulder height,
+    # BORE by construction in ribbon_bore.panel(); width is what varies, so
+    # measure it: the narrowest gap between the two duct faces, anywhere.
+    def seg_pts(poly, per=6):
+        return [(a[0] + (b[0] - a[0]) * t / per, a[1] + (b[1] - a[1]) * t / per)
+                for a, b in zip(poly, poly[1:]) for t in range(per)]
+    narrow = min(min(B.pt_seg(p, u, v) for u, v in zip(face_o, face_o[1:]))
+                 for p in seg_pts(face_i))
+    note(narrow >= BORE - 1e-6, 'the duct is never narrower than the bore',
+         f'narrowest {narrow:.4f}mm wall face to wall face, against {BORE:g}')
+
+    # along the long axis (y = 0 once laid down): from the hole wall's face to
+    # the outer wall's face at the far end, which is the resonator's length
+    def on_axis(poly):
+        xs = []
+        for u, v in zip(poly, poly[1:]):
+            if (u[1] > 0) != (v[1] > 0):
+                xs.append(u[0] + (v[0] - u[0]) * (0 - u[1]) / (v[1] - u[1]))
+        return max(xs)
+    reso = on_axis(face_o) - on_axis(face_i)
+    note(reso > 2 * BORE, 'the resonator opens out below the hole',
+         f'{reso:.1f}mm along the axis from the hole wall to the outer wall, '
+         f'{reso / BORE:.1f} bores')
+
+    off = sum(1 for sl in mortices for pt in sl
+              if not (B.inside(cheekpoly, *pt)
+                      or min(B.pt_seg(pt, u, v) for u, v in rim) <= B.BURN / 2))
+    note(off == 0 and mortices, 'every slot corner is inside its cheek',
+         f'{4 * len(mortices)} corners on {len(mortices)} slots, {off} outside')
+
+    def gap(A, Bq):
+        return min(B.seg_gap(A[i], A[(i + 1) % 4], Bq[j], Bq[(j + 1) % 4])
+                   for i in range(4) for j in range(4))
+    pairs = [(i, j) for i in range(len(mortices))
+             for j in range(i + 1, len(mortices))]
+    worst = min(gap(mortices[i], mortices[j]) for i, j in pairs)
+    note(worst - B.BURN >= B.MIN_FEATURE - 1e-9,
+         'the ply between two holes survives the kerf',
+         f'{len(pairs)} pairs, narrowest {worst:.3f}mm drawn, '
+         f'{worst - B.BURN:.3f}mm after the kerf, against {B.MIN_FEATURE:g}')
+
+    def plan_rect(q):
+        hl, ht = q['len'] / 2, B.THICK / 2
+        ca, sa = math.cos(q['ang']), math.sin(q['ang'])
+        mx, my = q['mid']
+        return [(mx + u * hl * ca - v * ht * sa, my + u * hl * sa + v * ht * ca)
+                for u, v in ((-1, -1), (1, -1), (1, 1), (-1, 1))]
+
+    def overlap(P, Q):
+        for R in (P, Q):
+            for k in range(4):
+                ex, ey = R[(k + 1) % 4][0] - R[k][0], R[(k + 1) % 4][1] - R[k][1]
+                a = [-ey * x + ex * y for x, y in P]
+                b = [-ey * x + ex * y for x, y in Q]
+                if min(a) >= max(b) - 1e-7 or min(b) >= max(a) - 1e-7:
+                    return False
+        return True
+    rects = [plan_rect(q) for q in parts]
+    np_ = jam = 0
+    for i in range(len(rects)):
+        for j in range(i + 1, len(rects)):
+            np_ += 1
+            jam += overlap(rects[i], rects[j])
+    note(np_ and jam == 0, 'no two wall panels share plan area',
+         f'{np_} pairs across both walls, {jam} jamming')
+
+    short = min(q['len'] for q in parts)
+    note(short >= B.TOOTH + 2 * B.SHOULDER, 'the shortest panel still holds a tooth',
+         f'{short:.2f}mm against {B.TOOTH + 2 * B.SHOULDER:g}mm needed')
+
+    bad = sum(1 for x, y, owner, _ in ink if not B.inside(owner, x, y))
+    note(ink and bad == 0, 'every engraved point is on its own part',
+         f'{len(ink)} points, {bad} off the material')
+    over = sum(1 for x, y, _, f in ink
+               if any(B.inside(sl, x, y) for sl, f2 in cut_slots if f2 == f))
+    note(over == 0 and len(cut_slots) == len(mortices),
+         'no engraving lands in a slot',
+         f'{len(ink)} points against {len(cut_slots)} slots, {over} inside one')
+
+    def crosses(a, b, c, d):
+        d1, d2 = (b[0] - a[0], b[1] - a[1]), (d[0] - c[0], d[1] - c[1])
+        den = d1[0] * d2[1] - d1[1] * d2[0]
+        if abs(den) < 1e-12:
+            return False
+        u = ((c[0] - a[0]) * d2[1] - (c[1] - a[1]) * d2[0]) / den
+        v = ((c[0] - a[0]) * d1[1] - (c[1] - a[1]) * d1[0]) / den
+        return 1e-9 < u < 1 - 1e-9 and 1e-9 < v < 1 - 1e-9
+    xing = sum(1 for i in range(len(rim)) for j in range(i + 1, len(rim))
+               if crosses(*rim[i], *rim[j]))
+    note(xing == 0, 'the cheek outline does not cross itself',
+         f'{len(rim)} edges on {len(B.contours(cheekpoly))} contours, '
+         f'{xing} crossing')
+
+    flush = max(min(B.pt_seg(p, u, v) for p in sl for u, v in rim)
+                for sl in mortices)
+    note(flush <= B.BURN / 2, 'the rim is flush with every mortice',
+         f'furthest of {len(mortices)} mortices {flush:.4f}mm from the rim')
+
+    # no black line through the air: every cut edge outside the duct's faces
+    def in_air(p):
+        return (B.in_poly(face_o, *p) and not B.in_poly(face_i, *p)
+                and min(B.pt_seg(p, u, v) for u, v in
+                        list(zip(face_o, face_o[1:]))
+                        + list(zip(face_i, face_i[1:]))) > 1e-6)
+    across = sum(1 for u, v in rim for t in (0.25, 0.5, 0.75)
+                 if in_air((u[0] + (v[0] - u[0]) * t, u[1] + (v[1] - u[1]) * t)))
+    note(across == 0, 'no cut line crosses the airway',
+         f'{len(B.contours(cheekpoly))} cheek contour(s), {across} point(s) '
+         f'inside the duct')
+
+    big = [n for n, w, h, _, _ in written if w > B.BED_W or h > B.BED_H]
+    note(written and not big, 'every sheet fits the P2S bed',
+         f'{len(written)} sheet(s), largest '
+         f'{max(w for _, w, _, _, _ in written):.0f} x '
+         f'{max(h for _, _, h, _, _ in written):.0f}mm against '
+         f'{B.BED_W:g} x {B.BED_H:g}')
+    return res
+
+
+def stem():
+    g = geometry()
+    return (f'lyre-harp-bore{BORE:g}-{2 * g["A"]:.0f}x{LENGTH:g}mm'
+            + ('-narrow' if NARROW else ''))
+
+
+def main(write=True):
+    outer, hole, parts = build()
+    cheekpoly = cheek(outer, hole)
+    g = geometry()
+    out_path = OUT or os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                   stem() + '.svg')
+    # ribbon_bore.sheet() places the cheek's '0' along the start of the
+    # "centreline" it is handed. There is no centreline here, and handing it
+    # the outer wall put the '0' on the wall's own mortices.
+    # a short run down the middle of one parallel side, in the duct, clear of
+    # both walls' mortices
+    mid = geometry()['A'] - geometry()['band'] / 2
+    lead = lay([(mid, -10.0), (mid, -60.0)])
+    written, ink, cut_slots = B.sheet(parts, cheekpoly, lead, out_path, write)
+    title = (f'Lyre-harp frame, {BORE:g}mm bore, {2 * g["A"]:.0f} x '
+             f'{LENGTH:g}mm')
+    if write:
+        # sheet() writes a ribbon duct's title and description -- constant
+        # section, swept along a curve -- which is not this part. Say what is.
+        for name, _, _, _, note in written:
+            f = os.path.join(os.path.dirname(os.path.abspath(out_path)), name)
+            body = open(f).read()
+            body = re.sub(r'<title>.*?</title>',
+                          f'<title>{title} - {note}</title>', body, count=1,
+                          flags=re.S)
+            body = re.sub(
+                r'<desc>.*?</desc>',
+                f'<desc>1 user unit = 1mm. {note}. A closed duct {BORE:g}mm '
+                f'deep between two cheeks, {BORE:g}mm wide over the arch and '
+                f'down the parallel sides and opening to the full gap between '
+                f'the hole and the outer wall below the hole, which is the '
+                f'resonator. {len(parts)} wall panels, numbered round each '
+                f'wall; each cheek slot carries its panel\'s number. '
+                f'{B.THICK:g}mm ply, slots for a {B.SHEET:g}mm sheet at '
+                f'{B.BURN:g}mm kerf. Blue #0000ff engraves, orange #ff8000 '
+                f'cuts the slots first, black #000000 frees the parts.</desc>',
+                body, count=1, flags=re.S)
+            open(f, 'w').write(body)
+
+    n_in = sum(1 for q in parts if q['wall'] == 'inner')
+    print(f'lyre-harp frame   {BORE:g}mm bore, {2 * g["A"]:.1f} x {LENGTH:g}mm')
+    print(f'  outer: half-circles R{g["A"]:.1f} and {g["Hs"]:.1f}mm parallel '
+          f'sides')
+    print(f'  hole: half-circle R{g["a"]:.1f}, {g["hs"]:.1f}mm parallel sides, '
+          f'corners R{g["rc"]:.1f}, bump R{g["Rb"]:.1f} rising '
+          f'{g["sag"]:.1f}mm')
+    print(f'  band {g["band"]:g}mm over the arch and sides; resonator below '
+          f'the hole')
+    print(f'  {n_in} inner + {len(parts) - n_in} outer panels + 2 cheeks = '
+          f'{len(parts) + 2} parts, {len(written)} sheets')
+    for name, w, h, k, note in written:
+        print(f'    {name:<58}{k:>3} parts  {w:.0f} x {h:.0f}mm  {note}')
+    bad = 0
+    print()
+    for ok, what, detail in checks(outer, hole, parts, cheekpoly, written,
+                                   ink, cut_slots):
+        print(f'  {"pass" if ok else "FAIL"}  {what:<44} {detail}')
+        bad += not ok
+    if write and bad:
+        for name, _, _, _, _ in written:
+            f = os.path.join(os.path.dirname(os.path.abspath(out_path)), name)
+            if os.path.exists(f):
+                os.remove(f)
+        print(f'\n  {bad} check(s) failed. Nothing written.')
+    elif write:
+        print(f'\n  wrote {len(written)} file(s)')
+    return 1 if bad else 0
+
+
+if __name__ == '__main__':
+    a = sys.argv[1:]
+    for x in a:
+        if not (x == '--no-write' or x.startswith('--out=')):
+            raise SystemExit(f'error: {x} is not a flag this generator reads. '
+                             f'It takes --out= and --no-write.')
+    hit = [x for x in a if x.startswith('--out=')]
+    if hit:
+        OUT = hit[0].split('=', 1)[1]
+    try:
+        sys.exit(main(write='--no-write' not in a))
+    except ValueError as e:
+        print(f'error: {e}')
+        sys.exit(1)
