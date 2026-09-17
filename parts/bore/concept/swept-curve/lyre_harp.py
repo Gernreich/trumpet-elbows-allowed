@@ -66,6 +66,14 @@ KNOT_UP = 2.0 / 3.0
 # HITCH_WIDTH wide from that face towards the middle, and runs HITCH_FACETS
 # facets' worth along it, centred on the long axis.
 HITCH_FACETS, HITCH_WIDTH, HITCH_LAYERS = 8, 30.0, 6
+# The hitch pins, one per string, driven through the front cheek into the
+# block. The strings run parallel to the long axis, so the pins stand
+# PIN_SPACING apart across it, centred on it. Each sits half the block's
+# width in from the wall, so the row follows the curve of the bottom end.
+# They are ENGRAVED on the front cheek -- a PIN_DIA circle and a cross through
+# it -- as drilling marks, not cut: a hole cut in the cheek alone would not
+# guide a drill on into the block.
+PINS, PIN_SPACING, PIN_DIA = 7, 16.0, 2.0
 
 
 def geometry():
@@ -329,6 +337,43 @@ def hitch_block(face_o):
     return edge, outline
 
 
+def pin_spots(face_o):
+    """Where each hitch pin goes, laid down: across the axis, on the block's
+    mid-line, half HITCH_WIDTH in from the wall face."""
+    edge, _ = hitch_block(face_o)
+    mid = B.offset(edge, HITCH_WIDTH / 2)
+    if not B.in_poly(face_o, *mid[len(mid) // 2]):
+        mid = B.offset(edge, -HITCH_WIDTH / 2)
+    spots = []
+    for k in range(PINS):
+        u = (k - (PINS - 1) / 2) * PIN_SPACING      # across the axis
+        for a, b in zip(mid, mid[1:]):
+            if (a[1] - u) * (b[1] - u) <= 0 and a[1] != b[1]:
+                t = (u - a[1]) / (b[1] - a[1])
+                spots.append((a[0] + (b[0] - a[0]) * t, u))
+                break
+        else:
+            raise ValueError(
+                f'hitch pin {k + 1}, {u:g}mm off the axis, falls beyond the '
+                f'block, which does not reach that far across. Fewer pins, '
+                f'closer spacing, or more HITCH_FACETS.')
+    return spots
+
+
+def pin_marks(face_o, dx=0.0, dy=0.0):
+    """The engraved drilling marks: a PIN_DIA circle and a cross through it."""
+    r, arm = PIN_DIA / 2, PIN_DIA
+    out = []
+    for x, y in pin_spots(face_o):
+        x, y = x + dx, y + dy
+        ring = [(x + r * math.cos(2 * math.pi * i / 24),
+                 y + r * math.sin(2 * math.pi * i / 24)) for i in range(25)]
+        out.append(B.path(ring, close=False))
+        out.append(B.path([(x - arm, y), (x + arm, y)], close=False))
+        out.append(B.path([(x, y - arm), (x, y + arm)], close=False))
+    return out
+
+
 def checks(outer, hole, parts, cheekpoly, written, ink, cut_slots):
     res = []
 
@@ -519,6 +564,20 @@ def checks(outer, hole, parts, cheekpoly, written, ink, cut_slots):
                                               for q in kpts),
          'the hitch block stays clear of the sound hole',
          f'inside the resonator, {to_knot:.1f}mm from the nearest knot cut')
+    # --- the hitch pins, against the request: 7 of them, 16mm apart, 2mm
+    spots = pin_spots(face_o)
+    gaps = [B.seglen((0, a[1]), (0, b[1])) for a, b in zip(spots, spots[1:])]
+    note(len(spots) == 7 and all(abs(g - 16.0) < 1e-9 for g in gaps)
+         and abs(sum(q[1] for q in spots)) < 1e-9,
+         'the hitch pins are where they were asked',
+         f'{len(spots)} pins, {min(gaps):g} to {max(gaps):g}mm apart across '
+         f'the axis, centred on it')
+    reach = PIN_DIA  # the cross arms reach this far from the centre
+    in_block = min(min(B.pt_seg(q, u, v) for u, v in bedges) for q in spots)
+    note(all(B.in_poly(block, *q) for q in spots) and in_block >= reach + 5,
+         'every hitch pin lands in the block',
+         f'nearest pin centre {in_block:.1f}mm from the block\'s edge, so a '
+         f'{PIN_DIA:g}mm pin has {in_block - PIN_DIA / 2:.1f}mm of wood round it')
     deep = HITCH_LAYERS * B.THICK
     note(deep <= BORE, 'the laminated block fits between the cheeks',
          f'{HITCH_LAYERS} layers x {B.THICK:g}mm = {deep:g}mm in a '
@@ -631,14 +690,15 @@ def main(write=True):
         """
         cheeks, panels = plain_items(parts_, cheekpoly_, cline_)
         (ck,) = cheeks
+        face_o = faces(outer, hole)[0]
         front = dict(ck, slots=ck['slots'] + holes,
                      marks=lambda dx, dy: ck['marks'](dx, dy) + [
                          B.path([(float(a) + dx, float(b) + dy) for a, b in
                                  (t.split(',') for t in
                                   m[2:].split(' L '))], close=False)
-                         for m in marks],
+                         for m in marks] + pin_marks(face_o, dx, dy),
                      note='cheek A, the front - CUT THIS SHEET ONCE - carries '
-                          'the sound hole')
+                          'the sound hole and the hitch-pin marks')
         back = dict(ck, note='cheek B, the back - CUT THIS SHEET ONCE')
         return [front, back], panels
     B.items_for = items_for
@@ -777,6 +837,9 @@ def drawing(path):
     _, block = hitch_block(face_o)
     body.append(f'<path d="{d(block)}" fill="#d8b98b" fill-opacity="0.55" '
                 f'stroke="#7a5a36" stroke-width="0.5"/>')
+    for q in up(pin_spots(face_o)):
+        body.append(f'<circle cx="{q[0]:.2f}" cy="{q[1]:.2f}" '
+                    f'r="{PIN_DIA / 2:g}" fill="#3a3f44"/>')
     b_up = up(block)
     # just above the block's inner edge, in the open resonator
     body.append(f'<text x="{ax:.2f}" '
@@ -817,7 +880,8 @@ def drawing(path):
         f'Sound hole: the 2-lead 7-bight knot, r30, front cheek only, centred '
         f'on the axis 2/3 up the resonator.',
         f'Hitch-pin block: {HITCH_LAYERS} laminations, {HITCH_WIDTH:g}mm wide '
-        f'against the bottom wall over {HITCH_FACETS} facets.',
+        f'against the bottom wall over {HITCH_FACETS} facets; {PINS} '
+        f'{PIN_DIA:g}mm hitch pins {PIN_SPACING:g}mm apart.',
     ]
     for k, t in enumerate(notes):
         body.append(f'<text x="{x0:.2f}" y="{bot_o + 22 + 12 * k:.2f}" '
@@ -946,6 +1010,7 @@ const D = __DATA__;
     ['Sound hole', '7-bight knot, r30'],
     ['Knot centre', D.knot_up.toFixed(1)+' mm up (2/3)'],
     ['Hitch block', D.hitch_layers+' × '+D.t+' = '+(D.hitch_layers*D.t)+' mm'],
+    ['Hitch pins', D.pins.length+' × Ø'+D.pin[0]+', '+D.pin[1]+' mm apart'],
     ['Parts', '2 cheeks + '+D.panels.length+' panels + '+D.hitch_layers+' layers'],
   ];
   const dl = document.getElementById('spec');
@@ -1004,6 +1069,16 @@ const D = __DATA__;
     m.position.z = half - (k + 1) * t;
     edges(m, 0x5e4528, .5);
     block.add(m);
+  }
+  // hitch pins: through the front cheek into the block, standing proud
+  const pins = new THREE.Group(); frame.add(pins);
+  const pinMat = new THREE.MeshStandardMaterial({color:0xb8bec4, roughness:.35, metalness:.8});
+  for (const q of D.pins){
+    const g = new THREE.CylinderGeometry(D.pin[0]/2, D.pin[0]/2, 22, 16);
+    const m = new THREE.Mesh(g, pinMat);
+    m.rotation.x = Math.PI/2;
+    m.position.set(q[0]-cx, q[1]-cy, half + t + 11 - 14);
+    pins.add(m);
   }
   const walls = new THREE.Group(); frame.add(walls);
   const matO = new THREE.MeshStandardMaterial({color:0xb98f5e, roughness:.8});
@@ -1066,7 +1141,7 @@ const D = __DATA__;
   document.getElementById('b-reset').addEventListener('click', ()=>goTo(home));
   document.getElementById('b-front').addEventListener('click', ()=>goTo({yaw:0,pitch:0,dist:720}));
   const bind=(id,obj)=>document.getElementById(id).addEventListener('change',e=>{obj.visible=e.target.checked; render();});
-  bind('t-front',front); bind('t-back',back); bind('t-walls',walls); bind('t-block',block);
+  bind('t-front',front); bind('t-back',back); bind('t-walls',walls); bind('t-block',block); bind('t-block',pins);
   size();
 })();
 </script>
@@ -1102,6 +1177,8 @@ def render(path):
         'bore': BORE, 't': B.THICK,
         'hitch': [up(p) for p in hitch_block(faces(outer, hole)[0])[1][:-1]],
         'hitch_layers': HITCH_LAYERS,
+        'pins': [up(p) for p in pin_spots(faces(outer, hole)[0])],
+        'pin': [PIN_DIA, PIN_SPACING],
     }
     xs = [p[0] for p in data['rim']]
     ys = [p[1] for p in data['rim']]
