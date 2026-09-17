@@ -3,6 +3,7 @@
 
     python3 lyre_harp.py --no-write
     python3 lyre_harp.py --out=DIR/lyre-harp-....svg
+    python3 lyre_harp.py --drawing=DIR/lyre-harp-drawing.svg
 
 ribbon_bore.py builds every duct as two walls offset a fixed bore either side of
 ONE centreline, so its section is the same all the way round. This one is not.
@@ -553,16 +554,145 @@ def main(write=True):
     return 1 if bad else 0
 
 
+def drawing(path):
+    """The drawing the design started from, redrawn from the parts as cut.
+
+    Everything on it is read from the same build() the cut files come from --
+    the cheek's two rims, both walls' air faces, the knot where it is placed --
+    and the dimensions are measured off those, so the drawing cannot say one
+    size while the sheets cut another. Stood upright, arch at the top, the way
+    the sketch was drawn. Not a cut file.
+    """
+    outer, hole, parts = build()
+    rims = B.contours(cheek(outer, hole))
+    face_o, face_i = faces(outer, hole)
+    g = geometry()
+    (kx, ky), (lo, hi) = knot_centre()
+    knot_cut, knot_ink = knot_paths()
+
+    def up(pts):
+        """Laid down -> upright, arch at the top. A quarter TURN: swapping x
+        and y instead is a reflection, and drew the knot as its mirror image."""
+        return [(-y, x) for x, y in pts]
+
+    def d(pts, close=True):
+        return B.path(up(pts), close)
+
+    xs = [q[0] for r in rims for q in up(r)]
+    ys = [q[1] for r in rims for q in up(r)]
+    x0, x1, y0, y1 = min(xs), max(xs), min(ys), max(ys)
+    W, L = x1 - x0, y1 - y0
+    grey, blue = '#6b6b6b', '#1f6fb2'
+    m = 60.0
+    vb = (x0 - m, y0 - m, W + 2 * m + 70, L + 2 * m + 30)
+
+    def dim(a, b, text, tx, ty, rotate=False):
+        t = (f' transform="rotate(90 {tx:.2f} {ty:.2f})"' if rotate else '')
+        return (f'<line x1="{a[0]:.2f}" y1="{a[1]:.2f}" x2="{b[0]:.2f}" '
+                f'y2="{b[1]:.2f}" stroke="{grey}" stroke-width="0.4" '
+                f'marker-start="url(#ar)" marker-end="url(#ar)"/>'
+                f'<text x="{tx:.2f}" y="{ty:.2f}" text-anchor="middle"{t}>'
+                f'{text}</text>')
+
+    # measured, upright: arch apex at the top (small y), resonator below
+    ax = 0.0                                           # the long axis, x = 0
+    top_o, bot_o = y0, y1
+    f_up = up(face_o)
+    i_up = up(face_i)
+    hole_rim = min(rims, key=lambda r: sum(B.seglen(u, v)
+                                           for u, v in zip(r, r[1:])))
+    h_up = up(hole_rim)
+    hole_w = max(q[0] for q in h_up) - min(q[0] for q in h_up)
+    hole_top = min(q[1] for q in h_up)
+    side_band = min(q[0] for q in h_up) - x0
+    top_band = hole_top - top_o
+    k_up = up([(kx, ky)])[0]
+    reso_lo, reso_hi = -lo, -hi          # upright y of the air's bottom, top
+    band_y = hole_top + g['a'] + B.THICK + 0.6 * g['hs']   # on the parallel sides
+
+    body = []
+    for r in rims:
+        body.append(f'<path d="{d(r)}" fill="none" stroke="#111" '
+                    f'stroke-width="0.9"/>')
+    for f in (face_o, face_i):
+        body.append(f'<path d="{d(f)}" fill="none" stroke="{blue}" '
+                    f'stroke-width="0.5" stroke-dasharray="1.5 2"/>')
+    for loop in knot_cut:
+        body.append(f'<path d="{d([(x + kx, y + ky) for x, y in loop])}" '
+                    f'fill="#e9e2cf" stroke="#111" stroke-width="0.3"/>')
+    body.append(dim((x0, top_o - 22), (x1, top_o - 22), f'{W:.0f}',
+                    (x0 + x1) / 2, top_o - 27))
+    body.append(dim((x1 + 30, top_o), (x1 + 30, bot_o), f'{L:.0f}',
+                    x1 + 38, (top_o + bot_o) / 2, rotate=True))
+    hx0 = min(q[0] for q in h_up)
+    body.append(dim((hx0, band_y - 14), (hx0 + hole_w, band_y - 14),
+                    f'hole {hole_w:.0f}', ax, band_y - 19))
+    body.append(dim((x0, band_y), (hx0, band_y), f'{side_band:.0f}',
+                    (x0 + hx0) / 2, band_y - 4))
+    body.append(dim((x1 - side_band, band_y), (x1, band_y),
+                    f'{side_band:.0f}', x1 - side_band / 2, band_y - 4))
+    body.append(dim((ax, top_o), (ax, hole_top), f'{top_band:.0f}',
+                    ax + 9, (top_o + hole_top) / 2 + 3))
+    body.append(dim((ax - 70, reso_hi), (ax - 70, reso_lo),
+                    f'resonator {reso_lo - reso_hi:.0f}', ax - 78,
+                    (reso_hi + reso_lo) / 2, rotate=True))
+    body.append(dim((ax + 55, k_up[1]), (ax + 55, reso_lo),
+                    f'{reso_lo - k_up[1]:.1f} = 2/3', ax + 63,
+                    (k_up[1] + reso_lo) / 2, rotate=True))
+    body.append(f'<line x1="{ax - 40:.2f}" y1="{k_up[1]:.2f}" '
+                f'x2="{ax + 60:.2f}" y2="{k_up[1]:.2f}" stroke="{grey}" '
+                f'stroke-width="0.3" stroke-dasharray="4 2"/>')
+    notes = [
+        f'Lyre-harp frame, {W:.0f} x {L:.0f}mm, drawn from lyre_harp.py: the '
+        f'same build() as the cut files.',
+        f'Solid: the cheek\'s two rims as cut. Dotted blue: the faces the air '
+        f'touches.',
+        f'The duct is {BORE:g}mm deep throughout, {BORE:g}mm wide over the arch '
+        f'and down the sides ({side_band:.0f}mm outside),',
+        f'and opens below the hole into the resonator.',
+        f'Sound hole: the 2-lead 7-bight knot, r30, front cheek only, centred '
+        f'on the axis 2/3 up the resonator.',
+    ]
+    for k, t in enumerate(notes):
+        body.append(f'<text x="{x0:.2f}" y="{bot_o + 22 + 12 * k:.2f}" '
+                    f'font-size="8">{t}</text>')
+    svg = (f'<?xml version="1.0" encoding="UTF-8"?>\n'
+           f'<svg xmlns="http://www.w3.org/2000/svg" width="{vb[2]:.1f}mm" '
+           f'height="{vb[3] + 20:.1f}mm" viewBox="{vb[0]:.2f} {vb[1]:.2f} '
+           f'{vb[2]:.2f} {vb[3] + 20:.2f}" '
+           f'font-family="Helvetica, Arial, sans-serif" font-size="9" '
+           f'fill="{grey}">\n'
+           f'<title>Lyre-harp frame, {W:.0f} x {L:.0f}mm</title>\n'
+           f'<desc>Drawing for review, not a cut file. 1 unit = 1mm. Drawn '
+           f'from lyre_harp.py\'s build(), the geometry the cut files in '
+           f'lyre-harp-bore30-188x400mm/ come from.</desc>\n'
+           f'<defs><marker id="ar" viewBox="0 0 10 10" refX="5" refY="5" '
+           f'markerWidth="4" markerHeight="4" orient="auto-start-reverse">'
+           f'<path d="M0,2 L10,5 L0,8 z" fill="{grey}"/></marker></defs>\n'
+           f'<rect x="{vb[0]:.2f}" y="{vb[1]:.2f}" width="{vb[2]:.2f}" '
+           f'height="{vb[3] + 20:.2f}" fill="#ffffff"/>\n'
+           + '\n'.join(body) + '\n</svg>\n')
+    open(path, 'w').write(svg)
+    print(f'  drew {os.path.basename(path)}: {W:.1f} x {L:.1f}mm, hole '
+          f'{hole_w:.1f}, sides {side_band:.1f}, top {top_band:.1f}, '
+          f'resonator {reso_lo - reso_hi:.1f}, knot {reso_lo - k_up[1]:.1f} '
+          f'up')
+    return 0
+
+
 if __name__ == '__main__':
     a = sys.argv[1:]
     for x in a:
-        if not (x == '--no-write' or x.startswith('--out=')):
+        if not (x == '--no-write' or x.startswith(('--out=', '--drawing='))):
             raise SystemExit(f'error: {x} is not a flag this generator reads. '
-                             f'It takes --out= and --no-write.')
+                             f'It takes --out=, --drawing= and --no-write.')
     hit = [x for x in a if x.startswith('--out=')]
     if hit:
         OUT = hit[0].split('=', 1)[1]
     try:
+        dr = [x for x in a if x.startswith('--drawing=')]
+        if dr:
+            sys.exit(drawing(dr[0].split('=', 1)[1]))
         sys.exit(main(write='--no-write' not in a))
     except ValueError as e:
         print(f'error: {e}')
