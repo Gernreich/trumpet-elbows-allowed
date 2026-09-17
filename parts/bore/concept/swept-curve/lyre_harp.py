@@ -4,6 +4,7 @@
     python3 lyre_harp.py --no-write
     python3 lyre_harp.py --out=DIR/lyre-harp-....svg
     python3 lyre_harp.py --drawing=DIR/lyre-harp-drawing.svg
+    python3 lyre_harp.py --render=DIR/lyre-harp-....html
 
 ribbon_bore.py builds every duct as two walls offset a fixed bore either side of
 ONE centreline, so its section is the same all the way round. This one is not.
@@ -680,16 +681,65 @@ def drawing(path):
     return 0
 
 
+RENDER_PAGE = '<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>Lyre-Harp Frame</title>\n<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">\n<style>\n:root{\n  --ground:#e9edf0; --panel:#f6f8f9; --ink:#1d2328; --muted:#5b6770; --rule:#cdd5db;\n  --accent:#2f6b8a; --stage:#dfe5ea; --focus:#2f6b8a;\n  --ply:#d8b98b; --ply-edge:#a9835a; --ply-dark:#c39f6f;\n}\n@media (prefers-color-scheme: dark){\n  :root:not([data-theme="light"]){\n    --ground:#14181b; --panel:#1b2024; --ink:#e3e8ec; --muted:#93a0a9; --rule:#2c343a;\n    --accent:#7fb3cf; --stage:#101316; --focus:#7fb3cf;\n  }\n}\n:root[data-theme="dark"]{\n  --ground:#14181b; --panel:#1b2024; --ink:#e3e8ec; --muted:#93a0a9; --rule:#2c343a;\n  --accent:#7fb3cf; --stage:#101316; --focus:#7fb3cf;\n}\n*{box-sizing:border-box}\nbody{background:var(--ground);color:var(--ink);font:15px/1.5 "IBM Plex Mono",ui-monospace,Menlo,monospace;}\n.wrap{max-width:1180px;margin:0 auto;padding-inline:20px;padding-block:22px 36px;display:grid;gap:18px}\nheader h1{font:600 clamp(26px,4vw,38px)/1.05 "Barlow Semi Condensed","Arial Narrow",system-ui,sans-serif;letter-spacing:.01em;margin:0;text-wrap:balance}\nheader p{margin:6px 0 0;color:var(--muted);max-width:62ch;font-size:13.5px}\n.grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px;align-items:start}\n@media (max-width:860px){.grid{grid-template-columns:minmax(0,1fr)}}\n.stage{position:relative;background:var(--stage);border:1px solid var(--rule);border-radius:6px;overflow:hidden;aspect-ratio:4/5;max-height:78vh;width:100%;touch-action:none;cursor:grab}\n.stage:active{cursor:grabbing}\n.stage canvas{display:block;width:100%;height:100%}\n.hint{position:absolute;left:12px;bottom:10px;font-size:12px;color:var(--muted);pointer-events:none}\n.side{display:grid;gap:14px}\n.controls{display:flex;flex-wrap:wrap;gap:8px}\n.controls label,.controls button{font:500 13px "IBM Plex Mono",ui-monospace,monospace;color:var(--ink);background:var(--panel);border:1px solid var(--rule);border-radius:4px;padding:7px 10px;display:inline-flex;align-items:center;gap:7px;cursor:pointer}\n.controls input{accent-color:var(--accent);margin:0}\n.controls :focus-visible{outline:2px solid var(--focus);outline-offset:2px}\n.spec{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:14px 16px}\n.spec h2{font:600 17px/1.2 "Barlow Semi Condensed","Arial Narrow",system-ui,sans-serif;letter-spacing:.04em;text-transform:uppercase;margin:0 0 8px;color:var(--muted)}\n.spec dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:13px}\n.spec dt{color:var(--muted)}\n.spec dd{margin:0;text-align:right;font-variant-numeric:tabular-nums}\n.spec .note{margin:10px 0 0;font-size:12px;color:var(--muted);line-height:1.45}\n.key{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted)}\n.key span{display:inline-flex;align-items:center;gap:6px}\n.sw{width:12px;height:12px;border-radius:2px;display:inline-block;border:1px solid var(--rule)}\n</style>\n</head>\n<body>\n<div class="wrap">\n  <header>\n    <h1>Lyre-Harp Frame</h1>\n    <p>One closed duct, 30&nbsp;mm deep, in 3&nbsp;mm birch ply. Built from the same geometry as the cut files: two cheeks and 49 wall panels.</p>\n  </header>\n  <div class="grid">\n    <div class="stage" id="stage" aria-label="3D view of the lyre-harp frame. Drag to turn, scroll to zoom.">\n      <span class="hint">Drag to turn &middot; scroll or pinch to zoom</span>\n    </div>\n    <aside class="side">\n      <div class="controls">\n        <label for="t-front"><input type="checkbox" id="t-front" checked> Front cheek</label>\n        <label for="t-back"><input type="checkbox" id="t-back" checked> Back cheek</label>\n        <label for="t-walls"><input type="checkbox" id="t-walls" checked> Walls</label>\n        <button type="button" id="b-front">Front view</button>\n        <button type="button" id="b-reset">Reset view</button>\n      </div>\n      <div class="key">\n        <span><i class="sw" style="background:#d8b98b"></i>Cheeks</span>\n        <span><i class="sw" style="background:#b98f5e"></i>Outer wall</span>\n        <span><i class="sw" style="background:#8f6a44"></i>String-hole wall</span>\n      </div>\n      <section class="spec">\n        <h2>As cut</h2>\n        <dl id="spec"></dl>\n        <p class="note">Tabs, slots and engraving are left off the model. The front cheek carries the knot, and the back cheek is plain.</p>\n      </section>\n    </aside>\n  </div>\n</div>\n\n<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>\n<script>\nconst D = __DATA__;\n(function(){\n  const spec = [\n    [\'Outside\', D.size[0].toFixed(0)+\' × \'+D.size[1].toFixed(0)+\' mm\'],\n    [\'Duct depth\', D.bore+\' mm\'],\n    [\'Upper duct\', D.bore+\' × \'+D.bore+\' mm\'],\n    [\'Ply\', D.t+\' mm\'],\n    [\'String hole\', D.hole_w.toFixed(0)+\' mm wide\'],\n    [\'Resonator\', D.reso.toFixed(0)+\' mm along axis\'],\n    [\'Sound hole\', \'7-bight knot, r30\'],\n    [\'Knot centre\', D.knot_up.toFixed(1)+\' mm up (2/3)\'],\n    [\'Parts\', \'2 cheeks + \'+D.panels.length+\' panels\'],\n  ];\n  const dl = document.getElementById(\'spec\');\n  for (const [k,v] of spec){\n    const dt=document.createElement(\'dt\'); dt.textContent=k;\n    const dd=document.createElement(\'dd\'); dd.textContent=v;\n    dl.append(dt,dd);\n  }\n\n  const stage = document.getElementById(\'stage\');\n  if (!window.THREE){ stage.insertAdjacentHTML(\'beforeend\',\'<p style="padding:20px">The 3D library did not load. Reload the page to try again.</p>\'); return; }\n\n  const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});\n  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));\n  stage.prepend(renderer.domElement);\n  const scene = new THREE.Scene();\n  const camera = new THREE.PerspectiveCamera(32, 1, 1, 5000);\n\n  scene.add(new THREE.HemisphereLight(0xf4f1ea, 0x3a4550, 0.85));\n  const key = new THREE.DirectionalLight(0xffffff, 0.75); key.position.set(250, 400, 520); scene.add(key);\n  const rim = new THREE.DirectionalLight(0xbcd3e0, 0.35); rim.position.set(-400, -200, -300); scene.add(rim);\n\n  // centre the part on the origin\n  const xs = D.rim.map(p=>p[0]), ys = D.rim.map(p=>p[1]);\n  const cx = (Math.min(...xs)+Math.max(...xs))/2, cy = (Math.min(...ys)+Math.max(...ys))/2;\n  const P = p => new THREE.Vector2(p[0]-cx, p[1]-cy);\n\n  const frame = new THREE.Group(); scene.add(frame);\n  const half = D.bore/2, t = D.t;\n\n  function edges(mesh, color, opacity){\n    const e = new THREE.LineSegments(new THREE.EdgesGeometry(mesh.geometry, 25),\n      new THREE.LineBasicMaterial({color, transparent:true, opacity}));\n    mesh.add(e); return e;\n  }\n\n  function cheek(withKnot){\n    const shape = new THREE.Shape(D.rim.map(P));\n    shape.holes.push(new THREE.Path(D.hole.map(P)));\n    if (withKnot) for (const loop of D.knot) shape.holes.push(new THREE.Path(loop.map(P)));\n    const g = new THREE.ExtrudeGeometry(shape, {depth:t, bevelEnabled:false, curveSegments:1});\n    const m = new THREE.Mesh(g, new THREE.MeshStandardMaterial({color:0xd8b98b, roughness:.85, metalness:0}));\n    edges(m, 0x6d5233, .55);\n    return m;\n  }\n  const front = cheek(true);  front.position.z = half;\n  const back  = cheek(false); back.position.z = -half - t;\n  frame.add(front, back);\n\n  const walls = new THREE.Group(); frame.add(walls);\n  const matO = new THREE.MeshStandardMaterial({color:0xb98f5e, roughness:.8});\n  const matI = new THREE.MeshStandardMaterial({color:0x8f6a44, roughness:.8});\n  D.panels.forEach((q,i)=>{\n    const d = D.panels_dir[i];\n    const g = new THREE.BoxGeometry(q.len, t, D.bore);\n    const m = new THREE.Mesh(g, q.wall===\'outer\'?matO:matI);\n    m.position.set(q.x-cx, q.y-cy, 0);\n    m.rotation.z = Math.atan2(d.dy, d.dx);\n    edges(m, 0x4a3822, .45);\n    walls.add(m);\n  });\n\n  // view state\n  const home = {yaw:-0.62, pitch:0.38, dist:760};\n  let yaw=home.yaw, pitch=home.pitch, dist=home.dist;\n  const reduce = window.matchMedia(\'(prefers-reduced-motion: reduce)\').matches;\n  function place(){\n    frame.rotation.set(pitch, yaw, 0);\n    camera.position.set(0, 0, dist); camera.lookAt(0,0,0);\n  }\n  function size(){\n    const r = stage.getBoundingClientRect();\n    renderer.setSize(r.width, r.height, false);\n    camera.aspect = r.width/Math.max(r.height,1); camera.updateProjectionMatrix();\n    render();\n  }\n  function render(){ place(); renderer.render(scene, camera); }\n  new ResizeObserver(size).observe(stage);\n\n  const pts = new Map(); let pinch0 = 0, dist0 = dist;\n  stage.addEventListener(\'pointerdown\', e=>{ stage.setPointerCapture(e.pointerId); pts.set(e.pointerId,{x:e.clientX,y:e.clientY});\n    if (pts.size===2){ const [a,b]=[...pts.values()]; pinch0=Math.hypot(a.x-b.x,a.y-b.y); dist0=dist; } });\n  stage.addEventListener(\'pointermove\', e=>{\n    if (!pts.has(e.pointerId)) return;\n    const prev = pts.get(e.pointerId); pts.set(e.pointerId,{x:e.clientX,y:e.clientY});\n    if (pts.size===1){\n      yaw += (e.clientX-prev.x)*0.008;\n      pitch = Math.max(-1.45, Math.min(1.45, pitch + (e.clientY-prev.y)*0.008));\n    } else if (pts.size===2){\n      const [a,b]=[...pts.values()]; const d=Math.hypot(a.x-b.x,a.y-b.y);\n      if (pinch0) dist = Math.max(260, Math.min(1800, dist0*pinch0/d));\n    }\n    render();\n  });\n  const up = e=>{ pts.delete(e.pointerId); if (pts.size<2) pinch0=0; };\n  stage.addEventListener(\'pointerup\', up); stage.addEventListener(\'pointercancel\', up);\n  stage.addEventListener(\'wheel\', e=>{ e.preventDefault(); dist=Math.max(260,Math.min(1800,dist*(1+Math.sign(e.deltaY)*0.08))); render(); }, {passive:false});\n\n  function goTo(target){\n    if (reduce){ ({yaw,pitch,dist}=target); render(); return; }\n    const s={yaw,pitch,dist}, t0=performance.now();\n    (function step(now){\n      const k=Math.min(1,(now-t0)/450), e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;\n      yaw=s.yaw+(target.yaw-s.yaw)*e; pitch=s.pitch+(target.pitch-s.pitch)*e; dist=s.dist+(target.dist-s.dist)*e;\n      render(); if(k<1) requestAnimationFrame(step);\n    })(t0);\n  }\n  document.getElementById(\'b-reset\').addEventListener(\'click\', ()=>goTo(home));\n  document.getElementById(\'b-front\').addEventListener(\'click\', ()=>goTo({yaw:0,pitch:0,dist:720}));\n  const bind=(id,obj)=>document.getElementById(id).addEventListener(\'change\',e=>{obj.visible=e.target.checked; render();});\n  bind(\'t-front\',front); bind(\'t-back\',back); bind(\'t-walls\',walls);\n  size();\n})();\n</script>\n</body>\n</html>\n'
+
+
+def render(path):
+    """The interactive 3D page, from the same build() as the cut files.
+
+    Cheeks with their holes, the knot in the front one, and every panel as a
+    board at its own mid, angle and length. Written in upright coordinates, y
+    up, the way the drawing stands. three.js r128 from cdnjs draws it.
+    """
+    outer, hole, parts = build()
+    rims = B.contours(cheek(outer, hole))
+    rims.sort(key=lambda r: -sum(B.seglen(u, v) for u, v in zip(r, r[1:])))
+    (kx, ky), (lo, hi) = knot_centre()
+    kcut, _ = knot_paths()
+
+    def up(p):                         # laid -> upright, y up
+        return (round(-p[1], 3), round(-p[0], 3))
+    data = {
+        'rim': [up(p) for p in rims[0][:-1]],
+        'hole': [up(p) for p in rims[1][:-1]],
+        'knot': [[up((x + kx, y + ky)) for x, y in loop] for loop in kcut],
+        'panels': [{'x': up(q['mid'])[0], 'y': up(q['mid'])[1],
+                    'len': round(q['len'], 3), 'wall': q['wall'],
+                    'tag': q['tag']} for q in parts],
+        'panels_dir': [{'dx': round(-math.sin(q['ang']), 6),
+                        'dy': round(-math.cos(q['ang']), 6)} for q in parts],
+        'bore': BORE, 't': B.THICK,
+    }
+    xs = [p[0] for p in data['rim']]
+    ys = [p[1] for p in data['rim']]
+    data['size'] = [round(max(xs) - min(xs), 1), round(max(ys) - min(ys), 1)]
+    data['reso'] = round(hi - lo, 1)
+    data['knot_up'] = round(-kx - lo, 1)
+    data['hole_w'] = round(max(p[0] for p in data['hole'])
+                           - min(p[0] for p in data['hole']), 1)
+    import json
+    open(path, 'w').write(RENDER_PAGE.replace(
+        '__DATA__', json.dumps(data, separators=(',', ':'))))
+    print(f'  rendered {os.path.basename(path)}: {len(parts)} panels, '
+          f'{len(kcut)} knot cuts')
+    return 0
+
+
 if __name__ == '__main__':
     a = sys.argv[1:]
     for x in a:
-        if not (x == '--no-write' or x.startswith(('--out=', '--drawing='))):
+        if not (x == '--no-write'
+                or x.startswith(('--out=', '--drawing=', '--render='))):
             raise SystemExit(f'error: {x} is not a flag this generator reads. '
-                             f'It takes --out=, --drawing= and --no-write.')
+                             f'It takes --out=, --drawing=, --render= and '
+                             f'--no-write.')
     hit = [x for x in a if x.startswith('--out=')]
     if hit:
         OUT = hit[0].split('=', 1)[1]
     try:
+        rd = [x for x in a if x.startswith('--render=')]
+        if rd:
+            sys.exit(render(rd[0].split('=', 1)[1]))
         dr = [x for x in a if x.startswith('--drawing=')]
         if dr:
             sys.exit(drawing(dr[0].split('=', 1)[1]))
