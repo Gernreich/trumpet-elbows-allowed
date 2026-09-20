@@ -66,10 +66,23 @@ FIT = 0.20
 # Verified against the 0.20 sheets before the change: width +0.090mm and depth
 # +0.070mm of interference both ways, and the mortice even lands on the same
 # 2.80mm drawn depth.
-TIGHTEN = FIT - KERF            # 0.07, off the notch, both directions
-PLAY = B.PLAY_UNMEASURED - TIGHTEN / 2   # -0.01 a side. Read from ribbon_bore
-# rather than written out again: the clearance this is reducing is ITS number,
-# and a 0.025 copied to here would go on saying 0.025 after the original moved.
+# Functions, not constants, because --fit= moves FIT at run time and a value
+# worked out at import would go on answering for the old one. _PLAY0 is caught
+# at import instead, before build() overwrites B.PLAY_UNMEASURED with the
+# figure below -- read from ribbon_bore rather than written out again, since the
+# clearance this reduces is ITS number and a copied 0.025 would go on saying
+# 0.025 after the original moved.
+_PLAY0 = B.PLAY_UNMEASURED
+
+
+def tighten():
+    """Off the notch, both directions. 0.07 at FIT 0.20."""
+    return FIT - KERF
+
+
+def fit_play():
+    """Clearance a side, negative once the joint is an interference fit."""
+    return _PLAY0 - tighten() / 2
 BORE = 30.0          # duct depth everywhere; duct width over the arch and sides
 # The approved drawing, as proportions. Width against length is the drawing's
 # 391 : 831. The hole's bottom is scaled on the hole's own half-width, not on
@@ -246,8 +259,8 @@ def build():
     # in place would mean play() answered from whichever of B.BORE happened to
     # be set. Assigning absolutes, not adjusting, so a second build() in one
     # process cannot apply the tightening twice.
-    B.SLOT_TIGHTEN = TIGHTEN
-    B.PLAY_BY_BORE, B.PLAY_UNMEASURED = {}, PLAY
+    B.SLOT_TIGHTEN = tighten()
+    B.PLAY_BY_BORE, B.PLAY_UNMEASURED = {}, fit_play()
     # The FACES are drawn, and the walls follow from them. Drawn the other way
     # round -- wall centrelines on the circles, faces offset from them -- each
     # mitred vertex of the hole's face stood 1.5/cos(step/2) off its wall
@@ -1579,10 +1592,26 @@ if __name__ == '__main__':
     for x in a:
         if not (x == '--no-write'
                 or x.startswith(('--out=', '--drawing=', '--render=',
-                                 '--test='))):
+                                 '--test=', '--fit='))):
             raise SystemExit(f'error: {x} is not a flag this generator reads. '
                              f'It takes --out=, --drawing=, --render=, '
-                             f'--test= and --no-write.')
+                             f'--test=, --fit= and --no-write.')
+    # --fit= is the friction knob, for walking a test piece up to the fit that
+    # wants a mallet. It is the kerf the JOINTS are drawn as if cut at; the beam
+    # stays at the measured KERF and every line that is not a joint is unmoved.
+    ft = [x for x in a if x.startswith('--fit=')]
+    if ft:
+        try:
+            FIT = float(ft[-1].split('=', 1)[1])
+        except ValueError:
+            raise SystemExit(f'error: {ft[-1]} is not a number.')
+        # Below the kerf the notch would be drawn WIDER than the tooth, which is
+        # a clearance fit asked for in the language of an interference one.
+        if FIT < KERF:
+            raise SystemExit(
+                f'error: --fit={FIT:g} is under the {KERF:g}mm kerf, so it '
+                f'would loosen the joint, not tighten it. --fit={KERF:g} is '
+                f'the neutral value.')
     hit = [x for x in a if x.startswith('--out=')]
     if hit:
         OUT = hit[0].split('=', 1)[1]
