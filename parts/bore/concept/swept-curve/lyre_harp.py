@@ -89,6 +89,12 @@ PINS, PIN_SPACING, PIN_DIA = 7, 16.0, 2.0
 # pin at least, for wood to hold a pin that is turned; the span is then taken
 # out to the next facet midpoint, as the hitch block's is.
 TUNE_LAYERS, TUNE_EXTRA = 6, 15.0
+# --test cuts a piece of the arch to try the joints on before committing a
+# whole frame: the string-hole wall's panels TEST_FROM..TEST_TO, every outer
+# panel beside them, and a sector of the cheek for each side carrying their
+# mortices. TEST_MARGIN of cheek is left beyond the outermost mortice so the
+# rim has something to hold on to.
+TEST_FROM, TEST_TO, TEST_MARGIN = '4', 'A', 10.0
 
 
 def geometry():
@@ -811,6 +817,142 @@ def blocks_sheets(face_o, face_i, out_path, write, ink):
     return out
 
 
+def test_parts(parts):
+    """The panels the test piece is made of, and the arc they cover.
+
+    The inner run is named by tag, TEST_FROM to TEST_TO. The outer run is
+    whichever panels stand beside them: chosen by where they are, not by tag,
+    so the two walls cannot be named out of step with each other.
+    """
+    lo, hi = int(TEST_FROM, 16), int(TEST_TO, 16)
+    inner = [q for q in parts
+             if q['wall'] == 'inner' and lo <= int(q['tag'], 16) <= hi]
+    if not inner:
+        raise ValueError(f'no inner panel is tagged {TEST_FROM}..{TEST_TO}')
+    ends = [arch_angle(e) for q in inner
+            for e in (q['mid'],
+                      (q['mid'][0] + math.cos(q['ang']) * q['len'] / 2,
+                       q['mid'][1] + math.sin(q['ang']) * q['len'] / 2),
+                      (q['mid'][0] - math.cos(q['ang']) * q['len'] / 2,
+                       q['mid'][1] - math.sin(q['ang']) * q['len'] / 2))]
+    a0, a1 = min(ends), max(ends)
+    def spans(q):
+        """Where a panel starts and ends round the arch."""
+        return sorted(arch_angle((q['mid'][0] + sg * math.cos(q['ang'])
+                                  * q['len'] / 2,
+                                  q['mid'][1] + sg * math.sin(q['ang'])
+                                  * q['len'] / 2)) for sg in (-1, 1))
+    # every outer panel that OVERLAPS the arc, not only those whose middle
+    # falls in it: the two at the ends share their joint with the inner run
+    # ON THE ARCH, and overlapping the arc. Angles wrap at the resonator end,
+    # so a panel down there reads as an arch angle too and one joined the list.
+    outer = [q for q in parts if q['wall'] == 'outer' and q['mid'][0] < 0
+             and abs(arch_angle(q['mid'])) < math.pi / 2
+             and spans(q)[0] < a1 - 1e-9 and spans(q)[1] > a0 + 1e-9]
+    return inner + outer, (a0, a1)
+
+
+def test_cheek(rims, span, parts_here):
+    """A sector of the cheek over the arc, with room past the mortices."""
+    a0, a1 = span
+    r_hole = min(rims, key=lambda r: sum(B.seglen(u, v)
+                                         for u, v in zip(r, r[1:])))
+    r_out = max(rims, key=lambda r: sum(B.seglen(u, v)
+                                        for u, v in zip(r, r[1:])))
+    grow = TEST_MARGIN / (geometry()['A'] - B.THICK)      # margin, as an angle
+    lo, hi = a0 - grow, a1 + grow
+
+    def run(face):
+        inside = sorted((q for q in face[:-1] if lo < arch_angle(q) < hi
+                         and q[0] < 0), key=arch_angle)
+        edge = [ray_hit(face, lo)] + inside + [ray_hit(face, hi)]
+        return [q for k, q in enumerate(edge)
+                if k == 0 or B.seglen(edge[k - 1], q) > 1e-9]
+    out_edge, hole_edge = run(r_out), run(r_hole)
+    return out_edge + hole_edge[::-1] + [out_edge[0]]
+
+
+def test_sheet(parts, rims, out_path, write, ink):
+    """The whole test piece on one sheet: two cheek sectors and the panels."""
+    here, span = test_parts(parts)
+    sector = test_cheek(rims, span, here)
+    slots = [sl for q in here for sl in B.slots_for(q)]
+    items = []
+    for k in ('A', 'B'):
+        def marks(dx, dy, _k=k, _p=here):
+            m = B.label(_k, min(q[0] for q in sector) + 24 + dx,
+                        dy, 4.0, math.pi / 2)
+            for q in _p:
+                ox, oy = q['out']
+                m += B.label(q['tag'], q['mid'][0] - ox * 5.5 + dx,
+                             q['mid'][1] - oy * 5.5 + dy, 2.0, q['ang'])
+            return m
+        items.append({'outline': sector, 'slots': slots, 'marks': marks})
+    for q in here:
+        w = q['len'] + B.BURN
+        h2 = (BORE + 2 * B.THICK + B.BURN) / 2
+        poly = [(px + w / 2, py + h2)
+                for px, py in B.panel(q['len'], q.get('teeth'))]
+
+        def panel_marks(dx, dy, _t=q['tag'], _w=w, _h=h2):
+            return B.label(_t, _w / 2 + dx, _h + dy, 3.2)
+        items.append({'outline': poly, 'slots': [], 'marks': panel_marks})
+    stem_, ext = os.path.splitext(out_path)
+    name = f'{stem_}-test-arch-{TEST_FROM}to{TEST_TO}-cut-files{ext}'
+    n_in = sum(1 for q in here if q['wall'] == 'inner')
+    note = (f'ARCH TEST PIECE - 2 cheek sectors, {n_in} string-hole panels '
+            f'{TEST_FROM}-{TEST_TO} and {len(here) - n_in} outer panels')
+    written = []
+    for n, placed in enumerate(B.pack(items), 1):
+        path_here = name if n == 1 else name.replace('-cut-files',
+                                                     f'-sheet{n}-cut-files')
+        marks, holes, cuts = [], [], []
+        for it, dx, dy in placed:
+            there = [(q[0] + dx, q[1] + dy) for q in it['outline']]
+            cuts.append(B.path(there))
+            for sl in it['slots']:
+                holes.append(B.path([(q[0] + dx, q[1] + dy) for q in sl]))
+            for d in it['marks'](dx, dy):
+                marks.append(d)
+                for tok in d.replace('M ', '').split(' L '):
+                    a, b = tok.strip().split(',')
+                    ink.append((float(a), float(b), there, path_here))
+        W = max(B.bbox(it['outline'])[2] + dx for it, dx, dy in placed) + B.MARGIN_S
+        H = max(B.bbox(it['outline'])[3] + dy for it, dx, dy in placed) + B.MARGIN_S
+
+        def grp(ds, col, gid):
+            return (f'  <g id="{gid}" fill="none" stroke="{col}" '
+                    f'stroke-width="0.2">\n'
+                    + '\n'.join(f'    <path d="{d}"/>' for d in ds)
+                    + '\n  </g>\n') if ds else ''
+        body = (f'<?xml version="1.0" encoding="utf-8"?>\n'
+                f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.2f}mm" '
+                f'height="{H:.2f}mm" viewBox="0 0 {W:.2f} {H:.2f}">\n'
+                f'<title>Lyre-harp frame - {note}</title>\n'
+                f'<desc>1 user unit = 1mm. {note}. A slice of the arch, cut to '
+                f'try the finger joints before committing a whole frame: the '
+                f'panels stand between the two sectors exactly as they do in '
+                f'the instrument, {BORE:g}mm apart. Sector A and sector B are '
+                f'the same part. {B.THICK:g}mm ply, slots for a {B.SHEET:g}mm '
+                f'sheet at {KERF:g}mm kerf, {B.play():g}mm play a side. Blue '
+                f'#0000ff engraves, orange #ff8000 cuts the slots first, black '
+                f'#000000 frees the parts.</desc>\n'
+                + grp(marks, B.MARK, 'numbers') + grp(holes, B.INNER, 'slots')
+                + grp(cuts, B.CUT, 'outlines') + '</svg>\n')
+        if write:
+            open(path_here, 'w').write(body)
+        written.append((os.path.basename(path_here), W, H, len(placed), note))
+    # every mortice has to sit in the sector, as on the whole cheek
+    rim = [(sector[i], sector[i + 1]) for i in range(len(sector) - 1)]
+    off = sum(1 for sl in slots for q in sl
+              if not (B.inside(sector, *q)
+                      or min(B.pt_seg(q, u, v) for u, v in rim) <= B.BURN / 2))
+    if off:
+        raise ValueError(f'{off} mortice corner(s) fall outside the test '
+                         f'sector; raise TEST_MARGIN')
+    return written
+
+
 def stem():
     g = geometry()
     return (f'lyre-harp-bore{BORE:g}-{2 * g["A"]:.0f}x{LENGTH:g}mm'
@@ -931,6 +1073,24 @@ def main(write=True):
     elif write:
         print(f'\n  wrote {len(written)} file(s)')
     return 1 if bad else 0
+
+
+def test_piece(path):
+    """Write the arch test piece on its own, without the whole frame."""
+    outer, hole, parts = build()
+    rims = B.contours(cheek(outer, hole))
+    ink = []
+    written = test_sheet(parts, rims, path, True, ink)
+    here, span = test_parts(parts)
+    print(f'lyre-harp arch test   panels {TEST_FROM}-{TEST_TO} of the string '
+          f'hole wall and the {sum(1 for q in here if q["wall"] == "outer")} '
+          f'outer panels beside them')
+    print(f'  {math.degrees(span[1] - span[0]):.0f} degrees of arch, '
+          f'{TEST_MARGIN:g}mm of cheek past the outermost mortice, '
+          f'{KERF:g}mm kerf')
+    for name, w, h, k, note in written:
+        print(f'    {name:<58}{k:>3} parts  {w:.0f} x {h:.0f}mm')
+    return 0
 
 
 def drawing(path):
@@ -1384,14 +1544,18 @@ if __name__ == '__main__':
     a = sys.argv[1:]
     for x in a:
         if not (x == '--no-write'
-                or x.startswith(('--out=', '--drawing=', '--render='))):
+                or x.startswith(('--out=', '--drawing=', '--render=',
+                                 '--test='))):
             raise SystemExit(f'error: {x} is not a flag this generator reads. '
-                             f'It takes --out=, --drawing=, --render= and '
-                             f'--no-write.')
+                             f'It takes --out=, --drawing=, --render=, '
+                             f'--test= and --no-write.')
     hit = [x for x in a if x.startswith('--out=')]
     if hit:
         OUT = hit[0].split('=', 1)[1]
     try:
+        ts = [x for x in a if x.startswith('--test=')]
+        if ts:
+            sys.exit(test_piece(ts[0].split('=', 1)[1]))
         rd = [x for x in a if x.startswith('--render=')]
         if rd:
             sys.exit(render(rd[0].split('=', 1)[1]))
