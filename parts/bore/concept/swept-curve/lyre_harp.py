@@ -51,8 +51,15 @@ LENGTH = 400.0       # outer outline, end to end
 # with them. So the kerf goes back to the truth and the interference moves to
 # the two constants that exist for it, leaving the joints exactly where 0.20 put
 # them. FIT is the kerf the JOINTS are cut as if, and nothing else reads it.
+#
+# 0.20 -> 0.25 the same day, on the author's instruction: they are after a
+# FRICTION FIT, one that needs a rubber mallet to close, and are walking the
+# test piece up to it. That is +0.19mm of interference along the tooth and
+# +0.12 across the ply, against +0.09 and +0.07 at 0.20. Use --fit= to try a
+# value; move this default when one is to be cut, so the sheets on disk and
+# the number in the source never disagree about what is on the bench.
 KERF = 0.13
-FIT = 0.20
+FIT = 0.25
 # Why those two lines below, and not one. Write D = FIT - KERF. Along the tooth
 # BOTH sides of the joint are drawn, so overstating the kerf fattens the tab by
 # D and thins the notch by D: 2D of interference. Across the ply only the notch
@@ -822,7 +829,8 @@ def lamination_sheet(tag, block, layers, spot, note, what, out_path, write,
                 f'<desc>1 user unit = 1mm. {note}. {layers} identical '
                 f'laminations of {B.THICK:g}mm ply, {layers * B.THICK:g}mm '
                 f'glued up. {what} Drawn {B.BURN / 2:g}mm oversize for a '
-                f'{B.BURN:g}mm kerf. Blue #0000ff engraves, black #000000 '
+                f'{B.BURN:g}mm kerf, joints cut to the fit of {FIT:g}. '
+                f'Blue #0000ff engraves, black #000000 '
                 f'cuts.</desc>\n'
                 + grp(marks, B.MARK, 'numbers') + grp(cuts, B.CUT, 'outlines')
                 + '</svg>\n')
@@ -1072,7 +1080,8 @@ def main(write=True):
                 f'resonator. {len(parts)} wall panels, numbered round each '
                 f'wall; each cheek slot carries its panel\'s number. '
                 f'{B.THICK:g}mm ply, slots for a {B.SHEET:g}mm sheet at '
-                f'{B.BURN:g}mm kerf. Blue #0000ff engraves, orange #ff8000 '
+                f'{B.BURN:g}mm kerf, joints cut to the fit of {FIT:g}. '
+                f'Blue #0000ff engraves, orange #ff8000 '
                 f'cuts the slots first, black #000000 frees the parts.</desc>',
                 body, count=1, flags=re.S)
             open(f, 'w').write(body)
