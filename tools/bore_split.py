@@ -79,6 +79,19 @@ DIRS = {'E': (1, 0, 0), 'W': (-1, 0, 0), 'U': (0, 1, 0),
 # FingerJointSettings -- by redrawing every design with repro.py at both
 # revisions: 64 of 64 byte-identical, so nothing in them reaches the geometry.
 # If that stops being true, repro.py is what says so.
+#
+# CHECKED AGAIN 2026-09-20, five commits behind at upstream 7a6ccc4, the same
+# way: 62 reproduce and 6 frozen at both revisions, so again nothing reaches
+# the geometry. The checkout is DELIBERATELY LEFT at 7d1a89d anyway, because
+# upstream's tip does not run from a plain checkout at all. 7a6ccc4 "chore:
+# migrate to pathlib" rewrote the sys.path line in boxes_main.py, boxesserver.py
+# and boxes_generator.py as Path(__file__).resolve().parent.parent -- but
+# scripts/boxes is a SYMLINK to boxes/scripts/boxes_main.py, and .parent already
+# means the directory, so that lands on boxes/ instead of the checkout root and
+# every generator dies with "No module named 'boxes'". The old
+# dirname(realpath(__file__)) + "../.." went up two from the directory and was
+# right. .parents[2] is the fix. Upstream CI misses it because an installed-
+# package layout puts boxes on sys.path anyway. Pull only with that patched.
 CANDIDATES = ('~/Software/boxes', '~/boxes')
 BOXES = os.environ.get('SNAKEBOX_BOXES') or next(
     (p for p in (os.path.expanduser(c) for c in CANDIDATES)
