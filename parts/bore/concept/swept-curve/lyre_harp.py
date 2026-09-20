@@ -38,6 +38,14 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import ribbon_bore as B                                        # noqa: E402
 
 LENGTH = 400.0       # outer outline, end to end
+# KERF, the full width the laser takes out, for THIS instrument only.
+# ribbon_bore.py's own 0.15 is what every trumpet design in the repository was
+# cut at, and those sheets are the record of parts already on the bench, so
+# raising it there would rewrite them. The lyre-harp test came off the bed with
+# LOOSE FINGER JOINTS, so it is cut at 0.17 (2026-09-20, on the author's
+# instruction): a wider kerf draws each tab wider and each mortice narrower,
+# 0.01mm a side either way, which is 0.04mm of interference a joint.
+KERF = 0.17
 BORE = 30.0          # duct depth everywhere; duct width over the arch and sides
 # The approved drawing, as proportions. Width against length is the drawing's
 # 391 : 831. The hole's bottom is scaled on the hole's own half-width, not on
@@ -201,6 +209,7 @@ def turn(poly, k):
 def build():
     """The two wall centrelines and every panel on them."""
     B.BORE, B.NARROW, B.PORT, B.PORT_AT = BORE, NARROW, False, None
+    B.BURN = KERF
     # The FACES are drawn, and the walls follow from them. Drawn the other way
     # round -- wall centrelines on the circles, faces offset from them -- each
     # mitred vertex of the hole's face stood 1.5/cos(step/2) off its wall
@@ -892,6 +901,7 @@ def main(write=True):
           f'{g["sag"]:.1f}mm')
     print(f'  band {g["band"]:g}mm over the arch and sides; resonator below '
           f'the hole')
+    print(f'  {B.THICK:g}mm ply, {KERF:g}mm kerf, {B.play():g}mm play a side')
     print(f'  hitch-pin block: {HITCH_LAYERS} laminations x {B.THICK:g}mm = '
           f'{HITCH_LAYERS * B.THICK:g}mm, {HITCH_WIDTH:g}mm wide over '
           f'{HITCH_FACETS} facets of the bottom wall')
