@@ -74,6 +74,13 @@ HITCH_FACETS, HITCH_WIDTH, HITCH_LAYERS = 8, 30.0, 6
 # it -- as drilling marks, not cut: a hole cut in the cheek alone would not
 # guide a drill on into the block.
 PINS, PIN_SPACING, PIN_DIA = 7, 16.0, 2.0
+# The tuning-pin block, the hitch block's opposite number at the arch. It fills
+# the duct there -- BORE wide, touching the outer wall's face and the string
+# hole's -- and carries one tuning pin per string, each in line across the
+# instrument with its hitch pin below. It runs TUNE_EXTRA past the outermost
+# pin at least, for wood to hold a pin that is turned; the span is then taken
+# out to the next facet midpoint, as the hitch block's is.
+TUNE_LAYERS, TUNE_EXTRA = 6, 15.0
 
 
 def geometry():
@@ -374,6 +381,87 @@ def pin_marks(face_o, dx=0.0, dy=0.0):
     return out
 
 
+def arch_angle(p):
+    """Where a point stands round the arch: 0 on the long axis, + towards +y.
+
+    Laid down, the arch's centre is the origin and the arch itself is at
+    negative x, so the axis points that way.
+    """
+    return math.atan2(p[1], -p[0])
+
+
+def ray_hit(poly, phi):
+    """Where the ray from the arch's centre at angle phi crosses a face."""
+    dx, dy = -math.cos(phi), math.sin(phi)
+    for a, b in zip(poly, poly[1:]):
+        ux, uy = b[0] - a[0], b[1] - a[1]
+        den = dx * uy - dy * ux
+        if abs(den) < 1e-12:
+            continue
+        t = (dy * a[0] - dx * a[1]) / den
+        if -1e-12 <= t <= 1 + 1e-12:
+            q = (a[0] + ux * t, a[1] + uy * t)
+            if q[0] * dx + q[1] * dy > 0:          # ahead of the centre
+                return q
+    raise ValueError(f'no face at {math.degrees(phi):.1f} degrees round the arch')
+
+
+def tune_span():
+    """Half the block's angle: past the outermost pin, out to a facet mid."""
+    g = geometry()
+    r_mid = g['A'] - B.THICK - BORE / 2
+    u = (PINS - 1) / 2 * PIN_SPACING
+    need = math.asin(u / r_mid) + TUNE_EXTRA / r_mid
+    step = math.radians(FACET)
+    return math.ceil(need / step - 1e-9) * step
+
+
+def tuning_block(face_o, face_i):
+    """One lamination of the tuning-pin block, laid down, true size.
+
+    Both edges are the walls' own faces over the span, so the block touches
+    the outer wall and the string hole's wall and is the duct's width between
+    them. The ends are radial, cut where the span's rays cross each face.
+    """
+    phi = tune_span()
+
+    def run(face):
+        inside = sorted((q for q in face[:-1] if abs(arch_angle(q)) < phi
+                         and q[0] < 0), key=arch_angle)
+        edge = [ray_hit(face, -phi)] + inside + [ray_hit(face, phi)]
+        # The string hole's wall has a vertex every FACET from the axis, so a
+        # span that is a whole number of facets ends ON one and the list holds
+        # it twice. A zero-length run has no direction to offset along, and the
+        # kerf offset came back as a spike 300mm long.
+        return [q for k, q in enumerate(edge)
+                if k == 0 or B.seglen(edge[k - 1], q) > 1e-9]
+    outer_edge, inner_edge = run(face_o), run(face_i)
+    return outer_edge, outer_edge + inner_edge[::-1] + [outer_edge[0]]
+
+
+def tune_spots():
+    """Each tuning pin: across the axis like its hitch pin, mid-band."""
+    g = geometry()
+    r_mid = g['A'] - B.THICK - BORE / 2
+    out = []
+    for k in range(PINS):
+        u = (k - (PINS - 1) / 2) * PIN_SPACING
+        out.append((-math.sqrt(r_mid ** 2 - u ** 2), u))
+    return out
+
+
+def tune_marks(dx=0.0, dy=0.0):
+    """Drilling marks for the tuning pins: a cross, no circle -- the pin's
+    diameter is the tuner's to choose, and a ring drawn at a guess would be
+    read as the hole to drill."""
+    out = []
+    for x, y in tune_spots():
+        x, y = x + dx, y + dy
+        out.append(B.path([(x - 3.0, y), (x + 3.0, y)], close=False))
+        out.append(B.path([(x, y - 3.0), (x, y + 3.0)], close=False))
+    return out
+
+
 def checks(outer, hole, parts, cheekpoly, written, ink, cut_slots):
     res = []
 
@@ -578,6 +666,41 @@ def checks(outer, hole, parts, cheekpoly, written, ink, cut_slots):
          'every hitch pin lands in the block',
          f'nearest pin centre {in_block:.1f}mm from the block\'s edge, so a '
          f'{PIN_DIA:g}mm pin has {in_block - PIN_DIA / 2:.1f}mm of wood round it')
+    # --- the tuning-pin block
+    t_edge, t_block = tuning_block(face_o, face_i)
+    inner_edge = t_block[len(t_edge):-1]
+    o_edges = list(zip(face_o, face_o[1:]))
+    i_edges = list(zip(face_i, face_i[1:]))
+    on_o = max(min(B.pt_seg(q, u, v) for u, v in o_edges)
+               for q in seg_pts(t_edge))
+    on_i = max(min(B.pt_seg(q, u, v) for u, v in i_edges)
+               for q in seg_pts(inner_edge))
+    note(max(on_o, on_i) < 1e-6, 'the tuning block touches both walls',
+         f'{on_o:.1e}mm off the outer wall face, {on_i:.1e}mm off the string '
+         f'hole\'s')
+    across = min(min(B.pt_seg(q, u, v) for u, v in zip(inner_edge, inner_edge[1:]))
+                 for q in seg_pts(t_edge))
+    note(abs(across - BORE) < 1e-6, 'the tuning block is the duct\'s width',
+         f'{across:.4f}mm wall face to wall face, against {BORE:g}')
+    t_spots = tune_spots()
+    aligned = all(abs(a[1] - b[1]) < 1e-9 for a, b in zip(t_spots, spots))
+    note(len(t_spots) == PINS and aligned,
+         'every tuning pin lines up with its hitch pin',
+         f'{len(t_spots)} pins, each within 1e-9mm across the axis of the pin '
+         f'below it')
+    t_edges = list(zip(t_block, t_block[1:]))
+    hold = min(min(B.pt_seg(q, u, v) for u, v in t_edges) for q in t_spots)
+    ends = [t_block[0], t_edge[-1]]
+    past = min(B.seglen(q, e) for q in (t_spots[0], t_spots[-1]) for e in ends)
+    note(all(B.in_poly(t_block, *q) for q in t_spots) and past >= TUNE_EXTRA,
+         'the tuning block runs past the outermost pins',
+         f'{past:.1f}mm from the end pin to the nearest end, against '
+         f'{TUNE_EXTRA:g}; {hold:.1f}mm of wood round the tightest pin')
+    t_deep = TUNE_LAYERS * B.THICK
+    note(t_deep <= BORE, 'the tuning block fits between the cheeks',
+         f'{TUNE_LAYERS} layers x {B.THICK:g}mm = {t_deep:g}mm in a '
+         f'{BORE:g}mm duct')
+
     deep = HITCH_LAYERS * B.THICK
     note(deep <= BORE, 'the laminated block fits between the cheeks',
          f'{HITCH_LAYERS} layers x {B.THICK:g}mm = {deep:g}mm in a '
@@ -592,30 +715,29 @@ def checks(outer, hole, parts, cheekpoly, written, ink, cut_slots):
     return res
 
 
-def hitch_sheet(face_o, out_path, write, ink):
-    """The laminations on a sheet of their own, numbered 1 to HITCH_LAYERS.
+def lamination_sheet(tag, block, layers, spot, note, what, out_path, write,
+                     ink):
+    """One block's laminations on a sheet of their own, numbered 1 to layers.
 
-    Drawn BURN/2 outside the true outline, as ribbon_bore draws every part,
-    so the layers come off the bed at size and sit snug against the wall.
+    Drawn BURN/2 outside the true outline, as ribbon_bore draws every part, so
+    the layers come off the bed at size and sit snug against the walls. Both
+    blocks are written by this, because they differ in nothing but their shape
+    and what the sheet says about them.
     """
-    _, block = hitch_block(face_o)
     cut = away(block, B.BURN / 2, True)
     cut[-1] = cut[0]
-    # the number goes in the middle of the band, on the axis
-    edge_mid = (max(q[0] for q in block), 0.0)
-    spot = (edge_mid[0] - HITCH_WIDTH / 2, 0.0)
     items = []
-    for k in range(1, HITCH_LAYERS + 1):
+    for k in range(1, layers + 1):
         def marks(dx, dy, _k=k):
             return B.label(f'{_k:X}', spot[0] + dx, spot[1] + dy, 5.0,
                            math.pi / 2)
         items.append({'outline': cut, 'slots': [], 'marks': marks})
     stem_, ext = os.path.splitext(out_path)
-    name = f'{stem_}-hitch-block-cut-files{ext}'
+    name = f'{stem_}-{tag}-cut-files{ext}'
     written = []
     for n, placed in enumerate(B.pack(items), 1):
         path_here = name if n == 1 else name.replace('-cut-files',
-                                                      f'-sheet{n}-cut-files')
+                                                     f'-sheet{n}-cut-files')
         marks, cuts = [], []
         for it, dx, dy in placed:
             here = [(q[0] + dx, q[1] + dy) for q in it['outline']]
@@ -627,8 +749,6 @@ def hitch_sheet(face_o, out_path, write, ink):
                     ink.append((float(a), float(b), here, path_here))
         W = max(B.bbox(it['outline'])[2] + dx for it, dx, dy in placed) + B.MARGIN_S
         H = max(B.bbox(it['outline'])[3] + dy for it, dx, dy in placed) + B.MARGIN_S
-        note = (f'the hitch-pin block - {HITCH_LAYERS} laminations, glue them '
-                f'in number order')
 
         def grp(ds, col, gid):
             return (f'  <g id="{gid}" fill="none" stroke="{col}" '
@@ -638,21 +758,48 @@ def hitch_sheet(face_o, out_path, write, ink):
         body = (f'<?xml version="1.0" encoding="utf-8"?>\n'
                 f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.2f}mm" '
                 f'height="{H:.2f}mm" viewBox="0 0 {W:.2f} {H:.2f}">\n'
-                f'<title>Lyre-harp frame, hitch-pin block - {note}</title>\n'
-                f'<desc>1 user unit = 1mm. {HITCH_LAYERS} identical '
-                f'laminations of {B.THICK:g}mm ply, {HITCH_LAYERS * B.THICK:g}mm '
-                f'glued up. The long curved edge lies against the inside of the '
-                f'bottom wall over {HITCH_FACETS} facets; the block is '
-                f'{HITCH_WIDTH:g}mm wide from it. The hitch pins go through the '
-                f'bottom wall into it. Drawn {B.BURN / 2:g}mm oversize for a '
-                f'{B.BURN:g}mm kerf. Blue #0000ff engraves, black #000000 cuts.'
-                f'</desc>\n'
+                f'<title>Lyre-harp frame, {note}</title>\n'
+                f'<desc>1 user unit = 1mm. {note}. {layers} identical '
+                f'laminations of {B.THICK:g}mm ply, {layers * B.THICK:g}mm '
+                f'glued up. {what} Drawn {B.BURN / 2:g}mm oversize for a '
+                f'{B.BURN:g}mm kerf. Blue #0000ff engraves, black #000000 '
+                f'cuts.</desc>\n'
                 + grp(marks, B.MARK, 'numbers') + grp(cuts, B.CUT, 'outlines')
                 + '</svg>\n')
         if write:
             open(path_here, 'w').write(body)
         written.append((os.path.basename(path_here), W, H, len(placed), note))
     return written
+
+
+def blocks_sheets(face_o, face_i, out_path, write, ink):
+    """Both laminated blocks, a sheet each."""
+    _, hitch = hitch_block(face_o)
+    spot = (max(q[0] for q in hitch) - HITCH_WIDTH / 2, 0.0)
+    out = lamination_sheet(
+        'hitch-block', hitch, HITCH_LAYERS, spot,
+        f'the hitch-pin block - {HITCH_LAYERS} laminations, glue them in '
+        f'number order',
+        f'The long curved edge lies against the inside of the bottom wall over '
+        f'{HITCH_FACETS} facets; the block is {HITCH_WIDTH:g}mm wide from it. '
+        f'The {PINS} hitch pins go through the front cheek into it, '
+        f'{PIN_SPACING:g}mm apart.',
+        out_path, write, ink)
+    t_edge, tune = tuning_block(face_o, face_i)
+    g = geometry()
+    spot = (-(g['A'] - B.THICK - BORE / 2), 0.0)
+    out += lamination_sheet(
+        'tuning-block', tune, TUNE_LAYERS, spot,
+        f'the tuning-pin block - {TUNE_LAYERS} laminations, glue them in '
+        f'number order',
+        f'It fills the duct at the arch, touching the outer wall and the '
+        f'string hole\'s wall, {BORE:g}mm between them, and runs '
+        f'{2 * math.degrees(tune_span()):.0f} degrees round the arch. The '
+        f'{PINS} tuning pins go through the front cheek into it, '
+        f'{PIN_SPACING:g}mm apart, each in line across the instrument with '
+        f'its hitch pin.',
+        out_path, write, ink)
+    return out
 
 
 def stem():
@@ -696,9 +843,11 @@ def main(write=True):
                          B.path([(float(a) + dx, float(b) + dy) for a, b in
                                  (t.split(',') for t in
                                   m[2:].split(' L '))], close=False)
-                         for m in marks] + pin_marks(face_o, dx, dy),
-                     note='cheek A, the front - CUT THIS SHEET ONCE - carries '
-                          'the sound hole and the hitch-pin marks')
+                         for m in marks] + pin_marks(face_o, dx, dy)
+                     + tune_marks(dx, dy),
+                     note='cheek A, the front - CUT THIS SHEET ONCE - '
+                          'carries the sound hole and the marks for the hitch '
+                          'and tuning pins')
         back = dict(ck, note='cheek B, the back - CUT THIS SHEET ONCE')
         return [front, back], panels
     B.items_for = items_for
@@ -732,7 +881,7 @@ def main(write=True):
                 body, count=1, flags=re.S)
             open(f, 'w').write(body)
 
-    written += hitch_sheet(faces(outer, hole)[0], out_path, write, ink)
+    written += blocks_sheets(*faces(outer, hole), out_path, write, ink)
 
     n_in = sum(1 for q in parts if q['wall'] == 'inner')
     print(f'lyre-harp frame   {BORE:g}mm bore, {2 * g["A"]:.1f} x {LENGTH:g}mm')
@@ -746,9 +895,15 @@ def main(write=True):
     print(f'  hitch-pin block: {HITCH_LAYERS} laminations x {B.THICK:g}mm = '
           f'{HITCH_LAYERS * B.THICK:g}mm, {HITCH_WIDTH:g}mm wide over '
           f'{HITCH_FACETS} facets of the bottom wall')
+    print(f'  tuning-pin block: {TUNE_LAYERS} laminations x {B.THICK:g}mm = '
+          f'{TUNE_LAYERS * B.THICK:g}mm, the duct\'s {BORE:g}mm wide over '
+          f'{2 * math.degrees(tune_span()):.0f} degrees of the arch')
+    print(f'  {PINS} strings: hitch and tuning pins {PIN_SPACING:g}mm apart, '
+          f'marked on cheek A')
     print(f'  {n_in} inner + {len(parts) - n_in} outer panels + 2 cheeks + '
-          f'{HITCH_LAYERS} laminations = {len(parts) + 2 + HITCH_LAYERS} '
-          f'parts, {len(written)} sheets')
+          f'{HITCH_LAYERS} + {TUNE_LAYERS} laminations = '
+          f'{len(parts) + 2 + HITCH_LAYERS + TUNE_LAYERS} parts, '
+          f'{len(written)} sheets')
     for name, w, h, k, note in written:
         print(f'    {name:<58}{k:>3} parts  {w:.0f} x {h:.0f}mm  {note}')
     bad = 0
@@ -837,13 +992,22 @@ def drawing(path):
     _, block = hitch_block(face_o)
     body.append(f'<path d="{d(block)}" fill="#d8b98b" fill-opacity="0.55" '
                 f'stroke="#7a5a36" stroke-width="0.5"/>')
-    for q in up(pin_spots(face_o)):
+    _, tune = tuning_block(face_o, faces(outer, hole)[1])
+    body.append(f'<path d="{d(tune)}" fill="#d8b98b" fill-opacity="0.55" '
+                f'stroke="#7a5a36" stroke-width="0.5"/>')
+    for q in up(pin_spots(face_o) + tune_spots()):
         body.append(f'<circle cx="{q[0]:.2f}" cy="{q[1]:.2f}" '
                     f'r="{PIN_DIA / 2:g}" fill="#3a3f44"/>')
+    t_up = up(tune)
+    body.append(f'<text x="{ax:.2f}" '
+                f'y="{min(q[1] for q in up(face_i)) + 15:.2f}" '
+                f'text-anchor="middle" font-size="8">tuning-pin block, '
+                f'{TUNE_LAYERS} x {B.THICK:g} = {TUNE_LAYERS * B.THICK:g}mm'
+                f'</text>')
     b_up = up(block)
     # just above the block's inner edge, in the open resonator
     body.append(f'<text x="{ax:.2f}" '
-                f'y="{max(q[1] for q in b_up) - HITCH_WIDTH - 6:.2f}" '
+                f'y="{max(q[1] for q in b_up) - HITCH_WIDTH - 13:.2f}" '
                 f'text-anchor="middle" font-size="8">hitch-pin block, '
                 f'{HITCH_LAYERS} x {B.THICK:g} = {HITCH_LAYERS * B.THICK:g}mm'
                 f'</text>')
@@ -882,6 +1046,8 @@ def drawing(path):
         f'Hitch-pin block: {HITCH_LAYERS} laminations, {HITCH_WIDTH:g}mm wide '
         f'against the bottom wall over {HITCH_FACETS} facets; {PINS} '
         f'{PIN_DIA:g}mm hitch pins {PIN_SPACING:g}mm apart.',
+        f'Tuning-pin block: {TUNE_LAYERS} laminations filling the duct at the '
+        f'arch, one tuning pin above each hitch pin.',
     ]
     for k, t in enumerate(notes):
         body.append(f'<text x="{x0:.2f}" y="{bot_o + 22 + 12 * k:.2f}" '
@@ -966,7 +1132,7 @@ header p{margin:6px 0 0;color:var(--muted);max-width:62ch;font-size:13.5px}
 <div class="wrap">
   <header>
     <h1>Lyre-Harp Frame</h1>
-    <p>One closed duct, 30&nbsp;mm deep, in 3&nbsp;mm birch ply. Built from the same geometry as the cut files: two cheeks, 49 wall panels and a six-layer hitch-pin block.</p>
+    <p>One closed duct, 30&nbsp;mm deep, in 3&nbsp;mm birch ply. Built from the same geometry as the cut files: two cheeks, 49 wall panels, and laminated blocks at both ends for the hitch and tuning pins.</p>
   </header>
   <div class="grid">
     <div class="stage" id="stage" aria-label="3D view of the lyre-harp frame. Drag to turn, scroll to zoom.">
@@ -977,7 +1143,7 @@ header p{margin:6px 0 0;color:var(--muted);max-width:62ch;font-size:13.5px}
         <label for="t-front"><input type="checkbox" id="t-front" checked> Front cheek</label>
         <label for="t-back"><input type="checkbox" id="t-back" checked> Back cheek</label>
         <label for="t-walls"><input type="checkbox" id="t-walls" checked> Walls</label>
-        <label for="t-block"><input type="checkbox" id="t-block" checked> Hitch block</label>
+        <label for="t-block"><input type="checkbox" id="t-block" checked> Pin blocks</label>
         <button type="button" id="b-front">Front view</button>
         <button type="button" id="b-reset">Reset view</button>
       </div>
@@ -985,7 +1151,7 @@ header p{margin:6px 0 0;color:var(--muted);max-width:62ch;font-size:13.5px}
         <span><i class="sw" style="background:#d8b98b"></i>Cheeks</span>
         <span><i class="sw" style="background:#b98f5e"></i>Outer wall</span>
         <span><i class="sw" style="background:#8f6a44"></i>String-hole wall</span>
-        <span><i class="sw" style="background:#c9a574"></i>Hitch block</span>
+        <span><i class="sw" style="background:#c9a574"></i>Pin blocks</span>
       </div>
       <section class="spec">
         <h2>As cut</h2>
@@ -1011,6 +1177,8 @@ const D = __DATA__;
     ['Knot centre', D.knot_up.toFixed(1)+' mm up (2/3)'],
     ['Hitch block', D.hitch_layers+' × '+D.t+' = '+(D.hitch_layers*D.t)+' mm'],
     ['Hitch pins', D.pins.length+' × Ø'+D.pin[0]+', '+D.pin[1]+' mm apart'],
+    ['Tuning block', D.tune_layers+' × '+D.t+' = '+(D.tune_layers*D.t)+' mm'],
+    ['Tuning pins', D.tune_pins.length+', in line with the hitch pins'],
     ['Parts', '2 cheeks + '+D.panels.length+' panels + '+D.hitch_layers+' layers'],
   ];
   const dl = document.getElementById('spec');
@@ -1062,18 +1230,22 @@ const D = __DATA__;
 
   // the hitch-pin block: laminations glued up against the front cheek
   const block = new THREE.Group(); frame.add(block);
-  for (let k = 0; k < D.hitch_layers; k++){
-    const g = new THREE.ExtrudeGeometry(new THREE.Shape(D.hitch.map(P)),
-      {depth:t*0.985, bevelEnabled:false, curveSegments:1});
-    const m = new THREE.Mesh(g, new THREE.MeshStandardMaterial({color: k % 2 ? 0xc9a574 : 0xd6b688, roughness:.85}));
-    m.position.z = half - (k + 1) * t;
-    edges(m, 0x5e4528, .5);
-    block.add(m);
+  function laminate(loop, layers){
+    for (let k = 0; k < layers; k++){
+      const g = new THREE.ExtrudeGeometry(new THREE.Shape(loop.map(P)),
+        {depth:t*0.985, bevelEnabled:false, curveSegments:1});
+      const m = new THREE.Mesh(g, new THREE.MeshStandardMaterial({color: k % 2 ? 0xc9a574 : 0xd6b688, roughness:.85}));
+      m.position.z = half - (k + 1) * t;
+      edges(m, 0x5e4528, .5);
+      block.add(m);
+    }
   }
+  laminate(D.hitch, D.hitch_layers);
+  laminate(D.tune, D.tune_layers);
   // hitch pins: through the front cheek into the block, standing proud
   const pins = new THREE.Group(); frame.add(pins);
   const pinMat = new THREE.MeshStandardMaterial({color:0xb8bec4, roughness:.35, metalness:.8});
-  for (const q of D.pins){
+  for (const q of D.pins.concat(D.tune_pins)){
     const g = new THREE.CylinderGeometry(D.pin[0]/2, D.pin[0]/2, 22, 16);
     const m = new THREE.Mesh(g, pinMat);
     m.rotation.x = Math.PI/2;
@@ -1178,6 +1350,9 @@ def render(path):
         'hitch': [up(p) for p in hitch_block(faces(outer, hole)[0])[1][:-1]],
         'hitch_layers': HITCH_LAYERS,
         'pins': [up(p) for p in pin_spots(faces(outer, hole)[0])],
+        'tune': [up(p) for p in tuning_block(*faces(outer, hole))[1][:-1]],
+        'tune_pins': [up(p) for p in tune_spots()],
+        'tune_layers': TUNE_LAYERS,
         'pin': [PIN_DIA, PIN_SPACING],
     }
     xs = [p[0] for p in data['rim']]
