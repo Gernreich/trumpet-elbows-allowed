@@ -42,10 +42,14 @@ LENGTH = 400.0       # outer outline, end to end
 # ribbon_bore.py's own 0.15 is what every trumpet design in the repository was
 # cut at, and those sheets are the record of parts already on the bench, so
 # raising it there would rewrite them. The lyre-harp test came off the bed with
-# LOOSE FINGER JOINTS, so it is cut at 0.17 (2026-09-20, on the author's
+# LOOSE FINGER JOINTS, so it went to 0.17 (2026-09-20, on the author's
 # instruction): a wider kerf draws each tab wider and each mortice narrower,
 # 0.01mm a side either way, which is 0.04mm of interference a joint.
-KERF = 0.17
+# STILL LOOSE at 0.17, so 0.03 more the same day, again on instruction. Against
+# the 0.15 the trumpet is cut at that is 0.05 of kerf, 0.10mm of interference a
+# joint. MEASURED FROM FIT, not from the beam: it is the number that makes the
+# joints tight on this ply and this bed, not a claim about the laser.
+KERF = 0.20
 BORE = 30.0          # duct depth everywhere; duct width over the arch and sides
 # The approved drawing, as proportions. Width against length is the drawing's
 # 391 : 831. The hole's bottom is scaled on the hole's own half-width, not on
