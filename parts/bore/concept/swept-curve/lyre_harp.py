@@ -38,18 +38,38 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import ribbon_bore as B                                        # noqa: E402
 
 LENGTH = 400.0       # outer outline, end to end
-# KERF, the full width the laser takes out, for THIS instrument only.
-# ribbon_bore.py's own 0.15 is what every trumpet design in the repository was
-# cut at, and those sheets are the record of parts already on the bench, so
-# raising it there would rewrite them. The lyre-harp test came off the bed with
-# LOOSE FINGER JOINTS, so it went to 0.17 (2026-09-20, on the author's
-# instruction): a wider kerf draws each tab wider and each mortice narrower,
-# 0.01mm a side either way, which is 0.04mm of interference a joint.
-# STILL LOOSE at 0.17, so 0.03 more the same day, again on instruction. Against
-# the 0.15 the trumpet is cut at that is 0.05 of kerf, 0.10mm of interference a
-# joint. MEASURED FROM FIT, not from the beam: it is the number that makes the
-# joints tight on this ply and this bed, not a claim about the laser.
-KERF = 0.20
+# KERF, the full width the laser takes out, for THIS instrument only. 0.13 is
+# the MEASURED beam, ribbon_bore.py's own figure from 2026-09-09. It is not a
+# fit knob and nothing here may move it to chase a joint.
+#
+# FIT is the fit knob, and it is the whole history of this instrument in one
+# number. The test came off the bed with LOOSE FINGER JOINTS, so the kerf was
+# raised to 0.17, then to 0.20 (2026-09-20, both on the author's instruction) --
+# which tightened the joints because an overstated kerf draws tabs fat and
+# mortices thin, but it also drew every OTHER line in the design 0.07 out,
+# outlines oversize and holes undersize, the band, the duct and the knot cuts
+# with them. So the kerf goes back to the truth and the interference moves to
+# the two constants that exist for it, leaving the joints exactly where 0.20 put
+# them. FIT is the kerf the JOINTS are cut as if, and nothing else reads it.
+KERF = 0.13
+FIT = 0.20
+# Why those two lines below, and not one. Write D = FIT - KERF. Along the tooth
+# BOTH sides of the joint are drawn, so overstating the kerf fattens the tab by
+# D and thins the notch by D: 2D of interference. Across the ply only the notch
+# is drawn -- the other half of that joint is the plywood, which no kerf can
+# grow -- so the same D buys D. One lever cannot pay 2:1 and 1:1 at once.
+# SLOT_TIGHTEN comes off the notch in both directions, so it settles the depth;
+# the width is then short by D, and half of that comes off the clearance a side.
+# It takes PLAY NEGATIVE, at -0.01, and that is the honest reading and not a
+# trick: there is no clearance left in this joint, there is interference, and a
+# negative clearance per side is what that sentence means in a number.
+# Verified against the 0.20 sheets before the change: width +0.090mm and depth
+# +0.070mm of interference both ways, and the mortice even lands on the same
+# 2.80mm drawn depth.
+TIGHTEN = FIT - KERF            # 0.07, off the notch, both directions
+PLAY = B.PLAY_UNMEASURED - TIGHTEN / 2   # -0.01 a side. Read from ribbon_bore
+# rather than written out again: the clearance this is reducing is ITS number,
+# and a 0.025 copied to here would go on saying 0.025 after the original moved.
 BORE = 30.0          # duct depth everywhere; duct width over the arch and sides
 # The approved drawing, as proportions. Width against length is the drawing's
 # 391 : 831. The hole's bottom is scaled on the hole's own half-width, not on
@@ -220,6 +240,14 @@ def build():
     """The two wall centrelines and every panel on them."""
     B.BORE, B.NARROW, B.PORT, B.PORT_AT = BORE, NARROW, False, None
     B.BURN = KERF
+    # The fit, off the notch only. PLAY_BY_BORE is emptied rather than given an
+    # entry for 30: it is ribbon_bore's table of what has been cut on the
+    # TRUMPET bores, this instrument has measured its own, and leaving the table
+    # in place would mean play() answered from whichever of B.BORE happened to
+    # be set. Assigning absolutes, not adjusting, so a second build() in one
+    # process cannot apply the tightening twice.
+    B.SLOT_TIGHTEN = TIGHTEN
+    B.PLAY_BY_BORE, B.PLAY_UNMEASURED = {}, PLAY
     # The FACES are drawn, and the walls follow from them. Drawn the other way
     # round -- wall centrelines on the circles, faces offset from them -- each
     # mitred vertex of the hole's face stood 1.5/cos(step/2) off its wall
@@ -938,7 +966,7 @@ def test_sheet(parts, rims, out_path, write, ink):
                 f'panels stand between the two sectors exactly as they do in '
                 f'the instrument, {BORE:g}mm apart. Sector A and sector B are '
                 f'the same part. {B.THICK:g}mm ply, slots for a {B.SHEET:g}mm '
-                f'sheet at {KERF:g}mm kerf, {B.play():g}mm play a side. Blue '
+                f'sheet at {KERF:g}mm kerf, cut to the fit of {FIT:g}. Blue '
                 f'#0000ff engraves, orange #ff8000 cuts the slots first, black '
                 f'#000000 frees the parts.</desc>\n'
                 + grp(marks, B.MARK, 'numbers') + grp(holes, B.INNER, 'slots')
@@ -1047,7 +1075,9 @@ def main(write=True):
           f'{g["sag"]:.1f}mm')
     print(f'  band {g["band"]:g}mm over the arch and sides; resonator below '
           f'the hole')
-    print(f'  {B.THICK:g}mm ply, {KERF:g}mm kerf, {B.play():g}mm play a side')
+    print(f'  {B.THICK:g}mm ply, {KERF:g}mm kerf measured, joints cut to '
+          f'the fit of {FIT:g}: {B.SLOT_TIGHTEN:g}mm off the notch, '
+          f'{B.play():g}mm play a side')
     print(f'  hitch-pin block: {HITCH_LAYERS} laminations x {B.THICK:g}mm = '
           f'{HITCH_LAYERS * B.THICK:g}mm, {HITCH_WIDTH:g}mm wide over '
           f'{HITCH_FACETS} facets of the bottom wall')
@@ -1091,7 +1121,7 @@ def test_piece(path):
           f'outer panels beside them')
     print(f'  {math.degrees(span[1] - span[0]):.0f} degrees of arch, '
           f'{TEST_MARGIN:g}mm of cheek past the outermost mortice, '
-          f'{KERF:g}mm kerf')
+          f'{KERF:g}mm kerf, joints cut to the fit of {FIT:g}')
     for name, w, h, k, note in written:
         print(f'    {name:<58}{k:>3} parts  {w:.0f} x {h:.0f}mm')
     return 0
