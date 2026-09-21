@@ -1131,6 +1131,173 @@ def main(write=True):
     return 1 if bad else 0
 
 
+def back_numbers(path):
+    """The slot numbers alone, mirrored, to engrave on cheek A's BACK face.
+
+    The panels go in while the front plate lies face DOWN, which puts the
+    numbers already on it against the table. Engraving lives on whichever face
+    was up in the machine and no amount of mirroring moves it through the ply,
+    so the numbers have to be put on the other face in a second, cut-free pass.
+
+    THE PART IS WHAT MAKES THIS WORK. cheek() is mirror-symmetric about the
+    instrument's long axis -- 49 outline points and all 115 mortices have their
+    mirror, checked below -- so the plate can be turned over about that axis
+    and lands back on its own footprint. FLIPPED THE OTHER WAY IT WILL NOT: the
+    string hole is not symmetric end for end, and that is the mistake this file
+    can neither detect nor survive.
+
+    So each label is reflected y -> -y and its angle negated, while label()
+    goes on drawing readable glyphs: mirrored placement, unmirrored digits.
+    Same page and same 10mm margin as the cheek sheet, so the plate sits where
+    it sat. Writes its own file and touches no other.
+    """
+    outer, hole, parts = build()
+    ckp = cheek(outer, hole)
+    x0, x1 = min(p[0] for p in ckp), max(p[0] for p in ckp)
+    y0, y1 = min(p[1] for p in ckp), max(p[1] for p in ckp)
+    m = B.MARGIN_S
+    dx, dy = m - x0, m - y0
+    w, h = x1 - x0 + 2 * m, y1 - y0 + 2 * m
+    off = B.THICK / 2 + 1.5      # ribbon_bore's own label offset, into the duct
+    # Kept per panel, so the checks below can read the ink that was actually
+    # DRAWN instead of the positions this loop meant to draw it at. Checking
+    # the intention passes whatever the drawing does -- proved it: with the
+    # mirror taken out altogether, an earlier version of every check here
+    # still said pass.
+    marks, drawn = [], []
+    for q in parts:
+        ox, oy = q['out']
+        lx, ly = q['mid'][0] - ox * off, q['mid'][1] - oy * off
+        mine = B.label(q['tag'], lx + dx, -ly + dy, 2.0, -q['ang'])
+        # mine[-1] is label()'s baseline tick, a two-point segment laid exactly
+        # along the label's angle. It is the one piece of the ink whose
+        # direction is the label's direction whatever the digits happen to be,
+        # which a glyph's own extent is not: on a tall narrow numeral the
+        # furthest ink from the centre sits across the baseline, not along it.
+        tick = [(float(a), float(b)) for a, b in
+                (t.split(',') for t in mine[-1][2:].split(' L '))]
+        drawn.append((q['tag'], q['ang'], tick, [
+            (float(a), float(b)) for d in mine
+            for a, b in (t.split(',') for t in d[2:].split(' L '))]))
+        marks += mine
+    body = (f'<?xml version="1.0" encoding="utf-8"?>\n'
+            f'<svg xmlns="http://www.w3.org/2000/svg" width="{w:.2f}mm" '
+            f'height="{h:.2f}mm" viewBox="0 0 {w:.2f} {h:.2f}">\n'
+            f'<title>Lyre-harp cheek A - BACK FACE NUMBERS - engrave only, '
+            f'no cutting</title>\n'
+            f'<desc>1 user unit = 1mm. The {len(parts)} slot numbers for cheek '
+            f'A, mirrored for its BACK face. ENGRAVE ONLY - there is not a cut '
+            f'line in this file. Cut cheek A from its own sheet first, then '
+            f'turn it over ABOUT ITS LONG AXIS - the 400mm one, so the sound '
+            f'hole stays at the same end - lay it in the same place on the bed '
+            f'and run this. Each number then sits beside its own mortice and '
+            f'reads the right way round while you drop the panels in. Turning '
+            f'the plate the other way, end for end, does NOT work: the string '
+            f'hole is not symmetric that way. Blue #0000ff engraves.</desc>\n'
+            + f'  <g id="numbers" fill="none" stroke="{B.MARK}" '
+              f'stroke-width="0.2">\n'
+            + '\n'.join(f'    <path d="{d}"/>' for d in marks)
+            + '\n  </g>\n</svg>\n')
+    ok = []
+    ink = [(float(a), float(b)) for d in marks
+           for a, b in (t.split(',') for t in d[2:].split(' L '))]
+    ok.append((len(marks) > 0 and len(drawn) == len(parts),
+               'one number for every panel',
+               f'{len(drawn)} numbers for {len(parts)} panels, '
+               f'{len(marks)} strokes'))
+    # The plate is turned over, so the mirror of the cheek is what the ink has
+    # to land on. It is only the same polygon BECAUSE the part is symmetric --
+    # test it, do not assume it, since the whole file rests on that.
+    sym = ({(round(px, 4), round(-py, 4)) for px, py in ckp}
+           == {(round(px, 4), round(py, 4)) for px, py in ckp})
+    ok.append((sym, 'the plate is symmetric about its long axis',
+               f'{len(ckp)} outline points, mirror '
+               f'{"present for every one" if sym else "MISSING for some"}'))
+    # B.inside, NOT B.in_poly: in_poly takes n = len(poly) - 1 edges, so it
+    # wants the first point repeated as the last and silently skips the closing
+    # edge otherwise. slots_for() returns bare four-point rectangles, so
+    # in_poly tested three sides of each and called this file's own numbers
+    # bad, and the shipped sheet's numbers with them. inside() wraps around.
+    rings = sorted(B.contours(ckp), key=lambda c: (max(p[0] for p in c)
+                                                   - min(p[0] for p in c)))
+    inner, band = rings[0], rings[-1]
+
+    def on_material(x, y):
+        """The plate is a ring: inside the outer rim and outside the hole."""
+        return B.inside(band, x, y) and not B.inside(inner, x, y)
+    off_mat = sum(not on_material(px - dx, -(py - dy)) for px, py in ink)
+    ok.append((off_mat == 0, 'every number lands on the plate',
+               f'{len(ink)} ink points, {off_mat} off the material'))
+    slots = [sl for q in parts for sl in B.slots_for(q)]
+    in_slot = sum(any(B.inside(sl, px - dx, -(py - dy)) for sl in slots)
+                  for px, py in ink)
+    ok.append((in_slot == 0, 'no number lands in a mortice',
+               f'{len(ink)} ink points against {len(slots)} mortices, '
+               f'{in_slot} inside one'))
+    ok.append(('<path' in body and 'stroke="#000000"' not in body,
+               'engrave only, no cut line', 'no black stroke in the file'))
+    # THE ONE THAT MATTERS. Everything above can pass while a number sits
+    # beside the wrong mortice, which is worse than no number at all: it would
+    # be believed. Reflection is its own inverse, so a back label reflected is
+    # its front label, and the mortice nearest that point has to be one of the
+    # panel's own. Distances are taken to slot CENTRES, and the runner-up is
+    # reported so a near miss cannot hide behind a pass.
+    owner, worst, wtag = {}, 1e9, None
+    for q in parts:
+        for sl in B.slots_for(q):
+            owner[(round(sum(p[0] for p in sl) / len(sl), 4),
+                   round(sum(p[1] for p in sl) / len(sl), 4))] = q['tag']
+    wrong = 0
+    for tag, _, _tick, pts in drawn:
+        # the ink as drawn, turned back over the way the plate will be
+        cx = sum(a for a, b in pts) / len(pts) - dx
+        cy = -(sum(b for a, b in pts) / len(pts) - dy)
+        ranked = sorted(owner, key=lambda c: (c[0] - cx) ** 2 + (c[1] - cy) ** 2)
+        if owner[ranked[0]] != tag:
+            wrong += 1
+        d0 = math.dist(ranked[0], (cx, cy))
+        other = next((c for c in ranked if owner[c] != tag), None)
+        if other is not None and math.dist(other, (cx, cy)) - d0 < worst:
+            worst, wtag = math.dist(other, (cx, cy)) - d0, tag
+    ok.append((wrong == 0, 'each number names the mortice beside it',
+               f'{len(drawn)} numbers, {wrong} nearer another panel\'s '
+               f'mortice; tightest margin {worst:.2f}mm on panel {wtag}'))
+    # A number can sit in the right place and still be laid along the wrong
+    # line: reflect the anchor but forget to negate the angle and it reads
+    # across its own mortice. The baseline tick is the furthest ink from the
+    # centre, so the centre-to-furthest vector gives the direction actually
+    # drawn, and turned back over it has to be the panel's own -- mod pi,
+    # since which end of the baseline is furthest is not the question.
+    skew = 0.0
+    for tag, ang, tick, pts in drawn:
+        (ax, ay), (bx, by) = tick
+        got = math.atan2(-(by - ay), bx - ax)       # turned back over
+        d = abs((got - ang + math.pi) % (2 * math.pi) - math.pi)
+        skew = max(skew, d)
+    # Half a degree, because the tick is 0.22 * 2mm = 0.44mm long and its ends
+    # are written to three decimals: 0.0005mm of rounding on a 0.44mm arm is
+    # 0.065 degrees before anything is wrong. The failure this guards against
+    # is an angle that was not negated, which is 2 * the panel's own angle --
+    # tens of degrees nearly everywhere on a curve built from 15 degree facets.
+    ok.append((skew < math.radians(0.5), 'each number lies along its own panel',
+               f'worst direction error {math.degrees(skew):.4f} degrees, '
+               f'against 0.5 allowed for rounding'))
+    print(f'lyre-harp cheek A, BACK FACE NUMBERS   engrave only, no cutting')
+    print(f"  {len(drawn)} numbers, mirrored about the long axis, "
+          f'{w:.0f} x {h:.0f}mm page\n')
+    bad = 0
+    for good, what, detail in ok:
+        print(f'  {"pass" if good else "FAIL"}  {what:<44} {detail}')
+        bad += not good
+    if bad:
+        print(f'\n  {bad} check(s) failed. Nothing written.')
+        return 1
+    with open(path, 'w') as f:
+        f.write(body)
+    print(f'\n  wrote {os.path.basename(path)}')
+    return 0
+
+
 def test_piece(path):
     """Write the arch test piece on its own, without the whole frame."""
     outer, hole, parts = build()
@@ -1601,10 +1768,11 @@ if __name__ == '__main__':
     for x in a:
         if not (x == '--no-write'
                 or x.startswith(('--out=', '--drawing=', '--render=',
-                                 '--test=', '--fit='))):
+                                 '--test=', '--fit=', '--back-numbers='))):
             raise SystemExit(f'error: {x} is not a flag this generator reads. '
                              f'It takes --out=, --drawing=, --render=, '
-                             f'--test=, --fit= and --no-write.')
+                             f'--test=, --fit=, --back-numbers= and '
+                             f'--no-write.')
     # --fit= is the friction knob, for walking a test piece up to the fit that
     # wants a mallet. It is the kerf the JOINTS are drawn as if cut at; the beam
     # stays at the measured KERF and every line that is not a joint is unmoved.
@@ -1625,6 +1793,9 @@ if __name__ == '__main__':
     if hit:
         OUT = hit[0].split('=', 1)[1]
     try:
+        bn = [x for x in a if x.startswith('--back-numbers=')]
+        if bn:
+            sys.exit(back_numbers(bn[0].split('=', 1)[1]))
         ts = [x for x in a if x.startswith('--test=')]
         if ts:
             sys.exit(test_piece(ts[0].split('=', 1)[1]))
