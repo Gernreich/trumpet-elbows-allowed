@@ -139,6 +139,13 @@ TUNE_LAYERS, TUNE_EXTRA = 6, 15.0
 # mortices. TEST_MARGIN of cheek is left beyond the outermost mortice so the
 # rim has something to hold on to.
 TEST_FROM, TEST_TO, TEST_MARGIN = '4', 'A', 10.0
+# --ladder: the same joint cut at each of these, to find the fit by hand
+# instead of by arithmetic. Spanning the crossover at 0.18, where the joint has
+# neither clearance nor interference, so the sheet holds rungs either side of
+# the point where it stops going together by thumb.
+LADDER = (0.15, 0.18, 0.21, 0.24, 0.27)
+LADDER_MARGIN = 10.0     # cheek left past the outermost mortice on a coupon
+LADDER_COUPON_H = 16.0   # across the coupon; the mortices run down its middle
 
 
 def geometry():
@@ -1131,6 +1138,151 @@ def main(write=True):
     return 1 if bad else 0
 
 
+def ladder(path):
+    """One sheet of the same joint at several FIT values, to find the fit.
+
+    Measuring the kerf answers one term of the stack-up. The joint also carries
+    the cut's taper, the char on the edge and whatever the ply actually
+    calipers, and none of those show up in a strip-and-slice kerf test. This
+    cuts the real joint at each rung instead and lets the hand decide.
+
+    ONE PANEL, NOT ONE PER RUNG. panel() reads BURN and TOOTH and nothing else,
+    so the tab is identical at every FIT -- the mortice is the whole variable.
+    Cutting five identical panels and engraving five different numbers on them
+    would have been a lie in wood. The spare is a spare, not a second rung.
+
+    The joint tested is the one there are most of: the two-tooth outer panel,
+    22 of the 49. Rungs are engraved in HUNDREDTHS -- 15 is FIT 0.15 -- because
+    the glyph table is hex digits and has no decimal point.
+    """
+    global FIT
+    keep = FIT
+    rungs = []
+    try:
+        for f in LADDER:
+            FIT = f
+            _, _, parts = build()
+            q = next(p for p in parts
+                     if p['wall'] == 'outer' and len(p['teeth']) == 2)
+            local = dict(q, mid=(0.0, 0.0), ang=0.0)
+            rungs.append((f, q, B.panel(q['len'], q['teeth']),
+                          B.slots_for(local)))
+    finally:
+        FIT = keep
+    tag = rungs[0][1]['tag']
+    L0 = rungs[0][1]['len']
+    # the coupon: a strip of cheek with this panel's mortices in it
+    cw, ch = L0 + 2 * LADDER_MARGIN, LADDER_COUPON_H
+    pan = rungs[0][2]
+    pw = max(x for x, y in pan) - min(x for x, y in pan)
+    ph = max(y for x, y in pan) - min(y for x, y in pan)
+    m, gap = B.MARGIN_S, 6.0
+    rowh = max(ch, ph)
+    W = 2 * m + cw + gap + pw
+    H = 2 * m + len(LADDER) * rowh + (len(LADDER) - 1) * gap
+    cuts, holes, marks, placed = [], [], [], []
+    for i, (f, q, pn, sl) in enumerate(rungs):
+        oy = m + i * (rowh + gap) + rowh / 2
+        ox = m + cw / 2
+        box = [(ox - cw / 2, oy - ch / 2), (ox + cw / 2, oy - ch / 2),
+               (ox + cw / 2, oy + ch / 2), (ox - cw / 2, oy + ch / 2)]
+        cuts.append(B.path(box))
+        placed.append(('coupon', box))
+        for s in sl:
+            holes.append(B.path([(x + ox, y + oy) for x, y in s]))
+        marks += B.label(f'{round(f * 100):02d}', ox, oy + ch / 4, 3.0)
+    # the panel, and one spare, in the right-hand column
+    for i in range(2):
+        oy = m + i * (rowh + gap) + rowh / 2
+        ox = m + cw + gap + pw / 2
+        poly = [(x + ox, y + oy) for x, y in pan]
+        cuts.append(B.path(poly))
+        placed.append(('panel', poly))
+        marks += B.label(tag, ox, oy, 2.0)
+    body = (f'<?xml version="1.0" encoding="utf-8"?>\n'
+            f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.2f}mm" '
+            f'height="{H:.2f}mm" viewBox="0 0 {W:.2f} {H:.2f}">\n'
+            f'<title>Lyre-harp FIT LADDER - the same joint at '
+            f'{len(LADDER)} fits</title>\n'
+            f'<desc>1 user unit = 1mm. The same finger joint cut at FIT '
+            f'{", ".join(f"{f:g}" for f in LADDER)}, to find the one that '
+            f'needs a mallet. Each coupon is engraved with its fit in '
+            f'HUNDREDTHS: 15 is 0.15. The panel is marked {tag} and is the '
+            f'same part at every rung - panel() reads only the kerf, so the '
+            f'mortice is the only thing that changes - so push the ONE panel '
+            f'into each coupon in turn, softest first, and take the rung that '
+            f'needs persuading. The second panel is a spare. {B.THICK:g}mm '
+            f'ply, {KERF:g}mm kerf. Blue #0000ff engraves, orange #ff8000 '
+            f'cuts the mortices first, black #000000 frees the parts.</desc>\n'
+            f'  <g id="numbers" fill="none" stroke="{B.MARK}" '
+            f'stroke-width="0.2">\n'
+            + '\n'.join(f'    <path d="{d}"/>' for d in marks)
+            + f'\n  </g>\n  <g id="slots" fill="none" stroke="{B.INNER}" '
+              f'stroke-width="0.2">\n'
+            + '\n'.join(f'    <path d="{d}"/>' for d in holes)
+            + f'\n  </g>\n  <g id="outlines" fill="none" stroke="{B.CUT}" '
+              f'stroke-width="0.2">\n'
+            + '\n'.join(f'    <path d="{d}"/>' for d in cuts)
+            + '\n  </g>\n</svg>\n')
+    ok = []
+    ok.append((len(rungs) == len(LADDER) and len(cuts) == len(LADDER) + 2,
+               'one coupon a rung, and the panel',
+               f'{len(LADDER)} coupons, 2 panels, {len(holes)} mortices'))
+    # Read the DRAWN mortices, not the formula that placed them: the rungs have
+    # to actually differ, and differ the right way round.
+    wide = [max(x for x, y in r[3][0]) - min(x for x, y in r[3][0])
+            for r in rungs]
+    deep = [max(y for x, y in r[3][0]) - min(y for x, y in r[3][0])
+            for r in rungs]
+    down = all(wide[i] > wide[i + 1] + 1e-9 for i in range(len(wide) - 1))
+    span = LADDER[-1] - LADDER[0]
+    # 2:1 and 1:1, and the sheet is the place that proves it. Along the tooth
+    # BOTH faces of the joint are drawn, so the notch gives up 2 * the fit;
+    # across the ply the other face is the plywood and it gives up 1 *. Written
+    # as 2 * span and 1 * span rather than as one number, because an earlier
+    # version of this check asserted a single spread and failed a sheet that
+    # was right -- the geometry was correct and the expectation was not.
+    ok.append((down and abs((wide[0] - wide[-1]) - 2 * span) < 1e-6,
+               'every rung is tighter than the last',
+               f'mortice {wide[0]:.3f} down to {wide[-1]:.3f}mm, '
+               f'{wide[0] - wide[-1]:.3f} across {span:.2f} of fit, 2:1'))
+    ok.append((all(deep[i] > deep[i + 1] + 1e-9 for i in range(len(deep) - 1))
+               and abs((deep[0] - deep[-1]) - span) < 1e-6,
+               'and across the ply, at half the rate',
+               f'{deep[0]:.3f} down to {deep[-1]:.3f}mm, '
+               f'{deep[0] - deep[-1]:.3f} across {span:.2f} of fit, 1:1'))
+    # the tab does NOT change; that is the claim the sheet is built on
+    same = all(rungs[i][2] == rungs[0][2] for i in range(len(rungs)))
+    ok.append((same, 'the panel is the same at every rung',
+               f'{len(pan)} points, identical across {len(LADDER)} builds'))
+    off = 0
+    for i, (f, q, pn, sl) in enumerate(rungs):
+        oy = m + i * (rowh + gap) + rowh / 2
+        ox = m + cw / 2
+        for s in sl:
+            for x, y in s:
+                if not (abs(x) < cw / 2 - 1e-9 and abs(y) < ch / 2 - 1e-9):
+                    off += 1
+    ok.append((off == 0, 'every mortice sits inside its coupon',
+               f'{sum(len(r[3]) for r in rungs)} mortices, {off} corners out'))
+    ok.append((W <= B.BED_W and H <= B.BED_H, 'the sheet fits the P2S bed',
+               f'{W:.0f} x {H:.0f}mm against {B.BED_W:.0f} x {B.BED_H:.0f}'))
+    print('lyre-harp FIT LADDER   the same joint at '
+          f'{len(LADDER)} fits: {", ".join(f"{f:g}" for f in LADDER)}')
+    print(f'  panel {tag}, {L0:.1f}mm, 2 teeth - the joint there are 22 of\n')
+    bad = 0
+    for good, what, detail in ok:
+        print(f'  {"pass" if good else "FAIL"}  {what:<44} {detail}')
+        bad += not good
+    if bad:
+        print(f'\n  {bad} check(s) failed. Nothing written.')
+        return 1
+    with open(path, 'w') as f:
+        f.write(body)
+    print(f'\n  wrote {os.path.basename(path)}  {W:.0f} x {H:.0f}mm')
+    return 0
+
+
 def back_numbers(path):
     """The slot numbers alone, mirrored, to engrave on cheek A's BACK face.
 
@@ -1768,11 +1920,12 @@ if __name__ == '__main__':
     for x in a:
         if not (x == '--no-write'
                 or x.startswith(('--out=', '--drawing=', '--render=',
-                                 '--test=', '--fit=', '--back-numbers='))):
+                                 '--test=', '--fit=', '--back-numbers=',
+                                 '--ladder='))):
             raise SystemExit(f'error: {x} is not a flag this generator reads. '
                              f'It takes --out=, --drawing=, --render=, '
-                             f'--test=, --fit=, --back-numbers= and '
-                             f'--no-write.')
+                             f'--test=, --fit=, --back-numbers=, --ladder= '
+                             f'and --no-write.')
     # --fit= is the friction knob, for walking a test piece up to the fit that
     # wants a mallet. It is the kerf the JOINTS are drawn as if cut at; the beam
     # stays at the measured KERF and every line that is not a joint is unmoved.
@@ -1793,6 +1946,9 @@ if __name__ == '__main__':
     if hit:
         OUT = hit[0].split('=', 1)[1]
     try:
+        ld = [x for x in a if x.startswith('--ladder=')]
+        if ld:
+            sys.exit(ladder(ld[0].split('=', 1)[1]))
         bn = [x for x in a if x.startswith('--back-numbers=')]
         if bn:
             sys.exit(back_numbers(bn[0].split('=', 1)[1]))
