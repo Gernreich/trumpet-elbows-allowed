@@ -144,6 +144,14 @@ TEST_FROM, TEST_TO, TEST_MARGIN = '4', 'A', 10.0
 # neither clearance nor interference, so the sheet holds rungs either side of
 # the point where it stops going together by thumb.
 LADDER = (0.15, 0.18, 0.21, 0.24, 0.27)
+# --kerf-test: the machine's own number, not this instrument's. Two ways of
+# asking on one sheet. KERF_CUTS slices give KERF_CUTS + 1 pieces and the
+# pieces are short by KERF_CUTS kerfs all together, so the caliper's own error
+# divides by that many -- which is the whole point of slicing ten times rather
+# than measuring one cut. KERF_SQ is the cross-check: a square hole and the
+# piece that fell out of it differ by exactly two kerfs, one off each edge.
+KERF_LEN, KERF_WIDE, KERF_CUTS = 120.0, 15.0, 10
+KERF_SQ = 30.0
 LADDER_MARGIN = 10.0     # cheek left past the outermost mortice on a coupon
 LADDER_COUPON_H = 16.0   # across the coupon; the mortices run down its middle
 
@@ -1138,6 +1146,124 @@ def main(write=True):
     return 1 if bad else 0
 
 
+def kerf_test(path):
+    """Measure the machine's kerf, in the stock the instrument is cut from.
+
+    Nothing here is lyre-harp geometry -- it is the laser's number and it lives
+    beside the instrument only because this is the file being tuned. Cut it in
+    THE SAME PLY, at the same power, speed, focus and air, ideally on the same
+    sheet: kerf moves with material and settings, and a figure measured on
+    other stock is a figure about other stock.
+
+    THE SLICED STRIP IS ONE RECTANGLE PLUS OPEN LINES, NOT N RECTANGLES. Drawn
+    as touching rectangles every interior edge is cut twice, two kerfs come out
+    where the arithmetic assumes one, and the answer is half. The check below
+    counts the interior lines and refuses anything but single ones.
+
+    Two strips cut side by side so the settings cannot drift between them, and
+    so the kerf taken off the OUTSIDE of each cancels when they are compared.
+    """
+    m, gap = B.MARGIN_S, 6.0
+    cuts, lines, marks = [], [], []
+    y = m
+    # the control: no interior cuts at all
+    ctrl = [(m, y), (m + KERF_LEN, y), (m + KERF_LEN, y + KERF_WIDE),
+            (m, y + KERF_WIDE)]
+    cuts.append(B.path(ctrl))
+    marks += B.label('C', m + KERF_LEN / 2, y + KERF_WIDE / 2, 5.0)
+    # the comb: the same rectangle, sliced
+    y += KERF_WIDE + gap
+    comb = [(m, y), (m + KERF_LEN, y), (m + KERF_LEN, y + KERF_WIDE),
+            (m, y + KERF_WIDE)]
+    cuts.append(B.path(comb))
+    step = KERF_LEN / (KERF_CUTS + 1)
+    for i in range(1, KERF_CUTS + 1):
+        x = m + i * step
+        lines.append(B.path([(x, y), (x, y + KERF_WIDE)], close=False))
+    for i in range(KERF_CUTS + 1):
+        marks += B.label(f'{i + 1:X}', m + (i + 0.5) * step,
+                         y + KERF_WIDE / 2, 4.0)
+    # the cross-check: a square hole and the piece that drops out of it
+    y += KERF_WIDE + gap
+    pad = 12.0
+    plate = [(m, y), (m + KERF_SQ + 2 * pad, y),
+             (m + KERF_SQ + 2 * pad, y + KERF_SQ + 2 * pad),
+             (m, y + KERF_SQ + 2 * pad)]
+    cuts.append(B.path(plate))
+    sq = [(m + pad, y + pad), (m + pad + KERF_SQ, y + pad),
+          (m + pad + KERF_SQ, y + pad + KERF_SQ), (m + pad, y + pad + KERF_SQ)]
+    cuts.append(B.path(sq))
+    # D for the dropout. C is the control and the slices take 1..B, so a
+    # digit here would read as a twelfth slice on the bench.
+    marks += B.label('D', m + pad + KERF_SQ / 2, y + pad + KERF_SQ / 2, 6.0)
+    W = 2 * m + KERF_LEN
+    H = y + KERF_SQ + 2 * pad + m
+    body = (f'<?xml version="1.0" encoding="utf-8"?>\n'
+            f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.2f}mm" '
+            f'height="{H:.2f}mm" viewBox="0 0 {W:.2f} {H:.2f}">\n'
+            f'<title>KERF TEST - measure this machine, in this ply</title>\n'
+            f'<desc>1 user unit = 1mm. CUT IN THE STOCK THE JOB IS CUT FROM, '
+            f'at the same power, speed, focus and air - kerf moves with the '
+            f'material, so a figure from other stock is about other stock. '
+            f'Strip C is the control and is not sliced. The strip below it is '
+            f'the same rectangle with {KERF_CUTS} cuts across it, giving '
+            f'{KERF_CUTS + 1} pieces numbered 1 to '
+            f'{KERF_CUTS + 1:X}. Butt all {KERF_CUTS + 1} back together '
+            f'against a straightedge, lightly clamped, and measure: kerf = '
+            f'(C - the stack) / {KERF_CUTS}. The square is a cross-check - '
+            f'measure the hole and the piece D that fell out of it, kerf = '
+            f'(hole - piece) / 2. Blue #0000ff engraves, black #000000 cuts. '
+            f'Do not let the laser cut any line twice.</desc>\n'
+            f'  <g id="numbers" fill="none" stroke="{B.MARK}" '
+            f'stroke-width="0.2">\n'
+            + '\n'.join(f'    <path d="{d}"/>' for d in marks)
+            + f'\n  </g>\n  <g id="outlines" fill="none" stroke="{B.CUT}" '
+              f'stroke-width="0.2">\n'
+            + '\n'.join(f'    <path d="{d}"/>' for d in cuts + lines)
+            + '\n  </g>\n</svg>\n')
+    ok = []
+    ok.append((len(cuts) == 4 and len(lines) == KERF_CUTS,
+               'a control, a comb, and the square',
+               f'4 outlines and {len(lines)} slicing lines'))
+    # Every slice line must appear ONCE. Twice and the strip loses two kerfs
+    # where the arithmetic counts one, and the measurement comes out half.
+    dup = len(lines) - len(set(lines))
+    ok.append((dup == 0, 'no slicing line is cut twice',
+               f'{len(lines)} lines, {dup} duplicated'))
+    ok.append((all(d.count(' L ') == 1 for d in lines),
+               'each slice is one open line, not a rectangle',
+               f'{len(lines)} lines, 2 points each, none closed'))
+    widths = sorted({round(max(p[0] for p in q) - min(p[0] for p in q), 6)
+                     for q in (ctrl, comb)})
+    ok.append((len(widths) == 1,
+               'control and comb are the same rectangle',
+               f'both {widths[0]:.3f} x {KERF_WIDE:g}mm, so the outside '
+               f'kerf cancels'))
+    ok.append((abs(step * (KERF_CUTS + 1) - KERF_LEN) < 1e-9,
+               'the slices divide the strip exactly',
+               f'{KERF_CUTS + 1} pieces of {step:.3f}mm'))
+    ok.append((W <= B.BED_W and H <= B.BED_H, 'the sheet fits the P2S bed',
+               f'{W:.0f} x {H:.0f}mm against {B.BED_W:.0f} x {B.BED_H:.0f}'))
+    print('KERF TEST   the machine\'s own number, in the job\'s own ply')
+    print(f'  strip {KERF_LEN:g} x {KERF_WIDE:g}mm, {KERF_CUTS} cuts -> '
+          f'{KERF_CUTS + 1} pieces;  square {KERF_SQ:g}mm\n')
+    bad = 0
+    for good, what, detail in ok:
+        print(f'  {"pass" if good else "FAIL"}  {what:<44} {detail}')
+        bad += not good
+    if bad:
+        print(f'\n  {bad} check(s) failed. Nothing written.')
+        return 1
+    with open(path, 'w') as f:
+        f.write(body)
+    print(f'\n  wrote {os.path.basename(path)}  {W:.0f} x {H:.0f}mm')
+    print(f'\n  kerf = (C - the {KERF_CUTS + 1} pieces butted up) / '
+          f'{KERF_CUTS}')
+    print(f'  kerf = (the square hole - the piece that fell out) / 2')
+    print(f'  currently in lyre_harp.py: KERF = {KERF:g}')
+    return 0
+
+
 def ladder(path):
     """One sheet of the same joint at several FIT values, to find the fit.
 
@@ -1921,11 +2047,11 @@ if __name__ == '__main__':
         if not (x == '--no-write'
                 or x.startswith(('--out=', '--drawing=', '--render=',
                                  '--test=', '--fit=', '--back-numbers=',
-                                 '--ladder='))):
+                                 '--ladder=', '--kerf-test='))):
             raise SystemExit(f'error: {x} is not a flag this generator reads. '
                              f'It takes --out=, --drawing=, --render=, '
-                             f'--test=, --fit=, --back-numbers=, --ladder= '
-                             f'and --no-write.')
+                             f'--test=, --fit=, --back-numbers=, --ladder=, '
+                             f'--kerf-test= and --no-write.')
     # --fit= is the friction knob, for walking a test piece up to the fit that
     # wants a mallet. It is the kerf the JOINTS are drawn as if cut at; the beam
     # stays at the measured KERF and every line that is not a joint is unmoved.
@@ -1946,6 +2072,9 @@ if __name__ == '__main__':
     if hit:
         OUT = hit[0].split('=', 1)[1]
     try:
+        kt = [x for x in a if x.startswith('--kerf-test=')]
+        if kt:
+            sys.exit(kerf_test(kt[0].split('=', 1)[1]))
         ld = [x for x in a if x.startswith('--ladder=')]
         if ld:
             sys.exit(ladder(ld[0].split('=', 1)[1]))
