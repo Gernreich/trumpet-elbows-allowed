@@ -203,8 +203,7 @@ already exists in wood — check what moved before you replace them.
 
 **[the switchback trumpet](../switchback/)**
 · **[the greek spiral](../greek-spiral/)**
-· **[the tight coil](../tight-coil/)**
-· **[the ziggurat](../ziggurat/)** — none of them cut. The tight coil is
+· **[the tight coil](../tight-coil/)** — none of them cut. The tight coil is
 this one's walk with its coil legs cut from 3 to 2 and wound six turns rather
 than three: 42.7mm a turn rather than 64 at a uniform 16mm block, for 16 elbows.
 
