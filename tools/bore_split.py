@@ -31,7 +31,7 @@ World axes: +X right, +Y up, +Z toward you.
     block as a stranded turn of its own. Neither is worth a term, so the ends are
     written like everywhere else.
 
-Every stranded turn is the same part whichever way it turns, so a bore needs one
+Every elbow is the same part whichever way it turns, so a bore needs one
 file plus one file per distinct run length.
 
 EVERY EXAMPLE BELOW USED TO READ "D R1 F", which is not a walk: R and F are
@@ -41,7 +41,10 @@ actually parses now.
 
     python3 bore_split.py "N2 U2" --no-write   report only
     python3 bore_split.py "N2 U2" --write DIR  cut the files into DIR
-    python3 bore_split.py "N2 U2"                   a stranded turn refuses;
+    python3 bore_split.py "U3 N1 E3" --no-write   two elbows: a coil whose
+        middle term is under 3 cannot fold, so blocks 4 and 5 are cut alone;
+    python3 bore_split.py "U3 N1 E3" --refuse-elbows   the same walk refused,
+        nothing written -- what trumpet itself would say;
     python3 bore_split.py "N2 U2" --bore=10         the airway, square,
         rather than the block outside: --bore=10 is --blocksize=16 at 3mm ply.
     python3 bore_split.py "N2 U2" --bore=10 --straight=30
@@ -196,20 +199,17 @@ BURN = KERF / 2                     # what Boxes.py wants: the radius
 # wall_off = (BORE + THICK)/2, so putting the sheet in THICK moves the bore.
 # There the sheet reaches the slot only. Here it reaches everything, correctly.
 # 16mm is 10mm of air in 3mm stock, which is the bore this project cuts.
-# A turn folded into a bend, never stranded as a one-block piece of its own.
-# This biases the split toward folding, and it is what FINDS a bend-only split
-# in the first place -- it is not the guard, it is what lets the guard pass. It
-# is a constant now: --fewest-pieces used to turn it off, and since the refusal
-# below is unconditional, turning it off could only produce a walk the next line
-# rejects. The flag is gone for that reason.
+# A turn folded into a bend wherever one can be, and stranded as a one-block
+# elbow only where it cannot. This biases the split toward folding: a bend is
+# free and an elbow is a glue-up, so a split that folds a turn wins over one that
+# strands it, whatever that costs in pieces.
 FOLD_TURNS = True
-# THE LIBRARY IS BEND-ONLY, so this is on and there is no way to turn it off.
-# It was False until 2026-09-15, when the designs that stranded a turn were
-# deleted and the two sorting levels collapsed: with no library of them
-# left to exercise, a stranded turn is a fault rather than a category. The word
-# survives here and nowhere else, because this is the code that has to recognise
-# one in order to refuse it.
-REFUSE_STRANDED = True
+# ELBOWS ARE ALLOWED IN THIS REPOSITORY. It is trumpet-elbows-allowed, a copy of
+# trumpet made on 2026-10-06; trumpet itself refuses every elbow, unconditionally,
+# since 2026-09-15. Here a turn that cannot fold is cut as an elbow and the cut
+# list says so. --refuse-elbows turns the refusal back on for one run, which is
+# how to ask whether a walk would be cuttable in trumpet.
+REFUSE_ELBOWS = False
 BED = BED_W                   # sheets wrap to the bed width
 OUTDIR = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                       '..', '..', 'test')
@@ -697,7 +697,7 @@ def blocks(text):
         if r['in'] != r['out']:
             if run:
                 out2.append(('straight', run, h, h)); run = 0
-            out2.append(('stranded', 1, r['in'], r['out']))
+            out2.append(('elbow', 1, r['in'], r['out']))
         else:
             if run == 0:
                 h = r['in']
@@ -1083,7 +1083,7 @@ def piece_spec(rec, idx, k=None, laps=('', ''), ports=(False, False),
         laps = tuple(FACE2D[turn2d(VEC2D[L], q)] if L else '' for L in laps)
         return ('E' + ''.join(faces) + lap_tag(laps),
                 ['--path=', f'--open_faces={faces[0]},{faces[1]}']
-                + lap_args(laps) + extra, 'stranded')
+                + lap_args(laps) + extra, 'elbow')
 
     cells = [flat(p) for p in pos]
     steps = [tuple(b[j] - a[j] for j in range(2)) for a, b in zip(cells, cells[1:])]
@@ -1387,7 +1387,7 @@ TAG = ''             # --tag=, appended to every part's engraved number
 # unknown. nest.py knew none, so nesting the mouthed loop laid out its parts
 # with no holes in them while the cut files had two. A switch is added here,
 # once, and all four tools have it.
-DESIGN_BARE = ('flat', 'ports')
+DESIGN_BARE = ('flat', 'ports', 'refuse-elbows')
 DESIGN_VALUED = ('mouth-at', 'blocksize', 'bore', 'straight', 'sheet', 'kerf',
                  'tag', 'play', 'notch')
 DESIGN_HELP = """design switches, read by bore_split.take_design_switches() and
@@ -1397,6 +1397,7 @@ so the same in bore_split.py, check.py, nest.py and regress.py:
   --straight=MM    length of a straight block; turns stay cubic
   --flat           plain butt ends, no tabs and no notches
   --ports          let a piece open through a face plate
+  --refuse-elbows  stop, writing nothing, if any turn cannot fold into a bend
   --mouth-at=B,B   a mouth through a face plate at each block, 1-based
   --sheet=MM       the ply as measured
   --kerf=MM        the cut width as measured
@@ -1416,9 +1417,10 @@ def reset_design():
     time: STRAIGHT across the corpus, then FLAT, then MOUTH_AT.
     """
     global FLAT, ALLOW_PORTS, MOUTH_AT, TAG, SHEET, KERF, BURN, PLAY_OVERRIDE
-    global NOTCH, STRAIGHT, BLOCK, COMMON
+    global NOTCH, STRAIGHT, BLOCK, COMMON, REFUSE_ELBOWS
     d = _DESIGN_DEFAULTS
     FLAT, ALLOW_PORTS, MOUTH_AT, TAG = False, False, None, ''
+    REFUSE_ELBOWS = False
     SHEET, KERF, BURN = d['SHEET'], d['KERF'], d['KERF'] / 2
     PLAY_OVERRIDE, NOTCH = None, None
     BLOCK = STRAIGHT = d['BLOCK']
@@ -1433,6 +1435,7 @@ def take_design_switches(argv):
     --blocksize that disagrees with it.
     """
     global FLAT, ALLOW_PORTS, MOUTH_AT, SHEET, KERF, BURN, COMMON, TAG
+    global REFUSE_ELBOWS
     got, rest, i = {}, [], 0
     while i < len(argv):
         x = argv[i]
@@ -1465,6 +1468,8 @@ def take_design_switches(argv):
         FLAT = True
     if 'ports' in got:
         ALLOW_PORTS = True
+    if 'refuse-elbows' in got:
+        REFUSE_ELBOWS = True
     if 'mouth-at' in got:
         try:
             MOUTH_AT = [int(b) for b in got['mouth-at'].split(',') if b != '']
@@ -1742,7 +1747,7 @@ def filename(code):
             bits.append(name)
     tail = ('-' + '-'.join(bits)) if bits else ''
     if base.startswith('E'):
-        return f'stranded-{base[1:]}{tail}'
+        return f'elbow-{base[1:]}{tail}'
     if base.startswith('S'):
         return f'straight{base[1:]}{tail}'
     return f'bend-{base[1:]}{tail}'
@@ -1935,14 +1940,13 @@ def main(text, outdir=None):
         facts[code] = {'span': span, 'in': r0['in'], 'out': r1['out'],
                        'kind': note, 'plate': f'{bl[0]}x{bl[1]}'}
 
-    if REFUSE_STRANDED:
-        bad = [code for _, code, _, note, _ in specs if note == 'stranded']
+    if REFUSE_ELBOWS:
+        bad = [code for _, code, _, note, _ in specs if note == 'elbow']
         if bad:
             raise ValueError(
-                f'section{"s" if len(bad) > 1 else ""} '
+                f'--refuse-elbows: section{"s" if len(bad) > 1 else ""} '
                 f'{", ".join(bad)} of {len(specs)} '
-                f'strand{"" if len(bad) > 1 else "s"} a turn as a one-block '
-                'piece. Every turn here has to fold into a bend. '
+                f'{"are elbows" if len(bad) > 1 else "is an elbow"}. '
                 'Nothing written. Lengthen the term between the turns: a '
                 'hairpin needs 2 and a coil 3.')
 
@@ -2060,8 +2064,8 @@ def main(text, outdir=None):
               f'    carry the tongue on a wall, so it would have to go on a plate.')
 
     for i in range(len(specs) - 1):
-        if specs[i][3] == 'stranded' and specs[i+1][3] == 'stranded':
-            print(f'\n  ! pieces {i+1} and {i+2} are both single stranded turns meeting '
+        if specs[i][3] == 'elbow' and specs[i+1][3] == 'elbow':
+            print(f'\n  ! pieces {i+1} and {i+2} are both elbows meeting '
                   'directly.\n    Only 2 of the 3 tabs engage if their turns are '
                   'in perpendicular\n    planes. Consider a block of straight '
                   'between them.')
