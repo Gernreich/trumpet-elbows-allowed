@@ -1,5 +1,10 @@
 # Trumpet, elbows allowed
 
+<!-- readme-only -->
+**[Read the writeup](https://gernreich.github.io/trumpet-elbows-allowed/)**
+
+<!-- page-only **[Read the README](https://github.com/Gernreich/trumpet-elbows-allowed)** -->
+
 **This is `trumpet-elbows-allowed`, a copy of
 [trumpet-elbows-not-allowed](https://github.com/Gernreich/trumpet-elbows-not-allowed) made on 2026-10-06 in which a
 turn that cannot fold into a bend is cut as an elbow rather than refused, and a
@@ -23,9 +28,6 @@ rather than 90 — so it is the instrument that is short, not the drawing. The
 coil winds three whole turns: its walk is `W U E D` three times over, and its
 first and last blocks sit on the same cross-section point, which a fractional
 number of turns cannot do.
-
-<!-- readme-only -->
-**[Read the writeup](https://gernreich.github.io/trumpet-elbows-allowed/)**
 
 ![The built bore, twelve sections glued up](built/coil-fold2-long-straight-3t/bore10-coil-fold2-long-straight-3t_web.jpg)
 
