@@ -61,7 +61,7 @@ fractional number of turns cannot do. It sweeps **1080°**, right-handed.
 | bounding box | 122 × 122 × 304mm |
 | turns | 3, right-handed, 1080° about a north–south axis |
 | airway | 10mm square, constant |
-| stranded turns | none; every turn is a bend |
+| elbows | none; every turn is a bend |
 | whole instrument | 1339mm — 90mm mouthpiece + 1096mm bore + 153mm bell |
 | as actually built | 1321mm — the mouthpiece on it is 24 rings, not 30 |
 | measured note | F4, 349.2 Hz |

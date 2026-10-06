@@ -37,7 +37,25 @@ import sys
 # library designs: the splitter still has to handle a walk that meets itself,
 # and hilbert cube 1 fills a 2x2x2 so it touches everywhere it can. Deleting
 # them would drop coverage without removing a design.
+#
+# FIVE DESIGNS CAME BACK ON 2026-10-06, in trumpet-elbows-allowed only, where
+# elbows and self-contact are allowed again. They sit in the flat
+# walk/<family>/<design> tree rather than the old elbows/ and contact/ levels.
+# 'first trumpet' has cut files and regenerated them byte-identical to the
+# sheets deleted on 2026-09-15; the other four were only ever pages. Every walk
+# here is the one its page draws -- 'spiral trumpet' used to be gated here as
+# 'U3 N2 ... E12 U3', which is not the walk on its page.
 UNIFORM = [
+    ('first trumpet', 'N10 U2 W2 S7 U2 E4 N9 W2 D2 N4',
+     '../parts/bore/concept/walk/meander/first'),
+    ('spiral trumpet', 'U2 N2 W2 S4 E4 U2 N6 W6 S8 E8 U2 N10 W10 S12 E12 U4',
+     None),
+    ('minimal coil', 'U2 N1 E1 S1 U1 W1 U1 N1 E1 S1 U1 W1 U1 N1 E1 S1 U1 W1 U2',
+     None),
+    ('square rise 1', 'W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 '
+                      'U1 W1 S2 E2 U4', None),
+    ('telescope', 'U2 N1 W1 S2 E2 N3 U1 W2 S3 E3 N4 U1 W4 S5 E5 N6 U1 W6 S7 E7 '
+                  'N8 U1 W8 S9 E9 N10 U2', None),
     ('helix, rise 2', 'N4 U2 E4 U2 S4 U2 W4 U2 N4', None),
     ('helix, rise 1', 'N4 U1 E4 U1 S4 U1 W4 U1 N4', None),
     ('helix, side 6', 'N6 U2 E6 U2 S6 U2 W6 U2 N6 U2 E6', None),

@@ -1,4 +1,12 @@
-# Trumpet
+# Trumpet, elbows allowed
+
+**This is `trumpet-elbows-allowed`, a copy of
+[trumpet](https://github.com/Gernreich/trumpet) made on 2026-10-06 in which a
+turn that cannot fold into a bend is cut as an elbow rather than refused, and a
+bore may come back and touch itself.** The built instrument and everything
+about it are unchanged; what differs is the generator's default and five designs
+trumpet deleted on 2026-09-15, which are back — see
+[Elbows and contact](#elbows-and-contact).
 
 A trumpet cut flat from 3mm birch ply and glued into a tube. The airway is a
 **10mm square** running through **16mm blocks** — 10mm of air inside 3mm walls —
@@ -64,12 +72,12 @@ different faces and both must sit square, so **a turning block has to stay
 cubic** even when the straights are stretched. The built bore is 28 straight
 blocks at 30mm and 16 turns at 16mm, which is where its 1096mm comes from.
 
-**Bends, because every turn has to fold into one.** A bend is a turn folded
-into the piece it belongs to. The alternative is a turn stranded as its own
-one-block piece — three tabs, fiddly to hold, weak at the seam — and nothing
-here is built that way. The generator refuses to write one rather than handing
-you a folder to inspect; there is no flag for it and no library of them to look
-at.
+**Bends wherever a turn can fold into one.** A bend is a turn folded into the
+piece it belongs to. The alternative is an **elbow**: a turn stranded as its own
+one-block piece — three tabs, fiddly to hold, weak at the seam. The generator
+always folds where it can, and where it cannot it cuts the elbow and lists it
+as one. Neither built instrument has any. `--refuse-elbows` makes it stop
+instead, writing nothing, which is what trumpet itself does every time.
 
 > Folding is **not** cheapest in parts. Measured over 133 walks it trades 23
 > stranded turns for 46 more pieces, because folding a turn into a bend adds two
@@ -179,8 +187,7 @@ two ends, so `built/` sits at the root rather than inside `parts/bore/`. Nothing
 in `concept/` has been cut, and a folder there is not a promise that it should
 be.
 
-A walk is filed under its shape alone, and has to pass two rules to be here at
-all:
+A walk is filed under its shape alone:
 
 ```
 concept/walk/<family>/<design>
@@ -190,26 +197,48 @@ concept/walk/<family>/<design>
 asserted: a coil has an axis it advances along and a handedness, a meander has
 neither.
 
-**Every turn is a bend**, folded into the piece it belongs to. A turn stranded
-as its own one-block piece is a fault rather than a category, and `bore_split.py`
-refuses to write one.
+In trumpet, a walk has to pass two rules to be filed there at all: every turn
+folds into a bend, and nothing comes back and touches itself. **Here neither is
+a rule**, and both are facts about a design rather than folders it is sorted
+into.
 
-**Nothing comes back and touches itself** — two blocks sharing a face, an edge
-or a vertex without being joined along the tube. At a face the airway runs past
-6mm of wood rather than 3; at an edge or a vertex the two walls meet on a line
-or a point, which is a place for the glue-up to go out of true. A tight coil can
-rarely avoid it, which is why it used to be sorted on rather than refused.
+### Elbows and contact
+
+**An elbow is allowed.** A turn with no straight block to fold into is cut as
+its own one-block piece, and the cut list and file name say `elbow`.
+`bore_split.py` still folds every turn it can, so a walk that splits bend-only
+in trumpet splits identically here.
+
+**A bore may touch itself** — two blocks sharing a face, an edge or a vertex
+without being joined along the tube. At a face the airway runs past 6mm of wood
+rather than 3; at an edge or a vertex the two walls meet on a line or a point,
+which is a place for the glue-up to go out of true. A tight coil can rarely
+avoid it. The generator warns and writes.
 
 > Blocks **two** apart along the walk are edge-neighbours at every single turn —
 > that is the geometry of turning, not the bore touching itself, and counting it
 > would condemn every walk here. So contact is measured between blocks **three
 > or more** apart.
 
-> `coil/search/` is the exception, and deliberately. It is the record of an
-> exhaustive search rather than a shelf of buildable designs, so its ten walks
-> are kept as they were measured — 4 of them touch-free and 6 not — because
-> removing the ones that touch would change the field the winners were scored
-> against.
+Five designs trumpet deleted on 2026-09-15 are back, in the same
+`<family>/<design>` tree as everything else:
+
+| design | walk | elbows | touches itself | what is in the folder |
+| --- | --- | ---: | --- | --- |
+| `meander/first` | `N10 U2 W2 S7 U2 E4 N9 W2 D2 N4` | 3 | no | cut files and a viewer |
+| `spiral/expanding` | `U2 N2 W2 S4 E4 U2 N6 W6 S8 E8 U2 N10 W10 S12 E12 U4` | 3 | no | a viewer and two photographs |
+| `coil/minimal` | `U2 N1 E1 S1 U1 W1 U1 N1 E1 S1 U1 W1 U1 N1 E1 S1 U1 W1 U2` | 18 | yes | a viewer |
+| `coil/square-rise1` | `W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U4` | 16 | yes | a viewer |
+| `spiral/telescope` | `U2 N1 W1 S2 E2 N3 U1 W2 S3 E3 N4 U1 W4 S5 E5 N6 U1 W6 S7 E7 N8 U1 W8 S9 E9 N10 U2` | 11 | yes | a viewer |
+
+`first` is the design the regression suite calls the first trumpet, and its eight
+sheets regenerate byte-identical to the ones deleted. The pages are redrawn by
+today's `viewer.py`; every one draws the same cells as the page it replaces.
+
+> `coil/search/` was the exception to that rule in trumpet, and still keeps its
+> ten walks exactly as they were measured — 4 of them touch-free and 6 not —
+> because it is the record of an exhaustive search for **bend-only** coils, and
+> it still is one: a walk that strands a turn is not a candidate there.
 
 ### Three ways to make a tube
 
@@ -344,8 +373,9 @@ from that walk:
 | `5x5-50` | least tube per turn, 15.1 blocks |
 
 **It was seven of seventeen until 2026-09-15.** `3x3-51`, `3x7-22` and `5x8-18`
-were the three that touch themselves, and the library is non-contact now, so
-they went with the rest of the contact designs. Their three categories did not
+were the three that touch themselves, and trumpet went non-contact that day, so
+they went with the rest of the contact designs. This copy allows contact but has
+not brought these three back. Their three categories did not
 go with them — they are led from inside `search/`, by margins the promoted four
 never beat:
 
