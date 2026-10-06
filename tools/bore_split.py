@@ -58,7 +58,7 @@ actually parses now.
 --no-write is not decoration on the first line either: with neither switch the
 files go to ../../test, which is a write and was described as "report only".
 """
-import html, os, re, subprocess, sys, xml.etree.ElementTree as ET
+import html, os, re, subprocess, sys, tempfile, xml.etree.ElementTree as ET
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import svgpath as V
@@ -1160,9 +1160,12 @@ def cut(args, tag):
     port cell is subtracted afterwards, leaving every surviving edge exactly as
     drawn.
     """
-    out = f'/tmp/snakebox_{tag}.svg'
-    if os.path.exists(out):
-        os.remove(out)          # never read a previous run's parts
+    # A name of this run's own, not /tmp/snakebox_{tag}.svg: that was shared by
+    # every run on the machine, and two regress.py runs at once -- one per
+    # trumpet repository -- read each other's sections and failed part counts.
+    fd, out = tempfile.mkstemp(prefix=f'snakebox_{tag}_', suffix='.svg')
+    os.close(fd)
+    os.remove(out)              # so "SnakeBox wrote nothing" still shows
     r = subprocess.run([PY, 'scripts/boxes', 'SnakeBoxVar'] + args + COMMON
                        + (['--pin_length=0'] if FLAT else [])
                        + [f'--output={out}'], cwd=BOXES, capture_output=True,
@@ -1179,6 +1182,7 @@ def cut(args, tag):
                            % (tag, ' '.join(args),
                               (r.stderr or r.stdout or '').strip()[-600:]))
     root = ET.parse(out).getroot()
+    os.remove(out)
     ps = []
     for g in root.iter(V.NS + 'g'):
         role = 'P' if g.get('id') in ('p-0', 'p-1') else 'W'
