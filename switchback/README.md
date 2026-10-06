@@ -53,7 +53,7 @@ longer a way to ask for one.
 | bounding box | 64 × 64 × 96mm — 4 × 4 × 6 blocks |
 | airway | 10mm square, constant |
 | block pitch | 16mm — 10mm of air in 3mm walls |
-| stranded turns | none; every turn is a bend |
+| elbows | none; every turn is a bend |
 | contact | none |
 | legs | north 6, west 5, up 5, east 3, down 3 |
 
@@ -108,19 +108,19 @@ cuts** — blue writes the section number on every part, black frees it.
 The generator lives in `../tools`. Report only, writing nothing:
 
 ```
-python3 tools/bore_split.py "N1 W3 U2 E3 N3 D3 W2 U3 N1" --bore=10 --no-write
+python3 tools/bore_split.py "N1 W3 U2 E3 N3 D3 W2 U3 N1" --bore=10 --no-write --refuse-elbows
 ```
 
 `--bore=10` is the airway; the 16mm block follows from it at 3mm ply. The
-generator refuses a stranded turn by default, so the bend-only claim is a gate
-rather than a reading.
+generator cuts an elbow by default in this copy; `--refuse-elbows` makes it refuse
+one instead, so the bend-only claim is a gate rather than a reading.
 Writing rewrites every sheet in the folder, so it runs under the venv python
 that has the gate's dependencies:
 
 ```
 cd tools && ~/Software/boxes/venv/bin/python bore_split.py \
     ../parts/bore/concept/walk/coil/fold2/bore/bore.html \
-    --write ../parts/bore/concept/walk/coil/fold2/bore
+    --write ../parts/bore/concept/walk/coil/fold2/bore --refuse-elbows
 ```
 
 ## Stretched, the same walk is longer

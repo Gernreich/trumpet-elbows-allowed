@@ -151,11 +151,12 @@ set's names**, and nothing in the sheet's own name would say so. This design is 
 
 ## Every turn a bend — the rule that shapes the walk
 
-A turn with no straight block to fold into is **stranded**: a single block left as its own
-piece. Its opening frame has **three sides, not four**, so both neighbouring sections need
+A turn with no straight block to fold into is **stranded** as an **elbow**: a single block
+left as its own piece. Its opening frame has **three sides, not four**, so both neighbouring sections need
 flattened plates butt-glued to it, plus tongues, plus an unfilled void inside the corner.
-That gluing is the difficulty of the whole build. **This design strands nothing**, and
-since 2026-09-15 `bore_split.py` refuses to write a walk that would.
+That gluing is the difficulty of the whole build. **This design strands nothing.** In
+trumpet, `bore_split.py` refuses to write a walk that would; in this copy it cuts the elbow
+unless given `--refuse-elbows`.
 
 Whether a turn can fold is decided over **every window of three consecutive terms**
 (outer *A*, middle *m*, outer *C*), not once per walk. Consecutive terms are always on
@@ -306,10 +307,11 @@ cd ../bell && python3 bell-round.py 17 --bore=10 --length=152 --mouth=80
 Both rebuild the shipped sheet byte for byte from a clean tree; the bell's line also
 writes nothing else, where a bare `bell-round.py` would add three more budgets.
 
-**The refusal is on and there is no way off it.** `FOLD_TURNS` only biases the split
-toward folding; `REFUSE_STRANDED` rejects a stranded turn outright, raises before anything
-is written, names the sections at fault and exits 1 — so a walk that strands one cannot
-reach this folder by accident. Note it is the command line that refuses: `check.py` does
+**The refusal is off by default in this copy, and `--refuse-elbows` turns it on.**
+`FOLD_TURNS` only biases the split toward folding; `REFUSE_ELBOWS` rejects an elbow
+outright, raises before anything is written, names the sections at fault and exits 1.
+Without the switch a walk that strands a turn can reach this folder, so rewrite it with
+the switch. Note it is the command line that refuses: `check.py` does
 not consult it, so a green `regress.py` says nothing about whether a walk can be written.
 
 **Checks:**

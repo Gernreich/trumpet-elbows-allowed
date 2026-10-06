@@ -280,29 +280,39 @@ it has been proved not obviously wrong. Say which it is.
 
 ## Standing decisions
 
-**Every turn folds into a bend, at any cost in pieces.** A turn stranded as its
-own one-block piece has an opening frame with three sides rather than four, so
-both neighbours need flattened plates butt-glued to it, plus tongues, plus an
-unfilled void in the corner. Flat-to-flat gluing is the difficulty of the whole
-build. `FOLD_TURNS` is what biases the split toward folding, and there is no
-flag that turns it off: `--fewest-pieces` is gone, because the refusal below
-would reject anything it produced.
+**THIS IS trumpet-elbows-allowed**, a copy of trumpet made on 2026-10-06. Trumpet
+refuses every elbow unconditionally; here an elbow is cut. Everything below
+says which behaviour is which.
 
-**None is the standard, and it is not opt-in.** `REFUSE_STRANDED` raises before
-a single file is written, naming the sections at fault, and exits 1:
+**Every turn folds into a bend wherever it can, at any cost in pieces.** An
+elbow -- a turn stranded as its own one-block piece -- has an opening frame with
+three sides rather than four, so both neighbours need flattened plates
+butt-glued to it, plus tongues, plus an unfilled void in the corner. Flat-to-flat
+gluing is the difficulty of the whole build. `FOLD_TURNS` biases the split
+toward folding and is always on, so a walk that splits bend-only in trumpet
+splits identically here. Only a turn that cannot fold becomes an elbow.
 
-    error: sections 2, 3 of 4 strand a turn as a one-block piece. Every turn
-    here has to fold into a bend. Nothing written. Lengthen the term between
-    the turns: a hairpin needs 2 and a coil 3.
+**Elbows are allowed by default; `--refuse-elbows` turns the refusal back on.**
+`REFUSE_ELBOWS` is False. With the switch, it raises before a single file is
+written, naming the sections at fault, and exits 1 -- what trumpet says to the
+same walk:
 
-**`check.py` DOES NOT CONSULT IT, and `regress.py` runs `check.py`.** The corpus
-splits 12 bend-only and 12 stranding — the three helices, the three solid corner
-walks, both coils, both Hilbert cubes, corner to corner and the double spiral —
-and every one of the twelve is refused by the command line while passing the
-corpus. That is not a contradiction to fix by deleting them: the corpus
-exercises the splitter's geometry, and the guard is a policy on what may be
-WRITTEN. But it does mean **a green `regress.py` is not evidence that a walk can
-be cut**, and the two must not be read as the same statement.
+    error: --refuse-elbows: sections 2, 3 of 4 are elbows. Nothing written.
+    Lengthen the term between the turns: a hairpin needs 2 and a coil 3.
+
+It is one of the design switches, so `check.py`, `nest.py` and `regress.py`
+accept it too -- but **`check.py` does not consult it**, and `regress.py` runs
+`check.py`. The corpus is 31 designs, 14 bend-only and 17 with elbows -- the five
+designs restored on 2026-10-06, the three helices, the three solid corner walks,
+both coils, both Hilbert cubes, corner to corner and the double spiral. **A
+green `regress.py` is not evidence that a walk would be cuttable in trumpet**;
+`--refuse-elbows` on the command line is.
+
+**The piece kind is `elbow`** in the cut list, in file names (`-elbow-NE-`), in
+`bore_render.py`, and in the field the coil search reads (`kinds.elbow`, kept
+as `elbows` in `parts.json`). Trumpet renamed it `stranded` on 2026-09-15; this
+copy renamed it back, and checked that the search scripts count 3 in
+`meander/first` rather than silently reading 0.
 
 **Respelling them is not the fix either, and this was measured rather than
 assumed.** Raising every interior term to its window minimum does make nine of
@@ -322,12 +332,13 @@ nothing was lost. It also settles a second thing: `examples/.repro` drew
 
 Probe the guard through the command line, never through the corpus:
 
-    python3 bore_split.py "N3 U1 E3" --no-write    # refuses, exits 1
+    python3 bore_split.py "N3 U1 E3" --no-write                  # 2 elbows, exits 0
+    python3 bore_split.py "N3 U1 E3" --no-write --refuse-elbows  # refuses, exits 1
 
 The long ones are in the corpus for the opposite reason: `hilbert open` (190
 blocks, 27 pieces), `metre spring`, `4 corners, flat` and the trumpet candidate
 split bend-only at a size where a change that started stranding turns would show
-up as a refusal rather than as a quietly different sheet.
+up -- here as elbows in the cut list, and as a refusal under `--refuse-elbows`.
 
 **What a turn costs is set by the window of three consecutive terms around it**,
 outer A, middle m, outer C — checked over every window, not once per walk.
@@ -340,10 +351,11 @@ Consecutive terms are always on different axes, which leaves three cases:
 | different axes | coil | >= 3 |
 
 Steps are free; hairpins are not — the distinction is the one most easily lost.
-Probed with `--no-write`:
+Probed with `--no-write`; every one that cuts elbows here is refused under
+`--refuse-elbows`:
 
-    N3 U1 N3   step      folds          N3 U1 E3   coil   REFUSED, 2 stranded
-    N3 U1 S3   hairpin   REFUSED, 2     N3 U2 E3   coil   REFUSED, 1 stranded
+    N3 U1 N3   step      folds          N3 U1 E3   coil   2 elbows
+    N3 U1 S3   hairpin   2 elbows       N3 U2 E3   coil   1 elbow
     N3 U2 S3   hairpin   folds          N3 U3 E3   coil   folds
 
 `bore_split.py` is the authority on this, not this file and not a
