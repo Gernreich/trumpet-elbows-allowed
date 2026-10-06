@@ -121,6 +121,12 @@ UNIFORM = [
     # plain end shows in its file name: until that day straight and elbow
     # names dropped it.
     ('tight coil', 'walks/tight_coil.txt', '../parts/bore/concept/walk/coil/tight/bore'),
+    # The ziggurat, added 2026-10-06: a centred square spiral whose sides grow
+    # by one block every side, stepping north between, so each loop is a block
+    # wider all round than the last. 1008mm, 4 elbows. Section 9's sheet is
+    # 599mm wide, a millimetre inside the bed -- the design that keeps the gate's
+    # 'sheet fits the bed' check honest at its edge.
+    ('ziggurat', 'walks/ziggurat.txt', '../parts/bore/concept/walk/spiral/ziggurat/bore'),
     # The bend-only walks. Every design above either strands a turn or is too
     # small to be interesting, so nothing was checking that a long walk still
     # splits without one - the property every build is chosen for.

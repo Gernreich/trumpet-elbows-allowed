@@ -132,7 +132,7 @@ ring 0 lands squarely on the face it seals.
 
 Each of these carries the walk it is cut from, its blocks and centreline, its
 sections with their plates and sheet sizes, and a link to a viewer you can turn
-at tab size. The first is the one that plays; the next three are candidates that
+at tab size. The first is the one that plays; the next four are candidates that
 have not been cut. The spiral after them is in wood too, but it is not a walk —
 it is a swept curve, cut, glued up and shellacked, and not yet blown.
 
@@ -142,6 +142,7 @@ it is a swept curve, cut, glued up and shellacked, and not yet blown.
 | **[the switchback trumpet](switchback/)** | 22 blocks, 352mm, six sections — folds back on itself twice |
 | **[the greek spiral](greek-spiral/)** | 68 blocks, 1088mm, **one** section — a flat meander, the only bore here that cuts in one piece |
 | **[the tight coil](tight-coil/)** | 65 blocks, 1040mm, 33 sections — the tightest coil that does not touch itself, at 42.7mm a turn, with 16 elbows |
+| **[the ziggurat](ziggurat/)** | 63 blocks, 1008mm, 13 sections — a centred square spiral, each turn a block wider all round, with 4 elbows |
 | **[the spiral bore](ribbon-spiral/)** | 19 facets of 45°, 1000mm, R34.7 to R112.9 — a swept curve rather than a walk, cut in ply, glued up and finished |
 | **[the bell and the mouthpiece](ends/)** | The two ends, shared by every bore on the 10mm channel |
 
@@ -171,14 +172,15 @@ parts/
   bore/concept/     every candidate, none of them cut
 tools/              the generator, the gate, and the walks
 three-turn/         a page each: the two instruments that exist, the
-switchback/         three candidates worth reading about on their own,
+switchback/         four candidates worth reading about on their own,
 greek-spiral/       and the two ends they all share
 tight-coil/
+ziggurat/
 ribbon-spiral/
 ends/
 ```
 
-The six page directories hold nothing but a `README.md` and the `index.html`
+The seven page directories hold nothing but a `README.md` and the `index.html`
 rendered from it. Every number on them is read back out of the walk, the cut
 file or the generator, never typed from memory.
 
@@ -239,9 +241,11 @@ Five designs trumpet-elbows-not-allowed deleted on 2026-09-15 are back, in the s
 sheets regenerate byte-identical to the ones deleted. The pages are redrawn by
 today's `viewer.py`; every one draws the same cells as the page it replaces.
 
-One design has been added since that has elbows by choice:
+Two designs have been added since that have elbows by choice:
 **[the tight coil](tight-coil/)**, the tightest coil here that does not touch
-itself — 42.7mm a turn, 16 elbows, 1040mm.
+itself — 42.7mm a turn, 16 elbows, 1040mm — and **[the ziggurat](ziggurat/)**,
+a centred square spiral that widens a block all round each turn — 4 elbows,
+1008mm.
 
 > `coil/search/` was the exception to that rule in trumpet-elbows-not-allowed, and still keeps its
 > ten walks exactly as they were measured — 4 of them touch-free and 6 not —
@@ -440,7 +444,7 @@ refuses to leave a folder unchecked; `tools/regress.py` runs the whole library.
 cd tools && ~/Software/boxes/venv/bin/python regress.py
 ```
 
-**32 designs, 0 failed, 10035 individual checks.**
+**33 designs, 0 failed, 10430 individual checks.**
 
 It checks that each section closes round its bore, that the assembled bore is one
 sealed passage, that its volume matches the walk, that no feature is under 1.5mm,
