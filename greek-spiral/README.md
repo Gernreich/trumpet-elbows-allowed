@@ -2,7 +2,7 @@
 
 A trumpet bore drawn as a flat meander — the Greek key, wound in and brought
 back out beside itself. **68 blocks, 1088mm of centreline, one section, no
-stranded turns and no contact.** It is the only lattice bore in this repository that
+elbows and no contact.** It is the only lattice bore in this repository that
 cuts as a single section — every other one splits into six, eight,
 twenty-seven — because it is planar: there is nothing to fold, and no
 section-to-section joint to glue square.
@@ -57,7 +57,7 @@ either side — are the two `N10`.
 | bounding box | 192 × 16 × 208mm — 12 × 1 × 13 blocks |
 | airway | 10mm square, constant |
 | block pitch | 16mm — 10mm of air in 3mm walls |
-| stranded turns | none; every turn is a bend |
+| elbows | none; every turn is a bend |
 | contact | none |
 | legs | north 25, west 21, south 12, east 10 |
 
