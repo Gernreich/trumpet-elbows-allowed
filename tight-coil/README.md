@@ -222,6 +222,9 @@ instrument clear of the coil without a longer lead.
 
 ## More, and licence
 
+**[The ziggurat](../ziggurat/)** — the same rise a turn, but a square spiral
+that widens a block all round each turn instead of staying three blocks across.
+
 **[The three-turn trumpet](../three-turn/)** — the bore that plays, and the
 same coil with legs of 3 and no elbows.
 
