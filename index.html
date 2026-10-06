@@ -36,6 +36,9 @@ h3{font-size:1.02rem;font-weight:650;margin:1.7em 0 .45em}
 p{margin:.85em 0}
 ul,ol{margin:.85em 0;padding-left:1.35em}
 li{margin:.3em 0}
+/* A list with blank lines between its items is "loose", and pandoc wraps each item
+   in a <p> as GitHub does. These pages were set tight before pandoc, so they stay so. */
+li>p{margin:0}
 hr{border:0;border-top:1px solid var(--line);margin:2.6em 0}
 figure{margin:1.6em 0}
 /* A paragraph holding two or more images is a gallery. Left to inline layout they
@@ -100,34 +103,99 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <p>The instrument that has been built is a <strong>coil of 1096mm in 12 sections</strong>, with a <strong>72mm</strong> mouthpiece at one end and a 153mm bell at the other. It winds 1080° — <strong>three</strong> turns, right-handed, about a north–south axis. Everything else here is a candidate for the next one.</p>
 <p>The mouthpiece on this instrument is 24 rings where the design cuts 30 — 72mm rather than 90 — so it is the instrument that is short, not the drawing. The coil winds three whole turns: its walk is <code>W U E D</code> three times over, and its first and last blocks sit on the same cross-section point, which a fractional number of turns cannot do.</p>
 <figure><img src="built/coil-fold2-long-straight-3t/bore10-coil-fold2-long-straight-3t_web.jpg" alt="The built bore, twelve sections glued up"></figure>
-<hr>
+<hr />
 <h2 id="the-idea">The idea</h2>
 <p>A brass instrument is a long tube you have to fit into a small space. A trumpet could be done with three tight bends and a lot of drawn brass. This does it by <strong>treating the tube as a walk through a lattice of cubes</strong> — north three, up two, east three — and cutting each run of that walk as a flat-packed box.</p>
 <p>The walk is written down. <code>N1 W3 U2 E3 N3 D3 W2 U3 N3 E3 D2 W3 N3 U3 E2 D3 N1</code> is the bore of the built instrument: the first term is the direction you enter from and how far you go before anything turns, and every term after it turns where you stand and then moves that many blocks. A generator turns that string into cut files, checks them, and tells you what you are holding.</p>
-<pre><code>python3 tools/bore_split.py "N1 W3 U2 E3 N3 D3 W2 U3 N3 E3 D2 W3 N3 U3 E2 D3 N1" \
+<pre><code>python3 tools/bore_split.py &quot;N1 W3 U2 E3 N3 D3 W2 U3 N3 E3 D2 W3 N3 U3 E2 D3 N1&quot; \
     --bore=10 --straight=30 --no-write</code></pre>
 <p><strong>A turn costs no block.</strong> It happens inside the block you arrived at, and you start in block 1 rather than in front of it, so the tube is <code>1 + the sum of the numbers</code> blocks long. Forty-three steps, forty-four blocks.</p>
 <h2 id="what-decides-a-good-bore">What decides a good bore</h2>
 <p>Three things, and they pull against each other.</p>
 <p><strong>Length, because length is pitch.</strong> A tube twice as long sounds an octave lower. The four coils in <code>parts/bore/concept/walk/coil/fold2-long-straight/</code> are one shape cut at four lengths — <strong>274, 548, 822 and 1096mm, an exact 1:2:3:4</strong> — and the built instrument is the longest of them.</p>
-<blockquote><p>Their folder names say 0.75, 1.5, 2.25 and 3 turns, and measurement agrees: the four sweep 270°, 540°, 810° and 1080° about the coil axis, one group of three lateral legs being three-quarters of a turn. Both the lengths and the turn counts are exact.</p></blockquote>
+<blockquote>
+<p>Their folder names say 0.75, 1.5, 2.25 and 3 turns, and measurement agrees: the four sweep 270°, 540°, 810° and 1080° about the coil axis, one group of three lateral legs being three-quarters of a turn. Both the lengths and the turn counts are exact.</p>
+</blockquote>
 <p><strong>Section, because section is tone.</strong> The airway must stay 10mm square the whole way. That is what makes a turn expensive: a block that turns has openings on two different faces and both must sit square, so <strong>a turning block has to stay cubic</strong> even when the straights are stretched. The built bore is 28 straight blocks at 30mm and 16 turns at 16mm, which is where its 1096mm comes from.</p>
 <p><strong>Bends wherever a turn can fold into one.</strong> A bend is a turn folded into the piece it belongs to. The alternative is an <strong>elbow</strong>: a turn stranded as its own one-block piece — three tabs, fiddly to hold, weak at the seam. The generator always folds where it can, and where it cannot it cuts the elbow and lists it as one. Neither built instrument has any. <code>--refuse-elbows</code> makes it stop instead, writing nothing, which is what trumpet-elbows-not-allowed, now archived, did every time.</p>
-<blockquote><p>Folding is <strong>not</strong> cheapest in parts. Measured over 133 walks it trades 23 elbows for 46 more pieces, because folding a turn into a bend adds two walls to that bend while an elbow is only four parts for its whole block. It is still the right trade: parts are cheap and bad seams are not.</p></blockquote>
+<blockquote>
+<p>Folding is <strong>not</strong> cheapest in parts. Measured over 133 walks it trades 23 elbows for 46 more pieces, because folding a turn into a bend adds two walls to that bend while an elbow is only four parts for its whole block. It is still the right trade: parts are cheap and bad seams are not.</p>
+</blockquote>
 <h2 id="the-instrument-end-to-end">The instrument, end to end</h2>
-<div class='tw'><table><thead><tr><th></th><th>length</th><th>what it is</th></tr></thead><tbody><tr><td>mouthpiece</td><td>90mm</td><td>30 rings, 10mm square → ø3.66 throat → ø17 lip</td></tr><tr><td>bore</td><td>1096mm</td><td>44 blocks, 12 sections, every turn a bend</td></tr><tr><td>bell</td><td>153mm</td><td>17 rings, 10mm square → ø86 rim (ø80 of air)</td></tr><tr><td><strong>total</strong></td><td><strong>1339mm</strong></td><td></td></tr></tbody></table></div>
+<div class="tw">
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align: right;">length</th>
+<th>what it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mouthpiece</td>
+<td style="text-align: right;">90mm</td>
+<td>30 rings, 10mm square → ø3.66 throat → ø17 lip</td>
+</tr>
+<tr>
+<td>bore</td>
+<td style="text-align: right;">1096mm</td>
+<td>44 blocks, 12 sections, every turn a bend</td>
+</tr>
+<tr>
+<td>bell</td>
+<td style="text-align: right;">153mm</td>
+<td>17 rings, 10mm square → ø86 rim (ø80 of air)</td>
+</tr>
+<tr>
+<td><strong>total</strong></td>
+<td style="text-align: right;"><strong>1339mm</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
 <p>For scale, a B♭ trumpet is about 1480mm of tube, so this is a little shorter and should sit a little higher.</p>
 <p><strong>It plays. One of its notes is F4</strong> — 349.2 Hz, measured off the built instrument.</p>
 <p><strong>Do not size a bore from a pipe formula.</strong> F4 lands on no simple mode of a 1.339m tube: it is 2.73 times the open-open fundamental (<code>c/2L</code> = 128 Hz) and 5.45 times the closed-open one (<code>c/4L</code> = 64 Hz), and neither multiple is a whole number. That is what a bell and a mouthpiece do — they pull the resonances away from where a plain tube would put them, and how far is not something either formula knows. Length still sets the register, which is why the four truncations above are worth cutting: their bores are an exact 1:2:3:4, so what the ends actually contribute is measurable rather than assumed.</p>
 <h3 id="the-mouthpiece-and-the-bell-are-shared">The mouthpiece and the bell are shared</h3>
 <p>Neither end is touched by the way a bore turns, so <strong>only the tube belongs to an instrument</strong>. Both live in <code>parts/</code>, both take <code>--bore</code>, and both close onto the same 10mm square in a 16mm face.</p>
-<pre><code>cd parts/mouthpiece &amp;&amp; python3 mouthpiece-round.py
+<pre class="sh"><code>cd parts/mouthpiece &amp;&amp; python3 mouthpiece-round.py
 cd parts/bell &amp;&amp; python3 bell-round.py 17 --bore=10 --length=152 --mouth=80</code></pre>
 <p>Each rebuilds its shipped sheet byte for byte and writes it into its own <code>cut-files/</code>.</p>
 <p>The joint at each end is a <strong>square annulus of ply 3mm wide</strong> — 10mm inside, 16mm out. The bell's ring 0 is a flange that covers all of it: a 22mm square with a 10mm hole, standing 3mm proud. The throat is taken from the bore's channel, so ring 0 lands squarely on the face it seals.</p>
 <h2 id="a-page-for-each">A page for each</h2>
 <p>Each of these carries the walk it is cut from, its blocks and centreline, its sections with their plates and sheet sizes, and a link to a viewer you can turn at tab size. The first is the one that plays; the next three are candidates that have not been cut. The spiral after them is in wood too, but it is not a walk — it is a swept curve, cut, glued up and shellacked, and not yet blown.</p>
-<div class='tw'><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td><strong><a href="three-turn/">the three-turn trumpet</a></strong></td><td>44 blocks, 1096mm, twelve sections — <strong>the one that plays</strong></td></tr><tr><td><strong><a href="switchback/">the switchback trumpet</a></strong></td><td>22 blocks, 352mm, six sections — folds back on itself twice</td></tr><tr><td><strong><a href="greek-spiral/">the greek spiral</a></strong></td><td>68 blocks, 1088mm, <strong>one</strong> section — a flat meander, the only bore here that cuts in one piece</td></tr><tr><td><strong><a href="tight-coil/">the tight coil</a></strong></td><td>65 blocks, 1040mm, 33 sections — the tightest coil that does not touch itself, at 42.7mm a turn, with 16 elbows</td></tr><tr><td><strong><a href="ribbon-spiral/">the spiral bore</a></strong></td><td>19 facets of 45°, 1000mm, R34.7 to R112.9 — a swept curve rather than a walk, cut in ply, glued up and finished</td></tr><tr><td><strong><a href="ends/">the bell and the mouthpiece</a></strong></td><td>The two ends, shared by every bore on the 10mm channel</td></tr></tbody></table></div>
+<div class="tw">
+<table>
+<tbody>
+<tr>
+<td><strong><a href="three-turn/">the three-turn trumpet</a></strong></td>
+<td>44 blocks, 1096mm, twelve sections — <strong>the one that plays</strong></td>
+</tr>
+<tr>
+<td><strong><a href="switchback/">the switchback trumpet</a></strong></td>
+<td>22 blocks, 352mm, six sections — folds back on itself twice</td>
+</tr>
+<tr>
+<td><strong><a href="greek-spiral/">the greek spiral</a></strong></td>
+<td>68 blocks, 1088mm, <strong>one</strong> section — a flat meander, the only bore here that cuts in one piece</td>
+</tr>
+<tr>
+<td><strong><a href="tight-coil/">the tight coil</a></strong></td>
+<td>65 blocks, 1040mm, 33 sections — the tightest coil that does not touch itself, at 42.7mm a turn, with 16 elbows</td>
+</tr>
+<tr>
+<td><strong><a href="ribbon-spiral/">the spiral bore</a></strong></td>
+<td>19 facets of 45°, 1000mm, R34.7 to R112.9 — a swept curve rather than a walk, cut in ply, glued up and finished</td>
+</tr>
+<tr>
+<td><strong><a href="ends/">the bell and the mouthpiece</a></strong></td>
+<td>The two ends, shared by every bore on the 10mm channel</td>
+</tr>
+</tbody>
+</table>
+</div>
 <h2 id="cutting">Cutting</h2>
 <p>Everything is <strong>3mm birch ply on an xTool P2S</strong>, 600 × 308mm of bed.</p>
 <p><strong>Colour is the cut order</strong>: blue engraves, then green → orange → cyan → black, and black frees the part. On a bore section blue engraves the section number and black cuts. On a ring, orange takes the aperture first so the hole is in before the outline releases the part.</p>
@@ -155,15 +223,93 @@ ends/</code></pre>
 <h3 id="elbows-and-contact">Elbows and contact</h3>
 <p><strong>An elbow is allowed.</strong> A turn with no straight block to fold into is cut as its own one-block piece, and the cut list and file name say <code>elbow</code>. <code>bore_split.py</code> still folds every turn it can, so a walk that split bend-only in trumpet-elbows-not-allowed splits identically here.</p>
 <p><strong>A bore may touch itself</strong> — two blocks sharing a face, an edge or a vertex without being joined along the tube. At a face the airway runs past 6mm of wood rather than 3; at an edge or a vertex the two walls meet on a line or a point, which is a place for the glue-up to go out of true. A tight coil can rarely avoid it. The generator warns and writes.</p>
-<blockquote><p>Blocks <strong>two</strong> apart along the walk are edge-neighbours at every single turn — that is the geometry of turning, not the bore touching itself, and counting it would condemn every walk here. So contact is measured between blocks <strong>three or more</strong> apart.</p></blockquote>
+<blockquote>
+<p>Blocks <strong>two</strong> apart along the walk are edge-neighbours at every single turn — that is the geometry of turning, not the bore touching itself, and counting it would condemn every walk here. So contact is measured between blocks <strong>three or more</strong> apart.</p>
+</blockquote>
 <p>Five designs trumpet-elbows-not-allowed deleted on 2026-09-15 are back, in the same <code>&lt;family&gt;/&lt;design&gt;</code> tree as everything else:</p>
-<div class='tw'><table><thead><tr><th>design</th><th>walk</th><th>elbows</th><th>touches itself</th><th>what is in the folder</th></tr></thead><tbody><tr><td><code>meander/first</code></td><td><code>N10 U2 W2 S7 U2 E4 N9 W2 D2 N4</code></td><td>3</td><td>no</td><td>cut files and a viewer</td></tr><tr><td><code>spiral/expanding</code></td><td><code>U2 N2 W2 S4 E4 U2 N6 W6 S8 E8 U2 N10 W10 S12 E12 U4</code></td><td>3</td><td>no</td><td>a viewer and two photographs</td></tr><tr><td><code>coil/minimal</code></td><td><code>U2 N1 E1 S1 U1 W1 U1 N1 E1 S1 U1 W1 U1 N1 E1 S1 U1 W1 U2</code></td><td>18</td><td>yes</td><td>a viewer</td></tr><tr><td><code>coil/square-rise1</code></td><td><code>W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U4</code></td><td>16</td><td>yes</td><td>a viewer</td></tr><tr><td><code>spiral/telescope</code></td><td><code>U2 N1 W1 S2 E2 N3 U1 W2 S3 E3 N4 U1 W4 S5 E5 N6 U1 W6 S7 E7 N8 U1 W8 S9 E9 N10 U2</code></td><td>11</td><td>yes</td><td>a viewer</td></tr></tbody></table></div>
+<div class="tw">
+<table>
+<thead>
+<tr>
+<th>design</th>
+<th>walk</th>
+<th style="text-align: right;">elbows</th>
+<th>touches itself</th>
+<th>what is in the folder</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>meander/first</code></td>
+<td><code>N10 U2 W2 S7 U2 E4 N9 W2 D2 N4</code></td>
+<td style="text-align: right;">3</td>
+<td>no</td>
+<td>cut files and a viewer</td>
+</tr>
+<tr>
+<td><code>spiral/expanding</code></td>
+<td><code>U2 N2 W2 S4 E4 U2 N6 W6 S8 E8 U2 N10 W10 S12 E12 U4</code></td>
+<td style="text-align: right;">3</td>
+<td>no</td>
+<td>a viewer and two photographs</td>
+</tr>
+<tr>
+<td><code>coil/minimal</code></td>
+<td><code>U2 N1 E1 S1 U1 W1 U1 N1 E1 S1 U1 W1 U1 N1 E1 S1 U1 W1 U2</code></td>
+<td style="text-align: right;">18</td>
+<td>yes</td>
+<td>a viewer</td>
+</tr>
+<tr>
+<td><code>coil/square-rise1</code></td>
+<td><code>W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U4</code></td>
+<td style="text-align: right;">16</td>
+<td>yes</td>
+<td>a viewer</td>
+</tr>
+<tr>
+<td><code>spiral/telescope</code></td>
+<td><code>U2 N1 W1 S2 E2 N3 U1 W2 S3 E3 N4 U1 W4 S5 E5 N6 U1 W6 S7 E7 N8 U1 W8 S9 E9 N10 U2</code></td>
+<td style="text-align: right;">11</td>
+<td>yes</td>
+<td>a viewer</td>
+</tr>
+</tbody>
+</table>
+</div>
 <p><code>first</code> is the design the regression suite calls the first trumpet, and its eight sheets regenerate byte-identical to the ones deleted. The pages are redrawn by today's <code>viewer.py</code>; every one draws the same cells as the page it replaces.</p>
 <p>Two designs have been added since that have elbows by choice: <strong><a href="tight-coil/">the tight coil</a></strong>, the tightest coil here that does not touch itself — 42.7mm a turn, 16 elbows, 1040mm — and the ziggurat in <a href="parts/bore/concept/walk/spiral/ziggurat/bore/bore.html"><code>spiral/ziggurat/</code></a>, a centred square spiral that widens a block all round each turn — 4 elbows, 1008mm.</p>
-<blockquote><p><code>coil/search/</code> was the exception to that rule in trumpet-elbows-not-allowed, and still keeps its ten walks exactly as they were measured — 4 of them touch-free and 6 not — because it is the record of an exhaustive search for <strong>bend-only</strong> coils, and it still is one: a walk that strands a turn is not a candidate there.</p></blockquote>
+<blockquote>
+<p><code>coil/search/</code> was the exception to that rule in trumpet-elbows-not-allowed, and still keeps its ten walks exactly as they were measured — 4 of them touch-free and 6 not — because it is the record of an exhaustive search for <strong>bend-only</strong> coils, and it still is one: a walk that strands a turn is not a candidate there.</p>
+</blockquote>
 <h3 id="three-ways-to-make-a-tube">Three ways to make a tube</h3>
 <p>They are not variations on each other. The section grows at every turn, and how much is the whole comparison:</p>
-<div class='tw'><table><thead><tr><th></th><th>curve</th><th>section at a turn</th><th>why it exists</th></tr></thead><tbody><tr><td>lattice walk</td><td>90° turns</td><td>+41.4%</td><td>fits a walk into a box</td></tr><tr><td>swept curve</td><td>any planar curve</td><td>+3.5% at 30°</td><td>constant section on a smooth curve</td></tr></tbody></table></div>
+<div class="tw">
+<table>
+<thead>
+<tr>
+<th></th>
+<th>curve</th>
+<th>section at a turn</th>
+<th>why it exists</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lattice walk</td>
+<td>90° turns</td>
+<td>+41.4%</td>
+<td>fits a walk into a box</td>
+</tr>
+<tr>
+<td>swept curve</td>
+<td>any planar curve</td>
+<td>+3.5% at 30°</td>
+<td>constant section on a smooth curve</td>
+</tr>
+</tbody>
+</table>
+</div>
 <p>The lattice walk is what the built instrument uses, and it is the more expensive per turn by a wide margin. It buys packing: a walk folds into a box a smooth curve does not reach.</p>
 <p>A third construction, a closed ring of facets, is not listed: a loop has no ends, so it cannot take a mouthpiece or a bell. <code>ribbon_bore.py --shape=torus</code> still draws one, because the mitring it needs is the same mitring every other shape needs, but nothing here is a candidate bore.</p>
 <p>The <strong>swept curve</strong> (<code>parts/bore/concept/swept-curve/</code>) sweeps a rectangle along a planar curve, so two faces are flat and two are faceted. <strong>Nine designs are drawn</strong> — counted as folders holding cut files, which is the only count that cannot drift from what is on disk: a serpentine and an opposed pair at 1000mm, three spirals at 1000, 1458 and 1767mm, a volute at 1180mm, a wave at 836mm, and two double spirals at 1506 and 1000mm.</p>
@@ -181,27 +327,147 @@ ends/</code></pre>
 <p>In the two-port set the ports are <strong>split between the two cheeks</strong>, which is what makes it an instrument rather than a coil with holes in it. A port through both cheeks is a socket right through, and the side you are not using is an open hole to plug; two of those are waste. <code>--port-per-cheek</code> puts one port on each sheet instead — <code>cheek-a</code> carries the mouth, <code>cheek-b</code> the far end, each cut once — so the mouthpiece <strong>enters one face and the bell leaves the other</strong>, at points 222.5mm apart and exactly opposite through the coil's centre. The openings are no longer in the plane at all, so the total-turning-zero argument that sets the two rim ends on opposite headings has stopped describing how it is played: those ends are the capped ones. <code>rotatable()</code> reports that the two sheets are the same part half a turn apart, to 9e-16mm — so one sheet cut twice with one turned round would also do, at the price of engraved numbers upside down on the turned one.</p>
 <h3 id="the-coil-search">The coil search</h3>
 <p><code>parts/bore/concept/walk/coil/</code> holds four coils promoted out of a search of fourteen, each because it won a category outright or tied for one. Each carries a <code>why.txt</code> with its walk, its win, and twelve metrics recomputed from that walk:</p>
-<div class='tw'><table><thead><tr><th>coil</th><th>wins</th></tr></thead><tbody><tr><td><code>2x2-134</code></td><td>fewest distinct shapes, 2</td></tr><tr><td><code>3x3-54</code></td><td>fewest pieces, 30 (tied); smallest box with no shared wall (tied)</td></tr><tr><td><code>4x4-50</code></td><td>calmest bore, 20.40 turns/m (tied)</td></tr><tr><td><code>5x5-50</code></td><td>least tube per turn, 15.1 blocks</td></tr></tbody></table></div>
+<div class="tw">
+<table>
+<thead>
+<tr>
+<th>coil</th>
+<th>wins</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>2x2-134</code></td>
+<td>fewest distinct shapes, 2</td>
+</tr>
+<tr>
+<td><code>3x3-54</code></td>
+<td>fewest pieces, 30 (tied); smallest box with no shared wall (tied)</td>
+</tr>
+<tr>
+<td><code>4x4-50</code></td>
+<td>calmest bore, 20.40 turns/m (tied)</td>
+</tr>
+<tr>
+<td><code>5x5-50</code></td>
+<td>least tube per turn, 15.1 blocks</td>
+</tr>
+</tbody>
+</table>
+</div>
 <p>These figures are each coil's own full walk, as its <code>why.txt</code> measures it. The search compares coils trimmed to a common length instead, so its numbers for the same coil differ: <code>4x4-50</code> is 20.40 turns/m here over 193 blocks, and 20.83 where the search compares the others against it.</p>
 <p><strong>It was seven of seventeen until 2026-09-15.</strong> <code>3x3-51</code>, <code>3x7-22</code> and <code>5x8-18</code> were the three that touch themselves, and trumpet-elbows-not-allowed went non-contact that day, so they went with the rest of the contact designs. This copy allows contact but has not brought these three back. Their three categories did not go with them — they are led from inside <code>search/</code>, by margins the promoted four never beat. These figures are the search's, at its common length:</p>
-<div class='tw'><table><thead><tr><th>category</th><th>now led by</th><th>figure</th><th>the deleted holder</th></tr></thead><tbody><tr><td>smallest box</td><td><code>coil_3x8_20</code>, tied with <code>coil_3x9_18</code></td><td>432</td><td><code>3x3-51</code>, 459</td></tr><tr><td>tightest spiral</td><td><code>coil_3x8_20</code></td><td>32mm rise per turn</td><td><code>3x7-22</code>, 34mm</td></tr><tr><td>largest average plate</td><td><code>coil_4x9_18</code></td><td>2,881mm²</td><td><code>5x8-18</code>, 3009mm²</td></tr></tbody></table></div>
+<div class="tw">
+<table>
+<thead>
+<tr>
+<th>category</th>
+<th>now led by</th>
+<th>figure</th>
+<th>the deleted holder</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>smallest box</td>
+<td><code>coil_3x8_20</code>, tied with <code>coil_3x9_18</code></td>
+<td>432</td>
+<td><code>3x3-51</code>, 459</td>
+</tr>
+<tr>
+<td>tightest spiral</td>
+<td><code>coil_3x8_20</code></td>
+<td>32mm rise per turn</td>
+<td><code>3x7-22</code>, 34mm</td>
+</tr>
+<tr>
+<td>largest average plate</td>
+<td><code>coil_4x9_18</code></td>
+<td>2,881mm²</td>
+<td><code>5x8-18</code>, 3009mm²</td>
+</tr>
+</tbody>
+</table>
+</div>
 <p>So two of the three categories are led better than they were, and only the largest-plate figure fell. Ten of the fourteen remain in <code>search/</code>, and a coil listed above as tied is tied with one of them. The scoring is in <a href="parts/bore/concept/walk/coil/search/SCORING.html"><code>search/SCORING.md</code></a>.</p>
 <h2 id="the-toolchain">The toolchain</h2>
 <p><code>tools/</code> ships no cut files of its own — only the thing that makes them.</p>
 <p><strong>The finger joints are not ours.</strong> Every section net is drawn by <strong><a href="https://github.com/florianfesti/boxes">Boxes.py</a></strong>, Florian Festi's box generator, which supplies the finger joints, the burn compensation and the SVG writer; <code>snakeboxvar.py</code> is a generator that installs into a Boxes.py checkout rather than a program of its own. Boxes.py is GPL-3.0-or-later and is not included here — you supply the checkout. Because <code>snakeboxvar.py</code> subclasses it, that file and the two that import it are GPL-3.0-or-later as well; the licence note at the end says which three and why.</p>
-<div class='tw'><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td><code>bore_split.py</code></td><td>the generator: a walk in, per-piece cut files out</td></tr><tr><td><code>check.py</code></td><td>the gate, run automatically by every <code>--write</code></td></tr><tr><td><code>regress.py</code></td><td>runs the gate over the whole library</td></tr><tr><td><code>snakeboxvar.py</code></td><td>the Boxes.py generator that draws a section</td></tr><tr><td><code>svgpath.py</code></td><td>reads back what was written — the gate parses the file, not the plan</td></tr><tr><td><code>assemble.py</code></td><td>builds a section as a solid and asks directly whether it is sealed, rather than testing a proxy</td></tr><tr><td><code>viewer.py</code></td><td>the one page builder; every viewer page here comes from it</td></tr><tr><td><code>bore_render.py</code></td><td>stills, coloured by piece or by direction of travel</td></tr><tr><td><code>nest.py</code></td><td>lays parts out on a sheet</td></tr><tr><td><code>hilbert.py</code></td><td>writes a Hilbert cube as a walk</td></tr><tr><td><code>mcwalk.py</code></td><td>renders a walk that crosses itself, which the generator refuses</td></tr><tr><td><code>sizes.py</code></td><td>one design at more than one block pitch, in one viewer</td></tr></tbody></table></div>
+<div class="tw">
+<table>
+<tbody>
+<tr>
+<td><code>bore_split.py</code></td>
+<td>the generator: a walk in, per-piece cut files out</td>
+</tr>
+<tr>
+<td><code>check.py</code></td>
+<td>the gate, run automatically by every <code>--write</code></td>
+</tr>
+<tr>
+<td><code>regress.py</code></td>
+<td>runs the gate over the whole library</td>
+</tr>
+<tr>
+<td><code>snakeboxvar.py</code></td>
+<td>the Boxes.py generator that draws a section</td>
+</tr>
+<tr>
+<td><code>svgpath.py</code></td>
+<td>reads back what was written — the gate parses the file, not the plan</td>
+</tr>
+<tr>
+<td><code>assemble.py</code></td>
+<td>builds a section as a solid and asks directly whether it is sealed, rather than testing a proxy</td>
+</tr>
+<tr>
+<td><code>viewer.py</code></td>
+<td>the one page builder; every viewer page here comes from it</td>
+</tr>
+<tr>
+<td><code>bore_render.py</code></td>
+<td>stills, coloured by piece or by direction of travel</td>
+</tr>
+<tr>
+<td><code>nest.py</code></td>
+<td>lays parts out on a sheet</td>
+</tr>
+<tr>
+<td><code>hilbert.py</code></td>
+<td>writes a Hilbert cube as a walk</td>
+</tr>
+<tr>
+<td><code>mcwalk.py</code></td>
+<td>renders a walk that crosses itself, which the generator refuses</td>
+</tr>
+<tr>
+<td><code>sizes.py</code></td>
+<td>one design at more than one block pitch, in one viewer</td>
+</tr>
+</tbody>
+</table>
+</div>
 <h2 id="the-gate">The gate</h2>
 <p>Nothing here is cut on trust. <code>bore_split.py --write</code> runs the checks itself and refuses to leave a folder unchecked; <code>tools/regress.py</code> runs the whole library.</p>
-<pre><code>cd tools &amp;&amp; ~/Software/boxes/venv/bin/python regress.py</code></pre>
+<pre class="sh"><code>cd tools &amp;&amp; ~/Software/boxes/venv/bin/python regress.py</code></pre>
 <p><strong>33 designs, 0 failed, 10430 individual checks.</strong></p>
 <p>It checks that each section closes round its bore, that the assembled bore is one sealed passage, that its volume matches the walk, that no feature is under 1.5mm, that every sheet fits the bed, that every seam is one tab side and one slot side, and that no engraving lands in a slot or off the material. A mouth is checked for where it is, not only that it exists: over the block it names, on the right cheek, opening onto the airway, and with the plate around it counted as material.</p>
 <p><strong>Use the virtualenv python.</strong> <code>check.py</code> imports shapely, which the system <code>python3</code> does not have — and <code>bore_split.py</code> writes every file <em>before</em> it gates them, so a system-python <code>--write</code> leaves a folder of finished-looking cut files and a traceback where the gate should be.</p>
-<blockquote><p>A passing gate means no check failed, not that the part is buildable: its floor is 1.5mm, and nothing compares a feature against the features beside it.</p></blockquote>
+<blockquote>
+<p>A passing gate means no check failed, not that the part is buildable: its floor is 1.5mm, and nothing compares a feature against the features beside it.</p>
+</blockquote>
 <h2 id="clearance">Clearance</h2>
 <p><code>PLAY_BY_BORE</code> is a lookup of what has actually been cut, not a curve through it, and it has <strong>one row</strong>: 0.025mm per side at the 10mm bore. A bore that is not in the table gets that value too — too loose is a worse joint than too tight is no joint — and says on stderr that it is guessing, because a guess that looks like a measurement is the dangerous kind.</p>
 <p>Whether the requirement is absolute, a fraction of the tab, or something else takes a second bore to say, and there is one bore. The comment above <code>pin_play()</code>'s table in <code>tools/bore_split.py</code> sets out the coupon that would settle it, and <code>--play</code> is the flag that cuts it.</p>
 <h2 id="building-it">Building it</h2>
-<ol><li>Cut the twelve bore sections from <code>built/coil-fold2-long-straight-3t/cut-files/</code>, in order.</li><li>Cut the bell from <code>parts/bell/cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg</code> — 17 rings, <strong>three passes</strong>, 51 pieces. Cut once and you get a 51mm stub instead of a 153mm bell. The adapter sheet beside it is for a port, not this bore.</li><li>Cut the mouthpiece from <code>parts/mouthpiece/cut-files/mouthpiece-bore10-trumpet-parts-cut-files.svg</code> — 30 rings, one pass.</li><li>Glue each bore section closed, then join them in engraved order.</li><li>Stack the bell rings from ring 0 at the bore; stack the mouthpiece rings from ring 0 likewise. Both are engraved in hex, <code>0</code> at the bore.</li><li><strong>Do not finish the mouthpiece.</strong> It goes to the lip as it comes off the sheet — the staircase is not sanded, the rim is not filled, and the instrument that plays has had neither.</li></ol>
+<ol type="1">
+<li>Cut the twelve bore sections from <code>built/coil-fold2-long-straight-3t/cut-files/</code>, in order.</li>
+<li>Cut the bell from <code>parts/bell/cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg</code> — 17 rings, <strong>three passes</strong>, 51 pieces. Cut once and you get a 51mm stub instead of a 153mm bell. The adapter sheet beside it is for a port, not this bore.</li>
+<li>Cut the mouthpiece from <code>parts/mouthpiece/cut-files/mouthpiece-bore10-trumpet-parts-cut-files.svg</code> — 30 rings, one pass.</li>
+<li>Glue each bore section closed, then join them in engraved order.</li>
+<li>Stack the bell rings from ring 0 at the bore; stack the mouthpiece rings from ring 0 likewise. Both are engraved in hex, <code>0</code> at the bore.</li>
+<li><strong>Do not finish the mouthpiece.</strong> It goes to the lip as it comes off the sheet — the staircase is not sanded, the rim is not filled, and the instrument that plays has had neither.</li>
+</ol>
 <p><strong>The bell is cut more than once.</strong> Each sheet draws every ring once, and the <code>x3</code> in its filename is how many times the sheet goes through the machine.</p>
 <h2 id="more-and-licence">More, and licence</h2>
 <p>Built for <strong><a href="https://www.youtube.com/@LaserMadeMusic">LaserMadeMusic</a></strong>, where the cutting and the playing are shown.</p>

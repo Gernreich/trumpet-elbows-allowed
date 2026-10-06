@@ -36,6 +36,9 @@ h3{font-size:1.02rem;font-weight:650;margin:1.7em 0 .45em}
 p{margin:.85em 0}
 ul,ol{margin:.85em 0;padding-left:1.35em}
 li{margin:.3em 0}
+/* A list with blank lines between its items is "loose", and pandoc wraps each item
+   in a <p> as GitHub does. These pages were set tight before pandoc, so they stay so. */
+li>p{margin:0}
 hr{border:0;border-top:1px solid var(--line);margin:2.6em 0}
 figure{margin:1.6em 0}
 /* A paragraph holding two or more images is a gallery. Left to inline layout they
@@ -96,7 +99,17 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <h1 id="scoring">Scoring</h1>
 <p>Eight metrics, one touching count, and every common mean, so the ranking can be read against the thing that produced it. Regenerate with <code>node tools/gen_scoring.js</code>.</p>
 <h2 id="what-is-scored">What is scored</h2>
-<ul><li><strong>box/block</strong> — less is better</li><li><strong>cross area</strong> — less is better</li><li><strong>pieces/block</strong> — less is better</li><li><strong>distinct</strong> — less is better</li><li><strong>rise/360</strong> — less is better</li><li><strong>turns/m</strong> — less is better</li><li><strong>longest str</strong> — more is better</li><li><strong>mean plate</strong> — more is better</li><li><strong>touching</strong> — carried the same way as the rest, at weight 5</li></ul>
+<ul>
+<li><strong>box/block</strong> — less is better</li>
+<li><strong>cross area</strong> — less is better</li>
+<li><strong>pieces/block</strong> — less is better</li>
+<li><strong>distinct</strong> — less is better</li>
+<li><strong>rise/360</strong> — less is better</li>
+<li><strong>turns/m</strong> — less is better</li>
+<li><strong>longest str</strong> — more is better</li>
+<li><strong>mean plate</strong> — more is better</li>
+<li><strong>touching</strong> — carried the same way as the rest, at weight 5</li>
+</ul>
 <p><strong>Nothing is judged on the bore's mouth and exit.</strong> Every design has those two pieces and no design chooses them, so every metric here is measured over the interior — the pieces in between — and the piece and shape counts are counts of those. Blocks and mm, which only describe, still cover the whole bore.</p>
 <p>The metrics are normalized to (0,1] with 1 the best in the set, oriented so bigger is better, and floored at 0.01 so that one worst-in-set value cannot zero a product.</p>
 <p><strong>Touching is treated differently, on purpose.</strong> A wall the bore shares with itself is visible in the finished instrument, so it is the heaviest input here at weight 5, and it is penalized convexly — <strong>1/(1+t)</strong> — rather than fading linearly. The step from no contact to any contact is far larger than any step after it: 0 contacts scores 1.000, 8 contacts 0.111, 20 contacts 0.048. Nothing but a clean coil can score 1.</p>
@@ -110,7 +123,10 @@ node tools/score.js --solid      # and only those at least 3 blocks thick</code>
 <p>which is the same advice as everywhere else here — cut on the property, then rank.</p>
 <h3 id="two-filters-from-judgement-rather-than-argument">Two filters, from judgement rather than argument</h3>
 <p><strong>Neither filter was argued for; both were read off coils judged by eye.</strong> Ten were judged, seven liked and three not, and these two filters reproduce that split exactly — selecting the liked set and nothing else:</p>
-<ul><li><strong>no touching walls</strong> — perfect on its own: no coil with any wall contact was liked, and seven of the eight without were.</li><li><strong>at least 3 blocks thick in every direction</strong> — a coil 2 thick is a ribbon rather than a rod.</li></ul>
+<ul>
+<li><strong>no touching walls</strong> — perfect on its own: no coil with any wall contact was liked, and seven of the eight without were.</li>
+<li><strong>at least 3 blocks thick in every direction</strong> — a coil 2 thick is a ribbon rather than a rod.</li>
+</ul>
 <p>Those judgements are over a set of ten, not over this page's ten — of which four are walls-free. The filters are what carries across; the split they reproduce is not a ranking of what is here.</p>
 <p>The thickness filter took a designed test. The one rejected walls-free coil is extreme on two things at once, thinness and elongation, and nothing else in the set separates them, so two candidates settle it: one 3 thick but far longer than anything else liked (aspect 43 against a ceiling of 24), and one 2 thick but as short as a 2-thick coil gets at this tube length (aspect 49). The long one is liked and the thin one is not, which rules out elongation on its own — aspect 43 is fine when the coil has a core.</p>
 <p>Both are filters and neither is scored. Thickness is not a gradient: 3 is acceptable, and being thicker is not better — the 5x5 coil packs worst of anything judged and is liked all the same. Thickness sorts nothing here: all ten of the coils are at least 3 thick, so <code>--solid</code> removes none of them and <code>--clean</code> alone does the work.</p>
@@ -118,14 +134,324 @@ node tools/score.js --solid      # and only those at least 3 blocks thick</code>
 <p>One honest limit. At this tube length the two properties are coupled: a 2-thick coil has nowhere to put 177 blocks but lengthwise, so thin coils start at aspect 49 while 3-thick ones stop at 43. A rule of "aspect under about 46" fits every judgement too. Thickness is preferred because it is an integer boundary rather than a threshold picked from a 13% window, and because the designed test varied thickness while holding aspect nearly fixed — but the two cannot be fully separated without a shorter bore.</p>
 <p><strong><code>blocks/360</code> is deliberately gone.</strong> It is anti-correlated with turns/m by construction — a tighter spiral has to turn more often — so carrying both let them cancel, and made the composite quieter about coiling than the columns themselves are.</p>
 <h2 id="the-means">The means</h2>
-<div class='tw'><table><thead><tr><th>mean</th><th>order <em>p</em></th><th>what it rewards</th></tr></thead><tbody><tr><td>harmonic</td><td>-1</td><td>punishes the weakest input hardest</td></tr><tr><td>geometric</td><td>0</td><td></td></tr><tr><td>arithmetic</td><td>1</td><td></td></tr><tr><td>quadratic (RMS)</td><td>2</td><td></td></tr><tr><td>cubic</td><td>3</td><td>rewards the strongest input hardest</td></tr><tr><td>median</td><td>—</td><td>ignores both extremes; see the caveat below</td></tr><tr><td>midrange</td><td>—</td><td>only the extremes</td></tr><tr><td>contraharmonic</td><td>—</td><td>rewards the strongest harder still</td></tr></tbody></table></div>
+<div class="tw">
+<table>
+<thead>
+<tr>
+<th>mean</th>
+<th style="text-align: center;">order <em>p</em></th>
+<th>what it rewards</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>harmonic</td>
+<td style="text-align: center;">-1</td>
+<td>punishes the weakest input hardest</td>
+</tr>
+<tr>
+<td>geometric</td>
+<td style="text-align: center;">0</td>
+<td></td>
+</tr>
+<tr>
+<td>arithmetic</td>
+<td style="text-align: center;">1</td>
+<td></td>
+</tr>
+<tr>
+<td>quadratic (RMS)</td>
+<td style="text-align: center;">2</td>
+<td></td>
+</tr>
+<tr>
+<td>cubic</td>
+<td style="text-align: center;">3</td>
+<td>rewards the strongest input hardest</td>
+</tr>
+<tr>
+<td>median</td>
+<td style="text-align: center;">—</td>
+<td>ignores both extremes; see the caveat below</td>
+</tr>
+<tr>
+<td>midrange</td>
+<td style="text-align: center;">—</td>
+<td>only the extremes</td>
+</tr>
+<tr>
+<td>contraharmonic</td>
+<td style="text-align: center;">—</td>
+<td>rewards the strongest harder still</td>
+</tr>
+</tbody>
+</table>
+</div>
 <p>The first five are the power mean of order <em>p</em>, which increases with <em>p</em>, so for every spiral <strong>harmonic ≤ geometric ≤ arithmetic ≤ quadratic ≤ cubic</strong>. Verified here on all 10. What changes with <em>p</em> is not the size of the score but how much a single bad metric is allowed to sink it.</p>
 <h2 id="the-table">The table</h2>
-<div class='tw'><table><thead><tr><th>spiral</th><th>touch</th><th>harmonic</th><th>#</th><th>geometric</th><th>#</th><th>arithmetic</th><th>#</th><th>quadratic</th><th>#</th><th>cubic</th><th>#</th><th>median</th><th>#</th><th>midrange</th><th>#</th><th>contraharmonic</th><th>#</th></tr></thead><tbody><tr><td>coil_3x3_54_2</td><td>0</td><td>0.1007</td><td>1</td><td>0.5310</td><td>1</td><td>0.7978</td><td>1</td><td>0.8661</td><td>1</td><td>0.8945</td><td>1</td><td>1.0000</td><td>1</td><td>0.5050</td><td>1</td><td>0.9402</td><td>1</td></tr><tr><td>coil_3x3_59</td><td>0</td><td>0.0582</td><td>6</td><td>0.3478</td><td>2</td><td>0.6548</td><td>2</td><td>0.7623</td><td>2</td><td>0.8163</td><td>2</td><td>0.8632</td><td>2</td><td>0.5050</td><td>2</td><td>0.8874</td><td>5</td></tr><tr><td>coil_3x9_18</td><td>13</td><td>0.0722</td><td>2</td><td>0.2183</td><td>3</td><td>0.4559</td><td>6</td><td>0.6065</td><td>6</td><td>0.6887</td><td>6</td><td>0.3400</td><td>5</td><td>0.5050</td><td>6</td><td>0.8068</td><td>6</td></tr><tr><td>coil_4x8_18</td><td>13</td><td>0.0707</td><td>3</td><td>0.2005</td><td>4</td><td>0.4211</td><td>7</td><td>0.5712</td><td>7</td><td>0.6545</td><td>7</td><td>0.1567</td><td>7</td><td>0.5050</td><td>8</td><td>0.7749</td><td>7</td></tr><tr><td>coil_3x8_20</td><td>15</td><td>0.0680</td><td>4</td><td>0.1940</td><td>5</td><td>0.4080</td><td>8</td><td>0.5562</td><td>8</td><td>0.6469</td><td>8</td><td>0.4246</td><td>4</td><td>0.5050</td><td>5</td><td>0.7582</td><td>9</td></tr><tr><td>coil_5x7_18</td><td>13</td><td>0.0652</td><td>5</td><td>0.1789</td><td>6</td><td>0.3994</td><td>9</td><td>0.5550</td><td>9</td><td>0.6419</td><td>9</td><td>0.0714</td><td>9</td><td>0.5050</td><td>10</td><td>0.7712</td><td>8</td></tr><tr><td>coil_4x9_18</td><td>13</td><td>0.0470</td><td>7</td><td>0.1739</td><td>7</td><td>0.4687</td><td>5</td><td>0.6527</td><td>5</td><td>0.7447</td><td>5</td><td>0.0714</td><td>8</td><td>0.5050</td><td>9</td><td>0.9090</td><td>4</td></tr><tr><td>coil_3x4_68</td><td>0</td><td>0.0306</td><td>9</td><td>0.1681</td><td>8</td><td>0.5278</td><td>3</td><td>0.6961</td><td>3</td><td>0.7744</td><td>3</td><td>0.6903</td><td>3</td><td>0.5050</td><td>3</td><td>0.9181</td><td>3</td></tr><tr><td>coil_3x4_79</td><td>0</td><td>0.0251</td><td>10</td><td>0.1280</td><td>9</td><td>0.4826</td><td>4</td><td>0.6707</td><td>4</td><td>0.7603</td><td>4</td><td>0.1729</td><td>6</td><td>0.5050</td><td>4</td><td>0.9322</td><td>2</td></tr><tr><td>coil_4x7_20</td><td>15</td><td>0.0445</td><td>8</td><td>0.1272</td><td>10</td><td>0.2983</td><td>10</td><td>0.4385</td><td>10</td><td>0.5320</td><td>10</td><td>0.0625</td><td>10</td><td>0.5050</td><td>7</td><td>0.6447</td><td>10</td></tr></tbody></table></div>
+<div class="tw">
+<table>
+<thead>
+<tr>
+<th>spiral</th>
+<th style="text-align: right;">touch</th>
+<th style="text-align: right;">harmonic</th>
+<th style="text-align: right;">#</th>
+<th style="text-align: right;">geometric</th>
+<th style="text-align: right;">#</th>
+<th style="text-align: right;">arithmetic</th>
+<th style="text-align: right;">#</th>
+<th style="text-align: right;">quadratic</th>
+<th style="text-align: right;">#</th>
+<th style="text-align: right;">cubic</th>
+<th style="text-align: right;">#</th>
+<th style="text-align: right;">median</th>
+<th style="text-align: right;">#</th>
+<th style="text-align: right;">midrange</th>
+<th style="text-align: right;">#</th>
+<th style="text-align: right;">contraharmonic</th>
+<th style="text-align: right;">#</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>coil_3x3_54_2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.1007</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.5310</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.7978</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.8661</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.8945</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.5050</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.9402</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>coil_3x3_59</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.0582</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0.3478</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.6548</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.7623</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.8163</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.8632</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.5050</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.8874</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr>
+<td>coil_3x9_18</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">0.0722</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.2183</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.4559</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0.6065</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0.6887</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0.3400</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.5050</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0.8068</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr>
+<td>coil_4x8_18</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">0.0707</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.2005</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.4211</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.5712</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.6545</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.1567</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.5050</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">0.7749</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr>
+<td>coil_3x8_20</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">0.0680</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.1940</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.4080</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">0.5562</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">0.6469</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">0.4246</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.5050</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.7582</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr>
+<td>coil_5x7_18</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">0.0652</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.1789</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0.3994</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0.5550</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0.6419</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0.0714</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0.5050</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">0.7712</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr>
+<td>coil_4x9_18</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">0.0470</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.1739</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.4687</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.6527</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.7447</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.0714</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">0.5050</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0.9090</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td>coil_3x4_68</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.0306</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0.1681</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">0.5278</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.6961</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.7744</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.6903</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.5050</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.9181</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr>
+<td>coil_3x4_79</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.0251</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">0.1280</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0.4826</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.6707</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.7603</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.1729</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0.5050</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.9322</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td>coil_4x7_20</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">0.0445</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">0.1272</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">0.2983</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">0.4385</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">0.5320</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">0.0625</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">0.5050</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.6447</td>
+<td style="text-align: right;">10</td>
+</tr>
+</tbody>
+</table>
+</div>
 <p><strong>The median does not survive the weighting.</strong> It is an order statistic, and weight is applied by repetition, so touching occupies 5 of the 13 values and can simply <em>be</em> the median. 1 coils tie at exactly 1.0000. Read the median column knowing that; the power means do not have this problem.</p>
 <h2 id="choosing-a-mean-is-choosing-how-much-a-weak-spot-counts">Choosing a mean is choosing how much a weak spot counts</h2>
 <p>That choice is worth more than any metric in it. coil_3x4_79 ranks <strong>2</strong> under one mean and <strong>10</strong> under another — a swing of 8 places in a field of 10. coil_3x4_68 swings 6.</p>
-<div class='tw'><table><thead><tr><th>spiral</th><th>worst single input</th><th>harmonic</th><th>contraharmonic</th></tr></thead><tbody><tr><td><code>coil_3x4_79</code></td><td>box/block = 0.010</td><td>#10</td><td>#2</td></tr><tr><td><code>coil_3x4_68</code></td><td>pieces/block = 0.010</td><td>#9</td><td>#3</td></tr><tr><td><code>coil_3x8_20</code></td><td>distinct = 0.010</td><td>#4</td><td>#9</td></tr></tbody></table></div>
+<div class="tw">
+<table>
+<thead>
+<tr>
+<th>spiral</th>
+<th>worst single input</th>
+<th style="text-align: right;">harmonic</th>
+<th style="text-align: right;">contraharmonic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>coil_3x4_79</code></td>
+<td>box/block = 0.010</td>
+<td style="text-align: right;">#10</td>
+<td style="text-align: right;">#2</td>
+</tr>
+<tr>
+<td><code>coil_3x4_68</code></td>
+<td>pieces/block = 0.010</td>
+<td style="text-align: right;">#9</td>
+<td style="text-align: right;">#3</td>
+</tr>
+<tr>
+<td><code>coil_3x8_20</code></td>
+<td>distinct = 0.010</td>
+<td style="text-align: right;">#4</td>
+<td style="text-align: right;">#9</td>
+</tr>
+</tbody>
+</table>
+</div>
 <p><code>coil_3x4_79</code> is the clearest case: one input on the floor and another at the ceiling. The mean that punishes weak spots reads it as disqualified; the mean that rewards strong ones reads it as the best thing here. Both are arithmetically correct — they are answering different questions. <code>coil_3x4_68</code> is the same shape of argument, its weak spot being pieces/block.</p>
 <p>Harmonic and contraharmonic agree on <strong>1</strong> of 10 placings — they are as opposed as two means of the same numbers can be. Harmonic and geometric agree on 2, which is why the geometric mean is the usual choice when no weak spot should be forgiven but outright disqualification is too strong.</p>
 <h2 id="what-survives">What survives</h2>
@@ -133,7 +459,11 @@ node tools/score.js --solid      # and only those at least 3 blocks thick</code>
 <p>If a weak spot is genuinely fatal — a shared wall that will leak, a coil too fat for the body — use the harmonic mean, or filter and then rank. If the design is allowed one bad number in exchange for a very good one, use quadratic or cubic. The arithmetic mean is the choice that declines to say.</p>
 <h2 id="ranking-once-not-repeatedly">Ranking once, not repeatedly</h2>
 <p>A tempting variant is to rank, cut the bottom half, and re-rank the survivors. Do not.</p>
-<ul><li><strong>harmonic, min-max (what SCORING.md uses)</strong> — survivors reordered 5/5, 2/3, 2/2 over the rounds (9 moves in total)</li><li><strong>geometric, min-max</strong> — survivors reordered 2/5, 0/3, 0/2 over the rounds (2 moves in total)</li><li><strong>geometric, pure ratio-to-best</strong> — survivors reordered 0/5, 0/3, 0/2 over the rounds (0 moves in total)</li></ul>
+<ul>
+<li><strong>harmonic, min-max (what SCORING.md uses)</strong> — survivors reordered 5/5, 2/3, 2/2 over the rounds (9 moves in total)</li>
+<li><strong>geometric, min-max</strong> — survivors reordered 2/5, 0/3, 0/2 over the rounds (2 moves in total)</li>
+<li><strong>geometric, pure ratio-to-best</strong> — survivors reordered 0/5, 0/3, 0/2 over the rounds (0 moves in total)</li>
+</ul>
 <p>The first two reorder coils that did not change, purely because other coils left the set. <code>coil_4x8_18</code> places 3rd of 10 and 1st of the surviving 9; <code>coil_3x3_54_2</code> places 1st and then 4th. Nothing about either was measured again.</p>
 <p>The cause is that min-max reads its lo and hi off whoever is present, so dropping alternatives rescales every metric by a different factor. That is an independence-of-irrelevant-alternatives failure, and it is the reason to cut on a property fixed in advance — touching &gt; 0, or a cross-section that will not fit — rather than on composite score.</p>
 <p>The other end of it is just as decisive. Under a pure ratio-to-best normalization with a geometric mean, nothing depends on which coils are present, and the whole procedure is a <strong>no-op: 0 moves in every round</strong>. So iterating either changes the order for a reason that has nothing to do with the coils, or changes nothing at all.</p>

@@ -36,6 +36,9 @@ h3{font-size:1.02rem;font-weight:650;margin:1.7em 0 .45em}
 p{margin:.85em 0}
 ul,ol{margin:.85em 0;padding-left:1.35em}
 li{margin:.3em 0}
+/* A list with blank lines between its items is "loose", and pandoc wraps each item
+   in a <p> as GitHub does. These pages were set tight before pandoc, so they stay so. */
+li>p{margin:0}
 hr{border:0;border-top:1px solid var(--line);margin:2.6em 0}
 figure{margin:1.6em 0}
 /* A paragraph holding two or more images is a gallery. Left to inline layout they
@@ -104,11 +107,126 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <h2 id="no-lead-out-to-write-and-why-that-costs-nothing">No lead-out to write, and why that costs nothing</h2>
 <p>A walk used to be allowed to end with a bare letter naming the way you leave. This one never did, and the notation no longer has one: you leave facing the last term. Nothing is lost. A bare letter carrying your own heading only restated it, and the six SVGs come out byte-identical written either way. What it could also do was name a <em>different</em> heading — <code>N1 U</code> turned the final block and stranded the final turn as a piece of its own — and that is the half of it worth losing: the last block cannot be stranded any more, because there is no longer a way to ask for one.</p>
 <h2 id="the-numbers">The numbers</h2>
-<div class='tw'><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td>blocks</td><td>22</td></tr><tr><td>centreline</td><td>352mm</td></tr><tr><td>sections</td><td>6</td></tr><tr><td>parts</td><td>40, over 6 sheets</td></tr><tr><td>bounding box</td><td>64 × 64 × 96mm — 4 × 4 × 6 blocks</td></tr><tr><td>airway</td><td>10mm square, constant</td></tr><tr><td>block pitch</td><td>16mm — 10mm of air in 3mm walls</td></tr><tr><td>elbows</td><td>none; every turn is a bend</td></tr><tr><td>contact</td><td>none</td></tr><tr><td>legs</td><td>north 6, west 5, up 5, east 3, down 3</td></tr></tbody></table></div>
+<div class="tw">
+<table>
+<tbody>
+<tr>
+<td>blocks</td>
+<td>22</td>
+</tr>
+<tr>
+<td>centreline</td>
+<td>352mm</td>
+</tr>
+<tr>
+<td>sections</td>
+<td>6</td>
+</tr>
+<tr>
+<td>parts</td>
+<td>40, over 6 sheets</td>
+</tr>
+<tr>
+<td>bounding box</td>
+<td>64 × 64 × 96mm — 4 × 4 × 6 blocks</td>
+</tr>
+<tr>
+<td>airway</td>
+<td>10mm square, constant</td>
+</tr>
+<tr>
+<td>block pitch</td>
+<td>16mm — 10mm of air in 3mm walls</td>
+</tr>
+<tr>
+<td>elbows</td>
+<td>none; every turn is a bend</td>
+</tr>
+<tr>
+<td>contact</td>
+<td>none</td>
+</tr>
+<tr>
+<td>legs</td>
+<td>north 6, west 5, up 5, east 3, down 3</td>
+</tr>
+</tbody>
+</table>
+</div>
 <p><strong>A block is 16mm, not 10.</strong> The bore is the air; the block is the air plus two walls. The two numbers are 6mm apart, and a folder named for one and gated at the other cuts a tube nobody asked for. A run of <em>N</em> blocks is 16<em>N</em> mm, which is where 352 comes from.</p>
 <h2 id="the-six-sections">The six sections</h2>
 <p>Numbered from the mouthpiece; assemble in order. A section is one flat snake, so it is one SVG, and every part is engraved with its section number because the sections only go together one way.</p>
-<div class='tw'><table><thead><tr><th>#</th><th>blocks</th><th>in → out</th><th>plate</th><th>shape</th><th>parts</th><th>sheet</th></tr></thead><tbody><tr><td>1</td><td>1–3</td><td>N → W</td><td>2×2</td><td><code>BDL~a</code></td><td>6</td><td>241 × 56mm</td></tr><tr><td>2</td><td>4–8</td><td>W → E</td><td>2×3</td><td><code>BLUUR</code></td><td>8</td><td>343 × 72mm</td></tr><tr><td>3</td><td>9–11</td><td>E → N</td><td>2×2</td><td><code>BRD</code></td><td>6</td><td>253 × 56mm</td></tr><tr><td>4</td><td>12–14</td><td>N → D</td><td>2×2</td><td><code>BDL</code></td><td>6</td><td>247 × 59mm</td></tr><tr><td>5</td><td>15–19</td><td>D → U</td><td>3×2</td><td><code>BDLLU</code></td><td>8</td><td>369 × 59mm</td></tr><tr><td>6</td><td>20–22</td><td>U → N</td><td>2×2</td><td><code>BRD~b</code></td><td>6</td><td>253 × 56mm</td></tr></tbody></table></div>
+<div class="tw">
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>blocks</th>
+<th>in → out</th>
+<th>plate</th>
+<th>shape</th>
+<th>parts</th>
+<th>sheet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1–3</td>
+<td>N → W</td>
+<td>2×2</td>
+<td><code>BDL~a</code></td>
+<td>6</td>
+<td>241 × 56mm</td>
+</tr>
+<tr>
+<td>2</td>
+<td>4–8</td>
+<td>W → E</td>
+<td>2×3</td>
+<td><code>BLUUR</code></td>
+<td>8</td>
+<td>343 × 72mm</td>
+</tr>
+<tr>
+<td>3</td>
+<td>9–11</td>
+<td>E → N</td>
+<td>2×2</td>
+<td><code>BRD</code></td>
+<td>6</td>
+<td>253 × 56mm</td>
+</tr>
+<tr>
+<td>4</td>
+<td>12–14</td>
+<td>N → D</td>
+<td>2×2</td>
+<td><code>BDL</code></td>
+<td>6</td>
+<td>247 × 59mm</td>
+</tr>
+<tr>
+<td>5</td>
+<td>15–19</td>
+<td>D → U</td>
+<td>3×2</td>
+<td><code>BDLLU</code></td>
+<td>8</td>
+<td>369 × 59mm</td>
+</tr>
+<tr>
+<td>6</td>
+<td>20–22</td>
+<td>U → N</td>
+<td>2×2</td>
+<td><code>BRD~b</code></td>
+<td>6</td>
+<td>253 × 56mm</td>
+</tr>
+</tbody>
+</table>
+</div>
 <p><code>~a</code> and <code>~b</code> are the plain ends — the only two faces that do not couple to another section, and the ones the mouthpiece and the bell land on. The filenames say <code>buttin</code> and <code>buttout</code>.</p>
 <p>Sections 2 and 5 are the folds: five blocks each, carrying a hairpin internally rather than stranding its turn as a separate piece. Sections 3 and 6 are both <code>BRD</code> and share a 253 × 56mm footprint, but they are not the same cut: section 6 ends plain at <code>~b</code>, so that face carries no fingers. All six sheets are distinct.</p>
 <h2 id="the-cut-files">The cut files</h2>
@@ -122,7 +240,7 @@ bore10-coil-fold2-06of06-bend-RD-buttout-cut-files.svg</code></pre>
 <p>Every file is millimetre-true at 1 user unit = 1mm. <strong>Blue engraves, then black cuts</strong> — blue writes the section number on every part, black frees it.</p>
 <h2 id="rebuild-it">Rebuild it</h2>
 <p>The generator lives in <code>tools/</code> at the repository root, and both commands run from there. Report only, writing nothing:</p>
-<pre><code>python3 tools/bore_split.py "N1 W3 U2 E3 N3 D3 W2 U3 N1" --bore=10 --no-write --refuse-elbows</code></pre>
+<pre><code>python3 tools/bore_split.py &quot;N1 W3 U2 E3 N3 D3 W2 U3 N1&quot; --bore=10 --no-write --refuse-elbows</code></pre>
 <p><code>--bore=10</code> is the airway; the 16mm block follows from it at 3mm ply. The generator cuts an elbow by default in this copy; <code>--refuse-elbows</code> makes it refuse one instead, so the bend-only claim is a gate rather than a reading. Writing rewrites every sheet in the folder, so it runs under the venv python that has the gate's dependencies:</p>
 <pre><code>cd tools &amp;&amp; ~/Software/boxes/venv/bin/python bore_split.py \
     ../parts/bore/concept/walk/coil/fold2/bore/bore.html \
