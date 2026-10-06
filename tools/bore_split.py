@@ -1062,7 +1062,7 @@ def piece_spec(rec, idx, k=None, laps=('', ''), ports=(False, False),
                 'Lengthen the run, or use a cubic cell.')
         if first['in'] == first['out']:
             # Every straight is the same part: all four face pairs are congruent.
-            return ('S1' + lap_tag(laps),
+            return ('S1' + ptag + lap_tag(laps),
                     ['--path=', f'--open_faces={FACE2D[a_in]},{FACE2D[a_out]}']
                     + lap_args(laps) + extra, 'straight')
         # Stranded turns are NOT all one part. The four rotations of a turn are
@@ -1081,7 +1081,7 @@ def piece_spec(rec, idx, k=None, laps=('', ''), ports=(False, False),
                  if FACE2D[turn2d(a_in, r)] == faces[0]
                  and FACE2D[turn2d(a_out, r)] == faces[1])
         laps = tuple(FACE2D[turn2d(VEC2D[L], q)] if L else '' for L in laps)
-        return ('E' + ''.join(faces) + lap_tag(laps),
+        return ('E' + ''.join(faces) + ptag + lap_tag(laps),
                 ['--path=', f'--open_faces={faces[0]},{faces[1]}']
                 + lap_args(laps) + extra, 'elbow')
 
