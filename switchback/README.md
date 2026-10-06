@@ -6,7 +6,7 @@ walk in the repository, and the one to cut first if you want to find out
 whether the joints go together before you commit a metre of ply to it.
 
 <!-- readme-only -->
-**[Read this page](https://gernreich.github.io/trumpet-elbows-not-allowed/switchback/)**
+**[Read this page](https://gernreich.github.io/trumpet-elbows-allowed/switchback/)**
 
 **[Turn it →](../parts/bore/concept/walk/coil/fold2/bore/bore.html)**
 The viewer is a page of its own, not a frame in this one: drag to rotate, and
@@ -128,7 +128,7 @@ cd tools && ~/Software/boxes/venv/bin/python bore_split.py \
 Leave the walk alone and lengthen only the blocks that run straight, and the
 tube grows without the shape changing. `--straight=30` turns this 352mm into
 548mm on the same six turns. The built instrument is that idea taken three
-turns further — see **[the trumpet writeup](https://gernreich.github.io/trumpet-elbows-not-allowed/)**.
+turns further — see **[the trumpet writeup](https://gernreich.github.io/trumpet-elbows-allowed/)**.
 
 ## The two ends
 
@@ -142,7 +142,7 @@ channel, so one of each serves all of them —
 **[The three-turn trumpet](../three-turn/)** — the bore that plays, glued up
 and blown, rather than a candidate.
 
-**[The trumpet writeup](https://gernreich.github.io/trumpet-elbows-not-allowed/)** — the idea, the notation, the gate, and the whole
+**[The trumpet writeup](https://gernreich.github.io/trumpet-elbows-allowed/)** — the idea, the notation, the gate, and the whole
 library.
 
 **[The rest of the build files](https://gernreich.github.io/)** — every

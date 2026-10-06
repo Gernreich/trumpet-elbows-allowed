@@ -6,7 +6,7 @@ winding **three whole turns** about a north–south axis, with a mouthpiece at o
 end and a 153mm bell at the other.
 
 <!-- readme-only -->
-**[Read this page](https://gernreich.github.io/trumpet-elbows-not-allowed/three-turn/)**
+**[Read this page](https://gernreich.github.io/trumpet-elbows-allowed/three-turn/)**
 
 **It plays. One of its notes is F4** — 349.2 Hz, measured off the instrument.
 
@@ -206,7 +206,7 @@ already exists in wood — check what moved before you replace them.
 
 ## More, and licence
 
-**[The trumpet writeup](https://gernreich.github.io/trumpet-elbows-not-allowed/)** — the idea, the notation, the gate, and the whole
+**[The trumpet writeup](https://gernreich.github.io/trumpet-elbows-allowed/)** — the idea, the notation, the gate, and the whole
 library.
 
 **[The rest of the build files](https://gernreich.github.io/)** — every
