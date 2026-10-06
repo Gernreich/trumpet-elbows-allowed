@@ -36,6 +36,9 @@ h3{font-size:1.02rem;font-weight:650;margin:1.7em 0 .45em}
 p{margin:.85em 0}
 ul,ol{margin:.85em 0;padding-left:1.35em}
 li{margin:.3em 0}
+/* A list with blank lines between its items is "loose", and pandoc wraps each item
+   in a <p> as GitHub does. These pages were set tight before pandoc, so they stay so. */
+li>p{margin:0}
 hr{border:0;border-top:1px solid var(--line);margin:2.6em 0}
 figure{margin:1.6em 0}
 /* A paragraph holding two or more images is a gallery. Left to inline layout they
@@ -1964,7 +1967,42 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <p>The walk is kept in <code>../tools/walks/tight_coil.txt</code>, and <code>regress.py</code> beside it names this folder as where its cut files land.</p>
 <h2 id="why-it-cannot-be-tighter">Why it cannot be tighter</h2>
 <p>Two blocks is the shortest a side can be and the shortest a step along the axis can be, if no block is to touch another. Each was tried one block shorter in <code>bore_split.py</code>:</p>
-<div class='tw'><table><thead><tr><th>walk</th><th>rise a turn</th><th>tube a turn</th><th>elbows</th><th>touching pairs</th></tr></thead><tbody><tr><td><strong>this one, sides 2, steps 2</strong></td><td><strong>42.7mm</strong></td><td><strong>10.8 blocks</strong></td><td>16</td><td><strong>0</strong></td></tr><tr><td>steps of 1</td><td>21.3mm</td><td>9.7 blocks</td><td>16</td><td>35</td></tr><tr><td>sides of 1</td><td>42.7mm</td><td>6.8 blocks</td><td>32</td><td>8</td></tr></tbody></table></div>
+<div class="tw">
+<table>
+<thead>
+<tr>
+<th>walk</th>
+<th style="text-align: right;">rise a turn</th>
+<th style="text-align: right;">tube a turn</th>
+<th style="text-align: right;">elbows</th>
+<th style="text-align: right;">touching pairs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>this one, sides 2, steps 2</strong></td>
+<td style="text-align: right;"><strong>42.7mm</strong></td>
+<td style="text-align: right;"><strong>10.8 blocks</strong></td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;"><strong>0</strong></td>
+</tr>
+<tr>
+<td>steps of 1</td>
+<td style="text-align: right;">21.3mm</td>
+<td style="text-align: right;">9.7 blocks</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">35</td>
+</tr>
+<tr>
+<td>sides of 1</td>
+<td style="text-align: right;">42.7mm</td>
+<td style="text-align: right;">6.8 blocks</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: right;">8</td>
+</tr>
+</tbody>
+</table>
+</div>
 <p>All three are six turns with a one-block lead at each end. A step of one block puts each turn face to face with the one before it, and a side of one brings the loop's own sides together.</p>
 <p>Contact is counted between blocks three or more apart along the bore, as everywhere in this repository: blocks two apart touch at every turn, and that is the geometry of turning rather than the bore coming back on itself.</p>
 <h2 id="what-it-costs-an-elbow-at-every-other-piece">What it costs: an elbow at every other piece</h2>
@@ -1973,10 +2011,410 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <p>So the 33 pieces alternate: a straight at the mouth, then elbow, bend, elbow, bend, to a bend at the bell. The 16 bends are three blocks each and the 16 elbows one.</p>
 <p><strong>Seven elbows are left open on the inside of the turn</strong> — sections 6, 10, 14, 18, 22, 26 and 30. An elbow's two openings share an edge, so the inside corner of the turn has no wall of its own; a neighbour normally closes it with a tongue, a wall run one ply past the joint. At these seven neither neighbour can put the tongue on a wall, so the generator leaves the corner open rather than guessing. It is not a leak — the neighbours' walls and the elbow's plates seal it from outside — but it is a 3 × 3mm notch along the inside of the turn, and a joint with less glue on it. The other nine elbows are closed.</p>
 <h2 id="the-numbers">The numbers</h2>
-<div class='tw'><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td>blocks</td><td>65</td></tr><tr><td>centreline</td><td>1040mm</td></tr><tr><td>sections</td><td>33 — 1 straight, 16 elbows, 16 bends</td></tr><tr><td>parts</td><td>164, over 33 sheets</td></tr><tr><td>bounding box</td><td>48 × 48 × 272mm — 3 × 3 × 17 blocks</td></tr><tr><td>airway</td><td>10mm square, constant</td></tr><tr><td>block pitch</td><td>16mm — 10mm of air in 3mm walls</td></tr><tr><td>rise</td><td>42.7mm a turn — 2⅔ blocks — over six whole turns</td></tr><tr><td>elbows</td><td>16; seven of them open on the inside of the turn</td></tr><tr><td>contact</td><td>none</td></tr><tr><td>legs</td><td>north 17, west 12, east 12, up 12, down 12</td></tr><tr><td>with the ends</td><td>1283mm — 90mm mouthpiece, 1040mm bore, 153mm bell</td></tr></tbody></table></div>
+<div class="tw">
+<table>
+<tbody>
+<tr>
+<td>blocks</td>
+<td>65</td>
+</tr>
+<tr>
+<td>centreline</td>
+<td>1040mm</td>
+</tr>
+<tr>
+<td>sections</td>
+<td>33 — 1 straight, 16 elbows, 16 bends</td>
+</tr>
+<tr>
+<td>parts</td>
+<td>164, over 33 sheets</td>
+</tr>
+<tr>
+<td>bounding box</td>
+<td>48 × 48 × 272mm — 3 × 3 × 17 blocks</td>
+</tr>
+<tr>
+<td>airway</td>
+<td>10mm square, constant</td>
+</tr>
+<tr>
+<td>block pitch</td>
+<td>16mm — 10mm of air in 3mm walls</td>
+</tr>
+<tr>
+<td>rise</td>
+<td>42.7mm a turn — 2⅔ blocks — over six whole turns</td>
+</tr>
+<tr>
+<td>elbows</td>
+<td>16; seven of them open on the inside of the turn</td>
+</tr>
+<tr>
+<td>contact</td>
+<td>none</td>
+</tr>
+<tr>
+<td>legs</td>
+<td>north 17, west 12, east 12, up 12, down 12</td>
+</tr>
+<tr>
+<td>with the ends</td>
+<td>1283mm — 90mm mouthpiece, 1040mm bore, 153mm bell</td>
+</tr>
+</tbody>
+</table>
+</div>
 <h2 id="the-33-sections">The 33 sections</h2>
 <p>Numbered from the mouthpiece; assemble in order. A section is one flat snake, so it is one SVG, and every part is engraved with its section number because the sections only go together one way.</p>
-<div class='tw'><table><thead><tr><th>#</th><th>blocks</th><th>kind</th><th>in → out</th><th>plate</th><th>shape</th><th>parts</th><th>sheet</th></tr></thead><tbody><tr><td>1</td><td>1</td><td>straight</td><td>N → N</td><td>1×1</td><td><code>S1~a@-W</code></td><td>4</td><td>122 × 40mm</td></tr><tr><td>2</td><td>2</td><td>elbow</td><td>N → W</td><td>1×1</td><td><code>EEN</code></td><td>4</td><td>128 × 40mm</td></tr><tr><td>3</td><td>3–5</td><td>bend</td><td>W → U</td><td>2×2</td><td><code>BLU~f@-E</code></td><td>6</td><td>253 × 56mm</td></tr><tr><td>4</td><td>6</td><td>elbow</td><td>U → E</td><td>1×1</td><td><code>EEN</code></td><td>4</td><td>128 × 40mm</td></tr><tr><td>5</td><td>7–9</td><td>bend</td><td>E → N</td><td>2×2</td><td><code>BRD~f~g</code></td><td>6</td><td>250 × 56mm</td></tr><tr><td>6</td><td>10</td><td>elbow</td><td>N → D</td><td>1×1</td><td><code>EEN</code></td><td>4</td><td>128 × 40mm</td></tr><tr><td>7</td><td>11–13</td><td>bend</td><td>D → W</td><td>2×2</td><td><code>BDL~f@-N</code></td><td>6</td><td>250 × 59mm</td></tr><tr><td>8</td><td>14</td><td>elbow</td><td>W → U</td><td>1×1</td><td><code>EEN</code></td><td>4</td><td>128 × 40mm</td></tr><tr><td>9</td><td>15–17</td><td>bend</td><td>U → N</td><td>2×2</td><td><code>BRD~f~g</code></td><td>6</td><td>250 × 56mm</td></tr><tr><td>10</td><td>18</td><td>elbow</td><td>N → E</td><td>1×1</td><td><code>ENE</code></td><td>4</td><td>122 × 43mm</td></tr><tr><td>11</td><td>19–21</td><td>bend</td><td>E → D</td><td>2×2</td><td><code>BRD~f@-W</code></td><td>6</td><td>253 × 56mm</td></tr><tr><td>12</td><td>22</td><td>elbow</td><td>D → W</td><td>1×1</td><td><code>EEN</code></td><td>4</td><td>128 × 40mm</td></tr><tr><td>13</td><td>23–25</td><td>bend</td><td>W → N</td><td>2×2</td><td><code>BLD~f~g</code></td><td>6</td><td>250 × 56mm</td></tr><tr><td>14</td><td>26</td><td>elbow</td><td>N → U</td><td>1×1</td><td><code>ENE</code></td><td>4</td><td>122 × 43mm</td></tr><tr><td>15</td><td>27–29</td><td>bend</td><td>U → E</td><td>2×2</td><td><code>BUR~f@-S</code></td><td>6</td><td>250 × 59mm</td></tr><tr><td>16</td><td>30</td><td>elbow</td><td>E → D</td><td>1×1</td><td><code>EEN</code></td><td>4</td><td>128 × 40mm</td></tr><tr><td>17</td><td>31–33</td><td>bend</td><td>D → N</td><td>2×2</td><td><code>BLD~f~g</code></td><td>6</td><td>250 × 56mm</td></tr><tr><td>18</td><td>34</td><td>elbow</td><td>N → W</td><td>1×1</td><td><code>EEN</code></td><td>4</td><td>128 × 40mm</td></tr><tr><td>19</td><td>35–37</td><td>bend</td><td>W → U</td><td>2×2</td><td><code>BLU~f@-E</code></td><td>6</td><td>253 × 56mm</td></tr><tr><td>20</td><td>38</td><td>elbow</td><td>U → E</td><td>1×1</td><td><code>EEN</code></td><td>4</td><td>128 × 40mm</td></tr><tr><td>21</td><td>39–41</td><td>bend</td><td>E → N</td><td>2×2</td><td><code>BRD~f~g</code></td><td>6</td><td>250 × 56mm</td></tr><tr><td>22</td><td>42</td><td>elbow</td><td>N → D</td><td>1×1</td><td><code>EEN</code></td><td>4</td><td>128 × 40mm</td></tr><tr><td>23</td><td>43–45</td><td>bend</td><td>D → W</td><td>2×2</td><td><code>BDL~f@-N</code></td><td>6</td><td>250 × 59mm</td></tr><tr><td>24</td><td>46</td><td>elbow</td><td>W → U</td><td>1×1</td><td><code>EEN</code></td><td>4</td><td>128 × 40mm</td></tr><tr><td>25</td><td>47–49</td><td>bend</td><td>U → N</td><td>2×2</td><td><code>BRD~f~g</code></td><td>6</td><td>250 × 56mm</td></tr><tr><td>26</td><td>50</td><td>elbow</td><td>N → E</td><td>1×1</td><td><code>ENE</code></td><td>4</td><td>122 × 43mm</td></tr><tr><td>27</td><td>51–53</td><td>bend</td><td>E → D</td><td>2×2</td><td><code>BRD~f@-W</code></td><td>6</td><td>253 × 56mm</td></tr><tr><td>28</td><td>54</td><td>elbow</td><td>D → W</td><td>1×1</td><td><code>EEN</code></td><td>4</td><td>128 × 40mm</td></tr><tr><td>29</td><td>55–57</td><td>bend</td><td>W → N</td><td>2×2</td><td><code>BLD~f~g</code></td><td>6</td><td>250 × 56mm</td></tr><tr><td>30</td><td>58</td><td>elbow</td><td>N → U</td><td>1×1</td><td><code>ENE</code></td><td>4</td><td>122 × 43mm</td></tr><tr><td>31</td><td>59–61</td><td>bend</td><td>U → E</td><td>2×2</td><td><code>BUR~f@-S</code></td><td>6</td><td>250 × 59mm</td></tr><tr><td>32</td><td>62</td><td>elbow</td><td>E → D</td><td>1×1</td><td><code>EEN</code></td><td>4</td><td>128 × 40mm</td></tr><tr><td>33</td><td>63–65</td><td>bend</td><td>D → N</td><td>2×2</td><td><code>BLD~b~f</code></td><td>6</td><td>250 × 56mm</td></tr></tbody></table></div>
+<div class="tw">
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>blocks</th>
+<th>kind</th>
+<th>in → out</th>
+<th>plate</th>
+<th>shape</th>
+<th>parts</th>
+<th>sheet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>straight</td>
+<td>N → N</td>
+<td>1×1</td>
+<td><code>S1~a@-W</code></td>
+<td>4</td>
+<td>122 × 40mm</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>elbow</td>
+<td>N → W</td>
+<td>1×1</td>
+<td><code>EEN</code></td>
+<td>4</td>
+<td>128 × 40mm</td>
+</tr>
+<tr>
+<td>3</td>
+<td>3–5</td>
+<td>bend</td>
+<td>W → U</td>
+<td>2×2</td>
+<td><code>BLU~f@-E</code></td>
+<td>6</td>
+<td>253 × 56mm</td>
+</tr>
+<tr>
+<td>4</td>
+<td>6</td>
+<td>elbow</td>
+<td>U → E</td>
+<td>1×1</td>
+<td><code>EEN</code></td>
+<td>4</td>
+<td>128 × 40mm</td>
+</tr>
+<tr>
+<td>5</td>
+<td>7–9</td>
+<td>bend</td>
+<td>E → N</td>
+<td>2×2</td>
+<td><code>BRD~f~g</code></td>
+<td>6</td>
+<td>250 × 56mm</td>
+</tr>
+<tr>
+<td>6</td>
+<td>10</td>
+<td>elbow</td>
+<td>N → D</td>
+<td>1×1</td>
+<td><code>EEN</code></td>
+<td>4</td>
+<td>128 × 40mm</td>
+</tr>
+<tr>
+<td>7</td>
+<td>11–13</td>
+<td>bend</td>
+<td>D → W</td>
+<td>2×2</td>
+<td><code>BDL~f@-N</code></td>
+<td>6</td>
+<td>250 × 59mm</td>
+</tr>
+<tr>
+<td>8</td>
+<td>14</td>
+<td>elbow</td>
+<td>W → U</td>
+<td>1×1</td>
+<td><code>EEN</code></td>
+<td>4</td>
+<td>128 × 40mm</td>
+</tr>
+<tr>
+<td>9</td>
+<td>15–17</td>
+<td>bend</td>
+<td>U → N</td>
+<td>2×2</td>
+<td><code>BRD~f~g</code></td>
+<td>6</td>
+<td>250 × 56mm</td>
+</tr>
+<tr>
+<td>10</td>
+<td>18</td>
+<td>elbow</td>
+<td>N → E</td>
+<td>1×1</td>
+<td><code>ENE</code></td>
+<td>4</td>
+<td>122 × 43mm</td>
+</tr>
+<tr>
+<td>11</td>
+<td>19–21</td>
+<td>bend</td>
+<td>E → D</td>
+<td>2×2</td>
+<td><code>BRD~f@-W</code></td>
+<td>6</td>
+<td>253 × 56mm</td>
+</tr>
+<tr>
+<td>12</td>
+<td>22</td>
+<td>elbow</td>
+<td>D → W</td>
+<td>1×1</td>
+<td><code>EEN</code></td>
+<td>4</td>
+<td>128 × 40mm</td>
+</tr>
+<tr>
+<td>13</td>
+<td>23–25</td>
+<td>bend</td>
+<td>W → N</td>
+<td>2×2</td>
+<td><code>BLD~f~g</code></td>
+<td>6</td>
+<td>250 × 56mm</td>
+</tr>
+<tr>
+<td>14</td>
+<td>26</td>
+<td>elbow</td>
+<td>N → U</td>
+<td>1×1</td>
+<td><code>ENE</code></td>
+<td>4</td>
+<td>122 × 43mm</td>
+</tr>
+<tr>
+<td>15</td>
+<td>27–29</td>
+<td>bend</td>
+<td>U → E</td>
+<td>2×2</td>
+<td><code>BUR~f@-S</code></td>
+<td>6</td>
+<td>250 × 59mm</td>
+</tr>
+<tr>
+<td>16</td>
+<td>30</td>
+<td>elbow</td>
+<td>E → D</td>
+<td>1×1</td>
+<td><code>EEN</code></td>
+<td>4</td>
+<td>128 × 40mm</td>
+</tr>
+<tr>
+<td>17</td>
+<td>31–33</td>
+<td>bend</td>
+<td>D → N</td>
+<td>2×2</td>
+<td><code>BLD~f~g</code></td>
+<td>6</td>
+<td>250 × 56mm</td>
+</tr>
+<tr>
+<td>18</td>
+<td>34</td>
+<td>elbow</td>
+<td>N → W</td>
+<td>1×1</td>
+<td><code>EEN</code></td>
+<td>4</td>
+<td>128 × 40mm</td>
+</tr>
+<tr>
+<td>19</td>
+<td>35–37</td>
+<td>bend</td>
+<td>W → U</td>
+<td>2×2</td>
+<td><code>BLU~f@-E</code></td>
+<td>6</td>
+<td>253 × 56mm</td>
+</tr>
+<tr>
+<td>20</td>
+<td>38</td>
+<td>elbow</td>
+<td>U → E</td>
+<td>1×1</td>
+<td><code>EEN</code></td>
+<td>4</td>
+<td>128 × 40mm</td>
+</tr>
+<tr>
+<td>21</td>
+<td>39–41</td>
+<td>bend</td>
+<td>E → N</td>
+<td>2×2</td>
+<td><code>BRD~f~g</code></td>
+<td>6</td>
+<td>250 × 56mm</td>
+</tr>
+<tr>
+<td>22</td>
+<td>42</td>
+<td>elbow</td>
+<td>N → D</td>
+<td>1×1</td>
+<td><code>EEN</code></td>
+<td>4</td>
+<td>128 × 40mm</td>
+</tr>
+<tr>
+<td>23</td>
+<td>43–45</td>
+<td>bend</td>
+<td>D → W</td>
+<td>2×2</td>
+<td><code>BDL~f@-N</code></td>
+<td>6</td>
+<td>250 × 59mm</td>
+</tr>
+<tr>
+<td>24</td>
+<td>46</td>
+<td>elbow</td>
+<td>W → U</td>
+<td>1×1</td>
+<td><code>EEN</code></td>
+<td>4</td>
+<td>128 × 40mm</td>
+</tr>
+<tr>
+<td>25</td>
+<td>47–49</td>
+<td>bend</td>
+<td>U → N</td>
+<td>2×2</td>
+<td><code>BRD~f~g</code></td>
+<td>6</td>
+<td>250 × 56mm</td>
+</tr>
+<tr>
+<td>26</td>
+<td>50</td>
+<td>elbow</td>
+<td>N → E</td>
+<td>1×1</td>
+<td><code>ENE</code></td>
+<td>4</td>
+<td>122 × 43mm</td>
+</tr>
+<tr>
+<td>27</td>
+<td>51–53</td>
+<td>bend</td>
+<td>E → D</td>
+<td>2×2</td>
+<td><code>BRD~f@-W</code></td>
+<td>6</td>
+<td>253 × 56mm</td>
+</tr>
+<tr>
+<td>28</td>
+<td>54</td>
+<td>elbow</td>
+<td>D → W</td>
+<td>1×1</td>
+<td><code>EEN</code></td>
+<td>4</td>
+<td>128 × 40mm</td>
+</tr>
+<tr>
+<td>29</td>
+<td>55–57</td>
+<td>bend</td>
+<td>W → N</td>
+<td>2×2</td>
+<td><code>BLD~f~g</code></td>
+<td>6</td>
+<td>250 × 56mm</td>
+</tr>
+<tr>
+<td>30</td>
+<td>58</td>
+<td>elbow</td>
+<td>N → U</td>
+<td>1×1</td>
+<td><code>ENE</code></td>
+<td>4</td>
+<td>122 × 43mm</td>
+</tr>
+<tr>
+<td>31</td>
+<td>59–61</td>
+<td>bend</td>
+<td>U → E</td>
+<td>2×2</td>
+<td><code>BUR~f@-S</code></td>
+<td>6</td>
+<td>250 × 59mm</td>
+</tr>
+<tr>
+<td>32</td>
+<td>62</td>
+<td>elbow</td>
+<td>E → D</td>
+<td>1×1</td>
+<td><code>EEN</code></td>
+<td>4</td>
+<td>128 × 40mm</td>
+</tr>
+<tr>
+<td>33</td>
+<td>63–65</td>
+<td>bend</td>
+<td>D → N</td>
+<td>2×2</td>
+<td><code>BLD~b~f</code></td>
+<td>6</td>
+<td>250 × 56mm</td>
+</tr>
+</tbody>
+</table>
+</div>
 <p><code>~a</code> and <code>~b</code> are the plain ends, where the mouthpiece and the bell land; the file names say <code>buttin</code> and <code>buttout</code>. <code>@</code> names a wall that runs on as a tongue into the elbow beside it, and <code>~f</code> and <code>~g</code> mark a piece whose plate is flattened where it meets an elbow.</p>
 <p>Several sections are the same shape — the twelve <code>EEN</code> elbows are one, the four <code>ENE</code> elbows another, and fifteen of the bends fall into six shapes — but each is cut separately so that it carries its own number.</p>
 <h2 id="the-cut-files">The cut files</h2>

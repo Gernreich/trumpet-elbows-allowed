@@ -36,6 +36,9 @@ h3{font-size:1.02rem;font-weight:650;margin:1.7em 0 .45em}
 p{margin:.85em 0}
 ul,ol{margin:.85em 0;padding-left:1.35em}
 li{margin:.3em 0}
+/* A list with blank lines between its items is "loose", and pandoc wraps each item
+   in a <p> as GitHub does. These pages were set tight before pandoc, so they stay so. */
+li>p{margin:0}
 hr{border:0;border-top:1px solid var(--line);margin:2.6em 0}
 figure{margin:1.6em 0}
 /* A paragraph holding two or more images is a gallery. Left to inline layout they
@@ -103,6 +106,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <p><strong><a href="../parts/bell/bell-round10-153mm-17rings-x3-rim86-turn.html">Turn it →</a></strong> The viewer is a page of its own: drag to rotate, and the slider stacks the rings one at a time, which is the useful part.</p>
 <figure><img src="../parts/bell/bell-round10-153mm-17rings-x3-rim86-view.svg" alt="A 17-ring bell seen from above the rim: rings stacked and morphing from square at the throat to round at the rim, widening toward the viewer, the bore visible down the middle"
   style="width:auto;max-width:100%;max-height:560px;margin:0 auto"></figure>
+
 <figure><svg xmlns="http://www.w3.org/2000/svg" width="181.0mm" height="114.0mm"
      viewBox="0 0 181.0 114.0" role="img"
      aria-label="Axial section of a 17-ring bell: the bore climbing one staircase and the outside another, wall between them">
@@ -145,7 +149,40 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
   <line x1="14.0" y1="57.0" x2="167.0" y2="57.0" stroke="#8a8f96" stroke-width="0.6" stroke-dasharray="6 3"/>
   <text x="14.0" y="110.0" font-family="ui-sans-serif,system-ui,sans-serif" font-size="7" fill="#334155">17 rings · ø10 bore to ø86.0 rim · 153mm long</text>
 </svg></figure>
-<div class='tw'><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td>rings</td><td>17, each 3 laminations of 3mm</td></tr><tr><td>height</td><td>153mm, built on a 152mm profile</td></tr><tr><td>throat</td><td>10mm square</td></tr><tr><td>rim</td><td>ø86.0mm outside, ø80 of air</td></tr><tr><td>profile</td><td>Bessel horn, gamma 0.7</td></tr><tr><td>sheet</td><td>187 × 192mm</td></tr><tr><td>pieces</td><td>51 — the sheet goes through the machine three times</td></tr></tbody></table></div>
+<div class="tw">
+<table>
+<tbody>
+<tr>
+<td>rings</td>
+<td>17, each 3 laminations of 3mm</td>
+</tr>
+<tr>
+<td>height</td>
+<td>153mm, built on a 152mm profile</td>
+</tr>
+<tr>
+<td>throat</td>
+<td>10mm square</td>
+</tr>
+<tr>
+<td>rim</td>
+<td>ø86.0mm outside, ø80 of air</td>
+</tr>
+<tr>
+<td>profile</td>
+<td>Bessel horn, gamma 0.7</td>
+</tr>
+<tr>
+<td>sheet</td>
+<td>187 × 192mm</td>
+</tr>
+<tr>
+<td>pieces</td>
+<td>51 — the sheet goes through the machine three times</td>
+</tr>
+</tbody>
+</table>
+</div>
 <p><strong>The bell is cut more than once.</strong> The sheet draws every ring once, and the <code>x3</code> in its filename is how many passes it takes. Cut it once and you get a 51mm stub instead of a 153mm bell.</p>
 <p>Rings stack; they do not telescope. Each seats on the one below over 3.0mm per side. They are engraved in hex with <code>0</code> at the bore, and the generator writes the numbering itself as the last step, with an orientation tick beside each number — a numbering failure deletes the sheet rather than leaving an unnumbered one to be cut.</p>
 <pre><code>cd parts/bell &amp;&amp; python3 bell-round.py 17 --bore=10 --length=152 --mouth=80 \
@@ -162,6 +199,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <p><strong><a href="../parts/mouthpiece/mouthpiece-bore10-trumpet-parts-turn.html">Turn it →</a></strong> Again a page of its own, and again the slider stacks it a ring at a time.</p>
 <figure><img src="../parts/mouthpiece/mouthpiece-bore10-trumpet-parts-view.svg" alt="The mouthpiece assembled from 30 rings, seen from above the cup: the cup narrowing to a throat, then the backbore opening slowly below it"
   style="width:auto;max-width:100%;max-height:560px;margin:0 auto"></figure>
+
 <figure><svg xmlns="http://www.w3.org/2000/svg" width="118.0mm" height="51.0mm"
      viewBox="0 0 118.0 51.0" role="img"
      aria-label="Axial section of the 30-ring mouthpiece: the bore narrowing to the throat and opening again, the outside stepping the other way, wall between them">
@@ -230,12 +268,55 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
   <line x1="14.0" y1="25.5" x2="104.0" y2="25.5" stroke="#8a8f96" stroke-width="0.6" stroke-dasharray="6 3"/>
   <text x="14.0" y="47.0" font-family="ui-sans-serif,system-ui,sans-serif" font-size="7" fill="#334155">30 rings · ø4 bore to ø23.0 rim · 90mm long</text>
 </svg></figure>
-<div class='tw'><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td>rings</td><td>30, each 1 lamination of 3mm</td></tr><tr><td>height</td><td>90mm</td></tr><tr><td>layout</td><td>26 backbore rings, 0 entrance rings, 4 bowl rings</td></tr><tr><td>at the instrument</td><td>10mm square aperture in a 16mm square plate</td></tr><tr><td>throat</td><td>ø3.66mm</td></tr><tr><td>rim</td><td>ø23mm outside, ø17 at the lip</td></tr><tr><td>wall</td><td>3 to 4.96mm</td></tr><tr><td>sheet</td><td>111 × 101mm</td></tr><tr><td>pieces</td><td>30 — one pass</td></tr></tbody></table></div>
+<div class="tw">
+<table>
+<tbody>
+<tr>
+<td>rings</td>
+<td>30, each 1 lamination of 3mm</td>
+</tr>
+<tr>
+<td>height</td>
+<td>90mm</td>
+</tr>
+<tr>
+<td>layout</td>
+<td>26 backbore rings, 0 entrance rings, 4 bowl rings</td>
+</tr>
+<tr>
+<td>at the instrument</td>
+<td>10mm square aperture in a 16mm square plate</td>
+</tr>
+<tr>
+<td>throat</td>
+<td>ø3.66mm</td>
+</tr>
+<tr>
+<td>rim</td>
+<td>ø23mm outside, ø17 at the lip</td>
+</tr>
+<tr>
+<td>wall</td>
+<td>3 to 4.96mm</td>
+</tr>
+<tr>
+<td>sheet</td>
+<td>111 × 101mm</td>
+</tr>
+<tr>
+<td>pieces</td>
+<td>30 — one pass</td>
+</tr>
+</tbody>
+</table>
+</div>
 <p>Station one is a <strong>sharp</strong> 10mm square aperture in a <strong>sharp</strong> 16mm square plate, matching the bore corner for corner. The corners round away going up, and the section is a true circle from the 9.026mm station on, so the throat and the whole cup are round.</p>
 <pre><code>cd parts/mouthpiece &amp;&amp; python3 mouthpiece-round.py \
     cut-files/mouthpiece-bore10-trumpet-parts-cut-files.svg</code></pre>
 <p><strong>The staircase is not sanded or filled.</strong> Thirty 3mm rings make a 90mm cone out of thirty steps, and the lip is the one part of this instrument that can feel every one of them — it is played that way, off the sheet and unfinished.</p>
-<blockquote><p>The mouthpiece on the instrument that has been built is <strong>24 rings, 72mm</strong> — not the 30 this sheet cuts. It is the instrument that is short, not the drawing.</p></blockquote>
+<blockquote>
+<p>The mouthpiece on the instrument that has been built is <strong>24 rings, 72mm</strong> — not the 30 this sheet cuts. It is the instrument that is short, not the drawing.</p>
+</blockquote>
 <h2 id="every-sheet-is-claimed">Every sheet is claimed</h2>
 <p>Both directories carry a <code>.repro</code> manifest naming the exact command that draws each shipped SVG, checked by <a href="https://github.com/Gernreich/lasermade-tools/blob/main/repro-svg.py"><code>repro-svg.py</code></a> from lasermade-tools. It runs every command into a temp path and compares the result byte for byte against the sheet on disk, so a sheet the current code would not draw is caught rather than shipped. A sheet with no command behind it is reported <code>UNCLAIMED</code>, which is why the manifest has to grow whenever a drawing does.</p>
 <h2 id="the-bores-these-fit">The bores these fit</h2>
