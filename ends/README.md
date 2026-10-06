@@ -132,7 +132,9 @@ every one of them — it is played that way, off the sheet and unfinished.
 ## Every sheet is claimed
 
 Both directories carry a `.repro` manifest naming the exact command that draws
-each shipped SVG, checked by `repro-svg.py`. It runs every command into a temp
+each shipped SVG, checked by
+[`repro-svg.py`](https://github.com/Gernreich/lasermade-tools/blob/main/repro-svg.py)
+from lasermade-tools. It runs every command into a temp
 path and compares the result byte for byte against the sheet on disk, so a sheet
 the current code would not draw is caught rather than shipped. A sheet with no
 command behind it is reported `UNCLAIMED`, which is why the manifest has to grow
