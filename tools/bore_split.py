@@ -204,11 +204,10 @@ BURN = KERF / 2                     # what Boxes.py wants: the radius
 # free and an elbow is a glue-up, so a split that folds a turn wins over one that
 # strands it, whatever that costs in pieces.
 FOLD_TURNS = True
-# ELBOWS ARE ALLOWED IN THIS REPOSITORY. It is trumpet-elbows-allowed, a copy of
-# trumpet-elbows-not-allowed made on 2026-10-06; trumpet-elbows-not-allowed itself refuses every elbow, unconditionally,
-# since 2026-09-15. Here a turn that cannot fold is cut as an elbow and the cut
-# list says so. --refuse-elbows turns the refusal back on for one run, which is
-# how to ask whether a walk would be cuttable in trumpet-elbows-not-allowed.
+# ELBOWS ARE ALLOWED IN THIS REPOSITORY. A turn that cannot fold is cut as an
+# elbow and the cut list says so. --refuse-elbows turns the refusal back on for
+# one run, which is how to ask whether a walk would be cuttable in
+# trumpet-elbows-not-allowed, which refuses every elbow unconditionally.
 REFUSE_ELBOWS = False
 BED = BED_W                   # sheets wrap to the bed width
 OUTDIR = os.path.join(os.path.dirname(os.path.abspath(__file__)),
