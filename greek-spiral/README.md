@@ -8,7 +8,7 @@ twenty-seven — because it is planar: there is nothing to fold, and no
 section-to-section joint to glue square.
 
 <!-- readme-only -->
-**[Read this page](https://gernreich.github.io/trumpet/greek-spiral/)**
+**[Read this page](https://gernreich.github.io/trumpet-elbows-not-allowed/greek-spiral/)**
 
 **[Turn it →](../parts/bore/concept/walk/meander/greek-key/bore/bore.html)**
 The viewer is a page of its own, not a frame in this one: drag to rotate, and
@@ -156,7 +156,7 @@ channel, so one of each serves all of them —
 **[The three-turn trumpet](../three-turn/)** — the bore that plays, glued up
 and blown, rather than a candidate.
 
-**[The trumpet writeup](https://gernreich.github.io/trumpet/)** — the idea, the notation, the gate, and the whole
+**[The trumpet writeup](https://gernreich.github.io/trumpet-elbows-not-allowed/)** — the idea, the notation, the gate, and the whole
 library.
 
 **[The rest of the build files](https://gernreich.github.io/)** — every

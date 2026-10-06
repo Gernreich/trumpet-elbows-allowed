@@ -1,6 +1,6 @@
 #!/bin/bash
 # NOTE, 2026-09-10: README.md and index.html were deleted on 2026-09-05 along with
-# every other README under trumpet/, pending one new writeup for the trumpet as a
+# every other README under trumpet-elbows-allowed/, pending one new writeup for the trumpet as a
 # whole, and running this script resurrected them unasked. Both are committed again
 # as of today, so it no longer surprises anyone -- and index.html is tracked rather
 # than left untracked on the floor by the next run.

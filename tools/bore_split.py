@@ -44,7 +44,7 @@ actually parses now.
     python3 bore_split.py "U3 N1 E3" --no-write   two elbows: a coil whose
         middle term is under 3 cannot fold, so blocks 4 and 5 are cut alone;
     python3 bore_split.py "U3 N1 E3" --refuse-elbows   the same walk refused,
-        nothing written -- what trumpet itself would say;
+        nothing written -- what trumpet-elbows-not-allowed itself would say;
     python3 bore_split.py "N2 U2" --bore=10         the airway, square,
         rather than the block outside: --bore=10 is --blocksize=16 at 3mm ply.
     python3 bore_split.py "N2 U2" --bore=10 --straight=30
@@ -205,10 +205,10 @@ BURN = KERF / 2                     # what Boxes.py wants: the radius
 # strands it, whatever that costs in pieces.
 FOLD_TURNS = True
 # ELBOWS ARE ALLOWED IN THIS REPOSITORY. It is trumpet-elbows-allowed, a copy of
-# trumpet made on 2026-10-06; trumpet itself refuses every elbow, unconditionally,
+# trumpet-elbows-not-allowed made on 2026-10-06; trumpet-elbows-not-allowed itself refuses every elbow, unconditionally,
 # since 2026-09-15. Here a turn that cannot fold is cut as an elbow and the cut
 # list says so. --refuse-elbows turns the refusal back on for one run, which is
-# how to ask whether a walk would be cuttable in trumpet.
+# how to ask whether a walk would be cuttable in trumpet-elbows-not-allowed.
 REFUSE_ELBOWS = False
 BED = BED_W                   # sheets wrap to the bed width
 OUTDIR = os.path.join(os.path.dirname(os.path.abspath(__file__)),

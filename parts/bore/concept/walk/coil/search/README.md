@@ -10,11 +10,11 @@ lives in a directory of its own; the ten came out of an
 exhaustive search for something tighter.
 
 <!-- readme-only -->
-**[Read it as a page](https://gernreich.github.io/trumpet/)** — the trumpet writeup.
+**[Read it as a page](https://gernreich.github.io/trumpet-elbows-not-allowed/)** — the trumpet writeup.
 That writeup carries no page of its own for the search, so this is where the
 reading version lives.
 
-**[Download the whole repository as a ZIP](https://github.com/Gernreich/trumpet/archive/refs/heads/main.zip)**
+**[Download the whole repository as a ZIP](https://github.com/Gernreich/trumpet-elbows-allowed/archive/refs/heads/main.zip)**
 — every trumpet and every tool, not the walks alone; these pages are under `spirals/`.
 GitHub builds it from `main` on every push, so it is never out of date.
 
