@@ -189,13 +189,13 @@ stray character, a walk that reverses instead of turning, a walk too short to
 have a direction, a bare letter at either end -- the entry and exit headings the
 notation used to carry -- a walk that revisits a cell, a run of zero length, a
 one-cell piece that is not a cube, a notch narrower than its own play, a notch
-that leaves no ply beside it, and a walk that strands a turn as a one-block piece
+that leaves no ply beside it, and, under `--refuse-elbows` only, a walk that strands a turn as a one-block piece
 -- every one refuses, with a message naming the block or section at fault.
 
 **A guard that does not fire has not been tested until you know your input
 reached it.** Two of these are easy to probe wrongly: the notch guards sit behind
 a code path a walk without a notched joint never reaches, and the stranded-turn
-refusal needs a walk that actually strands one — `N3 U1 E3` does.
+refusal needs `--refuse-elbows` and a walk that actually strands one — `N3 U1 E3` does.
 
 **`--bore` and `--blocksize` are two spellings of one number** -- `set_bore()`
 calls `set_blocksize(bore + 2t)` -- so the pair is refused unless the two agree.
