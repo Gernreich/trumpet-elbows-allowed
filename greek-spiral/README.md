@@ -99,7 +99,8 @@ run of length *L*.
 | 1 of 2 | 13 | 592.0 × 284.4mm |
 | 2 of 2 | 11 | 539.8 × 92.5mm |
 
-Sheet 1 is **1684cm², the largest sheet here by area**, with 8.0mm to spare on a
+Sheet 1 is **1684cm²**, second by area only to the closed 52-block loop's
+1778cm² sheet, with 8.0mm to spare on a
 600mm bed. It is not the widest — the volute's narrow panels reach 598.9mm, and
 width is what runs out first. The gate's
 `sheet fits the bed` check passes everything up to 600.0, and the nester may

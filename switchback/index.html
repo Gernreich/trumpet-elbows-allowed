@@ -94,7 +94,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <nav><b>Contents</b><a class="l1" href="#the-switchback-trumpet">The switchback trumpet</a><a class="l2" href="#the-walk-is-the-whole-design">The walk is the whole design</a><a class="l2" href="#no-lead-out-to-write-and-why-that-costs-nothing">No lead-out to write, and why that costs nothing</a><a class="l2" href="#the-numbers">The numbers</a><a class="l2" href="#the-six-sections">The six sections</a><a class="l2" href="#the-cut-files">The cut files</a><a class="l2" href="#rebuild-it">Rebuild it</a><a class="l2" href="#stretched-the-same-walk-is-longer">Stretched, the same walk is longer</a><a class="l2" href="#the-two-ends">The two ends</a><a class="l2" href="#more-and-licence">More, and licence</a></nav>
 <main>
 <h1 id="the-switchback-trumpet">The switchback trumpet</h1>
-<p>A trumpet bore that folds back on itself twice. <strong>22 blocks, 352mm of centreline, six sections, every turn a bend and nothing touching</strong> — the shortest lattice walk in the repository, and the one to cut first if you want to find out whether the joints go together before you commit a metre of ply to it.</p>
+<p>A trumpet bore that folds back on itself twice. <strong>22 blocks, 352mm of centreline, six sections, every turn a bend and nothing touching</strong> — among the shortest lattice walks here, and the one to cut first if you want to find out whether the joints go together before you commit a metre of ply to it.</p>
 <p><strong><a href="../parts/bore/concept/walk/coil/fold2/bore/bore.html">Turn it →</a></strong> The viewer is a page of its own, not a frame in this one: drag to rotate, and the slider reveals the bore a block at a time in the order you would glue it.</p>
 <figure><img src="../parts/bore/concept/walk/coil/fold2/bore/minecraft_bore.png" alt="The walk laid out in Minecraft: twenty-two translucent cubes, two straight legs reaching out left and right and a stack of turns folding between them, each section a different colour"></figure>
 <h2 id="the-walk-is-the-whole-design">The walk is the whole design</h2>
@@ -121,7 +121,7 @@ bore10-coil-fold2-05of06-bend-DLLU-cut-files.svg
 bore10-coil-fold2-06of06-bend-RD-buttout-cut-files.svg</code></pre>
 <p>Every file is millimetre-true at 1 user unit = 1mm. <strong>Blue engraves, then black cuts</strong> — blue writes the section number on every part, black frees it.</p>
 <h2 id="rebuild-it">Rebuild it</h2>
-<p>The generator lives in <code>../tools</code>. Report only, writing nothing:</p>
+<p>The generator lives in <code>tools/</code> at the repository root, and both commands run from there. Report only, writing nothing:</p>
 <pre><code>python3 tools/bore_split.py "N1 W3 U2 E3 N3 D3 W2 U3 N1" --bore=10 --no-write --refuse-elbows</code></pre>
 <p><code>--bore=10</code> is the airway; the 16mm block follows from it at 3mm ply. The generator cuts an elbow by default in this copy; <code>--refuse-elbows</code> makes it refuse one instead, so the bend-only claim is a gate rather than a reading. Writing rewrites every sheet in the folder, so it runs under the venv python that has the gate's dependencies:</p>
 <pre><code>cd tools &amp;&amp; ~/Software/boxes/venv/bin/python bore_split.py \

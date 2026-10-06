@@ -1,8 +1,8 @@
 # The switchback trumpet
 
 A trumpet bore that folds back on itself twice. **22 blocks, 352mm of
-centreline, six sections, every turn a bend and nothing touching** — the shortest lattice
-walk in the repository, and the one to cut first if you want to find out
+centreline, six sections, every turn a bend and nothing touching** — among the shortest lattice
+walks here, and the one to cut first if you want to find out
 whether the joints go together before you commit a metre of ply to it.
 
 <!-- readme-only -->
@@ -105,7 +105,8 @@ cuts** — blue writes the section number on every part, black frees it.
 
 ## Rebuild it
 
-The generator lives in `../tools`. Report only, writing nothing:
+The generator lives in `tools/` at the repository root, and both commands run
+from there. Report only, writing nothing:
 
 ```
 python3 tools/bore_split.py "N1 W3 U2 E3 N3 D3 W2 U3 N1" --bore=10 --no-write --refuse-elbows

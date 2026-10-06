@@ -78,7 +78,7 @@ piece it belongs to. The alternative is an **elbow**: a turn stranded as its own
 one-block piece — three tabs, fiddly to hold, weak at the seam. The generator
 always folds where it can, and where it cannot it cuts the elbow and lists it
 as one. Neither built instrument has any. `--refuse-elbows` makes it stop
-instead, writing nothing, which is what trumpet-elbows-not-allowed itself does every time.
+instead, writing nothing, which is what trumpet-elbows-not-allowed, now archived, did every time.
 
 > Folding is **not** cheapest in parts. Measured over 133 walks it trades 23
 > stranded turns for 46 more pieces, because folding a turn into a bend adds two
@@ -194,11 +194,12 @@ A walk is filed under its shape alone:
 concept/walk/<family>/<design>
 ```
 
-**Family** is the shape — `coil`, `meander`, `hilbert` — and it is measured, not
-asserted: a coil has an axis it advances along and a handedness, a meander has
-neither.
+**Family** is the shape — `coil`, `meander`, `spiral`, `hilbert` — and it is
+measured, not asserted: a coil has an axis it advances along and a handedness, a
+meander has neither, and a spiral winds about its axis like a coil but its legs
+grow longer every circuit.
 
-In trumpet-elbows-not-allowed, a walk has to pass two rules to be filed there at all: every turn
+In trumpet-elbows-not-allowed, a walk had to pass two rules to be filed there at all: every turn
 folds into a bend, and nothing comes back and touches itself. **Here neither is
 a rule**, and both are facts about a design rather than folders it is sorted
 into.
@@ -207,7 +208,7 @@ into.
 
 **An elbow is allowed.** A turn with no straight block to fold into is cut as
 its own one-block piece, and the cut list and file name say `elbow`.
-`bore_split.py` still folds every turn it can, so a walk that splits bend-only
+`bore_split.py` still folds every turn it can, so a walk that split bend-only
 in trumpet-elbows-not-allowed splits identically here.
 
 **A bore may touch itself** — two blocks sharing a face, an edge or a vertex
