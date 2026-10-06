@@ -114,10 +114,12 @@ UNIFORM = [
      'walks/coil_fold2.txt',
      '../parts/bore/concept/walk/coil/fold2/bore', 16),
     # The tight coil, added 2026-10-06: the tightest coil here that does not
-    # touch itself, at 32mm of rise per turn, which costs 16 elbows -- every
-    # other piece. It is also the only design whose FIRST piece is a single
-    # block, and so the check that a one-cell piece's plain end shows in its
-    # file name: until that day straight and elbow names dropped it.
+    # touch itself, at 42.7mm of rise per turn, which costs 16 elbows -- every
+    # other piece. It is also the only design WITH CUT FILES whose end piece is
+    # a single block ('hilbert cube 1', 'tightest coil' and 'touching coil'
+    # have one but write nothing), and so the check that a one-cell piece's
+    # plain end shows in its file name: until that day straight and elbow
+    # names dropped it.
     ('tight coil', 'walks/tight_coil.txt', '../parts/bore/concept/walk/coil/tight/bore'),
     # The bend-only walks. Every design above either strands a turn or is too
     # small to be interesting, so nothing was checking that a long walk still

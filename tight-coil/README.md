@@ -1,7 +1,7 @@
 # The tight coil
 
 A trumpet bore wound as tightly as a coil can go without touching itself.
-**65 blocks, 1040mm of centreline, 33 sections, six whole turns at 32mm a
+**65 blocks, 1040mm of centreline, 33 sections, six whole turns at 42.7mm a
 turn, nothing touching — and 16 elbows**, one at every other piece. It is the
 tightest coil in this repository whose blocks never meet, and it buys that by
 cutting the turns the generator cannot fold.
@@ -27,8 +27,9 @@ many blocks. So **the bore is 1 + the sum of the numbers** — 64 + 1 = 65. Axes
 are Minecraft's: `U`/`D` are +Y/−Y, `N` is −Z, `S` is +Z, `E` is +X, `W` is −X.
 
 It goes round `W U E D`, two blocks a side, and steps two blocks north after
-every three sides, so the loop never sits in one plane and the coil advances
-two blocks a turn. Eight groups of three sides make 24 sides — six whole turns —
+every three sides, so the loop never sits in one plane. Three sides are three
+quarters of a turn, so the coil advances 2⅔ blocks a turn — 42.7mm — and the
+whole walk measures the same end to end: 16 blocks of axis in six turns. Eight groups of three sides make 24 sides — six whole turns —
 and the walk ends on the same line it began: the first and last blocks are 16 blocks apart along
 the axis and nowhere apart across it. The coil is right-handed, the same way
 round as the three-turn trumpet.
@@ -44,13 +45,13 @@ can be, if no block is to touch another. Each was tried one block shorter in
 
 | walk | rise a turn | tube a turn | elbows | touching pairs |
 | --- | ---: | ---: | ---: | ---: |
-| **this one, sides 2, steps 2** | **32mm** | **11 blocks** | 16 | **0** |
-| steps of 1 | 16mm | 10 blocks | 8 | 15 |
-| sides of 1 | 32mm | 7 blocks | 16 | 4 |
+| **this one, sides 2, steps 2** | **42.7mm** | **10.8 blocks** | 16 | **0** |
+| steps of 1 | 21.3mm | 9.7 blocks | 16 | 35 |
+| sides of 1 | 42.7mm | 6.8 blocks | 32 | 8 |
 
-The last two are three-turn versions, which is enough to show the contact: a
-step of one block puts each turn face to face with the one before it, and a
-side of one brings the loop's own sides together.
+All three are six turns with a one-block lead at each end. A step of one
+block puts each turn face to face with the one before it, and a side of one
+brings the loop's own sides together.
 
 Contact is counted between blocks three or more apart along the bore, as
 everywhere in this repository: blocks two apart touch at every turn, and that
@@ -66,8 +67,8 @@ fold into, and each is cut as an **elbow**: a single block that is a piece of
 its own.
 
 Raise those 23 legs to 3 and the first three turns are exactly the
-[three-turn trumpet](../three-turn/)'s walk, which has no elbows and rises 48mm
-a turn at the same 16mm block, rather than 32.
+[three-turn trumpet](../three-turn/)'s walk, which has no elbows and rises 64mm
+a turn at the same 16mm block, rather than 42.7.
 
 So the 33 pieces alternate: a straight at the mouth, then elbow, bend, elbow,
 bend, to a bend at the bell. The 16 bends are three blocks each and the 16
@@ -93,7 +94,7 @@ joint with less glue on it. The other nine elbows are closed.
 | bounding box | 48 × 48 × 272mm — 3 × 3 × 17 blocks |
 | airway | 10mm square, constant |
 | block pitch | 16mm — 10mm of air in 3mm walls |
-| rise | 32mm a turn, six whole turns |
+| rise | 42.7mm a turn — 2⅔ blocks — over six whole turns |
 | elbows | 16; seven of them open on the inside of the turn |
 | contact | none |
 | legs | north 17, west 12, east 12, up 12, down 12 |
