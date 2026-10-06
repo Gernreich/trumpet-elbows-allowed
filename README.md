@@ -1,11 +1,11 @@
 # Trumpet, elbows allowed
 
 **This is `trumpet-elbows-allowed`, a copy of
-[trumpet](https://github.com/Gernreich/trumpet) made on 2026-10-06 in which a
+[trumpet-elbows-not-allowed](https://github.com/Gernreich/trumpet-elbows-not-allowed) made on 2026-10-06 in which a
 turn that cannot fold into a bend is cut as an elbow rather than refused, and a
 bore may come back and touch itself.** The built instrument and everything
 about it are unchanged; what differs is the generator's default and five designs
-trumpet deleted on 2026-09-15, which are back — see
+trumpet-elbows-not-allowed deleted on 2026-09-15, which are back — see
 [Elbows and contact](#elbows-and-contact).
 
 A trumpet cut flat from 3mm birch ply and glued into a tube. The airway is a
@@ -24,7 +24,7 @@ first and last blocks sit on the same cross-section point, which a fractional
 number of turns cannot do.
 
 <!-- readme-only -->
-**[Read the writeup](https://gernreich.github.io/trumpet/)**
+**[Read the writeup](https://gernreich.github.io/trumpet-elbows-not-allowed/)**
 
 ![The built bore, twelve sections glued up](built/coil-fold2-long-straight-3t/bore10-coil-fold2-long-straight-3t_web.jpg)
 
@@ -77,7 +77,7 @@ piece it belongs to. The alternative is an **elbow**: a turn stranded as its own
 one-block piece — three tabs, fiddly to hold, weak at the seam. The generator
 always folds where it can, and where it cannot it cuts the elbow and lists it
 as one. Neither built instrument has any. `--refuse-elbows` makes it stop
-instead, writing nothing, which is what trumpet itself does every time.
+instead, writing nothing, which is what trumpet-elbows-not-allowed itself does every time.
 
 > Folding is **not** cheapest in parts. Measured over 133 walks it trades 23
 > stranded turns for 46 more pieces, because folding a turn into a bend adds two
@@ -197,7 +197,7 @@ concept/walk/<family>/<design>
 asserted: a coil has an axis it advances along and a handedness, a meander has
 neither.
 
-In trumpet, a walk has to pass two rules to be filed there at all: every turn
+In trumpet-elbows-not-allowed, a walk has to pass two rules to be filed there at all: every turn
 folds into a bend, and nothing comes back and touches itself. **Here neither is
 a rule**, and both are facts about a design rather than folders it is sorted
 into.
@@ -207,7 +207,7 @@ into.
 **An elbow is allowed.** A turn with no straight block to fold into is cut as
 its own one-block piece, and the cut list and file name say `elbow`.
 `bore_split.py` still folds every turn it can, so a walk that splits bend-only
-in trumpet splits identically here.
+in trumpet-elbows-not-allowed splits identically here.
 
 **A bore may touch itself** — two blocks sharing a face, an edge or a vertex
 without being joined along the tube. At a face the airway runs past 6mm of wood
@@ -220,7 +220,7 @@ avoid it. The generator warns and writes.
 > would condemn every walk here. So contact is measured between blocks **three
 > or more** apart.
 
-Five designs trumpet deleted on 2026-09-15 are back, in the same
+Five designs trumpet-elbows-not-allowed deleted on 2026-09-15 are back, in the same
 `<family>/<design>` tree as everything else:
 
 | design | walk | elbows | touches itself | what is in the folder |
@@ -235,7 +235,7 @@ Five designs trumpet deleted on 2026-09-15 are back, in the same
 sheets regenerate byte-identical to the ones deleted. The pages are redrawn by
 today's `viewer.py`; every one draws the same cells as the page it replaces.
 
-> `coil/search/` was the exception to that rule in trumpet, and still keeps its
+> `coil/search/` was the exception to that rule in trumpet-elbows-not-allowed, and still keeps its
 > ten walks exactly as they were measured — 4 of them touch-free and 6 not —
 > because it is the record of an exhaustive search for **bend-only** coils, and
 > it still is one: a walk that strands a turn is not a candidate there.
@@ -373,7 +373,7 @@ from that walk:
 | `5x5-50` | least tube per turn, 15.1 blocks |
 
 **It was seven of seventeen until 2026-09-15.** `3x3-51`, `3x7-22` and `5x8-18`
-were the three that touch themselves, and trumpet went non-contact that day, so
+were the three that touch themselves, and trumpet-elbows-not-allowed went non-contact that day, so
 they went with the rest of the contact designs. This copy allows contact but has
 not brought these three back. Their three categories did not
 go with them — they are led from inside `search/`, by margins the promoted four
@@ -482,7 +482,7 @@ cutting and the playing are shown.
 **[The rest of the build files](https://gernreich.github.io/)** — every instrument,
 each with its own writeup.
 
-**[Download everything as a ZIP](https://github.com/Gernreich/trumpet/archive/refs/heads/main.zip)**
+**[Download everything as a ZIP](https://github.com/Gernreich/trumpet-elbows-allowed/archive/refs/heads/main.zip)**
 — the generators, the gate, every cut file and every candidate bore.
 
 **Almost all of this is [CC0 1.0](LICENSE)** — every cut file, every walk, every

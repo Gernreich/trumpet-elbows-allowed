@@ -280,7 +280,7 @@ it has been proved not obviously wrong. Say which it is.
 
 ## Standing decisions
 
-**THIS IS trumpet-elbows-allowed**, a copy of trumpet made on 2026-10-06. Trumpet
+**THIS IS trumpet-elbows-allowed**, a copy of trumpet-elbows-not-allowed made on 2026-10-06. trumpet-elbows-not-allowed
 refuses every elbow unconditionally; here an elbow is cut. Everything below
 says which behaviour is which.
 
@@ -289,12 +289,12 @@ elbow -- a turn stranded as its own one-block piece -- has an opening frame with
 three sides rather than four, so both neighbours need flattened plates
 butt-glued to it, plus tongues, plus an unfilled void in the corner. Flat-to-flat
 gluing is the difficulty of the whole build. `FOLD_TURNS` biases the split
-toward folding and is always on, so a walk that splits bend-only in trumpet
+toward folding and is always on, so a walk that splits bend-only in trumpet-elbows-not-allowed
 splits identically here. Only a turn that cannot fold becomes an elbow.
 
 **Elbows are allowed by default; `--refuse-elbows` turns the refusal back on.**
 `REFUSE_ELBOWS` is False. With the switch, it raises before a single file is
-written, naming the sections at fault, and exits 1 -- what trumpet says to the
+written, naming the sections at fault, and exits 1 -- what trumpet-elbows-not-allowed says to the
 same walk:
 
     error: --refuse-elbows: sections 2, 3 of 4 are elbows. Nothing written.
@@ -305,12 +305,12 @@ accept it too -- but **`check.py` does not consult it**, and `regress.py` runs
 `check.py`. The corpus is 31 designs, 14 bend-only and 17 with elbows -- the five
 designs restored on 2026-10-06, the three helices, the three solid corner walks,
 both coils, both Hilbert cubes, corner to corner and the double spiral. **A
-green `regress.py` is not evidence that a walk would be cuttable in trumpet**;
+green `regress.py` is not evidence that a walk would be cuttable in trumpet-elbows-not-allowed**;
 `--refuse-elbows` on the command line is.
 
 **The piece kind is `elbow`** in the cut list, in file names (`-elbow-NE-`), in
 `bore_render.py`, and in the field the coil search reads (`kinds.elbow`, kept
-as `elbows` in `parts.json`). Trumpet renamed it `stranded` on 2026-09-15; this
+as `elbows` in `parts.json`). trumpet-elbows-not-allowed renamed it `stranded` on 2026-09-15; this
 copy renamed it back, and checked that the search scripts count 3 in
 `meander/first` rather than silently reading 0.
 
