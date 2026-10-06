@@ -280,10 +280,6 @@ it has been proved not obviously wrong. Say which it is.
 
 ## Standing decisions
 
-**THIS IS trumpet-elbows-allowed**, a copy of trumpet-elbows-not-allowed made on 2026-10-06. trumpet-elbows-not-allowed
-refuses every elbow unconditionally; here an elbow is cut. Everything below
-says which behaviour is which.
-
 **Every turn folds into a bend wherever it can, at any cost in pieces.** An
 elbow -- a turn stranded as its own one-block piece -- has an opening frame with
 three sides rather than four, so both neighbours need flattened plates
