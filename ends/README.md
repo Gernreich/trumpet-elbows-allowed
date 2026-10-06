@@ -6,7 +6,7 @@ same 10mm square in a 16mm face, and every bore in this repository is on that
 channel — so one bell and one mouthpiece serve all of them.
 
 <!-- readme-only -->
-**[Read this page](https://gernreich.github.io/trumpet-elbows-not-allowed/ends/)**
+**[Read this page](https://gernreich.github.io/trumpet-elbows-allowed/ends/)**
 
 Both live in `../parts/` rather than inside any one instrument's folder, because
 neither belongs to a single bore: what cuts them is not what fits them.
@@ -147,7 +147,7 @@ plus every other bore in `../parts/bore/`, all of them on the same 10mm channel.
 
 ## More, and licence
 
-**[The trumpet writeup](https://gernreich.github.io/trumpet-elbows-not-allowed/)** — the idea, the notation, the gate, and the whole
+**[The trumpet writeup](https://gernreich.github.io/trumpet-elbows-allowed/)** — the idea, the notation, the gate, and the whole
 library.
 
 **[The rest of the build files](https://gernreich.github.io/)** — every

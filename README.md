@@ -24,7 +24,7 @@ first and last blocks sit on the same cross-section point, which a fractional
 number of turns cannot do.
 
 <!-- readme-only -->
-**[Read the writeup](https://gernreich.github.io/trumpet-elbows-not-allowed/)**
+**[Read the writeup](https://gernreich.github.io/trumpet-elbows-allowed/)**
 
 ![The built bore, twelve sections glued up](built/coil-fold2-long-straight-3t/bore10-coil-fold2-long-straight-3t_web.jpg)
 

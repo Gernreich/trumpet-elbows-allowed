@@ -10,7 +10,7 @@ lives in a directory of its own; the ten came out of an
 exhaustive search for something tighter.
 
 <!-- readme-only -->
-**[Read it as a page](https://gernreich.github.io/trumpet-elbows-not-allowed/)** — the trumpet writeup.
+**[Read it as a page](https://gernreich.github.io/trumpet-elbows-allowed/)** — the trumpet writeup.
 That writeup carries no page of its own for the search, so this is where the
 reading version lives.
 

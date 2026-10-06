@@ -16,7 +16,7 @@ A laser-cutting build repository, not a software project. The deliverable is **o
 six sections, as **SVG cut files**
 that someone sends to a laser, plus the pages describing them. The bores are **generated**
 by **`../../../../../../tools`**
-([CLAUDE.md](https://github.com/Gernreich/trumpet-elbows-not-allowed/blob/main/tools/CLAUDE.md)); nothing in
+([CLAUDE.md](https://github.com/Gernreich/trumpet-elbows-allowed/blob/main/tools/CLAUDE.md)); nothing in
 this folder is authored by hand except this file.
 
 One design, one pitch:
@@ -350,7 +350,7 @@ queues behind it; keyed on the sha, a stuck run can only block a re-run of its o
 
 `index.html` is generated and committed, not built on the server, so **a stale `index.html`
 publishes stale content**. Pages has to be set to build from a workflow —
-`gh api -X POST repos/Gernreich/trumpet-elbows-not-allowed/pages -f build_type=workflow` — or the
+`gh api -X POST repos/Gernreich/trumpet-elbows-allowed/pages -f build_type=workflow` — or the
 deploy has nowhere to publish to.
 
 **Match the deploy to your SHA**, not to "the most recent run":
