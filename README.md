@@ -5,15 +5,6 @@
 
 <!-- page-only **[Read the README](https://github.com/Gernreich/trumpet-elbows-allowed)** -->
 
-**This is `trumpet-elbows-allowed`, a copy of
-[trumpet-elbows-not-allowed](https://github.com/Gernreich/trumpet-elbows-not-allowed) made on 2026-10-06 in which a
-turn that cannot fold into a bend is cut as an elbow rather than refused, and a
-bore may come back and touch itself.** The built instrument and everything
-about it are unchanged; what differs is the generator's default and five designs
-trumpet-elbows-not-allowed deleted on 2026-09-15, which are back — see
-[Elbows and contact](#elbows-and-contact). The original was archived the same
-day, read-only, and this is where the trumpet lives now.
-
 A trumpet cut flat from 3mm birch ply and glued into a tube. The airway is a
 **10mm square** running through **16mm blocks** — 10mm of air inside 3mm walls —
 and it never changes section from the mouthpiece to the throat of the bell.
