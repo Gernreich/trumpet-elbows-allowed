@@ -131,7 +131,7 @@ ring 0 lands squarely on the face it seals.
 
 Each of these carries the walk it is cut from, its blocks and centreline, its
 sections with their plates and sheet sizes, and a link to a viewer you can turn
-at tab size. The first is the one that plays; the next three are candidates that
+at tab size. The first is the one that plays; the next two are candidates that
 have not been cut. The spiral after them is in wood too, but it is not a walk —
 it is a swept curve, cut, glued up and shellacked, and not yet blown.
 
@@ -427,7 +427,7 @@ refuses to leave a folder unchecked; `tools/regress.py` runs the whole library.
 cd tools && ~/Software/boxes/venv/bin/python regress.py
 ```
 
-**26 designs, 0 failed, 7132 individual checks.**
+**31 designs, 0 failed, 9152 individual checks.**
 
 It checks that each section closes round its bore, that the assembled bore is one
 sealed passage, that its volume matches the walk, that no feature is under 1.5mm,
