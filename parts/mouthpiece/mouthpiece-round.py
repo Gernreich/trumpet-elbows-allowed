@@ -121,6 +121,12 @@ GAP     = 2.0
 MARGIN  = 3.0
 DIAG    = math.sqrt(2.0)
 
+# --help prints the docstring above and draws nothing. Until 2026-10-06 it was
+# refused like any other bare option, with "--help takes a value".
+if any(a in ("--help", "-h") for a in sys.argv[1:]):
+    print(__doc__)
+    sys.exit(0)
+
 opts = dict(a[2:].split("=", 1) for a in sys.argv[1:] if a.startswith("--") and "=" in a)
 # A SWITCH WITH NO "=" WAS DROPPED ON THE FLOOR. The line above keeps only
 # --name=value, and the loop below rejects a name it does not know -- but a bare

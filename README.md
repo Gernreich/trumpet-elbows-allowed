@@ -374,16 +374,21 @@ from that walk:
 | `4x4-50` | calmest bore, 20.40 turns/m (tied) |
 | `5x5-50` | least tube per turn, 15.1 blocks |
 
+These figures are each coil's own full walk, as its `why.txt` measures it. The
+search compares coils trimmed to a common length instead, so its numbers for the
+same coil differ: `4x4-50` is 20.40 turns/m here over 193 blocks, and 20.83
+where the search compares the others against it.
+
 **It was seven of seventeen until 2026-09-15.** `3x3-51`, `3x7-22` and `5x8-18`
 were the three that touch themselves, and trumpet-elbows-not-allowed went non-contact that day, so
 they went with the rest of the contact designs. This copy allows contact but has
 not brought these three back. Their three categories did not
 go with them — they are led from inside `search/`, by margins the promoted four
-never beat:
+never beat. These figures are the search's, at its common length:
 
 | category | now led by | figure | the deleted holder |
 | --- | --- | --- | --- |
-| smallest box | `coil_3x8_20` | 432 | `3x3-51`, 459 |
+| smallest box | `coil_3x8_20`, tied with `coil_3x9_18` | 432 | `3x3-51`, 459 |
 | tightest spiral | `coil_3x8_20` | 32mm rise per turn | `3x7-22`, 34mm |
 | largest average plate | `coil_4x9_18` | 2,881mm² | `5x8-18`, 3009mm² |
 
