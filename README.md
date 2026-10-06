@@ -141,7 +141,7 @@ it is a swept curve, cut, glued up and shellacked, and not yet blown.
 | **[the three-turn trumpet](three-turn/)** | 44 blocks, 1096mm, twelve sections — **the one that plays** |
 | **[the switchback trumpet](switchback/)** | 22 blocks, 352mm, six sections — folds back on itself twice |
 | **[the greek spiral](greek-spiral/)** | 68 blocks, 1088mm, **one** section — a flat meander, the only bore here that cuts in one piece |
-| **[the tight coil](tight-coil/)** | 65 blocks, 1040mm, 33 sections — the tightest coil that does not touch itself, at 32mm a turn, with 16 elbows |
+| **[the tight coil](tight-coil/)** | 65 blocks, 1040mm, 33 sections — the tightest coil that does not touch itself, at 42.7mm a turn, with 16 elbows |
 | **[the spiral bore](ribbon-spiral/)** | 19 facets of 45°, 1000mm, R34.7 to R112.9 — a swept curve rather than a walk, cut in ply, glued up and finished |
 | **[the bell and the mouthpiece](ends/)** | The two ends, shared by every bore on the 10mm channel |
 
@@ -241,7 +241,7 @@ today's `viewer.py`; every one draws the same cells as the page it replaces.
 
 One design has been added since that has elbows by choice:
 **[the tight coil](tight-coil/)**, the tightest coil here that does not touch
-itself — 32mm a turn, 16 elbows, 1040mm.
+itself — 42.7mm a turn, 16 elbows, 1040mm.
 
 > `coil/search/` was the exception to that rule in trumpet-elbows-not-allowed, and still keeps its
 > ten walks exactly as they were measured — 4 of them touch-free and 6 not —
