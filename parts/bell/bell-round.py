@@ -58,6 +58,12 @@ BORE     = 10.0      # the bore's air channel; the horn continues it, it does no
 PLATE    = 16.0      # the bore's outside. Ring 0 has to cover this whole face
 OVERHANG = 3.0       # and stand proud of it, to glue against and to locate the joint
 
+# --help prints the docstring above and draws nothing. Until 2026-10-06 it was
+# refused like any other bare option, with "--help takes a value".
+if any(a in ("--help", "-h") for a in sys.argv[1:]):
+    print(__doc__)
+    sys.exit(0)
+
 args  = [a for a in sys.argv[1:] if not a.startswith("--")]
 opts  = dict(a[2:].split("=", 1) for a in sys.argv[1:] if a.startswith("--") and "=" in a)
 # A SWITCH WITH NO "=" WAS DROPPED ON THE FLOOR. The line above keeps only
