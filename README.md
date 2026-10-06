@@ -81,8 +81,8 @@ as one. Neither built instrument has any. `--refuse-elbows` makes it stop
 instead, writing nothing, which is what trumpet-elbows-not-allowed, now archived, did every time.
 
 > Folding is **not** cheapest in parts. Measured over 133 walks it trades 23
-> stranded turns for 46 more pieces, because folding a turn into a bend adds two
-> walls to that bend while a stranded one is only four parts for its whole
+> elbows for 46 more pieces, because folding a turn into a bend adds two
+> walls to that bend while an elbow is only four parts for its whole
 > block. It is still the right trade: parts are cheap and bad seams are not.
 
 ## The instrument, end to end
@@ -463,9 +463,14 @@ would settle it, and `--play` is the flag that cuts it.
 
 1. Cut the twelve bore sections from
    `built/coil-fold2-long-straight-3t/cut-files/`, in order.
-2. Cut the bell — 17 rings, **three passes**, 51 pieces. Cut once and you get a
-   51mm stub instead of a 153mm bell.
-3. Cut the mouthpiece — 30 rings, one pass.
+2. Cut the bell from
+   `parts/bell/cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg` —
+   17 rings, **three passes**, 51 pieces. Cut once and you get a 51mm stub
+   instead of a 153mm bell. The adapter sheet beside it is for a port, not
+   this bore.
+3. Cut the mouthpiece from
+   `parts/mouthpiece/cut-files/mouthpiece-bore10-trumpet-parts-cut-files.svg` —
+   30 rings, one pass.
 4. Glue each bore section closed, then join them in engraved order.
 5. Stack the bell rings from ring 0 at the bore; stack the mouthpiece rings from
    ring 0 likewise. Both are engraved in hex, `0` at the bore.

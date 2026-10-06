@@ -92,7 +92,7 @@ the plate carries no matching mark, and the one that would complete it cannot
 be derived. The plate is the jig: a wall of length *L* fits only the
 run of length *L*.
 
-## Two sheets, and one of them is the biggest in the repository
+## Two sheets, and one of them nearly fills the bed
 
 | sheet | parts | size |
 | --- | --- | --- |
