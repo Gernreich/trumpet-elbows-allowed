@@ -194,6 +194,13 @@ bore10-coil-tight-33of33-bend-LD-buttout-flatin-cut-files.svg
 Every file is millimetre-true at 1 user unit = 1mm. **Blue engraves, then black
 cuts** — blue writes the section number on every part, black frees it.
 
+**All 33 fit on one bed.**
+`../parts/bore/concept/walk/coil/tight/bore/bore10-coil-tight-sheet1of1.svg` is
+the whole xTool P2S bed, 600 × 308mm, with every section file placed on it whole
+and unchanged, 4mm apart and 4mm from the edge. A section's parts stay
+together, so the numbers still find their neighbours. Cut it in place of the 33
+files, or cut the 33 one at a time — they are the same paths.
+
 ## Rebuild it
 
 The generator lives in `tools/` at the repository root, and both commands run
@@ -209,6 +216,16 @@ venv python that has the gate's dependencies:
 ```
 cd tools && ~/Software/boxes/venv/bin/python bore_split.py walks/tight_coil.txt \
     --write ../parts/bore/concept/walk/coil/tight/bore
+```
+
+The bed sheet is drawn from those files, so it comes after them. `bed_sheets.py`
+packs each section whole and searches packing orders from a fixed seed, so the
+same command writes the same sheet; it re-reads what it wrote and exits 1 if a
+section is missing, moved off the bed, closer than 4mm to another, or changed:
+
+```
+python3 tools/bed_sheets.py parts/bore/concept/walk/coil/tight/bore/cut-files \
+    parts/bore/concept/walk/coil/tight/bore bore10-coil-tight
 ```
 
 ## The two ends
