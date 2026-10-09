@@ -96,11 +96,11 @@ Regenerate the cut files (rewrites everything: **ask first**):
 ```sh
 cd $S
 W="$(cat walks/coil_fold2.txt)"
-D=.
+D=../parts/bore/concept/walk/coil/fold2
 ~/Software/boxes/venv/bin/python bore_split.py --blocksize=16 "$W" --write $D/bore
 ```
 
-Gate alone, and the checks:
+Gate alone, and the checks (`$W` and `$D` as above, run from `$S`):
 
 ```sh
 ~/Software/boxes/venv/bin/python check.py "$W" --blocksize=16 --files $D/bore/cut-files

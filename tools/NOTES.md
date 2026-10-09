@@ -146,7 +146,7 @@ than "Bore", and would still read that under a `10mm/` level.
 overlaps and engraving on material, all of which a folder cut at one pitch passes when
 the gate is told another.
 The pitch decides the *geometry* half of the gate, which is recut in-process. Gate a folder
-at the wrong blocksize and it reports its full 195 checks and 0 failed on a design nobody cut.
+at the wrong blocksize and it reports its full check count and 0 failed on a design nobody cut.
 
 ## One viewer, one bore or several
 
@@ -275,7 +275,7 @@ library. It is the only reason any of this stays honest, it takes about four
 minutes, and **it must pass before anything is pushed**:
 
 ```sh
-python3 regress.py       # all 25 designs, ~7000 checks
+python3 regress.py       # every design in DESIGNS
 ```
 
 A change that alters cut geometry and still passes has not been proved right —
@@ -301,9 +301,9 @@ same walk:
 
 It is one of the design switches, so `check.py`, `nest.py` and `regress.py`
 accept it too -- but **`check.py` does not consult it**, and `regress.py` runs
-`check.py`. The corpus is 31 designs, 14 bend-only and 17 with elbows -- the five
-designs restored on 2026-10-06, the three helices, the three solid corner walks,
-both coils, both Hilbert cubes, corner to corner and the double spiral. **A
+`check.py`. The corpus mixes bend-only designs with designs that cut elbows --
+the five restored on 2026-10-06, the helices, the solid corner walks, both coils,
+both Hilbert cubes, corner to corner and the double spiral among the latter. **A
 green `regress.py` is not evidence that a walk would be cuttable in trumpet-elbows-not-allowed**;
 `--refuse-elbows` on the command line is.
 

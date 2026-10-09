@@ -201,7 +201,7 @@ every design here depends on, to remove a scorch mark in the waste.
 
 ## Do not trust a passing gate
 
-195 checks and 0 failed is not the evidence: a passing gate means no check failed, not
+A clean tally is not the evidence: a passing gate means no check failed, not
 that the part is buildable. The number that means something:
 
     voxelised bore volume   55520 mm3

@@ -257,14 +257,15 @@ with `ModuleNotFoundError` — **the files are written and ungated**. shapely li
 Boxes.py virtualenv, so run the gate from there:
 
 ```sh
+cd ../../../../../../tools
 W="$(cat walks/coil_fold2.txt)"
-D=.
+D=../parts/bore/concept/walk/coil/fold2
 ~/Software/boxes/venv/bin/python check.py "$W" --blocksize=16 --files $D/bore/cut-files
 ```
 
 `--files` only looks at the sheets as the machine sees them — bed fit, overlaps, engraving
 on material — and never at the pitch, so it passes at any `--blocksize`. What the switch decides is the *geometry* half of the gate, which is recut
-in-process. Pass the wrong one and 195 checks still say pass, having checked a design you
+in-process. Pass the wrong one and every check still says pass, having checked a design you
 are not cutting.
 
 `regress.py` passes `sys.executable` down to `check.py`, so it must be started with the
@@ -293,7 +294,7 @@ cd $S && python3 bore_split.py --no-write "N1 W3 U2 E3 N3 D3 W2 U3 N1"
 ```sh
 cd $S
 W="$(cat walks/coil_fold2.txt)"
-D=.
+D=../parts/bore/concept/walk/coil/fold2
 ~/Software/boxes/venv/bin/python bore_split.py --blocksize=16 "$W" --write $D/bore
 ```
 
@@ -324,8 +325,8 @@ python3 $G/svg-stroke-check.py --dir . --quiet   # stroke declared twice, disagr
 cd $S && ~/Software/boxes/venv/bin/python regress.py      # every design in the library
 ```
 
-The gate reports **196 checks, 0 failed** on this bore, and `regress.py` covers
-25 designs. A check count that moves is worth chasing to the reason, which is the
+The gate prints its check count for this bore, and `regress.py` covers every
+design in its `DESIGNS`. A check count that moves is worth chasing to the reason, which is the
 whole argument of the section below. It does not look at the bell or the mouthpiece at all — those are checked by
 `bell-round.py` and `mouthpiece-round.py` themselves, before they write, in
 `../../../../../../..`. Nothing here should be cut from a file that has not passed one or the
