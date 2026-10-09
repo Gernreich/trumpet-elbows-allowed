@@ -132,7 +132,5 @@ python3 bore_split.py "N3 U1 E3" --no-write --refuse-elbows  # refuses, exits 1
   the README and read the audit before pushing:
 
 ```sh
-G=../../lasermade-tools
-python3 $G/md2html.py README.md index.html
-python3 $G/doc-audit.py README.md --html index.html
+~/LaserMadeMusic/GIT/lasermade-tools/rebuild-page.sh ..          # the root README and its page
 ```

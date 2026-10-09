@@ -132,13 +132,13 @@ cd mouthpiece && python3 mouthpiece-cup.py      # the bowl that stacks on its en
 cd mouthpiece && python3 mouthpiece.py          # the previous 23-ring design; not kept
 ```
 
-After editing either document, regenerate the page and audit both:
+After editing either writeup (the root README, or `../ends/`), regenerate its page
+and audit it; there is no README in this folder:
 
 ```sh
-G=../../lasermade-tools
-python3 $G/md2html.py README.md index.html
-python3 $G/doc-audit.py README.md --html index.html
-python3 $G/svg-stroke-check.py --dir . --quiet
+~/LaserMadeMusic/GIT/lasermade-tools/rebuild-page.sh ..          # the root README
+~/LaserMadeMusic/GIT/lasermade-tools/rebuild-page.sh ../ends     # the ends page
+python3 ../../lasermade-tools/svg-stroke-check.py --dir . --quiet
 ```
 
 **Read the audit output before pushing.**
