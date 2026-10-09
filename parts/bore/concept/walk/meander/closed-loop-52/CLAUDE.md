@@ -11,30 +11,14 @@ A flat meander closed into a loop, with two mouths.
 
     N3 W3 N3 E3 N3 W3 N3 E3 N3 W5 S15 E4        52 blocks, 832mm, 2 sections
 
-**It is S15, not S14.** Written with S14 the walk ends one block north AND one
-west of where it began — diagonal, not beside it — so it shuts onto block 2 and
-strands block 1 as a stub. S15 ends beside block 1, and `bore_split.py` reports
-the pair `1-52` touching: that warning is the loop, not a fault.
-
-## The mouths
-
-`--mouth-at=31,50`: block 31 is the middle of the W5 run, block 50 the middle of
-the E4 run, and they are cut through **opposite face plates**, so the mouthpiece
-enters one face and the bell leaves the other. In section 2's own numbering those
-are cells 28 and 47, which is where the `~m28f47m` in the file name comes from.
-
-**They are 7 x 14, not 10 x 10.** Every plate a walk is cut from is a bore-wide
-body with finger teeth along its edges, and the teeth alternate, so they are not
-material you can leave around a hole: 10mm of solid across a 10mm bore. A
-bore-square hole severs the plate. 7mm leaves 1.5mm either side, MIN_FEATURE
-exactly. The ribbon cheeks take a 10 x 10 because they are joined by tab-and-slot
-and are solid between their mortices; this is joined by fingers.
-
-A **port** would not do instead. `--ports` replaces a section's rim opening with
-a face opening, which on a loop cuts it in two at that block. A mouth adds a hole
-and leaves the section's ends alone.
-
-## Two paths, on purpose
-
-The loop gives the air both ways round between the mouths. That is the design,
-as it is on the 13-facet ring and the scallop in `../../../swept-curve/`.
+- **It is S15, not S14.** S14 ends diagonal to the start and strands block 1 as a stub.
+  `bore_split.py` reporting the pair `1-52` touching is the loop, not a fault.
+- `--mouth-at=31,50`: the middles of the W5 and E4 runs, cut through **opposite face
+  plates** (mouthpiece in one face, bell out the other). In section 2's numbering they
+  are cells 28 and 47, hence `~m28f47m` in the file name.
+- **Mouths are 7 x 14, not 10 x 10.** A finger-jointed plate has no solid around a
+  bore-square hole; 7mm leaves 1.5mm a side, exactly `MIN_FEATURE`.
+- **Use a mouth, not `--ports`**: a port replaces the rim opening and would cut the loop
+  in two.
+- **Two air paths between the mouths are the design**, as on the 13-facet ring and the
+  scallop in `../../../swept-curve/`.
