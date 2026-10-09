@@ -117,9 +117,7 @@ After editing this family's page, check strokes here, regenerate and audit:
 ```sh
 G=../../../../../../../lasermade-tools
 python3 $G/svg-stroke-check.py --dir . --quiet
-cd ../../../../../../three-turn
-python3 ../../lasermade-tools/md2html.py README.md index.html
-python3 ../../lasermade-tools/doc-audit.py README.md --html index.html
+~/LaserMadeMusic/GIT/lasermade-tools/rebuild-page.sh ../../../../../../three-turn
 ```
 
 ## Cut files belong to the author

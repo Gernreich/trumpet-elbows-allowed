@@ -59,8 +59,5 @@ This folder publishes nothing. After editing the page's README, regenerate and a
 there, and read the audit before pushing:
 
 ```sh
-cd ../../../../../../greek-spiral
-G=../../lasermade-tools
-python3 $G/md2html.py README.md index.html
-python3 $G/doc-audit.py README.md --html index.html
+~/LaserMadeMusic/GIT/lasermade-tools/rebuild-page.sh ../../../../../../greek-spiral
 ```

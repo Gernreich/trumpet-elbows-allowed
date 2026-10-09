@@ -121,9 +121,7 @@ cd ../bell && python3 bell-round.py 17 --bore=10 --length=152 --mouth=80
   pushing.** `.doc-audit-ignore` lists `bore_split.py` and `regress.py`.
 
 ```sh
-cd ../../../../../../switchback
-python3 ../../lasermade-tools/md2html.py README.md index.html
-python3 ../../lasermade-tools/doc-audit.py README.md --html index.html
+~/LaserMadeMusic/GIT/lasermade-tools/rebuild-page.sh ../../../../../../switchback
 ```
 
 - Pages deploys from `main` with a per-sha concurrency group. `index.html` is
