@@ -1,88 +1,51 @@
 # `built/` is the instruments that exist
 
-One folder per instrument that has been cut, glued and assembled. **Everything
-here is wood somebody is holding**; everything in `../parts/bore/concept/` is a
-drawing. That is the whole distinction, and it is why this tree sits at the
-repository root rather than under `../parts/`: an instrument is a bore *and* the
-two ends on it, so it is not a thing that belongs inside `parts/bore/`.
+One folder per instrument that has been cut, glued and assembled. **Everything here is
+wood somebody is holding**; everything in `../parts/bore/concept/` is a drawing.
 
-**The folders are named for the design, not for the page.** `../three-turn/` and
-`../ribbon-spiral/` are the writeups; `coil-fold2-long-straight-3t/` and
-`ribbon-spiral-bore10-45deg-R35to113/` are the parts, under the names their
-generators write. No two directories in this repository share a name.
+- Folders are named for the **design** (the names their generators write), not the page.
+  `../three-turn/` and `../ribbon-spiral/` are the writeups. No two directories in the
+  repository share a name.
+- **The `coil-` prefix is load-bearing.** `folder_stack()` builds sheet names from the
+  output path, and `built` names no family, so the leaf must carry it. Drop it and
+  `repro.py` redraws twelve sheets under names nothing on disk has.
+- **Both ends are shared**: one bell and one mouthpiece design, in `../parts/`, see
+  `../ends/`. Never copy them in here.
 
-**THE `coil-` PREFIX IS LOAD-BEARING.** `bore_split.py`'s `folder_stack()` builds
-every sheet's filename out of the output path, borrowing the parent when it names
-a family — `coil`, `meander`, `spiral`, `hilbert`, `swept-curve`. Under the old
-`parts/bore/built/coil/fold2-long-straight-3t` the parent supplied it. Here the
-parent is `built`, which names no family, so the leaf carries it instead and the
-sheets keep the `bore10-coil-fold2-long-straight-3t-` names they were cut under.
-Drop the prefix and `repro.py` redraws twelve sheets under names nothing on disk
-has, which is what it did the first time this folder moved.
+## `coil-fold2-long-straight-3t/`: the three-turn trumpet
 
-**Both ends are shared, so neither is copied in here.** There is one bell design
-and one mouthpiece design, both in `../parts/`, and both instruments wear them —
-see `../ends/`. What differs is where they seat, which is recorded per
-instrument below.
-
-## `coil-fold2-long-straight-3t/` — the three-turn trumpet
-
-A 1096mm coil, 44 blocks in 12 sections, winding three whole turns about a
-north–south axis. **It plays; one of its notes is F4.** Walk in
-`../tools/walks/coil-3t.txt`, writeup at `../three-turn/`.
+44 blocks, 12 sections, 1096mm, three turns about a north–south axis. It plays (one note
+is F4). Walk in `../tools/walks/coil-3t.txt`, writeup at `../three-turn/`.
 
 | | |
 | --- | --- |
 | bell | `../parts/bell/` — `bell-round10-153mm-17rings-x3-rim86`, seated in the tube end |
-| mouthpiece | `../parts/mouthpiece/` — `mouthpiece-bore10-trumpet-parts`, seated in the tube end |
+| mouthpiece | `../parts/mouthpiece/` — `mouthpiece-bore10-trumpet-parts`, seated in the tube end, **24 rings where the design cuts 30** |
 | finish | scorched birch under several coats of shellac |
 
-**The mouthpiece on it is 24 rings where the design cuts 30** — 72mm rather than
-90. The instrument is short there, not the drawing.
+**`cut-files/` is a REDRAW, not the record.** Since 2026-09-13 it is drawn at the 0.15mm
+kerf; the wood was cut at 0.1mm, so every drawn part is 0.05mm smaller per axis. The
+sheets as cut are in `cut-files/old/` (gitignored, local) and in git before that date.
+Never read `cut-files/` as a description of the object.
 
-**`cut-files/` is a REDRAW, not the record.** On 2026-09-13 the twelve pins for
-this coil were removed from `../tools/as-built.sha256` on the author's
-instruction to redraw it at the current ply and kerf, so `cut-files/` is drawn
-at 3.0mm and 0.15mm while the wood was cut at 3.0mm and 0.1mm. **The ply is the
-same; only the kerf moved.** Boxes.py insets each outline by BURN = KERF/2, so
-0.1 → 0.15 takes 0.025mm off every side and every part comes out 0.05mm smaller
-in each axis. Measured against `cut-files/old/`, that is the whole difference —
-each sheet is 0.05mm shorter, and narrower by 0.05mm times the parts across it
-(0.30mm on the six-part sheets, 0.40mm on the eight-part ones). The twelve
-sheets as actually cut are in `cut-files/old/` — gitignored, a local archive —
-and in git before that date. Do not read `cut-files/` as a description of the
-object.
+## `ribbon-spiral-bore10-45deg-R35to113/`: the spiral
 
-## `ribbon-spiral-bore10-45deg-R35to113/` — the spiral
-
-1000mm of centreline in 19 facets of 45°, winding out from R34.7 to R112.9. A
-swept curve, not a lattice walk: two faces flat, two faceted. Writeup at
-`../ribbon-spiral/`.
+1000mm in 19 facets of 45°, R34.7 to R112.9; a swept curve, writeup at `../ribbon-spiral/`.
 
 | | |
 | --- | --- |
-| bell | `../parts/bell/` — same design, seated in the **square port**, its shank standing out of the plane of the coil through a 10 x 10mm hole in one 3mm cheek |
-| mouthpiece | `../parts/mouthpiece/` — same design, on the straight lead, seated in the TUBE END where four walls grip the full 16mm |
-| finish | shellac, the same finish as the three-turn — finished 2026-09-16 |
+| bell | `../parts/bell/`, seated in the **square port** through one 3mm cheek |
+| mouthpiece | `../parts/mouthpiece/`, on the straight lead, seated in the TUBE END |
+| finish | shellac, finished 2026-09-16 |
 
-**Only one of the three variants in `cut-files/` is the wood.** The pair named
-`ported-square-narrow` is what was cut; `narrow` and `ported-narrow` are
-drawings of the same design under other flags, kept because the generator
-insists a sheet cannot overwrite its full-width twin. Reproduce the cut pair
-byte-identically with the command in `../ribbon-spiral/README.md`.
-
-**Its generator lives in the concept tree** — `ribbon_bore.py` and
-`ribbon_view.py` under `../parts/bore/concept/swept-curve/` — because it draws
-every swept curve, cut or not. Only the design moved here, not the tool that
-draws it.
+- **Only `ported-square-narrow` is the wood.** `narrow` and `ported-narrow` are drawings
+  under other flags. Reproduce the cut pair with the command in `../ribbon-spiral/README.md`.
+- Its generator stays in `../parts/bore/concept/swept-curve/`; only the design moved here.
 
 ## Gates
 
-`previews/` came with the spiral and must stay with it: `all-gates.sh` walks
-every `previews/` directory and asks each file for its cut file, so a preview
-whose sheet has moved reads as stale. Rebuild the spiral's previews from **this**
-directory, not from `swept-curve/`, whose regeneration loop no longer reaches
-them:
+`previews/` must stay with the spiral (`all-gates.sh` checks each against its cut file).
+Rebuild them from **this** directory:
 
 ```
 G=~/LaserMadeMusic/GIT/lasermade-tools
@@ -91,9 +54,8 @@ for f in $(find . -path '*/cut-files/*.svg' -not -path '*/old/*'); do
 done
 ```
 
-The walk gate covers this tree through `../tools/regress.py`, whose
-`coil 10x10x30 3t` entry names `../built/coil-fold2-long-straight-3t`. It needs the
-Boxes.py venv, or every design fails with `No module named 'shapely'`:
+`../tools/regress.py` gates the coil (`coil 10x10x30 3t`). It needs the Boxes.py venv, or
+every design fails on shapely:
 
 ```
 cd ../tools && SNAKEBOX_BOXES=~/Software/boxes \
