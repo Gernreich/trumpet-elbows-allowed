@@ -520,13 +520,13 @@ hand-drawn 0, 4, 6, 8 or 9 has a counter — register as rings and it read 25 in
 hand-labelled 17-ring sheet. `number_rings.py` draws single-stroke polyline digits
 with no counters, so a sheet it numbers still counts correctly.
 
-**After editing either document** — regenerate the page, then audit both:
+**After editing either document** — the root README or `../ends/`; there is no README
+in this folder — regenerate its page and audit it:
 
 ```sh
-G=../../lasermade-tools
-python3 $G/md2html.py README.md index.html
-python3 $G/doc-audit.py README.md --html index.html
-python3 $G/svg-stroke-check.py --dir . --quiet
+~/LaserMadeMusic/GIT/lasermade-tools/rebuild-page.sh ..          # the root README
+~/LaserMadeMusic/GIT/lasermade-tools/rebuild-page.sh ../ends     # the ends page
+python3 ../../lasermade-tools/svg-stroke-check.py --dir . --quiet
 ```
 
 **Read the audit output before pushing.**

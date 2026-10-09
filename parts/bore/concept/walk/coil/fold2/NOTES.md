@@ -335,9 +335,7 @@ other.
 **After editing this bore's page** — regenerate it, then audit:
 
 ```sh
-cd ../../../../../../switchback
-python3 ../../lasermade-tools/md2html.py README.md index.html
-python3 ../../lasermade-tools/doc-audit.py README.md --html index.html
+~/LaserMadeMusic/GIT/lasermade-tools/rebuild-page.sh ../../../../../../switchback
 ```
 
 **Read the audit output before pushing.** It ends with a pass/fail tally. `.doc-audit-ignore`
