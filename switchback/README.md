@@ -10,7 +10,7 @@ whether the joints go together before you commit a metre of ply to it.
 
 **[Turn it →](../parts/bore/concept/walk/coil/fold2/bore/bore.html)**
 The viewer is a page of its own, not a frame in this one: drag to rotate, and
-the slider reveals the bore a block at a time in the order you would glue it.
+the slider reveals the bore a block at a time in the order you would assemble it.
 
 ![The walk laid out in Minecraft: twenty-two translucent cubes, two straight legs reaching out left and right and a stack of turns folding between them, each section a different colour](../parts/bore/concept/walk/coil/fold2/bore/minecraft_bore.png)
 
@@ -140,7 +140,7 @@ channel, so one of each serves all of them —
 
 ## More, and licence
 
-**[The three-turn trumpet](../three-turn/)** — the bore that plays, glued up
+**[The three-turn trumpet](../three-turn/)** — the bore that plays, press-fit
 and blown, rather than a candidate.
 
 **[The trumpet writeup](https://gernreich.github.io/trumpet-elbows-allowed/)** — the idea, the notation, the gate, and the whole

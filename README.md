@@ -5,7 +5,7 @@
 
 <!-- page-only **[Read the README](https://github.com/Gernreich/trumpet-elbows-allowed)** -->
 
-A trumpet cut flat from 3mm birch ply and glued into a tube. The airway is a
+A trumpet cut flat from 3mm birch ply and press-fit into a tube. The airway is a
 **10mm square** running through **16mm blocks** — 10mm of air inside 3mm walls —
 and it never changes section from the mouthpiece to the throat of the bell.
 
@@ -20,7 +20,7 @@ coil winds three whole turns: its walk is `W U E D` three times over, and its
 first and last blocks sit on the same cross-section point, which a fractional
 number of turns cannot do.
 
-![The built bore, twelve sections glued up](built/coil-fold2-long-straight-3t/bore10-coil-fold2-long-straight-3t_web.jpg)
+![The built bore, twelve sections press-fit together](built/coil-fold2-long-straight-3t/bore10-coil-fold2-long-straight-3t_web.jpg)
 
 ---
 
@@ -129,7 +129,7 @@ sections with their plates and sheet sizes, and a link to a viewer you can turn
 at tab size. The first is the one that plays; the next three are candidates, and
 only the greek spiral has been cut — its bore is in ply and press-fit, with no
 ends fitted and not yet blown. The spiral after them is in wood too, but it is not a walk —
-it is a swept curve, cut, glued up and shellacked, and not yet blown.
+it is a swept curve, cut, press-fit and shellacked, and not yet blown.
 
 | | |
 | --- | --- |
@@ -137,7 +137,7 @@ it is a swept curve, cut, glued up and shellacked, and not yet blown.
 | **[the switchback trumpet](switchback/)** | 22 blocks, 352mm, six sections — folds back on itself twice |
 | **[the greek spiral](greek-spiral/)** | 68 blocks, 1088mm, **one** section — a flat meander, the only bore here that cuts in one piece |
 | **[the tight coil](tight-coil/)** | 65 blocks, 1040mm, 33 sections — the tightest coil that does not touch itself, at 42.7mm a turn, with 16 elbows |
-| **[the spiral bore](ribbon-spiral/)** | 19 facets of 45°, 1000mm, R34.7 to R112.9 — a swept curve rather than a walk, cut in ply, glued up and finished |
+| **[the spiral bore](ribbon-spiral/)** | 19 facets of 45°, 1000mm, R34.7 to R112.9 — a swept curve rather than a walk, cut in ply, press-fit and finished |
 | **[the bell and the mouthpiece](ends/)** | The two ends, shared by every bore on the 10mm channel |
 
 ## Cutting
@@ -179,7 +179,7 @@ file or the generator, never typed from memory.
 
 **`built/` is what exists and `concept/` is what is drawn**, and the line between
 them is an instrument in wood. Two instruments are in `built/`: the three-turn coil, shellacked
-and playing, and the 1000mm spiral, glued up and shellacked. Both carry a bell and
+and playing, and the 1000mm spiral, press-fit and shellacked. Both carry a bell and
 a mouthpiece, which is what earns the word — an instrument is a bore *and* its
 two ends, so `built/` sits at the root rather than inside `parts/bore/`. One
 bore in `concept/` has been cut — the greek spiral, which has no ends yet and so
@@ -211,7 +211,7 @@ in trumpet-elbows-not-allowed splits identically here.
 **A bore may touch itself** — two blocks sharing a face, an edge or a vertex
 without being joined along the tube. At a face the airway runs past 6mm of wood
 rather than 3; at an edge or a vertex the two walls meet on a line or a point,
-which is a place for the glue-up to go out of true. A tight coil can rarely
+which is a place for the assembly to go out of true. A tight coil can rarely
 avoid it. The generator warns and writes.
 
 > Blocks **two** apart along the walk are edge-neighbours at every single turn —
@@ -278,11 +278,11 @@ ess at 836mm, and two double spirals at 1506 and 1000mm.
 
 One of the nine is in ply, and it is **not in that folder any more**: the 1000mm
 spiral — `R35to113`, 19 facets of 45°, its radius growing 34.7 → 112.9mm — has
-had both its sheets cut, the bore glued up, both ends fitted and the shellac on, so it is filed
+had both its sheets cut, the bore press-fit, both ends fitted and the shellac on, so it is filed
 with the instruments in `built/` while its swept-curve siblings stay under
 `concept/`. `ribbon_bore.py` draws it either way. It carries **[a page of
 its own](ribbon-spiral/)**: the cheek and its 149 mortices, the two panels the
-square port costs, and what shellac is for on a glue-up with this many joints.
+square port costs, and what shellac is for on a press-fit with this many joints.
 
 The **double spiral** is one of two shapes here whose two arms interleave — the
 double volute is the other, the same skeleton drawn on semicircles. Two arms
@@ -484,7 +484,7 @@ would settle it, and `--play` is the flag that cuts it.
 3. Cut the mouthpiece from
    `parts/mouthpiece/cut-files/mouthpiece-bore10-trumpet-parts-cut-files.svg` —
    30 rings, one pass.
-4. Glue each bore section closed, then join them in engraved order.
+4. Press-fit each bore section closed, then join them in engraved order.
 5. Stack the bell rings from ring 0 at the bore; stack the mouthpiece rings from
    ring 0 likewise. Both are engraved in hex, `0` at the bore.
 6. **Do not finish the mouthpiece.** It goes to the lip as it comes off the

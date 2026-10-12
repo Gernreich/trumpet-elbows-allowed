@@ -5,7 +5,7 @@ back out beside itself. **68 blocks, 1088mm of centreline, one section, no
 elbows and no contact.** It is the only lattice bore in this repository that
 cuts as a single section — every other one splits into six, eight,
 twenty-seven — because it is planar: there is nothing to fold, and no
-section-to-section joint to glue square.
+section-to-section joint to seat square.
 
 **It has been cut.** The bore is in ply and press-fit, not glued; neither end
 is fitted yet, and it has not been blown.
@@ -163,7 +163,7 @@ channel, so one of each serves all of them —
 
 ## More, and licence
 
-**[The three-turn trumpet](../three-turn/)** — the bore that plays, glued up
+**[The three-turn trumpet](../three-turn/)** — the bore that plays, press-fit
 and blown, rather than a candidate.
 
 **[The trumpet writeup](https://gernreich.github.io/trumpet-elbows-allowed/)** — the idea, the notation, the gate, and the whole

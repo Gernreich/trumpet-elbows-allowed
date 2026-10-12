@@ -1,6 +1,6 @@
 # The three-turn trumpet
 
-**The one that plays.** The spiral is in wood too; this one is glued up,
+**The one that plays.** The spiral is in wood too; this one is press-fit,
 varnished and blown, and it makes a note. A coil of **1096mm in 12 sections**
 winding **three whole turns** about a north–south axis, with a mouthpiece at one
 end and a 153mm bell at the other.
@@ -14,7 +14,7 @@ end and a 153mm bell at the other.
 
 **[Turn it →](../built/coil-fold2-long-straight-3t/fold2-long-straight-3t.html)**
 The viewer is a page of its own, not a frame in this one: drag to rotate, and
-the slider reveals the bore a block at a time in the order it was glued.
+the slider reveals the bore a block at a time in the order it was assembled.
 
 ## The walk is the whole design
 
@@ -74,7 +74,7 @@ while a block that turns stays a 16mm cube, so the tube lengthens without the
 walk changing and the cross-section stays square throughout.
 
 That is the cheapest length in the project. A turn is what costs — in pieces, in
-glue joints, and in the +41.4% the section grows through a 90° lattice corner —
+joints, and in the +41.4% the section grows through a 90° lattice corner —
 and stretching the straights buys metres without buying any more of them.
 
 ## One walk, four lengths
@@ -134,7 +134,7 @@ through `12of12`. **Blue engraves, then black cuts.**
 2. Cut the bell — 17 rings, **three passes**, 51 pieces. Cut it once and you get
    a 51mm stub instead of a 153mm bell.
 3. Cut the mouthpiece — 30 rings, one pass.
-4. Glue each bore section closed, then join them in engraved order.
+4. Press-fit each bore section closed, then join them in engraved order.
 5. Stack the bell rings from ring 0 at the bore; stack the mouthpiece rings from
    ring 0 likewise. Both are engraved in hex, `0` at the bore.
 6. **Do not finish the mouthpiece.** It goes to the lip as it comes off the

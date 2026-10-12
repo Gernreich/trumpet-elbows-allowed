@@ -11,7 +11,7 @@ cutting the turns the generator cannot fold.
 
 **[Turn it →](../parts/bore/concept/walk/coil/tight/bore/bore.html)**
 The viewer is a page of its own, not a frame in this one: drag to rotate, and
-the slider reveals the bore a block at a time in the order you would glue it.
+the slider reveals the bore a block at a time in the order you would assemble it.
 
 ![The tight coil from four sides and from above: a square tube three blocks across winding six times along a straight axis, each of its 33 sections a different colour and numbered from the mouthpiece, IN at one end and OUT at the other](../parts/bore/concept/walk/coil/tight/bore/tight-coil-pieces.svg)
 
@@ -81,7 +81,7 @@ tongue, a wall run one ply past the joint. At these seven neither neighbour can
 put the tongue on a wall, so the generator leaves the corner open rather than
 guessing. It is not a leak — the neighbours' walls and the elbow's plates seal
 it from outside — but it is a 3 × 3mm notch along the inside of the turn, and a
-joint with less glue on it. The other nine elbows are closed.
+joint with less bearing surface. The other nine elbows are closed.
 
 ## The numbers
 

@@ -94,7 +94,7 @@ added, set it on `B`, not on `globals()`.
 
 **The bore's outer ends are plain.** `plain_ends()` always marks the first piece's entry
 and the last piece's exit, not just the openings that meet a port. Nothing couples there —
-the mouthpiece and the bell each glue a flat plate onto the end face, and a proud tab holds
+the mouthpiece and the bell each seat a flat plate against the end face, and a proud tab holds
 it off. It gives an end section its own shape where it would otherwise share one with an
 inner section (`BDL` -> `BDL~a`, `01_bend_DL.svg` -> `01_bend_DL_buttin.svg`), and a
 rename like that **orphans the old file**, which nothing deletes for you. `check_sheets`

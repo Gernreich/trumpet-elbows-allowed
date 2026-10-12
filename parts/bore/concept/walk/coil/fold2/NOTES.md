@@ -210,7 +210,7 @@ The bore's two outer ends are plain, so section 1 is `BDL~a` and section 6 `BRD~
 those plain ends, 1 and 4 would both be `BDL` and 3 and 6 both `BRD`.
 
 **The outer ends carry no coupling because there is nothing to couple to.** The mouthpiece
-meets one and the bell the other, and both present a flat plate that glues onto the end
+meets one and the bell the other, and both present a flat plate that seats against the end
 face — the mouthpiece's station one, the bell's ring 0. A tab standing 3mm proud holds that
 plate off the face and leaves the joint resting on the tab, which is what the bench
 reports. `plain_ends()` in `bore_split.py` marks the first piece's entry and the last

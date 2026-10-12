@@ -104,7 +104,7 @@ its station one is a bore-sized square hole in a plate-sized square.
 `bell-round.py`, `mouthpiece.py` and `mouthpiece-round.py` contain not one
 mention of it between them, while the bore generators next door subtract half a
 kerf from every hole and add it to every part. For a laminated stack that is
-defensible -- the rings glue face to face and the lap below absorbs an outer
+defensible -- the rings press face to face and the lap below absorbs an outer
 profile a kerf small -- but it is a consequence to count rather than a decision
 anyone made.
 
@@ -121,11 +121,11 @@ voicing question, not a drawing one, which is why this is written down rather
 than changed.
 
 **Stack heights are nominal.** They are ring count times WALL, and WALL is 3.0: 30 rings
-reports 90.0mm and 24 rings 72.0mm. A glued stack measures whatever the ply under it
+reports 90.0mm and 24 rings 72.0mm. An assembled stack measures whatever the ply under it
 actually is, so caliper a stack rather than reading its height off a ring count — a
 reported height that is exactly `count x 3.0` is a count and not a measurement.
 
-**The lap is 3mm, not 1.5.** 1.5mm is the width of the glue land, and it leaves nothing for
+**The lap is 3mm, not 1.5.** 1.5mm is the width of the bearing land, and it leaves nothing for
 kerf or for a ring set down slightly off centre, so joints open up along the bell. `--lap`
 moves it.
 
@@ -148,8 +148,8 @@ its mouth; it opens through the **7 x 14mm slot** in the cheek that `ribbon_bore
 cuts, and a bell's throat is the bore's own 10mm square. The adapter is the stack of
 rings that turns one into the other, and it is why the bell needs no change at all:
 its last ring is a **collar, 10mm square in a 16mm square face**, which is exactly the
-end face the bore presents, so `bell-round.py`'s ring 0 glues onto it as it was always
-going to glue onto the bore.
+end face the bore presents, so `bell-round.py`'s ring 0 seats on it as it was always
+going to seat on the bore.
 
 **Why the port is not square** is argued next door beside `PORT_ACROSS`, and it is the
 whole reason this part exists. The tab slots run up both cheek walls the length of the
@@ -289,7 +289,7 @@ These have been cut. Treat every SVG as concurrently modified in Inkscape:
 
   **The shipped sheets do not have it, and that is deliberate.** Adding it renumbers
   nothing — ring 6 still reads 6 — but it does change every file, and those files describe
-  rings already cut and glued. The mark starts with the next sheet that goes on the bed. A
+  rings already cut and stacked. The mark starts with the next sheet that goes on the bed. A
   ring without one is exactly as readable as it has always been, so a mixed stack is never
   worse than what you have.
 
@@ -306,7 +306,7 @@ These have been cut. Treat every SVG as concurrently modified in Inkscape:
   Numbering as a separate command you have to remember is how a regenerate silently throws
   the engraving away, which is why it is not one.
 
-  **`mouthpiece-cup.py` continues a stack rather than starting one.** Its rings are glued
+  **`mouthpiece-cup.py` continues a stack rather than starting one.** Its rings are stacked
   on top of a mouthpiece already numbered from 0, so it numbers from `--start`, which
   defaults to **23** — `mouthpiece.py` writes rings 0 to 22 and ends at the ø10.06 the cup
   stacks onto. Pass `--onto` and that no longer holds, so `--start` stops being optional and
@@ -408,7 +408,7 @@ taking the smaller of the two refuses a cup the walls can actually hold.
 ## Two routes to the same mouthpiece
 
 `mouthpiece-round.py` writes the whole part — backbore, entrance, bowl — as 30 rings, 90mm.
-`mouthpiece-cup.py` writes the bowl alone, four rings that stack on a mouthpiece glued
+`mouthpiece-cup.py` writes the bowl alone, four rings that stack on a mouthpiece built
 before the bowl existed, numbered from 26 with `--start=26`.
 
 **The two routes must stay identical ring for ring**, and are: the unified sheet's first 26

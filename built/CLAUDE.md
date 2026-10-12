@@ -1,6 +1,6 @@
 # `built/` is the instruments that exist
 
-One folder per instrument that has been cut, glued and assembled. **Everything here is
+One folder per instrument that has been cut and press-fit together. **Everything here is
 wood somebody is holding**; everything in `../parts/bore/concept/` is a drawing.
 
 - Folders are named for the **design** (the names their generators write), not the page.

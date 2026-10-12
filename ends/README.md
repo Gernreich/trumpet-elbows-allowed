@@ -18,7 +18,7 @@ rim** — ø80 of air. The section morphs square to round on the way up while
 holding area, so the bore never steps in cross-section even though the shape of
 it changes completely.
 
-![The bell as built, lying on a scratched workbench: a stack of laminated ply rings rising from a small square block at the throat, widening and rounding as it climbs to a flat round rim, every glue line showing as a stripe up the side](../parts/bell/bell-round10-153mm-17rings-x3-rim86-built_web.jpg)
+![The bell as built, lying on a scratched workbench: a stack of laminated ply rings rising from a small square block at the throat, widening and rounding as it climbs to a flat round rim, every ring joint showing as a stripe up the side](../parts/bell/bell-round10-153mm-17rings-x3-rim86-built_web.jpg)
 
 That is the one on the instrument. The small square block is the throat — 10mm
 of air in a 16mm face, which is a bore block exactly — and the flat disc is the
@@ -142,7 +142,7 @@ whenever a drawing does.
 
 ## The bores these fit
 
-**[the three-turn trumpet](../three-turn/)** — the one they are actually glued
+**[the three-turn trumpet](../three-turn/)** — the one they are actually fitted
 to — and the candidates:
 **[the switchback trumpet](../switchback/)** · **[the greek spiral](../greek-spiral/)**,
 plus every other bore in `../parts/bore/`, all of them on the same 10mm channel.
