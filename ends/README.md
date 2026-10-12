@@ -1,7 +1,8 @@
 # The bell and the mouthpiece
 
 Neither end is touched by the way a bore turns, so **only the tube belongs to an
-instrument**. Both ends are stacks of laminated 3mm rings, both close onto the
+instrument**. Both ends are stacks of laminated 3mm rings, glued, since a ring
+stack cannot be press-fit; each is glued to its bore too. Both close onto the
 same 10mm square in a 16mm face, and every bore in this repository is on that
 channel — so one bell and one mouthpiece serve all of them.
 

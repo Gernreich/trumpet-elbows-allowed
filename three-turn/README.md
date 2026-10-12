@@ -135,8 +135,10 @@ through `12of12`. **Blue engraves, then black cuts.**
    a 51mm stub instead of a 153mm bell.
 3. Cut the mouthpiece — 30 rings, one pass.
 4. Press-fit each bore section closed, then join them in engraved order.
-5. Stack the bell rings from ring 0 at the bore; stack the mouthpiece rings from
-   ring 0 likewise. Both are engraved in hex, `0` at the bore.
+5. Stack and glue the bell rings from ring 0 at the bore; stack and glue the
+   mouthpiece rings from ring 0 likewise. Both are engraved in hex, `0` at the
+   bore. Rings cannot be press-fit, so the ends are glued, and so is each end's
+   joint to the bore; the bore itself stays press-fit.
 6. **Do not finish the mouthpiece.** It goes to the lip as it comes off the
    sheet — the staircase is not sanded, the rim is not filled, and the
    instrument that plays has had neither.

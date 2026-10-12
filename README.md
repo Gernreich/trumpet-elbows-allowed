@@ -485,8 +485,10 @@ would settle it, and `--play` is the flag that cuts it.
    `parts/mouthpiece/cut-files/mouthpiece-bore10-trumpet-parts-cut-files.svg` —
    30 rings, one pass.
 4. Press-fit each bore section closed, then join them in engraved order.
-5. Stack the bell rings from ring 0 at the bore; stack the mouthpiece rings from
-   ring 0 likewise. Both are engraved in hex, `0` at the bore.
+5. Stack and glue the bell rings from ring 0 at the bore; stack and glue the
+   mouthpiece rings from ring 0 likewise. Both are engraved in hex, `0` at the
+   bore. Rings cannot be press-fit, so the ends are glued, and so is each end's
+   joint to the bore; the bore itself stays press-fit.
 6. **Do not finish the mouthpiece.** It goes to the lip as it comes off the
    sheet — the staircase is not sanded, the rim is not filled, and the
    instrument that plays has had neither.
