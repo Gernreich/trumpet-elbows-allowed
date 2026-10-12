@@ -1,7 +1,7 @@
 # The three-turn trumpet
 
 **The one that plays.** The spiral is in wood too; this one is press-fit,
-varnished and blown, and it makes a note. A coil of **1096mm in 12 sections**
+shellacked and blown, and it makes a note. A coil of **1096mm in 12 sections**
 winding **three whole turns** about a north–south axis, with a mouthpiece at one
 end and a 153mm bell at the other.
 
@@ -10,7 +10,7 @@ end and a 153mm bell at the other.
 
 **It plays. One of its notes is F4** — 349.2 Hz, measured off the instrument.
 
-![The finished trumpet lying on concrete: a ring-stacked mouthpiece at the left, the square-section bore folding through its coil in the middle, and the laminated bell flaring at the right, all of it varnished dark over scorched birch](../built/coil-fold2-long-straight-3t/bore10-coil-fold2-long-straight-3t_web.jpg)
+![The finished trumpet lying on concrete: a ring-stacked mouthpiece at the left, the square-section bore folding through its coil in the middle, and the laminated bell flaring at the right, all of it shellacked dark over scorched birch](../built/coil-fold2-long-straight-3t/bore10-coil-fold2-long-straight-3t_web.jpg)
 
 **[Turn it →](../built/coil-fold2-long-straight-3t/fold2-long-straight-3t.html)**
 The viewer is a page of its own, not a frame in this one: drag to rotate, and
