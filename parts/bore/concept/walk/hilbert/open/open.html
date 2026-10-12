@@ -395,7 +395,8 @@ function draw() {
     }
   }
   document.getElementById('stat').textContent =
-    D.blocks + ' blocks · ' + D.sections.length + ' sections · '
+    D.blocks + ' blocks · ' + D.sections.length
+    + (D.sections.length === 1 ? ' section · ' : ' sections · ')
     + D.mm + 'mm of centreline';
 }
 
