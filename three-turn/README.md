@@ -166,9 +166,9 @@ that would settle it, and `--play` is the flag that cuts it.
 
 ## Do not size a bore from a pipe formula
 
-F4 lands on no simple mode of a 1.339m tube. It is **2.73 times** the open–open
-fundamental (`c/2L` = 128 Hz) and **5.45 times** the closed–open one (`c/4L` =
-64 Hz), and neither multiple is a whole number. That is what a bell and a
+F4 lands on no simple mode of the 1.321m tube it was measured on. It is
+**2.69 times** the open–open fundamental (`c/2L` = 130 Hz) and **5.38 times**
+the closed–open one (`c/4L` = 65 Hz), and neither multiple is a whole number. That is what a bell and a
 mouthpiece do: they pull the resonances away from where a plain tube would put
 them, and how far is not something either formula knows.
 
@@ -203,7 +203,8 @@ already exists in wood — check what moved before you replace them.
 
 **[the switchback trumpet](../switchback/)**
 · **[the greek spiral](../greek-spiral/)**
-· **[the tight coil](../tight-coil/)** — none of them cut. The tight coil is
+· **[the tight coil](../tight-coil/)** — only the greek spiral has been cut, as a
+bore with no ends yet. The tight coil is
 this one's walk with its coil legs cut from 3 to 2 and wound six turns rather
 than three: 42.7mm a turn rather than 64 at a uniform 16mm block, for 16 elbows.
 

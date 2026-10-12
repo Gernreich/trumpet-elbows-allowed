@@ -1,9 +1,10 @@
 # CLAUDE.md
 
-**Nothing in this repository has been cut.** It is gated, and a passing gate means no
-check failed, not that the part is buildable — see
-`../../../../../../tools/CLAUDE.md` for what the gate cannot see. Say "gated"
-and not "built" until one exists.
+**The bore has been cut and press-fit**, not glued, photographed in
+`../../../../../../greek-spiral/`. No mouthpiece or bell is fitted and it has not
+been blown, so it is a cut bore, not an instrument, and stays in `concept/`. A
+passing gate means no check failed, not that the part is buildable — see
+`../../../../../../tools/CLAUDE.md` for what the gate cannot see.
 
 ## What this is
 
@@ -39,7 +40,7 @@ two sheets within 1.5mm of the bed width:
 
 | sheet | width | margin | gated by |
 |---|---|---|---|
-| `volute` narrow panels | 598.85mm | 1.15mm | `ribbon_bore.py` |
+| `double-volute` narrow panels | 598.85mm | 1.15mm | `ribbon_bore.py` |
 | `hilbert/open` section 14 | 598.60mm | 1.40mm | `check.py` |
 
 **Two gates, one bed**: each sees only its own sheets, so read a change against both.

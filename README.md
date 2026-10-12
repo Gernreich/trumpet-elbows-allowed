@@ -93,9 +93,10 @@ should sit a little higher.
 **It plays. One of its notes is F4** — 349.2 Hz, measured off the built
 instrument.
 
-**Do not size a bore from a pipe formula.** F4 lands on no simple mode of a
-1.339m tube: it is 2.73 times the open-open fundamental (`c/2L` = 128 Hz) and
-5.45 times the closed-open one (`c/4L` = 64 Hz), and neither multiple is a whole
+**Do not size a bore from a pipe formula.** F4 lands on no simple mode of the
+1.321m tube it was measured on — 1339mm less the 18mm the built mouthpiece is
+short: it is 2.69 times the open-open fundamental (`c/2L` = 130 Hz) and
+5.38 times the closed-open one (`c/4L` = 65 Hz), and neither multiple is a whole
 number. That is what a bell and a mouthpiece do — they pull the resonances away
 from where a plain tube would put them, and how far is not something either
 formula knows. Length still sets the register, which is why the four truncations
@@ -125,8 +126,9 @@ ring 0 lands squarely on the face it seals.
 
 Each of these carries the walk it is cut from, its blocks and centreline, its
 sections with their plates and sheet sizes, and a link to a viewer you can turn
-at tab size. The first is the one that plays; the next three are candidates that
-have not been cut. The spiral after them is in wood too, but it is not a walk —
+at tab size. The first is the one that plays; the next three are candidates, and
+only the greek spiral has been cut — its bore is in ply and press-fit, with no
+ends fitted and not yet blown. The spiral after them is in wood too, but it is not a walk —
 it is a swept curve, cut, glued up and shellacked, and not yet blown.
 
 | | |
@@ -161,7 +163,7 @@ built/              the two instruments that exist in wood, a folder each
 parts/
   mouthpiece/       the shared mouthpiece, and its viewers
   bell/             the shared bell, square and square-to-round
-  bore/concept/     every candidate, none of them cut
+  bore/concept/     every candidate; only the greek spiral's bore is cut
 tools/              the generator, the gate, and the walks
 three-turn/         a page each: the two instruments that exist, the
 switchback/         three candidates worth reading about on their own,
@@ -171,17 +173,17 @@ ribbon-spiral/
 ends/
 ```
 
-The six page directories hold nothing but a `README.md` and the `index.html`
-rendered from it. Every number on them is read back out of the walk, the cut
+The six page directories hold a `README.md` and the `index.html` rendered from
+it, and the greek spiral's holds its photograph as well. Every number on them is read back out of the walk, the cut
 file or the generator, never typed from memory.
 
 **`built/` is what exists and `concept/` is what is drawn**, and the line between
-them is wood. Two instruments are in `built/`: the three-turn coil, shellacked
+them is an instrument in wood. Two instruments are in `built/`: the three-turn coil, shellacked
 and playing, and the 1000mm spiral, glued up and shellacked. Both carry a bell and
 a mouthpiece, which is what earns the word — an instrument is a bore *and* its
-two ends, so `built/` sits at the root rather than inside `parts/bore/`. Nothing
-in `concept/` has been cut, and a folder there is not a promise that it should
-be.
+two ends, so `built/` sits at the root rather than inside `parts/bore/`. One
+bore in `concept/` has been cut — the greek spiral, which has no ends yet and so
+stays there — and a folder there is not a promise that it should be.
 
 A walk is filed under its shape alone:
 
@@ -259,19 +261,20 @@ per turn by a wide margin. It buys packing: a walk folds into a box a smooth
 curve does not reach.
 
 A third construction, a closed ring of facets, is not listed: a loop has no ends,
-so it cannot take a mouthpiece or a bell. `ribbon_bore.py --shape=torus` still
-draws one, because the mitring it needs is the same mitring every other shape
-needs, but nothing here is a candidate bore.
+so it cannot take a mouthpiece or a bell at them. Four closed shapes are drawn
+anyway — a 13-facet ring (`--shape=torus`), a scallop, a racetrack and an oval —
+because the mitring a ring needs is the same mitring every other shape needs.
+The ring and the scallop go further and take two ports on named facets
+(`--port-at`), which gives a mouthpiece and a bell two air paths between them;
+`walk/meander/closed-loop-52/` does the same on the lattice. None of them has
+been cut, and none is counted below.
 
 The **swept curve** (`parts/bore/concept/swept-curve/`) sweeps a rectangle along a
-planar curve, so two faces are flat and two are faceted. **Nine designs are
-drawn** — counted as folders holding cut files, which is the only count that
-cannot drift from what is on disk: a serpentine and an opposed pair at 1000mm,
-three spirals at 1000, 1458 and 1767mm, a volute at 1180mm, a wave at 836mm, and
-two double spirals at 1506 and 1000mm.
-
-Two more double-spiral folders hold cut files and are **not** designs: the 196
-and 240mm halftests, which are there to try the joint. Sheets, not bores.
+planar curve, so two faces are flat and two are faceted. **Nine open designs
+are drawn** — counted as folders holding cut files, leaving out the four closed
+shapes above: a serpentine and a three-lobe serpentine with collinear ends at
+1000mm, three spirals at 1000, 1458 and 1767mm, a double volute at 1180mm, an
+ess at 836mm, and two double spirals at 1506 and 1000mm.
 
 One of the nine is in ply, and it is **not in that folder any more**: the 1000mm
 spiral — `R35to113`, 19 facets of 45°, its radius growing 34.7 → 112.9mm — has
@@ -281,8 +284,9 @@ with the instruments in `built/` while its swept-curve siblings stay under
 its own](ribbon-spiral/)**: the cheek and its 149 mortices, the two panels the
 square port costs, and what shellac is for on a glue-up with this many joints.
 
-The **double spiral** is the one shape here whose two arms interleave. Two of
-them half a turn apart about one centre, crossed in the middle by a straight:
+The **double spiral** is one of two shapes here whose two arms interleave — the
+double volute is the other, the same skeleton drawn on semicircles. Two arms
+half a turn apart about one centre, crossed in the middle by a straight:
 1506.4mm of bore on a cheek plate 232 × 241mm. Arm B *is* arm A turned through
 180°, so the gap between neighbouring passes is half the radial pitch by
 construction rather than by search — choose the pitch and you have chosen the
@@ -306,7 +310,7 @@ being long enough to hold a 6mm tooth, and the generator refuses rather than
 drawing one. Both openings still come out on the rim facing opposite ways, which
 is what a total turning of 0° buys.
 
-Two arms wound into each other is the one arrangement here that could have run
+Two arms wound into each other is the arrangement here that could have run
 the bore back into itself, and the check that would have caught it already
 existed: *the cheek outline does not cross itself*. It passes, at 85 edges and no
 crossings.
@@ -327,7 +331,8 @@ a single facet of the coil. That it costs 42mm of straight tail at each rim is
 the price, and the reason the figure is quoted as a choice and not as what the
 generator happened to give.
 
-It is also the only design in this repository **ported at both ends**. One
+It is also the only open design in this repository **ported at both ends** —
+the ported rings take their two ports on named facets, having no ends. One
 square port is bought by folding the mouth lead into the facet it already lies
 on, and the far end wants the same thing: `--port-both` folds the tail lead
 too, or the second port lands on that lead's single tooth and the generator
@@ -392,7 +397,7 @@ never beat. These figures are the search's, at its common length:
 | --- | --- | --- | --- |
 | smallest box | `coil_3x8_20`, tied with `coil_3x9_18` | 432 | `3x3-51`, 459 |
 | tightest spiral | `coil_3x8_20` | 32mm rise per turn | `3x7-22`, 34mm |
-| largest average plate | `coil_4x9_18` | 2,881mm² | `5x8-18`, 3009mm² |
+| largest average plate | `coil_4x9_18` | 2881mm² | `5x8-18`, 3009mm² |
 
 So two of the three categories are led better than they were, and only the
 largest-plate figure fell. Ten of the fourteen remain in `search/`, and a coil
@@ -422,6 +427,7 @@ note at the end says which three and why.
 | `assemble.py` | builds a section as a solid and asks directly whether it is sealed, rather than testing a proxy |
 | `viewer.py` | the one page builder; every viewer page here comes from it |
 | `bore_render.py` | stills, coloured by piece or by direction of travel |
+| `piece_render.py` | one assembled piece from several angles, each face coloured by its part |
 | `nest.py` | lays parts out on a sheet |
 | `hilbert.py` | writes a Hilbert cube as a walk |
 | `mcwalk.py` | renders a walk that crosses itself, which the generator refuses |

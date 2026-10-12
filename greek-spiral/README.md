@@ -7,6 +7,14 @@ cuts as a single section — every other one splits into six, eight,
 twenty-seven — because it is planar: there is nothing to fold, and no
 section-to-section joint to glue square.
 
+**It has been cut.** The bore is in ply and press-fit, not glued; neither end
+is fitted yet, and it has not been blown.
+
+![The greek spiral cut in birch ply and press-fit, lying flat: a square-section
+bore with its finger joints showing dark along every edge, winding in from the
+top right to a short bar at the centre and back out to the bottom
+left](greek-spiral-bore-built_web.jpg)
+
 <!-- readme-only -->
 **[Read this page](https://gernreich.github.io/trumpet-elbows-allowed/greek-spiral/)**
 
@@ -42,9 +50,10 @@ Read it out of `../tools/walks/greek_spiral.txt` rather than from here.
 the centre, and `N2 E5 S6 W9 N10` comes back out — the same five legs in reverse.
 That is what puts both openings on the outside of the figure rather than
 stranding one of them at the eye, which is the failure a plain spiral has. It is
-also what you are looking at in the picture above: the figure is mirror-symmetric
-about the short bar at its centre, and the two longest runs — the outer legs at
-either side — are the two `N10`.
+also what you are looking at in the pictures above: turned half a turn about the
+middle of the short bar at its centre, the figure lands on itself, which is why
+its two openings leave at opposite corners. It is not mirror-symmetric. The two
+longest runs — the outer legs at either side — are the two `N10`.
 
 ## The numbers
 
@@ -101,7 +110,7 @@ run of length *L*.
 
 Sheet 1 is **1684cm²**, second by area only to the closed 52-block loop's
 1778cm² sheet, with 8.0mm to spare on a
-600mm bed. It is not the widest — the volute's narrow panels reach 598.9mm, and
+600mm bed. It is not the widest — the double volute's narrow panels reach 598.9mm, and
 width is what runs out first. The gate's
 `sheet fits the bed` check passes everything up to 600.0, and the nester may
 split differently rather than failing, so compare the reported sheet sizes after
