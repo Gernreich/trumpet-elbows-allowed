@@ -25,6 +25,9 @@ design is one block thick.
 
 ![The walk laid out in Minecraft: sixty-eight translucent blocks lying flat as a Greek key, winding in to a short bar at the centre and coming back out beside itself, the runs coloured blue, purple, orange and green](../parts/bore/concept/walk/meander/greek-key/bore/greek-key_minecraft.png)
 
+*Screenshot from Minecraft. Minecraft is a trademark of Mojang Studios; this
+project is not affiliated with Mojang or Microsoft.*
+
 **The colours are the compass, not the cut order.** Everywhere else in this
 project a coloured bore block says which section it belongs to; this bore has
 only one section, so there is nothing for that to distinguish and the blocks are

@@ -225,7 +225,7 @@ Five designs trumpet-elbows-not-allowed deleted on 2026-09-15 are back, in the s
 | design | walk | elbows | touches itself | what is in the folder |
 | --- | --- | ---: | --- | --- |
 | `meander/first` | `N10 U2 W2 S7 U2 E4 N9 W2 D2 N4` | 3 | no | cut files and a viewer |
-| `spiral/expanding` | `U2 N2 W2 S4 E4 U2 N6 W6 S8 E8 U2 N10 W10 S12 E12 U4` | 3 | no | a viewer and two photographs |
+| `spiral/expanding` | `U2 N2 W2 S4 E4 U2 N6 W6 S8 E8 U2 N10 W10 S12 E12 U4` | 3 | no | a viewer and two renders |
 | `coil/minimal` | `U2 N1 E1 S1 U1 W1 U1 N1 E1 S1 U1 W1 U1 N1 E1 S1 U1 W1 U2` | 18 | yes | a viewer |
 | `coil/square-rise1` | `W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U4` | 16 | yes | a viewer |
 | `spiral/telescope` | `U2 N1 W1 S2 E2 N3 U1 W2 S3 E3 N4 U1 W4 S5 E5 N6 U1 W6 S7 E7 N8 U1 W8 S9 E9 N10 U2` | 11 | yes | a viewer |
@@ -524,4 +524,5 @@ it reaches the sheets: a cut file is geometry, with no Boxes.py code or metadata
 in it. The SVGs, the walks and the writeups are CC0 like the rest.
 
 The walks are laid out in **Minecraft** before they are cut, and the lattice
-screenshots on the bore pages are frames from it.
+screenshots on the bore pages are frames from it. Minecraft is a trademark of
+Mojang Studios; this project is not affiliated with Mojang or Microsoft.

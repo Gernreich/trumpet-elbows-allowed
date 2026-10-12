@@ -14,6 +14,9 @@ the slider reveals the bore a block at a time in the order you would assemble it
 
 ![The walk laid out in Minecraft: twenty-two translucent cubes, two straight legs reaching out left and right and a stack of turns folding between them, each section a different colour](../parts/bore/concept/walk/coil/fold2/bore/minecraft_bore.png)
 
+*Screenshot from Minecraft. Minecraft is a trademark of Mojang Studios; this
+project is not affiliated with Mojang or Microsoft.*
+
 ## The walk is the whole design
 
 ```
