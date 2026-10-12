@@ -286,8 +286,8 @@ it has been proved not obviously wrong. Say which it is.
 **Every turn folds into a bend wherever it can, at any cost in pieces.** An
 elbow -- a turn stranded as its own one-block piece -- has an opening frame with
 three sides rather than four, so both neighbours need flattened plates
-butt-glued to it, plus tongues, plus an unfilled void in the corner. Flat-to-flat
-gluing is the difficulty of the whole build. `FOLD_TURNS` biases the split
+butt-joined to it, plus tongues, plus an unfilled void in the corner. Flat-to-flat
+joints are the difficulty of the whole build. `FOLD_TURNS` biases the split
 toward folding and is always on, so a walk that splits bend-only in trumpet-elbows-not-allowed
 splits identically here. Only a turn that cannot fold becomes an elbow.
 
