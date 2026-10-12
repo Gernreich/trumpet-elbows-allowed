@@ -346,7 +346,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <p>F4 lands on no simple mode of the 1.321m tube it was measured on. It is <strong>2.69 times</strong> the open–open fundamental (<code>c/2L</code> = 130 Hz) and <strong>5.38 times</strong> the closed–open one (<code>c/4L</code> = 65 Hz), and neither multiple is a whole number. That is what a bell and a mouthpiece do: they pull the resonances away from where a plain tube would put them, and how far is not something either formula knows.</p>
 <p>Length still sets the register, which is why the 1 : 2 : 3 : 4 family above is worth cutting — their bores are exact multiples, so what the ends contribute becomes a measurement instead of a guess.</p>
 <h2 id="rebuild-it">Rebuild it</h2>
-<p>The generator lives in <code>../tools</code>. Report only, writing nothing:</p>
+<p>The generator lives in <code>tools/</code> at the repository root, and both commands run from there. Report only, writing nothing:</p>
 <pre><code>python3 tools/bore_split.py &quot;N1 W3 U2 E3 N3 D3 W2 U3 N3 E3 D2 W3 N3 U3 E2 D3 N1&quot; \
     --bore=10 --straight=30 --no-write</code></pre>
 <p>Drop <code>--straight=30</code> and the same walk reports 704mm. Writing rewrites all twelve sheets and must run under the venv python that has the gate's dependencies:</p>

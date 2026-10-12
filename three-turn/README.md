@@ -178,7 +178,8 @@ becomes a measurement instead of a guess.
 
 ## Rebuild it
 
-The generator lives in `../tools`. Report only, writing nothing:
+The generator lives in `tools/` at the repository root, and both commands run
+from there. Report only, writing nothing:
 
 ```
 python3 tools/bore_split.py "N1 W3 U2 E3 N3 D3 W2 U3 N3 E3 D2 W3 N3 U3 E2 D3 N1" \

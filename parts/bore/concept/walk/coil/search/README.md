@@ -138,15 +138,15 @@ the same, and it is not the same thing as **distinct**: the two rank the set ali
 only 6 of 10 places. `coil_3x8_20` is 4 shapes laid in a
 4-piece cycle repeated 8.5 times, between the two end pieces.
 
-**Mean plate** is the average bounding box a piece is cut from, in mm2 — the
+**Mean plate** is the average bounding box a piece is cut from, in mm² — the
 laser-cutting number. Fewer, larger parts means less weeding, less sorting and fewer
 fingers to align, and it is the size of the part in your hand rather than the count of
-them. `coil_4x9_18` averages 2,881 mm2 against `coil_4x4_50`'s 1,598.
+them. `coil_4x9_18` averages 2881mm² against `coil_4x4_50`'s 1598mm².
 
 Average *blocks* per piece was the other reading of the same idea and is not used: the
 block count varies by only 11.0% across the set, so blocks-per-piece is very nearly the
 reciprocal of the piece count and ranks the set the same way in 15 of 10 places. Plate
-area is not redundant: `coil_3x9_18`, `coil_3x3_54_2`, `coil_4x8_18`, `coil_5x7_18`, `coil_4x9_18` all split into 30 pieces and cannot be told apart by blocks-per-piece at all, while their mean plates are 2,473, 2,601, 2,446, 2,345, 2,881 mm2.
+area is not redundant: `coil_3x9_18`, `coil_3x3_54_2`, `coil_4x8_18`, `coil_5x7_18`, `coil_4x9_18` all split into 30 pieces and cannot be told apart by blocks-per-piece at all, while their mean plates are 2473mm², 2601mm², 2446mm², 2345mm², 2881mm².
 
 It is a bounding box, not the cut outline — an L-shaped piece leaves its corner behind
 — so it measures the size of the part, not the material consumed.
@@ -208,7 +208,7 @@ No single spiral wins, because the measures disagree.
 | least tube per turn | [`coil_3x4_68`](pages/coil_3x4_68.html) — 16.3 blk | 16.0 blk, within -2% |
 | fewest pieces | [`coil_3x9_18`](pages/coil_3x9_18.html) — 30 | 45 |
 | fewest distinct shapes | [`coil_3x8_20`](pages/coil_3x8_20.html) — 4 | 8 |
-| largest average plate | [`coil_4x9_18`](pages/coil_4x9_18.html) — 2,881 mm2 | 1,598 mm2 |
+| largest average plate | [`coil_4x9_18`](pages/coil_4x9_18.html) — 2881mm² | 1598mm² |
 | calmest bore (fewest turns/m) | [`coil_4x9_18`](pages/coil_4x9_18.html) — 20.83 | 20.83 |
 | smallest box with no shared wall | [`coil_3x3_54_2`](pages/coil_3x3_54_2.html) — 441 | 736, also 0 shared |
 

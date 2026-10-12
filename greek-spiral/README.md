@@ -136,7 +136,8 @@ Every file is millimetre-true at 1 user unit = 1mm.
 
 ## Rebuild it
 
-The generator lives in `../tools`. Report only, writing nothing:
+The generator lives in `tools/` at the repository root, and both commands run
+from there. Report only, writing nothing:
 
 ```
 python3 tools/bore_split.py "N10 W9 S6 E5 N2 W3 N2 E5 S6 W9 N10" --bore=10 --no-write

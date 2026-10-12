@@ -1953,7 +1953,9 @@ def main(text, outdir=None):
                 'Nothing written. Lengthen the term between the turns: a '
                 'hairpin needs 2 and a coil 3.')
 
-    print('\ncut list   (every part engraved with its section number)')
+    print('\ncut list   (' + ('one section, nothing engraved' if len(specs) == 1
+                            else 'every part engraved with its section number')
+          + ')')
     total = 0
     shapes = {}
     # the name a sheet is written under says which bore and which design it

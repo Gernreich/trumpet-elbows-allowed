@@ -352,10 +352,10 @@ the same, and it is not the same thing as **distinct**: the two rank the set ali
 only 6 of ${rows.length} places. \`${fewestShapes.name}\` is ${fewestShapes.p.interiorDistinct} shapes laid in a
 ${fewestShapes.p.rhythm}-piece cycle repeated ${fewestShapes.p.repeats.toFixed(1)} times, between the two end pieces.
 
-**Mean plate** is the average bounding box a piece is cut from, in mm2 — the
+**Mean plate** is the average bounding box a piece is cut from, in mm² — the
 laser-cutting number. Fewer, larger parts means less weeding, less sorting and fewer
 fingers to align, and it is the size of the part in your hand rather than the count of
-them. \`${plateBest.name}\` averages ${Math.round(plateBest.p.meanPlate).toLocaleString('en-US')} mm2 against \`${yours.name}\`'s ${Math.round(yours.p.meanPlate).toLocaleString('en-US')}.
+them. \`${plateBest.name}\` averages ${Math.round(plateBest.p.meanPlate)}mm² against \`${yours.name}\`'s ${Math.round(yours.p.meanPlate)}mm².
 
 Average *blocks* per piece was the other reading of the same idea and is not used: the
 block count varies by only ${((Math.max(...rows.map(r=>r.m.blocks))/Math.min(...rows.map(r=>r.m.blocks))-1)*100).toFixed(1)}% across the set, so blocks-per-piece is very nearly the
@@ -369,7 +369,7 @@ area is not redundant: ${(() => {
   return tie.map(r => '\`' + r.name + '\`').join(', ') + ' all split into ' +
     tie[0].p.innerPieces + ' pieces and cannot be told apart by blocks-per-piece at all, ' +
     'while their mean plates are ' +
-    tie.map(r => Math.round(r.p.meanPlate).toLocaleString('en-US')).join(', ') + ' mm2';
+    tie.map(r => Math.round(r.p.meanPlate) + 'mm²').join(', ');
 })()}.
 
 It is a bounding box, not the cut outline — an L-shaped piece leaves its corner behind
@@ -421,7 +421,7 @@ No single spiral wins, because the measures disagree.
 | least tube per turn | ${names(allBest(r => r.m.blocksPer360))} — ${tube.m.blocksPer360.toFixed(1)} blk | ${yours.m.blocksPer360.toFixed(1)} blk, within ${((yours.m.blocksPer360/tube.m.blocksPer360-1)*100).toFixed(0)}% |
 | fewest pieces | ${L(pcs)} — ${pcs.p.innerPieces} | ${yours.p.innerPieces} |
 | fewest distinct shapes | ${L(dist)} — ${dist.p.interiorDistinct} | ${yours.p.interiorDistinct} |
-| largest average plate | ${L(plateBest)} — ${Math.round(plateBest.p.meanPlate).toLocaleString('en-US')} mm2 | ${Math.round(yours.p.meanPlate).toLocaleString('en-US')} mm2 |
+| largest average plate | ${L(plateBest)} — ${Math.round(plateBest.p.meanPlate)}mm² | ${Math.round(yours.p.meanPlate)}mm² |
 | calmest bore (fewest turns/m) | ${names(allBest(r => r.m.turnsPerMetre))} — ${calm.m.turnsPerMetre.toFixed(2)} | ${yours.m.turnsPerMetre.toFixed(2)} |
 | smallest box with no shared wall | ${L(clean)} — ${clean.m.vol} | ${yours.m.vol}, also ${yours.m.touching} shared |
 

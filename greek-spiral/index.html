@@ -197,7 +197,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 bore10-meander-greek-key-01of01-bend-DDDDDDDDDDLLLLLLLLLUUUUUURRRRRDDLLLDDRRRRRUUUUUULLLLLLLLLDDDDDDDDDD-buttin-buttout-cut-files-sheet2.svg</code></pre>
 <p>The long middle is the flattened shape of the whole snake — sixty-eight letters of <code>D</code>, <code>L</code>, <code>U</code> and <code>R</code> saying which way the plate turns at each block, with <code>~a~b</code> collapsed into the <code>-buttin-buttout-</code> that says both ends are plain. Every file is millimetre-true at 1 user unit = 1mm.</p>
 <h2 id="rebuild-it">Rebuild it</h2>
-<p>The generator lives in <code>../tools</code>. Report only, writing nothing:</p>
+<p>The generator lives in <code>tools/</code> at the repository root, and both commands run from there. Report only, writing nothing:</p>
 <pre><code>python3 tools/bore_split.py &quot;N10 W9 S6 E5 N2 W3 N2 E5 S6 W9 N10&quot; --bore=10 --no-write</code></pre>
 <p>Writing rewrites both sheets, and must run under the venv python: <code>check.py</code> imports shapely, and <code>bore_split.py</code> writes every file <em>before</em> it gates them, so a system-python <code>--write</code> leaves a folder of finished-looking cut files and a traceback where the gate should be.</p>
 <pre><code>cd tools &amp;&amp; ~/Software/boxes/venv/bin/python bore_split.py \
