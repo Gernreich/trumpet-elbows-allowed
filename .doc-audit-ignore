@@ -29,7 +29,6 @@ repro-svg.py
 #   x.svg, x-ported.svg   throwaway trial outputs, written to /tmp on purpose
 #   *-cut-files.svg (bare) "...-cheek-x2-cut-files.svg" is a filename TEMPLATE
 #                         with the design's part elided, not a file
-#   bore-viewer.html      a --out= destination in the sibling pages repository
 #   turn.html             likewise, written by the viewer generator
 # A NEW stale name still fails the gate: these are listed one by one, not
 # waved through by pattern.
@@ -42,7 +41,6 @@ x.svg
 x-ported.svg
 cheek-x2-cut-files.svg
 panels-cut-files.svg
-bore-viewer.html
 turn.html
 
 # The names the notes use to describe a RENAME. Each is quoted as the old form
