@@ -7,7 +7,7 @@
      and sequence are unchanged. Geometry and sheet position are untouched, and the
      CUT FILE keeps the exact values your laser keys on.
      Cut the file in the repository root, not this one. -->
-  <rect x="0.0" y="0.0" width="127.316" height="25.749" fill="#faf7f0"/>
+  <rect x="0.0" y="0.0" width="127.316" height="25.749" fill="#ffffff"/>
   <title>Port-to-bell adapter - 7 rings of 1 ply, 21mm, 7 x 14 port to a 10mm square throat</title>
   <desc>1 user unit = 1mm. The section runs from the cheek's 7 x 14 port to the bore's 10mm square, holding area on a smoothstep so both ends are tangent. The last ring is a collar, 10mm square in a 16mm square face: that is the bore's own end face, so the bell stacks on it unchanged. Each ring is 1 lamination(s) of 3mm ply, 3mm of rise, seating on the ring below over 3mm per side. Rings stack; they do not telescope. No kerf compensation: these are glued, as bell.py's are. The wide side of each ring lies ALONG the duct; the narrow side goes across the cheek's band. orange #ff8000 cuts the apertures first, black #000000 frees the rings.</desc>
   <g fill="none" stroke="#a85800" stroke-width="0.255">
