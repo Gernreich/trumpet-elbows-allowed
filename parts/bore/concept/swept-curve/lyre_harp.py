@@ -1710,8 +1710,8 @@ def drawing(path):
         f'Solid: the cheek\'s two rims as cut. Dotted blue: the faces the air '
         f'touches.',
         f'The duct is {BORE:g}mm deep throughout, {BORE:g}mm wide over the arch '
-        f'and down the sides ({side_band:.0f}mm outside),',
-        f'and opens below the hole into the resonator.',
+        f'and down the sides ({side_band:.0f}mm outside), and opens below the '
+        f'hole into the resonator.',
         f'Sound hole: the 2-lead 7-bight knot, r30, front cheek only, centred '
         f'on the axis 2/3 up the resonator.',
         f'Hitch-pin block: {HITCH_LAYERS} laminations, {HITCH_WIDTH:g}mm wide '
@@ -1720,13 +1720,22 @@ def drawing(path):
         f'Tuning-pin block: {TUNE_LAYERS} laminations filling the duct at the '
         f'arch, one tuning pin above each hitch pin.',
     ]
-    for k, t in enumerate(notes):
+    # Wrapped to the sheet. Each note was one <text> line, and the longest ran
+    # well past the right edge of the viewBox, so a browser cut them off
+    # mid-word. NOTE_CHARS is what fits from x0 to the sheet's right edge at
+    # font-size 8 in Helvetica, whose average glyph is about 4.3 units there;
+    # the sheet then grows to hold however many lines that makes.
+    import textwrap
+    room = vb[0] + vb[2] - x0 - 10
+    lines = [w for t in notes for w in textwrap.wrap(t, int(room / 4.5))]
+    for k, t in enumerate(lines):
         body.append(f'<text x="{x0:.2f}" y="{bot_o + 22 + 12 * k:.2f}" '
                     f'font-size="8">{t}</text>')
+    tall = max(vb[3] + 20, bot_o + 22 + 12 * (len(lines) - 1) + 12 - vb[1])
     svg = (f'<?xml version="1.0" encoding="UTF-8"?>\n'
            f'<svg xmlns="http://www.w3.org/2000/svg" width="{vb[2]:.1f}mm" '
-           f'height="{vb[3] + 20:.1f}mm" viewBox="{vb[0]:.2f} {vb[1]:.2f} '
-           f'{vb[2]:.2f} {vb[3] + 20:.2f}" '
+           f'height="{tall:.1f}mm" viewBox="{vb[0]:.2f} {vb[1]:.2f} '
+           f'{vb[2]:.2f} {tall:.2f}" '
            f'font-family="Helvetica, Arial, sans-serif" font-size="9" '
            f'fill="{grey}">\n'
            f'<title>Lyre-harp frame, {W:.0f} x {L:.0f}mm</title>\n'
@@ -1737,7 +1746,7 @@ def drawing(path):
            f'markerWidth="4" markerHeight="4" orient="auto-start-reverse">'
            f'<path d="M0,2 L10,5 L0,8 z" fill="{grey}"/></marker></defs>\n'
            f'<rect x="{vb[0]:.2f}" y="{vb[1]:.2f}" width="{vb[2]:.2f}" '
-           f'height="{vb[3] + 20:.2f}" fill="#ffffff"/>\n'
+           f'height="{tall:.2f}" fill="#ffffff"/>\n'
            + '\n'.join(body) + '\n</svg>\n')
     open(path, 'w').write(svg)
     print(f'  drew {os.path.basename(path)}: {W:.1f} x {L:.1f}mm, hole '
