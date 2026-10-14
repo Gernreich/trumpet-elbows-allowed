@@ -264,7 +264,7 @@ per turn by a wide margin. It buys packing: a walk folds into a box a smooth
 curve does not reach. The swept curve — a rectangle swept along a planar curve,
 two faces flat and two faceted — was a folder here until 2026-10-14, and is now
 **[swept-curve](https://gernreich.github.io/swept-curve/)**: the built spiral
-bore, its eight open siblings, and four closed rings.
+bore, its six open siblings, and four closed rings.
 
 A closed loop has no ends, so it cannot take a mouthpiece or a bell at them, but
 a loop with two mouths can: `walk/meander/closed-loop-52/` is that
