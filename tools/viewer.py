@@ -231,6 +231,7 @@ input[type="range"]::-moz-range-thumb {
     <button class="ghost" id="reset">Reset view</button>
     <button class="ghost" id="spin" aria-pressed="false">Spin</button>
     <button class="ghost" id="list" aria-pressed="false">Blocks</button>
+    <button class="ghost" id="ends" aria-pressed="true">Bell &amp; mouthpiece</button>
   </div>
 </div>
 
@@ -248,6 +249,11 @@ input[type="range"]::-moz-range-thumb {
 <script>
 const SETS = __SETS__;
 let D = SETS[0].d;
+/* The mouthpiece and the bell, as ring stacks in their own frame: z up the
+   stack from the face that meets the bore. Read from their cut files by
+   parts/part-view.py when the page was written. */
+const ENDS = __ENDS__;
+let showEnds = true;
 
 const cv = document.getElementById('c');
 const ctx = cv.getContext('2d');
@@ -279,11 +285,36 @@ function covers(c, o, f) {
   return true;
 }
 
+/* The mouthpiece seats on the IN face and the bell on the OUT face: each stack's
+   first ring flat on the block's end, its axis along the face's outward normal.
+   The map is a rotation, never a reflection. Cached per set. */
+function endsOf(d) {
+  if (d._ends) return d._ends;
+  const out = [];
+  for (const [key, which] of Object.entries(d.openings)) {
+    const [ci, fi] = key.split(':').map(Number);
+    const c = d.cells[ci], n = NRM[fi], part = which === 'IN' ? ENDS.mouthpiece : ENDS.bell;
+    const o = [0, 1, 2].map(i => n[i] > 0 ? c.b[i] : n[i] < 0 ? c.a[i] : (c.a[i] + c.b[i]) / 2);
+    const ex = (n[2] === 0) ? [0, 0, 1] : [1, 0, 0];
+    const ey = [n[1]*ex[2] - n[2]*ex[1], n[2]*ex[0] - n[0]*ex[2], n[0]*ex[1] - n[1]*ex[0]];
+    const V = part.V.map(p => [0, 1, 2].map(i => o[i] + p[0]*ex[i] + p[1]*ey[i] + p[2]*n[i]));
+    const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
+    for (const v of V) for (let i = 0; i < 3; i++) { lo[i] = Math.min(lo[i], v[i]); hi[i] = Math.max(hi[i], v[i]); }
+    out.push({ which, V, Q: part.Q, col: part.col, box: { a: lo, b: hi } });
+  }
+  return (d._ends = out);
+}
+/* what to fit and centre on: the blocks, and the ends when they are shown */
+/* a colour scaled toward black, so the stack's four kinds of face read apart */
+const dim = (hex, k) => '#' + [16, 8, 0].map(b =>
+  Math.round(((parseInt(hex.slice(1), 16) >> b) & 255) * k).toString(16).padStart(2, '0')).join('');
+const extent = (d) => showEnds ? d.cells.concat(endsOf(d).map(e => e.box)) : d.cells;
+
 /* centre on the whole bore, so revealing blocks does not shift the model */
 let centre = null;
 function recentre() { centre = (() => {
   const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
-  for (const c of D.cells) for (let i = 0; i < 3; i++) {
+  for (const c of extent(D)) for (let i = 0; i < 3; i++) {
     lo[i] = Math.min(lo[i], c.a[i]); hi[i] = Math.max(hi[i], c.b[i]);
   }
   return { c: lo.map((v, i) => (v + hi[i]) / 2), lo: lo, hi: hi };
@@ -346,10 +377,12 @@ const REF = SETS.reduce((best, s) => {
     return Math.hypot(hi[0] - lo[0], hi[1] - lo[1], hi[2] - lo[2]); };
   return sp(s.d) > sp(best.d) ? s : best;
 }, SETS[0]).d;
-const refCentre = (() => {
-  const [lo, hi] = bboxOf(REF.cells);
+let refCentre = null;
+function reref() { refCentre = (() => {
+  const [lo, hi] = bboxOf(extent(REF));
   return lo.map((v, i) => (v + hi[i]) / 2);
-})();
+})(); }
+reref();
 
 function shade(hex, n) {
   const L = [-0.32, 0.86, 0.4], m = Math.hypot(...L);
@@ -377,8 +410,8 @@ function draw() {
   // bounding box either: a walk that climbs as it runs fills a diagonal slab
   // of a mostly empty box, and the box's corners are nowhere near the shape.
   // Position from the set on screen, scale from the reference set.
-  const [px0, px1, py0, py1] = fit(D.cells, centre.c);
-  const [rx0, rx1, ry0, ry1] = fit(REF.cells, refCentre);
+  const [px0, px1, py0, py1] = fit(extent(D), centre.c);
+  const [rx0, rx1, ry0, ry1] = fit(extent(REF), refCentre);
   const M = 56;
   const S = Math.min((w - M) / Math.max(rx1 - rx0, 0.001),
                      (h - M) / Math.max(ry1 - ry0, 0.001)) * zoom;
@@ -396,10 +429,39 @@ function draw() {
     const z = pts.reduce((a, p) => a + p[2], 0) / 4;
     list.push({ pts, z, q, rn });
   }
+  /* The ends: every face of each stack, the far ones too, drawn in depth order
+     with the blocks. The mouthpiece needs the first block and the bell the
+     last, so each shows only when its block does, and neither while one
+     direction or section is picked out. */
+  if (showEnds && isolate === null) for (const e of endsOf(D)) {
+    if (e.which === 'OUT' && reveal < D.cells.length) continue;
+    for (const q of e.Q) {
+      const w = q.slice(0, 4).map(i => e.V[i]);
+      const u = [0, 1, 2].map(i => w[1][i] - w[0][i]), v = [0, 1, 2].map(i => w[3][i] - w[0][i]);
+      let n = [u[1]*v[2] - u[2]*v[1], u[2]*v[0] - u[0]*v[2], u[0]*v[1] - u[1]*v[0]];
+      const m = Math.hypot(...n) || 1; n = n.map(x => x / m);
+      let rn = rot([n[0] + centre.c[0], n[1] + centre.c[1], n[2] + centre.c[2]]);
+      if (rn[2] < 0) rn = rn.map(x => -x);
+      const pts = w.map(P);
+      list.push({ pts, z: pts.reduce((a, p) => a + p[2], 0) / 4, end: e, rn, k: q[4] });
+    }
+  }
   list.sort((a, b) => a.z - b.z);
 
   const secCol = D.sections.map(s => s.col);
   for (const it of list) {
+    if (it.end) {
+      ctx.beginPath();
+      ctx.moveTo(it.pts[0][0], it.pts[0][1]);
+      for (let i = 1; i < 4; i++) ctx.lineTo(it.pts[i][0], it.pts[i][1]);
+      ctx.closePath();
+      ctx.fillStyle = shade(dim(it.end.col, ENDS.shade[it.k]), it.rn);
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(0,0,0,.18)';
+      ctx.lineWidth = 0.5;
+      ctx.stroke();
+      continue;
+    }
     const c = it.q.cell;
     const open = D.openings[c.i0 + ':' + it.q.f];
     let fill;
@@ -492,6 +554,11 @@ $('spin').onclick = () => {
   } else cancelAnimationFrame(spinTimer);
 };
 if (reduced) $('spin').style.display = 'none';
+$('ends').onclick = () => {
+  showEnds = !showEnds;
+  $('ends').setAttribute('aria-pressed', showEnds);
+  recentre(); reref(); draw();
+};
 
 const DIRNAME = {N: 'north', S: 'south', E: 'east', W: 'west',
                  U: 'up', D: 'down'};
@@ -626,6 +693,37 @@ def data_for(text):
     return data
 
 
+# The mouthpiece and the bell, drawn on every page at IN and OUT (2026-10-14):
+# their ring stacks, read from their own cut files by ../parts/part-view.py,
+# 24 facets round. The page places them; this only says what they are.
+PARTS = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'parts')
+END_PARTS = (('bell', 'bell/cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg', '#d8b445'),
+             ('mouthpiece', 'mouthpiece/cut-files/mouthpiece-bore10-trumpet-parts-cut-files.svg', '#8a5a2b'))
+
+
+def ends_json():
+    """part-view.py executes bell-view.py up to the line that reads argv, and
+    that prefix checks argv is long enough, so it is given two names."""
+    import importlib.util
+    argv, sys.argv = sys.argv, ['part-view.py', '-', '-']
+    try:
+        spec = importlib.util.spec_from_file_location(
+            'part_view', os.path.join(PARTS, 'part-view.py'))
+        m = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(m)
+    finally:
+        sys.argv = argv
+    out = {}
+    for name, svg, col in END_PARTS:
+        d = m.data_for(os.path.join(PARTS, svg), 24)
+        out[name] = {'V': [[round(c, 2) for c in v] for v in d['V']],
+                     'Q': [q['v'] + [q['f']] for q in d['Q']], 'col': col}
+    # part-view's four faces -- ring face, outside, the bore, underside --
+    # each scaled toward black so they read apart
+    out['shade'] = [1.0, 0.92, 0.55, 0.7]
+    return json.dumps(out, separators=(',', ':'))
+
+
 def build(text, title):
     return build_many([(None, text)], title)
 
@@ -655,6 +753,7 @@ def build_sets(items, title):
             for lab, txt, d in items]
     first = sets[0]
     return (HTML.replace('__SETS__', json.dumps(sets, separators=(',', ':')))
+                .replace('__ENDS__', ends_json())
                 .replace('__TITLE__', title)
                 .replace('__WALK__', first['walk'])
                 .replace('__N__', str(first['d']['blocks'])))

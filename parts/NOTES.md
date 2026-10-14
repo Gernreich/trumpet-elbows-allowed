@@ -212,11 +212,13 @@ python3 part-view.py bell/cut-files/bell-round10-153mm-17rings-x3-rim86-cut-file
 python3 part-view.py mouthpiece/cut-files/mouthpiece-bore10-trumpet-parts-cut-files.svg
 ```
 
-**Another repository reads this file.** swept-curve's `ribbon_view.py --ends`
-imports `part-view.py` and calls its `data_for(path, n)` to put this bell and
-this mouthpiece on the built spiral's page (2026-10-14). Changing that function's
-arguments or what it returns breaks that page, and redrawing either part makes
-it stale, which swept-curve's page gate reports.
+**Two viewers read this file.** `../tools/viewer.py` and swept-curve's
+`ribbon_view.py --ends` both import `part-view.py` and call its
+`data_for(path, n)` to put this bell and this mouthpiece on every trumpet page
+they draw (2026-10-14): the block pages at IN and OUT, the swept-curve pages on
+the tube ends or in the port. Changing that function's arguments or what it
+returns breaks those pages, and redrawing either part makes them stale, which
+the page gates report.
 
 It reads the ring sizes with **`bell-view.py`'s own `sections()`**, executed out
 of that file rather than copied, so the two cannot come to disagree about what

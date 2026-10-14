@@ -174,6 +174,15 @@ things have to be true before the comparison means anything:
   to show. `draw()` takes its **scale** from the reference set and its **position** from
   the set on screen, so the small one is small and still centred.
 
+**Every page carries the mouthpiece and the bell** (2026-10-14). `ends_json()` reads
+their ring stacks out of their cut files with `../parts/part-view.py`, and the page
+seats the mouthpiece on the IN face and the bell on the OUT face, each first ring flat
+on the block's end and its axis along the face's outward normal — a rotation, never a
+reflection. Their faces go into the same depth-sorted list as the blocks', and the fit,
+the centre and the reference set's scale all include them while they are shown, so the
+bell is never cut off. A button takes them off. Redrawing either part changes every
+page, and the repro gates say so.
+
 Together those make the smaller pitch draw smaller in exact proportion, and the ¾ coil at
 just under half the 3-turn. Change one without the other and the page silently goes back to lying.
 
