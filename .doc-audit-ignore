@@ -17,18 +17,16 @@ Boxes.py
 doc-audit.py
 md2html.py
 svg-stroke-check.py
-make-preview.py
 flat-part-check.py
 repro-svg.py
 
 # Names that appear in the design notes precisely BECAUSE they are not here.
-# Each was checked by hand on 2026-09-10; none is a stale reference:
+# Each was checked by hand on 2026-09-10; none is a stale reference. (x.svg,
+# x-ported.svg and the bare -cut-files.svg templates left for swept-curve with
+# the notes that name them, 2026-10-14.)
 #   sizes.html            named by the sentence saying it was deleted
 #   01_bend_DL*.svg       the pre-2026-09-05 naming scheme, quoted to show the
 #   06_bend_RD*.svg       rename it was replaced by
-#   x.svg, x-ported.svg   throwaway trial outputs, written to /tmp on purpose
-#   *-cut-files.svg (bare) "...-cheek-x2-cut-files.svg" is a filename TEMPLATE
-#                         with the design's part elided, not a file
 #   turn.html             likewise, written by the viewer generator
 # A NEW stale name still fails the gate: these are listed one by one, not
 # waved through by pattern.
@@ -37,10 +35,6 @@ sizes.html
 01_bend_DL_buttin.svg
 06_bend_RD.svg
 06_bend_RDD.svg
-x.svg
-x-ported.svg
-cheek-x2-cut-files.svg
-panels-cut-files.svg
 turn.html
 
 # The names the notes use to describe a RENAME. Each is quoted as the old form
@@ -68,3 +62,9 @@ ramp_bell.py
 # case as ramp_bell.py above -- the record of why a tool is gone cannot be
 # written without naming it.
 snakebox.py
+
+# The swept-curve generator and viewer, named in the notes beside the lattice
+# tools they are compared with. They left this repository for swept-curve on
+# 2026-10-14 and exist there.
+ribbon_bore.py
+ribbon_view.py
