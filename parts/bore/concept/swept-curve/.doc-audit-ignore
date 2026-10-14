@@ -1,8 +1,0 @@
-# Named in prose; not a file in this repository.
-
-Boxes.py
-
-# Named in prose because this construction is the alternative to it, but it
-# lives in ../../../../../../tools. Naming it beats copying it.
-
-bore_split.py

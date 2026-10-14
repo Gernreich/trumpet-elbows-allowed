@@ -68,27 +68,3 @@ ramp_bell.py
 # case as ramp_bell.py above -- the record of why a tool is gone cannot be
 # written without naming it.
 snakebox.py
-
-# Placeholder --out= names in the swept-curve command block, added 2026-09-13.
-# The three lines that demonstrate --port-square, --merge-lead and --narrow on
-# their own write to a scratch name rather than a shipped one, precisely so a
-# reader trying the flag does not overwrite a sheet. "x-" is the prefix that
-# says scratch. They are arguments in a code fence, not files, and no file of
-# these names should ever exist -- which is what makes the exemption safe: it
-# suppresses a name the repository is never meant to contain.
-x-ported-square.svg
-x-merged.svg
-x-narrow.svg
-
-# The fourth of them, added 2026-09-14 with --port-both. Same class and the
-# same reason: a scratch stem in a code fence, and a file of this name would
-# mean somebody had run the example in the folder it documents.
-x-ported-both-square.svg
-
-# The --out= stem on the spiral bore's page, added 2026-09-14. ribbon_bore.py
-# takes ONE name and writes TWO sheets from it, appending -cheek-x2-cut-files
-# and -panels-cut-files, so the stem itself is never a file and never should be.
-# Same class as the x-*.svg scratch names above: the exemption is safe precisely
-# because a file of this name would mean the generator had gone wrong. The two
-# sheets it does write are named on that page and both exist.
-ribbon-spiral-bore10-45deg-R35to113-1000mm-ported-square-narrow.svg

@@ -21,4 +21,4 @@ A flat meander closed into a loop, with two mouths.
 - **Use a mouth, not `--ports`**: a port replaces the rim opening and would cut the loop
   in two.
 - **Two air paths between the mouths are the design**, as on the 13-facet ring and the
-  scallop in `../../../swept-curve/`.
+  scallop in the swept-curve repository (`~/LaserMadeMusic/GIT/swept-curve`).

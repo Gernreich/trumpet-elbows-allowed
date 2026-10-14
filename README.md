@@ -14,6 +14,12 @@ The instrument that has been built is a **coil of 1096mm in 12 sections**, with 
 **three** turns, right-handed, about a north–south axis. Everything else here is
 a candidate for the next one.
 
+Every bore here is a **walk through a grid of cubes**, the kind of trumpet you
+could build in Minecraft. The same trumpet swept along a smooth curve instead,
+with no grid and no elbows, is its own repository:
+**[swept-curve](https://gernreich.github.io/swept-curve/)**, which holds the built spiral bore and every
+swept-curve design. Both take the bell and the mouthpiece kept here.
+
 The mouthpiece on this instrument is 24 rings where the design cuts 30 — 72mm
 rather than 90 — so it is the instrument that is short, not the drawing. The
 coil winds three whole turns: its walk is `W U E D` three times over, and its
@@ -128,8 +134,8 @@ Each of these carries the walk it is cut from, its blocks and centreline, its
 sections with their plates and sheet sizes, and a link to a viewer you can turn
 at tab size. The first is the one that plays; the next three are candidates, and
 only the greek spiral has been cut — its bore is in ply and press-fit, with no
-ends fitted and not yet blown. The spiral after them is in wood too, but it is not a walk —
-it is a swept curve, cut, press-fit and shellacked, and not yet blown.
+ends fitted and not yet blown. The swept-curve spiral, also in wood, has its page
+in **[swept-curve](https://gernreich.github.io/swept-curve/)**.
 
 | | |
 | --- | --- |
@@ -137,7 +143,6 @@ it is a swept curve, cut, press-fit and shellacked, and not yet blown.
 | **[the switchback trumpet](switchback/)** | 22 blocks, 352mm, six sections — folds back on itself twice |
 | **[the greek spiral](greek-spiral/)** | 68 blocks, 1088mm, **one** section — a flat meander, the only bore here that cuts in one piece |
 | **[the tight coil](tight-coil/)** | 65 blocks, 1040mm, 33 sections — the tightest coil that does not touch itself, at 42.7mm a turn, with 16 elbows |
-| **[the spiral bore](ribbon-spiral/)** | 19 facets of 45°, 1000mm, R34.7 to R112.9 — a swept curve rather than a walk, cut in ply, press-fit and finished |
 | **[the bell and the mouthpiece](ends/)** | The two ends, shared by every bore on the 10mm channel |
 
 ## Cutting
@@ -159,28 +164,26 @@ marked `buttin` and the last `buttout`, and those two are the only plain ends.
 ## What is in here
 
 ```
-built/              the two instruments that exist in wood, a folder each
+built/              the instrument that exists in wood
 parts/
   mouthpiece/       the shared mouthpiece, and its viewers
   bell/             the shared bell, square and square-to-round
   bore/concept/     every candidate; only the greek spiral's bore is cut
 tools/              the generator, the gate, and the walks
-three-turn/         a page each: the two instruments that exist, the
-switchback/         three candidates worth reading about on their own,
-greek-spiral/       and the two ends they all share
+three-turn/         a page each: the instrument that exists, the three
+switchback/         candidates worth reading about on their own, and
+greek-spiral/       the two ends they all share
 tight-coil/
-ribbon-spiral/
 ends/
 ```
 
-The six page directories hold a `README.md` and the `index.html` rendered from
+The five page directories hold a `README.md` and the `index.html` rendered from
 it, and the greek spiral's holds its photograph as well. Every number on them is read back out of the walk, the cut
 file or the generator, never typed from memory.
 
 **`built/` is what exists and `concept/` is what is drawn**, and the line between
-them is an instrument in wood. Two instruments are in `built/`: the three-turn coil, shellacked
-and playing, and the 1000mm spiral, press-fit and shellacked. Both carry a bell and
-a mouthpiece, which is what earns the word — an instrument is a bore *and* its
+them is an instrument in wood. One instrument is in `built/`: the three-turn coil, shellacked
+and playing. It carries a bell and a mouthpiece, which is what earns the word — an instrument is a bore *and* its
 two ends, so `built/` sits at the root rather than inside `parts/bore/`. One
 bore in `concept/` has been cut — the greek spiral, which has no ends yet and so
 stays there — and a folder there is not a promise that it should be.
@@ -246,10 +249,10 @@ a centred square spiral that widens a block all round each turn — 4 elbows,
 > because it is the record of an exhaustive search for **bend-only** coils, and
 > it still is one: a walk that strands a turn is not a candidate there.
 
-### Three ways to make a tube
+### Walk or swept curve
 
-They are not variations on each other. The section grows at every turn, and how
-much is the whole comparison:
+There are two ways to make this tube, and this repository is one of them. The
+section grows at every turn, and how much is the whole comparison:
 
 | | curve | section at a turn | why it exists |
 | --- | --- | --- | --- |
@@ -258,114 +261,14 @@ much is the whole comparison:
 
 The lattice walk is what the built instrument uses, and it is the more expensive
 per turn by a wide margin. It buys packing: a walk folds into a box a smooth
-curve does not reach.
+curve does not reach. The swept curve — a rectangle swept along a planar curve,
+two faces flat and two faceted — was a folder here until 2026-10-14, and is now
+**[swept-curve](https://gernreich.github.io/swept-curve/)**: the built spiral
+bore, its eight open siblings, and four closed rings.
 
-A third construction, a closed ring of facets, is not listed: a loop has no ends,
-so it cannot take a mouthpiece or a bell at them. Four closed shapes are drawn
-anyway — a 13-facet ring (`--shape=torus`), a scallop, a racetrack and an oval —
-because the mitring a ring needs is the same mitring every other shape needs.
-The ring and the scallop go further and take two ports on named facets
-(`--port-at`), which gives a mouthpiece and a bell two air paths between them;
-`walk/meander/closed-loop-52/` does the same on the lattice. None of them has
-been cut, and none is counted below.
-
-The **swept curve** (`parts/bore/concept/swept-curve/`) sweeps a rectangle along a
-planar curve, so two faces are flat and two are faceted. **Nine open designs
-are drawn** — counted as folders holding cut files, leaving out the four closed
-shapes above: a serpentine and a three-lobe serpentine with collinear ends at
-1000mm, three spirals at 1000, 1458 and 1767mm, a double volute at 1180mm, an
-ess at 836mm, and two double spirals at 1506 and 1000mm.
-
-One of the nine is in ply, and it is **not in that folder any more**: the 1000mm
-spiral — `R35to113`, 19 facets of 45°, its radius growing 34.7 → 112.9mm — has
-had both its sheets cut, the bore press-fit, both ends fitted and the shellac on, so it is filed
-with the instruments in `built/` while its swept-curve siblings stay under
-`concept/`. `ribbon_bore.py` draws it either way. It carries **[a page of
-its own](ribbon-spiral/)**: the cheek and its 149 mortices, the two panels the
-square port costs, and what shellac is for on a press-fit with this many joints.
-
-The **double spiral** is one of two shapes here whose two arms interleave — the
-double volute is the other, the same skeleton drawn on semicircles. Two arms
-half a turn apart about one centre, crossed in the middle by a straight:
-1506.4mm of bore on a cheek plate 232 × 241mm. Arm B *is* arm A turned through
-180°, so the gap between neighbouring passes is half the radial pitch by
-construction rather than by search — choose the pitch and you have chosen the
-gap. The cheek is a 20mm band, so 46mm a turn is the first pitch that clears it,
-and the two passes come out 23.00mm apart.
-
-Its centreline is the one that does not step its arc radius facet by facet.
-Vertices sit on a smooth spiral `r = R0 + b·θ` sampled every facet instead, which
-the note beside `--shape=spiral` warns is the construction `offset()` cannot
-follow. That note is about offsetting a smooth curve and faceting the result
-separately; offsetting the faceted centreline is exact whatever placed its
-vertices, and the airway measures 4.4e-14mm from the bore here. The stepping
-construction could not be used anyway — its polar radius advances 7mm across one
-half turn and 32mm across another, and two arms interleaved at those radii
-collide.
-
-The open middle is forced, not styled. A straight through the centre is tangent
-to the crossover arc only when the arm's inner end lies outside **twice** that
-arc's radius, so R62 against R30 is a floor; tighten it and the inner panels stop
-being long enough to hold a 6mm tooth, and the generator refuses rather than
-drawing one. Both openings still come out on the rim facing opposite ways, which
-is what a total turning of 0° buys.
-
-Two arms wound into each other is the arrangement here that could have run
-the bore back into itself, and the check that would have caught it already
-existed: *the cheek outline does not cross itself*. It passes, at 85 edges and no
-crossings.
-
-The **short double spiral** is that same spiral with five facets taken off each
-arm, 14 down to 9 — a trim and not a redraw: the pitch, the R62 start and the
-R30 crossover are the shipped design's, and the shape stays point-symmetric
-because a facet comes off each end at once. 1000.0mm on a 186 × 236mm cheek,
-against 1506.4mm on 232 × 241mm.
-
-The **facet** is what quantises it and the **lead** is what lands it. Nine
-facets an arm give 956.0mm and ten give 1058.2, so the trim alone cannot reach
-1000 —
-whole facets are the only thing that comes off, and they come off about 100mm
-at a time. The last 44mm is bought by lengthening both leads from 20mm to 42:
-the lead is a straight run tangent to the arm, so it adds length without moving
-a single facet of the coil. That it costs 42mm of straight tail at each rim is
-the price, and the reason the figure is quoted as a choice and not as what the
-generator happened to give.
-
-It is also the only open design in this repository **ported at both ends** —
-the ported rings take their two ports on named facets, having no ends. One
-square port is bought by folding the mouth lead into the facet it already lies
-on, and the far end wants the same thing: `--port-both` folds the tail lead
-too, or the second port lands on that lead's single tooth and the generator
-refuses — the refusal being correct, and the reason the flag does the fold
-rather than overruling the check. Two ports mean two open ends, so `--cap`
-draws two caps. The mortices do not move: against the unmerged build, four
-lead panels drop and not one surviving tooth shifts.
-
-It ships **two port arrangements**, and the difference is which joints have been
-made before. The one-port set is the spiral's: the port takes the bell, its stub
-is capped, and the far rim end stays open so the mouthpiece seats on the tube
-end, where four walls grip the full 16mm. That is the arrangement standing in
-ply on **[the spiral bore's page](ribbon-spiral/)**, where the photograph shows
-the bell on its throat in the port and the mouthpiece out on the tail.
-
-The two-port set below is the one where the mouthpiece must seat in a port —
-10 × 10mm through a single 3mm cheek — which a bell has done and a mouthpiece
-has not. A bell sits where it is put; a
-mouthpiece takes lip pressure.
-
-In the two-port set the ports are **split between the two cheeks**, which is
-what makes it an instrument rather than a coil with holes in it. A port through
-both cheeks is a socket right through, and the side you are not using is an
-open hole to plug; two of those are waste. `--port-per-cheek` puts one port on
-each sheet instead — `cheek-a` carries the mouth, `cheek-b` the far end, each
-cut once — so the mouthpiece **enters one face and the bell leaves the other**,
-at points 222.5mm apart and exactly opposite through the coil's centre. The
-openings are no longer in the plane at all, so the total-turning-zero argument
-that sets the two rim ends on opposite headings has stopped describing how it
-is played: those ends are the capped ones. `rotatable()` reports that the two
-sheets are the same part half a turn apart, to 9e-16mm — so one sheet cut twice
-with one turned round would also do, at the price of engraved numbers upside
-down on the turned one.
+A closed loop has no ends, so it cannot take a mouthpiece or a bell at them, but
+a loop with two mouths can: `walk/meander/closed-loop-52/` is that
+on the lattice. It has not been cut.
 
 ### The coil search
 

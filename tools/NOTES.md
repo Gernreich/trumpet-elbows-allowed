@@ -234,7 +234,7 @@ especially, since both are used to clear work for publication.
 
 ## The ply is 3.0 and the kerf 0.15
 
-`SHEET` is 3.0 and `KERF` 0.15, matching `ribbon_bore.py` next door. `THICKNESS`
+`SHEET` is 3.0 and `KERF` 0.15, matching `ribbon_bore.py` in the swept-curve repository. `THICKNESS`
 is 3.0 as well and is what dimensions the lattice; `SHEET` reaches only the slot
 Boxes cuts for a sheet to pass through. They are two numbers that happen to
 agree, so moving `SHEET` moves no airway.
