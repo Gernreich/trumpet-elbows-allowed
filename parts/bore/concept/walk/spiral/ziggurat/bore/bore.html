@@ -168,6 +168,15 @@ input[type="range"]::-moz-range-thumb {
   .rail { padding: 11px 13px; }
 }
 </style>
+<script>
+/* Follow the theme the site's pages store, so a framed viewer matches the page around it. */
+(function () {
+  var r = document.documentElement;
+  function apply() { var t = null; try { t = localStorage.getItem('ctg-theme'); } catch (e) {}
+    if (t === 'light' || t === 'dark') r.setAttribute('data-theme', t); else r.removeAttribute('data-theme'); }
+  apply(); addEventListener('storage', function (e) { if (e.key === 'ctg-theme') apply(); });
+})();
+</script>
 
 <div id="stage"><canvas id="c"></canvas></div>
 
