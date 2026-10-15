@@ -275,10 +275,10 @@ from that walk:
 
 | coil | wins |
 | --- | --- |
-| `2x2-134` | fewest distinct shapes, 2 |
-| `3x3-54` | fewest pieces, 30 (tied); smallest box with no shared wall (tied) |
-| `4x4-50` | calmest bore, 20.40 turns/m (tied) |
-| `5x5-50` | least tube per turn, 15.1 blocks |
+| [`2x2-134`](parts/bore/concept/walk/coil/2x2-134/2x2-134.html) | fewest distinct shapes, 2 |
+| [`3x3-54`](parts/bore/concept/walk/coil/3x3-54/3x3-54.html) | fewest pieces, 30 (tied); smallest box with no shared wall (tied) |
+| [`4x4-50`](parts/bore/concept/walk/coil/4x4-50/4x4-50.html) | calmest bore, 20.40 turns/m (tied) |
+| [`5x5-50`](parts/bore/concept/walk/coil/5x5-50/5x5-50.html) | least tube per turn, 15.1 blocks |
 
 These are the wins as judged in 2026-09, on each coil's full walk. On 2026-10-14
 every coil walk here and in the search was cut back to end on its last north term,
@@ -300,7 +300,7 @@ never beat. These figures are the search's, at its common length:
 | largest average plate | `coil_4x9_18` | 2881mm² | `5x8-18`, 3009mm² |
 
 So two of the three categories are led better than they were, and only the
-largest-plate figure fell. Ten of the fourteen remain in `search/`, and a coil
+largest-plate figure fell. Ten of the fourteen remain in [`search/`](parts/bore/concept/walk/coil/search/), and a coil
 listed above as tied is tied with one of them. The scoring is in
 [`search/SCORING.md`](parts/bore/concept/walk/coil/search/SCORING.md).
 

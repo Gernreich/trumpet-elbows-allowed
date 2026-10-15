@@ -13,8 +13,6 @@ cutting the turns the generator cannot fold.
 The viewer is a page of its own, not a frame in this one: drag to rotate, and
 the slider reveals the bore a block at a time in the order you would assemble it.
 
-![The tight coil from four sides and from above: a square tube three blocks across winding six times along a straight axis, each of its 33 sections a different colour and numbered from the mouthpiece, IN at one end and OUT at the other](../parts/bore/concept/walk/coil/tight/bore/tight-coil-pieces.svg)
-
 ## The walk is the whole design
 
 ```

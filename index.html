@@ -323,19 +323,19 @@ ends/</code></pre>
 </thead>
 <tbody>
 <tr>
-<td><code>2x2-134</code></td>
+<td><a href="parts/bore/concept/walk/coil/2x2-134/2x2-134.html"><code>2x2-134</code></a></td>
 <td>fewest distinct shapes, 2</td>
 </tr>
 <tr>
-<td><code>3x3-54</code></td>
+<td><a href="parts/bore/concept/walk/coil/3x3-54/3x3-54.html"><code>3x3-54</code></a></td>
 <td>fewest pieces, 30 (tied); smallest box with no shared wall (tied)</td>
 </tr>
 <tr>
-<td><code>4x4-50</code></td>
+<td><a href="parts/bore/concept/walk/coil/4x4-50/4x4-50.html"><code>4x4-50</code></a></td>
 <td>calmest bore, 20.40 turns/m (tied)</td>
 </tr>
 <tr>
-<td><code>5x5-50</code></td>
+<td><a href="parts/bore/concept/walk/coil/5x5-50/5x5-50.html"><code>5x5-50</code></a></td>
 <td>least tube per turn, 15.1 blocks</td>
 </tr>
 </tbody>
@@ -375,7 +375,7 @@ ends/</code></pre>
 </tbody>
 </table>
 </div>
-<p>So two of the three categories are led better than they were, and only the largest-plate figure fell. Ten of the fourteen remain in <code>search/</code>, and a coil listed above as tied is tied with one of them. The scoring is in <a href="parts/bore/concept/walk/coil/search/SCORING.html"><code>search/SCORING.md</code></a>.</p>
+<p>So two of the three categories are led better than they were, and only the largest-plate figure fell. Ten of the fourteen remain in <a href="parts/bore/concept/walk/coil/search/"><code>search/</code></a>, and a coil listed above as tied is tied with one of them. The scoring is in <a href="parts/bore/concept/walk/coil/search/SCORING.html"><code>search/SCORING.md</code></a>.</p>
 <h2 id="the-toolchain">The toolchain</h2>
 <p><code>tools/</code> ships no cut files of its own — only the thing that makes them.</p>
 <p><strong>The finger joints are not ours.</strong> Every section net is drawn by <strong><a href="https://github.com/florianfesti/boxes">Boxes.py</a></strong>, Florian Festi's box generator, which supplies the finger joints, the burn compensation and the SVG writer; <code>snakeboxvar.py</code> is a generator that installs into a Boxes.py checkout rather than a program of its own. Boxes.py is GPL-3.0-or-later and is not included here — you supply the checkout. Because <code>snakeboxvar.py</code> subclasses it, that file and the two that import it are GPL-3.0-or-later as well; the licence note at the end says which three and why.</p>
