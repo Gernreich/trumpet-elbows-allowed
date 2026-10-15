@@ -140,22 +140,15 @@ UNIFORM = [
     # here whose cut files run to two sheets.
     ('greek spiral', 'walks/greek_spiral.txt',
      '../parts/bore/concept/walk/meander/greek-key/bore', ['--bore=10']),
-    # A CLOSED meander with two mouths, and the only design here with a hole in
-    # a plate. The walk ends beside where it began -- blocks 1 and 52 touch --
-    # so it is a loop, and the air takes both ways round between the mouths.
-    # It exercises --mouth-at end to end: the SnakeBox hole, cut()'s reading of
-    # it, and check.py's hole rule and mouth count, all of which it found
-    # broken the first time it ran.
-    ('closed loop 52, mouthed', 'walks/closed_loop_52.txt',
-     '../parts/bore/concept/walk/meander/closed-loop-52/bore',
-     ['--bore=10', '--mouth-at=31,50']),
-    # The same loop FLAT, with its second mouth on a run drawn after a plain
-    # cap. No folder: this is a generator test. snakeboxvar counted five edges
-    # for every cap, and a flat cap is one, so every mouth after one was drawn
-    # on the wrong edge -- block 34 was cut 214mm from where it was asked -- and
-    # the shipped loop could not show it, because its only plain cap comes after
-    # both its mouths. check.py passed that misplaced mouth, 120 checks and 0
-    # failed, until it learnt to look where a hole is.
+    # A CLOSED meander FLAT, with its second mouth on a run drawn after a
+    # plain cap. No folder: this is a generator test; the loop design itself
+    # was dropped 2026-10-14 and only its walk is kept, for this. snakeboxvar
+    # counted five edges for every cap, and a flat cap is one, so every mouth
+    # after one was drawn on the wrong edge -- block 34 was cut 214mm from
+    # where it was asked -- and the loop mouthed at 31,50 could not show it,
+    # because its only plain cap comes after both its mouths. check.py passed
+    # that misplaced mouth, 120 checks and 0 failed, until it learnt to look
+    # where a hole is.
     ('closed loop 52, flat, mouth past a plain cap', 'walks/closed_loop_52.txt',
      None, ['--bore=10', '--flat', '--mouth-at=31,34']),
 ]

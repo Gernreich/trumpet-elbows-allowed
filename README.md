@@ -266,10 +266,6 @@ two faces flat and two faceted — was a folder here until 2026-10-14, and is no
 **[swept-curve](https://gernreich.github.io/swept-curve/)**: the built spiral
 bore, its six open siblings, and four closed rings.
 
-A closed loop has no ends, so it cannot take a mouthpiece or a bell at them, but
-a loop with two mouths can: `walk/meander/closed-loop-52/` is that
-on the lattice. It has not been cut.
-
 ### The coil search
 
 `parts/bore/concept/walk/coil/` holds four coils promoted out of a
