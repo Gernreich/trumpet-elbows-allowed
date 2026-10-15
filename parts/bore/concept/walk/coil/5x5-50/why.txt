@@ -5,21 +5,26 @@ WINS
     15.1 blocks   outright
 
 WALK
-  N3 D3 E2 U3 N3 W3 D2 E3 N3 U3 W2 D3 N3 E3 U2 W3 N3 D3 E2 U3 N3 W3 D2 E3 N3 U3 W2 D3 N3 E3 U2 W3 N3 D3 E2 U3 N3 W3 D2 E3 N3 U3 W2 D3 N3 E3 U2 W3 N3 D3 E2 U3 N3 W3 D2 E3 N3 U3 W2 D3 N3 E3 U2 W3
+  N3 D3 E2 U3 N3 W3 D2 E3 N3 U3 W2 D3 N3 E3 U2 W3 N3 D3 E2 U3 N3 W3 D2 E3 N3 U3 W2 D3 N3 E3 U2 W3 N3 D3 E2 U3 N3 W3 D2 E3 N3 U3 W2 D3 N3 E3 U2 W3 N3 D3 E2 U3 N3 W3 D2 E3 N3 U3 W2 D3 N3
 
 MEASURED  (spiral_metrics.js, recomputed from the walk above)
-  blocks          177
-  mm              2832
-  vol             1250
+  blocks          169
+  mm              2704
+  vol             1225
   cross           [5,5]
   crossMM         [80,80]
-  axisLen         50
-  turns90         63
-  turnsPerMetre   22.25
+  axisLen         49
+  turns90         60
+  turnsPerMetre   22.19
   touching        0
-  blocksPer360    15.06
-  riseMMPer360    66.72
-  degPerBlock     23.9
+  blocksPer360    15.36
+  riseMMPer360    69.82
+  degPerBlock     23.43
+
+CUT BACK 2026-10-14. The walk now ends on its last north term, so the bell
+faces forward; the terms after it were dropped. WALK and MEASURED are the walk
+as cut back. WINS was judged on the full walk in 2026-09, and its figures are
+the old ones. The name keeps the old axis length, one block more than now.
 
 Millimetres are at the 16mm block -- a 10mm bore in 3mm stock -- the default
 since 2026-09-05.

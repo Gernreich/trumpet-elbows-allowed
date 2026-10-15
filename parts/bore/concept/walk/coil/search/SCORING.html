@@ -121,7 +121,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <p>That form is also absolute where a linear fade against the set maximum is not. Dropping the worst coil would move everyone else's touching term under a linear fade; under 1/(1+t) it moves nothing.</p>
 <p>Override the weight with <code>SPIRAL_TOUCH_WEIGHT=8 node tools/score.js</code>.</p>
 <h3 id="a-heavy-weight-is-a-preference-not-a-guarantee">A heavy weight is a preference, not a guarantee</h3>
-<p>Weighting touching at 5 does not stop a coil with contact from beating a clean one. Under the harmonic mean the first coil <em>with</em> touching places <strong>2nd</strong>, above <strong>3</strong> coils that have none — because each of those has some other metric sitting on the 0.01 floor, and the harmonic mean punishes that harder than it punishes 13 contacts.</p>
+<p>Weighting touching at 5 does not stop a coil with contact from beating a clean one. Under the harmonic mean the first coil <em>with</em> touching places <strong>2nd</strong>, above <strong>3</strong> coils that have none — because each of those has some other metric sitting on the 0.01 floor, and the harmonic mean punishes that harder than it punishes 12 contacts.</p>
 <p>If no touching walls is a <em>requirement</em> rather than a preference, filter:</p>
 <pre><code>node tools/score.js --clean      # ranks only the coils with no touching walls
 node tools/score.js --solid      # and only those at least 3 blocks thick</code></pre>
@@ -222,202 +222,202 @@ node tools/score.js --solid      # and only those at least 3 blocks thick</code>
 <tr>
 <td>coil_3x3_54_2</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0.1007</td>
+<td style="text-align: right;">0.1102</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">0.5310</td>
+<td style="text-align: right;">0.5756</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">0.7978</td>
+<td style="text-align: right;">0.8067</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">0.8661</td>
+<td style="text-align: right;">0.8683</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">0.8945</td>
+<td style="text-align: right;">0.8962</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1.0000</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">0.5050</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">0.9402</td>
+<td style="text-align: right;">0.9346</td>
 <td style="text-align: right;">1</td>
 </tr>
 <tr>
 <td>coil_3x3_59</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0.0582</td>
+<td style="text-align: right;">0.0593</td>
 <td style="text-align: right;">6</td>
-<td style="text-align: right;">0.3478</td>
+<td style="text-align: right;">0.3633</td>
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">0.6548</td>
+<td style="text-align: right;">0.6627</td>
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">0.7623</td>
+<td style="text-align: right;">0.7664</td>
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">0.8163</td>
+<td style="text-align: right;">0.8197</td>
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">0.8632</td>
+<td style="text-align: right;">0.9027</td>
 <td style="text-align: right;">2</td>
 <td style="text-align: right;">0.5050</td>
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">0.8874</td>
+<td style="text-align: right;">0.8862</td>
 <td style="text-align: right;">5</td>
 </tr>
 <tr>
 <td>coil_3x9_18</td>
-<td style="text-align: right;">13</td>
-<td style="text-align: right;">0.0722</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">0.0743</td>
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">0.2183</td>
+<td style="text-align: right;">0.2246</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: right;">0.4559</td>
+<td style="text-align: right;">0.4580</td>
 <td style="text-align: right;">6</td>
-<td style="text-align: right;">0.6065</td>
+<td style="text-align: right;">0.6068</td>
 <td style="text-align: right;">6</td>
-<td style="text-align: right;">0.6887</td>
+<td style="text-align: right;">0.6889</td>
 <td style="text-align: right;">6</td>
 <td style="text-align: right;">0.3400</td>
 <td style="text-align: right;">5</td>
 <td style="text-align: right;">0.5050</td>
 <td style="text-align: right;">6</td>
-<td style="text-align: right;">0.8068</td>
+<td style="text-align: right;">0.8040</td>
 <td style="text-align: right;">6</td>
 </tr>
 <tr>
 <td>coil_4x8_18</td>
-<td style="text-align: right;">13</td>
-<td style="text-align: right;">0.0707</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">0.0727</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: right;">0.2005</td>
+<td style="text-align: right;">0.2079</td>
 <td style="text-align: right;">4</td>
-<td style="text-align: right;">0.4211</td>
+<td style="text-align: right;">0.4288</td>
 <td style="text-align: right;">7</td>
-<td style="text-align: right;">0.5712</td>
+<td style="text-align: right;">0.5789</td>
 <td style="text-align: right;">7</td>
-<td style="text-align: right;">0.6545</td>
+<td style="text-align: right;">0.6619</td>
 <td style="text-align: right;">7</td>
 <td style="text-align: right;">0.1567</td>
 <td style="text-align: right;">7</td>
 <td style="text-align: right;">0.5050</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">0.7749</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.7814</td>
 <td style="text-align: right;">7</td>
 </tr>
 <tr>
 <td>coil_3x8_20</td>
-<td style="text-align: right;">15</td>
-<td style="text-align: right;">0.0680</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">0.0699</td>
 <td style="text-align: right;">4</td>
-<td style="text-align: right;">0.1940</td>
+<td style="text-align: right;">0.1999</td>
 <td style="text-align: right;">5</td>
-<td style="text-align: right;">0.4080</td>
+<td style="text-align: right;">0.4121</td>
 <td style="text-align: right;">8</td>
-<td style="text-align: right;">0.5562</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">0.6469</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">0.4246</td>
+<td style="text-align: right;">0.5584</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0.6480</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0.4337</td>
 <td style="text-align: right;">4</td>
 <td style="text-align: right;">0.5050</td>
 <td style="text-align: right;">5</td>
-<td style="text-align: right;">0.7582</td>
+<td style="text-align: right;">0.7568</td>
 <td style="text-align: right;">9</td>
 </tr>
 <tr>
 <td>coil_5x7_18</td>
-<td style="text-align: right;">13</td>
-<td style="text-align: right;">0.0652</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">0.0670</td>
 <td style="text-align: right;">5</td>
-<td style="text-align: right;">0.1789</td>
+<td style="text-align: right;">0.1858</td>
 <td style="text-align: right;">6</td>
-<td style="text-align: right;">0.3994</td>
+<td style="text-align: right;">0.4080</td>
 <td style="text-align: right;">9</td>
-<td style="text-align: right;">0.5550</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">0.6419</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">0.0714</td>
+<td style="text-align: right;">0.5633</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">0.6495</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">0.0769</td>
 <td style="text-align: right;">9</td>
 <td style="text-align: right;">0.5050</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">0.7712</td>
-<td style="text-align: right;">8</td>
-</tr>
-<tr>
-<td>coil_4x9_18</td>
-<td style="text-align: right;">13</td>
-<td style="text-align: right;">0.0470</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">0.1739</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">0.4687</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">0.6527</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">0.7447</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">0.0714</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">0.5050</td>
 <td style="text-align: right;">9</td>
-<td style="text-align: right;">0.9090</td>
-<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.7777</td>
+<td style="text-align: right;">8</td>
 </tr>
 <tr>
 <td>coil_3x4_68</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0.0306</td>
+<td style="text-align: right;">0.0312</td>
 <td style="text-align: right;">9</td>
-<td style="text-align: right;">0.1681</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">0.5278</td>
+<td style="text-align: right;">0.1833</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.5409</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: right;">0.6961</td>
+<td style="text-align: right;">0.6989</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: right;">0.7744</td>
+<td style="text-align: right;">0.7748</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: right;">0.6903</td>
+<td style="text-align: right;">0.6861</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">0.5050</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: right;">0.9181</td>
+<td style="text-align: right;">0.9030</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td>coil_4x9_18</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">0.0479</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.1795</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">0.4733</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.6557</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.7471</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.0769</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">0.5050</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">0.9084</td>
 <td style="text-align: right;">3</td>
+</tr>
+<tr>
+<td>coil_4x7_20</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">0.0453</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">0.1313</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0.3037</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">0.4437</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">0.5368</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">0.0667</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">0.5034</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">0.6484</td>
+<td style="text-align: right;">10</td>
 </tr>
 <tr>
 <td>coil_3x4_79</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.0251</td>
 <td style="text-align: right;">10</td>
-<td style="text-align: right;">0.1280</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">0.4826</td>
+<td style="text-align: right;">0.1300</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">0.4854</td>
 <td style="text-align: right;">4</td>
-<td style="text-align: right;">0.6707</td>
+<td style="text-align: right;">0.6715</td>
 <td style="text-align: right;">4</td>
-<td style="text-align: right;">0.7603</td>
+<td style="text-align: right;">0.7605</td>
 <td style="text-align: right;">4</td>
-<td style="text-align: right;">0.1729</td>
+<td style="text-align: right;">0.1905</td>
 <td style="text-align: right;">6</td>
 <td style="text-align: right;">0.5050</td>
 <td style="text-align: right;">4</td>
-<td style="text-align: right;">0.9322</td>
+<td style="text-align: right;">0.9289</td>
 <td style="text-align: right;">2</td>
-</tr>
-<tr>
-<td>coil_4x7_20</td>
-<td style="text-align: right;">15</td>
-<td style="text-align: right;">0.0445</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">0.1272</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">0.2983</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">0.4385</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">0.5320</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">0.0625</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">0.5050</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">0.6447</td>
-<td style="text-align: right;">10</td>
 </tr>
 </tbody>
 </table>
@@ -446,7 +446,7 @@ node tools/score.js --solid      # and only those at least 3 blocks thick</code>
 <td><code>coil_3x4_68</code></td>
 <td>pieces/block = 0.010</td>
 <td style="text-align: right;">#9</td>
-<td style="text-align: right;">#3</td>
+<td style="text-align: right;">#4</td>
 </tr>
 <tr>
 <td><code>coil_3x8_20</code></td>
@@ -466,7 +466,7 @@ node tools/score.js --solid      # and only those at least 3 blocks thick</code>
 <p>A tempting variant is to rank, cut the bottom half, and re-rank the survivors. Do not.</p>
 <ul>
 <li><strong>harmonic, min-max (what SCORING.md uses)</strong> — survivors reordered 5/5, 2/3, 2/2 over the rounds (9 moves in total)</li>
-<li><strong>geometric, min-max</strong> — survivors reordered 2/5, 0/3, 0/2 over the rounds (2 moves in total)</li>
+<li><strong>geometric, min-max</strong> — survivors reordered 4/5, 0/3, 0/2 over the rounds (4 moves in total)</li>
 <li><strong>geometric, pure ratio-to-best</strong> — survivors reordered 0/5, 0/3, 0/2 over the rounds (0 moves in total)</li>
 </ul>
 <p>The first two reorder coils that did not change, purely because other coils left the set. <code>coil_4x8_18</code> places 3rd of 10 and 1st of the surviving 9; <code>coil_3x3_54_2</code> places 1st and then 4th. Nothing about either was measured again.</p>

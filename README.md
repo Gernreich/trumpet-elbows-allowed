@@ -284,10 +284,11 @@ from that walk:
 | `4x4-50` | calmest bore, 20.40 turns/m (tied) |
 | `5x5-50` | least tube per turn, 15.1 blocks |
 
-These figures are each coil's own full walk, as its `why.txt` measures it. The
-search compares coils trimmed to a common length instead, so its numbers for the
-same coil differ: `4x4-50` is 20.40 turns/m here over 193 blocks, and 20.83
-where the search compares the others against it.
+These are the wins as judged in 2026-09, on each coil's full walk. On 2026-10-14
+every coil walk here and in the search was cut back to end on its last north term,
+so the bell faces forward, and each `why.txt` now measures the walk as cut back; the
+names keep the old axis length. The search compares coils trimmed to a common length
+instead, so its numbers for the same coil differ again.
 
 **It was seven of seventeen until 2026-09-15.** `3x3-51`, `3x7-22` and `5x8-18`
 were the three that touch themselves, and trumpet-elbows-not-allowed went non-contact that day, so

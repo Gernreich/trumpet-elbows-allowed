@@ -1,5 +1,5 @@
-N3 D2 N3 E2 N3 U2 S3 W2 N3 D2 N3 E2 N3 U2 S3 W2 N3 D2 N3 E2 N3 U2 S3 W2 N3 D2 N3 E2 N3 U2 S3 W2 N3 D2 N3 E2 N3 U2 S3 W2 N3 D2 N3 E2 N3 U2 S3 W2 N3 D2 N3 E2 N3 U2 S3 W2 N3 D2 N3 E2 N3 U2 S3 W2 N3 D2 N3 E2 N3 U2 S3 W2
-181 blocks, 36 sections
+N3 D2 N3 E2 N3 U2 S3 W2 N3 D2 N3 E2 N3 U2 S3 W2 N3 D2 N3 E2 N3 U2 S3 W2 N3 D2 N3 E2 N3 U2 S3 W2 N3 D2 N3 E2 N3 U2 S3 W2 N3 D2 N3 E2 N3 U2 S3 W2 N3 D2 N3 E2 N3 U2 S3 W2 N3 D2 N3 E2 N3 U2 S3 W2 N3 D2 N3 E2 N3
+174 blocks, 34 sections
 
 check                                   result
   part count                            pass
@@ -18,4 +18,4 @@ check                                   result
   bore volume matches the walk          pass
   every side of the seam has a mate     pass
 
-1214 checks, 0 failed
+1152 checks, 0 failed

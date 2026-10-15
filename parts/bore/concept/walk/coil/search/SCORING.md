@@ -40,7 +40,7 @@ Override the weight with `SPIRAL_TOUCH_WEIGHT=8 node tools/score.js`.
 Weighting touching at 5 does not stop a coil with contact from beating a clean one.
 Under the harmonic mean the first coil *with* touching places **2nd**, above **3** coils
 that have none — because each of those has some other metric sitting on the 0.01 floor,
-and the harmonic mean punishes that harder than it punishes 13 contacts.
+and the harmonic mean punishes that harder than it punishes 12 contacts.
 
 If no touching walls is a *requirement* rather than a preference, filter:
 
@@ -111,16 +111,16 @@ bad metric is allowed to sink it.
 
 | spiral | touch | harmonic | # | geometric | # | arithmetic | # | quadratic | # | cubic | # | median | # | midrange | # | contraharmonic | # |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| coil_3x3_54_2 | 0 | 0.1007 | 1 | 0.5310 | 1 | 0.7978 | 1 | 0.8661 | 1 | 0.8945 | 1 | 1.0000 | 1 | 0.5050 | 1 | 0.9402 | 1 |
-| coil_3x3_59 | 0 | 0.0582 | 6 | 0.3478 | 2 | 0.6548 | 2 | 0.7623 | 2 | 0.8163 | 2 | 0.8632 | 2 | 0.5050 | 2 | 0.8874 | 5 |
-| coil_3x9_18 | 13 | 0.0722 | 2 | 0.2183 | 3 | 0.4559 | 6 | 0.6065 | 6 | 0.6887 | 6 | 0.3400 | 5 | 0.5050 | 6 | 0.8068 | 6 |
-| coil_4x8_18 | 13 | 0.0707 | 3 | 0.2005 | 4 | 0.4211 | 7 | 0.5712 | 7 | 0.6545 | 7 | 0.1567 | 7 | 0.5050 | 8 | 0.7749 | 7 |
-| coil_3x8_20 | 15 | 0.0680 | 4 | 0.1940 | 5 | 0.4080 | 8 | 0.5562 | 8 | 0.6469 | 8 | 0.4246 | 4 | 0.5050 | 5 | 0.7582 | 9 |
-| coil_5x7_18 | 13 | 0.0652 | 5 | 0.1789 | 6 | 0.3994 | 9 | 0.5550 | 9 | 0.6419 | 9 | 0.0714 | 9 | 0.5050 | 10 | 0.7712 | 8 |
-| coil_4x9_18 | 13 | 0.0470 | 7 | 0.1739 | 7 | 0.4687 | 5 | 0.6527 | 5 | 0.7447 | 5 | 0.0714 | 8 | 0.5050 | 9 | 0.9090 | 4 |
-| coil_3x4_68 | 0 | 0.0306 | 9 | 0.1681 | 8 | 0.5278 | 3 | 0.6961 | 3 | 0.7744 | 3 | 0.6903 | 3 | 0.5050 | 3 | 0.9181 | 3 |
-| coil_3x4_79 | 0 | 0.0251 | 10 | 0.1280 | 9 | 0.4826 | 4 | 0.6707 | 4 | 0.7603 | 4 | 0.1729 | 6 | 0.5050 | 4 | 0.9322 | 2 |
-| coil_4x7_20 | 15 | 0.0445 | 8 | 0.1272 | 10 | 0.2983 | 10 | 0.4385 | 10 | 0.5320 | 10 | 0.0625 | 10 | 0.5050 | 7 | 0.6447 | 10 |
+| coil_3x3_54_2 | 0 | 0.1102 | 1 | 0.5756 | 1 | 0.8067 | 1 | 0.8683 | 1 | 0.8962 | 1 | 1.0000 | 1 | 0.5050 | 1 | 0.9346 | 1 |
+| coil_3x3_59 | 0 | 0.0593 | 6 | 0.3633 | 2 | 0.6627 | 2 | 0.7664 | 2 | 0.8197 | 2 | 0.9027 | 2 | 0.5050 | 2 | 0.8862 | 5 |
+| coil_3x9_18 | 12 | 0.0743 | 2 | 0.2246 | 3 | 0.4580 | 6 | 0.6068 | 6 | 0.6889 | 6 | 0.3400 | 5 | 0.5050 | 6 | 0.8040 | 6 |
+| coil_4x8_18 | 12 | 0.0727 | 3 | 0.2079 | 4 | 0.4288 | 7 | 0.5789 | 7 | 0.6619 | 7 | 0.1567 | 7 | 0.5050 | 7 | 0.7814 | 7 |
+| coil_3x8_20 | 14 | 0.0699 | 4 | 0.1999 | 5 | 0.4121 | 8 | 0.5584 | 9 | 0.6480 | 9 | 0.4337 | 4 | 0.5050 | 5 | 0.7568 | 9 |
+| coil_5x7_18 | 12 | 0.0670 | 5 | 0.1858 | 6 | 0.4080 | 9 | 0.5633 | 8 | 0.6495 | 8 | 0.0769 | 9 | 0.5050 | 9 | 0.7777 | 8 |
+| coil_3x4_68 | 0 | 0.0312 | 9 | 0.1833 | 7 | 0.5409 | 3 | 0.6989 | 3 | 0.7748 | 3 | 0.6861 | 3 | 0.5050 | 3 | 0.9030 | 4 |
+| coil_4x9_18 | 12 | 0.0479 | 7 | 0.1795 | 8 | 0.4733 | 5 | 0.6557 | 5 | 0.7471 | 5 | 0.0769 | 8 | 0.5050 | 8 | 0.9084 | 3 |
+| coil_4x7_20 | 14 | 0.0453 | 8 | 0.1313 | 9 | 0.3037 | 10 | 0.4437 | 10 | 0.5368 | 10 | 0.0667 | 10 | 0.5034 | 10 | 0.6484 | 10 |
+| coil_3x4_79 | 0 | 0.0251 | 10 | 0.1300 | 10 | 0.4854 | 4 | 0.6715 | 4 | 0.7605 | 4 | 0.1905 | 6 | 0.5050 | 4 | 0.9289 | 2 |
 
 **The median does not survive the weighting.** It is an order statistic, and weight is
 applied by repetition, so touching occupies 5 of the 13 values and can simply *be*
@@ -135,7 +135,7 @@ and **10** under another — a swing of 8 places in a field of 10. coil_3x4_68 s
 | spiral | worst single input | harmonic | contraharmonic |
 | --- | --- | ---: | ---: |
 | `coil_3x4_79` | box/block = 0.010 | #10 | #2 |
-| `coil_3x4_68` | pieces/block = 0.010 | #9 | #3 |
+| `coil_3x4_68` | pieces/block = 0.010 | #9 | #4 |
 | `coil_3x8_20` | distinct = 0.010 | #4 | #9 |
 
 `coil_3x4_79` is the clearest case: one input on the floor and another at the ceiling.
@@ -166,7 +166,7 @@ is the choice that declines to say.
 A tempting variant is to rank, cut the bottom half, and re-rank the survivors. Do not.
 
 * **harmonic, min-max (what SCORING.md uses)** — survivors reordered 5/5, 2/3, 2/2 over the rounds (9 moves in total)
-* **geometric, min-max** — survivors reordered 2/5, 0/3, 0/2 over the rounds (2 moves in total)
+* **geometric, min-max** — survivors reordered 4/5, 0/3, 0/2 over the rounds (4 moves in total)
 * **geometric, pure ratio-to-best** — survivors reordered 0/5, 0/3, 0/2 over the rounds (0 moves in total)
 
 The first two reorder coils that did not change, purely because other coils left the

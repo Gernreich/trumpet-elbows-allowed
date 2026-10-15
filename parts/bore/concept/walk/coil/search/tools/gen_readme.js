@@ -118,6 +118,9 @@ const pcs   = best(r => r.p.innerPieces);
 const dist  = best(r => r.p.interiorDistinct);
 const calm  = best(r => r.m.turnsPerMetre);
 const clean = rows.filter(r => r.m.touching === 0).sort((a,b) => a.m.vol - b.m.vol)[0];
+// the smallest box among the coils that do pass themselves, for when the
+// smallest box overall is clean
+const touchBox = rows.filter(r => r.m.touching > 0).sort((a,b) => a.m.vol - b.m.vol)[0];
 const plateBest = rows.slice().sort((a,b) => b.p.meanPlate - a.p.meanPlate)[0];
 // picked from the data, not named: standardising renamed every coil
 const fewestShapes = rows.slice().sort((a,b) => a.p.interiorDistinct - b.p.interiorDistinct)[0];
@@ -233,6 +236,13 @@ as a single-block piece of its own — and every one passes the full gate.
 
 The one this started from is ${L(yours)}${inSet ? '' : ', which won a category and\nlives in a directory of its own'}; the ${inSet ? `other ${rows.length - 1}` : word(rows.length)} came out of an
 exhaustive search for something tighter.
+
+**Every walk ends on a north term**, so the bell faces forward, the way the mouthpiece
+enters. On 2026-10-14 each was cut back from its end to its last north term rather
+than extended — one to three terms, 1 to 11 blocks — and everything below is measured
+from the walks as cut back. The names were kept: the number after the cross-section
+(54 in \`coil_3x3_54_2\`) is the axis length **before** the cut, one block more than
+the axis now.
 
 <!-- readme-only -->
 **[Read it as a page](https://gernreich.github.io/trumpet-elbows-allowed/)** — the trumpet writeup.
@@ -384,10 +394,17 @@ Because a shared wall shows in the finished instrument, it is the heaviest input
 scoring and is penalized convexly — 1/(1+t), so no contact scores 1.000 and eight
 contacts 0.111. \`node tools/score.js --clean\` ranks only the coils that have none.
 
-It is also the one packing number that is *not* implied by the box. ${L(box)} has the
+It is also the one packing number that is *not* implied by the box. ${box.m.touching
+  // Since 2026-10-14, when every walk was cut back to end on a north term, the
+  // smallest box has no shared wall, and the old sentence compared a coil with
+  // itself ("0% larger"). Say which case holds rather than assume one.
+  ? `${L(box)} has the
 smallest box in the set and ${box.m.touching} shared walls; ${L(clean)} is
 ${((clean.m.vol/box.m.vol - 1) * 100).toFixed(0)}% larger and has **none**. If a shared wall
-is something to avoid, the smallest box is not the one to build.
+is something to avoid, the smallest box is not the one to build.`
+  : `Here the two agree: ${L(box)} has the smallest box in the set and
+**no** shared wall. They need not: ${L(touchBox)} is only
+${((touchBox.m.vol/box.m.vol - 1) * 100).toFixed(0)}% larger and has ${touchBox.m.touching} shared walls.`}
 
 ## Rotation
 
