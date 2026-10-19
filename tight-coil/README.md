@@ -194,8 +194,9 @@ cuts** — blue writes the section number on every part, black frees it.
 
 **All 33 fit on one bed.**
 `../parts/bore/concept/walk/coil/tight/bore/bore10-coil-tight-sheet1of1.svg` is
-the whole xTool P2S bed, 600 × 308mm, with every section file placed on it whole
-and unchanged, 4mm apart and 4mm from the edge. A section's parts stay
+the whole xTool P2S bed, 600 × 305mm, with every section file placed on it whole
+and unchanged, 4mm apart and 4mm from the edge, except the bottom row, which
+ends 2.8mm from it. A section's parts stay
 together, so the numbers still find their neighbours. Cut it in place of the 33
 files, or cut the 33 one at a time — they are the same paths.
 
@@ -218,8 +219,14 @@ cd tools && ~/Software/boxes/venv/bin/python bore_split.py walks/tight_coil.txt 
 
 The bed sheet is drawn from those files, so it comes after them. `bed_sheets.py`
 packs each section whole and searches packing orders from a fixed seed, so the
-same command writes the same sheet; it re-reads what it wrote and exits 1 if a
-section is missing, moved off the bed, closer than 4mm to another, or changed:
+same command writes the same sheets; it re-reads what it wrote and exits 1 if a
+section is missing, moved off the bed, closer than 4mm to another, or changed.
+
+**It no longer writes the one sheet shipped here.** That sheet was packed for a
+308mm bed, and the bed turned out to be 305mm (cut-tested, 2026-10-19). Its
+parts end at 302.2mm, so it was kept and only its canvas trimmed. Packed for
+305mm with 4mm at every edge, the same command writes two sheets, 28 sections
+and 5, and no seed tried did better:
 
 ```
 python3 tools/bed_sheets.py parts/bore/concept/walk/coil/tight/bore/cut-files \

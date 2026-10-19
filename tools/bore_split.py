@@ -160,7 +160,7 @@ if _drifted:
           + ''.join(f'\n  {x}' for x in _drifted)
           + f'\n  The INSTALLED copy, under {BOXES}, is what draws every sheet.'
             '\n  Copy them over before trusting one.', file=sys.stderr)
-BED_W, BED_H = 600.0, 308.0   # xTool P2S work area, mm
+BED_W, BED_H = 600.0, 305.0   # xTool P2S work area, mm (cut-tested 2026-10-19)
 BLOCK, PIN = 16.0, 1.5              # block pitch, tab reach
 # KERF is the full width the laser takes out, MEASURED 2026-09-09. BURN is what
 # Boxes.py calls it, and Boxes means the RADIUS: it offsets each side of a line

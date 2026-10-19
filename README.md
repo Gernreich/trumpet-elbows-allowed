@@ -147,7 +147,7 @@ in **[swept-curve](https://gernreich.github.io/swept-curve/)**.
 
 ## Cutting
 
-Everything is **3mm birch ply on an xTool P2S**, 600 × 308mm of bed.
+Everything is **3mm birch ply on an xTool P2S**, 600 × 305mm of bed.
 
 **Colour is the cut order**: blue engraves, then green → orange → cyan → black,
 and black frees the part. On a bore section blue engraves the section number and
