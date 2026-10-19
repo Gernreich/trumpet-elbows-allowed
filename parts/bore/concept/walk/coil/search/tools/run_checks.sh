@@ -26,10 +26,18 @@ if [ ! -x "$PY" ]; then
   exit 1
 fi
 mkdir -p $R/checks
+# Every walk's check.py at once, then the summary in walk order. Each run reads
+# its own walk and writes only its own transcript, so they need not wait: one
+# after another they were 130 of all-gates.sh's 708 seconds. `wait` holds the
+# summary until every transcript is complete.
 for f in $R/walks/*.txt; do
   n=$(basename "$f" .txt)
-  out=$("$PY" check.py "$(cat "$f")" 2>&1)
-  echo "$out" > "$R/checks/$n.txt"
+  ( out=$("$PY" check.py "$(cat "$f")" 2>&1); echo "$out" > "$R/checks/$n.txt" ) &
+done
+wait
+for f in $R/walks/*.txt; do
+  n=$(basename "$f" .txt)
+  out=$(cat "$R/checks/$n.txt")
   line=$(echo "$out" | grep -E "[0-9]+ checks, [0-9]+ failed" | tail -1)
   fails=$(echo "$out" | grep -cE "^  .*(fail|FAIL)" || true)
   printf "%-18s %s   (failing rows: %s)\n" "$n" "${line:-NO SUMMARY}" "$fails"

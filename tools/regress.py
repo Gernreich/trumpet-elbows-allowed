@@ -22,6 +22,7 @@ import json
 import os
 import re
 import subprocess
+from concurrent.futures import ThreadPoolExecutor
 import sys
 
 # (name, walk or walks/*.txt, folder of cut files or None[, block pitch mm])
@@ -263,10 +264,37 @@ def check_page(here, folder, text, switches):
     return None
 
 
+def _start_all(here, pattern):
+    """Every design's check.py run, started at once in a thread pool.
+
+    Each run is its own process, writes nothing and reads only its own
+    sheets, so they need not wait for one another: run one after another they
+    were 143 of all-gates.sh's 708 seconds. Results come back keyed by the
+    design's place in DESIGNS, and main() still reports them in that order,
+    so the output reads exactly as it did run serially."""
+    def one(args):
+        return subprocess.run(args, cwd=here, capture_output=True, text=True)
+    jobs = {}
+    pool = ThreadPoolExecutor(max_workers=os.cpu_count() or 4)
+    for i, entry in enumerate(DESIGNS):
+        name, walk, folder, switches = _norm(entry)
+        if pattern and pattern.lower() not in name.lower():
+            continue
+        if folder and not os.path.isdir(os.path.join(here, folder, 'cut-files')):
+            continue                    # main() reports it; nothing to run
+        args = [sys.executable, 'check.py', walk_of(walk, here)] + switches
+        if folder:
+            args += ['--files', os.path.join(folder, 'cut-files')]
+        jobs[i] = pool.submit(one, args)
+    pool.shutdown(wait=False)
+    return jobs
+
+
 def main(pattern=None):
     here = os.path.dirname(os.path.abspath(__file__))
     bad = ran = 0
-    for entry in DESIGNS:
+    jobs = _start_all(here, pattern)
+    for i, entry in enumerate(DESIGNS):
         name, walk, folder, switches = _norm(entry)
         if pattern and pattern.lower() not in name.lower():
             continue
@@ -299,7 +327,8 @@ def main(pattern=None):
                 bad += 1
                 continue
             args += ['--files', sheets]
-        r = subprocess.run(args, cwd=here, capture_output=True, text=True)
+        r = jobs[i].result()
+        assert r.args == args, f'{name}: ran {r.args!r}, not {args!r}'
         last = (r.stdout.strip().splitlines() or ['no output'])[-1]
         page = check_page(here, folder, text, switches) if folder else None
         ok = r.returncode == 0 and '0 failed' in last and page is None

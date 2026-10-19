@@ -29,6 +29,7 @@ and compared. Each one is redrawn into a MIRROR of its own path under a temp
 root. Redrawing into $TMP directly names every sheet after the temp directory.
 """
 import filecmp, hashlib, os, subprocess, sys, tempfile
+from concurrent.futures import ThreadPoolExecutor
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -83,13 +84,25 @@ def read_pins():
 _said = set()
 
 
-def draw(name, walk, dest, switches):
-    """Redraw one design into dest. Returns its cut-files/ or None."""
+# Redraws started ahead of the loop in main(), keyed by their dest. Each
+# bore_split.py run writes only into its own dest, so all of them can run at
+# once; serially they were 86 of all-gates.sh's 708 seconds. draw() takes the
+# finished run from here and reports it in DESIGNS order, as before.
+_RUNS = {}
+
+
+def _redraw(dest, walk, switches):
     os.makedirs(dest, exist_ok=True)
     text = walk_of(walk, HERE)
-    r = subprocess.run([PY_, 'bore_split.py', '--write', dest]
-                       + text.split() + switches,
-                       cwd=HERE, capture_output=True, text=True)
+    return subprocess.run([PY_, 'bore_split.py', '--write', dest]
+                          + text.split() + switches,
+                          cwd=HERE, capture_output=True, text=True)
+
+
+def draw(name, walk, dest, switches):
+    """Redraw one design into dest. Returns its cut-files/ or None."""
+    run = _RUNS.pop(dest, None)
+    r = run.result() if run else _redraw(dest, walk, switches)
     out = os.path.join(dest, 'cut-files')
     if r.returncode != 0 or not os.path.isdir(out):
         last = ((r.stdout + r.stderr).strip().splitlines() or ['no output'])[-1]
@@ -124,6 +137,13 @@ def main(update=False):
     # all-gates.sh had to grow a guard for.
     honoured = set()
     with tempfile.TemporaryDirectory() as T:
+        pool = ThreadPoolExecutor(max_workers=os.cpu_count() or 4)
+        for entry in DESIGNS:
+            name, walk, folder, switches = _norm(entry)
+            if (folder and rel_of(folder) not in AS_BUILT
+                    and os.path.isdir(os.path.join(HERE, folder, 'cut-files'))):
+                dest = os.path.join(T, rel_of(folder))
+                _RUNS[dest] = pool.submit(_redraw, dest, walk, switches)
         for entry in DESIGNS:
             name, walk, folder, switches = _norm(entry)
             if not folder:

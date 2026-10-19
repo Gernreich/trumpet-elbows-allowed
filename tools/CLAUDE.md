@@ -111,7 +111,7 @@ snakeboxvar  is a Boxes.py generator, driven by subprocess, not imported
 
 ## Before pushing
 
-**`regress.py` must pass before anything is pushed** (about four minutes, Boxes.py
+**`regress.py` must pass before anything is pushed** (under a minute on ten cores, Boxes.py
 venv). A change that alters cut geometry and still passes has been proved *not
 obviously wrong*, not right: say which. [Never regenerate what you cannot check]
 
