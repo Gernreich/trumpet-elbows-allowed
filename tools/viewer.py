@@ -243,7 +243,7 @@ input[type="range"]::-moz-range-thumb {
 <div class="rail" id="legend">
   <div class="label" id="legend-label">Direction of travel</div>
   <div id="keys"></div>
-  <div class="hint">Drag to turn &middot; scroll to zoom &middot; right-drag to pan</div>
+  <div class="hint">Drag to turn &middot; right-drag or shift-drag to pan &middot; scroll or pinch to zoom &middot; double-click a block to turn round it</div>
 </div>
 
 <script>
@@ -268,6 +268,7 @@ const CORN = [
 ];
 
 let yaw = 0.62, pitch = 0.72, zoom = 1, panX = 0, panY = 0;
+let pivot = null, drawn = [], lastP = null;   /* the point turned round, once a part is picked; what was drawn, for picking */
 let mode = 'dir', reveal = D.cells.length, isolate = null, spinning = false;
 
 /* A cell is a box in mm, c.a to c.b. Blocks differ in length, so a face is
@@ -415,8 +416,10 @@ function draw() {
   const M = 56;
   const S = Math.min((w - M) / Math.max(rx1 - rx0, 0.001),
                      (h - M) / Math.max(ry1 - ry0, 0.001)) * zoom;
-  const ox = w / 2 - (px0 + px1) / 2 * S + panX;
-  const oy = h / 2 + (py0 + py1) / 2 * S + panY;
+  /* the middle: the shape's own, or the part picked to turn round */
+  const [mx, my] = pivot ? rot(pivot) : [(px0 + px1) / 2, (py0 + py1) / 2];
+  const ox = w / 2 - mx * S + panX;
+  const oy = h / 2 + my * S + panY;
   const P = (p) => { const r = rot(p); return [ox + r[0] * S, oy - r[1] * S, r[2]]; };
 
   const list = [];
@@ -443,10 +446,11 @@ function draw() {
       let rn = rot([n[0] + centre.c[0], n[1] + centre.c[1], n[2] + centre.c[2]]);
       if (rn[2] < 0) rn = rn.map(x => -x);
       const pts = w.map(P);
-      list.push({ pts, z: pts.reduce((a, p) => a + p[2], 0) / 4, end: e, rn, k: q[4] });
+      list.push({ pts, z: pts.reduce((a, p) => a + p[2], 0) / 4, end: e, rn, k: q[4], c3: w });
     }
   }
   list.sort((a, b) => a.z - b.z);
+  drawn = list; lastP = P;
 
   const secCol = D.sections.map(s => s.col);
   for (const it of list) {
@@ -493,32 +497,67 @@ function draw() {
 }
 
 /* ---- pointer ---- */
-let drag = null;
+/* turn, pan, zoom: drag turns; right-drag, shift-drag or two fingers pan;
+   scroll or pinch zooms about the pointer; double-click a part to turn round it */
+const pts = new Map(); let drag = null, pinch = null;
+const at = e => { const b = cv.getBoundingClientRect(); return [e.clientX - b.left, e.clientY - b.top]; };
+const two = () => { const [a, b] = [...pts.values()];
+  return { h: Math.hypot(a[0] - b[0], a[1] - b[1]), x: (a[0] + b[0]) / 2, y: (a[1] + b[1]) / 2 }; };
+function zoomBy(f, x, y) {   /* about canvas point (x, y), which stays where it is */
+  const z0 = zoom; zoom = Math.max(0.25, Math.min(6, zoom * f));
+  const u = x - cv.clientWidth / 2, v = y - cv.clientHeight / 2, k = zoom / z0;
+  panX = u - (u - panX) * k; panY = v - (v - panY) * k;
+}
+const mid3 = it => it.end ? [0, 1, 2].map(i => it.c3.reduce((a, p) => a + p[i], 0) / 4)
+                  : [0, 1, 2].map(i => (it.q.cell.a[i] + it.q.cell.b[i]) / 2);
+function pick(x, y) {   /* the part drawn on top at (x, y) */
+  for (let i = drawn.length - 1; i >= 0; i--) {
+    const p = drawn[i].pts; let inside = false;
+    for (let j = 0, k = p.length - 1; j < p.length; k = j++)
+      if ((p[j][1] > y) !== (p[k][1] > y)
+          && x < (p[k][0] - p[j][0]) * (y - p[j][1]) / (p[k][1] - p[j][1]) + p[j][0]) inside = !inside;
+    if (inside) return mid3(drawn[i]);
+  }
+  return null;
+}
 cv.addEventListener('pointerdown', e => {
-  drag = { x: e.clientX, y: e.clientY, pan: e.button === 2 || e.shiftKey };
-  cv.setPointerCapture(e.pointerId);
-  cv.classList.add('dragging');
+  cv.setPointerCapture(e.pointerId); pts.set(e.pointerId, at(e)); cv.classList.add('dragging');
+  if (pts.size === 1) drag = { pan: e.button === 1 || e.button === 2 || e.shiftKey };
+  else { drag = null; pinch = two(); }
 });
 cv.addEventListener('pointermove', e => {
-  if (!drag) return;
-  const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
-  drag.x = e.clientX; drag.y = e.clientY;
-  if (drag.pan) { panX += dx; panY += dy; }
-  else {
-    yaw += dx * 0.008;
-    pitch = Math.max(-1.5, Math.min(1.5, pitch + dy * 0.008));
+  if (!pts.has(e.pointerId)) return;
+  const [x0, y0] = pts.get(e.pointerId), [x, y] = at(e); pts.set(e.pointerId, [x, y]);
+  if (pinch) {   /* two fingers: move together to pan, pinch to zoom */
+    const m = two(); panX += m.x - pinch.x; panY += m.y - pinch.y;
+    if (pinch.h && m.h) zoomBy(m.h / pinch.h, m.x, m.y); pinch = m;
+  } else if (drag && drag.pan) { panX += x - x0; panY += y - y0; }
+  else if (drag) {
+    yaw += (x - x0) * 0.008;
+    pitch = Math.max(-1.5, Math.min(1.5, pitch + (y - y0) * 0.008));
   }
   draw();
 });
-const stop = () => { drag = null; cv.classList.remove('dragging'); };
-cv.addEventListener('pointerup', stop);
-cv.addEventListener('pointercancel', stop);
+const lift = e => { pts.delete(e.pointerId); if (pts.size < 2) pinch = null;
+  if (!pts.size) { drag = null; cv.classList.remove('dragging'); } };
+cv.addEventListener('pointerup', lift);
+cv.addEventListener('pointercancel', lift);
 cv.addEventListener('contextmenu', e => e.preventDefault());
 cv.addEventListener('wheel', e => {
-  e.preventDefault();
-  zoom = Math.max(0.25, Math.min(6, zoom * Math.exp(-e.deltaY * 0.0016)));
-  draw();
+  e.preventDefault(); const [x, y] = at(e);
+  zoomBy(Math.exp(-e.deltaY * 0.0016), x, y); draw();
 }, { passive: false });
+cv.addEventListener('dblclick', e => {
+  const [x, y] = at(e), p = pick(x, y);
+  if (!p) {  return; }
+  /* p holds the middle from now on: start it where it is, then glide it in */
+  const s = lastP(p); pivot = p;
+  const x1 = panX = s[0] - cv.clientWidth / 2, y1 = panY = s[1] - cv.clientHeight / 2, t0 = performance.now();
+  const glide = t => { const k = Math.min(1, (t - t0) / 300), f = 1 - k * (2 - k);
+    panX = x1 * f; panY = y1 * f; draw(); if (k < 1) requestAnimationFrame(glide); };
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { panX = panY = 0; draw(); }
+  else requestAnimationFrame(glide);
+});
 
 /* ---- controls ---- */
 const $ = (id) => document.getElementById(id);
@@ -538,7 +577,7 @@ $('reveal').addEventListener('input', e => {
   draw();
 });
 $('reset').onclick = () => {
-  yaw = 0.62; pitch = 0.72; zoom = 1; panX = panY = 0;
+  yaw = 0.62; pitch = 0.72; zoom = 1; panX = panY = 0; pivot = null;
   reveal = D.cells.length; $('reveal').value = reveal;
   $('reveal-count').textContent = reveal + ' / ' + D.cells.length;
   isolate = null; buildKeys(); draw();

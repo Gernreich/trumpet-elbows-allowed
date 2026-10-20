@@ -204,13 +204,14 @@ dt{color:var(--dim)}dd{margin:0;text-align:right;font-variant-numeric:tabular-nu
       <div class="hint" id="revn"></div></div>
     <div class="grp"><h2>Key</h2><div id="key"></div></div>
     <div class="grp"><h2>Numbers</h2><dl id="nums"></dl></div>
-    <div class="hint">Drag to turn. Scroll to zoom. Double-click to reset.</div>
+    <div class="hint">Drag to turn. Right-drag, shift-drag or two fingers to pan. Scroll or pinch to zoom. Double-click a part to turn round it, or empty space to reset.</div>
   </aside>
 </main>
 <script>
 const D = __DATA__;
 const cv = document.getElementById('c'), cx = cv.getContext('2d');
 let yaw = -0.5, pitch = -0.62, zoom = 1, mode = 'face', reveal = D.rings;
+let panX = 0, panY = 0, pivot = null, drawn = [], lastP = null;   /* pan; the point turned round, once a part is picked; what was drawn, for picking */
 const C = (() => { let lo=[1e9,1e9,1e9], hi=[-1e9,-1e9,-1e9];
   for (const v of D.V) for (let i=0;i<3;i++){lo[i]=Math.min(lo[i],v[i]);hi[i]=Math.max(hi[i],v[i]);}
   return [(lo[0]+hi[0])/2,(lo[1]+hi[1])/2,(lo[2]+hi[2])/2]; })();
@@ -235,7 +236,8 @@ function draw(){
   cv.width=w*dpr; cv.height=h*dpr; cx.setTransform(dpr,0,0,dpr,0,0); cx.clearRect(0,0,w,h);
   const [sw,sh,mx,my]=span();
   const s=Math.min(w/(sw||1), h/(sh||1))*0.86*zoom;
-  const P=p=>{const r=rot(p); return [w/2+(r[0]-mx)*s, h/2-(r[1]-my)*s, r[2]];};
+  const [ax,ay]=pivot?rot(pivot):[mx,my];   /* the shape's middle, or the part picked to turn round */
+  const P=p=>{const r=rot(p); return [w/2+(r[0]-ax)*s+panX, h/2-(r[1]-ay)*s+panY, r[2]];};
   const items=[];
   for (const q of D.Q){
     if (q.s >= reveal) continue;
@@ -245,6 +247,7 @@ function draw(){
     items.push({q,pts,z:(pts[0][2]+pts[1][2]+pts[2][2]+pts[3][2])/4,front:area<0});
   }
   items.sort((a,b)=>a.z-b.z);
+  drawn=items; lastP=P;
   for (const it of items){
     const q=it.q;
     const col = mode==='face' ? D.facecol[q.f] : D.pal[q.s % D.pal.length];
@@ -255,18 +258,66 @@ function draw(){
     cx.closePath(); cx.fill();
   }
 }
-let drag=null;
-cv.addEventListener('pointerdown',e=>{drag=[e.clientX,e.clientY];
-  cv.classList.add('drag'); cv.setPointerCapture(e.pointerId);});
-cv.addEventListener('pointermove',e=>{ if(!drag) return;
-  yaw += (e.clientX-drag[0])*0.008;
-  pitch = Math.max(-1.55, Math.min(1.55, pitch + (e.clientY-drag[1])*0.008));
-  drag=[e.clientX,e.clientY]; draw();});
-for (const ev of ['pointerup','pointercancel'])
-  cv.addEventListener(ev,()=>{drag=null; cv.classList.remove('drag');});
-cv.addEventListener('wheel',e=>{e.preventDefault();
-  zoom=Math.max(0.35,Math.min(6,zoom*(e.deltaY<0?1.1:1/1.1))); draw();},{passive:false});
-cv.addEventListener('dblclick',()=>{yaw=-0.5;pitch=-0.62;zoom=1;draw();});
+/* turn, pan, zoom: drag turns; right-drag, shift-drag or two fingers pan;
+   scroll or pinch zooms about the pointer; double-click a part to turn round it */
+const pts = new Map(); let drag = null, pinch = null;
+const at = e => { const b = cv.getBoundingClientRect(); return [e.clientX - b.left, e.clientY - b.top]; };
+const two = () => { const [a, b] = [...pts.values()];
+  return { h: Math.hypot(a[0] - b[0], a[1] - b[1]), x: (a[0] + b[0]) / 2, y: (a[1] + b[1]) / 2 }; };
+function zoomBy(f, x, y) {   /* about canvas point (x, y), which stays where it is */
+  const z0 = zoom; zoom = Math.max(0.35, Math.min(6, zoom * f));
+  const u = x - cv.clientWidth / 2, v = y - cv.clientHeight / 2, k = zoom / z0;
+  panX = u - (u - panX) * k; panY = v - (v - panY) * k;
+}
+const mid3 = it => [0, 1, 2].map(i => it.q.v.reduce((a, j) => a + D.V[j][i], 0) / it.q.v.length);
+function pick(x, y) {   /* the part drawn on top at (x, y) */
+  for (let i = drawn.length - 1; i >= 0; i--) {
+    const p = drawn[i].pts; let inside = false;
+    for (let j = 0, k = p.length - 1; j < p.length; k = j++)
+      if ((p[j][1] > y) !== (p[k][1] > y)
+          && x < (p[k][0] - p[j][0]) * (y - p[j][1]) / (p[k][1] - p[j][1]) + p[j][0]) inside = !inside;
+    if (inside) return mid3(drawn[i]);
+  }
+  return null;
+}
+cv.addEventListener('pointerdown', e => {
+  cv.setPointerCapture(e.pointerId); pts.set(e.pointerId, at(e)); cv.classList.add('drag');
+  if (pts.size === 1) drag = { pan: e.button === 1 || e.button === 2 || e.shiftKey };
+  else { drag = null; pinch = two(); }
+});
+cv.addEventListener('pointermove', e => {
+  if (!pts.has(e.pointerId)) return;
+  const [x0, y0] = pts.get(e.pointerId), [x, y] = at(e); pts.set(e.pointerId, [x, y]);
+  if (pinch) {   /* two fingers: move together to pan, pinch to zoom */
+    const m = two(); panX += m.x - pinch.x; panY += m.y - pinch.y;
+    if (pinch.h && m.h) zoomBy(m.h / pinch.h, m.x, m.y); pinch = m;
+  } else if (drag && drag.pan) { panX += x - x0; panY += y - y0; }
+  else if (drag) {
+    yaw += (x - x0) * 0.008;
+    pitch = Math.max(-1.55, Math.min(1.55, pitch + (y - y0) * 0.008));
+  }
+  draw();
+});
+const lift = e => { pts.delete(e.pointerId); if (pts.size < 2) pinch = null;
+  if (!pts.size) { drag = null; cv.classList.remove('drag'); } };
+cv.addEventListener('pointerup', lift);
+cv.addEventListener('pointercancel', lift);
+cv.addEventListener('contextmenu', e => e.preventDefault());
+cv.addEventListener('wheel', e => {
+  e.preventDefault(); const [x, y] = at(e);
+  zoomBy((e.deltaY < 0 ? 1.1 : 1 / 1.1), x, y); draw();
+}, { passive: false });
+cv.addEventListener('dblclick', e => {
+  const [x, y] = at(e), p = pick(x, y);
+  if (!p) { yaw = -0.5; pitch = -0.62; zoom = 1; panX = panY = 0; pivot = null; draw(); return; }
+  /* p holds the middle from now on: start it where it is, then glide it in */
+  const s = lastP(p); pivot = p;
+  const x1 = panX = s[0] - cv.clientWidth / 2, y1 = panY = s[1] - cv.clientHeight / 2, t0 = performance.now();
+  const glide = t => { const k = Math.min(1, (t - t0) / 300), f = 1 - k * (2 - k);
+    panX = x1 * f; panY = y1 * f; draw(); if (k < 1) requestAnimationFrame(glide); };
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { panX = panY = 0; draw(); }
+  else requestAnimationFrame(glide);
+});
 const $=id=>document.getElementById(id);
 function setMode(m){mode=m; $('m-face').setAttribute('aria-pressed',m==='face');
   $('m-ring').setAttribute('aria-pressed',m==='ring'); key(); draw();}

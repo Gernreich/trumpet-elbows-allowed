@@ -229,7 +229,8 @@ ul.hits b { color: var(--fault); font-weight: 600; }
   </aside>
 </main>
 
-<p class="hint">Drag to turn · shift-drag or right-drag to pan · scroll to zoom ·
+<p class="hint">Drag to turn · shift-drag or right-drag to pan · scroll or pinch to zoom ·
+double-click a block to turn round it ·
 drag the step slider to watch the blocks go down in order.</p>
 </div>
 
@@ -249,6 +250,7 @@ const CORN = [
 ];
 
 let yaw = 0.62, pitch = 0.72, zoom = 1, panX = 0, panY = 0;
+let pivot = null, drawn = [], lastP = null;   /* the point turned round, once a part is picked; what was drawn, for picking */
 let step = D.placed, faultOnly = false;
 
 const key = (p) => p[0] + ',' + p[1] + ',' + p[2];
@@ -311,8 +313,10 @@ function draw() {
   const M = 56;
   const S = Math.min((w - M) / Math.max(px1 - px0, .001),
                      (h - M) / Math.max(py1 - py0, .001)) * zoom;
-  const ox = w / 2 - (px0 + px1) / 2 * S + panX;
-  const oy = h / 2 + (py0 + py1) / 2 * S + panY;
+  /* the middle: the shape's own, or the part picked to turn round */
+  const [mx, my] = pivot ? rot(pivot) : [(px0 + px1) / 2, (py0 + py1) / 2];
+  const ox = w / 2 - mx * S + panX;
+  const oy = h / 2 + my * S + panY;
   const P = (p) => { const r = rot(p); return [ox + r[0]*S, oy - r[1]*S, r[2]]; };
 
   const shown = shownCells();
@@ -329,6 +333,7 @@ function draw() {
     }
   }
   list.sort((a, b) => a.z - b.z);
+  drawn = list; lastP = P;
 
   for (const it of list) {
     ctx.beginPath();
@@ -354,28 +359,66 @@ function draw() {
 }
 
 /* ---- pointer ---- */
-let drag = null;
+/* turn, pan, zoom: drag turns; right-drag, shift-drag or two fingers pan;
+   scroll or pinch zooms about the pointer; double-click a part to turn round it */
+const pts = new Map(); let drag = null, pinch = null;
+const at = e => { const b = cv.getBoundingClientRect(); return [e.clientX - b.left, e.clientY - b.top]; };
+const two = () => { const [a, b] = [...pts.values()];
+  return { h: Math.hypot(a[0] - b[0], a[1] - b[1]), x: (a[0] + b[0]) / 2, y: (a[1] + b[1]) / 2 }; };
+function zoomBy(f, x, y) {   /* about canvas point (x, y), which stays where it is */
+  const z0 = zoom; zoom = Math.max(0.25, Math.min(6, zoom * f));
+  const u = x - cv.clientWidth / 2, v = y - cv.clientHeight / 2, k = zoom / z0;
+  panX = u - (u - panX) * k; panY = v - (v - panY) * k;
+}
+const mid3 = it => it.s.c.p.map(v => v + 0.5);
+function pick(x, y) {   /* the part drawn on top at (x, y) */
+  for (let i = drawn.length - 1; i >= 0; i--) {
+    const p = drawn[i].pts; let inside = false;
+    for (let j = 0, k = p.length - 1; j < p.length; k = j++)
+      if ((p[j][1] > y) !== (p[k][1] > y)
+          && x < (p[k][0] - p[j][0]) * (y - p[j][1]) / (p[k][1] - p[j][1]) + p[j][0]) inside = !inside;
+    if (inside) return mid3(drawn[i]);
+  }
+  return null;
+}
 cv.addEventListener('pointerdown', e => {
-  drag = { x: e.clientX, y: e.clientY, pan: e.button === 2 || e.shiftKey };
-  cv.setPointerCapture(e.pointerId); cv.classList.add('dragging');
+  cv.setPointerCapture(e.pointerId); pts.set(e.pointerId, at(e)); cv.classList.add('dragging');
+  if (pts.size === 1) drag = { pan: e.button === 1 || e.button === 2 || e.shiftKey };
+  else { drag = null; pinch = two(); }
 });
 cv.addEventListener('pointermove', e => {
-  if (!drag) return;
-  const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
-  drag.x = e.clientX; drag.y = e.clientY;
-  if (drag.pan) { panX += dx; panY += dy; }
-  else { yaw += dx * .008; pitch = Math.max(-1.5, Math.min(1.5, pitch + dy * .008)); }
+  if (!pts.has(e.pointerId)) return;
+  const [x0, y0] = pts.get(e.pointerId), [x, y] = at(e); pts.set(e.pointerId, [x, y]);
+  if (pinch) {   /* two fingers: move together to pan, pinch to zoom */
+    const m = two(); panX += m.x - pinch.x; panY += m.y - pinch.y;
+    if (pinch.h && m.h) zoomBy(m.h / pinch.h, m.x, m.y); pinch = m;
+  } else if (drag && drag.pan) { panX += x - x0; panY += y - y0; }
+  else if (drag) {
+    yaw += (x - x0) * 0.008;
+    pitch = Math.max(-1.5, Math.min(1.5, pitch + (y - y0) * 0.008));
+  }
   draw();
 });
-const stop = () => { drag = null; cv.classList.remove('dragging'); };
-cv.addEventListener('pointerup', stop);
-cv.addEventListener('pointercancel', stop);
+const lift = e => { pts.delete(e.pointerId); if (pts.size < 2) pinch = null;
+  if (!pts.size) { drag = null; cv.classList.remove('dragging'); } };
+cv.addEventListener('pointerup', lift);
+cv.addEventListener('pointercancel', lift);
 cv.addEventListener('contextmenu', e => e.preventDefault());
 cv.addEventListener('wheel', e => {
-  e.preventDefault();
-  zoom = Math.max(.25, Math.min(6, zoom * Math.exp(-e.deltaY * .0016)));
-  draw();
+  e.preventDefault(); const [x, y] = at(e);
+  zoomBy(Math.exp(-e.deltaY * 0.0016), x, y); draw();
 }, { passive: false });
+cv.addEventListener('dblclick', e => {
+  const [x, y] = at(e), p = pick(x, y);
+  if (!p) {  return; }
+  /* p holds the middle from now on: start it where it is, then glide it in */
+  const s = lastP(p); pivot = p;
+  const x1 = panX = s[0] - cv.clientWidth / 2, y1 = panY = s[1] - cv.clientHeight / 2, t0 = performance.now();
+  const glide = t => { const k = Math.min(1, (t - t0) / 300), f = 1 - k * (2 - k);
+    panX = x1 * f; panY = y1 * f; draw(); if (k < 1) requestAnimationFrame(glide); };
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { panX = panY = 0; draw(); }
+  else requestAnimationFrame(glide);
+});
 
 /* ---- controls ---- */
 const rev = $('rev');
