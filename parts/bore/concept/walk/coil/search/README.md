@@ -25,7 +25,7 @@ reading version lives.
 — every trumpet and every tool, not the walks alone; these pages are under `spirals/`.
 GitHub builds it from `main` on every push, so it is never out of date.
 
-**[The rest of the build files](https://gernreich.github.io/)** — every instrument,
+**[The rest of the build files](https://gernreich.github.io/lasermademusic.html)** — every instrument,
 generator and tool, indexed.
 
 Built for **[LaserMadeMusic](https://www.youtube.com/@LaserMadeMusic)**, where the cutting

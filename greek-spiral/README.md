@@ -173,7 +173,7 @@ and blown, rather than a candidate.
 **[The trumpet writeup](https://gernreich.github.io/trumpet-elbows-allowed/)** — the idea, the notation, the gate, and the whole
 library.
 
-**[The rest of the build files](https://gernreich.github.io/)** — every
+**[The rest of the build files](https://gernreich.github.io/lasermademusic.html)** — every
 instrument, each with its own writeup.
 
 Released under [CC0 1.0](../LICENSE).

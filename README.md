@@ -1,5 +1,7 @@
 # Trumpet, elbows allowed
 
+**[← All projects](https://gernreich.github.io/)**
+
 <!-- readme-only -->
 **[Read the writeup](https://gernreich.github.io/trumpet-elbows-allowed/)**
 
@@ -401,7 +403,7 @@ would settle it, and `--play` is the flag that cuts it.
 Built for **[LaserMadeMusic](https://www.youtube.com/@LaserMadeMusic)**, where the
 cutting and the playing are shown.
 
-**[The rest of the build files](https://gernreich.github.io/)** — every instrument,
+**[The rest of the build files](https://gernreich.github.io/lasermademusic.html)** — every instrument,
 each with its own writeup.
 
 **[Download everything as a ZIP](https://github.com/Gernreich/trumpet-elbows-allowed/archive/refs/heads/main.zip)**

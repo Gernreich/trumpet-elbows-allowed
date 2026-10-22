@@ -216,7 +216,7 @@ than three: 42.7mm a turn rather than 64 at a uniform 16mm block, for 16 elbows.
 **[The trumpet writeup](https://gernreich.github.io/trumpet-elbows-allowed/)** — the idea, the notation, the gate, and the whole
 library.
 
-**[The rest of the build files](https://gernreich.github.io/)** — every
+**[The rest of the build files](https://gernreich.github.io/lasermademusic.html)** — every
 instrument, each with its own writeup.
 
 Released under [CC0 1.0](../LICENSE).
