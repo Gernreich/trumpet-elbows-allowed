@@ -167,6 +167,8 @@ input[type="range"]::-moz-range-thumb {
   #legend { display: none; }
   .rail { padding: 11px 13px; }
 }
+/* ?embed: framed on a writeup page, which carries the title and the walk itself */
+.embed .rail { display: none !important; }
 </style>
 <script>
 /* Follow the theme the site's pages store, so a framed viewer matches the page around it. */
@@ -175,6 +177,7 @@ input[type="range"]::-moz-range-thumb {
   function apply() { var t = null; try { t = localStorage.getItem('ctg-theme'); } catch (e) {}
     if (t === 'light' || t === 'dark') r.setAttribute('data-theme', t); else r.removeAttribute('data-theme'); }
   apply(); addEventListener('storage', function (e) { if (e.key === 'ctg-theme') apply(); });
+  if (/[?&]embed\b/.test(location.search)) r.classList.add('embed');
 })();
 </script>
 

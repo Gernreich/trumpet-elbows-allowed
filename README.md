@@ -8,7 +8,7 @@
 
 <!-- page-only **[Read the README](https://github.com/Gernreich/trumpet-elbows-allowed)** · **[Turn the built trumpet in 3D on a page of its own](built/coil-fold2-long-straight-3t/fold2-long-straight-3t.html)** -->
 
-<!-- page-only <iframe src="built/coil-fold2-long-straight-3t/fold2-long-straight-3t.html" title="The built three-turn trumpet bore: 1096mm of 10mm square section coiling three whole turns about one axis, drawn as a chain of coloured blocks you can drag to turn" style="width:100%;height:560px;border:0"></iframe> -->
+<!-- page-only <iframe src="built/coil-fold2-long-straight-3t/fold2-long-straight-3t.html?embed" title="The built three-turn trumpet bore: 1096mm of 10mm square section coiling three whole turns about one axis, drawn as a chain of coloured blocks you can drag to turn" style="width:100%;height:560px;border:0"></iframe> -->
 
 A trumpet cut flat from 3mm birch ply and press-fit into a tube. The airway is a
 **10mm square** running through **16mm blocks** — 10mm of air inside 3mm walls —

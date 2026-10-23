@@ -1,4 +1,4 @@
-<title>Coil Fold2 Long Straight 3t Bore</title>
+<title>C Bore</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@400;500;600;700&display=swap">
@@ -167,6 +167,8 @@ input[type="range"]::-moz-range-thumb {
   #legend { display: none; }
   .rail { padding: 11px 13px; }
 }
+/* ?embed: framed on a writeup page, which carries the title and the walk itself */
+.embed .rail { display: none !important; }
 </style>
 <script>
 /* Follow the theme the site's pages store, so a framed viewer matches the page around it. */
@@ -175,13 +177,14 @@ input[type="range"]::-moz-range-thumb {
   function apply() { var t = null; try { t = localStorage.getItem('ctg-theme'); } catch (e) {}
     if (t === 'light' || t === 'dark') r.setAttribute('data-theme', t); else r.removeAttribute('data-theme'); }
   apply(); addEventListener('storage', function (e) { if (e.key === 'ctg-theme') apply(); });
+  if (/[?&]embed\b/.test(location.search)) r.classList.add('embed');
 })();
 </script>
 
 <div id="stage"><canvas id="c"></canvas></div>
 
 <div class="rail" id="title-rail">
-  <h1>Coil Fold2 Long Straight 3t Bore</h1>
+  <h1>C Bore</h1>
   <div class="walk" id="walk">N1 W3 U2 E3 N3 D3 W2 U3 N3 E3 D2 W3 N3 U3 E2 D3 N1</div>
   <div class="stat" id="stat"></div>
 </div>
