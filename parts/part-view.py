@@ -183,6 +183,10 @@ dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:1
 dt{color:var(--dim)}dd{margin:0;text-align:right;font-variant-numeric:tabular-nums}
 @media (max-width:720px){main{grid-template-columns:1fr;height:auto}
   #wrap{height:56vh}aside{border-left:0;border-top:1px solid var(--line)}}
+/* ?embed: framed on a writeup page, which carries the title and the numbers itself */
+.embed header,.embed aside{display:none}
+.embed main{grid-template-columns:1fr;height:100vh;min-height:0}
+.embed #wrap{height:100vh}
 </style>
 <script>
 /* Follow the theme the site's pages store, so a framed viewer matches the page around it. */
@@ -191,6 +195,7 @@ dt{color:var(--dim)}dd{margin:0;text-align:right;font-variant-numeric:tabular-nu
   function apply() { var t = null; try { t = localStorage.getItem('ctg-theme'); } catch (e) {}
     if (t === 'light' || t === 'dark') r.setAttribute('data-theme', t); else r.removeAttribute('data-theme'); }
   apply(); addEventListener('storage', function (e) { if (e.key === 'ctg-theme') apply(); });
+  if (/[?&]embed\b/.test(location.search)) r.classList.add('embed');
 })();
 </script>
 <header><h1>__TITLE__</h1><div class="sub" id="sub"></div></header>

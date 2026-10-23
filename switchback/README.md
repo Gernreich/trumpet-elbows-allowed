@@ -1,5 +1,7 @@
 # The switchback trumpet
 
+<!-- page-only <iframe src="../parts/bore/concept/walk/coil/fold2/bore/bore.html?embed" title="The switchback bore: 22 blocks folding back on themselves twice, drawn as a chain of coloured blocks you can drag to turn" style="width:100%;height:560px;border:0"></iframe> -->
+
 A trumpet bore that folds back on itself twice. **22 blocks, 352mm of
 centreline, six sections, every turn a bend and nothing touching** — among the shortest lattice
 walks here, and the one to cut first if you want to find out
@@ -9,7 +11,7 @@ whether the joints go together before you commit a metre of ply to it.
 **[Read this page](https://gernreich.github.io/trumpet-elbows-allowed/switchback/)**
 
 **[Turn it →](../parts/bore/concept/walk/coil/fold2/bore/bore.html)**
-The viewer is a page of its own, not a frame in this one: drag to rotate, and
+It turns at the top of the published page, and on a page of its own: drag to rotate, and
 the slider reveals the bore a block at a time in the order you would assemble it.
 
 ![The walk laid out in Minecraft: twenty-two translucent cubes, two straight legs reaching out left and right and a stack of turns folding between them, each section a different colour](../parts/bore/concept/walk/coil/fold2/bore/minecraft_bore.png)

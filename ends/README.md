@@ -1,5 +1,7 @@
 # The bell and the mouthpiece
 
+<!-- page-only <div style="display:flex;flex-wrap:wrap;gap:12px"><iframe src="../parts/bell/bell-round10-153mm-17rings-x3-rim86-turn.html?embed" title="The bell, 17 laminated rings flaring from a square throat to a round rim, as a solid you can drag to turn" style="flex:1 1 300px;height:480px;border:0"></iframe><iframe src="../parts/mouthpiece/mouthpiece-bore10-trumpet-parts-turn.html?embed" title="The mouthpiece, a stack of laminated rings from the cup down to the square bore, as a solid you can drag to turn" style="flex:1 1 300px;height:480px;border:0"></iframe></div> -->
+
 Neither end is touched by the way a bore turns, so **only the tube belongs to an
 instrument**. Both ends are stacks of laminated 3mm rings, glued, since a ring
 stack cannot be press-fit; each is glued to its bore too. Both close onto the
@@ -27,8 +29,8 @@ rim. Everything between them is the section changing from square to round while
 holding area, three plies at a time.
 
 **[Turn it →](../parts/bell/bell-round10-153mm-17rings-x3-rim86-turn.html)**
-The viewer is a page of its own: drag to rotate, and the slider stacks the rings
-one at a time, which is the useful part.
+It turns at the top of the published page, and on a page of its own: drag to
+rotate, and the slider stacks the rings one at a time, which is the useful part.
 
 <figure><img src="../parts/bell/bell-round10-153mm-17rings-x3-rim86-view.svg" alt="A 17-ring bell seen from above the rim: rings stacked and morphing from square at the throat to round at the rim, widening toward the viewer, the bore visible down the middle"
   style="width:auto;max-width:100%;max-height:560px;margin:0 auto"></figure>
@@ -93,7 +95,8 @@ it is.** Every ring is a 3mm step, and the rim is the one part of the instrument
 a player feels directly — this one meets a lip unsanded and unfilled.
 
 **[Turn it →](../parts/mouthpiece/mouthpiece-bore10-trumpet-parts-turn.html)**
-Again a page of its own, and again the slider stacks it a ring at a time.
+It turns at the top of the published page too, and on a page of its own the slider
+stacks it a ring at a time.
 
 <figure><img src="../parts/mouthpiece/mouthpiece-bore10-trumpet-parts-view.svg" alt="The mouthpiece assembled from 30 rings, seen from above the cup: the cup narrowing to a throat, then the backbore opening slowly below it"
   style="width:auto;max-width:100%;max-height:560px;margin:0 auto"></figure>

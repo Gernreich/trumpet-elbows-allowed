@@ -1,5 +1,7 @@
 # The greek spiral
 
+<!-- page-only <iframe src="../parts/bore/concept/walk/meander/greek-key/bore/bore.html?embed" title="The greek spiral bore: 68 blocks lying flat as a Greek key, winding in and back out beside itself, drawn as a chain of coloured blocks you can drag to turn" style="width:100%;height:560px;border:0"></iframe> -->
+
 A trumpet bore drawn as a flat meander — the Greek key, wound in and brought
 back out beside itself. **68 blocks, 1088mm of centreline, one section, no
 elbows and no contact.** It is the only lattice bore in this repository that
@@ -19,7 +21,7 @@ left](greek-spiral-bore-built_web.jpg)
 **[Read this page](https://gernreich.github.io/trumpet-elbows-allowed/greek-spiral/)**
 
 **[Turn it →](../parts/bore/concept/walk/meander/greek-key/bore/bore.html)**
-The viewer is a page of its own, not a frame in this one: drag to rotate, and
+It turns at the top of the published page, and on a page of its own: drag to rotate, and
 the slider reveals the bore a block at a time. Turn it edge-on and the whole
 design is one block thick.
 

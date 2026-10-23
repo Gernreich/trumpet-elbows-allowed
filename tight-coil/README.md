@@ -1,5 +1,7 @@
 # The tight coil
 
+<!-- page-only <iframe src="../parts/bore/concept/walk/coil/tight/bore/bore.html?embed" title="The tight coil bore: 65 blocks winding six whole turns without touching, drawn as a chain of coloured blocks you can drag to turn" style="width:100%;height:560px;border:0"></iframe> -->
+
 A trumpet bore wound as tightly as a coil can go without touching itself.
 **65 blocks, 1040mm of centreline, 33 sections, six whole turns at 42.7mm a
 turn, nothing touching — and 16 elbows**, one at every other piece. It is the
@@ -10,7 +12,7 @@ cutting the turns the generator cannot fold.
 **[Read this page](https://gernreich.github.io/trumpet-elbows-allowed/tight-coil/)**
 
 **[Turn it →](../parts/bore/concept/walk/coil/tight/bore/bore.html)**
-The viewer is a page of its own, not a frame in this one: drag to rotate, and
+It turns at the top of the published page, and on a page of its own: drag to rotate, and
 the slider reveals the bore a block at a time in the order you would assemble it.
 
 ## The walk is the whole design

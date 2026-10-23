@@ -1,5 +1,7 @@
 # The three-turn trumpet
 
+<!-- page-only <iframe src="../built/coil-fold2-long-straight-3t/fold2-long-straight-3t.html?embed" title="The three-turn trumpet bore: 1096mm of 10mm square section coiling three whole turns about one axis, drawn as a chain of coloured blocks you can drag to turn" style="width:100%;height:560px;border:0"></iframe> -->
+
 **The one that plays.** The spiral is in wood too; this one is press-fit,
 shellacked and blown, and it makes a note. A coil of **1096mm in 12 sections**
 winding **three whole turns** about a north–south axis, with a mouthpiece at one
@@ -13,7 +15,7 @@ end and a 153mm bell at the other.
 ![The finished trumpet lying on concrete: a ring-stacked mouthpiece at the left, the square-section bore folding through its coil in the middle, and the laminated bell flaring at the right, all of it shellacked dark over scorched birch](../built/coil-fold2-long-straight-3t/bore10-coil-fold2-long-straight-3t_web.jpg)
 
 **[Turn it →](../built/coil-fold2-long-straight-3t/fold2-long-straight-3t.html)**
-The viewer is a page of its own, not a frame in this one: drag to rotate, and
+It turns at the top of the published page, and on a page of its own: drag to rotate, and
 the slider reveals the bore a block at a time in the order it was assembled.
 
 ## The walk is the whole design
