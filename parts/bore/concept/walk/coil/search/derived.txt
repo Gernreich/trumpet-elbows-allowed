@@ -1,6 +1,6 @@
 # Walks derived from others, and how.
 #
-# Every coil is standardised by tools/standardise.js and in canonical form:
+# Every coil is standardised by tools/standardise.rs and in canonical form:
 # forward is north, the walk opens on a north term, rotation is counter-clockwise
 # seen looking along the bore from the mouth, the body is whole periods -- the
 # repeat count nearest a common target -- and one block in, one block out.

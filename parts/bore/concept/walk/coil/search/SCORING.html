@@ -102,7 +102,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <nav><b>Contents</b><a class="l1" href="#scoring">Scoring</a><a class="l2" href="#what-is-scored">What is scored</a><a class="l2" href="#the-means">The means</a><a class="l2" href="#the-table">The table</a><a class="l2" href="#choosing-a-mean-is-choosing-how-much-a-weak-spot-counts">Choosing a mean is choosing how much a weak spot counts</a><a class="l2" href="#what-survives">What survives</a><a class="l2" href="#ranking-once-not-repeatedly">Ranking once, not repeatedly</a></nav>
 <main>
 <h1 id="scoring">Scoring</h1>
-<p>Eight metrics, one touching count, and every common mean, so the ranking can be read against the thing that produced it. Regenerate with <code>node tools/gen_scoring.js</code>.</p>
+<p>Eight metrics, one touching count, and every common mean, so the ranking can be read against the thing that produced it. Regenerate with <code>target/release/gen_scoring</code>.</p>
 <h2 id="what-is-scored">What is scored</h2>
 <ul>
 <li><strong>box/block</strong> — less is better</li>
@@ -119,12 +119,12 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <p>The metrics are normalized to (0,1] with 1 the best in the set, oriented so bigger is better, and floored at 0.01 so that one worst-in-set value cannot zero a product.</p>
 <p><strong>Touching is treated differently, on purpose.</strong> A wall the bore shares with itself is visible in the finished instrument, so it is the heaviest input here at weight 5, and it is penalized convexly — <strong>1/(1+t)</strong> — rather than fading linearly. The step from no contact to any contact is far larger than any step after it: 0 contacts scores 1.000, 8 contacts 0.111, 20 contacts 0.048. Nothing but a clean coil can score 1.</p>
 <p>That form is also absolute where a linear fade against the set maximum is not. Dropping the worst coil would move everyone else's touching term under a linear fade; under 1/(1+t) it moves nothing.</p>
-<p>Override the weight with <code>SPIRAL_TOUCH_WEIGHT=8 node tools/score.js</code>.</p>
+<p>Override the weight with <code>SPIRAL_TOUCH_WEIGHT=8 target/release/score</code>.</p>
 <h3 id="a-heavy-weight-is-a-preference-not-a-guarantee">A heavy weight is a preference, not a guarantee</h3>
 <p>Weighting touching at 5 does not stop a coil with contact from beating a clean one. Under the harmonic mean the first coil <em>with</em> touching places <strong>2nd</strong>, above <strong>3</strong> coils that have none — because each of those has some other metric sitting on the 0.01 floor, and the harmonic mean punishes that harder than it punishes 12 contacts.</p>
 <p>If no touching walls is a <em>requirement</em> rather than a preference, filter:</p>
-<pre><code>node tools/score.js --clean      # ranks only the coils with no touching walls
-node tools/score.js --solid      # and only those at least 3 blocks thick</code></pre>
+<pre><code>target/release/score --clean     # ranks only the coils with no touching walls
+target/release/score --solid     # and only those at least 3 blocks thick</code></pre>
 <p>which is the same advice as everywhere else here — cut on the property, then rank.</p>
 <h3 id="two-filters-from-judgement-rather-than-argument">Two filters, from judgement rather than argument</h3>
 <p><strong>Neither filter was argued for; both were read off coils judged by eye.</strong> Ten were judged, seven liked and three not, and these two filters reproduce that split exactly — selecting the liked set and nothing else:</p>
@@ -135,7 +135,7 @@ node tools/score.js --solid      # and only those at least 3 blocks thick</code>
 <p>Those judgements are over a set of ten, not over this page's ten — of which four are walls-free. The filters are what carries across; the split they reproduce is not a ranking of what is here.</p>
 <p>The thickness filter took a designed test. The one rejected walls-free coil is extreme on two things at once, thinness and elongation, and nothing else in the set separates them, so two candidates settle it: one 3 thick but far longer than anything else liked (aspect 43 against a ceiling of 24), and one 2 thick but as short as a 2-thick coil gets at this tube length (aspect 49). The long one is liked and the thin one is not, which rules out elongation on its own — aspect 43 is fine when the coil has a core.</p>
 <p>Both are filters and neither is scored. Thickness is not a gradient: 3 is acceptable, and being thicker is not better — the 5x5 coil packs worst of anything judged and is liked all the same. Thickness sorts nothing here: all ten of the coils are at least 3 thick, so <code>--solid</code> removes none of them and <code>--clean</code> alone does the work.</p>
-<pre><code>node tools/score.js --clean --solid    # 4 of the 10 coils here</code></pre>
+<pre><code>target/release/score --clean --solid    # 4 of the 10 coils here</code></pre>
 <p>One honest limit. At this tube length the two properties are coupled: a 2-thick coil has nowhere to put 177 blocks but lengthwise, so thin coils start at aspect 49 while 3-thick ones stop at 43. A rule of "aspect under about 46" fits every judgement too. Thickness is preferred because it is an integer boundary rather than a threshold picked from a 13% window, and because the designed test varied thickness while holding aspect nearly fixed — but the two cannot be fully separated without a shorter bore.</p>
 <p><strong><code>blocks/360</code> is deliberately gone.</strong> It is anti-correlated with turns/m by construction — a tighter spiral has to turn more often — so carrying both let them cancel, and made the composite quieter about coiling than the columns themselves are.</p>
 <h2 id="the-means">The means</h2>
@@ -474,7 +474,7 @@ node tools/score.js --solid      # and only those at least 3 blocks thick</code>
 <p>The other end of it is just as decisive. Under a pure ratio-to-best normalization with a geometric mean, nothing depends on which coils are present, and the whole procedure is a <strong>no-op: 0 moves in every round</strong>. So iterating either changes the order for a reason that has nothing to do with the coils, or changes nothing at all.</p>
 <p>The winner here survives all three, so nothing practical turns on it — but the order below the top is meaningless under iteration, and should not be read.</p>
 <p>One more cost: a cut on composite score removes whatever is best at a single thing, because a composite is a compromise. <code>coil_3x3_54_2</code> has the narrowest cross-section in the set and does not survive round 0 of 0 of the 3 runs.</p>
-<pre><code>node tools/iterate.js        # the numbers above</code></pre>
+<pre><code>target/release/iterate       # the numbers above</code></pre>
 </main>
 </div>
 <script>

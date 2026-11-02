@@ -1,7 +1,7 @@
 # Scoring
 
 Eight metrics, one touching count, and every common mean, so the ranking can be
-read against the thing that produced it. Regenerate with `node tools/gen_scoring.js`.
+read against the thing that produced it. Regenerate with `target/release/gen_scoring`.
 
 ## What is scored
 
@@ -33,7 +33,7 @@ That form is also absolute where a linear fade against the set maximum is not. D
 the worst coil would move everyone else's touching term under a linear fade; under
 1/(1+t) it moves nothing.
 
-Override the weight with `SPIRAL_TOUCH_WEIGHT=8 node tools/score.js`.
+Override the weight with `SPIRAL_TOUCH_WEIGHT=8 target/release/score`.
 
 ### A heavy weight is a preference, not a guarantee
 
@@ -44,8 +44,8 @@ and the harmonic mean punishes that harder than it punishes 12 contacts.
 
 If no touching walls is a *requirement* rather than a preference, filter:
 
-    node tools/score.js --clean      # ranks only the coils with no touching walls
-    node tools/score.js --solid      # and only those at least 3 blocks thick
+    target/release/score --clean     # ranks only the coils with no touching walls
+    target/release/score --solid     # and only those at least 3 blocks thick
 
 which is the same advice as everywhere else here — cut on the property, then rank.
 
@@ -76,7 +76,7 @@ being thicker is not better — the 5x5 coil packs worst of anything judged and 
 the same. Thickness sorts nothing here: all ten of the coils are at
 least 3 thick, so `--solid` removes none of them and `--clean` alone does the work.
 
-    node tools/score.js --clean --solid    # 4 of the 10 coils here
+    target/release/score --clean --solid    # 4 of the 10 coils here
 
 One honest limit. At this tube length the two properties are coupled: a 2-thick coil has
 nowhere to put 177 blocks but lengthwise, so thin coils start at aspect 49 while 3-thick
@@ -191,4 +191,4 @@ One more cost: a cut on composite score removes whatever is best at a single thi
 because a composite is a compromise. `coil_3x3_54_2` has the narrowest cross-section in
 the set and does not survive round 0 of 0 of the 3 runs.
 
-    node tools/iterate.js        # the numbers above
+    target/release/iterate       # the numbers above

@@ -13,7 +13,7 @@ before changing what it names.
   `tools/walks/`. [What this is]
 - A turn is four terms and a group three: lengths come in whole groups of 11 blocks.
   Folder names are **measured turns** (0.75, 1.5, 2.25, 3).
-- **`spiral_metrics.js` reads a quarter turn low on a walk that closes.** Don't take a
+- **`spiral_metrics.rs` reads a quarter turn low on a walk that closes.** Don't take a
   turn count from it without checking whether the walk closes.
 
 | folder | blocks | status |

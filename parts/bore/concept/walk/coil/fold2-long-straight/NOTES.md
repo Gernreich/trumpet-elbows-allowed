@@ -42,7 +42,7 @@ centre, and the longest agrees three ways: its legs are `W U E D` three times ov
 its first and last blocks sit on the same cross-section point, which only a whole number
 of turns can do.
 
-**`spiral_metrics.js` reads a quarter turn low on a walk that closes.** It sums the turn between
+**`spiral_metrics.rs` reads a quarter turn low on a walk that closes.** It sums the turn between
 CONSECUTIVE PAIRS of lateral legs: twelve legs give eleven quarter turns, 990°, and it
 reads as 2.75. That is the tangent's rotation from the first leg to the last, not the
 winding, and the two differ by exactly one quarter turn whenever the walk closes its

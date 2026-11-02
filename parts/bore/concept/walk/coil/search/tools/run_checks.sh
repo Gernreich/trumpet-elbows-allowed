@@ -7,7 +7,7 @@ R="$(cd "$HERE/.." && pwd)"
 cd "$HERE/../../../../../../../tools"
 # Resolve the interpreter before the loop and stop if it is missing. Captured
 # with 2>&1, a missing interpreter does not fail the run: the shell's error is
-# written into the transcript in place of the check, and gen_readme.js -- which
+# written into the transcript in place of the check, and gen_readme.rs -- which
 # tallies only transcripts carrying an "N checks, N failed" line -- then reports
 # "0 checks across 0 spirals, 0 failed", which reads as a pass. It was hardcoded
 # to ~/boxes and the checkout moved to ~/Software/boxes, so this was live.

@@ -68,7 +68,7 @@ choose the repeat counts. The first one tried — as many periods as fit under a
 is the wrong shape: it truncates the long-period coils hardest, so every one of them
 lands below every short-period one, and the bores ran 126 to 144 blocks, a 14.3% spread.
 
-The target is now chosen rather than assumed. `tools/standardise.js` searches bore
+The target is now chosen rather than assumed. `tools/standardise.rs` searches bore
 lengths from 120 to 220 blocks for the one that makes the tube lengths most alike, takes
 the **nearest** whole-period count to it rather than the largest that fits, and lands on
 180: bores of 166 to 187 blocks, 2656mm to 2992mm, a spread of 12.7%.
@@ -165,7 +165,7 @@ is all that separates the two passages.
 
 Because a shared wall shows in the finished instrument, it is the heaviest input in the
 scoring and is penalized convexly — 1/(1+t), so no contact scores 1.000 and eight
-contacts 0.111. `node tools/score.js --clean` ranks only the coils that have none.
+contacts 0.111. `target/release/score --clean` ranks only the coils that have none.
 
 It is also the one packing number that is *not* implied by the box. Here the two agree: [`coil_3x3_54_2`](pages/coil_3x3_54_2.html) has the smallest box in the set and
 **no** shared wall. They need not: [`coil_3x9_18`](pages/coil_3x9_18.html) is only
@@ -247,12 +247,12 @@ it disagrees with the box often enough to change which coil you would build.
 One walk in this set is a hand reduction of the staircase coil — blocks taken out
 wherever one could go without stranding a turn. ([`derived.txt`](derived.txt) maps
 every name here to the walk it derives from.)
-`tools/minimal.js` checks the claim: a term's floor is 3 in a coil window, 2 in a
+`tools/minimal.rs` checks the claim: a term's floor is 3 in a coil window, 2 in a
 hairpin, 1 in a step, and a walk whose every term sits on its floor cannot be shortened
 at all.
 
-    node tools/minimal.js            # every walk
-    node tools/minimal.js --terms    # and which terms have slack
+    target/release/minimal           # every walk
+    target/release/minimal --terms   # and which terms have slack
 
 It says something about the search. Only **1 of 10** walks here are minimal:
 `coil_3x4_79`. The search enumerated periods with legs up to
@@ -265,7 +265,7 @@ through `bore_split.py`.
 
 ### The reduction pass, and why minimality is not an optimisation
 
-`tools/reduce.js` takes the slack out and rebuilds at comparable length. It has to
+`tools/reduce.rs` takes the slack out and rebuilds at comparable length. It has to
 enumerate rather than apply, because **coiling is global and the bend rule is local**.
 A period coils only if it closes: drifting on one axis and returning to where it started
 on the other two. Shorten one leg and not its opposite and the period stops closing, so
@@ -284,7 +284,7 @@ those 9 reductions:
 **The set is not closed under reduction.** Six of the 9 reductions land on
 a walk that is catalogued nowhere here. That is a gap in the set rather than a
 turn of phrase: either those walks belong in it, or the reduction that produces them
-does not really close and `reduce.js` should be rejecting it.
+does not really close and `reduce.rs` should be rejecting it.
 
 Canonicalisation is what makes that readable: with the representation pinned, one coil
 cannot appear several times looking different, and a reduction of it is recognisable as
@@ -321,8 +321,8 @@ The reduced walks are kept, named `*_min`, with their sources recorded in
 composite is over a set that contains both a design and its own reduction — worth
 remembering when reading a rank, since the normalization is across whatever is present.
 
-    node tools/reduce.js             # the pass
-    node tools/reduce.js --write     # and reduced.json
+    target/release/reduce            # the pass
+    target/release/reduce --write    # and reduced.json
 
 ## Walks kept but not scored
 
@@ -344,9 +344,9 @@ It also covers why to rank once rather than rank, cut and re-rank: with a
 set-relative normalization the survivors of a cut come out in a different order
 than they went in, having not been measured again.
 
-    node tools/score.js          # the scoring table
-    node tools/iterate.js        # what cutting and re-ranking does to it
-    node tools/gen_scoring.js    # SCORING.md
+    target/release/score         # the scoring table
+    target/release/iterate       # what cutting and re-ranking does to it
+    target/release/gen_scoring   # SCORING.md
 
 ## The gate
 
@@ -355,7 +355,7 @@ voxel model of the assembled bore flooded from the outside to prove it is one se
 passage. **11,418 checks across 10 spirals, 0 failed.** The per-walk output is
 in `checks/`.
 
-    node tools/run_checks.sh     # re-run the gate over every walk
+    tools/run_checks.sh          # re-run the gate over every walk
 
 `check.py` needs shapely, numpy and scipy, which live in the Boxes.py venv — run it with
 `~/Software/boxes/venv/bin/python`, as `README.md` says. The system python3 does
@@ -368,7 +368,7 @@ of it, not a copy in this repository.
 
 ## How they were found
 
-`tools/search_spirals.js` walks every periodic term sequence up to eight terms with legs up
+`tools/search_spirals.rs` walks every periodic term sequence up to eight terms with legs up
 to four blocks, keeping those that never reverse, return to the same lateral position each
 period so the thing coils rather than drifts, wind a whole number of turns per period, stay
 self-avoiding when repeated, and satisfy the bend-only rule.
@@ -385,7 +385,7 @@ The bore-designs README states only the third case and calls the other two "a fo
 tight as you like". That holds for steps and not for hairpins: `U3 N1 D3` strands two turns
 and `U3 N2 D3` costs none. The three cases were read off `bore_split.py` by probing it.
 
-`tools/mknotation.js` repeats a period to length and writes it in the bore notation,
+`tools/mknotation.rs` repeats a period to length and writes it in the bore notation,
 trimming the tail so the last block is not mid-turn — a turn in the last block has nothing
 after it to make it interior, so it is always its own piece. Then every candidate goes
 through the splitter, and only bend-only walks are kept. **The splitter decides, not the
@@ -401,30 +401,56 @@ behind it: a tool with no description, or a description with no tool, stops the 
 
 | tool | what it does |
 | --- | --- |
-| `search_spirals.js` | Searches for the tightest bend-only coil. Applies the corpus rule -- three consecutive terms naming three axes force the middle term to 3 or more -- then lets the splitter decide, because the rule is a filter and not the answer. |
-| `mknotation.js` | Expands one period to about 196 blocks and writes it in the corpus notation: every term numbered, the lead-in and lead-out blocks carried by the runs at each end. |
-| `standardise.js` | Puts every coil in one orientation -- north for all of them, opening on a north term -- so that two coils differ only where they really differ. Writes `standardised.json`. |
-| `minimal.js` | Asks whether a walk can be shortened without stranding a turn, against a purely local rule: a term's floor is set by the window of three around it. Reports slack; does not take it. |
-| `reduce.js` | Takes that slack, one leg at a time, keeping the coil. Taking all of it at once usually destroys the walk, which is why this is separate from `minimal.js`. Writes `reduced.json`. |
+| `search_spirals.rs` | Searches for the tightest bend-only coil. Applies the corpus rule -- three consecutive terms naming three axes force the middle term to 3 or more -- then lets the splitter decide, because the rule is a filter and not the answer. |
+| `mknotation.rs` | Expands one period to about 196 blocks and writes it in the corpus notation: every term numbered, the lead-in and lead-out blocks carried by the runs at each end. |
+| `standardise.rs` | Puts every coil in one orientation -- north for all of them, opening on a north term -- so that two coils differ only where they really differ. Writes `standardised.json`. |
+| `minimal.rs` | Asks whether a walk can be shortened without stranding a turn, against a purely local rule: a term's floor is set by the window of three around it. Reports slack; does not take it. |
+| `reduce.rs` | Takes that slack, one leg at a time, keeping the coil. Taking all of it at once usually destroys the walk, which is why this is separate from `minimal.rs`. Writes `reduced.json`. |
 
 **Measuring and ranking**
 
 | tool | what it does |
 | --- | --- |
-| `spiral_metrics.js` | Rotation metrics for one walk. The lateral projection -- the walk with the advancing axis dropped -- is what actually turns, and on a cubic lattice only in quarter turns. |
-| `parts.js` | Piece counts, distinct piece shapes and plate sizes, read off `bore_split.py` and cached in `parts.json` so the tables need not shell out on every run. |
-| `score.js` | Composite scoring across the common means: eight metrics normalised to (0,1], plus the touching count at an explicit weight. |
-| `iterate.js` | Iterated ranking -- rank, cut the bottom half, re-rank the survivors, repeat -- to ask whether the survivors keep their order once the losers leave. They do not, under a normalisation computed over the set. |
-| `table.js` | The metrics tables, as plain text or with `--md` as markdown. |
+| `spiral_metrics.rs` | Rotation metrics for one walk. The lateral projection -- the walk with the advancing axis dropped -- is what actually turns, and on a cubic lattice only in quarter turns. |
+| `parts.rs` | Piece counts, distinct piece shapes and plate sizes, read off `bore_split.py` and cached in `parts.json` so the tables need not shell out on every run. |
+| `score.rs` | Composite scoring across the common means: eight metrics normalised to (0,1], plus the touching count at an explicit weight. |
+| `iterate.rs` | Iterated ranking -- rank, cut the bottom half, re-rank the survivors, repeat -- to ask whether the survivors keep their order once the losers leave. They do not, under a normalisation computed over the set. |
+| `table.rs` | The metrics tables, as plain text or with `--md` as markdown. |
 
 **Producing what is committed**
 
 | tool | what it does |
 | --- | --- |
 | `run_checks.sh` | Runs `check.py` over every walk in `walks/` and writes the transcript to `checks/`. It resolves the Boxes.py checkout and the interpreter *before* the loop and stops if either is missing, because a missing interpreter captured with `2>&1` writes the shell's error into the transcript instead of the check, and the tally then reads as a pass. |
-| `gen_scoring.js` | Regenerates `SCORING.md`. Every number in it comes from `score.js`. |
-| `gen_readme.js` | Regenerates this file. Every number in it comes from the tools and the index above is read from `tools/` itself, so the page cannot drift. |
-| `build.sh` | All of the above that produce committed files, in dependency order. `index.html` and `SCORING.html` are committed rather than built on the server, so they go stale silently unless this is run after every edit. |
+| `gen_scoring.rs` | Regenerates `SCORING.md`. Every number in it comes from `score.rs`. |
+| `gen_readme.rs` | Regenerates this file. Every number in it comes from the tools and the index above is read from `tools/` itself, so the page cannot drift. |
+| `build.sh` | Builds the tools, then runs all of the above that produce committed files, in dependency order. `index.html` and `SCORING.html` are committed rather than built on the server, so they go stale silently unless this is run after every edit. |
+
+## The code
+
+The tools are Rust. They were JavaScript until 2026-11-02, and the Rust port writes this
+page, `SCORING.md` and every `.json` file here byte for byte as Node did. Build them with
+`cargo build --release` from this directory ([rustup](https://rustup.rs) installs Rust);
+they land in `target/release/`, and `tools/build.sh` builds them before it runs them.
+Each file in `tools/` is one program's front end; what they share is a library in `src/`:
+
+| file | what it holds |
+| --- | --- |
+| `src/spiral_metrics.rs` | the rotation metrics |
+| `src/standardise.rs` | standard form: orientation, period, the target length |
+| `src/minimal.rs` | the term floors |
+| `src/reduce.rs` | the reduction pass |
+| `src/score.rs` | the scored metrics, the means and the ranking |
+| `src/iterate.rs` | iterated ranking |
+| `src/table.rs` | the two metrics tables |
+| `src/bore.rs` | running `bore_split.py` and reading what it prints |
+| `src/corpus.rs` | where things are; reading the walks, `parts.json` and `unscored.txt` |
+| `src/json.rs` | reading JSON, and writing it laid out as `JSON.stringify` did |
+| `src/jsfmt.rs` | writing numbers by JavaScript's rules, so the files stay byte-identical |
+| `src/lib.rs` | the library's index |
+
+The crate is `Cargo.toml` with `Cargo.lock`; its one dependency is the `regex` crate,
+for reading `bore_split.py`'s output.
 
 ## The files behind the tables
 
@@ -441,13 +467,14 @@ by hand.
 
     tools/build.sh               # all of the below, in order
 
-    node tools/parts.js          # piece counts and distinct shapes -> parts.json
-    node tools/table.js          # both tables, plain text
-    node tools/table.js --md     # the same as markdown
-    node tools/gen_readme.js     # this file
+    cargo build --release        # the tools, into target/release/
+    target/release/parts         # piece counts and distinct shapes -> parts.json
+    target/release/table         # both tables, plain text
+    target/release/table --md    # the same as markdown
+    target/release/gen_readme    # this file
     python3 ../../../../../../../../lasermade-tools/md2html.py README.md index.html    # the published page
 
-    node tools/spiral_metrics.js "$(cat walks/coil_3x3_54_2.txt)"   # measure one walk
+    target/release/spiral_metrics "$(cat walks/coil_3x3_54_2.txt)"   # measure one walk
 
     ~/Software/boxes/venv/bin/python ../../../../../../../tools/viewer.py \
         "$(cat walks/coil_3x3_54_2.txt)" \

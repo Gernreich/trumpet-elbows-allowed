@@ -367,7 +367,7 @@ gh run list -L5 --json status,conclusion,headSha \
 
 Seen from the side the walk folds back on itself twice, which is what "fold2" describes
 and which reads as a meander. Measured, it is a coil:
-`spiral_metrics.js` gives it a coil axis (z, north–south), a handedness (right), and 450°
+`spiral_metrics.rs` gives it a coil axis (z, north–south), a handedness (right), and 450°
 — 1.25 turns — of rotation about that axis. A real meander scores 0° and no handedness;
 `../../meander/greek-key` does exactly that. The walk advances monotonically along one axis
 while circulating in the other two, and that is a coil however it looks in projection.

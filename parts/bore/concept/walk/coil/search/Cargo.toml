@@ -1,0 +1,55 @@
+[package]
+name = "coil-search"
+version = "0.1.0"
+edition = "2021"
+description = "Search, measure, standardise and score coiling trumpet bore walks"
+license-file = "LICENSE"
+publish = false
+autobins = false
+
+[lib]
+name = "coilsearch"
+path = "src/lib.rs"
+
+[dependencies]
+regex = "1"
+
+[[bin]]
+name = "gen_readme"
+path = "tools/gen_readme.rs"
+[[bin]]
+name = "gen_scoring"
+path = "tools/gen_scoring.rs"
+[[bin]]
+name = "iterate"
+path = "tools/iterate.rs"
+[[bin]]
+name = "minimal"
+path = "tools/minimal.rs"
+[[bin]]
+name = "mknotation"
+path = "tools/mknotation.rs"
+[[bin]]
+name = "parts"
+path = "tools/parts.rs"
+[[bin]]
+name = "reduce"
+path = "tools/reduce.rs"
+[[bin]]
+name = "score"
+path = "tools/score.rs"
+[[bin]]
+name = "search_spirals"
+path = "tools/search_spirals.rs"
+[[bin]]
+name = "spiral_metrics"
+path = "tools/spiral_metrics.rs"
+[[bin]]
+name = "standardise"
+path = "tools/standardise.rs"
+[[bin]]
+name = "table"
+path = "tools/table.rs"
+
+[profile.release]
+overflow-checks = true
