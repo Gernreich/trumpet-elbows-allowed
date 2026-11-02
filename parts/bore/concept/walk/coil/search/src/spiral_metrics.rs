@@ -81,7 +81,7 @@ pub struct Metrics {
 }
 
 impl Metrics {
-    /// The object spiral_metrics.js returned, keys in its order.
+    /// The object the JavaScript spiral_metrics returned, keys in its order.
     pub fn json(&self) -> J {
         let n = |x: i64| J::Num(x as f64);
         J::obj(vec![

@@ -1971,7 +1971,7 @@ def main(text, outdir=None):
             # next regeneration, and check_page fails a folder holding two
             # pages, so the structure has to come out of the generator rather
             # than be tidied up afterwards. The printed name is unchanged --
-            # parts.js parses that line.
+            # coil/search/tools/parts.rs parses that line.
             os.makedirs(os.path.join(outdir, 'cut-files'), exist_ok=True)
             parts = cut(args, code)
             n = int(code)

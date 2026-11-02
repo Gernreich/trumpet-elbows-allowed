@@ -43,7 +43,7 @@ fractional number of turns cannot do. It sweeps **1080°**, right-handed.
 > **Two counts of the same winding differ by a quarter turn.** The four coils in
 > the family sweep 270°, 540°, 810° and 1080° about the circuit's own centre —
 > one group of three lateral legs is three-quarters of a turn — and the folder
-> names are those figures. `spiral_metrics.js` sums the turn between
+> names are those figures. `spiral_metrics.rs` sums the turn between
 > *consecutive pairs* of lateral legs instead: twelve legs give eleven quarter
 > turns, 990°, and read as 2¾. That is the tangent's rotation from the first leg
 > to the last rather than the winding, and the two differ by exactly one quarter

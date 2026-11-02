@@ -7,7 +7,7 @@ WINS
 WALK
   N3 D1 N3 E1 N3 U1 N3 W1 N3 D1 N3 E1 N3 U1 N3 W1 N3 D1 N3 E1 N3 U1 N3 W1 N3 D1 N3 E1 N3 U1 N3 W1 N3 D1 N3 E1 N3 U1 N3 W1 N3 D1 N3 E1 N3 U1 N3 W1 N3 D1 N3 E1 N3 U1 N3 W1 N3 D1 N3 E1 N3 U1 N3 W1 N3 D1 N3 E1 N3 U1 N3 W1 N3 D1 N3 E1 N3 U1 N3 W1 N3 D1 N3 E1 N3 U1 N3
 
-MEASURED  (spiral_metrics.js, recomputed from the walk above)
+MEASURED  (spiral_metrics.rs, recomputed from the walk above)
   blocks          176
   mm              2816
   vol             532
