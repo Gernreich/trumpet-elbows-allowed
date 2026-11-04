@@ -433,3 +433,7 @@ in it. The SVGs, the walks and the writeups are CC0 like the rest.
 The walks are laid out in **Minecraft** before they are cut, and the lattice
 screenshots on the bore pages are frames from it. Minecraft is a trademark of
 Mojang Studios; this project is not affiliated with Mojang or Microsoft.
+
+## Credits
+
+Made by Michael Gernreich with [Claude](https://www.anthropic.com/claude) (Anthropic), working in Claude Code, which co-wrote the code and the documentation. Commits Claude made carry a `Co-Authored-By: Claude` line.

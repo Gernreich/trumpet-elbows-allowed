@@ -2,6 +2,7 @@
 name = "coil-search"
 version = "0.1.0"
 edition = "2021"
+authors = ["Michael Gernreich", "Claude (Anthropic) <noreply@anthropic.com>"]
 description = "Search, measure, standardise and score coiling trumpet bore walks"
 license-file = "LICENSE"
 publish = false
