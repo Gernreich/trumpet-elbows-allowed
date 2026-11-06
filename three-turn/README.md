@@ -1,11 +1,11 @@
 # The three-turn trumpet
 
-<!-- page-only <iframe src="../built/coil-fold2-long-straight-3t/fold2-long-straight-3t.html?embed" title="The three-turn trumpet bore: 1096mm of 10mm square section coiling three whole turns about one axis, drawn as a chain of coloured blocks you can drag to turn" style="width:100%;height:560px;border:0"></iframe> -->
+<!-- page-only <iframe src="../built/coil-fold2-long-straight-3t/fold2-long-straight-3t.html?embed" title="The three-turn trumpet bore: 1096 mm of 10 mm square section coiling three whole turns about one axis, drawn as a chain of coloured blocks you can drag to turn" style="width:100%;height:560px;border:0"></iframe> -->
 
 **The one that plays.** The spiral is in wood too; this one is press-fit,
-shellacked and blown, and it makes a note. A coil of **1096mm in 12 sections**
+shellacked and blown, and it makes a note. A coil of **1096 mm in 12 sections**
 winding **three whole turns** about a north–south axis, with a mouthpiece at one
-end and a 153mm bell at the other.
+end and a 153 mm bell at the other.
 
 <!-- readme-only -->
 **[Read this page](https://gernreich.github.io/trumpet-elbows-allowed/three-turn/)**
@@ -57,22 +57,22 @@ fractional number of turns cannot do. It sweeps **1080°**, right-handed.
 | | |
 | --- | --- |
 | blocks | 44 |
-| centreline | 1096mm |
+| centreline | 1096 mm |
 | sections | 12 |
 | parts | 80, over 12 sheets |
-| bounding box | 122 × 122 × 304mm |
+| bounding box | 122 × 122 × 304 mm |
 | turns | 3, right-handed, 1080° about a north–south axis |
-| airway | 10mm square, constant |
+| airway | 10 mm square, constant |
 | elbows | none; every turn is a bend |
-| whole instrument | 1339mm — 90mm mouthpiece + 1096mm bore + 153mm bell |
-| as actually built | 1321mm — the mouthpiece on it is 24 rings, not 30 |
+| whole instrument | 1339 mm — 90 mm mouthpiece + 1096 mm bore + 153 mm bell |
+| as actually built | 1321 mm — the mouthpiece on it is 24 rings, not 30 |
 | measured note | F4, 349.2 Hz |
 
 ## The straights are stretched, the turns are not
 
-Forty-four blocks at the plain 16mm pitch would be **704mm**. This bore is 1096.
-The difference is `--straight=30`: a block that runs straight is drawn 30mm long
-while a block that turns stays a 16mm cube, so the tube lengthens without the
+Forty-four blocks at the plain 16 mm pitch would be **704 mm**. This bore is 1096.
+The difference is `--straight=30`: a block that runs straight is drawn 30 mm long
+while a block that turns stays a 16 mm cube, so the tube lengthens without the
 walk changing and the cross-section stays square throughout.
 
 That is the cheapest length in the project. A turn is what costs — in pieces, in
@@ -85,10 +85,10 @@ The same shape truncated at four places, and the truncations are exact:
 
 | | walk ends at | blocks | centreline | sections |
 | --- | --- | --- | --- | --- |
-| 0.75 turn | `E3 N1` | 11 | 274mm | 3 |
-| 1.5 turns | `U3 N1` | 22 | 548mm | 6 |
-| 2.25 turns | `W3 N1` | 33 | 822mm | 9 |
-| **3 turns** | `D3 N1` | **44** | **1096mm** | **12** |
+| 0.75 turn | `E3 N1` | 11 | 274 mm | 3 |
+| 1.5 turns | `U3 N1` | 22 | 548 mm | 6 |
+| 2.25 turns | `W3 N1` | 33 | 822 mm | 9 |
+| **3 turns** | `D3 N1` | **44** | **1096 mm** | **12** |
 
 **274 : 548 : 822 : 1096 is exactly 1 : 2 : 3 : 4.** A tube twice as long sounds
 an octave lower, so four bores in that ratio are worth cutting: what the bell and
@@ -104,27 +104,27 @@ section number, because they only go together one way.
 
 | # | blocks | in → out | shape | parts | sheet |
 | --- | --- | --- | --- | --- | --- |
-| 1 | 1–3 | N → W | `BDL~a` | 6 | 325 × 70mm |
-| 2 | 4–8 | W → E | `BLUUR` | 8 | 455 × 86mm |
-| 3 | 9–11 | E → N | `BRD` | 6 | 337 × 70mm |
-| 4 | 12–14 | N → D | `BDL` | 6 | 331 × 73mm |
-| 5 | 15–19 | D → U | `BDLLU` | 8 | 481 × 73mm |
-| 6 | 20–22 | U → N | `BRD` | 6 | 337 × 70mm |
-| 7 | 23–25 | N → E | `BDR` | 6 | 331 × 73mm |
-| 8 | 26–30 | E → W | `BRDDL` | 8 | 455 × 86mm |
-| 9 | 31–33 | W → N | `BLD` | 6 | 337 × 70mm |
-| 10 | 34–36 | N → U | `BDR` | 6 | 331 × 73mm |
-| 11 | 37–41 | U → D | `BURRD` | 8 | 481 × 73mm |
-| 12 | 42–44 | D → N | `BLD~b` | 6 | 337 × 70mm |
+| 1 | 1–3 | N → W | `BDL~a` | 6 | 325 × 70 mm |
+| 2 | 4–8 | W → E | `BLUUR` | 8 | 455 × 86 mm |
+| 3 | 9–11 | E → N | `BRD` | 6 | 337 × 70 mm |
+| 4 | 12–14 | N → D | `BDL` | 6 | 331 × 73 mm |
+| 5 | 15–19 | D → U | `BDLLU` | 8 | 481 × 73 mm |
+| 6 | 20–22 | U → N | `BRD` | 6 | 337 × 70 mm |
+| 7 | 23–25 | N → E | `BDR` | 6 | 331 × 73 mm |
+| 8 | 26–30 | E → W | `BRDDL` | 8 | 455 × 86 mm |
+| 9 | 31–33 | W → N | `BLD` | 6 | 337 × 70 mm |
+| 10 | 34–36 | N → U | `BDR` | 6 | 331 × 73 mm |
+| 11 | 37–41 | U → D | `BURRD` | 8 | 481 × 73 mm |
+| 12 | 42–44 | D → N | `BLD~b` | 6 | 337 × 70 mm |
 
 **Ten distinct sheets over twelve sections.** Only two shapes repeat: `BRD`
 (sections 3 and 6) and `BDR` (7 and 10), each cut twice. `BDL` and `BLD` each
 appear once coupled and once plain-ended, and a plain end is a different cut —
-`BDL~a` is 325 × 70mm against `BDL`'s 331 × 73mm. The four five-block folds are
+`BDL~a` is 325 × 70 mm against `BDL`'s 331 × 73 mm. The four five-block folds are
 each cut once. `~a` and `~b` are the two plain ends, the only faces that do not
 couple to another section: the mouthpiece lands on one and the bell on the
-other. The widest sheet is 481mm and the largest 455 × 86mm, both well inside
-the 600mm bed.
+other. The widest sheet is 481 mm and the largest 455 × 86 mm, both well inside
+the 600 mm bed.
 
 The cut files are in
 `../built/coil-fold2-long-straight-3t/cut-files/`, named `01of12`
@@ -134,7 +134,7 @@ through `12of12`. **Blue engraves, then black cuts.**
 
 1. Cut the twelve bore sections, in order.
 2. Cut the bell — 17 rings, **three passes**, 51 pieces. Cut it once and you get
-   a 51mm stub instead of a 153mm bell.
+   a 51 mm stub instead of a 153 mm bell.
 3. Cut the mouthpiece — 30 rings, one pass.
 4. Press-fit each bore section closed, then join them in engraved order.
 5. Stack and glue the bell rings from ring 0 at the bore; stack and glue the
@@ -148,18 +148,18 @@ through `12of12`. **Blue engraves, then black cuts.**
 <p><img src="../parts/bell/bell-round10-153mm-17rings-x3-rim86-built_web.jpg" alt="The bell as built, lying on a workbench: laminated ply rings stacked from a small square block at the throat, widening and rounding as they climb to a flat round rim"><img src="../parts/mouthpiece/mouthpiece-bore10-trumpet-parts-built_web.jpg" alt="The mouthpiece as built, lying on a workbench: a square block at one end, a ring-stacked shaft narrowing to a waist, and a small cup at the other end"></p>
 
 The two on this instrument. Both are **[the bell and the mouthpiece](../ends/)**,
-shared by every bore on the 10mm channel — the square block on each is a bore
-block exactly, 10mm of air in a 16mm face, which is the whole reason one of each
+shared by every bore on the 10 mm channel — the square block on each is a bore
+block exactly, 10 mm of air in a 16 mm face, which is the whole reason one of each
 serves every tube here.
 
 **The mouthpiece is the one part of this instrument that is not what the drawing
-says.** It is 24 rings and 72mm; the sheet cuts 30 and 90. The instrument is
-short, not the drawing, and that is where the 1339mm above becomes 1321 in wood.
+says.** It is 24 rings and 72 mm; the sheet cuts 30 and 90. The instrument is
+short, not the drawing, and that is where the 1339 mm above becomes 1321 in wood.
 
 ## Clearance is one measurement, not a curve
 
 `PLAY_BY_BORE` is a lookup of what has actually been cut, and it has **one row**:
-0.025mm per side at the 10mm bore. A bore not in the table gets that value too — too loose is a worse joint than too tight
+0.025 mm per side at the 10 mm bore. A bore not in the table gets that value too — too loose is a worse joint than too tight
 is no joint — and the generator says on stderr that it is guessing, because a
 guess that looks like a measurement is the dangerous kind.
 
@@ -190,7 +190,7 @@ python3 tools/bore_split.py "N1 W3 U2 E3 N3 D3 W2 U3 N3 E3 D2 W3 N3 U3 E2 D3 N1"
     --bore=10 --straight=30 --no-write
 ```
 
-Drop `--straight=30` and the same walk reports 704mm. Writing rewrites all
+Drop `--straight=30` and the same walk reports 704 mm. Writing rewrites all
 twelve sheets and must run under the venv python that has the gate's
 dependencies:
 
@@ -211,7 +211,7 @@ already exists in wood — check what moved before you replace them.
 · **[the tight coil](../tight-coil/)** — only the greek spiral has been cut, as a
 bore with no ends yet. The tight coil is
 this one's walk with its coil legs cut from 3 to 2 and wound six turns rather
-than three: 42.7mm a turn rather than 64 at a uniform 16mm block, for 16 elbows.
+than three: 42.7 mm a turn rather than 64 at a uniform 16 mm block, for 16 elbows.
 
 ## More, and licence
 

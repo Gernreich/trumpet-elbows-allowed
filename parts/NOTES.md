@@ -3,7 +3,7 @@
 The reasoning, history and measurements behind the rules in `CLAUDE.md`,
 which states them short. When the two disagree, fix both.
 
-**One bell and one mouthpiece, both at the 10mm bore.** That is the default the
+**One bell and one mouthpiece, both at the 10 mm bore.** That is the default the
 square-to-round pair take when `--bore` is not given, and it is the channel every tube
 under `bore/` is cut to. Another bore is `--bore=N` away; nothing is shipped at one.
 
@@ -12,7 +12,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## What this is
 
 The **bell** and the **mouthpiece**, shared by every trumpet in this repository rather
-than owned by one of them. Every bore under `bore/` is cut at the 10mm channel, so one
+than owned by one of them. Every bore under `bore/` is cut at the 10 mm channel, so one
 bell and one mouthpiece serve all of them; only the tube between them differs.
 
 `--bore` on the two square-to-round generators makes the parts to suit any
@@ -34,19 +34,19 @@ their own at `../ends/`. Those carry the geometry; this file covers the code.
 
 ## The bore is cylindrical
 
-Constant 10 × 10mm section end to end, 16mm outside in 3mm ply. **The only part of a trumpet that flares is the bell.** Do not
+Constant 10 × 10 mm section end to end, 16 mm outside in 3 mm ply. **The only part of a trumpet that flares is the bell.** Do not
 describe a bore, a band or a tube as flaring; say curved if it curves.
 
 ## `--bore` is the channel, and only that
 
 `bell-round.py --bore=N` and `mouthpiece-round.py --bore=N` set the air channel and derive
-the plate as **N + 6** — a 3mm wall each side, exactly as the tube is. Nothing else moves:
+the plate as **N + 6** — a 3 mm wall each side, exactly as the tube is. Nothing else moves:
 
-- **The ply is still 3mm and a ring still rises 3mm.** That was never scalable and is not
+- **The ply is still 3 mm and a ring still rises 3 mm.** That was never scalable and is not
   now. A smaller bore does not buy thinner laminations.
 - **The mouthpiece throat stays ø3.66.** A #27 drill is a real trumpet throat, and a
   mouthpiece is sized by the lip at one end and the drill at the other. `--rim` likewise:
-  16–17mm is a trumpet rim whatever it is bolted to. The 10mm mouthpiece is therefore a
+  16–17 mm is a trumpet rim whatever it is bolted to. The 10 mm mouthpiece is therefore a
   full-size mouthpiece on a quarter-size horn, deliberately.
 - **`bell.py` and `mouthpiece.py` do not take it.** Only the square-to-round pair, which is
   what anything new is cut from. Do not add it to the other two without being asked; both
@@ -64,7 +64,7 @@ rebuild what is shipped. **The rim is not in the filename**, so moving `RIM` mak
 run silently replace a mouthpiece that has been cut with one of a different lip. The bell
 has no such hazard — its rim IS in its name, so a different rim writes a different file. **The bell reproduces exactly too**:
 `bell-round.py 17 --bore=10 --length=152 --mouth=80` gives the shipped sheet byte for
-byte. The built height rounds up to the 153mm in its name, and `--mouth=80` is ø86 at the
+byte. The built height rounds up to the 153 mm in its name, and `--mouth=80` is ø86 at the
 outer, which is the rim the name carries. A bare run writes all four ring budgets at the
 default rim instead.
 
@@ -72,7 +72,7 @@ default rim instead.
 
 `--rim` feeds the profile, and the area law then opens the section out by `2/√π` where it
 is a circle, so **`--rim=80` delivers a ø90.3 mouth**. `--mouth=80` inverts that in closed
-form and gives 80. The outer diameter is 6mm larger again — the rim ring's 3mm lap each
+form and gives 80. The outer diameter is 6 mm larger again — the rim ring's 3 mm lap each
 side — and the `section` line prints both, so a wall floor biting at the rim would show up
 rather than pass as the number that was asked for.
 
@@ -82,15 +82,15 @@ reports `rim = 2*rings[-1]["oh"]`, which is the outer too. Neither is the hole.
 ## A bell file is cut more than once
 
 Each of the four bell cut files draws every ring **once**. The `Build` column in the README
-says how many 3mm laminations a ring is, and that is how many times the sheet goes through
+says how many 3 mm laminations a ring is, and that is how many times the sheet goes through
 the machine: the 10-ring bell is 7 ply, so 7 passes and 70 pieces. Cut once it yields a
-30mm bell instead of 210mm. Only the 67-ring file is a single pass. Counting shapes in the
+30 mm bell instead of 210 mm. Only the 67-ring file is a single pass. Counting shapes in the
 SVG answers a different question than "how many pieces".
 
 ## Ring 0 is a flange, and the throat is the bore's channel
 
-The bore ends in a **square annulus of ply 3mm wide** — 10mm inside, 16mm out. Ring 0 has to
-cover all of it. It is a sharp 22mm square with a 10mm square hole, standing 3mm proud of the
+The bore ends in a **square annulus of ply 3 mm wide** — 10 mm inside, 16 mm out. Ring 0 has to
+cover all of it. It is a sharp 22 mm square with a 10 mm square hole, standing 3 mm proud of the
 plate all round: the one ring whose outer is not the next station offset, and **wider than
 the several rings above it**. A run prints it — `flange  ø10 aperture in a ø22 square`.
 
@@ -109,23 +109,23 @@ profile a kerf small -- but it is a consequence to count rather than a decision
 anyone made.
 
 **Apertures come out one kerf oversize**, because a hole opens as the laser goes
-round it. At the 0.15mm kerf the bore generators use:
+round it. At the 0.15 mm kerf the bore generators use:
 
     the throat    drawn  3.66 -> cut  3.81mm   +8.4% in area
     the bore      drawn 10.00 -> cut 10.15mm   +3.0%
     the lip       drawn 17.00 -> cut 17.15mm   +1.8%
 
 The throat is the smallest hole in the instrument and the one that voices it, so
-that is where a fixed 0.15mm hurts most. Whether it wants compensating is a
+that is where a fixed 0.15 mm hurts most. Whether it wants compensating is a
 voicing question, not a drawing one, which is why this is written down rather
 than changed.
 
 **Stack heights are nominal.** They are ring count times WALL, and WALL is 3.0: 30 rings
-reports 90.0mm and 24 rings 72.0mm. An assembled stack measures whatever the ply under it
+reports 90.0 mm and 24 rings 72.0 mm. An assembled stack measures whatever the ply under it
 actually is, so caliper a stack rather than reading its height off a ring count — a
 reported height that is exactly `count x 3.0` is a count and not a measurement.
 
-**The lap is 3mm, not 1.5.** 1.5mm is the width of the bearing land, and it leaves nothing for
+**The lap is 3 mm, not 1.5.** 1.5 mm is the width of the bearing land, and it leaves nothing for
 kerf or for a ring set down slightly off centre, so joints open up along the bell. `--lap`
 moves it.
 
@@ -139,23 +139,23 @@ moves it.
 - **The minimum-wall floor does not bind.** `wall = gain + LAP >= 3mm` on its own, so the
   `max(gain, MINWALL - LAP)` floor is inactive and the profile follows the Bessel curve
   exactly rather than being inflated by it. That is why all four bells reach the same
-  129.0mm rim.
+  129.0 mm rim.
 
 ## The adapter is what makes a ported bore take a bell
 
 `bell-adapter.py` is a third part and not a third bell. A ported bore does not open at
-its mouth; it opens through the **7 x 14mm slot** in the cheek that `ribbon_bore.py`
-cuts, and a bell's throat is the bore's own 10mm square. The adapter is the stack of
+its mouth; it opens through the **7 x 14 mm slot** in the cheek that `ribbon_bore.py`
+cuts, and a bell's throat is the bore's own 10 mm square. The adapter is the stack of
 rings that turns one into the other, and it is why the bell needs no change at all:
-its last ring is a **collar, 10mm square in a 16mm square face**, which is exactly the
+its last ring is a **collar, 10 mm square in a 16 mm square face**, which is exactly the
 end face the bore presents, so `bell-round.py`'s ring 0 seats on it as it was always
 going to seat on the bore.
 
 **Why the port is not square** is argued next door beside `PORT_ACROSS`, and it is the
 whole reason this part exists. The tab slots run up both cheek walls the length of the
 bore, so a port's clearance is measured **across** the run and nothing else; length
-**along** the run is free. 7 x 14 clears by 1.66mm where a bore-square 10 x 10 clears
-by 0.16mm, and buys the area back in the direction that costs nothing. The price is an
+**along** the run is free. 7 x 14 clears by 1.66 mm where a bore-square 10 x 10 clears
+by 0.16 mm, and buys the area back in the direction that costs nothing. The price is an
 opening the wrong shape for a horn, and it is paid here rather than in the bore.
 
 **Area is the schedule and the aspect ratio is what moves** — 98mm2 to 100mm2 while the
@@ -172,12 +172,12 @@ The section stays a **sharp rectangle** the whole way. Both ends are sharp, so u
 `bell-round.py` there is nothing to round and nothing to round back.
 
 **How fast the section may move is set by the lap**, not by taste: a half-width may
-shrink by at most `LAP - MINWALL` = 1mm in one ring or that side's wall goes under the
-minimum. The long axis has 2mm to lose, so **three rings is the hard floor** and the
+shrink by at most `LAP - MINWALL` = 1 mm in one ring or that side's wall goes under the
+minimum. The long axis has 2 mm to lose, so **three rings is the hard floor** and the
 default is six plus the collar. The generator refuses a smaller `--rings` and says so.
 
-At the default it is 7 rings of one ply, 21mm tall, with a 13.14 x 19.75mm footprint on
-a cheek whose narrow band is 15.85mm — 1.35mm of cheek each side of it.
+At the default it is 7 rings of one ply, 21 mm tall, with a 13.14 x 19.75 mm footprint on
+a cheek whose narrow band is 15.85 mm — 1.35 mm of cheek each side of it.
 
 ## Two bell families
 
@@ -187,16 +187,16 @@ corner radius 0 at station one and equal to the half-width at the rim.
 
 They differ in what is held to the Bessel profile. The square bells follow the half-width;
 the round ones follow the **area**, because a circle inscribed in a square has 21% less of
-it. That is why the round rim is ø144.8mm where the square one is 129.0mm square, and why
+it. That is why the round rim is ø144.8mm where the square one is 129.0 mm square, and why
 the two rim numbers are not meant to match.
 
-`bell-round.py` checks its own sheets — the 1.5mm seat, the 2mm wall and the bore never
+`bell-round.py` checks its own sheets — the 1.5 mm seat, the 2 mm wall and the bore never
 stepping inward — and writes nothing if a check fails. It has to: `verify_bell.py` reads an
 arc as proof it is looking at the mouthpiece and skips these files by design.
 
-**The 2mm wall floor is directional.** Rounding a corner pulls the diagonal in, so a
+**The 2 mm wall floor is directional.** Rounding a corner pulls the diagonal in, so a
 station rounder than the one below reaches less far into its corners than its extra
-half-width suggests. A wall of 2.6mm across a flat can be 1.97mm through a corner. Both
+half-width suggests. A wall of 2.6 mm across a flat can be 1.97 mm through a corner. Both
 floors are solved in closed form in `stations()`; do not reduce it to one.
 
 ## Three viewers, and only one of them turns
@@ -302,7 +302,7 @@ These have been cut. Treat every SVG as concurrently modified in Inkscape:
   worse than what you have.
 
   It costs one step of the fitting search on the tightest sheet in the repository, the
-  30-ring mouthpiece: smallest character 1.88mm becomes 1.78mm. The bells are limited by
+  30-ring mouthpiece: smallest character 1.88 mm becomes 1.78 mm. The bells are limited by
   their wall rather than by label width and do not move at all.
 - **Every sheet generator numbers its own rings** — `bell.py`, `bell-round.py`,
   `mouthpiece.py`, `mouthpiece-round.py` and `mouthpiece-cup.py` all call
@@ -328,7 +328,7 @@ These have been cut. Treat every SVG as concurrently modified in Inkscape:
 - Verify a hand-edited bell with `verify_bell.py` rather than diffing path data — once
   paths are converted to Bézier curves, a byte diff says nothing. **It reads the SQUARE
   bells only.** The square-to-round ones are drawn with arcs and lap by whatever their
-  3mm wall leaves rather than by a fixed amount, so it skips them and says so — a checker
+  3 mm wall leaves rather than by a fixed amount, so it skips them and says so — a checker
   that answers about a file it does not understand teaches you to ignore it.
 - **`verify_bell.py` pairs an aperture with the outline concentric with it**, so it reads
   both the one-path form and the two-group form the generators write now, and survives a
@@ -337,17 +337,17 @@ These have been cut. Treat every SVG as concurrently modified in Inkscape:
   sheet "a section drawing or a sheet of something else" and skips it, passing silently on
   sheets nobody has checked.
 
-## The mouthpiece's taper is 2.5mm because it has to be
+## The mouthpiece's taper is 2.5 mm because it has to be
 
 `mouthpiece-round.py` starts square on the bore and is round by the throat. It could not be
-built on `mouthpiece.py`'s 4mm backbore steps, and this is the reason:
+built on `mouthpiece.py`'s 4 mm backbore steps, and this is the reason:
 
 A ring's outer is its aperture offset by `WALL`, so the seat is `WALL` minus how far two
-apertures differ in that direction. Across the flats that is half the aperture step — a 4mm
-step leaves 3.00 − 2.00 = 1.00mm. **Through the corners of a sharp square the same step
-costs step × √2 = 2.83mm, leaving 0.17mm**, and giving a corner any radius pulls the
-diagonal in further and takes it negative. At 2.5mm the corner seat is 1.23mm. The cone is
-identical, sampled finer: 9 backbore rings instead of 6, 78mm instead of 69mm.
+apertures differ in that direction. Across the flats that is half the aperture step — a 4 mm
+step leaves 3.00 − 2.00 = 1.00 mm. **Through the corners of a sharp square the same step
+costs step × √2 = 2.83 mm, leaving 0.17 mm**, and giving a corner any radius pulls the
+diagonal in further and takes it negative. At 2.5 mm the corner seat is 1.23 mm. The cone is
+identical, sampled finer: 9 backbore rings instead of 6, 78 mm instead of 69 mm.
 
 **Roundness is not scheduled**, unlike the bell's `--morph`. Each station takes the largest
 corner radius that still leaves `MINSEAT` in both directions, in closed form, so the part
@@ -387,14 +387,14 @@ refuses by name rather than half-parsing into a plausible wrong answer.
 that still lands on material — measured against the real curves, not assumed from the wall.
 That matters because the wall is not the room available: the rim ring's aperture is nearly a
 circle, so there is no flat to sit a digit on, and a radius-by-angle lookup that samples only
-the ends of a straight run reads the bottom of a square as its corner, 21.9mm instead of
-15.5mm. Sample `H` and `V`, not just their endpoints.
+the ends of a straight run reads the bottom of a square as its corner, 21.9 mm instead of
+15.5 mm. Sample `H` and `V`, not just their endpoints.
 
 ## The mouthpiece has two layouts, and only one of them is worth cutting
 
-Both are 30 rings and 90mm. `--layout=trumpet`, the default, puts 75mm into the backbore
-and keeps a 12mm cup, which is how a real mouthpiece is proportioned. `--layout=legacy` has
-a 27mm backbore and 51mm of near-cylindrical entrance on the LIP side of the throat, close
+Both are 30 rings and 90 mm. `--layout=trumpet`, the default, puts 75 mm into the backbore
+and keeps a 12 mm cup, which is how a real mouthpiece is proportioned. `--layout=legacy` has
+a 27 mm backbore and 51 mm of near-cylindrical entrance on the LIP side of the throat, close
 to inverted — a 48mm-deep cup by any honest reading.
 
 **`legacy` is a record of a part, not a design to cut.** A mouthpiece was built to it before
@@ -409,13 +409,13 @@ touch the profile code.
 
 **The wall is per-ring, not a constant.** The seat above a ring is the wall of whichever
 ring is narrow at that joint, less half the aperture step, so a step that big needs a wall
-to match: a trumpet cup runs ø3.66 to ø11.25 in one ring and wants 4.80mm. `Ws` is computed
+to match: a trumpet cup runs ø3.66 to ø11.25 in one ring and wants 4.80 mm. `Ws` is computed
 from the steps and the roundness bound reads the wall on the NARROW side of each joint —
 taking the smaller of the two refuses a cup the walls can actually hold.
 
 ## Two routes to the same mouthpiece
 
-`mouthpiece-round.py` writes the whole part — backbore, entrance, bowl — as 30 rings, 90mm.
+`mouthpiece-round.py` writes the whole part — backbore, entrance, bowl — as 30 rings, 90 mm.
 `mouthpiece-cup.py` writes the bowl alone, four rings that stack on a mouthpiece built
 before the bowl existed, numbered from 26 with `--start=26`.
 
@@ -433,13 +433,13 @@ are reversed. Fixing it means regenerating a part that has been cut.
 
 ## A smaller bell is a shorter profile, not a scaled one
 
-The throat is the bore's own channel, and a ring rises 3mm because the ply does. Neither is
+The throat is the bore's own channel, and a ring rises 3 mm because the ply does. Neither is
 ours to scale. `--length`, `--rim` and `--gamma` on both generators move the profile instead;
 `--rim` is the bore's diameter **at** the rim, before the wall, so it reads a wall smaller
 than the "Rim diameter" the README tabulates.
 
 **Every filename states its length, and `bell-round`'s its bore as well.** A length that
-appeared only when it was not 201mm would let a 100mm bell landing on 17 rings overwrite
+appeared only when it was not 201 mm would let a 100 mm bell landing on 17 rings overwrite
 `bell-round10-153mm-17rings-x3-rim86-cut-files.svg`, and would leave
 `bell-round-67rings.svg` saying nothing about the tube it fits or how long it is, where
 `bell-round-99mm-11rings.svg` says one of the two. Both go in every name, and in the
@@ -447,19 +447,19 @@ appeared only when it was not 201mm would let a 100mm bell landing on 17 rings o
 `bell-round.py:337` and there is no stem variable to shorten, which is the point --
 the length and the ring count have to survive being read off a sheet.
 
-Short bells make the overshoot matter: 99mm divides evenly by 3, 9 and 33mm of rise, 100mm
+Short bells make the overshoot matter: 99 mm divides evenly by 3, 9 and 33 mm of rise, 100 mm
 divides by none of them. Both generators report it and name a length that would have worked.
 
 ## The rim ring is not always the steepest
 
-The profile is defined over 201mm, but a whole number of rings at each rise usually
-overshoots it — the 14-ring bell is 14 × 15 = 210mm. **A ring past 201mm is still a full
+The profile is defined over 201 mm, but a whole number of rings at each rise usually
+overshoots it — the 14-ring bell is 14 × 15 = 210 mm. **A ring past 201 mm is still a full
 `step` tall** and simply has less curve left to draw, so it flares less than the ring below.
 The 14-ring's steepest ring is 36.8° and its rim ring 24.6°.
 
 `bell.py` therefore reports the **steepest** angle, with the rim ring in brackets where the
 two differ, and the README's Angle column is the steepest. Dividing by anything other than
-`step` would be wrong: the ring really is `plies` laminations of 3mm ply, whatever the curve
+`step` would be wrong: the ring really is `plies` laminations of 3 mm ply, whatever the curve
 did over its height.
 
 ## Commands

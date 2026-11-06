@@ -104,12 +104,12 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <h1 id="the-tight-coil">The tight coil</h1>
 <iframe src="../parts/bore/concept/walk/coil/tight/bore/bore.html?embed" title="The tight coil bore: 65 blocks winding six whole turns without touching, drawn as a chain of coloured blocks you can drag to turn" style="width:100%;height:560px;border:0"></iframe>
 
-<p>A trumpet bore wound as tightly as a coil can go without touching itself. <strong>65 blocks, 1040mm of centreline, 33 sections, six whole turns at 42.7mm a turn, nothing touching — and 16 elbows</strong>, one at every other piece. It is the tightest coil in this repository whose blocks never meet, and it buys that by cutting the turns the generator cannot fold.</p>
-<p><strong><a href="../parts/bore/concept/walk/coil/tight/bore/bore.html">Turn it →</a></strong> It turns at the top of the published page, and on a page of its own: drag to rotate, and the slider reveals the bore a block at a time in the order you would assemble it.</p>
+<p>A trumpet bore wound as tightly as a coil can go without touching itself. <strong>65 blocks, 1040 mm of centreline, 33 sections, six whole turns at 42.7 mm a turn, nothing touching — and 16 elbows</strong>, one at every other piece. It is the tightest coil in this repository whose blocks never meet, and it buys that by cutting the turns the generator cannot fold.</p>
+<p><strong><a href="../parts/bore/concept/walk/coil/tight/bore/bore.html" target="_blank" rel="noopener">Turn it →</a></strong> It turns at the top of the published page, and on a page of its own: drag to rotate, and the slider reveals the bore a block at a time in the order you would assemble it.</p>
 <h2 id="the-walk-is-the-whole-design">The walk is the whole design</h2>
 <pre><code>N1 W2 U2 E2 N2 D2 W2 U2 N2 E2 D2 W2 N2 U2 E2 D2 N2 W2 U2 E2 N2 D2 W2 U2 N2 E2 D2 W2 N2 U2 E2 D2 N1</code></pre>
 <p>The first term is the way you face at the mouth and how far you go before anything turns; every term after it turns where you stand and then travels that many blocks. So <strong>the bore is 1 + the sum of the numbers</strong> — 64 + 1 = 65. Axes are Minecraft's: <code>U</code>/<code>D</code> are +Y/−Y, <code>N</code> is −Z, <code>S</code> is +Z, <code>E</code> is +X, <code>W</code> is −X.</p>
-<p>It goes round <code>W U E D</code>, two blocks a side, and steps two blocks north after every three sides, so the loop never sits in one plane. Three sides are three quarters of a turn, so the coil advances 2⅔ blocks a turn — 42.7mm — and the whole walk measures the same end to end: 16 blocks of axis in six turns. Eight groups of three sides make 24 sides — six whole turns — and the walk ends on the same line it began: the first and last blocks are 16 blocks apart along the axis and nowhere apart across it. The coil is right-handed, the same way round as the three-turn trumpet.</p>
+<p>It goes round <code>W U E D</code>, two blocks a side, and steps two blocks north after every three sides, so the loop never sits in one plane. Three sides are three quarters of a turn, so the coil advances 2⅔ blocks a turn — 42.7 mm — and the whole walk measures the same end to end: 16 blocks of axis in six turns. Eight groups of three sides make 24 sides — six whole turns — and the walk ends on the same line it began: the first and last blocks are 16 blocks apart along the axis and nowhere apart across it. The coil is right-handed, the same way round as the three-turn trumpet.</p>
 <p>The walk is kept in <code>../tools/walks/tight_coil.txt</code>, and <code>regress.py</code> beside it names this folder as where its cut files land.</p>
 <h2 id="why-it-cannot-be-tighter">Why it cannot be tighter</h2>
 <p>Two blocks is the shortest a side can be and the shortest a step along the axis can be, if no block is to touch another. Each was tried one block shorter in <code>bore_split.py</code>:</p>
@@ -127,21 +127,21 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <tbody>
 <tr>
 <td><strong>this one, sides 2, steps 2</strong></td>
-<td style="text-align: right;"><strong>42.7mm</strong></td>
+<td style="text-align: right;"><strong>42.7 mm</strong></td>
 <td style="text-align: right;"><strong>10.8 blocks</strong></td>
 <td style="text-align: right;">16</td>
 <td style="text-align: right;"><strong>0</strong></td>
 </tr>
 <tr>
 <td>steps of 1</td>
-<td style="text-align: right;">21.3mm</td>
+<td style="text-align: right;">21.3 mm</td>
 <td style="text-align: right;">9.7 blocks</td>
 <td style="text-align: right;">16</td>
 <td style="text-align: right;">35</td>
 </tr>
 <tr>
 <td>sides of 1</td>
-<td style="text-align: right;">42.7mm</td>
+<td style="text-align: right;">42.7 mm</td>
 <td style="text-align: right;">6.8 blocks</td>
 <td style="text-align: right;">32</td>
 <td style="text-align: right;">8</td>
@@ -153,9 +153,9 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <p>Contact is counted between blocks three or more apart along the bore, as everywhere in this repository: blocks two apart touch at every turn, and that is the geometry of turning rather than the bore coming back on itself.</p>
 <h2 id="what-it-costs-an-elbow-at-every-other-piece">What it costs: an elbow at every other piece</h2>
 <p>Of the 31 terms between the two ends, 23 sit between terms on <strong>different</strong> axes — <code>W2</code> between <code>N1</code> and <code>U2</code>, say — and a turn there needs a leg of 3 to fold into a bend. The other 8 are hairpins, like the <code>U2</code> in <code>W2 U2 E2</code>, and 2 is enough for those. Cut to 2, the 23 short legs leave 16 turns with nothing to fold into, and each is cut as an <strong>elbow</strong>: a single block that is a piece of its own.</p>
-<p>Raise those 23 legs to 3 and the first three turns are exactly the <a href="../three-turn/">three-turn trumpet</a>'s walk, which has no elbows and rises 64mm a turn at the same 16mm block, rather than 42.7.</p>
+<p>Raise those 23 legs to 3 and the first three turns are exactly the <a href="../three-turn/" target="_blank" rel="noopener">three-turn trumpet</a>'s walk, which has no elbows and rises 64 mm a turn at the same 16 mm block, rather than 42.7.</p>
 <p>So the 33 pieces alternate: a straight at the mouth, then elbow, bend, elbow, bend, to a bend at the bell. The 16 bends are three blocks each and the 16 elbows one.</p>
-<p><strong>Seven elbows are left open on the inside of the turn</strong> — sections 6, 10, 14, 18, 22, 26 and 30. An elbow's two openings share an edge, so the inside corner of the turn has no wall of its own; a neighbour normally closes it with a tongue, a wall run one ply past the joint. At these seven neither neighbour can put the tongue on a wall, so the generator leaves the corner open rather than guessing. It is not a leak — the neighbours' walls and the elbow's plates seal it from outside — but it is a 3 × 3mm notch along the inside of the turn, and a joint with less bearing surface. The other nine elbows are closed.</p>
+<p><strong>Seven elbows are left open on the inside of the turn</strong> — sections 6, 10, 14, 18, 22, 26 and 30. An elbow's two openings share an edge, so the inside corner of the turn has no wall of its own; a neighbour normally closes it with a tongue, a wall run one ply past the joint. At these seven neither neighbour can put the tongue on a wall, so the generator leaves the corner open rather than guessing. It is not a leak — the neighbours' walls and the elbow's plates seal it from outside — but it is a 3 × 3 mm notch along the inside of the turn, and a joint with less bearing surface. The other nine elbows are closed.</p>
 <h2 id="the-numbers">The numbers</h2>
 <div class="tw">
 <table>
@@ -166,7 +166,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 </tr>
 <tr>
 <td>centreline</td>
-<td>1040mm</td>
+<td>1040 mm</td>
 </tr>
 <tr>
 <td>sections</td>
@@ -178,19 +178,19 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 </tr>
 <tr>
 <td>bounding box</td>
-<td>48 × 48 × 272mm — 3 × 3 × 17 blocks</td>
+<td>48 × 48 × 272 mm — 3 × 3 × 17 blocks</td>
 </tr>
 <tr>
 <td>airway</td>
-<td>10mm square, constant</td>
+<td>10 mm square, constant</td>
 </tr>
 <tr>
 <td>block pitch</td>
-<td>16mm — 10mm of air in 3mm walls</td>
+<td>16 mm — 10 mm of air in 3 mm walls</td>
 </tr>
 <tr>
 <td>rise</td>
-<td>42.7mm a turn — 2⅔ blocks — over six whole turns</td>
+<td>42.7 mm a turn — 2⅔ blocks — over six whole turns</td>
 </tr>
 <tr>
 <td>elbows</td>
@@ -206,7 +206,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 </tr>
 <tr>
 <td>with the ends</td>
-<td>1283mm — 90mm mouthpiece, 1040mm bore, 153mm bell</td>
+<td>1283 mm — 90 mm mouthpiece, 1040 mm bore, 153 mm bell</td>
 </tr>
 </tbody>
 </table>
@@ -236,7 +236,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>1×1</td>
 <td><code>S1~a@-W</code></td>
 <td>4</td>
-<td>122 × 40mm</td>
+<td>122 × 40 mm</td>
 </tr>
 <tr>
 <td>2</td>
@@ -246,7 +246,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>1×1</td>
 <td><code>EEN</code></td>
 <td>4</td>
-<td>128 × 40mm</td>
+<td>128 × 40 mm</td>
 </tr>
 <tr>
 <td>3</td>
@@ -256,7 +256,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>2×2</td>
 <td><code>BLU~f@-E</code></td>
 <td>6</td>
-<td>253 × 56mm</td>
+<td>253 × 56 mm</td>
 </tr>
 <tr>
 <td>4</td>
@@ -266,7 +266,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>1×1</td>
 <td><code>EEN</code></td>
 <td>4</td>
-<td>128 × 40mm</td>
+<td>128 × 40 mm</td>
 </tr>
 <tr>
 <td>5</td>
@@ -276,7 +276,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>2×2</td>
 <td><code>BRD~f~g</code></td>
 <td>6</td>
-<td>250 × 56mm</td>
+<td>250 × 56 mm</td>
 </tr>
 <tr>
 <td>6</td>
@@ -286,7 +286,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>1×1</td>
 <td><code>EEN</code></td>
 <td>4</td>
-<td>128 × 40mm</td>
+<td>128 × 40 mm</td>
 </tr>
 <tr>
 <td>7</td>
@@ -296,7 +296,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>2×2</td>
 <td><code>BDL~f@-N</code></td>
 <td>6</td>
-<td>250 × 59mm</td>
+<td>250 × 59 mm</td>
 </tr>
 <tr>
 <td>8</td>
@@ -306,7 +306,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>1×1</td>
 <td><code>EEN</code></td>
 <td>4</td>
-<td>128 × 40mm</td>
+<td>128 × 40 mm</td>
 </tr>
 <tr>
 <td>9</td>
@@ -316,7 +316,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>2×2</td>
 <td><code>BRD~f~g</code></td>
 <td>6</td>
-<td>250 × 56mm</td>
+<td>250 × 56 mm</td>
 </tr>
 <tr>
 <td>10</td>
@@ -326,7 +326,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>1×1</td>
 <td><code>ENE</code></td>
 <td>4</td>
-<td>122 × 43mm</td>
+<td>122 × 43 mm</td>
 </tr>
 <tr>
 <td>11</td>
@@ -336,7 +336,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>2×2</td>
 <td><code>BRD~f@-W</code></td>
 <td>6</td>
-<td>253 × 56mm</td>
+<td>253 × 56 mm</td>
 </tr>
 <tr>
 <td>12</td>
@@ -346,7 +346,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>1×1</td>
 <td><code>EEN</code></td>
 <td>4</td>
-<td>128 × 40mm</td>
+<td>128 × 40 mm</td>
 </tr>
 <tr>
 <td>13</td>
@@ -356,7 +356,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>2×2</td>
 <td><code>BLD~f~g</code></td>
 <td>6</td>
-<td>250 × 56mm</td>
+<td>250 × 56 mm</td>
 </tr>
 <tr>
 <td>14</td>
@@ -366,7 +366,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>1×1</td>
 <td><code>ENE</code></td>
 <td>4</td>
-<td>122 × 43mm</td>
+<td>122 × 43 mm</td>
 </tr>
 <tr>
 <td>15</td>
@@ -376,7 +376,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>2×2</td>
 <td><code>BUR~f@-S</code></td>
 <td>6</td>
-<td>250 × 59mm</td>
+<td>250 × 59 mm</td>
 </tr>
 <tr>
 <td>16</td>
@@ -386,7 +386,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>1×1</td>
 <td><code>EEN</code></td>
 <td>4</td>
-<td>128 × 40mm</td>
+<td>128 × 40 mm</td>
 </tr>
 <tr>
 <td>17</td>
@@ -396,7 +396,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>2×2</td>
 <td><code>BLD~f~g</code></td>
 <td>6</td>
-<td>250 × 56mm</td>
+<td>250 × 56 mm</td>
 </tr>
 <tr>
 <td>18</td>
@@ -406,7 +406,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>1×1</td>
 <td><code>EEN</code></td>
 <td>4</td>
-<td>128 × 40mm</td>
+<td>128 × 40 mm</td>
 </tr>
 <tr>
 <td>19</td>
@@ -416,7 +416,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>2×2</td>
 <td><code>BLU~f@-E</code></td>
 <td>6</td>
-<td>253 × 56mm</td>
+<td>253 × 56 mm</td>
 </tr>
 <tr>
 <td>20</td>
@@ -426,7 +426,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>1×1</td>
 <td><code>EEN</code></td>
 <td>4</td>
-<td>128 × 40mm</td>
+<td>128 × 40 mm</td>
 </tr>
 <tr>
 <td>21</td>
@@ -436,7 +436,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>2×2</td>
 <td><code>BRD~f~g</code></td>
 <td>6</td>
-<td>250 × 56mm</td>
+<td>250 × 56 mm</td>
 </tr>
 <tr>
 <td>22</td>
@@ -446,7 +446,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>1×1</td>
 <td><code>EEN</code></td>
 <td>4</td>
-<td>128 × 40mm</td>
+<td>128 × 40 mm</td>
 </tr>
 <tr>
 <td>23</td>
@@ -456,7 +456,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>2×2</td>
 <td><code>BDL~f@-N</code></td>
 <td>6</td>
-<td>250 × 59mm</td>
+<td>250 × 59 mm</td>
 </tr>
 <tr>
 <td>24</td>
@@ -466,7 +466,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>1×1</td>
 <td><code>EEN</code></td>
 <td>4</td>
-<td>128 × 40mm</td>
+<td>128 × 40 mm</td>
 </tr>
 <tr>
 <td>25</td>
@@ -476,7 +476,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>2×2</td>
 <td><code>BRD~f~g</code></td>
 <td>6</td>
-<td>250 × 56mm</td>
+<td>250 × 56 mm</td>
 </tr>
 <tr>
 <td>26</td>
@@ -486,7 +486,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>1×1</td>
 <td><code>ENE</code></td>
 <td>4</td>
-<td>122 × 43mm</td>
+<td>122 × 43 mm</td>
 </tr>
 <tr>
 <td>27</td>
@@ -496,7 +496,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>2×2</td>
 <td><code>BRD~f@-W</code></td>
 <td>6</td>
-<td>253 × 56mm</td>
+<td>253 × 56 mm</td>
 </tr>
 <tr>
 <td>28</td>
@@ -506,7 +506,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>1×1</td>
 <td><code>EEN</code></td>
 <td>4</td>
-<td>128 × 40mm</td>
+<td>128 × 40 mm</td>
 </tr>
 <tr>
 <td>29</td>
@@ -516,7 +516,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>2×2</td>
 <td><code>BLD~f~g</code></td>
 <td>6</td>
-<td>250 × 56mm</td>
+<td>250 × 56 mm</td>
 </tr>
 <tr>
 <td>30</td>
@@ -526,7 +526,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>1×1</td>
 <td><code>ENE</code></td>
 <td>4</td>
-<td>122 × 43mm</td>
+<td>122 × 43 mm</td>
 </tr>
 <tr>
 <td>31</td>
@@ -536,7 +536,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>2×2</td>
 <td><code>BUR~f@-S</code></td>
 <td>6</td>
-<td>250 × 59mm</td>
+<td>250 × 59 mm</td>
 </tr>
 <tr>
 <td>32</td>
@@ -546,7 +546,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>1×1</td>
 <td><code>EEN</code></td>
 <td>4</td>
-<td>128 × 40mm</td>
+<td>128 × 40 mm</td>
 </tr>
 <tr>
 <td>33</td>
@@ -556,7 +556,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <td>2×2</td>
 <td><code>BLD~b~f</code></td>
 <td>6</td>
-<td>250 × 56mm</td>
+<td>250 × 56 mm</td>
 </tr>
 </tbody>
 </table>
@@ -598,25 +598,25 @@ bore10-coil-tight-30of33-elbow-NE-cut-files.svg
 bore10-coil-tight-31of33-bend-UR-lapS-flatin-cut-files.svg
 bore10-coil-tight-32of33-elbow-EN-cut-files.svg
 bore10-coil-tight-33of33-bend-LD-buttout-flatin-cut-files.svg</code></pre>
-<p>Every file is millimetre-true at 1 user unit = 1mm. <strong>Blue engraves, then black cuts</strong> — blue writes the section number on every part, black frees it.</p>
-<p><strong>All 33 fit on one bed.</strong> <code>../parts/bore/concept/walk/coil/tight/bore/bore10-coil-tight-sheet1of1.svg</code> is the whole xTool P2S bed, 600 × 305mm, with every section file placed on it whole and unchanged, 4mm apart and 4mm from the edge, except the bottom row, which ends 2.8mm from it. A section's parts stay together, so the numbers still find their neighbours. Cut it in place of the 33 files, or cut the 33 one at a time — they are the same paths.</p>
+<p>Every file is millimetre-true at 1 user unit = 1 mm. <strong>Blue engraves, then black cuts</strong> — blue writes the section number on every part, black frees it.</p>
+<p><strong>All 33 fit on one bed.</strong> <code>../parts/bore/concept/walk/coil/tight/bore/bore10-coil-tight-sheet1of1.svg</code> is the whole xTool P2S bed, 600 × 305 mm, with every section file placed on it whole and unchanged, 4 mm apart and 4 mm from the edge, except the bottom row, which ends 2.8 mm from it. A section's parts stay together, so the numbers still find their neighbours. Cut it in place of the 33 files, or cut the 33 one at a time — they are the same paths.</p>
 <h2 id="rebuild-it">Rebuild it</h2>
 <p>The generator lives in <code>tools/</code> at the repository root, and both commands run from there. Report only, writing nothing:</p>
 <pre><code>python3 tools/bore_split.py tools/walks/tight_coil.txt --no-write</code></pre>
 <p>Writing rewrites every sheet in the folder and gates them, so it runs under the venv python that has the gate's dependencies:</p>
 <pre><code>cd tools &amp;&amp; ~/Software/boxes/venv/bin/python bore_split.py walks/tight_coil.txt \
     --write ../parts/bore/concept/walk/coil/tight/bore</code></pre>
-<p>The bed sheet is drawn from those files, so it comes after them. <code>bed_sheets.py</code> packs each section whole and searches packing orders from a fixed seed, so the same command writes the same sheets; it re-reads what it wrote and exits 1 if a section is missing, moved off the bed, closer than 4mm to another, or changed.</p>
-<p><strong>It no longer writes the one sheet shipped here.</strong> That sheet was packed for a 308mm bed, and the bed turned out to be 305mm (cut-tested, 2026-10-19). Its parts end at 302.2mm, so it was kept and only its canvas trimmed. Packed for 305mm with 4mm at every edge, the same command writes two sheets, 28 sections and 5, and no seed tried did better:</p>
+<p>The bed sheet is drawn from those files, so it comes after them. <code>bed_sheets.py</code> packs each section whole and searches packing orders from a fixed seed, so the same command writes the same sheets; it re-reads what it wrote and exits 1 if a section is missing, moved off the bed, closer than 4 mm to another, or changed.</p>
+<p><strong>It no longer writes the one sheet shipped here.</strong> That sheet was packed for a 308 mm bed, and the bed turned out to be 305 mm (cut-tested, 2026-10-19). Its parts end at 302.2 mm, so it was kept and only its canvas trimmed. Packed for 305 mm with 4 mm at every edge, the same command writes two sheets, 28 sections and 5, and no seed tried did better:</p>
 <pre><code>python3 tools/bed_sheets.py parts/bore/concept/walk/coil/tight/bore/cut-files \
     parts/bore/concept/walk/coil/tight/bore bore10-coil-tight</code></pre>
 <h2 id="the-two-ends">The two ends</h2>
-<p>Only the tube belongs to an instrument. Neither the mouthpiece nor the bell is touched by the way a bore turns, and every bore here is on the same 10mm channel, so one of each serves all of them — <strong><a href="../ends/">the bell and the mouthpiece</a></strong>. The walk opens and closes on a single block, <code>N1</code>: the mouthpiece and the bell are long enough to carry the instrument clear of the coil without a longer lead.</p>
+<p>Only the tube belongs to an instrument. Neither the mouthpiece nor the bell is touched by the way a bore turns, and every bore here is on the same 10 mm channel, so one of each serves all of them — <strong><a href="../ends/" target="_blank" rel="noopener">the bell and the mouthpiece</a></strong>. The walk opens and closes on a single block, <code>N1</code>: the mouthpiece and the bell are long enough to carry the instrument clear of the coil without a longer lead.</p>
 <h2 id="more-and-licence">More, and licence</h2>
-<p><strong><a href="../three-turn/">The three-turn trumpet</a></strong> — the bore that plays, and the same coil with legs of 3 and no elbows.</p>
-<p><strong><a href="https://gernreich.github.io/trumpet-elbows-allowed/">The trumpet writeup</a></strong> — the idea, the notation, the gate, and the whole library.</p>
-<p><strong><a href="https://gernreich.github.io/lasermademusic.html">The rest of the build files</a></strong> — every instrument, each with its own writeup.</p>
-<p>Released under <a href="../LICENSE">CC0 1.0</a>.</p>
+<p><strong><a href="../three-turn/" target="_blank" rel="noopener">The three-turn trumpet</a></strong> — the bore that plays, and the same coil with legs of 3 and no elbows.</p>
+<p><strong><a href="https://gernreich.github.io/trumpet-elbows-allowed/" target="_blank" rel="noopener">The trumpet writeup</a></strong> — the idea, the notation, the gate, and the whole library.</p>
+<p><strong><a href="https://gernreich.github.io/lasermademusic.html" target="_blank" rel="noopener">The rest of the build files</a></strong> — every instrument, each with its own writeup.</p>
+<p>Released under <a href="../LICENSE" target="_blank" rel="noopener">CC0 1.0</a>.</p>
 </main>
 </div>
 <script>

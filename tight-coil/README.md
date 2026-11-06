@@ -3,7 +3,7 @@
 <!-- page-only <iframe src="../parts/bore/concept/walk/coil/tight/bore/bore.html?embed" title="The tight coil bore: 65 blocks winding six whole turns without touching, drawn as a chain of coloured blocks you can drag to turn" style="width:100%;height:560px;border:0"></iframe> -->
 
 A trumpet bore wound as tightly as a coil can go without touching itself.
-**65 blocks, 1040mm of centreline, 33 sections, six whole turns at 42.7mm a
+**65 blocks, 1040 mm of centreline, 33 sections, six whole turns at 42.7 mm a
 turn, nothing touching — and 16 elbows**, one at every other piece. It is the
 tightest coil in this repository whose blocks never meet, and it buys that by
 cutting the turns the generator cannot fold.
@@ -28,7 +28,7 @@ are Minecraft's: `U`/`D` are +Y/−Y, `N` is −Z, `S` is +Z, `E` is +X, `W` is 
 
 It goes round `W U E D`, two blocks a side, and steps two blocks north after
 every three sides, so the loop never sits in one plane. Three sides are three
-quarters of a turn, so the coil advances 2⅔ blocks a turn — 42.7mm — and the
+quarters of a turn, so the coil advances 2⅔ blocks a turn — 42.7 mm — and the
 whole walk measures the same end to end: 16 blocks of axis in six turns. Eight groups of three sides make 24 sides — six whole turns —
 and the walk ends on the same line it began: the first and last blocks are 16 blocks apart along
 the axis and nowhere apart across it. The coil is right-handed, the same way
@@ -45,9 +45,9 @@ can be, if no block is to touch another. Each was tried one block shorter in
 
 | walk | rise a turn | tube a turn | elbows | touching pairs |
 | --- | ---: | ---: | ---: | ---: |
-| **this one, sides 2, steps 2** | **42.7mm** | **10.8 blocks** | 16 | **0** |
-| steps of 1 | 21.3mm | 9.7 blocks | 16 | 35 |
-| sides of 1 | 42.7mm | 6.8 blocks | 32 | 8 |
+| **this one, sides 2, steps 2** | **42.7 mm** | **10.8 blocks** | 16 | **0** |
+| steps of 1 | 21.3 mm | 9.7 blocks | 16 | 35 |
+| sides of 1 | 42.7 mm | 6.8 blocks | 32 | 8 |
 
 All three are six turns with a one-block lead at each end. A step of one
 block puts each turn face to face with the one before it, and a side of one
@@ -67,8 +67,8 @@ fold into, and each is cut as an **elbow**: a single block that is a piece of
 its own.
 
 Raise those 23 legs to 3 and the first three turns are exactly the
-[three-turn trumpet](../three-turn/)'s walk, which has no elbows and rises 64mm
-a turn at the same 16mm block, rather than 42.7.
+[three-turn trumpet](../three-turn/)'s walk, which has no elbows and rises 64 mm
+a turn at the same 16 mm block, rather than 42.7.
 
 So the 33 pieces alternate: a straight at the mouth, then elbow, bend, elbow,
 bend, to a bend at the bell. The 16 bends are three blocks each and the 16
@@ -80,7 +80,7 @@ of the turn has no wall of its own; a neighbour normally closes it with a
 tongue, a wall run one ply past the joint. At these seven neither neighbour can
 put the tongue on a wall, so the generator leaves the corner open rather than
 guessing. It is not a leak — the neighbours' walls and the elbow's plates seal
-it from outside — but it is a 3 × 3mm notch along the inside of the turn, and a
+it from outside — but it is a 3 × 3 mm notch along the inside of the turn, and a
 joint with less bearing surface. The other nine elbows are closed.
 
 ## The numbers
@@ -88,17 +88,17 @@ joint with less bearing surface. The other nine elbows are closed.
 | | |
 | --- | --- |
 | blocks | 65 |
-| centreline | 1040mm |
+| centreline | 1040 mm |
 | sections | 33 — 1 straight, 16 elbows, 16 bends |
 | parts | 164, over 33 sheets |
-| bounding box | 48 × 48 × 272mm — 3 × 3 × 17 blocks |
-| airway | 10mm square, constant |
-| block pitch | 16mm — 10mm of air in 3mm walls |
-| rise | 42.7mm a turn — 2⅔ blocks — over six whole turns |
+| bounding box | 48 × 48 × 272 mm — 3 × 3 × 17 blocks |
+| airway | 10 mm square, constant |
+| block pitch | 16 mm — 10 mm of air in 3 mm walls |
+| rise | 42.7 mm a turn — 2⅔ blocks — over six whole turns |
 | elbows | 16; seven of them open on the inside of the turn |
 | contact | none |
 | legs | north 17, west 12, east 12, up 12, down 12 |
-| with the ends | 1283mm — 90mm mouthpiece, 1040mm bore, 153mm bell |
+| with the ends | 1283 mm — 90 mm mouthpiece, 1040 mm bore, 153 mm bell |
 
 ## The 33 sections
 
@@ -108,39 +108,39 @@ the sections only go together one way.
 
 | # | blocks | kind | in → out | plate | shape | parts | sheet |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | 1 | straight | N → N | 1×1 | `S1~a@-W` | 4 | 122 × 40mm |
-| 2 | 2 | elbow | N → W | 1×1 | `EEN` | 4 | 128 × 40mm |
-| 3 | 3–5 | bend | W → U | 2×2 | `BLU~f@-E` | 6 | 253 × 56mm |
-| 4 | 6 | elbow | U → E | 1×1 | `EEN` | 4 | 128 × 40mm |
-| 5 | 7–9 | bend | E → N | 2×2 | `BRD~f~g` | 6 | 250 × 56mm |
-| 6 | 10 | elbow | N → D | 1×1 | `EEN` | 4 | 128 × 40mm |
-| 7 | 11–13 | bend | D → W | 2×2 | `BDL~f@-N` | 6 | 250 × 59mm |
-| 8 | 14 | elbow | W → U | 1×1 | `EEN` | 4 | 128 × 40mm |
-| 9 | 15–17 | bend | U → N | 2×2 | `BRD~f~g` | 6 | 250 × 56mm |
-| 10 | 18 | elbow | N → E | 1×1 | `ENE` | 4 | 122 × 43mm |
-| 11 | 19–21 | bend | E → D | 2×2 | `BRD~f@-W` | 6 | 253 × 56mm |
-| 12 | 22 | elbow | D → W | 1×1 | `EEN` | 4 | 128 × 40mm |
-| 13 | 23–25 | bend | W → N | 2×2 | `BLD~f~g` | 6 | 250 × 56mm |
-| 14 | 26 | elbow | N → U | 1×1 | `ENE` | 4 | 122 × 43mm |
-| 15 | 27–29 | bend | U → E | 2×2 | `BUR~f@-S` | 6 | 250 × 59mm |
-| 16 | 30 | elbow | E → D | 1×1 | `EEN` | 4 | 128 × 40mm |
-| 17 | 31–33 | bend | D → N | 2×2 | `BLD~f~g` | 6 | 250 × 56mm |
-| 18 | 34 | elbow | N → W | 1×1 | `EEN` | 4 | 128 × 40mm |
-| 19 | 35–37 | bend | W → U | 2×2 | `BLU~f@-E` | 6 | 253 × 56mm |
-| 20 | 38 | elbow | U → E | 1×1 | `EEN` | 4 | 128 × 40mm |
-| 21 | 39–41 | bend | E → N | 2×2 | `BRD~f~g` | 6 | 250 × 56mm |
-| 22 | 42 | elbow | N → D | 1×1 | `EEN` | 4 | 128 × 40mm |
-| 23 | 43–45 | bend | D → W | 2×2 | `BDL~f@-N` | 6 | 250 × 59mm |
-| 24 | 46 | elbow | W → U | 1×1 | `EEN` | 4 | 128 × 40mm |
-| 25 | 47–49 | bend | U → N | 2×2 | `BRD~f~g` | 6 | 250 × 56mm |
-| 26 | 50 | elbow | N → E | 1×1 | `ENE` | 4 | 122 × 43mm |
-| 27 | 51–53 | bend | E → D | 2×2 | `BRD~f@-W` | 6 | 253 × 56mm |
-| 28 | 54 | elbow | D → W | 1×1 | `EEN` | 4 | 128 × 40mm |
-| 29 | 55–57 | bend | W → N | 2×2 | `BLD~f~g` | 6 | 250 × 56mm |
-| 30 | 58 | elbow | N → U | 1×1 | `ENE` | 4 | 122 × 43mm |
-| 31 | 59–61 | bend | U → E | 2×2 | `BUR~f@-S` | 6 | 250 × 59mm |
-| 32 | 62 | elbow | E → D | 1×1 | `EEN` | 4 | 128 × 40mm |
-| 33 | 63–65 | bend | D → N | 2×2 | `BLD~b~f` | 6 | 250 × 56mm |
+| 1 | 1 | straight | N → N | 1×1 | `S1~a@-W` | 4 | 122 × 40 mm |
+| 2 | 2 | elbow | N → W | 1×1 | `EEN` | 4 | 128 × 40 mm |
+| 3 | 3–5 | bend | W → U | 2×2 | `BLU~f@-E` | 6 | 253 × 56 mm |
+| 4 | 6 | elbow | U → E | 1×1 | `EEN` | 4 | 128 × 40 mm |
+| 5 | 7–9 | bend | E → N | 2×2 | `BRD~f~g` | 6 | 250 × 56 mm |
+| 6 | 10 | elbow | N → D | 1×1 | `EEN` | 4 | 128 × 40 mm |
+| 7 | 11–13 | bend | D → W | 2×2 | `BDL~f@-N` | 6 | 250 × 59 mm |
+| 8 | 14 | elbow | W → U | 1×1 | `EEN` | 4 | 128 × 40 mm |
+| 9 | 15–17 | bend | U → N | 2×2 | `BRD~f~g` | 6 | 250 × 56 mm |
+| 10 | 18 | elbow | N → E | 1×1 | `ENE` | 4 | 122 × 43 mm |
+| 11 | 19–21 | bend | E → D | 2×2 | `BRD~f@-W` | 6 | 253 × 56 mm |
+| 12 | 22 | elbow | D → W | 1×1 | `EEN` | 4 | 128 × 40 mm |
+| 13 | 23–25 | bend | W → N | 2×2 | `BLD~f~g` | 6 | 250 × 56 mm |
+| 14 | 26 | elbow | N → U | 1×1 | `ENE` | 4 | 122 × 43 mm |
+| 15 | 27–29 | bend | U → E | 2×2 | `BUR~f@-S` | 6 | 250 × 59 mm |
+| 16 | 30 | elbow | E → D | 1×1 | `EEN` | 4 | 128 × 40 mm |
+| 17 | 31–33 | bend | D → N | 2×2 | `BLD~f~g` | 6 | 250 × 56 mm |
+| 18 | 34 | elbow | N → W | 1×1 | `EEN` | 4 | 128 × 40 mm |
+| 19 | 35–37 | bend | W → U | 2×2 | `BLU~f@-E` | 6 | 253 × 56 mm |
+| 20 | 38 | elbow | U → E | 1×1 | `EEN` | 4 | 128 × 40 mm |
+| 21 | 39–41 | bend | E → N | 2×2 | `BRD~f~g` | 6 | 250 × 56 mm |
+| 22 | 42 | elbow | N → D | 1×1 | `EEN` | 4 | 128 × 40 mm |
+| 23 | 43–45 | bend | D → W | 2×2 | `BDL~f@-N` | 6 | 250 × 59 mm |
+| 24 | 46 | elbow | W → U | 1×1 | `EEN` | 4 | 128 × 40 mm |
+| 25 | 47–49 | bend | U → N | 2×2 | `BRD~f~g` | 6 | 250 × 56 mm |
+| 26 | 50 | elbow | N → E | 1×1 | `ENE` | 4 | 122 × 43 mm |
+| 27 | 51–53 | bend | E → D | 2×2 | `BRD~f@-W` | 6 | 253 × 56 mm |
+| 28 | 54 | elbow | D → W | 1×1 | `EEN` | 4 | 128 × 40 mm |
+| 29 | 55–57 | bend | W → N | 2×2 | `BLD~f~g` | 6 | 250 × 56 mm |
+| 30 | 58 | elbow | N → U | 1×1 | `ENE` | 4 | 122 × 43 mm |
+| 31 | 59–61 | bend | U → E | 2×2 | `BUR~f@-S` | 6 | 250 × 59 mm |
+| 32 | 62 | elbow | E → D | 1×1 | `EEN` | 4 | 128 × 40 mm |
+| 33 | 63–65 | bend | D → N | 2×2 | `BLD~b~f` | 6 | 250 × 56 mm |
 
 `~a` and `~b` are the plain ends, where the mouthpiece and the bell land; the
 file names say `buttin` and `buttout`. `@` names a wall that runs on as a
@@ -191,14 +191,14 @@ bore10-coil-tight-32of33-elbow-EN-cut-files.svg
 bore10-coil-tight-33of33-bend-LD-buttout-flatin-cut-files.svg
 ```
 
-Every file is millimetre-true at 1 user unit = 1mm. **Blue engraves, then black
+Every file is millimetre-true at 1 user unit = 1 mm. **Blue engraves, then black
 cuts** — blue writes the section number on every part, black frees it.
 
 **All 33 fit on one bed.**
 `../parts/bore/concept/walk/coil/tight/bore/bore10-coil-tight-sheet1of1.svg` is
-the whole xTool P2S bed, 600 × 305mm, with every section file placed on it whole
-and unchanged, 4mm apart and 4mm from the edge, except the bottom row, which
-ends 2.8mm from it. A section's parts stay
+the whole xTool P2S bed, 600 × 305 mm, with every section file placed on it whole
+and unchanged, 4 mm apart and 4 mm from the edge, except the bottom row, which
+ends 2.8 mm from it. A section's parts stay
 together, so the numbers still find their neighbours. Cut it in place of the 33
 files, or cut the 33 one at a time — they are the same paths.
 
@@ -222,12 +222,12 @@ cd tools && ~/Software/boxes/venv/bin/python bore_split.py walks/tight_coil.txt 
 The bed sheet is drawn from those files, so it comes after them. `bed_sheets.py`
 packs each section whole and searches packing orders from a fixed seed, so the
 same command writes the same sheets; it re-reads what it wrote and exits 1 if a
-section is missing, moved off the bed, closer than 4mm to another, or changed.
+section is missing, moved off the bed, closer than 4 mm to another, or changed.
 
 **It no longer writes the one sheet shipped here.** That sheet was packed for a
-308mm bed, and the bed turned out to be 305mm (cut-tested, 2026-10-19). Its
-parts end at 302.2mm, so it was kept and only its canvas trimmed. Packed for
-305mm with 4mm at every edge, the same command writes two sheets, 28 sections
+308 mm bed, and the bed turned out to be 305 mm (cut-tested, 2026-10-19). Its
+parts end at 302.2 mm, so it was kept and only its canvas trimmed. Packed for
+305 mm with 4 mm at every edge, the same command writes two sheets, 28 sections
 and 5, and no seed tried did better:
 
 ```
@@ -238,7 +238,7 @@ python3 tools/bed_sheets.py parts/bore/concept/walk/coil/tight/bore/cut-files \
 ## The two ends
 
 Only the tube belongs to an instrument. Neither the mouthpiece nor the bell is
-touched by the way a bore turns, and every bore here is on the same 10mm
+touched by the way a bore turns, and every bore here is on the same 10 mm
 channel, so one of each serves all of them —
 **[the bell and the mouthpiece](../ends/)**. The walk opens and closes on a
 single block, `N1`: the mouthpiece and the bell are long enough to carry the

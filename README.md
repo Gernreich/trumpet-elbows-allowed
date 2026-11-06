@@ -8,14 +8,14 @@
 
 <!-- page-only **[Read the README](https://github.com/Gernreich/trumpet-elbows-allowed)** · **[Turn the built trumpet in 3D on a page of its own](built/coil-fold2-long-straight-3t/fold2-long-straight-3t.html)** -->
 
-<!-- page-only <iframe src="built/coil-fold2-long-straight-3t/fold2-long-straight-3t.html?embed" title="The built three-turn trumpet bore: 1096mm of 10mm square section coiling three whole turns about one axis, drawn as a chain of coloured blocks you can drag to turn" style="width:100%;height:560px;border:0"></iframe> -->
+<!-- page-only <iframe src="built/coil-fold2-long-straight-3t/fold2-long-straight-3t.html?embed" title="The built three-turn trumpet bore: 1096 mm of 10 mm square section coiling three whole turns about one axis, drawn as a chain of coloured blocks you can drag to turn" style="width:100%;height:560px;border:0"></iframe> -->
 
-A trumpet cut flat from 3mm birch ply and press-fit into a tube. The airway is a
-**10mm square** running through **16mm blocks** — 10mm of air inside 3mm walls —
+A trumpet cut flat from 3 mm birch ply and press-fit into a tube. The airway is a
+**10 mm square** running through **16 mm blocks** — 10 mm of air inside 3 mm walls —
 and it never changes section from the mouthpiece to the throat of the bell.
 
-The instrument that has been built is a **coil of 1096mm in 12 sections**, with a
-**72mm** mouthpiece at one end and a 153mm bell at the other. It winds 1080° —
+The instrument that has been built is a **coil of 1096 mm in 12 sections**, with a
+**72 mm** mouthpiece at one end and a 153 mm bell at the other. It winds 1080° —
 **three** turns, right-handed, about a north–south axis. Everything else here is
 a candidate for the next one.
 
@@ -25,7 +25,7 @@ with no grid and no elbows, is its own repository:
 **[swept-curve](https://gernreich.github.io/swept-curve/)**, which holds the built spiral bore and every
 swept-curve design. Both take the bell and the mouthpiece kept here.
 
-The mouthpiece on this instrument is 24 rings where the design cuts 30 — 72mm
+The mouthpiece on this instrument is 24 rings where the design cuts 30 — 72 mm
 rather than 90 — so it is the instrument that is short, not the drawing. The
 coil winds three whole turns: its walk is `W U E D` three times over, and its
 first and last blocks sit on the same cross-section point, which a fractional
@@ -63,7 +63,7 @@ Three things, and they pull against each other.
 
 **Length, because length is pitch.** A tube twice as long sounds an octave
 lower. The four coils in `parts/bore/concept/walk/coil/fold2-long-straight/`
-are one shape cut at four lengths — **274, 548, 822 and 1096mm, an exact
+are one shape cut at four lengths — **274, 548, 822 and 1096 mm, an exact
 1:2:3:4** — and the built instrument is the longest of them.
 
 > Their folder names say 0.75, 1.5, 2.25 and 3 turns, and measurement agrees:
@@ -71,11 +71,11 @@ are one shape cut at four lengths — **274, 548, 822 and 1096mm, an exact
 > three lateral legs being three-quarters of a turn. Both the lengths and the
 > turn counts are exact.
 
-**Section, because section is tone.** The airway must stay 10mm square the whole
+**Section, because section is tone.** The airway must stay 10 mm square the whole
 way. That is what makes a turn expensive: a block that turns has openings on two
 different faces and both must sit square, so **a turning block has to stay
 cubic** even when the straights are stretched. The built bore is 28 straight
-blocks at 30mm and 16 turns at 16mm, which is where its 1096mm comes from.
+blocks at 30 mm and 16 turns at 16 mm, which is where its 1096 mm comes from.
 
 **Bends wherever a turn can fold into one.** A bend is a turn folded into the
 piece it belongs to. The alternative is an **elbow**: a turn stranded as its own
@@ -93,19 +93,19 @@ instead, writing nothing, which is what trumpet-elbows-not-allowed, now archived
 
 | | length | what it is |
 | --- | ---: | --- |
-| mouthpiece | 90mm | 30 rings, 10mm square → ø3.66 throat → ø17 lip |
-| bore | 1096mm | 44 blocks, 12 sections, every turn a bend |
-| bell | 153mm | 17 rings, 10mm square → ø86 rim (ø80 of air) |
-| **total** | **1339mm** | |
+| mouthpiece | 90 mm | 30 rings, 10 mm square → ø3.66 throat → ø17 lip |
+| bore | 1096 mm | 44 blocks, 12 sections, every turn a bend |
+| bell | 153 mm | 17 rings, 10 mm square → ø86 rim (ø80 of air) |
+| **total** | **1339 mm** | |
 
-For scale, a B♭ trumpet is about 1480mm of tube, so this is a little shorter and
+For scale, a B♭ trumpet is about 1480 mm of tube, so this is a little shorter and
 should sit a little higher.
 
 **It plays. One of its notes is F4** — 349.2 Hz, measured off the built
 instrument.
 
 **Do not size a bore from a pipe formula.** F4 lands on no simple mode of the
-1.321m tube it was measured on — 1339mm less the 18mm the built mouthpiece is
+1.321m tube it was measured on — 1339 mm less the 18 mm the built mouthpiece is
 short: it is 2.69 times the open-open fundamental (`c/2L` = 130 Hz) and
 5.38 times the closed-open one (`c/4L` = 65 Hz), and neither multiple is a whole
 number. That is what a bell and a mouthpiece do — they pull the resonances away
@@ -118,7 +118,7 @@ actually contribute is measurable rather than assumed.
 
 Neither end is touched by the way a bore turns, so **only the tube belongs to an
 instrument**. Both live in `parts/`, both take `--bore`, and both close onto the
-same 10mm square in a 16mm face.
+same 10 mm square in a 16 mm face.
 
 ```sh
 cd parts/mouthpiece && python3 mouthpiece-round.py
@@ -128,9 +128,9 @@ cd parts/bell && python3 bell-round.py 17 --bore=10 --length=152 --mouth=80
 Each rebuilds its shipped sheet byte for byte and writes it into its own
 `cut-files/`.
 
-The joint at each end is a **square annulus of ply 3mm wide** — 10mm inside,
-16mm out. The bell's ring 0 is a flange that covers all of it: a 22mm square with
-a 10mm hole, standing 3mm proud. The throat is taken from the bore's channel, so
+The joint at each end is a **square annulus of ply 3 mm wide** — 10 mm inside,
+16 mm out. The bell's ring 0 is a flange that covers all of it: a 22 mm square with
+a 10 mm hole, standing 3 mm proud. The throat is taken from the bore's channel, so
 ring 0 lands squarely on the face it seals.
 
 ## A page for each
@@ -144,15 +144,15 @@ in **[swept-curve](https://gernreich.github.io/swept-curve/)**.
 
 | | |
 | --- | --- |
-| **[the three-turn trumpet](three-turn/)** | 44 blocks, 1096mm, twelve sections — **the one that plays** |
-| **[the switchback trumpet](switchback/)** | 22 blocks, 352mm, six sections — folds back on itself twice |
-| **[the greek spiral](greek-spiral/)** | 68 blocks, 1088mm, **one** section — a flat meander, the only bore here that cuts in one piece |
-| **[the tight coil](tight-coil/)** | 65 blocks, 1040mm, 33 sections — the tightest coil that does not touch itself, at 42.7mm a turn, with 16 elbows |
-| **[the bell and the mouthpiece](ends/)** | The two ends, shared by every bore on the 10mm channel |
+| **[the three-turn trumpet](three-turn/)** | 44 blocks, 1096 mm, twelve sections — **the one that plays** |
+| **[the switchback trumpet](switchback/)** | 22 blocks, 352 mm, six sections — folds back on itself twice |
+| **[the greek spiral](greek-spiral/)** | 68 blocks, 1088 mm, **one** section — a flat meander, the only bore here that cuts in one piece |
+| **[the tight coil](tight-coil/)** | 65 blocks, 1040 mm, 33 sections — the tightest coil that does not touch itself, at 42.7 mm a turn, with 16 elbows |
+| **[the bell and the mouthpiece](ends/)** | The two ends, shared by every bore on the 10 mm channel |
 
 ## Cutting
 
-Everything is **3mm birch ply on an xTool P2S**, 600 × 305mm of bed.
+Everything is **3 mm birch ply on an xTool P2S**, 600 × 305 mm of bed.
 
 **Colour is the cut order**: blue engraves, then green → orange → cyan → black,
 and black frees the part. On a bore section blue engraves the section number and
@@ -217,7 +217,7 @@ its own one-block piece, and the cut list and file name say `elbow`.
 in trumpet-elbows-not-allowed splits identically here.
 
 **A bore may touch itself** — two blocks sharing a face, an edge or a vertex
-without being joined along the tube. At a face the airway runs past 6mm of wood
+without being joined along the tube. At a face the airway runs past 6 mm of wood
 rather than 3; at an edge or a vertex the two walls meet on a line or a point,
 which is a place for the assembly to go out of true. A tight coil can rarely
 avoid it. The generator warns and writes.
@@ -244,10 +244,10 @@ today's `viewer.py`; every one draws the same cells as the page it replaces.
 
 Two designs have been added since that have elbows by choice:
 **[the tight coil](tight-coil/)**, the tightest coil here that does not touch
-itself — 42.7mm a turn, 16 elbows, 1040mm — and the ziggurat in
+itself — 42.7 mm a turn, 16 elbows, 1040 mm — and the ziggurat in
 [`spiral/ziggurat/`](parts/bore/concept/walk/spiral/ziggurat/bore/bore.html),
 a centred square spiral that widens a block all round each turn — 4 elbows,
-1008mm.
+1008 mm.
 
 > `coil/search/` was the exception to that rule in trumpet-elbows-not-allowed, and still keeps its
 > ten walks exactly as they were measured — 4 of them touch-free and 6 not —
@@ -301,7 +301,7 @@ never beat. These figures are the search's, at its common length:
 | category | now led by | figure | the deleted holder |
 | --- | --- | --- | --- |
 | smallest box | `coil_3x8_20`, tied with `coil_3x9_18` | 432 | `3x3-51`, 459 |
-| tightest spiral | `coil_3x8_20` | 32mm rise per turn | `3x7-22`, 34mm |
+| tightest spiral | `coil_3x8_20` | 32 mm rise per turn | `3x7-22`, 34 mm |
 | largest average plate | `coil_4x9_18` | 2881mm² | `5x8-18`, 3009mm² |
 
 So two of the three categories are led better than they were, and only the
@@ -350,7 +350,7 @@ cd tools && ~/Software/boxes/venv/bin/python regress.py
 **32 designs, 0 failed, 10306 individual checks.**
 
 It checks that each section closes round its bore, that the assembled bore is one
-sealed passage, that its volume matches the walk, that no feature is under 1.5mm,
+sealed passage, that its volume matches the walk, that no feature is under 1.5 mm,
 that every sheet fits the bed, that every seam is one tab side and one slot side,
 and that no engraving lands in a slot or off the material. A mouth is checked for
 where it is, not only that it exists: over the block it names, on the right
@@ -362,12 +362,12 @@ them, so a system-python `--write` leaves a folder of finished-looking cut files
 and a traceback where the gate should be.
 
 > A passing gate means no check failed, not that the part is buildable: its
-> floor is 1.5mm, and nothing compares a feature against the features beside it.
+> floor is 1.5 mm, and nothing compares a feature against the features beside it.
 
 ## Clearance
 
 `PLAY_BY_BORE` is a lookup of what has actually been cut, not a curve through it,
-and it has **one row**: 0.025mm per side at the 10mm bore. A bore that is not in
+and it has **one row**: 0.025 mm per side at the 10 mm bore. A bore that is not in
 the table gets that value too — too loose is a worse joint than too tight is no
 joint — and says on stderr that it is guessing, because a guess that looks like a
 measurement is the dangerous kind.
@@ -383,8 +383,8 @@ would settle it, and `--play` is the flag that cuts it.
    `built/coil-fold2-long-straight-3t/cut-files/`, in order.
 2. Cut the bell from
    `parts/bell/cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg` —
-   17 rings, **three passes**, 51 pieces. Cut once and you get a 51mm stub
-   instead of a 153mm bell. The adapter sheet beside it is for a port, not
+   17 rings, **three passes**, 51 pieces. Cut once and you get a 51 mm stub
+   instead of a 153 mm bell. The adapter sheet beside it is for a port, not
    this bore.
 3. Cut the mouthpiece from
    `parts/mouthpiece/cut-files/mouthpiece-bore10-trumpet-parts-cut-files.svg` —

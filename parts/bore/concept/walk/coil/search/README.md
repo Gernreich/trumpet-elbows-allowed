@@ -71,7 +71,7 @@ lands below every short-period one, and the bores ran 126 to 144 blocks, a 14.3%
 The target is now chosen rather than assumed. `tools/standardise.rs` searches bore
 lengths from 120 to 220 blocks for the one that makes the tube lengths most alike, takes
 the **nearest** whole-period count to it rather than the largest that fits, and lands on
-180: bores of 166 to 187 blocks, 2656mm to 2992mm, a spread of 12.7%.
+180: bores of 166 to 187 blocks, 2656 mm to 2992 mm, a spread of 12.7%.
 
 That is as close as this set can get at a plausible size. Squeezing the spread below 10%
 needs a seven-metre bore and below 5% needs twelve, which is not a trumpet.
@@ -87,18 +87,18 @@ requirement is none of it at any length.
 
 | spiral | blocks | mm | envelope | box | cross-section | along axis | pieces | distinct | period | rhythm | mean plate mm2 | touching |
 | --- | ---: | ---: | --- | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| [`coil_3x3_54_2`](pages/coil_3x3_54_2.html) | 169 | 2704 | 3 x 3 x 43 | 387 | 3 x 3 blk / 48 x 48mm | 43 / 688mm | 28 | 4 | 8 tm / 22 blk | 4 x7.0 | 2601 | 0 |
-| [`coil_3x9_18`](pages/coil_3x9_18.html) | 167 | 2672 | 3 x 9 x 15 | 405 | 3 x 9 blk / 48 x 144mm | 15 / 240mm | 29 | 4 | 8 tm / 22 blk | 4 x7.3 | 2477 | 12 |
-| [`coil_3x8_20`](pages/coil_3x8_20.html) | 172 | 2752 | 3 x 8 x 17 | 408 | 3 x 8 blk / 48 x 128mm | 17 / 272mm | 33 | 4 | 8 tm / 20 blk | 4 x8.3 | 2205 | 14 |
-| [`coil_3x3_59`](pages/coil_3x3_59.html) | 174 | 2784 | 3 x 3 x 48 | 432 | 3 x 3 blk / 48 x 48mm | 48 / 768mm | 32 | 4 | 8 tm / 20 blk | 4 x8.0 | 2193 | 0 |
-| [`coil_4x7_20`](pages/coil_4x7_20.html) | 172 | 2752 | 4 x 7 x 17 | 476 | 4 x 7 blk / 64 x 112mm | 17 / 272mm | 33 | 4 | 8 tm / 20 blk | 4 x8.3 | 2073 | 14 |
-| [`coil_4x8_18`](pages/coil_4x8_18.html) | 166 | 2656 | 4 x 8 x 15 | 480 | 4 x 8 blk / 64 x 128mm | 15 / 240mm | 29 | 4 | 8 tm / 22 blk | 4 x7.3 | 2469 | 12 |
-| [`coil_5x7_18`](pages/coil_5x7_18.html) | 167 | 2672 | 5 x 7 x 15 | 525 | 5 x 7 blk / 80 x 112mm | 15 / 240mm | 29 | 4 | 8 tm / 22 blk | 4 x7.3 | 2364 | 12 |
-| [`coil_4x9_18`](pages/coil_4x9_18.html) | 182 | 2912 | 4 x 9 x 15 | 540 | 4 x 9 blk / 64 x 144mm | 15 / 240mm | 29 | 4 | 8 tm / 24 blk | 4 x7.3 | 2899 | 12 |
-| [`coil_3x4_68`](pages/coil_3x4_68.html) | 169 | 2704 | 4 x 3 x 57 | 684 | 3 x 4 blk / 48 x 64mm | 57 / 912mm | 39 | 4 | 6 tm / 16 blk | 4 x9.8 | 1686 | 0 |
-| [`coil_3x4_79`](pages/coil_3x4_79.html) | 187 | 2992 | 4 x 3 x 73 | 876 | 3 x 4 blk / 48 x 64mm | 73 / 1168mm | 42 | 4 | 8 tm / 17 blk | 4 x10.5 | 1894 | 0 |
+| [`coil_3x3_54_2`](pages/coil_3x3_54_2.html) | 169 | 2704 | 3 x 3 x 43 | 387 | 3 x 3 blk / 48 x 48 mm | 43 / 688 mm | 28 | 4 | 8 tm / 22 blk | 4 x7.0 | 2601 | 0 |
+| [`coil_3x9_18`](pages/coil_3x9_18.html) | 167 | 2672 | 3 x 9 x 15 | 405 | 3 x 9 blk / 48 x 144 mm | 15 / 240 mm | 29 | 4 | 8 tm / 22 blk | 4 x7.3 | 2477 | 12 |
+| [`coil_3x8_20`](pages/coil_3x8_20.html) | 172 | 2752 | 3 x 8 x 17 | 408 | 3 x 8 blk / 48 x 128 mm | 17 / 272 mm | 33 | 4 | 8 tm / 20 blk | 4 x8.3 | 2205 | 14 |
+| [`coil_3x3_59`](pages/coil_3x3_59.html) | 174 | 2784 | 3 x 3 x 48 | 432 | 3 x 3 blk / 48 x 48 mm | 48 / 768 mm | 32 | 4 | 8 tm / 20 blk | 4 x8.0 | 2193 | 0 |
+| [`coil_4x7_20`](pages/coil_4x7_20.html) | 172 | 2752 | 4 x 7 x 17 | 476 | 4 x 7 blk / 64 x 112 mm | 17 / 272 mm | 33 | 4 | 8 tm / 20 blk | 4 x8.3 | 2073 | 14 |
+| [`coil_4x8_18`](pages/coil_4x8_18.html) | 166 | 2656 | 4 x 8 x 15 | 480 | 4 x 8 blk / 64 x 128 mm | 15 / 240 mm | 29 | 4 | 8 tm / 22 blk | 4 x7.3 | 2469 | 12 |
+| [`coil_5x7_18`](pages/coil_5x7_18.html) | 167 | 2672 | 5 x 7 x 15 | 525 | 5 x 7 blk / 80 x 112 mm | 15 / 240 mm | 29 | 4 | 8 tm / 22 blk | 4 x7.3 | 2364 | 12 |
+| [`coil_4x9_18`](pages/coil_4x9_18.html) | 182 | 2912 | 4 x 9 x 15 | 540 | 4 x 9 blk / 64 x 144 mm | 15 / 240 mm | 29 | 4 | 8 tm / 24 blk | 4 x7.3 | 2899 | 12 |
+| [`coil_3x4_68`](pages/coil_3x4_68.html) | 169 | 2704 | 4 x 3 x 57 | 684 | 3 x 4 blk / 48 x 64 mm | 57 / 912 mm | 39 | 4 | 6 tm / 16 blk | 4 x9.8 | 1686 | 0 |
+| [`coil_3x4_79`](pages/coil_3x4_79.html) | 187 | 2992 | 4 x 3 x 73 | 876 | 3 x 4 blk / 48 x 64 mm | 73 / 1168 mm | 42 | 4 | 8 tm / 17 blk | 4 x10.5 | 1894 | 0 |
 
-Envelope, box and cross-section are in blocks; a block is 16mm of centreline. Sorted by
+Envelope, box and cross-section are in blocks; a block is 16 mm of centreline. Sorted by
 box, smallest first.
 
 **The bore's mouth and exit are not judged.** Every design has them, no design chooses
@@ -148,12 +148,12 @@ only 6 of 10 places. `coil_3x3_54_2` is 4 shapes laid in a
 **Mean plate** is the average bounding box a piece is cut from, in mm² — the
 laser-cutting number. Fewer, larger parts means less weeding, less sorting and fewer
 fingers to align, and it is the size of the part in your hand rather than the count of
-them. `coil_4x9_18` averages 2899mm² against `coil_4x4_50`'s 1616mm².
+them. `coil_4x9_18` averages 2899 mm² against `coil_4x4_50`'s 1616 mm².
 
 Average *blocks* per piece was the other reading of the same idea and is not used: the
 block count varies by only 15.6% across the set, so blocks-per-piece is very nearly the
 reciprocal of the piece count and ranks the set the same way in 15 of 10 places. Plate
-area is not redundant: `coil_3x9_18`, `coil_4x8_18`, `coil_5x7_18`, `coil_4x9_18` all split into 29 pieces and cannot be told apart by blocks-per-piece at all, while their mean plates are 2477mm², 2469mm², 2364mm², 2899mm².
+area is not redundant: `coil_3x9_18`, `coil_4x8_18`, `coil_5x7_18`, `coil_4x9_18` all split into 29 pieces and cannot be told apart by blocks-per-piece at all, while their mean plates are 2477 mm², 2469 mm², 2364 mm², 2899 mm².
 
 It is a bounding box, not the cut outline — an L-shaped piece leaves its corner behind
 — so it measures the size of the part, not the material consumed.
@@ -175,16 +175,16 @@ It is also the one packing number that is *not* implied by the box. Here the two
 
 | spiral | axis | rotation | turns | blocks/360 | rise/360 blk / mm | deg/block | 90deg turns | turns/m | longest straight |
 | --- | :-: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| [`coil_3x3_54_2`](pages/coil_3x3_54_2.html) | N | 2430 | 6.75 | 22.8 | 6.07 / 97 | 15.8 | 56 | 22.7 | 4 blk / 64mm |
-| [`coil_3x9_18`](pages/coil_3x9_18.html) | N | 2700 | 7.50 | 21.3 | 1.87 / 30 | 16.9 | 58 | 22.7 | 4 blk / 64mm |
-| [`coil_3x8_20`](pages/coil_3x8_20.html) | N | 3060 | 8.50 | 19.5 | 1.88 / 30 | 18.4 | 66 | 24.8 | 4 blk / 64mm |
-| [`coil_3x3_59`](pages/coil_3x3_59.html) | N | 2790 | 7.75 | 20.6 | 6.06 / 97 | 17.4 | 64 | 25.0 | 3 blk / 48mm |
-| [`coil_4x7_20`](pages/coil_4x7_20.html) | N | 3060 | 8.50 | 19.5 | 1.88 / 30 | 18.4 | 66 | 24.8 | 3 blk / 48mm |
-| [`coil_4x8_18`](pages/coil_4x8_18.html) | N | 2700 | 7.50 | 21.3 | 1.87 / 30 | 16.9 | 58 | 22.7 | 4 blk / 64mm |
-| [`coil_5x7_18`](pages/coil_5x7_18.html) | N | 2700 | 7.50 | 21.5 | 1.87 / 30 | 16.8 | 58 | 22.5 | 4 blk / 64mm |
-| [`coil_4x9_18`](pages/coil_4x9_18.html) | N | 2700 | 7.50 | 23.3 | 1.87 / 30 | 15.4 | 58 | 20.7 | 4 blk / 64mm |
-| [`coil_3x4_68`](pages/coil_3x4_68.html) | N | 3420 | 9.50 | 16.3 | 5.89 / 94 | 22.1 | 58 | 23.4 | 3 blk / 48mm |
-| [`coil_3x4_79`](pages/coil_3x4_79.html) | N | 3780 | 10.50 | 17.0 | 6.86 / 110 | 21.2 | 83 | 29.1 | 3 blk / 48mm |
+| [`coil_3x3_54_2`](pages/coil_3x3_54_2.html) | N | 2430 | 6.75 | 22.8 | 6.07 / 97 | 15.8 | 56 | 22.7 | 4 blk / 64 mm |
+| [`coil_3x9_18`](pages/coil_3x9_18.html) | N | 2700 | 7.50 | 21.3 | 1.87 / 30 | 16.9 | 58 | 22.7 | 4 blk / 64 mm |
+| [`coil_3x8_20`](pages/coil_3x8_20.html) | N | 3060 | 8.50 | 19.5 | 1.88 / 30 | 18.4 | 66 | 24.8 | 4 blk / 64 mm |
+| [`coil_3x3_59`](pages/coil_3x3_59.html) | N | 2790 | 7.75 | 20.6 | 6.06 / 97 | 17.4 | 64 | 25.0 | 3 blk / 48 mm |
+| [`coil_4x7_20`](pages/coil_4x7_20.html) | N | 3060 | 8.50 | 19.5 | 1.88 / 30 | 18.4 | 66 | 24.8 | 3 blk / 48 mm |
+| [`coil_4x8_18`](pages/coil_4x8_18.html) | N | 2700 | 7.50 | 21.3 | 1.87 / 30 | 16.9 | 58 | 22.7 | 4 blk / 64 mm |
+| [`coil_5x7_18`](pages/coil_5x7_18.html) | N | 2700 | 7.50 | 21.5 | 1.87 / 30 | 16.8 | 58 | 22.5 | 4 blk / 64 mm |
+| [`coil_4x9_18`](pages/coil_4x9_18.html) | N | 2700 | 7.50 | 23.3 | 1.87 / 30 | 15.4 | 58 | 20.7 | 4 blk / 64 mm |
+| [`coil_3x4_68`](pages/coil_3x4_68.html) | N | 3420 | 9.50 | 16.3 | 5.89 / 94 | 22.1 | 58 | 23.4 | 3 blk / 48 mm |
+| [`coil_3x4_79`](pages/coil_3x4_79.html) | N | 3780 | 10.50 | 17.0 | 6.86 / 110 | 21.2 | 83 | 29.1 | 3 blk / 48 mm |
 
 A coil turns about one axis while travelling down it. Drop that axis and what is left —
 the lateral projection — is what rotates, and on a cubic lattice it can only turn in
@@ -210,11 +210,11 @@ No single spiral wins, because the measures disagree.
 | | winner | against the walk this started from |
 | --- | --- | --- |
 | smallest box | [`coil_3x3_54_2`](pages/coil_3x3_54_2.html) — 387 | 688, so 1.78x larger |
-| tightest spiral (least rise per turn) | [`coil_3x9_18`](pages/coil_3x9_18.html) — 30mm | 61mm, so 2.0x slacker |
+| tightest spiral (least rise per turn) | [`coil_3x9_18`](pages/coil_3x9_18.html) — 30 mm | 61 mm, so 2.0x slacker |
 | least tube per turn | [`coil_3x4_68`](pages/coil_3x4_68.html) — 16.3 blk | 15.8 blk, within -3% |
 | fewest pieces | [`coil_3x3_54_2`](pages/coil_3x3_54_2.html) — 28 | 43 |
 | fewest distinct shapes | [`coil_3x3_54_2`](pages/coil_3x3_54_2.html) — 4 | 8 |
-| largest average plate | [`coil_4x9_18`](pages/coil_4x9_18.html) — 2899mm² | 1616mm² |
+| largest average plate | [`coil_4x9_18`](pages/coil_4x9_18.html) — 2899 mm² | 1616 mm² |
 | calmest bore (fewest turns/m) | [`coil_4x9_18`](pages/coil_4x9_18.html) — 20.71 | 20.83 |
 | smallest box with no shared wall | [`coil_3x3_54_2`](pages/coil_3x3_54_2.html) — 387 | 688, also 0 shared |
 
@@ -486,7 +486,7 @@ by hand.
 SVG or nested. `bore_split.py --write DIR` will do it.
 
 The block counts are not equal — the scored ones run 154 to 178, so their bore lengths
-run 2464mm to 2848mm, a spread of 15.6%. A period is repeated to about the right length and then trimmed
+run 2464 mm to 2848 mm, a spread of 15.6%. A period is repeated to about the right length and then trimmed
 to wherever the tail comes out bend-only, so these are the same bore only to within a few
 blocks. For comparing packing that is fine; for comparing *bores* it is not, and the length
 would have to be pinned first.

@@ -2,7 +2,7 @@
 
 <!-- page-only <iframe src="../parts/bore/concept/walk/coil/fold2/bore/bore.html?embed" title="The switchback bore: 22 blocks folding back on themselves twice, drawn as a chain of coloured blocks you can drag to turn" style="width:100%;height:560px;border:0"></iframe> -->
 
-A trumpet bore that folds back on itself twice. **22 blocks, 352mm of
+A trumpet bore that folds back on itself twice. **22 blocks, 352 mm of
 centreline, six sections, every turn a bend and nothing touching** — among the shortest lattice
 walks here, and the one to cut first if you want to find out
 whether the joints go together before you commit a metre of ply to it.
@@ -52,18 +52,18 @@ longer a way to ask for one.
 | | |
 | --- | --- |
 | blocks | 22 |
-| centreline | 352mm |
+| centreline | 352 mm |
 | sections | 6 |
 | parts | 40, over 6 sheets |
-| bounding box | 64 × 64 × 96mm — 4 × 4 × 6 blocks |
-| airway | 10mm square, constant |
-| block pitch | 16mm — 10mm of air in 3mm walls |
+| bounding box | 64 × 64 × 96 mm — 4 × 4 × 6 blocks |
+| airway | 10 mm square, constant |
+| block pitch | 16 mm — 10 mm of air in 3 mm walls |
 | elbows | none; every turn is a bend |
 | contact | none |
 | legs | north 6, west 5, up 5, east 3, down 3 |
 
-**A block is 16mm, not 10.** The bore is the air; the block is the air plus two
-walls. The two numbers are 6mm apart, and a folder named for one and gated at
+**A block is 16 mm, not 10.** The bore is the air; the block is the air plus two
+walls. The two numbers are 6 mm apart, and a folder named for one and gated at
 the other cuts a tube nobody asked for. A run of *N* blocks is 16*N* mm, which
 is where 352 comes from.
 
@@ -75,12 +75,12 @@ the sections only go together one way.
 
 | # | blocks | in → out | plate | shape | parts | sheet |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | 1–3 | N → W | 2×2 | `BDL~a` | 6 | 241 × 56mm |
-| 2 | 4–8 | W → E | 2×3 | `BLUUR` | 8 | 343 × 72mm |
-| 3 | 9–11 | E → N | 2×2 | `BRD` | 6 | 253 × 56mm |
-| 4 | 12–14 | N → D | 2×2 | `BDL` | 6 | 247 × 59mm |
-| 5 | 15–19 | D → U | 3×2 | `BDLLU` | 8 | 369 × 59mm |
-| 6 | 20–22 | U → N | 2×2 | `BRD~b` | 6 | 253 × 56mm |
+| 1 | 1–3 | N → W | 2×2 | `BDL~a` | 6 | 241 × 56 mm |
+| 2 | 4–8 | W → E | 2×3 | `BLUUR` | 8 | 343 × 72 mm |
+| 3 | 9–11 | E → N | 2×2 | `BRD` | 6 | 253 × 56 mm |
+| 4 | 12–14 | N → D | 2×2 | `BDL` | 6 | 247 × 59 mm |
+| 5 | 15–19 | D → U | 3×2 | `BDLLU` | 8 | 369 × 59 mm |
+| 6 | 20–22 | U → N | 2×2 | `BRD~b` | 6 | 253 × 56 mm |
 
 `~a` and `~b` are the plain ends — the only two faces that do not couple to
 another section, and the ones the mouthpiece and the bell land on. The
@@ -88,7 +88,7 @@ filenames say `buttin` and `buttout`.
 
 Sections 2 and 5 are the folds: five blocks each, carrying a hairpin internally
 rather than stranding its turn as a separate piece. Sections 3 and 6 are both
-`BRD` and share a 253 × 56mm footprint, but they are not the same cut: section 6
+`BRD` and share a 253 × 56 mm footprint, but they are not the same cut: section 6
 ends plain at `~b`, so that face carries no fingers. All six sheets are
 distinct.
 
@@ -105,7 +105,7 @@ bore10-coil-fold2-05of06-bend-DLLU-cut-files.svg
 bore10-coil-fold2-06of06-bend-RD-buttout-cut-files.svg
 ```
 
-Every file is millimetre-true at 1 user unit = 1mm. **Blue engraves, then black
+Every file is millimetre-true at 1 user unit = 1 mm. **Blue engraves, then black
 cuts** — blue writes the section number on every part, black frees it.
 
 ## Rebuild it
@@ -117,7 +117,7 @@ from there. Report only, writing nothing:
 python3 tools/bore_split.py "N1 W3 U2 E3 N3 D3 W2 U3 N1" --bore=10 --no-write --refuse-elbows
 ```
 
-`--bore=10` is the airway; the 16mm block follows from it at 3mm ply. The
+`--bore=10` is the airway; the 16 mm block follows from it at 3 mm ply. The
 generator cuts an elbow by default in this copy; `--refuse-elbows` makes it refuse
 one instead, so the bend-only claim is a gate rather than a reading.
 Writing rewrites every sheet in the folder, so it runs under the venv python
@@ -132,14 +132,14 @@ cd tools && ~/Software/boxes/venv/bin/python bore_split.py \
 ## Stretched, the same walk is longer
 
 Leave the walk alone and lengthen only the blocks that run straight, and the
-tube grows without the shape changing. `--straight=30` turns this 352mm into
-548mm on the same six turns. The built instrument is that idea taken three
+tube grows without the shape changing. `--straight=30` turns this 352 mm into
+548 mm on the same six turns. The built instrument is that idea taken three
 turns further — see **[the trumpet writeup](https://gernreich.github.io/trumpet-elbows-allowed/)**.
 
 ## The two ends
 
 Only the tube belongs to an instrument. Neither the mouthpiece nor the bell is
-touched by the way a bore turns, and every bore here is on the same 10mm
+touched by the way a bore turns, and every bore here is on the same 10 mm
 channel, so one of each serves all of them —
 **[the bell and the mouthpiece](../ends/)**.
 

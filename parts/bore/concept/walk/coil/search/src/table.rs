@@ -69,8 +69,8 @@ fn shape_row(r: &Row, md: bool) -> Vec<String> {
         r.full.mm.to_string(),
         j(&r.m.size),
         r.m.vol.to_string(),
-        format!("{} blk / {}mm", j(&r.m.cross), j(&r.m.cross_mm)),
-        format!("{} / {}mm", r.m.axis_len, r.m.axis_len_mm),
+        format!("{} blk / {} mm", j(&r.m.cross), j(&r.m.cross_mm)),
+        format!("{} / {} mm", r.m.axis_len, r.m.axis_len_mm),
         or_dash(&r.p, "innerPieces"),
         or_dash(&r.p, "interiorDistinct"),
         match (r.per.terms, r.per.blocks) {
@@ -99,7 +99,7 @@ fn rot_row(r: &Row, md: bool) -> Vec<String> {
         fixed(m.deg_per_block, 1),
         m.turns90.to_string(),
         fixed(m.turns_per_metre, 1),
-        format!("{} blk / {}mm", m.longest_straight, m.longest_straight_mm),
+        format!("{} blk / {} mm", m.longest_straight, m.longest_straight_mm),
     ]
 }
 

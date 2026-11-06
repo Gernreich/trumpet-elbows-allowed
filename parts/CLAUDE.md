@@ -6,7 +6,7 @@ Read that section before changing the code it names.
 
 ## What lives here
 
-- **One bell and one mouthpiece, both at the 10mm bore**, shared by every bore under
+- **One bell and one mouthpiece, both at the 10 mm bore**, shared by every bore under
   `bore/`. Every mouthpiece and every bell lives here, whichever instrument cuts it. A
   bore directory holds only bore. [What this is]
 - The writeup is `README.md` at the repository root; the ends have their own page at
@@ -22,7 +22,7 @@ Read that section before changing the code it names.
 ## Generator rules
 
 - `--bore=N` on `bell-round.py` and `mouthpiece-round.py` sets the channel only; the
-  plate is N + 6. Ply stays 3mm, throat stays ø3.66, rim stays trumpet-sized.
+  plate is N + 6. Ply stays 3 mm, throat stays ø3.66, rim stays trumpet-sized.
   **Do not add `--bore` to `bell.py` or `mouthpiece.py`** without being asked.
   [`--bore` is the channel, and only that]
 - Filenames carry the bore, length and ring count, and the same in `<title>`. Never
@@ -36,21 +36,21 @@ Read that section before changing the code it names.
   The README's "Rim diameter" column is the **outer**. [`--mouth` is the hole]
 - Each bell file draws every ring **once**; the README's `Build` column is how many
   passes. Counting shapes in the SVG is not counting pieces. [A bell file is cut more than once]
-- Ring 0 is a 22mm square flange around the 10mm channel, wider than the rings above
+- Ring 0 is a 22 mm square flange around the 10 mm channel, wider than the rings above
   it. **The throat is the bore's channel, not its outside.** [Ring 0 is a flange]
 - Nothing here compensates for kerf: apertures cut one kerf oversize. That is a voicing
   question, recorded rather than changed. Stack heights are nominal (count × 3.0):
-  caliper, don't trust them. The lap is 3mm, not 1.5.
+  caliper, don't trust them. The lap is 3 mm, not 1.5.
 - **Ring sizes are not monotonic.** Never recover assembly order by sorting on outer
   diameter; sort on aperture, or use file order.
-- `bell-adapter.py` turns the 7 x 14 port into the bell's 10mm square. The area is the
-  schedule (smoothstep, both ends tangent); a half-width moves at most 1mm a ring, so
+- `bell-adapter.py` turns the 7 x 14 port into the bell's 10 mm square. The area is the
+  schedule (smoothstep, both ends tangent); a half-width moves at most 1 mm a ring, so
   three rings is the floor. [The adapter is what makes a ported bore take a bell]
 - `bell.py` bells are square; `bell-round.py` bells morph square-to-round and follow
-  **area**. The 2mm wall floor is directional: keep both floors in `stations()`.
+  **area**. The 2 mm wall floor is directional: keep both floors in `stations()`.
   [Two bell families]
-- `mouthpiece-round.py` uses 2.5mm taper steps because 4mm leaves no corner seat.
-  Roundness is solved per station, not scheduled. [The mouthpiece's taper is 2.5mm]
+- `mouthpiece-round.py` uses 2.5 mm taper steps because 4 mm leaves no corner seat.
+  Roundness is solved per station, not scheduled. [The mouthpiece's taper is 2.5 mm]
 - `--layout=trumpet` is the default and the one to cut. `legacy` is a record of a built
   part. `--layout=asbuilt` refuses on purpose. The wall is per-ring, not a constant.
   [The mouthpiece has two layouts]
@@ -58,7 +58,7 @@ Read that section before changing the code it names.
   Change one, check the other. [Two routes to the same mouthpiece]
 - `mouthpiece.py` names `cup` and `backbore` backwards. **Do not fix it**: that would
   regenerate a cut part. [Known wrong, deliberately not fixed]
-- A ring past the 201mm profile is still a full `step` tall. `bell.py` reports the
+- A ring past the 201 mm profile is still a full `step` tall. `bell.py` reports the
   **steepest** angle. [The rim ring is not always the steepest]
 
 ## Numbering and reading rings

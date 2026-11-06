@@ -8,7 +8,7 @@ before changing what it names.
 
 - **No README in this folder.** The reading page is `../../../../../../switchback/`;
   the repository's writeup is at its root.
-- **One 10mm bore**: six sections on a 16mm block, 22 blocks, 352mm of centreline. One
+- **One 10 mm bore**: six sections on a 16 mm block, 22 blocks, 352 mm of centreline. One
   pitch, so no `sizes.html`. [What this is]
 - Everything here is **generated** by `../../../../../../tools` (see its `CLAUDE.md`).
   Nothing is hand-authored except this file and `NOTES.md`.
@@ -38,14 +38,14 @@ before changing what it names.
 
 ## Pitch and flags
 
-- **The bore is the air (10mm); the block is air + two walls (16mm).** This design is
+- **The bore is the air (10 mm); the block is air + two walls (16 mm).** This design is
   gated at `--blocksize=16`. Omitting it fills `bore/` with stock-pitch parts under
-  this set's names. [One block is 16mm, not 10]
+  this set's names. [One block is 16 mm, not 10]
 - **Don't type the Boxes.py flags**: `bore_split.py` builds them from its own constants.
   `--thickness` is the sheet and `--burn` is half the kerf. Print them rather than
   trusting a written list.
 - Sheet names carry the bore (`bore10-coil-fold2-01of06-…`), plus a `<title>` and `<desc>`.
-- `--pin_width` is derived (0.48 × the sound square, floored at the finger tooth: 6mm
+- `--pin_width` is derived (0.48 × the sound square, floored at the finger tooth: 6 mm
   here). Never pass 12.
 
 ## Sections and orphans

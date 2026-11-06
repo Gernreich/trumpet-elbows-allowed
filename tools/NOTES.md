@@ -3,8 +3,8 @@
 The reasoning, history and measurements behind the rules in `CLAUDE.md`,
 which states them short. When the two disagree, fix both.
 
-**Nothing here is cut at two pitches.** Every design is on the 16mm block - 10mm of
-air inside 3mm walls - so `regress.py` names one `coil fold2` design rather than two,
+**Nothing here is cut at two pitches.** Every design is on the 16 mm block - 10 mm of
+air inside 3 mm walls - so `regress.py` names one `coil fold2` design rather than two,
 and `sizes.py` writes no page that is kept. Notes below about a design held at two
 sizes describe machinery that still works and currently has nothing to show.
 
@@ -104,20 +104,20 @@ after a rename is a warning.**
 
 **The tab is floored at the finger tooth, and the notch carries the play.** Both are
 failures the gate cannot see. A `--pin_width` that scales with the block while the finger
-teeth do not (Boxes.py sizes those at `2 x thickness`) puts a 4.8mm seam tab against 6mm
-teeth at the 10mm bore — the narrowest feature on the sheet, where it should be the
+teeth do not (Boxes.py sizes those at `2 x thickness`) puts a 4.8 mm seam tab against 6 mm
+teeth at the 10 mm bore — the narrowest feature on the sheet, where it should be the
 strongest. A `--pin_play` of 0 draws the notch exactly the tab's width, and section 1 will
 not enter section 2. `pin_width()` floors at the tooth and caps at `MIN_SHOULDER`, and
 `pin_play()` returns 0.025 per side out of `PLAY_BY_BORE`. Both are in
 `COMMON`, so `check.py` sees the same geometry.
 
-The gate did not catch either. Its floor is `MIN_FEATURE`, 1.5mm, which 4.8 clears
+The gate did not catch either. Its floor is `MIN_FEATURE`, 1.5 mm, which 4.8 clears
 comfortably, and nothing compares a feature against the other features beside it or checks
 that a joint has any clearance at all. **A passing gate means no check failed, not that the
 part is buildable.**
 
 **`--play` overrides the table, and it is for measuring, not for cutting.** `PLAY_BY_BORE`
-is a lookup of what has actually been cut — one row, 0.025 per side at the 10mm bore — and
+is a lookup of what has actually been cut — one row, 0.025 per side at the 10 mm bore — and
 a bore that is not in it gets 0.025 too, the safe direction, saying on stderr that it is
 guessing. The comment above the table sets out the coupon that would settle whether the
 requirement is absolute or a fraction of the tab;
@@ -212,7 +212,7 @@ refusal needs `--refuse-elbows` and a walk that actually strands one — `N3 U1 
 **`--bore` and `--blocksize` are two spellings of one number** -- `set_bore()`
 calls `set_blocksize(bore + 2t)` -- so the pair is refused unless the two agree.
 Applied in order unconditionally, `--bore` would silently overwrite
-`--blocksize`: `--bore=30 --blocksize=16` would cut 49mm blocks and report them
+`--blocksize`: `--bore=30 --blocksize=16` would cut 49 mm blocks and report them
 as though asked for.
 
 **Not guarded:** a run of absurd length (`N9999`) builds until it hangs

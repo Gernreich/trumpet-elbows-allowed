@@ -30,18 +30,18 @@ generator is **`../../../../../../tools`**, the mouthpiece and bell are
 
 `check.py` needs shapely, which the system `python3` lacks, and `bore_split.py` **writes
 every file before gating**. Always use `~/Software/boxes/venv/bin/python` (as the
-README's rebuild block does). 16mm is the default block; if you pass `--blocksize`, pass
+README's rebuild block does). 16 mm is the default block; if you pass `--blocksize`, pass
 the same to **both** commands.
 
-## Sheet 1 is 592mm on a 600mm bed
+## Sheet 1 is 592 mm on a 600 mm bed
 
-The largest sheet by area (592.0 x 284.4mm), not the widest; width runs out first. The
-two sheets within 1.5mm of the bed width:
+The largest sheet by area (592.0 x 284.4 mm), not the widest; width runs out first. The
+two sheets within 1.5 mm of the bed width:
 
 | sheet | width | margin | gated by |
 |---|---|---|---|
-| `double-volute` narrow panels | 598.85mm | 1.15mm | `ribbon_bore.py` |
-| `hilbert/open` section 14 | 598.60mm | 1.40mm | `check.py` |
+| `double-volute` narrow panels | 598.85 mm | 1.15 mm | `ribbon_bore.py` |
+| `hilbert/open` section 14 | 598.60 mm | 1.40 mm | `check.py` |
 
 **Two gates, one bed**: each sees only its own sheets, so read a change against both.
 `sheet fits the bed` passes right up to 600.0 and the nester may re-split instead of

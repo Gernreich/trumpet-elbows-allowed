@@ -341,7 +341,7 @@ fn main() {
                 "{} all split into {} pieces and cannot be told apart by blocks-per-piece at all, while their mean plates are {}",
                 tie.iter().map(|r| format!("`{}`", r.name)).collect::<Vec<_>>().join(", "),
                 num(tie[0].pf("innerPieces")),
-                tie.iter().map(|r| format!("{}mm²", num(round(r.pf("meanPlate"))))).collect::<Vec<_>>().join(", ")
+                tie.iter().map(|r| format!("{} mm²", num(round(r.pf("meanPlate"))))).collect::<Vec<_>>().join(", ")
             ),
         }
     };
@@ -478,7 +478,7 @@ lands below every short-period one, and the bores ran 126 to 144 blocks, a 14.3%
 The target is now chosen rather than assumed. `tools/standardise.rs` searches bore
 lengths from 120 to 220 blocks for the one that makes the tube lengths most alike, takes
 the **nearest** whole-period count to it rather than the largest that fits, and lands on
-180: bores of {fb_lo} to {fb_hi} blocks, {fm_lo}mm to {fm_hi}mm, a spread of {fb_spread}%.
+180: bores of {fb_lo} to {fb_hi} blocks, {fm_lo} mm to {fm_hi} mm, a spread of {fb_spread}%.
 
 That is as close as this set can get at a plausible size. Squeezing the spread below 10%
 needs a seven-metre bore and below 5% needs twelve, which is not a trumpet.
@@ -494,7 +494,7 @@ requirement is none of it at any length.
 
 {tbl_shape}
 
-Envelope, box and cross-section are in blocks; a block is {MM}mm of centreline. Sorted by
+Envelope, box and cross-section are in blocks; a block is {MM} mm of centreline. Sorted by
 box, smallest first.
 
 **The bore's mouth and exit are not judged.** Every design has them, no design chooses
@@ -544,7 +544,7 @@ only 6 of {n} places. `{fs_name}` is {fs_distinct} shapes laid in a
 **Mean plate** is the average bounding box a piece is cut from, in mm² — the
 laser-cutting number. Fewer, larger parts means less weeding, less sorting and fewer
 fingers to align, and it is the size of the part in your hand rather than the count of
-them. `{pb_name}` averages {pb_plate}mm² against `{y_name}`'s {y_plate}mm².
+them. `{pb_name}` averages {pb_plate} mm² against `{y_name}`'s {y_plate} mm².
 
 Average *blocks* per piece was the other reading of the same idea and is not used: the
 block count varies by only {mb_spread}% across the set, so blocks-per-piece is very nearly the
@@ -593,11 +593,11 @@ No single spiral wins, because the measures disagree.
 | | winner | against the walk this started from |
 | --- | --- | --- |
 | smallest box | {box_link} — {box_vol} | {y_vol}, so {box_x}x larger |
-| tightest spiral (least rise per turn) | {rise_link} — {rise_mm}mm | {y_rise_mm}mm, so {rise_x}x slacker |
+| tightest spiral (least rise per turn) | {rise_link} — {rise_mm} mm | {y_rise_mm} mm, so {rise_x}x slacker |
 | least tube per turn | {tube_names} — {tube_b} blk | {y_tube} blk, within {tube_pct}% |
 | fewest pieces | {pcs_link} — {pcs_n} | {y_pcs} |
 | fewest distinct shapes | {dist_link} — {dist_n} | {y_dist} |
-| largest average plate | {pb_link} — {pb_plate}mm² | {y_plate}mm² |
+| largest average plate | {pb_link} — {pb_plate} mm² | {y_plate} mm² |
 | calmest bore (fewest turns/m) | {calm_names} — {calm_t} | {y_calm} |
 | smallest box with no shared wall | {clean_link} — {clean_vol} | {y_vol}, also {y_touch} shared |
 
@@ -831,7 +831,7 @@ by hand.
 SVG or nested. `bore_split.py --write DIR` will do it.
 
 The block counts are not equal — the scored ones run {mb_lo} to {mb_hi}, so their bore lengths
-run {mm_lo}mm to {mm_hi}mm, a spread of {mm_spread}%. A period is repeated to about the right length and then trimmed
+run {mm_lo} mm to {mm_hi} mm, a spread of {mm_spread}%. A period is repeated to about the right length and then trimmed
 to wherever the tail comes out bend-only, so these are the same bore only to within a few
 blocks. For comparing packing that is fine; for comparing *bores* it is not, and the length
 would have to be pinned first.

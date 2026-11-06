@@ -10,8 +10,8 @@ section before changing the code it names.
   cut files come out. It ships no cut files of its own. It depends on nothing in
   `octomino-snakes`. [What this is]
 - The writeup is `README.md` at the repository root. This file covers the code only.
-- **Nothing is cut at two pitches.** Every design is on the 16mm block (10mm of air,
-  3mm walls). Two-size machinery (`sizes.py`, `build_many`) works but has nothing to show.
+- **Nothing is cut at two pitches.** Every design is on the 16 mm block (10 mm of air,
+  3 mm walls). Two-size machinery (`sizes.py`, `build_many`) works but has nothing to show.
 - **A design naming a folder that is not there fails** in `regress.py`. Keep it
   that way: otherwise it silently gates geometry only.
 - Scripts sit flat in `tools/`, at the depth `octomino-snakes/generator/` had, so
@@ -47,7 +47,7 @@ snakeboxvar  is a Boxes.py generator, driven by subprocess, not imported
   nothing deletes it. **A check count that rises after a rename is a warning**: look
   for orphans.
 - `pin_width()` floors at the finger tooth; `pin_play()` reads `PLAY_BY_BORE` (0.025 per
-  side at 10mm). Both are in `COMMON`. `--play` is for cutting coupons, not parts: when
+  side at 10 mm). Both are in `COMMON`. `--play` is for cutting coupons, not parts: when
   one fits, add the row and stop passing the flag.
 - `COMMON` is built once at import. Any setter (`set_play()`, `set_blocksize()`) must
   rebuild it. Always use `bore_split.COMMON`, never a typed-out copy.

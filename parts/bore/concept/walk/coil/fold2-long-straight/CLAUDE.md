@@ -8,7 +8,7 @@ before changing what it names.
 
 - **No README in this folder.** The reading page for the built coil is
   `../../../../../../three-turn/`; the writeup is at the repository root.
-- Straight blocks are 30mm, turning blocks 16mm cubes, the airway 10 x 10mm throughout.
+- Straight blocks are 30 mm, turning blocks 16 mm cubes, the airway 10 x 10 mm throughout.
   Four designs that are **one coil truncated at its `N` spacers**, each with its walk in
   `tools/walks/`. [What this is]
 - A turn is four terms and a group three: lengths come in whole groups of 11 blocks.
@@ -28,8 +28,8 @@ before changing what it names.
 
 ## The pinned folder
 
-**`coil-10x10x30-1.5t/` records wood that was cut**, at a 0.1mm kerf where the generator
-now assumes 0.15. **Do not cut from it as it stands**: its slots come out about 0.05mm
+**`coil-10x10x30-1.5t/` records wood that was cut**, at a 0.1 mm kerf where the generator
+now assumes 0.15. **Do not cut from it as it stands**: its slots come out about 0.05 mm
 wide. Regenerate it first (switches in `tools/regress.py`), knowing that overwrites the
 record. Its six sheets are pinned by hash in `tools/as-built.sha256`, and `tools/repro.py`
 fails with *this file describes wood that was cut* if one changes. Re-pin only with
@@ -45,8 +45,8 @@ fails with *this file describes wood that was cut* if one changes. Re-pin only w
 - No single number maps a lattice index to mm. Positions come from `block_boxes()`; its
   cubic-cell test is the first thing to rerun if geometry looks wrong. Within one piece a
   straight and a turn may not share a column. [The lattice is not a grid any more]
-- **The 1mm spurs on five of six plates are known and benign. Do not "fix" them**: the
-  cause is in Boxes.py. [The 1mm spurs are known…]
+- **The 1 mm spurs on five of six plates are known and benign. Do not "fix" them**: the
+  cause is in Boxes.py. [The 1 mm spurs are known…]
 - **After touching Boxes.py, check a shipped file still reproduces**, writing to a temp
   tree that mirrors the real folder stack (sheet names come from the path):
 
@@ -66,7 +66,7 @@ cmp /tmp/f/coil/fold2/bore/cut-files/$B \
 - **One tab size and one notch size across the whole bore.**
 - **Adjust by narrowing the notch, never by widening the tab.** Tune with `PLAY_BY_BORE`,
   which `pin_play()` reads; this design does not use `--notch`.
-- The current fit is 0.05mm clearance (tab 6.0, notch 6.05), confirmed on the bench.
+- The current fit is 0.05 mm clearance (tab 6.0, notch 6.05), confirmed on the bench.
 - **Before changing it, ask what is already cut.** [Commands]
 
 ## Gate and render

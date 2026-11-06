@@ -8,7 +8,7 @@ which states them short. When the two disagree, fix both.
 `../../../../../../switchback/`, and the repository's writeup is at its root.
 This file is the note that sits beside the cut files.
 
-**This is a 10mm bore**: six sections on a 16mm block, 352mm of centreline. There is
+**This is a 10 mm bore**: six sections on a 16 mm block, 352 mm of centreline. There is
 one pitch here, so there is no `sizes.html`.
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
@@ -38,7 +38,7 @@ have the tube; the two ends come from `../../../../../../..`.
 a bell suit any tube on the same channel, so holding them beside one bore would hide two
 general parts inside one instrument. What decides it: neither end is touched by the way a
 bore turns, so **only the tube belongs to an instrument**. **Every bore in the repository
-is on the 10mm channel** — all 96 lattice sheets and every swept-curve one — so one pair
+is on the 10 mm channel** — all 96 lattice sheets and every swept-curve one — so one pair
 serves all of them, which is the whole reason they live in `../../../../../../..`.
 
 **Do not move them back** without deciding what changed about that argument.
@@ -95,14 +95,14 @@ SVGs come out byte-identical** written either way. It would have mattered if the
 direction differed from the last term: `N1 U` turned the final block and stranded it,
 which is a thing that can no longer be asked for.
 
-## One block is 16mm, not 10
+## One block is 16 mm, not 10
 
-A block is 10 × 10 × 10mm of sound space wrapped in **3mm of wall**, so its outside is
-**16mm**, and coring it out for air does not shrink it. A run of *N* blocks is **16N mm**
-along the bore. The 22 blocks are 352mm of centreline at that size.
+A block is 10 × 10 × 10 mm of sound space wrapped in **3 mm of wall**, so its outside is
+**16 mm**, and coring it out for air does not shrink it. A run of *N* blocks is **16N mm**
+along the bore. The 22 blocks are 352 mm of centreline at that size.
 
-**The bore is not the block, and this design is gated on the block.** 10mm of air is
-`--blocksize=16`. The two numbers are 6mm apart and naming them the same thing is the
+**The bore is not the block, and this design is gated on the block.** 10 mm of air is
+`--blocksize=16`. The two numbers are 6 mm apart and naming them the same thing is the
 mistake this section exists to stop: the bore is the air, the block is the air plus two
 walls, and a folder named for one gated at the other cuts a tube nobody asked for.
 
@@ -124,14 +124,14 @@ Boxes.py means by it. Both come from `bore_split._common()` and change with
 checkout of it, not a copy in this repository.
 
 
-`--pin_width=12` does not belong in that list: a 12mm tab does not fit a 10mm end
+`--pin_width=12` does not belong in that list: a 12 mm tab does not fit a 10 mm end
 frame, which is the whole of the section below.
 
 ## The walk and the square are separate: the walk is here, the square is a flag
 
-The **block pitch is the sound square plus two walls**, so a 10mm bore in 3mm stock is a
-**16mm** block: `--blocksize=16`, and nothing else changes. Six sections, every turn a bend,
-352mm of centreline. Cut the same walk at another pitch and you get the same shapes, the
+The **block pitch is the sound square plus two walls**, so a 10 mm bore in 3 mm stock is a
+**16 mm** block: `--blocksize=16`, and nothing else changes. Six sections, every turn a bend,
+352 mm of centreline. Cut the same walk at another pitch and you get the same shapes, the
 same in and out faces, and different millimetres — pitch is the only thing a size
 carries, so a change to the walk is a change to every size of it.
 
@@ -141,11 +141,11 @@ the name instead — `bore10-coil-fold2-01of06-bend-DL-buttin-cut-files.svg` —
 sheet carries a `<title>` and `<desc>` saying its bore, its blocks and its faces, so a file
 that has been renamed or moved can still be asked what it is.
 
-`--pin_width` is the one flag that does not simply scale. SnakeBox defaults it to 12mm and
-12mm does not fit a 10mm end frame — SnakeBox raises
+`--pin_width` is the one flag that does not simply scale. SnakeBox defaults it to 12 mm and
+12 mm does not fit a 10 mm end frame — SnakeBox raises
 `pin_width 12.0 is too wide for the 10.0mm end frame` rather than cutting something wrong.
 `bore_split.py` derives it instead, as **0.48 × the sound square, floored at the finger
-tooth** (`2 × thickness`, which does not shrink with the block) — so 6mm here, the floor
+tooth** (`2 × thickness`, which does not shrink with the block) — so 6 mm here, the floor
 rather than the fraction.
 
 **Omitting `--blocksize=16` fills `bore/` with parts at the stock pitch under this
@@ -211,7 +211,7 @@ those plain ends, 1 and 4 would both be `BDL` and 3 and 6 both `BRD`.
 
 **The outer ends carry no coupling because there is nothing to couple to.** The mouthpiece
 meets one and the bell the other, and both present a flat plate that seats against the end
-face — the mouthpiece's station one, the bell's ring 0. A tab standing 3mm proud holds that
+face — the mouthpiece's station one, the bell's ring 0. A tab standing 3 mm proud holds that
 plate off the face and leaves the joint resting on the tab, which is what the bench
 reports. `plain_ends()` in `bore_split.py` marks the first piece's entry and the last
 piece's exit.

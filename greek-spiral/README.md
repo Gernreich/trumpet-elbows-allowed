@@ -3,7 +3,7 @@
 <!-- page-only <iframe src="../parts/bore/concept/walk/meander/greek-key/bore/bore.html?embed" title="The greek spiral bore: 68 blocks lying flat as a Greek key, winding in and back out beside itself, drawn as a chain of coloured blocks you can drag to turn" style="width:100%;height:560px;border:0"></iframe> -->
 
 A trumpet bore drawn as a flat meander — the Greek key, wound in and brought
-back out beside itself. **68 blocks, 1088mm of centreline, one section, no
+back out beside itself. **68 blocks, 1088 mm of centreline, one section, no
 elbows and no contact.** It is the only lattice bore in this repository that
 cuts as a single section — every other one splits into six, eight,
 twenty-seven — because it is planar: there is nothing to fold, and no
@@ -65,18 +65,18 @@ longest runs — the outer legs at either side — are the two `N10`.
 | | |
 | --- | --- |
 | blocks | 68 |
-| centreline | 1088mm |
+| centreline | 1088 mm |
 | sections | 1 |
 | parts | 24, over 2 sheets |
-| bounding box | 192 × 16 × 208mm — 12 × 1 × 13 blocks |
-| airway | 10mm square, constant |
-| block pitch | 16mm — 10mm of air in 3mm walls |
+| bounding box | 192 × 16 × 208 mm — 12 × 1 × 13 blocks |
+| airway | 10 mm square, constant |
+| block pitch | 16 mm — 10 mm of air in 3 mm walls |
 | elbows | none; every turn is a bend |
 | contact | none |
 | legs | north 25, west 21, south 12, east 10 |
 
-**A block is 16mm, not 10.** Ten millimetres of sound space wrapped in 3mm of
-wall is 16mm outside. A run of *N* blocks is 16*N* mm along the bore, which is
+**A block is 16 mm, not 10.** Ten millimetres of sound space wrapped in 3 mm of
+wall is 16 mm outside. A run of *N* blocks is 16*N* mm along the bore, which is
 where 1088 comes from.
 
 ## One section is the whole design
@@ -87,7 +87,7 @@ three things:
 
 - **There is no assembly order.** Two sheets, one section. The `01of01` in the
   filename is not a sequence.
-- **The seam clearance is inert.** The 0.025mm per side that the 10mm bore gets
+- **The seam clearance is inert.** The 0.025 mm per side that the 10 mm bore gets
   at a section joint has nothing to apply to here, because there is no
   section-to-section joint. Do not cite the switchback's measured play as
   evidence about this bore.
@@ -110,12 +110,12 @@ run of length *L*.
 
 | sheet | parts | size |
 | --- | --- | --- |
-| 1 of 2 | 13 | 592.0 × 284.4mm |
-| 2 of 2 | 11 | 539.8 × 92.5mm |
+| 1 of 2 | 13 | 592.0 × 284.4 mm |
+| 2 of 2 | 11 | 539.8 × 92.5 mm |
 
 Sheet 1 is **1684cm²**, second by area only to the closed 52-block loop's
-1778cm² sheet, with 8.0mm to spare on a
-600mm bed. It is not the widest — the double volute's narrow panels reach 598.9mm, and
+1778cm² sheet, with 8.0 mm to spare on a
+600 mm bed. It is not the widest — the double volute's narrow panels reach 598.9 mm, and
 width is what runs out first. The gate's
 `sheet fits the bed` check passes everything up to 600.0, and the nester may
 split differently rather than failing, so compare the reported sheet sizes after
@@ -134,7 +134,7 @@ bore10-meander-greek-key-01of01-bend-DDDDDDDDDDLLLLLLLLLUUUUUURRRRRDDLLLDDRRRRRU
 The long middle is the flattened shape of the whole snake — sixty-eight letters
 of `D`, `L`, `U` and `R` saying which way the plate turns at each block, with
 `~a~b` collapsed into the `-buttin-buttout-` that says both ends are plain.
-Every file is millimetre-true at 1 user unit = 1mm.
+Every file is millimetre-true at 1 user unit = 1 mm.
 
 ## Rebuild it
 
@@ -163,7 +163,7 @@ would be caught.
 ## The two ends
 
 Only the tube belongs to an instrument. Neither the mouthpiece nor the bell is
-touched by the way a bore turns, and every bore here is on the same 10mm
+touched by the way a bore turns, and every bore here is on the same 10 mm
 channel, so one of each serves all of them —
 **[the bell and the mouthpiece](../ends/)**.
 

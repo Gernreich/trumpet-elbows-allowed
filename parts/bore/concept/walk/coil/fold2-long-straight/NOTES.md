@@ -14,8 +14,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## What this is
 
 Bores whose straight blocks are longer than their turns, and a fork of the toolchain that
-cuts them. Straight blocks are 30mm long, turning blocks are 16mm cubes, and the airway is
-10 x 10mm the whole way.
+cuts them. Straight blocks are 30 mm long, turning blocks are 16 mm cubes, and the airway is
+10 x 10 mm the whole way.
 
 Four designs, each in its own folder with its own walk in `tools/walks/`. They are **one
 coil truncated at its `N` spacers**, not four separate walks.
@@ -51,15 +51,15 @@ the last leg back to the first, is right for a walk that closes and wrong for on
 does not: it takes `../fold2` from 450° to 360° against a measured 540°. Do not take a
 turn count from that tool without checking it closes.
 
-- **`coil-10x10x30-0.75t/`** — 11 blocks, 274mm, 3 sections. The shortest the walk goes.
+- **`coil-10x10x30-0.75t/`** — 11 blocks, 274 mm, 3 sections. The shortest the walk goes.
   Uncut.
-- **`coil-10x10x30-1.5t/`** — 22 blocks, 548mm. **All six parts are cut**; treat its files
+- **`coil-10x10x30-1.5t/`** — 22 blocks, 548 mm. **All six parts are cut**; treat its files
   as describing wood. It is `../fold2`'s walk exactly — one file,
   `tools/walks/coil_fold2.txt`, named by both.
-- **`coil-10x10x30-2.25t/`** — 33 blocks, 822mm, 9 sections. Uncut.
-- **`coil-10x10x30-3t/`** — 44 blocks, 1096mm, and the longest; it is the one that was
+- **`coil-10x10x30-2.25t/`** — 33 blocks, 822 mm, 9 sections. Uncut.
+- **`coil-10x10x30-3t/`** — 44 blocks, 1096 mm, and the longest; it is the one that was
   BUILT, and it lives in `../../../../../../built/coil-fold2-long-straight-3t`.
-  **Coils are named for the block and the measured turns**: a 10 x 10mm airway on a 30mm
+  **Coils are named for the block and the measured turns**: a 10 x 10 mm airway on a 30 mm
   straight, three times round. That is
   what differs between two coils before anything else does; the circuit size and the pitch
   live in the walk, not the name. Its page title comes from `--title`, not the folder — a
@@ -69,12 +69,12 @@ turn count from that tool without checking it closes.
 
 
 **One folder here is pinned rather than reproduced.** `coil-10x10x30-1.5t/` holds
-six sheets drawn to a 0.1mm kerf where the generator assumes 0.15, because those
+six sheets drawn to a 0.1 mm kerf where the generator assumes 0.15, because those
 files describe wood that exists and a record of what was cut is worth more than a
 file nobody is cutting.
 
 **So do not cut from it as it stands.** A slot drawn for a narrower kerf than the
-machine takes comes out about 0.05mm wide, and the joints are slack to match.
+machine takes comes out about 0.05 mm wide, and the joints are slack to match.
 Regenerate the folder first -- the switches are in `tools/regress.py`, which is
 what drives every other folder -- and know that you are then overwriting the
 record.
@@ -89,9 +89,9 @@ else in the tree would notice, because every invariant still passes on a
 regenerated sheet.
 
 None of them is an instrument on its own: this repository is all bore, and nothing here
-closes either end. The 10mm mouthpiece and bell in `../../../../../mouthpiece` and
+closes either end. The 10 mm mouthpiece and bell in `../../../../../mouthpiece` and
 `../../../../../bell` fit any of
-them — a coil's mouth is a 10mm square in a 16mm face, which is what both seat onto, and
+them — a coil's mouth is a 10 mm square in a 16 mm face, which is what both seat onto, and
 neither cares how long the bore behind it is. They are **named, not copied**: two copies of
 a cut file drift.
 
@@ -124,7 +124,7 @@ in ply. A measured fit beats a conventional one, which is the order to keep.
 
 **The render is the weak point, and only partly gated.** `check.py` never looks at
 the page, and a render can be wrong while every geometry check passes: the geometry, the
-plates and the voxel model can all be right and the picture still show a uniform 10mm
+plates and the voxel model can all be right and the picture still show a uniform 10 mm
 lattice. `regress.py`'s `check_page` asserts that the page beside a design was handed that design's walk, block count and
 centreline, so a stale page fails. It still does not judge the picture. **Look at the
 render after changing the geometry.**
@@ -158,7 +158,7 @@ decides: long along the axis a block runs straight on, the section everywhere el
 
 ## The lattice is not a grid any more, and that is the whole cost
 
-The same column index wants 30mm in one part of the bore and 16mm in another, so **no single
+The same column index wants 30 mm in one part of the bore and 16 mm in another, so **no single
 number takes a lattice index to a millimetre**. Positions are carried in mm by
 `block_boxes()`, each block butting its entry face onto the last block's exit face. For a
 cubic cell that reproduces `index x blocksize` exactly — there is a test for it, and it is
@@ -172,26 +172,26 @@ Everything downstream of that had to stop counting cells:
 - `assemble.build()` takes real boxes and decides face contact geometrically, so a face a
   neighbour only partly covers is walled over the rest of itself.
 - `plate_span_mm()` sums column widths for the bed-fit test. `blocksize x blocks` would
-  under-report it by 13mm a side here.
+  under-report it by 13 mm a side here.
 
 **The grid still has to hold within a piece.** `piece_widths()` raises, naming the column,
 when a straight and a turn share one — a plate is drawn on a rectilinear grid even though
 the bore as a whole is not on one. This walk happens to satisfy it; most will not.
 
-## The 1mm spurs are known, benign, and not worth fixing
+## The 1 mm spurs are known, benign, and not worth fixing
 
-Five of the six plates carry **four 1.00mm zero-width spurs** each: the cut path runs 1mm
+Five of the six plates carry **four 1.00 mm zero-width spurs** each: the cut path runs 1 mm
 past a corner and retraces the same line. They are left there deliberately.
 
 - **They cut into waste, not into the part.** Every spur tip tests outside the plate
   outline, so it is a slit in the offcut, not a nick in the piece. No dimension moves.
-- **They are not from the stretched lattice.** The 10mm bore in
+- **They are not from the stretched lattice.** The 10 mm bore in
   `../fold2` has the identical 20.
-  They appear once the end frame drops below 12mm: zero at block 18 and above, four at 17
+  They appear once the end frame drops below 12 mm: zero at block 18 and above, four at 17
   and 16.
 - **The cause is below this code.** The polygon `plateBorders()` hands over is clean — no
   negative or malformed lengths — so it is Boxes.py's edge drawing at a small frame.
-  Narrowing the coupling does not help: at a 4.0mm notch there are still four, and at 4.6
+  Narrowing the coupling does not help: at a 4.0 mm notch there are still four, and at 4.6
   and 5.3 there are eight.
 
 Section 1 is the only one with none.
@@ -252,10 +252,10 @@ Sized on the bench, over four goes:
 
 | clearance | outcome |
 | ---: | --- |
-| 0.0mm | would not go together at all |
-| 0.3mm | went together, perceptible rock |
-| 0.1mm | very slightly loose |
-| **0.05mm** | current: tab 6.0, notch 6.05 — **confirmed on the bench**, parts 1 and 2 fit themselves and each other |
+| 0.0 mm | would not go together at all |
+| 0.3 mm | went together, perceptible rock |
+| 0.1 mm | very slightly loose |
+| **0.05 mm** | current: tab 6.0, notch 6.05 — **confirmed on the bench**, parts 1 and 2 fit themselves and each other |
 
 A cut notch cannot be narrowed, so a clearance change made once parts exist has to widen
 the tab instead — which leaves two tab sizes in one bore unless the cut parts are recut.
@@ -286,7 +286,7 @@ templates would drift, and the drawing code is the part that has been wrong befo
 one to the canvas drew four coils the same size, which is the one thing a page comparing
 lengths must not do. `draw()` takes its **scale** from the reference set and its
 **position** from the set on screen, so the ¾ draws at 0.485 of the 3-turn and stays
-centred. That ratio is bounding box, not centreline: the centrelines are 274mm and 1096mm,
+centred. That ratio is bounding box, not centreline: the centrelines are 274 mm and 1096 mm,
 a factor of four, but a coil folds, so its box grows more slowly than its length.
 
 The switch **keeps** the camera. Nothing can leave the frame, and holding the angle is
@@ -304,12 +304,12 @@ Every folder here has a row in that corpus, carrying the switches it is cut with
 `--bore=10 --straight=30` — because `--files` never looks at the pitch and will happily
 gate a design nobody is cutting.
 
-**It bites.** Adding 1mm to `SnakeBoxVar.span()` fails these designs and names the sections.
+**It bites.** Adding 1 mm to `SnakeBoxVar.span()` fails these designs and names the sections.
 
 **It has one blind spot, and it is the interesting one.** `extent()` decides how long a
 straight block is, and `check.py` computes the expected bore volume from that same function.
 Break `extent` and the measured volume and the expected volume move together, so the check
-that looks strongest here cannot see it: adding 1mm to every straight block still passes
+that looks strongest here cannot see it: adding 1 mm to every straight block still passes
 all 393 checks on the 3t. What the volume check proves is that the voxel model agrees with the formula,
 not that either is right. **A change to `extent()` has to be checked by hand.**
 
