@@ -6,7 +6,6 @@ check.py
 viewer.py
 
 # ../lasermade-tools
-md2html.py
 
 # boxes.py, the upstream generator this all rests on
 Boxes.py

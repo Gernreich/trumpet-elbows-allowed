@@ -1,5 +1,5 @@
 # How every shipped SVG under parts/bell is drawn. Checked by
-# lasermade-tools/repro-svg.py; $OUT is where the file must be written.
+# lasermade-tools' repro-svg; $OUT is where the file must be written.
 #
 # NOTHING RAN THESE GENERATORS AT ALL until 2026-09-10. The block bores had two
 # byte gates and the ribbon sheets a third; knotwork-soundholes and living-hinge
@@ -27,7 +27,7 @@ bell-round10-153mm-17rings-x3-rim86-view.svg :: python3 bell-view.py cut-files/b
 # too; it is claimed here as well so that nothing under this directory is
 # unaccounted for, which is the whole point of the manifest. The tool lives in
 # the sibling lasermade-tools checkout, hence the climb.
-previews/bell-round10-153mm-17rings-x3-rim86-cut-files.svg :: python3 ../../../lasermade-tools/make-preview.py cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg $OUT
+previews/bell-round10-153mm-17rings-x3-rim86-cut-files.svg :: ../../../lasermade-tools/target/release/make-preview cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg $OUT
 
 # The turn page: the same rings as a solid you can rotate. It is a shipped
 # artefact that no gate reached until .repro learned to walk *.html -- doc-audit
@@ -40,6 +40,6 @@ bell-round10-153mm-17rings-x3-rim86-turn.html :: python3 ../part-view.py cut-fil
 # rings and 21mm, holding area across the change rather than diameter. It was
 # unclaimed here for the three days it existed, which is exactly the hole the
 # header above describes: a generator nothing ran, shipping a sheet nothing
-# compared. repro-svg.py reported it as UNCLAIMED and that is how it was found.
+# compared. repro-svg reported it as UNCLAIMED and that is how it was found.
 cut-files/bell-adapter-port7x14-to-bore10-7rings-x1-cut-files.svg :: python3 bell-adapter.py --out=$OUT
-previews/bell-adapter-port7x14-to-bore10-7rings-x1-cut-files.svg :: python3 ../../../lasermade-tools/make-preview.py cut-files/bell-adapter-port7x14-to-bore10-7rings-x1-cut-files.svg $OUT
+previews/bell-adapter-port7x14-to-bore10-7rings-x1-cut-files.svg :: ../../../lasermade-tools/target/release/make-preview cut-files/bell-adapter-port7x14-to-bore10-7rings-x1-cut-files.svg $OUT

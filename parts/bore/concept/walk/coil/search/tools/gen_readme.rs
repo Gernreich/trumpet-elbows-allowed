@@ -817,7 +817,7 @@ by hand.
     target/release/table         # both tables, plain text
     target/release/table --md    # the same as markdown
     target/release/gen_readme    # this file
-    python3 ../../../../../../../../lasermade-tools/md2html.py README.md index.html    # the published page
+    ../../../../../../../../lasermade-tools/target/release/md2html README.md index.html    # the published page
 
     target/release/spiral_metrics "$(cat walks/{first}.txt)"   # measure one walk
 

@@ -104,7 +104,7 @@ Gate alone, and the checks (`$W` and `$D` as above, run from `$S`):
 
 ```sh
 ~/Software/boxes/venv/bin/python check.py "$W" --blocksize=16 --files $D/bore/cut-files
-python3 $G/svg-stroke-check.py --dir . --quiet   # stroke declared twice, disagreeing
+$G/target/release/svg-stroke-check --dir . --quiet   # stroke declared twice, disagreeing
 cd $S && ~/Software/boxes/venv/bin/python regress.py      # every design in the library
 ```
 

@@ -321,7 +321,7 @@ not consult it, so a green `regress.py` says nothing about whether a walk can be
 **Checks:**
 
 ```sh
-python3 $G/svg-stroke-check.py --dir . --quiet   # stroke declared twice, disagreeing
+$G/target/release/svg-stroke-check --dir . --quiet   # stroke declared twice, disagreeing
 cd $S && ~/Software/boxes/venv/bin/python regress.py      # every design in the library
 ```
 

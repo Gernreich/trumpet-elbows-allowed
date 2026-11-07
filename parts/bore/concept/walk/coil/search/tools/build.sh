@@ -11,7 +11,7 @@
 # not four commands to remember.
 set -e
 cd "$(dirname "$0")/.."
-MD2HTML="${MD2HTML:-../../../../../../../lasermade-tools/md2html.py}"
+MD2HTML="${MD2HTML:-../../../../../../../lasermade-tools/target/release/md2html}"
 
 # The tools are Rust since 2026-11-02 (they were Node). Built first, every time, so
 # what runs is the code as it stands and never a stale binary. cargo is looked for on
@@ -22,6 +22,6 @@ CARGO="${CARGO:-$(command -v cargo || echo "$HOME/.cargo/bin/cargo")}"
 target/release/parts > /dev/null     # piece counts and distinct shapes
 target/release/gen_scoring           # SCORING.md
 target/release/gen_readme            # README.md
-python3 "$MD2HTML" README.md  index.html
-python3 "$MD2HTML" SCORING.md SCORING.html
+"$MD2HTML" README.md  index.html
+"$MD2HTML" SCORING.md SCORING.html
 echo "built: README.md SCORING.md index.html SCORING.html"

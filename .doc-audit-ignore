@@ -14,11 +14,6 @@ Boxes.py
 # named all through tools/CLAUDE.md and the per-design notes as the commands you
 # run. Every one of them exists -- just not in THIS repository, which is all the
 # existence check can see. Same case as Boxes.py above.
-doc-audit.py
-md2html.py
-svg-stroke-check.py
-flat-part-check.py
-repro-svg.py
 
 # Names that appear in the design notes precisely BECAUSE they are not here.
 # Each was checked by hand on 2026-09-10; none is a stale reference. (x.svg,

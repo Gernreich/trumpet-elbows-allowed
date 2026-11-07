@@ -238,7 +238,7 @@ whole claim is that the cut file IS the design, that the sheets in front of you
 belong to the bore you asked for is the thing the gate most needs to say.
 
 **Untested this way**, and worth the same treatment before being trusted: the
-checkers in `lasermade-tools` — `doc-audit.py` and `flat-part-check.py`
+checkers in `lasermade-tools` — `doc-audit` and `flat-part-check`
 especially, since both are used to clear work for publication.
 
 ## The ply is 3.0 and the kerf 0.15
@@ -393,7 +393,7 @@ it, and never at a directory holding hand-nested or hand-edited work.
 ## Publishing
 
 Pages deploys from `main` through `.github/workflows/pages.yml`, keyed per commit.
-`index.html` is `README.md` rendered by `md2html.py` and committed, not built on the
+`index.html` is `README.md` rendered by `md2html` and committed, not built on the
 server, so a stale `index.html` publishes stale content — regenerate it after editing the
 README, and read the audit before pushing:
 

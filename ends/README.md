@@ -137,7 +137,7 @@ every one of them — it is played that way, off the sheet and unfinished.
 
 Both directories carry a `.repro` manifest naming the exact command that draws
 each shipped SVG, checked by
-[`repro-svg.py`](https://github.com/Gernreich/lasermade-tools/blob/main/repro-svg.py)
+[`repro-svg`](https://github.com/Gernreich/lasermade-tools/blob/main/src/bin/repro-svg.rs)
 from lasermade-tools. It runs every command into a temp
 path and compares the result byte for byte against the sheet on disk, so a sheet
 the current code would not draw is caught rather than shipped. A sheet with no

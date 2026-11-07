@@ -1,5 +1,5 @@
 # How every shipped SVG under parts/mouthpiece is drawn. Checked by
-# lasermade-tools/repro-svg.py; $OUT is where the file must be written.
+# lasermade-tools' repro-svg; $OUT is where the file must be written.
 # The reasoning is in ../bell/.repro: these generators were run by no gate at
 # all, and they write to disk when run.
 

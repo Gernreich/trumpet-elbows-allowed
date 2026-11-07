@@ -104,7 +104,7 @@ snakeboxvar  is a Boxes.py generator, driven by subprocess, not imported
   walk. Keep it.
 - A guard that did not fire is untested until you know your input reached it.
   [bore_split.py's guards]
-- `doc-audit.py` and `flat-part-check.py` have not been tested against bad input yet.
+- `doc-audit` and `flat-part-check` have not been tested against bad input yet.
 - `old/` folders are gitignored and invisible to `repro.py`.
 - `coil-10x10x30-1.5t` is **pinned by hash** in `as-built.sha256`: its sheets describe wood.
   Redrawing it should differ. Re-pin only with `repro.py --update`, deliberately.

@@ -534,7 +534,7 @@ in this folder — regenerate its page and audit it:
 ```sh
 ~/LaserMadeMusic/GIT/lasermade-tools/rebuild-page.sh ..          # the root README
 ~/LaserMadeMusic/GIT/lasermade-tools/rebuild-page.sh ../ends     # the ends page
-python3 ../../lasermade-tools/svg-stroke-check.py --dir . --quiet
+../../lasermade-tools/target/release/svg-stroke-check --dir . --quiet
 ```
 
 **Read the audit output before pushing.**

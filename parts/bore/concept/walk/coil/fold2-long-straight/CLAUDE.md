@@ -116,7 +116,7 @@ After editing this family's page, check strokes here, regenerate and audit:
 
 ```sh
 G=../../../../../../../lasermade-tools
-python3 $G/svg-stroke-check.py --dir . --quiet
+$G/target/release/svg-stroke-check --dir . --quiet
 ~/LaserMadeMusic/GIT/lasermade-tools/rebuild-page.sh ../../../../../../three-turn
 ```
 

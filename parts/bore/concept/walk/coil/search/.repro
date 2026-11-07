@@ -1,5 +1,5 @@
 # How every shipped page in this directory is drawn. Checked by
-# lasermade-tools/repro-svg.py; $OUT is where the file must be written.
+# lasermade-tools' repro-svg; $OUT is where the file must be written.
 #
 # THE TEN VIEWER PAGES WERE STALE and nothing could have said so. They are drawn
 # by tools/viewer.py, the command is written out in README.md, and no gate ran
@@ -26,5 +26,5 @@ pages/coil_5x7_18.html :: ~/Software/boxes/venv/bin/python ../../../../../../too
 # compares these, so this is a second statement of the same fact -- kept because
 # a manifest that claims only some of a directory's files cannot tell you the
 # rest are accounted for, which is the whole job of the unclaimed check.
-index.html :: python3 ../../../../../../../lasermade-tools/md2html.py README.md $OUT
-SCORING.html :: python3 ../../../../../../../lasermade-tools/md2html.py SCORING.md $OUT
+index.html :: ../../../../../../../lasermade-tools/target/release/md2html README.md $OUT
+SCORING.html :: ../../../../../../../lasermade-tools/target/release/md2html SCORING.md $OUT
