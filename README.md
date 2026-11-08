@@ -444,6 +444,11 @@ runs. They are written from the two `-turn.html` pages by lasermade-tools'
 `step-export`, and each folder's `.repro` checks them. The bore pages have none:
 they draw the bore's path as cells, not the plates that are cut.
 
+The files:
+
+- `parts/bell/step/bell-round10-153mm-17rings-x3-rim86.step`
+- `parts/mouthpiece/step/mouthpiece-bore10-trumpet-parts.step`
+
 ## Credits
 
 Made by Michael Gernreich with [Claude](https://www.anthropic.com/claude) (Anthropic), working in Claude Code, which co-wrote the code and the documentation. Commits Claude made carry a `Co-Authored-By: Claude` line.
