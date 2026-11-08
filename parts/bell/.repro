@@ -43,3 +43,7 @@ bell-round10-153mm-17rings-x3-rim86-turn.html :: ../../target/release/part-view 
 # compared. repro-svg reported it as UNCLAIMED and that is how it was found.
 cut-files/bell-adapter-port7x14-to-bore10-7rings-x1-cut-files.svg :: ../../target/release/bell-adapter --out=$OUT
 previews/bell-adapter-port7x14-to-bore10-7rings-x1-cut-files.svg :: ../../../lasermade-tools/target/release/make-preview cut-files/bell-adapter-port7x14-to-bore10-7rings-x1-cut-files.svg $OUT
+
+# The 3D view's rings as STEP solids for a CAD program, one body per ply,
+# written from the page by lasermade-tools' step-export.
+step/bell-round10-153mm-17rings-x3-rim86.step :: ../../../lasermade-tools/target/release/step-export bell-round10-153mm-17rings-x3-rim86-turn.html --name=bell-round10-153mm-17rings-x3-rim86 --out=$(dirname $OUT)

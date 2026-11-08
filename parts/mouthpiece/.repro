@@ -16,3 +16,7 @@ mouthpiece-bore10-trumpet-parts-section.svg :: ../../target/release/bell-section
 # The turn page, drawn by the shared part-view.rs rather than a mouthpiece one.
 # See ../bell/.repro for why a page needs claiming here at all.
 mouthpiece-bore10-trumpet-parts-turn.html :: ../../target/release/part-view cut-files/mouthpiece-bore10-trumpet-parts-cut-files.svg $OUT
+
+# The 3D view's rings as STEP solids for a CAD program, one body per ring,
+# written from the page by lasermade-tools' step-export.
+step/mouthpiece-bore10-trumpet-parts.step :: ../../../lasermade-tools/target/release/step-export mouthpiece-bore10-trumpet-parts-turn.html --name=mouthpiece-bore10-trumpet-parts --out=$(dirname $OUT)

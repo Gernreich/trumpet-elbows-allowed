@@ -434,6 +434,16 @@ The walks are laid out in **Minecraft** before they are cut, and the lattice
 screenshots on the bore pages are frames from it. Minecraft is a trademark of
 Mojang Studios; this project is not affiliated with Mojang or Microsoft.
 
+## STEP files
+
+`parts/bell/step/` and `parts/mouthpiece/step/` hold the bell and the mouthpiece as
+STEP files, to open or import in a CAD program such as SolidCraft, Fusion or
+FreeCAD: one solid body per ply of 3 mm ply, in millimetres, stacked as the 3D
+views show them. Every face is flat, so the round rings come in as short straight
+runs. They are written from the two `-turn.html` pages by lasermade-tools'
+`step-export`, and each folder's `.repro` checks them. The bore pages have none:
+they draw the bore's path as cells, not the plates that are cut.
+
 ## Credits
 
 Made by Michael Gernreich with [Claude](https://www.anthropic.com/claude) (Anthropic), working in Claude Code, which co-wrote the code and the documentation. Commits Claude made carry a `Co-Authored-By: Claude` line.
