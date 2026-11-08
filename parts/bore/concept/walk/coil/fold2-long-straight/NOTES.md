@@ -75,16 +75,16 @@ file nobody is cutting.
 
 **So do not cut from it as it stands.** A slot drawn for a narrower kerf than the
 machine takes comes out about 0.05 mm wide, and the joints are slack to match.
-Regenerate the folder first -- the switches are in `tools/regress.py`, which is
+Regenerate the folder first -- the switches are in `tools/designs.rs`, which is
 what drives every other folder -- and know that you are then overwriting the
 record.
 
 That is enforced rather than hoped for. The six sheets are pinned by hash in
-`tools/as-built.sha256`, and `tools/repro.py` checks them against those hashes
+`tools/as-built.sha256`, and `tools/repro.rs` checks them against those hashes
 instead of redrawing them -- redrawing them *should* differ, which is why an
 ordinary reproduction gate cannot protect them. Overwrite one and the gate fails
 with the line *this file describes wood that was cut*. Re-pin with
-`repro.py --update`, which is the deliberate act this paragraph asks for; nothing
+`repro --update`, which is the deliberate act this paragraph asks for; nothing
 else in the tree would notice, because every invariant still passes on a
 regenerated sheet.
 
@@ -107,29 +107,29 @@ turn, and a cubic lattice is the case where every box is the same size. All 20 u
 designs pass on it with check counts identical line for line — 20 because the four
 `coil 10x10x30` entries are the ones that stretch, and 24 - 4 is what is left.
 
-`bore_split.py`'s tightened page-title rule and `viewer.py`'s real-box rendering are
+`bore_split`'s tightened page-title rule and `viewer`'s real-box rendering are
 what everything uses; there is no second version for a fix to fail to flow back to.
 
-Its generator installs into Boxes.py as **`SnakeBoxVar`**, beside `SnakeBox` rather
-than over it, so both are available at once — which is the reason installing anything
-into `~/Software/boxes` deserves care: it is a shared checkout.
+Its section generator is **`SnakeBoxVar`**, which until 2026-11-08 installed into a
+Boxes.py checkout beside `SnakeBox`. It is `tools/snakebox.rs` now: the generator and the
+parts of Boxes.py it drew through, in Rust, drawing the same paths to the byte.
 
 **Boxes.py is Florian Festi's**, GPL-3.0-or-later, at
-<https://github.com/florianfesti/boxes>. It is an external dependency: a
-checkout of it, not a copy in this repository.
+<https://github.com/florianfesti/boxes>. `snakebox.rs` is a port of its code, and so
+GPL-3.0-or-later too.
 
 
 **The play figure is measured here, not conventional.** 0.025 per side, from four goes
 in ply. A measured fit beats a conventional one, which is the order to keep.
 
-**The render is the weak point, and only partly gated.** `check.py` never looks at
+**The render is the weak point, and only partly gated.** `check` never looks at
 the page, and a render can be wrong while every geometry check passes: the geometry, the
 plates and the voxel model can all be right and the picture still show a uniform 10 mm
-lattice. `regress.py`'s `check_page` asserts that the page beside a design was handed that design's walk, block count and
+lattice. `regress`'s `check_page` asserts that the page beside a design was handed that design's walk, block count and
 centreline, so a stale page fails. It still does not judge the picture. **Look at the
 render after changing the geometry.**
 
-**Check a shipped file still reproduces after touching Boxes.py.** The output folder has
+**Check a shipped file still reproduces after touching `snakebox.rs`.** The output folder has
 to be named the way the real one is, because the design's name is in the
 file's name and in its `<title>` — write to `/tmp/f` and you get `bore10-f-...`, which
 will not compare against anything.
@@ -142,7 +142,7 @@ W="$(cat walks/coil_fold2.txt)"
 # from it, so a different tree writes differently named files and cmp has nothing
 # to compare.
 rm -rf /tmp/f && mkdir -p /tmp/f/coil/fold2
-~/Software/boxes/venv/bin/python bore_split.py --blocksize=16 "$W" \
+../target/release/bore_split --blocksize=16 "$W" \
     --write /tmp/f/coil/fold2/bore
 B=bore10-coil-fold2-02of06-bend-LUUR-cut-files.svg
 cmp /tmp/f/coil/fold2/bore/cut-files/$B \
@@ -190,7 +190,8 @@ past a corner and retraces the same line. They are left there deliberately.
   They appear once the end frame drops below 12 mm: zero at block 18 and above, four at 17
   and 16.
 - **The cause is below this code.** The polygon `plateBorders()` hands over is clean — no
-  negative or malformed lengths — so it is Boxes.py's edge drawing at a small frame.
+  negative or malformed lengths — so it is Boxes.py's edge drawing at a small frame, which `snakebox.rs`
+  reproduces as it was.
   Narrowing the coupling does not help: at a 4.0 mm notch there are still four, and at 4.6
   and 5.3 there are eight.
 
@@ -224,17 +225,17 @@ for t in 0.75:coil-0.75t:"¾ Turn" 1.5:coil_fold2:"1½ Turns" \
          2.25:coil-2.25t:"2¼ Turns" 3:coil-3t:"3 Turns"; do
   n=${t%%:*}; rest=${t#*:}; w=${rest%%:*}; lab=${rest#*:}
   W="$(cat walks/$w.txt)"
-  ~/Software/boxes/venv/bin/python bore_split.py --bore=10 --straight=30 \
+  ../target/release/bore_split --bore=10 --straight=30 \
       --title="10x10x30 Coil, $lab" "$W" \
       --write ../parts/bore/concept/walk/coil/fold2-long-straight/coil-10x10x30-${n}t
 done
-python3 coils.py                    # coils.html here, all four in one viewer
+../target/release/coils                    # coils.html here, all four in one viewer
 ```
 
 `--write` runs the gate itself. To run it alone against a folder:
 
 ```sh
-~/Software/boxes/venv/bin/python check.py "$(cat walks/coil_fold2.txt)" \
+../target/release/check "$(cat walks/coil_fold2.txt)" \
     --bore=10 --straight=30 \
     --files ../parts/bore/concept/walk/coil/fold2-long-straight/coil-10x10x30-1.5t/cut-files
 ```
@@ -265,19 +266,20 @@ leaves parts in wood that no file describes — and if recutting is on the table
 because it decides whether the tab may return to its natural width.
 
 `--bore` is the airway and `--blocksize` is the outside; they differ by two wall
-thicknesses and confusing them is the mistake this switch exists to stop. `check.py` needs
+thicknesses and confusing them is the mistake this switch exists to stop. `check` needs
 **the same two switches** as the writer or it gates a design nobody cut — `--files` looks
 only at the sheets as the machine sees them and never at the geometry.
 
-`bore_split.py --write` calls the gate itself, but `check.py` imports **shapely**, which is
-not in `/usr/bin/python3`. Run as a script it writes all six files and then dies on the
-import, files written and ungated. Use the Boxes.py venv.
+`bore_split --write` calls the gate itself. Until the tools were Rust (2026-11-08) the
+gate imported shapely, which the system python lacked, so a run under it wrote all six
+files and then died on the import, files written and ungated; there is one program now and
+nothing to pick wrongly.
 
 ## One viewer, one or several coils
 
-`viewer.build_many([(label, walk), ...], title)` is the only page builder. `build()` is it
+`viewer::build_sets(&[(label, walk, data), ...], title)` is the only page builder. `build()` is it
 with a single item, and a single item hides the selector, so a per-coil page is what it
-always was. `tools/coils.py` passes four and writes `coils.html`.
+always was. `tools/coils.rs` passes four and writes `coils.html`.
 
 That is deliberate: a gallery is **more sets in the same viewer**, not a second viewer. Two
 templates would drift, and the drawing code is the part that has been wrong before.
@@ -293,11 +295,11 @@ The switch **keeps** the camera. Nothing can leave the frame, and holding the an
 the point: you are comparing lengths, which you cannot do if the view jumps each time you
 swap. Reset is still a button.
 
-## `regress.py` gates these designs, and what it cannot see
+## `regress` gates these designs, and what it cannot see
 
 ```sh
-cd ../../../../../../tools && ~/Software/boxes/venv/bin/python regress.py        # every design
-cd ../../../../../../tools && ~/Software/boxes/venv/bin/python regress.py coil   # the coils
+cd ../../../../../../tools && ../target/release/regress        # every design
+cd ../../../../../../tools && ../target/release/regress coil   # the coils
 ```
 
 Every folder here has a row in that corpus, carrying the switches it is cut with —
@@ -307,7 +309,7 @@ gate a design nobody is cutting.
 **It bites.** Adding 1 mm to `SnakeBoxVar.span()` fails these designs and names the sections.
 
 **It has one blind spot, and it is the interesting one.** `extent()` decides how long a
-straight block is, and `check.py` computes the expected bore volume from that same function.
+straight block is, and `check` computes the expected bore volume from that same function.
 Break `extent` and the measured volume and the expected volume move together, so the check
 that looks strongest here cannot see it: adding 1 mm to every straight block still passes
 all 393 checks on the 3t. What the volume check proves is that the voxel model agrees with the formula,

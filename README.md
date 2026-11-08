@@ -49,7 +49,7 @@ where you stand and then moves that many blocks. A generator turns that string
 into cut files, checks them, and tells you what you are holding.
 
 ```
-python3 tools/bore_split.py "N1 W3 U2 E3 N3 D3 W2 U3 N3 E3 D2 W3 N3 U3 E2 D3 N1" \
+target/release/bore_split "N1 W3 U2 E3 N3 D3 W2 U3 N3 E3 D2 W3 N3 U3 E2 D3 N1" \
     --bore=10 --straight=30 --no-write
 ```
 
@@ -213,7 +213,7 @@ into.
 
 **An elbow is allowed.** A turn with no straight block to fold into is cut as
 its own one-block piece, and the cut list and file name say `elbow`.
-`bore_split.py` still folds every turn it can, so a walk that split bend-only
+`bore_split` still folds every turn it can, so a walk that split bend-only
 in trumpet-elbows-not-allowed splits identically here.
 
 **A bore may touch itself** — two blocks sharing a face, an edge or a vertex
@@ -240,7 +240,7 @@ Five designs trumpet-elbows-not-allowed deleted on 2026-09-15 are back, in the s
 
 `first` is the design the regression suite calls the first trumpet, and its eight
 sheets regenerate byte-identical to the ones deleted. The pages are redrawn by
-today's `viewer.py`; every one draws the same cells as the page it replaces.
+today's `viewer`; every one draws the same cells as the page it replaces.
 
 Two designs have been added since that have elbows by choice:
 **[the tight coil](tight-coil/)**, the tightest coil here that does not touch
@@ -313,38 +313,52 @@ listed above as tied is tied with one of them. The scoring is in
 
 `tools/` ships no cut files of its own — only the thing that makes them.
 
-**The finger joints are not ours.** Every section net is drawn by
+**The finger joints are not ours.** Every section net is drawn the way
 **[Boxes.py](https://github.com/florianfesti/boxes)**, Florian Festi's box
-generator, which supplies the finger joints, the burn compensation and the SVG
-writer; `snakeboxvar.py` is a generator that installs into a Boxes.py checkout
-rather than a program of its own. Boxes.py is GPL-3.0-or-later and is not
-included here — you supply the checkout. Because `snakeboxvar.py` subclasses it,
-that file and the two that import it are GPL-3.0-or-later as well; the licence
-note at the end says which three and why.
+generator, draws it: its finger joints, burn compensation and SVG path writing.
+Until 2026-11-08 the tools were Python and ran a Boxes.py checkout for every
+piece; they are Rust now, and `snakebox.rs` carries those parts of Boxes.py,
+ported line for line, so no Boxes.py checkout is needed. The port
+draws the same paths to the byte. Boxes.py is GPL-3.0-or-later, so
+`snakebox.rs` is too; the licence note at the end says which files and why.
+
+Every tool is a program in `target/release/`, built by `cargo build --release`
+at the repository root. They were Python until 2026-11-08 (`bore_split.py`
+and the rest), and every sheet, page and report they write is byte-identical to
+what the Python wrote, with two exceptions. A bed sheet's description names
+the tool that wrote it. And a sheet cut with `--ports` has the same outline as
+before but starts its path at a different corner, because the polygon library
+that takes the port out of the plate is not the one Python used; ports are off
+by default and no design here uses them.
 
 | | |
 | --- | --- |
-| `bore_split.py` | the generator: a walk in, per-piece cut files out |
-| `check.py` | the gate, run automatically by every `--write` |
-| `regress.py` | runs the gate over the whole library |
-| `snakeboxvar.py` | the Boxes.py generator that draws a section |
-| `svgpath.py` | reads back what was written — the gate parses the file, not the plan |
-| `assemble.py` | builds a section as a solid and asks directly whether it is sealed, rather than testing a proxy |
-| `viewer.py` | the one page builder; every viewer page here comes from it |
-| `bore_render.py` | stills, coloured by piece or by direction of travel |
-| `piece_render.py` | one assembled piece from several angles, each face coloured by its part |
-| `nest.py` | lays parts out on a sheet |
-| `hilbert.py` | writes a Hilbert cube as a walk |
-| `mcwalk.py` | renders a walk that crosses itself, which the generator refuses |
-| `sizes.py` | one design at more than one block pitch, in one viewer |
+| `bore_split` | the generator: a walk in, per-piece cut files out |
+| `check` | the gate, run automatically by every `--write` |
+| `regress` | runs the gate over the whole library |
+| `snakebox.rs` | draws a section: Boxes.py's SnakeBoxVar, in Rust |
+| `bore.rs` | the walk, the split and the sheets `bore_split` writes, and the reading back of what was written — the gate parses the file, not the plan |
+| `assemble.rs` | builds a section as a solid and asks directly whether it is sealed, rather than testing a proxy |
+| `viewer` | the one page builder; every viewer page here comes from it |
+| `bore_render` | stills, coloured by piece or by direction of travel |
+| `piece_render` | one assembled piece from several angles, each face coloured by its part |
+| `nest` | lays parts out on a sheet |
+| `hilbert` | writes a Hilbert cube as a walk |
+| `mcwalk` | renders a walk that crosses itself, which the generator refuses |
+| `sizes` | one design at more than one block pitch, in one viewer |
+| `coils` | the four 10x10x30 coils in one viewer |
+| `bed_sheets` | packs a folder of section files onto whole bed sheets |
+| `repro` | redraws every live design and pins the as-built ones by hash |
+| `snakebox` | one piece drawn alone, its paths listed |
 
 ## The gate
 
-Nothing here is cut on trust. `bore_split.py --write` runs the checks itself and
-refuses to leave a folder unchecked; `tools/regress.py` runs the whole library.
+Nothing here is cut on trust. `bore_split --write` runs the checks itself and
+refuses to leave a folder unchecked; `regress` runs the whole library
+(`tools/designs.rs` is its table).
 
 ```sh
-cd tools && ~/Software/boxes/venv/bin/python regress.py
+cd tools && ../target/release/regress
 ```
 
 **32 designs, 0 failed, 10306 individual checks.**
@@ -355,11 +369,6 @@ that every sheet fits the bed, that every seam is one tab side and one slot side
 and that no engraving lands in a slot or off the material. A mouth is checked for
 where it is, not only that it exists: over the block it names, on the right
 cheek, opening onto the airway, and with the plate around it counted as material.
-
-**Use the virtualenv python.** `check.py` imports shapely, which the system
-`python3` does not have — and `bore_split.py` writes every file *before* it gates
-them, so a system-python `--write` leaves a folder of finished-looking cut files
-and a traceback where the gate should be.
 
 > A passing gate means no check failed, not that the part is buildable: its
 > floor is 1.5 mm, and nothing compares a feature against the features beside it.
@@ -374,7 +383,7 @@ measurement is the dangerous kind.
 
 Whether the requirement is absolute, a fraction of the tab, or something else
 takes a second bore to say, and there is one bore. The comment above
-`pin_play()`'s table in `tools/bore_split.py` sets out the coupon that
+`pin_play()`'s table in `tools/bore.rs` sets out the coupon that
 would settle it, and `--play` is the flag that cuts it.
 
 ## Building it
@@ -416,19 +425,20 @@ each with its own writeup.
 page, and every generator but three. `parts/LICENSE` and `tools/LICENSE` are
 copies of that text, so a directory taken on its own still carries it.
 
-**Three files in `tools/` are GPL-3.0-or-later instead**, and each carries a
-header saying so: `snakeboxvar.py`, `check.py` and `piece_render.py`.
-`snakeboxvar.py` subclasses **[Boxes.py](https://github.com/florianfesti/boxes)**'s
-`Boxes` class — it is a Boxes.py generator, the same shape as the ones that ship
-with Boxes.py, all of which are GPL — and the other two import it, so all three
-link against GPL code when they run. Boxes.py is Florian Festi's, GPL-3.0-or-later,
-with no linking exception, so those three cannot offer more than it does.
-[`tools/LICENSE.GPL-3.0.txt`](tools/LICENSE.GPL-3.0.txt) is the licence they are
-under.
+**Four files in `tools/` are GPL-3.0-or-later instead**, and each carries a
+header saying so: `snakebox.rs`, `check.rs`, `check_main.rs` and
+`piece_render.rs`. `snakebox.rs` is a port of
+**[Boxes.py](https://github.com/florianfesti/boxes)** code, the `Boxes` class's
+turtle, finger joints and SVG writer and the SnakeBoxVar generator built on
+them, and Boxes.py is Florian Festi's, GPL-3.0-or-later, with no linking
+exception. The other three were written against it (as `check.py` and
+`piece_render.py` imported it). The programs built from `tools/` that draw a
+section link `snakebox.rs`, so as built they are GPL-3.0-or-later works too;
+the CC0 source files in them stay CC0 on their own.
+[`tools/LICENSE.GPL-3.0.txt`](tools/LICENSE.GPL-3.0.txt) is the licence.
 
-**Nothing you cut is affected.** Boxes.py is not in this repository, and none of
-it reaches the sheets: a cut file is geometry, with no Boxes.py code or metadata
-in it. The SVGs, the walks and the writeups are CC0 like the rest.
+**Nothing you cut is affected.** None of it reaches the sheets: a cut file is
+geometry, with no Boxes.py code or metadata in it. The SVGs, the walks and the writeups are CC0 like the rest.
 
 The walks are laid out in **Minecraft** before they are cut, and the lattice
 screenshots on the bore pages are frames from it. Minecraft is a trademark of

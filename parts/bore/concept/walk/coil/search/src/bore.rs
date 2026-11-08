@@ -1,49 +1,32 @@
-//! Running bore_split.py, which decides how a walk splits into pieces. It needs the
-//! Boxes.py venv's python.
+//! Running bore_split, which decides how a walk splits into pieces: the trumpet
+//! crate's binary (bore_split.py, in the Boxes.py venv, until 2026-11-08).
 
 use crate::corpus::gen;
 use std::process::{Command, Stdio};
 
-const CANDIDATES: [&str; 2] = ["~/Software/boxes", "~/boxes"]; // as bore_split.py searches
-
-/// The venv interpreter. BORE_PY is checked too: taken on trust, a wrong one fails
-/// later and deeper, as a spawn error against a walk rather than a bad setting.
-pub fn py() -> String {
-    let home = std::env::var("HOME").unwrap_or_default();
-    let found = std::env::var("BORE_PY").ok().filter(|s| !s.is_empty()).or_else(|| {
-        CANDIDATES
-            .iter()
-            .map(|c| format!("{}/venv/bin/python", c.replacen('~', &home, 1)))
-            .find(|p| std::path::Path::new(p).exists())
-    });
-    match found {
-        Some(p) if std::path::Path::new(&p).exists() => p,
-        Some(p) => {
-            eprintln!("BORE_PY is set to {p}, which does not exist.");
-            std::process::exit(1)
-        }
-        None => {
-            eprintln!(
-                "no Boxes.py venv found. Looked in {}.\n  Set BORE_PY=/path/to/venv/bin/python.",
-                CANDIDATES.join(", ")
-            );
-            std::process::exit(1)
-        }
+/// target/release/bore_split beside the toolchain; a missing one is said plainly
+/// rather than surfacing as a spawn error against a walk.
+pub fn bin() -> String {
+    let p = gen().join("../target/release/bore_split").to_string_lossy().into_owned();
+    if !std::path::Path::new(&p).exists() {
+        eprintln!("{p} is not built. Run cargo build --release in the trumpet repository root.");
+        std::process::exit(1)
     }
+    p
 }
 
-/// `bore_split.py --no-write WALK`, run in the bore toolchain. Ok(stdout) when it
+/// `bore_split --no-write WALK`, run in the bore toolchain. Ok(stdout) when it
 /// succeeds; Err((stderr, stdout)) when it refuses. `show_stderr` passes its
 /// warnings through to ours, as Node's execSync did when not told otherwise.
 pub fn run_split(walk: &str, show_stderr: bool) -> Result<String, (String, String)> {
-    let out = Command::new(py())
-        .args(["bore_split.py", "--no-write", walk])
+    let out = Command::new(bin())
+        .args(["--no-write", walk])
         .current_dir(gen())
         .stdin(Stdio::null())
         .stderr(if show_stderr { Stdio::inherit() } else { Stdio::piped() })
         .output()
         .unwrap_or_else(|e| {
-            eprintln!("cannot run bore_split.py: {e}");
+            eprintln!("cannot run bore_split: {e}");
             std::process::exit(1)
         });
     let so = String::from_utf8_lossy(&out.stdout).into_owned();

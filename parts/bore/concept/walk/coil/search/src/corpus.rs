@@ -17,7 +17,7 @@ pub fn root() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR"))
 }
 
-/// The bore toolchain (bore_split.py), six levels up since the 2026-09-05 restructure.
+/// The bore toolchain (tools/, and bore_split beside it in target/release), six levels up since the 2026-09-05 restructure.
 pub fn gen() -> PathBuf {
     let mut p = root();
     for _ in 0..6 {

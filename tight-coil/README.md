@@ -34,14 +34,14 @@ and the walk ends on the same line it began: the first and last blocks are 16 bl
 the axis and nowhere apart across it. The coil is right-handed, the same way
 round as the three-turn trumpet.
 
-The walk is kept in `../tools/walks/tight_coil.txt`, and `regress.py` beside it
+The walk is kept in `../tools/walks/tight_coil.txt`, and `regress` beside it
 names this folder as where its cut files land.
 
 ## Why it cannot be tighter
 
 Two blocks is the shortest a side can be and the shortest a step along the axis
 can be, if no block is to touch another. Each was tried one block shorter in
-`bore_split.py`:
+`bore_split`:
 
 | walk | rise a turn | tube a turn | elbows | touching pairs |
 | --- | ---: | ---: | ---: | ---: |
@@ -204,22 +204,22 @@ files, or cut the 33 one at a time — they are the same paths.
 
 ## Rebuild it
 
-The generator lives in `tools/` at the repository root, and both commands run
-from there. Report only, writing nothing:
+The generator is `bore_split`, which `cargo build --release` at the repository
+root builds into `target/release/`; both commands run from the repository root.
+Report only, writing nothing:
 
 ```
-python3 tools/bore_split.py tools/walks/tight_coil.txt --no-write
+target/release/bore_split tools/walks/tight_coil.txt --no-write
 ```
 
-Writing rewrites every sheet in the folder and gates them, so it runs under the
-venv python that has the gate's dependencies:
+Writing rewrites every sheet in the folder and gates them:
 
 ```
-cd tools && ~/Software/boxes/venv/bin/python bore_split.py walks/tight_coil.txt \
+cd tools && ../target/release/bore_split walks/tight_coil.txt \
     --write ../parts/bore/concept/walk/coil/tight/bore
 ```
 
-The bed sheet is drawn from those files, so it comes after them. `bed_sheets.py`
+The bed sheet is drawn from those files, so it comes after them. `bed_sheets`
 packs each section whole and searches packing orders from a fixed seed, so the
 same command writes the same sheets; it re-reads what it wrote and exits 1 if a
 section is missing, moved off the bed, closer than 4 mm to another, or changed.
@@ -231,7 +231,7 @@ parts end at 302.2 mm, so it was kept and only its canvas trimmed. Packed for
 and 5, and no seed tried did better:
 
 ```
-python3 tools/bed_sheets.py parts/bore/concept/walk/coil/tight/bore/cut-files \
+target/release/bed_sheets parts/bore/concept/walk/coil/tight/bore/cut-files \
     parts/bore/concept/walk/coil/tight/bore bore10-coil-tight
 ```
 

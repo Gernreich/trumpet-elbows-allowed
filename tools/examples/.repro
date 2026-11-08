@@ -24,6 +24,6 @@
 # The titles are reproduced here exactly as they ship, so this gate asserts only
 # that the pages are what the code draws. Correcting a title means changing the
 # line below with it.
-notation_example.html :: ~/Software/boxes/venv/bin/python ../viewer.py "E2 S3 U2 N2" --out $OUT --title "The notation worked through"
-test_bore.html :: ~/Software/boxes/venv/bin/python ../viewer.py "U1 E3 S3 U1" --out $OUT --title "The nine-block test bore"
-three_block_example.html :: ~/Software/boxes/venv/bin/python ../viewer.py "D2 E4 N1" --out $OUT --title "D R1 F, the three-block example"
+notation_example.html :: ../../target/release/viewer "E2 S3 U2 N2" --out $OUT --title "The notation worked through"
+test_bore.html :: ../../target/release/viewer "U1 E3 S3 U1" --out $OUT --title "The nine-block test bore"
+three_block_example.html :: ../../target/release/viewer "D2 E4 N1" --out $OUT --title "D R1 F, the three-block example"

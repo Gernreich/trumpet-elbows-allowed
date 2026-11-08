@@ -212,9 +212,9 @@ PART — climbing out of `cut-files/`, because a turn page is not a cut file.
 ../target/release/part-view mouthpiece/cut-files/mouthpiece-bore10-trumpet-parts-cut-files.svg
 ```
 
-**Two viewers read these parts.** `../tools/viewer.py` imports `part-view.py`
-(kept, with the `bell-view.py` it executes, only for that until `viewer.py`
-itself is Rust) and calls its `data_for(path, n)`, and swept-curve's `ribbon_view --ends` does
+**Two viewers read these parts.** `../tools/viewer.rs` calls `data_for(path, n)`
+from `views.rs` (the Python viewer imported `part-view.py` for it until both were
+Rust, 2026-11-08), and swept-curve's `ribbon_view --ends` does
 the same reading in Rust (`ribbon_view.rs`, since 2026-11-07), to put this bell
 and this mouthpiece on every trumpet page they draw (2026-10-14): the block
 pages at IN and OUT, the swept-curve pages on the tube ends or in the port.
@@ -387,7 +387,7 @@ carries blue is refused outright rather than given a second set of labels.
 came back from Inkscape in relative commands and quadratic curves (`h l m q v z`), which this
 refuses by name rather than half-parsing into a plausible wrong answer.
 
-**Digits are polyline outlines, not `<text>`** — the same sixteen `bore_split.py` puts on a bore section — and each is grown to the largest size
+**Digits are polyline outlines, not `<text>`** — the same sixteen `bore_split` puts on a bore section — and each is grown to the largest size
 that still lands on material — measured against the real curves, not assumed from the wall.
 That matters because the wall is not the room available: the rim ring's aperture is nearly a
 circle, so there is no flat to sit a digit on, and a radius-by-angle lookup that samples only

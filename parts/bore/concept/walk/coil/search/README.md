@@ -159,7 +159,7 @@ It is a bounding box, not the cut outline — an L-shaped piece leaves its corne
 — so it measures the size of the part, not the material consumed.
 
 **Touching** counts blocks that sit face to face without being joined along the bore —
-two runs of the tube sharing a wall. `bore_split.py` warns about them, and they are the
+two runs of the tube sharing a wall. `bore_split` warns about them, and they are the
 version of "density" that has a consequence: where the bore passes itself, that one wall
 is all that separates the two passages.
 
@@ -261,7 +261,7 @@ carries slack — `coil_4x9_18` could lose 45 blocks.
 
 Removing slack is not automatically safe. The rule is local, and a shortened walk can
 run into itself or start touching, so what the tool reports are candidates to put back
-through `bore_split.py`.
+through `bore_split`.
 
 ### The reduction pass, and why minimality is not an optimisation
 
@@ -350,21 +350,20 @@ than they went in, having not been measured again.
 
 ## The gate
 
-Every walk here has been through `check.py` — the parts, the sections, the seams, and a
+Every walk here has been through `check` — the parts, the sections, the seams, and a
 voxel model of the assembled bore flooded from the outside to prove it is one sealed
 passage. **11,418 checks across 10 spirals, 0 failed.** The per-walk output is
 in `checks/`.
 
     tools/run_checks.sh          # re-run the gate over every walk
 
-`check.py` needs shapely, numpy and scipy, which live in the Boxes.py venv — run it with
-`~/Software/boxes/venv/bin/python`, as `README.md` says. The system python3 does
-not have them.
+`check` is the trumpet repository's own program, built by `cargo build --release` at
+its root (it was `check.py`, in the Boxes.py venv, until 2026-11-08).
 
 **Boxes.py is Florian Festi's**, GPL-3.0-or-later, at
-<https://github.com/florianfesti/boxes>. It draws the finger joints on every
-block sheet these walks turn into, and it is an external dependency: a checkout
-of it, not a copy in this repository.
+<https://github.com/florianfesti/boxes>. Its finger joints are the ones on every
+block sheet these walks turn into, drawn by the toolchain's `snakebox.rs`, a GPL
+port of its code.
 
 ## How they were found
 
@@ -383,7 +382,7 @@ That rule, for a window of three consecutive terms — outer A, middle m, outer 
 
 The bore-designs README states only the third case and calls the other two "a fold ... as
 tight as you like". That holds for steps and not for hairpins: `U3 N1 D3` strands two turns
-and `U3 N2 D3` costs none. The three cases were read off `bore_split.py` by probing it.
+and `U3 N2 D3` costs none. The three cases were read off `bore_split` by probing it.
 
 `tools/mknotation.rs` repeats a period to length and writes it in the bore notation,
 trimming the tail so the last block is not mid-turn — a turn in the last block has nothing
@@ -412,7 +411,7 @@ behind it: a tool with no description, or a description with no tool, stops the 
 | tool | what it does |
 | --- | --- |
 | `spiral_metrics.rs` | Rotation metrics for one walk. The lateral projection -- the walk with the advancing axis dropped -- is what actually turns, and on a cubic lattice only in quarter turns. |
-| `parts.rs` | Piece counts, distinct piece shapes and plate sizes, read off `bore_split.py` and cached in `parts.json` so the tables need not shell out on every run. |
+| `parts.rs` | Piece counts, distinct piece shapes and plate sizes, read off `bore_split` and cached in `parts.json` so the tables need not shell out on every run. |
 | `score.rs` | Composite scoring across the common means: eight metrics normalised to (0,1], plus the touching count at an explicit weight. |
 | `iterate.rs` | Iterated ranking -- rank, cut the bottom half, re-rank the survivors, repeat -- to ask whether the survivors keep their order once the losers leave. They do not, under a normalisation computed over the set. |
 | `table.rs` | The metrics tables, as plain text or with `--md` as markdown. |
@@ -421,7 +420,7 @@ behind it: a tool with no description, or a description with no tool, stops the 
 
 | tool | what it does |
 | --- | --- |
-| `run_checks.sh` | Runs `check.py` over every walk in `walks/` and writes the transcript to `checks/`. It resolves the Boxes.py checkout and the interpreter *before* the loop and stops if either is missing, because a missing interpreter captured with `2>&1` writes the shell's error into the transcript instead of the check, and the tally then reads as a pass. |
+| `run_checks.sh` | Runs `check` over every walk in `walks/` and writes the transcript to `checks/`. It resolves the `check` program *before* the loop and stops if it is missing, because a missing program captured with `2>&1` writes the shell's error into the transcript instead of the check, and the tally then reads as a pass. |
 | `gen_scoring.rs` | Regenerates `SCORING.md`. Every number in it comes from `score.rs`. |
 | `gen_readme.rs` | Regenerates this file. Every number in it comes from the tools and the index above is read from `tools/` itself, so the page cannot drift. |
 | `build.sh` | Builds the tools, then runs all of the above that produce committed files, in dependency order. `index.html` and `SCORING.html` are committed rather than built on the server, so they go stale silently unless this is run after every edit. |
@@ -443,14 +442,14 @@ Each file in `tools/` is one program's front end; what they share is a library i
 | `src/score.rs` | the scored metrics, the means and the ranking |
 | `src/iterate.rs` | iterated ranking |
 | `src/table.rs` | the two metrics tables |
-| `src/bore.rs` | running `bore_split.py` and reading what it prints |
+| `src/bore.rs` | running `bore_split` and reading what it prints |
 | `src/corpus.rs` | where things are; reading the walks, `parts.json` and `unscored.txt` |
 | `src/json.rs` | reading JSON, and writing it laid out as `JSON.stringify` did |
 | `src/jsfmt.rs` | writing numbers by JavaScript's rules, so the files stay byte-identical |
 | `src/lib.rs` | the library's index |
 
 The crate is `Cargo.toml` with `Cargo.lock`; its one dependency is the `regex` crate,
-for reading `bore_split.py`'s output.
+for reading `bore_split`'s output.
 
 ## The files behind the tables
 
@@ -472,18 +471,18 @@ by hand.
     target/release/table         # both tables, plain text
     target/release/table --md    # the same as markdown
     target/release/gen_readme    # this file
-    ../../../../../../../../lasermade-tools/target/release/md2html README.md index.html    # the published page
+    ../../../../../../../lasermade-tools/target/release/md2html README.md index.html    # the published page
 
     target/release/spiral_metrics "$(cat walks/coil_3x3_54_2.txt)"   # measure one walk
 
-    ~/Software/boxes/venv/bin/python ../../../../../../../tools/viewer.py \
+    ../../../../../../target/release/viewer \
         "$(cat walks/coil_3x3_54_2.txt)" \
         --out pages/coil_3x3_54_2.html --title "coil 3x3 54 2"
 
 ## What has not been done
 
 **No cut files.** These are walks, viewers and gate results; nothing here has been split to
-SVG or nested. `bore_split.py --write DIR` will do it.
+SVG or nested. `bore_split --write DIR` will do it.
 
 The block counts are not equal — the scored ones run 154 to 178, so their bore lengths
 run 2464 mm to 2848 mm, a spread of 15.6%. A period is repeated to about the right length and then trimmed

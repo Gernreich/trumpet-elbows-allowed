@@ -31,7 +31,7 @@ many blocks. So **the bore is 1 + the sum
 of the numbers** — 21 + 1 = 22. Axes are Minecraft's: `U`/`D` are +Y/−Y, `N` is
 −Z, `S` is +Z, `E` is +X, `W` is −X.
 
-The walk is kept in `../tools/walks/coil_fold2.txt`, and `regress.py` beside it
+The walk is kept in `../tools/walks/coil_fold2.txt`, and `regress` beside it
 names this folder as where its cut files land. The viewer page carries the same
 string, and the generator will read either, but they are only equal because the
 page was generated from the file. Read it out of the file.
@@ -110,21 +110,21 @@ cuts** — blue writes the section number on every part, black frees it.
 
 ## Rebuild it
 
-The generator lives in `tools/` at the repository root, and both commands run
-from there. Report only, writing nothing:
+The generator is `bore_split`, which `cargo build --release` at the repository
+root builds into `target/release/`; both commands run from the repository root.
+Report only, writing nothing:
 
 ```
-python3 tools/bore_split.py "N1 W3 U2 E3 N3 D3 W2 U3 N1" --bore=10 --no-write --refuse-elbows
+target/release/bore_split "N1 W3 U2 E3 N3 D3 W2 U3 N1" --bore=10 --no-write --refuse-elbows
 ```
 
 `--bore=10` is the airway; the 16 mm block follows from it at 3 mm ply. The
 generator cuts an elbow by default in this copy; `--refuse-elbows` makes it refuse
 one instead, so the bend-only claim is a gate rather than a reading.
-Writing rewrites every sheet in the folder, so it runs under the venv python
-that has the gate's dependencies:
+Writing rewrites every sheet in the folder and gates them:
 
 ```
-cd tools && ~/Software/boxes/venv/bin/python bore_split.py \
+cd tools && ../target/release/bore_split \
     ../parts/bore/concept/walk/coil/fold2/bore/bore.html \
     --write ../parts/bore/concept/walk/coil/fold2/bore --refuse-elbows
 ```

@@ -83,13 +83,13 @@ fn tool_groups() -> Vec<(&'static str, Vec<(&'static str, String)>)> {
         ]),
         ("Measuring and ranking", vec![
             ("spiral_metrics.rs", "Rotation metrics for one walk. The lateral projection -- the walk with the advancing axis dropped -- is what actually turns, and on a cubic lattice only in quarter turns.".into()),
-            ("parts.rs", "Piece counts, distinct piece shapes and plate sizes, read off `bore_split.py` and cached in `parts.json` so the tables need not shell out on every run.".into()),
+            ("parts.rs", "Piece counts, distinct piece shapes and plate sizes, read off `bore_split` and cached in `parts.json` so the tables need not shell out on every run.".into()),
             ("score.rs", format!("Composite scoring across the common means: {} metrics normalised to (0,1], plus the touching count at an explicit weight.", word(METRICS.len()))),
             ("iterate.rs", "Iterated ranking -- rank, cut the bottom half, re-rank the survivors, repeat -- to ask whether the survivors keep their order once the losers leave. They do not, under a normalisation computed over the set.".into()),
             ("table.rs", "The metrics tables, as plain text or with `--md` as markdown.".into()),
         ]),
         ("Producing what is committed", vec![
-            ("run_checks.sh", "Runs `check.py` over every walk in `walks/` and writes the transcript to `checks/`. It resolves the Boxes.py checkout and the interpreter *before* the loop and stops if either is missing, because a missing interpreter captured with `2>&1` writes the shell's error into the transcript instead of the check, and the tally then reads as a pass.".into()),
+            ("run_checks.sh", "Runs `check` over every walk in `walks/` and writes the transcript to `checks/`. It resolves the `check` program *before* the loop and stops if it is missing, because a missing program captured with `2>&1` writes the shell's error into the transcript instead of the check, and the tally then reads as a pass.".into()),
             ("gen_scoring.rs", "Regenerates `SCORING.md`. Every number in it comes from `score.rs`.".into()),
             ("gen_readme.rs", "Regenerates this file. Every number in it comes from the tools and the index above is read from `tools/` itself, so the page cannot drift.".into()),
             ("build.sh", "Builds the tools, then runs all of the above that produce committed files, in dependency order. `index.html` and `SCORING.html` are committed rather than built on the server, so they go stale silently unless this is run after every edit.".into()),
@@ -117,7 +117,7 @@ fn main() {
     by_den.sort_by(|a, b| cmpf(dens(b), dens(a)).then_with(|| a.m.vol.cmp(&b.m.vol)));
     let dens_agree = by_box.iter().zip(&by_den).filter(|(a, b)| a.name == b.name).count();
 
-    // check.py results, as saved by tools/run_checks.sh
+    // check results, as saved by tools/run_checks.sh
     let re = regex::Regex::new(r"(\d+) checks, (\d+) failed").unwrap();
     let mut checks: Vec<(String, i64, i64)> = Vec::new();
     for f in list_dir(&root.join("checks")).into_iter().filter(|f| f.ends_with(".txt")) {
@@ -555,7 +555,7 @@ It is a bounding box, not the cut outline — an L-shaped piece leaves its corne
 — so it measures the size of the part, not the material consumed.
 
 **Touching** counts blocks that sit face to face without being joined along the bore —
-two runs of the tube sharing a wall. `bore_split.py` warns about them, and they are the
+two runs of the tube sharing a wall. `bore_split` warns about them, and they are the
 version of "density" that has a consequence: where the bore passes itself, that one wall
 is all that separates the two passages.
 
@@ -643,7 +643,7 @@ carries slack — `{slack_name}` could lose {slack_n} blocks.
 
 Removing slack is not automatically safe. The rule is local, and a shortened walk can
 run into itself or start touching, so what the tool reports are candidates to put back
-through `bore_split.py`.
+through `bore_split`.
 
 ### The reduction pass, and why minimality is not an optimisation
 
@@ -722,21 +722,20 @@ than they went in, having not been measured again.
 
 ## The gate
 
-Every walk here has been through `check.py` — the parts, the sections, the seams, and a
+Every walk here has been through `check` — the parts, the sections, the seams, and a
 voxel model of the assembled bore flooded from the outside to prove it is one sealed
 passage. **{total_checks} checks across {n_checks} spirals, {total_failed} failed.** The per-walk output is
 in `checks/`.
 
     tools/run_checks.sh          # re-run the gate over every walk
 
-`check.py` needs shapely, numpy and scipy, which live in the Boxes.py venv — run it with
-`~/Software/boxes/venv/bin/python`, as `README.md` says. The system python3 does
-not have them.
+`check` is the trumpet repository's own program, built by `cargo build --release` at
+its root (it was `check.py`, in the Boxes.py venv, until 2026-11-08).
 
 **Boxes.py is Florian Festi's**, GPL-3.0-or-later, at
-<https://github.com/florianfesti/boxes>. It draws the finger joints on every
-block sheet these walks turn into, and it is an external dependency: a checkout
-of it, not a copy in this repository.
+<https://github.com/florianfesti/boxes>. Its finger joints are the ones on every
+block sheet these walks turn into, drawn by the toolchain's `snakebox.rs`, a GPL
+port of its code.
 
 ## How they were found
 
@@ -755,7 +754,7 @@ That rule, for a window of three consecutive terms — outer A, middle m, outer 
 
 The bore-designs README states only the third case and calls the other two "a fold ... as
 tight as you like". That holds for steps and not for hairpins: `U3 N1 D3` strands two turns
-and `U3 N2 D3` costs none. The three cases were read off `bore_split.py` by probing it.
+and `U3 N2 D3` costs none. The three cases were read off `bore_split` by probing it.
 
 `tools/mknotation.rs` repeats a period to length and writes it in the bore notation,
 trimming the tail so the last block is not mid-turn — a turn in the last block has nothing
@@ -788,14 +787,14 @@ Each file in `tools/` is one program's front end; what they share is a library i
 | `src/score.rs` | the scored metrics, the means and the ranking |
 | `src/iterate.rs` | iterated ranking |
 | `src/table.rs` | the two metrics tables |
-| `src/bore.rs` | running `bore_split.py` and reading what it prints |
+| `src/bore.rs` | running `bore_split` and reading what it prints |
 | `src/corpus.rs` | where things are; reading the walks, `parts.json` and `unscored.txt` |
 | `src/json.rs` | reading JSON, and writing it laid out as `JSON.stringify` did |
 | `src/jsfmt.rs` | writing numbers by JavaScript's rules, so the files stay byte-identical |
 | `src/lib.rs` | the library's index |
 
 The crate is `Cargo.toml` with `Cargo.lock`; its one dependency is the `regex` crate,
-for reading `bore_split.py`'s output.
+for reading `bore_split`'s output.
 
 ## The files behind the tables
 
@@ -817,18 +816,18 @@ by hand.
     target/release/table         # both tables, plain text
     target/release/table --md    # the same as markdown
     target/release/gen_readme    # this file
-    ../../../../../../../../lasermade-tools/target/release/md2html README.md index.html    # the published page
+    ../../../../../../../lasermade-tools/target/release/md2html README.md index.html    # the published page
 
     target/release/spiral_metrics "$(cat walks/{first}.txt)"   # measure one walk
 
-    ~/Software/boxes/venv/bin/python ../../../../../../../tools/viewer.py \
+    ../../../../../../target/release/viewer \
         "$(cat walks/{first}.txt)" \
         --out pages/{first}.html --title "{first_title}"
 
 ## What has not been done
 
 **No cut files.** These are walks, viewers and gate results; nothing here has been split to
-SVG or nested. `bore_split.py --write DIR` will do it.
+SVG or nested. `bore_split --write DIR` will do it.
 
 The block counts are not equal — the scored ones run {mb_lo} to {mb_hi}, so their bore lengths
 run {mm_lo} mm to {mm_hi} mm, a spread of {mm_spread}%. A period is repeated to about the right length and then trimmed

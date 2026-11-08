@@ -27,7 +27,7 @@ One design, one pitch:
     bore/          10mm of air, a 16mm block
 
 `bore/` sits directly under the design, the same shape as every sibling under
-`walk/coil/`. The machinery for a second pitch beside it — `--blocksize`, `sizes.py`,
+`walk/coil/`. The machinery for a second pitch beside it — `--blocksize`, `sizes`,
 `folder_stack` climbing past a size folder — is there and unused. Cut this folder and you
 have the tube; the two ends come from `../../../../../../..`.
 
@@ -79,9 +79,9 @@ numbers** — 22 blocks here. Axes match
 Minecraft: `U`/`D` are +Y/−Y, `N` is −Z, `S` is +Z, `E` is +X, `W` is −X.
 
 **The walk is stored in `../../../../../../tools/walks/coil_fold2.txt`**,
-and `regress.py` there names this repository as where its cut files live. Unlike
+and `regress` there names this repository as where its cut files live. Unlike
 `../square-rise3`, which keeps its walk in its page, the file is the record here — the
-page carries the same string in its `<div class="walk">` and `bore_split.py` will read
+page carries the same string in its `<div class="walk">` and `bore_split` will read
 either, but they are only equal because the page was generated from the file.
 
 Never transcribe the walk from memory. Read it out of the file.
@@ -107,7 +107,7 @@ mistake this section exists to stop: the bore is the air, the block is the air p
 walls, and a folder named for one gated at the other cuts a tube nobody asked for.
 
 Standard flags, uniform across the set — mixing `burn` changes finger joint fit while every
-outside dimension still matches, which no drawing shows. Do not type them: `bore_split.py`
+outside dimension still matches, which no drawing shows. Do not type them: `bore_split`
 builds them from its own constants, so `--blocksize` moves the plan and the sheet together.
 
 ```
@@ -116,12 +116,12 @@ builds them from its own constants, so `--blocksize` moves the plan and the shee
 ```
 
 `--thickness` is the SHEET and `--burn` is HALF the kerf, because that is what
-Boxes.py means by it. Both come from `bore_split._common()` and change with
+Boxes.py means by it. Both come from `make_common()` in `tools/bore.rs` and change with
 `--sheet=` and `--kerf=`; print them rather than trusting this block.
 
 **Boxes.py is Florian Festi's**, GPL-3.0-or-later, at
-<https://github.com/florianfesti/boxes>. It is an external dependency: a
-checkout of it, not a copy in this repository.
+<https://github.com/florianfesti/boxes>. These flags were its own until 2026-11-08;
+`tools/snakebox.rs` reads them the same way now, as a GPL port of its code.
 
 
 `--pin_width=12` does not belong in that list: a 12 mm tab does not fit a 10 mm end
@@ -144,13 +144,13 @@ that has been renamed or moved can still be asked what it is.
 `--pin_width` is the one flag that does not simply scale. SnakeBox defaults it to 12 mm and
 12 mm does not fit a 10 mm end frame — SnakeBox raises
 `pin_width 12.0 is too wide for the 10.0mm end frame` rather than cutting something wrong.
-`bore_split.py` derives it instead, as **0.48 × the sound square, floored at the finger
+`bore_split` derives it instead, as **0.48 × the sound square, floored at the finger
 tooth** (`2 × thickness`, which does not shrink with the block) — so 6 mm here, the floor
 rather than the fraction.
 
 **Omitting `--blocksize=16` fills `bore/` with parts at the stock pitch under this
 set's names**, and nothing in the sheet's own name would say so. This design is an entry in
-`regress.py` carrying a fourth field, the pitch, which is what keeps `--blocksize` honest.
+`regress` carrying a fourth field, the pitch, which is what keeps `--blocksize` honest.
 
 ## Every turn a bend — the rule that shapes the walk
 
@@ -158,7 +158,7 @@ A turn with no straight block to fold into is **stranded** as an **elbow**: a si
 left as its own piece. Its opening frame has **three sides, not four**, so both neighbouring sections need
 flattened plates butt-glued to it, plus tongues, plus an unfilled void inside the corner.
 That gluing is the difficulty of the whole build. **This design strands nothing.** In
-trumpet-elbows-not-allowed, `bore_split.py` refuses to write a walk that would; in this copy it cuts the elbow
+trumpet-elbows-not-allowed, `bore_split` refuses to write a walk that would; in this copy it cuts the elbow
 unless given `--refuse-elbows`.
 
 Whether a turn can fold is decided over **every window of three consecutive terms**
@@ -174,7 +174,7 @@ different axes, so there are three cases:
 `../../../../../../tools/CLAUDE.md` and the repository's
 `README.md` both carry that table. Stating only the coil case lumps the other two together
 as a fold that "costs nothing at any spacing" — right for steps, wrong for hairpins, and
-this walk has two hairpins sitting exactly on the limit. Treat `bore_split.py` as the
+this walk has two hairpins sitting exactly on the limit. Treat `bore_split` as the
 authority, not any document and not a reimplementation of the rule.
 
 Checking the current walk:
@@ -213,7 +213,7 @@ those plain ends, 1 and 4 would both be `BDL` and 3 and 6 both `BRD`.
 meets one and the bell the other, and both present a flat plate that seats against the end
 face — the mouthpiece's station one, the bell's ring 0. A tab standing 3 mm proud holds that
 plate off the face and leaves the joint resting on the tab, which is what the bench
-reports. `plain_ends()` in `bore_split.py` marks the first piece's entry and the last
+reports. `plain_ends()` in `bore_split` marks the first piece's entry and the last
 piece's exit.
 
 **A rename orphans files, and the gate counts them.** The generator does not remove what
@@ -249,18 +249,18 @@ concurrently modified:
   six orphans, not one. The old files are not deleted for you. Check for orphans after a
   regenerate.
 
-## The gate does not run under the system python
+## The gate runs inside every write
 
-`bore_split.py --write` calls the gate itself, but `check.py` imports **shapely**, which is
-not in `/usr/bin/python3`. Run as a script it therefore writes all six files and then dies
-with `ModuleNotFoundError` — **the files are written and ungated**. shapely lives in the
-Boxes.py virtualenv, so run the gate from there:
+`bore_split --write` calls the gate itself. Until the tools were Rust (2026-11-08) it
+imported shapely, which the system python lacked, so a run under it wrote all six files and
+then died with `ModuleNotFoundError`, **the files written and ungated**; the venv was the
+only safe interpreter. There is one program now. To run the gate on its own:
 
 ```sh
 cd ../../../../../../tools
 W="$(cat walks/coil_fold2.txt)"
 D=../parts/bore/concept/walk/coil/fold2
-~/Software/boxes/venv/bin/python check.py "$W" --blocksize=16 --files $D/bore/cut-files
+../target/release/check "$W" --blocksize=16 --files $D/bore/cut-files
 ```
 
 `--files` only looks at the sheets as the machine sees them — bed fit, overlaps, engraving
@@ -268,10 +268,10 @@ on material — and never at the pitch, so it passes at any `--blocksize`. What 
 in-process. Pass the wrong one and every check still says pass, having checked a design you
 are not cutting.
 
-`regress.py` passes `sys.executable` down to `check.py`, so it must be started with the
+`regress` passes `sys.executable` down to `check`, so it must be started with the
 same interpreter or every design fails on the import.
 
-`regress.py` also only passes `--files` **when the folder exists**. Its `DESIGNS` entries
+`regress` also only passes `--files` **when the folder exists**. Its `DESIGNS` entries
 name a subfolder rather than the repository root, so a rename of one — as well as of
 this repository — leaves the gate printing `pass` while checking the geometry alone and
 never touching these SVGs.
@@ -286,7 +286,7 @@ S=../../../../../../tools
 **Test a walk without writing anything** — always do this before proposing a change:
 
 ```sh
-cd $S && python3 bore_split.py --no-write "N1 W3 U2 E3 N3 D3 W2 U3 N1"
+cd $S && ../target/release/bore_split --no-write "N1 W3 U2 E3 N3 D3 W2 U3 N1"
 ```
 
 **Regenerate the cut files** (rewrites everything — ask first). The bores:
@@ -295,7 +295,7 @@ cd $S && python3 bore_split.py --no-write "N1 W3 U2 E3 N3 D3 W2 U3 N1"
 cd $S
 W="$(cat walks/coil_fold2.txt)"
 D=../parts/bore/concept/walk/coil/fold2
-~/Software/boxes/venv/bin/python bore_split.py --blocksize=16 "$W" --write $D/bore
+../target/release/bore_split --blocksize=16 "$W" --write $D/bore
 ```
 
 The mouthpiece and the bell are **not generated here** — they live in
@@ -315,17 +315,17 @@ writes nothing else, where a bare `bell-round.rs` would add three more budgets.
 `FOLD_TURNS` only biases the split toward folding; `REFUSE_ELBOWS` rejects an elbow
 outright, raises before anything is written, names the sections at fault and exits 1.
 Without the switch a walk that strands a turn can reach this folder, so rewrite it with
-the switch. Note it is the command line that refuses: `check.py` does
-not consult it, so a green `regress.py` says nothing about whether a walk can be written.
+the switch. Note it is the command line that refuses: `check` does
+not consult it, so a green `regress` says nothing about whether a walk can be written.
 
 **Checks:**
 
 ```sh
 $G/target/release/svg-stroke-check --dir . --quiet   # stroke declared twice, disagreeing
-cd $S && ~/Software/boxes/venv/bin/python regress.py      # every design in the library
+cd $S && ../target/release/regress      # every design in the library
 ```
 
-The gate prints its check count for this bore, and `regress.py` covers every
+The gate prints its check count for this bore, and `regress` covers every
 design in its `DESIGNS`. A check count that moves is worth chasing to the reason, which is the
 whole argument of the section below. It does not look at the bell or the mouthpiece at all — those are checked by
 `bell-round.rs` and `mouthpiece-round.rs` themselves, before they write, in
@@ -339,7 +339,7 @@ other.
 ```
 
 **Read the audit output before pushing.** It ends with a pass/fail tally. `.doc-audit-ignore`
-lists `bore_split.py` and `regress.py`, which the prose names but which live in
+lists `bore_split` and `regress`, which the prose names but which live in
 `../../../../../../tools`; the audit also insists every tracked file is named somewhere, which is
 why the section table carries a file column.
 
@@ -373,6 +373,6 @@ and which reads as a meander. Measured, it is a coil:
 while circulating in the other two, and that is a coil however it looks in projection.
 
 The name is carried in five places at once: the folder, the walk file
-(`tools/walks/coil_fold2.txt`), the `regress.py` entry and its label, the cut-file names —
+(`tools/walks/coil_fold2.txt`), the `regress` entry and its label, the cut-file names —
 which are built from the folder stack, so they read `bore10-coil-fold2-…` — and the page
 title. They move together or not at all.

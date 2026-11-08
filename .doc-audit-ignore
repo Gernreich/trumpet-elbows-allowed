@@ -52,9 +52,20 @@ ramp_bell.py
 
 # Deleted 2026-09-10 and named in tools/CLAUDE.md by the paragraph that says so.
 # It was the simpler Boxes.py generator, superseded by SnakeBoxVar everywhere:
-# bore_split names only the Var to scripts/boxes, check.py has imported the Var
-# since it was written, and piece_render.py was moved over the same day. Same
+# bore_split names only the Var to scripts/boxes, check has imported the Var
+# since it was written, and piece_render was moved over the same day. Same
 # case as ramp_bell.py above -- the record of why a tool is gone cannot be
 # written without naming it.
 snakebox.py
 
+
+# The Python the tools were until 2026-11-08, when every one became Rust (the
+# programs in target/release/, their sources in tools/ and parts/). Named where
+# the prose says what something was before, or which file a fix went into at
+# the time. Each was deleted that day; listed by name, not by pattern, so a new
+# stale name still fails.
+bore_split.py
+check.py
+piece_render.py
+snakeboxvar.py
+part-view.py

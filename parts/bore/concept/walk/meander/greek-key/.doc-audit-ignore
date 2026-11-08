@@ -1,11 +1,6 @@
-# Named in prose; they live in ../bore-generator, not in this repository.
 
-bore_split.py
-check.py
-regress.py
-
-# Boxes.py is the checkout bore_split shells out to for the finger joints and
-# the SVG writer. Named because the rebuild block runs its venv python.
+# Boxes.py, whose finger joints tools/snakebox.rs draws (a checkout of it ran
+# every piece until 2026-11-08). Named in prose; not a file here.
 
 Boxes.py
 

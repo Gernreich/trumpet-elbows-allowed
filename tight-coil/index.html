@@ -110,9 +110,9 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <pre><code>N1 W2 U2 E2 N2 D2 W2 U2 N2 E2 D2 W2 N2 U2 E2 D2 N2 W2 U2 E2 N2 D2 W2 U2 N2 E2 D2 W2 N2 U2 E2 D2 N1</code></pre>
 <p>The first term is the way you face at the mouth and how far you go before anything turns; every term after it turns where you stand and then travels that many blocks. So <strong>the bore is 1 + the sum of the numbers</strong> — 64 + 1 = 65. Axes are Minecraft's: <code>U</code>/<code>D</code> are +Y/−Y, <code>N</code> is −Z, <code>S</code> is +Z, <code>E</code> is +X, <code>W</code> is −X.</p>
 <p>It goes round <code>W U E D</code>, two blocks a side, and steps two blocks north after every three sides, so the loop never sits in one plane. Three sides are three quarters of a turn, so the coil advances 2⅔ blocks a turn — 42.7 mm — and the whole walk measures the same end to end: 16 blocks of axis in six turns. Eight groups of three sides make 24 sides — six whole turns — and the walk ends on the same line it began: the first and last blocks are 16 blocks apart along the axis and nowhere apart across it. The coil is right-handed, the same way round as the three-turn trumpet.</p>
-<p>The walk is kept in <code>../tools/walks/tight_coil.txt</code>, and <code>regress.py</code> beside it names this folder as where its cut files land.</p>
+<p>The walk is kept in <code>../tools/walks/tight_coil.txt</code>, and <code>regress</code> beside it names this folder as where its cut files land.</p>
 <h2 id="why-it-cannot-be-tighter">Why it cannot be tighter</h2>
-<p>Two blocks is the shortest a side can be and the shortest a step along the axis can be, if no block is to touch another. Each was tried one block shorter in <code>bore_split.py</code>:</p>
+<p>Two blocks is the shortest a side can be and the shortest a step along the axis can be, if no block is to touch another. Each was tried one block shorter in <code>bore_split</code>:</p>
 <div class="tw">
 <table>
 <thead>
@@ -601,14 +601,14 @@ bore10-coil-tight-33of33-bend-LD-buttout-flatin-cut-files.svg</code></pre>
 <p>Every file is millimetre-true at 1 user unit = 1 mm. <strong>Blue engraves, then black cuts</strong> — blue writes the section number on every part, black frees it.</p>
 <p><strong>All 33 fit on one bed.</strong> <code>../parts/bore/concept/walk/coil/tight/bore/bore10-coil-tight-sheet1of1.svg</code> is the whole xTool P2S bed, 600 × 305 mm, with every section file placed on it whole and unchanged, 4 mm apart and 4 mm from the edge, except the bottom row, which ends 2.8 mm from it. A section's parts stay together, so the numbers still find their neighbours. Cut it in place of the 33 files, or cut the 33 one at a time — they are the same paths.</p>
 <h2 id="rebuild-it">Rebuild it</h2>
-<p>The generator lives in <code>tools/</code> at the repository root, and both commands run from there. Report only, writing nothing:</p>
-<pre><code>python3 tools/bore_split.py tools/walks/tight_coil.txt --no-write</code></pre>
-<p>Writing rewrites every sheet in the folder and gates them, so it runs under the venv python that has the gate's dependencies:</p>
-<pre><code>cd tools &amp;&amp; ~/Software/boxes/venv/bin/python bore_split.py walks/tight_coil.txt \
+<p>The generator is <code>bore_split</code>, which <code>cargo build --release</code> at the repository root builds into <code>target/release/</code>; both commands run from the repository root. Report only, writing nothing:</p>
+<pre><code>target/release/bore_split tools/walks/tight_coil.txt --no-write</code></pre>
+<p>Writing rewrites every sheet in the folder and gates them:</p>
+<pre><code>cd tools &amp;&amp; ../target/release/bore_split walks/tight_coil.txt \
     --write ../parts/bore/concept/walk/coil/tight/bore</code></pre>
-<p>The bed sheet is drawn from those files, so it comes after them. <code>bed_sheets.py</code> packs each section whole and searches packing orders from a fixed seed, so the same command writes the same sheets; it re-reads what it wrote and exits 1 if a section is missing, moved off the bed, closer than 4 mm to another, or changed.</p>
+<p>The bed sheet is drawn from those files, so it comes after them. <code>bed_sheets</code> packs each section whole and searches packing orders from a fixed seed, so the same command writes the same sheets; it re-reads what it wrote and exits 1 if a section is missing, moved off the bed, closer than 4 mm to another, or changed.</p>
 <p><strong>It no longer writes the one sheet shipped here.</strong> That sheet was packed for a 308 mm bed, and the bed turned out to be 305 mm (cut-tested, 2026-10-19). Its parts end at 302.2 mm, so it was kept and only its canvas trimmed. Packed for 305 mm with 4 mm at every edge, the same command writes two sheets, 28 sections and 5, and no seed tried did better:</p>
-<pre><code>python3 tools/bed_sheets.py parts/bore/concept/walk/coil/tight/bore/cut-files \
+<pre><code>target/release/bed_sheets parts/bore/concept/walk/coil/tight/bore/cut-files \
     parts/bore/concept/walk/coil/tight/bore bore10-coil-tight</code></pre>
 <h2 id="the-two-ends">The two ends</h2>
 <p>Only the tube belongs to an instrument. Neither the mouthpiece nor the bell is touched by the way a bore turns, and every bore here is on the same 10 mm channel, so one of each serves all of them — <strong><a href="../ends/" target="_blank" rel="noopener">the bell and the mouthpiece</a></strong>. The walk opens and closes on a single block, <code>N1</code>: the mouthpiece and the bell are long enough to carry the instrument clear of the coil without a longer lead.</p>

@@ -8,6 +8,10 @@ license-file = "LICENSE"
 publish = false
 autobins = false
 
+[lib]
+name = "trumpet"
+path = "tools/lib.rs"
+
 # Rust since 2026-11-07, Python until then: the move changed no byte of any
 # file these programs write. Each program sits beside the Python it replaced.
 
@@ -59,8 +63,65 @@ path = "parts/mouthpiece/mouthpiece-view.rs"
 name = "part-view"
 path = "parts/part-view.rs"
 
+[[bin]]
+name = "bore_split"
+path = "tools/bore_split_main.rs"
+
+[[bin]]
+name = "viewer"
+path = "tools/viewer_main.rs"
+
+[[bin]]
+name = "bore_render"
+path = "tools/bore_render_main.rs"
+
+[[bin]]
+name = "check"
+path = "tools/check_main.rs"
+
+[[bin]]
+name = "hilbert"
+path = "tools/hilbert.rs"
+
+[[bin]]
+name = "coils"
+path = "tools/coils.rs"
+
+[[bin]]
+name = "sizes"
+path = "tools/sizes.rs"
+
+[[bin]]
+name = "mcwalk"
+path = "tools/mcwalk.rs"
+
+[[bin]]
+name = "bed_sheets"
+path = "tools/bed_sheets.rs"
+
+[[bin]]
+name = "nest"
+path = "tools/nest.rs"
+
+[[bin]]
+name = "piece_render"
+path = "tools/piece_render.rs"
+
+[[bin]]
+name = "regress"
+path = "tools/regress.rs"
+
+[[bin]]
+name = "repro"
+path = "tools/repro.rs"
+
+[[bin]]
+name = "snakebox"
+path = "tools/snakebox_main.rs"
+
 [dependencies]
 lasermade-tools = { path = "../lasermade-tools" }
+geo = "0.33"
 
 [profile.release]
 opt-level = 3

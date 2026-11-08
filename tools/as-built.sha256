@@ -3,7 +3,7 @@
 # These were NOT regenerated on 2026-09-09 with the rest of the tree, when
 # the sheet was calipered at 2.94mm and the kerf at 0.13mm. They are drawn
 # at the old 3.0mm and 0.1mm because they record an instrument that exists.
-# repro.py checks them against these hashes instead of redrawing them, so a
+# repro checks them against these hashes instead of redrawing them, so a
 # regenerate sweep that overwrites the record fails the gate rather than
 # passing every invariant in silence.
 #
@@ -14,7 +14,7 @@
 # redrawn design, so it is reproduced rather than pinned. Six pins remain, for
 # coil-10x10x30-1.5t, which is now the only folder here recording an object.
 #
-# Rewrite with: repro.py --update -- and only when you have decided to
+# Rewrite with: repro --update -- and only when you have decided to
 # overwrite the record, which is what fold2-long-straight/CLAUDE.md asks.
 118dccde5a48cb21257ea71e799654be14144e28a4a75c86d3f6d4ff3e17993a  parts/bore/concept/walk/coil/fold2-long-straight/coil-10x10x30-1.5t/cut-files/bore10-coil-10x10x30-1.5t-03of06-bend-RD-cut-files.svg
 19195c1376575166afa32132fcf8ca960894bc3e69d8427f81d710caceeff7a2  parts/bore/concept/walk/coil/fold2-long-straight/coil-10x10x30-1.5t/cut-files/bore10-coil-10x10x30-1.5t-05of06-bend-DLLU-cut-files.svg

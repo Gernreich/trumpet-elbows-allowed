@@ -30,15 +30,16 @@ before changing what it names.
 
 **`coil-10x10x30-1.5t/` records wood that was cut**, at a 0.1 mm kerf where the generator
 now assumes 0.15. **Do not cut from it as it stands**: its slots come out about 0.05 mm
-wide. Regenerate it first (switches in `tools/regress.py`), knowing that overwrites the
-record. Its six sheets are pinned by hash in `tools/as-built.sha256`, and `tools/repro.py`
+wide. Regenerate it first (switches in `tools/designs.rs`), knowing that overwrites the
+record. Its six sheets are pinned by hash in `tools/as-built.sha256`, and `tools/repro.rs`
 fails with *this file describes wood that was cut* if one changes. Re-pin only with
-`repro.py --update`, as a deliberate act. **Ask before any rebuild that changes it.**
+`repro --update`, as a deliberate act. **Ask before any rebuild that changes it.**
 
 ## Toolchain rules
 
-- **One generator, `../../../../../../tools`. Never introduce a copy.** It installs into
-  Boxes.py as `SnakeBoxVar` beside `SnakeBox`; `~/Software/boxes` is a shared checkout.
+- **One generator, `../../../../../../tools`. Never introduce a copy.** Its section generator
+  is `tools/snakebox.rs`, Boxes.py's `SnakeBoxVar` in Rust (installed into a Boxes.py
+  checkout until 2026-11-08).
   [One toolchain, not a fork]
 - Only straight blocks stretch (`--straight`); a turn stays a cube. `extent()` is the
   single place that decides. [A turn is a cube because it has to be]
@@ -46,15 +47,15 @@ fails with *this file describes wood that was cut* if one changes. Re-pin only w
   cubic-cell test is the first thing to rerun if geometry looks wrong. Within one piece a
   straight and a turn may not share a column. [The lattice is not a grid any more]
 - **The 1 mm spurs on five of six plates are known and benign. Do not "fix" them**: the
-  cause is in Boxes.py. [The 1 mm spurs are known…]
-- **After touching Boxes.py, check a shipped file still reproduces**, writing to a temp
+  cause is Boxes.py's edge drawing, which `snakebox.rs` reproduces. [The 1 mm spurs are known…]
+- **After touching `snakebox.rs`, check a shipped file still reproduces**, writing to a temp
   tree that mirrors the real folder stack (sheet names come from the path):
 
 ```sh
 cd ../../../../../../tools
 W="$(cat walks/coil_fold2.txt)"
 rm -rf /tmp/f && mkdir -p /tmp/f/coil/fold2
-~/Software/boxes/venv/bin/python bore_split.py --blocksize=16 "$W" \
+../target/release/bore_split --blocksize=16 "$W" \
     --write /tmp/f/coil/fold2/bore
 B=bore10-coil-fold2-02of06-bend-LUUR-cut-files.svg
 cmp /tmp/f/coil/fold2/bore/cut-files/$B \
@@ -74,16 +75,14 @@ cmp /tmp/f/coil/fold2/bore/cut-files/$B \
 - **Don't trust a passing gate.** The meaningful number is the voxelised bore volume
   matching the walk's (55520 mm3 on the 1.5t). Re-derive it by hand after changing
   geometry. [Do not trust a passing gate]
-- **`regress.py` cannot see a broken `extent()`**: measured and expected volume move
+- **`regress` cannot see a broken `extent()`**: measured and expected volume move
   together. Check a change to `extent()` by hand.
-  [`regress.py` gates these designs, and what it cannot see]
-- `check.py` needs **the same `--bore=10 --straight=30`** as the writer; `--files` never
+  [`regress` gates these designs, and what it cannot see]
+- `check` needs **the same `--bore=10 --straight=30`** as the writer; `--files` never
   checks pitch.
-- Use the Boxes.py venv: the system python writes every file, then dies on shapely
-  ungated.
 - `check_page` catches a stale page but not a wrong picture. **Look at the render
   after changing geometry.**
-- `coils.py` writes `coils.html`: four coils in one `build_many` viewer, scale locked
+- `coils` writes `coils.html`: four coils in one viewer (`build_sets`), scale locked
   to the longest, camera kept on switch. [One viewer, one or several coils]
 
 ## Commands
@@ -97,19 +96,19 @@ for t in 0.75:coil-0.75t:"¾ Turn" 1.5:coil_fold2:"1½ Turns" \
          2.25:coil-2.25t:"2¼ Turns" 3:coil-3t:"3 Turns"; do
   n=${t%%:*}; rest=${t#*:}; w=${rest%%:*}; lab=${rest#*:}
   W="$(cat walks/$w.txt)"
-  ~/Software/boxes/venv/bin/python bore_split.py --bore=10 --straight=30 \
+  ../target/release/bore_split --bore=10 --straight=30 \
       --title="10x10x30 Coil, $lab" "$W" \
       --write ../parts/bore/concept/walk/coil/fold2-long-straight/coil-10x10x30-${n}t
 done
-python3 coils.py                    # coils.html here, all four in one viewer
+../target/release/coils                    # coils.html here, all four in one viewer
 ```
 
 ```sh
-~/Software/boxes/venv/bin/python check.py "$(cat walks/coil_fold2.txt)" \
+../target/release/check "$(cat walks/coil_fold2.txt)" \
     --bore=10 --straight=30 \
     --files ../parts/bore/concept/walk/coil/fold2-long-straight/coil-10x10x30-1.5t/cut-files
-cd ../../../../../../tools && ~/Software/boxes/venv/bin/python regress.py        # every design
-cd ../../../../../../tools && ~/Software/boxes/venv/bin/python regress.py coil   # the coils
+cd ../../../../../../tools && ../target/release/regress        # every design
+cd ../../../../../../tools && ../target/release/regress coil   # the coils
 ```
 
 After editing this family's page, check strokes here, regenerate and audit:

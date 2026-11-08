@@ -165,7 +165,7 @@ guess that looks like a measurement is the dangerous kind.
 
 Whether the requirement is absolute, a fraction of the tab, or something else
 takes a second bore to say, and there is one bore. The comment above
-`pin_play()`'s table in `../tools/bore_split.py` sets out the coupon
+`pin_play()`'s table in `../tools/bore.rs` sets out the coupon
 that would settle it, and `--play` is the flag that cuts it.
 
 ## Do not size a bore from a pipe formula
@@ -182,20 +182,20 @@ becomes a measurement instead of a guess.
 
 ## Rebuild it
 
-The generator lives in `tools/` at the repository root, and both commands run
-from there. Report only, writing nothing:
+The generator is `bore_split`, which `cargo build --release` at the repository
+root builds into `target/release/`; both commands run from the repository root.
+Report only, writing nothing:
 
 ```
-python3 tools/bore_split.py "N1 W3 U2 E3 N3 D3 W2 U3 N3 E3 D2 W3 N3 U3 E2 D3 N1" \
+target/release/bore_split "N1 W3 U2 E3 N3 D3 W2 U3 N3 E3 D2 W3 N3 U3 E2 D3 N1" \
     --bore=10 --straight=30 --no-write
 ```
 
 Drop `--straight=30` and the same walk reports 704 mm. Writing rewrites all
-twelve sheets and must run under the venv python that has the gate's
-dependencies:
+twelve sheets and gates them:
 
 ```
-cd tools && ~/Software/boxes/venv/bin/python bore_split.py \
+cd tools && ../target/release/bore_split \
     ../built/coil-fold2-long-straight-3t/fold2-long-straight-3t.html \
     --straight=30 \
     --write ../built/coil-fold2-long-straight-3t

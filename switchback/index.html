@@ -111,7 +111,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <h2 id="the-walk-is-the-whole-design">The walk is the whole design</h2>
 <pre><code>N1 W3 U2 E3 N3 D3 W2 U3 N1</code></pre>
 <p>The first term is the way you face at the mouth and how far you go before anything turns; every term after it turns where you stand and then travels that many blocks. So <strong>the bore is 1 + the sum of the numbers</strong> — 21 + 1 = 22. Axes are Minecraft's: <code>U</code>/<code>D</code> are +Y/−Y, <code>N</code> is −Z, <code>S</code> is +Z, <code>E</code> is +X, <code>W</code> is −X.</p>
-<p>The walk is kept in <code>../tools/walks/coil_fold2.txt</code>, and <code>regress.py</code> beside it names this folder as where its cut files land. The viewer page carries the same string, and the generator will read either, but they are only equal because the page was generated from the file. Read it out of the file.</p>
+<p>The walk is kept in <code>../tools/walks/coil_fold2.txt</code>, and <code>regress</code> beside it names this folder as where its cut files land. The viewer page carries the same string, and the generator will read either, but they are only equal because the page was generated from the file. Read it out of the file.</p>
 <h2 id="no-lead-out-to-write-and-why-that-costs-nothing">No lead-out to write, and why that costs nothing</h2>
 <p>A walk used to be allowed to end with a bare letter naming the way you leave. This one never did, and the notation no longer has one: you leave facing the last term. Nothing is lost. A bare letter carrying your own heading only restated it, and the six SVGs come out byte-identical written either way. What it could also do was name a <em>different</em> heading — <code>N1 U</code> turned the final block and stranded the final turn as a piece of its own — and that is the half of it worth losing: the last block cannot be stranded any more, because there is no longer a way to ask for one.</p>
 <h2 id="the-numbers">The numbers</h2>
@@ -247,10 +247,10 @@ bore10-coil-fold2-05of06-bend-DLLU-cut-files.svg
 bore10-coil-fold2-06of06-bend-RD-buttout-cut-files.svg</code></pre>
 <p>Every file is millimetre-true at 1 user unit = 1 mm. <strong>Blue engraves, then black cuts</strong> — blue writes the section number on every part, black frees it.</p>
 <h2 id="rebuild-it">Rebuild it</h2>
-<p>The generator lives in <code>tools/</code> at the repository root, and both commands run from there. Report only, writing nothing:</p>
-<pre><code>python3 tools/bore_split.py &quot;N1 W3 U2 E3 N3 D3 W2 U3 N1&quot; --bore=10 --no-write --refuse-elbows</code></pre>
-<p><code>--bore=10</code> is the airway; the 16 mm block follows from it at 3 mm ply. The generator cuts an elbow by default in this copy; <code>--refuse-elbows</code> makes it refuse one instead, so the bend-only claim is a gate rather than a reading. Writing rewrites every sheet in the folder, so it runs under the venv python that has the gate's dependencies:</p>
-<pre><code>cd tools &amp;&amp; ~/Software/boxes/venv/bin/python bore_split.py \
+<p>The generator is <code>bore_split</code>, which <code>cargo build --release</code> at the repository root builds into <code>target/release/</code>; both commands run from the repository root. Report only, writing nothing:</p>
+<pre><code>target/release/bore_split &quot;N1 W3 U2 E3 N3 D3 W2 U3 N1&quot; --bore=10 --no-write --refuse-elbows</code></pre>
+<p><code>--bore=10</code> is the airway; the 16 mm block follows from it at 3 mm ply. The generator cuts an elbow by default in this copy; <code>--refuse-elbows</code> makes it refuse one instead, so the bend-only claim is a gate rather than a reading. Writing rewrites every sheet in the folder and gates them:</p>
+<pre><code>cd tools &amp;&amp; ../target/release/bore_split \
     ../parts/bore/concept/walk/coil/fold2/bore/bore.html \
     --write ../parts/bore/concept/walk/coil/fold2/bore --refuse-elbows</code></pre>
 <h2 id="stretched-the-same-walk-is-longer">Stretched, the same walk is longer</h2>

@@ -16,7 +16,7 @@ before changing what it names.
   Only the tube belongs to an instrument. Do not move them back without deciding what
   changed about that argument.
 - Filed as a **coil**, not a meander: it measures 450° about a north–south axis. The
-  name lives in the folder, the walk file, the `regress.py` entry, the cut-file names
+  name lives in the folder, the walk file, the `regress` entry, the cut-file names
   and the page title: **change all five together or none**.
   [Why this is filed as a coil and not a meander]
 
@@ -41,7 +41,7 @@ before changing what it names.
 - **The bore is the air (10 mm); the block is air + two walls (16 mm).** This design is
   gated at `--blocksize=16`. Omitting it fills `bore/` with stock-pitch parts under
   this set's names. [One block is 16 mm, not 10]
-- **Don't type the Boxes.py flags**: `bore_split.py` builds them from its own constants.
+- **Don't type the section generator's flags**: `bore_split` builds them from its own constants.
   `--thickness` is the sheet and `--burn` is half the kerf. Print them rather than
   trusting a written list.
 - Sheet names carry the bore (`bore10-coil-fold2-01of06-…`), plus a `<title>` and `<desc>`.
@@ -68,17 +68,16 @@ The author edits SVGs in Inkscape during a session.
 
 ## Running the generator and gate
 
-- **Use the Boxes.py venv** (`~/Software/boxes/venv/bin/python`). Under the system
-  python, `--write` writes all six files and **then** dies on shapely, leaving them
-  ungated. Start `regress.py` with the same interpreter.
-  [The gate does not run under the system python]
+- The tools are programs in the repository's `target/release/` (`cargo build --release`
+  at its root); they were Python in the Boxes.py venv until 2026-11-08.
+  [The gate runs inside every write]
 - `--files` never checks pitch: the wrong `--blocksize` still passes.
-- `regress.py` only checks the sheets **when the folder exists**; renaming a folder
+- `regress` only checks the sheets **when the folder exists**; renaming a folder
   makes it silently gate geometry alone.
 - The gate does not look at the bell or the mouthpiece; their own generators check
   them before writing.
 - `--refuse-elbows` is off by default in this repository. Rewrite this bore **with** it.
-  `check.py` does not consult it.
+  `check` does not consult it.
 
 ```sh
 G=../../../../../../../lasermade-tools
@@ -88,7 +87,7 @@ S=../../../../../../tools
 Test a walk without writing anything (always do this before proposing a change):
 
 ```sh
-cd $S && python3 bore_split.py --no-write "N1 W3 U2 E3 N3 D3 W2 U3 N1"
+cd $S && ../target/release/bore_split --no-write "N1 W3 U2 E3 N3 D3 W2 U3 N1"
 ```
 
 Regenerate the cut files (rewrites everything: **ask first**):
@@ -97,15 +96,15 @@ Regenerate the cut files (rewrites everything: **ask first**):
 cd $S
 W="$(cat walks/coil_fold2.txt)"
 D=../parts/bore/concept/walk/coil/fold2
-~/Software/boxes/venv/bin/python bore_split.py --blocksize=16 "$W" --write $D/bore
+../target/release/bore_split --blocksize=16 "$W" --write $D/bore
 ```
 
 Gate alone, and the checks (`$W` and `$D` as above, run from `$S`):
 
 ```sh
-~/Software/boxes/venv/bin/python check.py "$W" --blocksize=16 --files $D/bore/cut-files
+../target/release/check "$W" --blocksize=16 --files $D/bore/cut-files
 $G/target/release/svg-stroke-check --dir . --quiet   # stroke declared twice, disagreeing
-cd $S && ~/Software/boxes/venv/bin/python regress.py      # every design in the library
+cd $S && ../target/release/regress      # every design in the library
 ```
 
 The ends, from `parts/` (each rebuilds the shipped sheet byte for byte):
@@ -118,7 +117,7 @@ cd ../bell && ../../target/release/bell-round 17 --bore=10 --length=152 --mouth=
 ## Publishing
 
 - After editing this bore's page, regenerate and audit. **Read the audit before
-  pushing.** `.doc-audit-ignore` lists `bore_split.py` and `regress.py`.
+  pushing.** `.doc-audit-ignore` lists `bore_split` and `regress`.
 
 ```sh
 ~/LaserMadeMusic/GIT/lasermade-tools/rebuild-page.sh ../../../../../../switchback

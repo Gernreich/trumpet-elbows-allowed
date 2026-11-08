@@ -8,7 +8,7 @@ wood somebody is holding**; everything in `../parts/bore/concept/` is a drawing.
   repository share a name.
 - **The `coil-` prefix is load-bearing.** `folder_stack()` builds sheet names from the
   output path, and `built` names no family, so the leaf must carry it. Drop it and
-  `repro.py` redraws twelve sheets under names nothing on disk has.
+  `repro` redraws twelve sheets under names nothing on disk has.
 - **Both ends are shared**: one bell and one mouthpiece design, in `../parts/`, see
   `../ends/`. Never copy them in here.
 
@@ -36,11 +36,8 @@ The 1000 mm swept-curve spiral, `ribbon-spiral-bore10-45deg-R35to113/`, was here
 
 ## Gates
 
-`../tools/regress.py` gates the coil (`coil 10x10x30 3t`). It needs the Boxes.py venv, or
-every design fails on shapely:
+`regress` (its table is `../tools/designs.rs`) gates the coil (`coil 10x10x30 3t`):
 
 ```
-cd ../tools && SNAKEBOX_BOXES=~/Software/boxes \
-  SNAKEBOX_PY=~/Software/boxes/venv/bin/python \
-  ~/Software/boxes/venv/bin/python regress.py
+cd ../tools && ../target/release/regress
 ```

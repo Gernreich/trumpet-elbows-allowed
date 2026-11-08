@@ -115,7 +115,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <h2 id="the-idea">The idea</h2>
 <p>A brass instrument is a long tube you have to fit into a small space. A trumpet could be done with three tight bends and a lot of drawn brass. This does it by <strong>treating the tube as a walk through a lattice of cubes</strong> — north three, up two, east three — and cutting each run of that walk as a flat-packed box.</p>
 <p>The walk is written down. <code>N1 W3 U2 E3 N3 D3 W2 U3 N3 E3 D2 W3 N3 U3 E2 D3 N1</code> is the bore of the built instrument: the first term is the direction you enter from and how far you go before anything turns, and every term after it turns where you stand and then moves that many blocks. A generator turns that string into cut files, checks them, and tells you what you are holding.</p>
-<pre><code>python3 tools/bore_split.py &quot;N1 W3 U2 E3 N3 D3 W2 U3 N3 E3 D2 W3 N3 U3 E2 D3 N1&quot; \
+<pre><code>target/release/bore_split &quot;N1 W3 U2 E3 N3 D3 W2 U3 N3 E3 D2 W3 N3 U3 E2 D3 N1&quot; \
     --bore=10 --straight=30 --no-write</code></pre>
 <p><strong>A turn costs no block.</strong> It happens inside the block you arrived at, and you start in block 1 rather than in front of it, so the tube is <code>1 + the sum of the numbers</code> blocks long. Forty-three steps, forty-four blocks.</p>
 <h2 id="what-decides-a-good-bore">What decides a good bore</h2>
@@ -224,7 +224,7 @@ ends/</code></pre>
 <p><strong>Family</strong> is the shape — <code>coil</code>, <code>meander</code>, <code>spiral</code>, <code>hilbert</code> — and it is measured, not asserted: a coil has an axis it advances along and a handedness, a meander has neither, and a spiral winds about its axis like a coil but its legs grow longer every circuit.</p>
 <p>In trumpet-elbows-not-allowed, a walk had to pass two rules to be filed there at all: every turn folds into a bend, and nothing comes back and touches itself. <strong>Here neither is a rule</strong>, and both are facts about a design rather than folders it is sorted into.</p>
 <h3 id="elbows-and-contact">Elbows and contact</h3>
-<p><strong>An elbow is allowed.</strong> A turn with no straight block to fold into is cut as its own one-block piece, and the cut list and file name say <code>elbow</code>. <code>bore_split.py</code> still folds every turn it can, so a walk that split bend-only in trumpet-elbows-not-allowed splits identically here.</p>
+<p><strong>An elbow is allowed.</strong> A turn with no straight block to fold into is cut as its own one-block piece, and the cut list and file name say <code>elbow</code>. <code>bore_split</code> still folds every turn it can, so a walk that split bend-only in trumpet-elbows-not-allowed splits identically here.</p>
 <p><strong>A bore may touch itself</strong> — two blocks sharing a face, an edge or a vertex without being joined along the tube. At a face the airway runs past 6 mm of wood rather than 3; at an edge or a vertex the two walls meet on a line or a point, which is a place for the assembly to go out of true. A tight coil can rarely avoid it. The generator warns and writes.</p>
 <blockquote>
 <p>Blocks <strong>two</strong> apart along the walk are edge-neighbours at every single turn — that is the geometry of turning, not the bore touching itself, and counting it would condemn every walk here. So contact is measured between blocks <strong>three or more</strong> apart.</p>
@@ -280,7 +280,7 @@ ends/</code></pre>
 </tbody>
 </table>
 </div>
-<p><code>first</code> is the design the regression suite calls the first trumpet, and its eight sheets regenerate byte-identical to the ones deleted. The pages are redrawn by today's <code>viewer.py</code>; every one draws the same cells as the page it replaces.</p>
+<p><code>first</code> is the design the regression suite calls the first trumpet, and its eight sheets regenerate byte-identical to the ones deleted. The pages are redrawn by today's <code>viewer</code>; every one draws the same cells as the page it replaces.</p>
 <p>Two designs have been added since that have elbows by choice: <strong><a href="tight-coil/" target="_blank" rel="noopener">the tight coil</a></strong>, the tightest coil here that does not touch itself — 42.7 mm a turn, 16 elbows, 1040 mm — and the ziggurat in <a href="parts/bore/concept/walk/spiral/ziggurat/bore/bore.html" target="_blank" rel="noopener"><code>spiral/ziggurat/</code></a>, a centred square spiral that widens a block all round each turn — 4 elbows, 1008 mm.</p>
 <blockquote>
 <p><code>coil/search/</code> was the exception to that rule in trumpet-elbows-not-allowed, and still keeps its ten walks exactly as they were measured — 4 of them touch-free and 6 not — because it is the record of an exhaustive search for <strong>bend-only</strong> coils, and it still is one: a walk that strands a turn is not a candidate there.</p>
@@ -381,77 +381,93 @@ ends/</code></pre>
 <p>So two of the three categories are led better than they were, and only the largest-plate figure fell. Ten of the fourteen remain in <a href="parts/bore/concept/walk/coil/search/" target="_blank" rel="noopener"><code>search/</code></a>, and a coil listed above as tied is tied with one of them. The scoring is in <a href="parts/bore/concept/walk/coil/search/SCORING.html" target="_blank" rel="noopener"><code>search/SCORING.md</code></a>.</p>
 <h2 id="the-toolchain">The toolchain</h2>
 <p><code>tools/</code> ships no cut files of its own — only the thing that makes them.</p>
-<p><strong>The finger joints are not ours.</strong> Every section net is drawn by <strong><a href="https://github.com/florianfesti/boxes" target="_blank" rel="noopener">Boxes.py</a></strong>, Florian Festi's box generator, which supplies the finger joints, the burn compensation and the SVG writer; <code>snakeboxvar.py</code> is a generator that installs into a Boxes.py checkout rather than a program of its own. Boxes.py is GPL-3.0-or-later and is not included here — you supply the checkout. Because <code>snakeboxvar.py</code> subclasses it, that file and the two that import it are GPL-3.0-or-later as well; the licence note at the end says which three and why.</p>
+<p><strong>The finger joints are not ours.</strong> Every section net is drawn the way <strong><a href="https://github.com/florianfesti/boxes" target="_blank" rel="noopener">Boxes.py</a></strong>, Florian Festi's box generator, draws it: its finger joints, burn compensation and SVG path writing. Until 2026-11-08 the tools were Python and ran a Boxes.py checkout for every piece; they are Rust now, and <code>snakebox.rs</code> carries those parts of Boxes.py, ported line for line, so no Boxes.py checkout is needed. The port draws the same paths to the byte. Boxes.py is GPL-3.0-or-later, so <code>snakebox.rs</code> is too; the licence note at the end says which files and why.</p>
+<p>Every tool is a program in <code>target/release/</code>, built by <code>cargo build --release</code> at the repository root. They were Python until 2026-11-08 (<code>bore_split.py</code> and the rest), and every sheet, page and report they write is byte-identical to what the Python wrote, with two exceptions. A bed sheet's description names the tool that wrote it. And a sheet cut with <code>--ports</code> has the same outline as before but starts its path at a different corner, because the polygon library that takes the port out of the plate is not the one Python used; ports are off by default and no design here uses them.</p>
 <div class="tw">
 <table>
 <tbody>
 <tr>
-<td><code>bore_split.py</code></td>
+<td><code>bore_split</code></td>
 <td>the generator: a walk in, per-piece cut files out</td>
 </tr>
 <tr>
-<td><code>check.py</code></td>
+<td><code>check</code></td>
 <td>the gate, run automatically by every <code>--write</code></td>
 </tr>
 <tr>
-<td><code>regress.py</code></td>
+<td><code>regress</code></td>
 <td>runs the gate over the whole library</td>
 </tr>
 <tr>
-<td><code>snakeboxvar.py</code></td>
-<td>the Boxes.py generator that draws a section</td>
+<td><code>snakebox.rs</code></td>
+<td>draws a section: Boxes.py's SnakeBoxVar, in Rust</td>
 </tr>
 <tr>
-<td><code>svgpath.py</code></td>
-<td>reads back what was written — the gate parses the file, not the plan</td>
+<td><code>bore.rs</code></td>
+<td>the walk, the split and the sheets <code>bore_split</code> writes, and the reading back of what was written — the gate parses the file, not the plan</td>
 </tr>
 <tr>
-<td><code>assemble.py</code></td>
+<td><code>assemble.rs</code></td>
 <td>builds a section as a solid and asks directly whether it is sealed, rather than testing a proxy</td>
 </tr>
 <tr>
-<td><code>viewer.py</code></td>
+<td><code>viewer</code></td>
 <td>the one page builder; every viewer page here comes from it</td>
 </tr>
 <tr>
-<td><code>bore_render.py</code></td>
+<td><code>bore_render</code></td>
 <td>stills, coloured by piece or by direction of travel</td>
 </tr>
 <tr>
-<td><code>piece_render.py</code></td>
+<td><code>piece_render</code></td>
 <td>one assembled piece from several angles, each face coloured by its part</td>
 </tr>
 <tr>
-<td><code>nest.py</code></td>
+<td><code>nest</code></td>
 <td>lays parts out on a sheet</td>
 </tr>
 <tr>
-<td><code>hilbert.py</code></td>
+<td><code>hilbert</code></td>
 <td>writes a Hilbert cube as a walk</td>
 </tr>
 <tr>
-<td><code>mcwalk.py</code></td>
+<td><code>mcwalk</code></td>
 <td>renders a walk that crosses itself, which the generator refuses</td>
 </tr>
 <tr>
-<td><code>sizes.py</code></td>
+<td><code>sizes</code></td>
 <td>one design at more than one block pitch, in one viewer</td>
+</tr>
+<tr>
+<td><code>coils</code></td>
+<td>the four 10x10x30 coils in one viewer</td>
+</tr>
+<tr>
+<td><code>bed_sheets</code></td>
+<td>packs a folder of section files onto whole bed sheets</td>
+</tr>
+<tr>
+<td><code>repro</code></td>
+<td>redraws every live design and pins the as-built ones by hash</td>
+</tr>
+<tr>
+<td><code>snakebox</code></td>
+<td>one piece drawn alone, its paths listed</td>
 </tr>
 </tbody>
 </table>
 </div>
 <h2 id="the-gate">The gate</h2>
-<p>Nothing here is cut on trust. <code>bore_split.py --write</code> runs the checks itself and refuses to leave a folder unchecked; <code>tools/regress.py</code> runs the whole library.</p>
-<pre class="sh"><code>cd tools &amp;&amp; ~/Software/boxes/venv/bin/python regress.py</code></pre>
+<p>Nothing here is cut on trust. <code>bore_split --write</code> runs the checks itself and refuses to leave a folder unchecked; <code>regress</code> runs the whole library (<code>tools/designs.rs</code> is its table).</p>
+<pre class="sh"><code>cd tools &amp;&amp; ../target/release/regress</code></pre>
 <p><strong>32 designs, 0 failed, 10306 individual checks.</strong></p>
 <p>It checks that each section closes round its bore, that the assembled bore is one sealed passage, that its volume matches the walk, that no feature is under 1.5 mm, that every sheet fits the bed, that every seam is one tab side and one slot side, and that no engraving lands in a slot or off the material. A mouth is checked for where it is, not only that it exists: over the block it names, on the right cheek, opening onto the airway, and with the plate around it counted as material.</p>
-<p><strong>Use the virtualenv python.</strong> <code>check.py</code> imports shapely, which the system <code>python3</code> does not have — and <code>bore_split.py</code> writes every file <em>before</em> it gates them, so a system-python <code>--write</code> leaves a folder of finished-looking cut files and a traceback where the gate should be.</p>
 <blockquote>
 <p>A passing gate means no check failed, not that the part is buildable: its floor is 1.5 mm, and nothing compares a feature against the features beside it.</p>
 </blockquote>
 <h2 id="clearance">Clearance</h2>
 <p><code>PLAY_BY_BORE</code> is a lookup of what has actually been cut, not a curve through it, and it has <strong>one row</strong>: 0.025 mm per side at the 10 mm bore. A bore that is not in the table gets that value too — too loose is a worse joint than too tight is no joint — and says on stderr that it is guessing, because a guess that looks like a measurement is the dangerous kind.</p>
-<p>Whether the requirement is absolute, a fraction of the tab, or something else takes a second bore to say, and there is one bore. The comment above <code>pin_play()</code>'s table in <code>tools/bore_split.py</code> sets out the coupon that would settle it, and <code>--play</code> is the flag that cuts it.</p>
+<p>Whether the requirement is absolute, a fraction of the tab, or something else takes a second bore to say, and there is one bore. The comment above <code>pin_play()</code>'s table in <code>tools/bore.rs</code> sets out the coupon that would settle it, and <code>--play</code> is the flag that cuts it.</p>
 <h2 id="building-it">Building it</h2>
 <ol type="1">
 <li>Cut the twelve bore sections from <code>built/coil-fold2-long-straight-3t/cut-files/</code>, in order.</li>
@@ -467,8 +483,8 @@ ends/</code></pre>
 <p><strong><a href="https://gernreich.github.io/lasermademusic.html" target="_blank" rel="noopener">The rest of the build files</a></strong> — every instrument, each with its own writeup.</p>
 <p><strong><a href="https://github.com/Gernreich/trumpet-elbows-allowed/archive/refs/heads/main.zip" target="_blank" rel="noopener">Download everything as a ZIP</a></strong> — the generators, the gate, every cut file and every candidate bore.</p>
 <p><strong>Almost all of this is <a href="LICENSE" target="_blank" rel="noopener">CC0 1.0</a></strong> — every cut file, every walk, every page, and every generator but three. <code>parts/LICENSE</code> and <code>tools/LICENSE</code> are copies of that text, so a directory taken on its own still carries it.</p>
-<p><strong>Three files in <code>tools/</code> are GPL-3.0-or-later instead</strong>, and each carries a header saying so: <code>snakeboxvar.py</code>, <code>check.py</code> and <code>piece_render.py</code>. <code>snakeboxvar.py</code> subclasses <strong><a href="https://github.com/florianfesti/boxes" target="_blank" rel="noopener">Boxes.py</a></strong>'s <code>Boxes</code> class — it is a Boxes.py generator, the same shape as the ones that ship with Boxes.py, all of which are GPL — and the other two import it, so all three link against GPL code when they run. Boxes.py is Florian Festi's, GPL-3.0-or-later, with no linking exception, so those three cannot offer more than it does. <a href="tools/LICENSE.GPL-3.0.txt" target="_blank" rel="noopener"><code>tools/LICENSE.GPL-3.0.txt</code></a> is the licence they are under.</p>
-<p><strong>Nothing you cut is affected.</strong> Boxes.py is not in this repository, and none of it reaches the sheets: a cut file is geometry, with no Boxes.py code or metadata in it. The SVGs, the walks and the writeups are CC0 like the rest.</p>
+<p><strong>Four files in <code>tools/</code> are GPL-3.0-or-later instead</strong>, and each carries a header saying so: <code>snakebox.rs</code>, <code>check.rs</code>, <code>check_main.rs</code> and <code>piece_render.rs</code>. <code>snakebox.rs</code> is a port of <strong><a href="https://github.com/florianfesti/boxes" target="_blank" rel="noopener">Boxes.py</a></strong> code, the <code>Boxes</code> class's turtle, finger joints and SVG writer and the SnakeBoxVar generator built on them, and Boxes.py is Florian Festi's, GPL-3.0-or-later, with no linking exception. The other three were written against it (as <code>check.py</code> and <code>piece_render.py</code> imported it). The programs built from <code>tools/</code> that draw a section link <code>snakebox.rs</code>, so as built they are GPL-3.0-or-later works too; the CC0 source files in them stay CC0 on their own. <a href="tools/LICENSE.GPL-3.0.txt" target="_blank" rel="noopener"><code>tools/LICENSE.GPL-3.0.txt</code></a> is the licence.</p>
+<p><strong>Nothing you cut is affected.</strong> None of it reaches the sheets: a cut file is geometry, with no Boxes.py code or metadata in it. The SVGs, the walks and the writeups are CC0 like the rest.</p>
 <p>The walks are laid out in <strong>Minecraft</strong> before they are cut, and the lattice screenshots on the bore pages are frames from it. Minecraft is a trademark of Mojang Studios; this project is not affiliated with Mojang or Microsoft.</p>
 <h2 id="step-files">STEP files</h2>
 <p><code>parts/bell/step/</code> and <code>parts/mouthpiece/step/</code> hold the bell and the mouthpiece as STEP files, to open or import in a CAD program such as SolidCraft, Fusion or FreeCAD: one solid body per ply of 3 mm ply, in millimetres, stacked as the 3D views show them. Every face is flat, so the round rings come in as short straight runs. They are written from the two <code>-turn.html</code> pages by lasermade-tools' <code>step-export</code>, and each folder's <code>.repro</code> checks them. The bore pages have none: they draw the bore's path as cells, not the plates that are cut.</p>

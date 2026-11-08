@@ -138,25 +138,23 @@ Every file is millimetre-true at 1 user unit = 1 mm.
 
 ## Rebuild it
 
-The generator lives in `tools/` at the repository root, and both commands run
-from there. Report only, writing nothing:
+The generator is `bore_split`, which `cargo build --release` at the repository
+root builds into `target/release/`; both commands run from the repository root.
+Report only, writing nothing:
 
 ```
-python3 tools/bore_split.py "N10 W9 S6 E5 N2 W3 N2 E5 S6 W9 N10" --bore=10 --no-write
+target/release/bore_split "N10 W9 S6 E5 N2 W3 N2 E5 S6 W9 N10" --bore=10 --no-write
 ```
 
-Writing rewrites both sheets, and must run under the venv python: `check.py`
-imports shapely, and `bore_split.py` writes every file *before* it gates them,
-so a system-python `--write` leaves a folder of finished-looking cut files and a
-traceback where the gate should be.
+Writing rewrites both sheets and gates them:
 
 ```
-cd tools && ~/Software/boxes/venv/bin/python bore_split.py \
+cd tools && ../target/release/bore_split \
     walks/greek_spiral.txt --bore=10 \
     --write ../parts/bore/concept/walk/meander/greek-key/bore
 ```
 
-This walk is in the regression corpus — `regress.py` names it *greek spiral* and
+This walk is in the regression corpus — `regress` names it *greek spiral* and
 gates it at `--bore=10` on every toolchain change, so a change that broke it
 would be caught.
 

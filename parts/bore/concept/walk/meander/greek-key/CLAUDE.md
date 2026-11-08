@@ -15,7 +15,7 @@ generator is **`../../../../../../tools`**, the mouthpiece and bell are
 **There is no README in this folder.** The reading page is
 `../../../../../../greek-spiral/`; the writeup is at the repository root.
 
-- Walk: `walks/greek_spiral.txt`, gated by `../../../../../../tools/regress.py` at
+- Walk: `walks/greek_spiral.txt`, gated by `../../../../../../tools/regress.rs` at
   `--bore=10`, pointing at `./bore`.
 
 ## One section is the whole design
@@ -26,12 +26,11 @@ generator is **`../../../../../../tools`**, the mouthpiece and bell are
 - **Both ends are plain** on the one piece: `-buttin-buttout-`.
 - If a change makes this split into more than one section, the walk changed: check it first.
 
-## Regenerate under the venv python
+## Regenerate with the built programs
 
-`check.py` needs shapely, which the system `python3` lacks, and `bore_split.py` **writes
-every file before gating**. Always use `~/Software/boxes/venv/bin/python` (as the
-README's rebuild block does). 16 mm is the default block; if you pass `--blocksize`, pass
-the same to **both** commands.
+`bore_split` and `check` are programs in the repository's `target/release/` (Python in
+the Boxes.py venv until 2026-11-08); the README's rebuild block shows the command. 16 mm is
+the default block; if you pass `--blocksize`, pass the same to **both** commands.
 
 ## Sheet 1 is 592 mm on a 600 mm bed
 
@@ -41,7 +40,7 @@ two sheets within 1.5 mm of the bed width:
 | sheet | width | margin | gated by |
 |---|---|---|---|
 | `double-volute` narrow panels | 598.85 mm | 1.15 mm | `ribbon_bore.rs` |
-| `hilbert/open` section 14 | 598.60 mm | 1.40 mm | `check.py` |
+| `hilbert/open` section 14 | 598.60 mm | 1.40 mm | `check` |
 
 **Two gates, one bed**: each sees only its own sheets, so read a change against both.
 `sheet fits the bed` passes right up to 600.0 and the nester may re-split instead of

@@ -1,14 +1,8 @@
-# Named in prose; they live in ../bore-generator, not in this repository.
-
-bore_split.py
-regress.py
 
 # Named in prose; they live in ../trumpet-parts.
 
 bell-round.py
 mouthpiece-round.py
-
-sizes.py
 
 # The mouthpiece and the bell moved to ../trumpet-parts on 2026-09-02: neither is
 # touched by the way a bore turns. Named here so a builder knows which sheets to
