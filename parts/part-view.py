@@ -7,7 +7,7 @@
 bell-view.py and mouthpiece-view.py draw one fixed isometric each, which is the
 right thing for a page and no use for looking at the object. This is the same
 geometry as a solid you can turn, in the family of the bore viewers in
-the swept-curve repository (ribbon_view.py), which lived in bore/concept/swept-curve
+the swept-curve repository (ribbon_view.rs), which lived in bore/concept/swept-curve
 until 2026-10-14.
 
 It reads the ring sizes with bell-view.py's own sections(), executed out of

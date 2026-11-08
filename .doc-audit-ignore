@@ -58,8 +58,3 @@ ramp_bell.py
 # written without naming it.
 snakebox.py
 
-# The swept-curve generator and viewer, named in the notes beside the lattice
-# tools they are compared with. They left this repository for swept-curve on
-# 2026-10-14 and exist there.
-ribbon_bore.py
-ribbon_view.py

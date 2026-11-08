@@ -24,7 +24,7 @@ its own, only the thing that makes them.
 
 It produces every bore under **`../parts/bore`**, all of them candidates, and one of the
 two bores under **`../built`** — the three-turn trumpet's. The spiral beside it is a swept
-curve and comes from `ribbon_bore.py`. It depends on nothing in `octomino-snakes`, which
+curve and comes from `ribbon_bore.rs`. It depends on nothing in `octomino-snakes`, which
 enumerated the 369 octominoes and is archived and private: a live instrument should not
 need a frozen repository to rebuild its parts.
 
@@ -243,7 +243,7 @@ especially, since both are used to clear work for publication.
 
 ## The ply is 3.0 and the kerf 0.15
 
-`SHEET` is 3.0 and `KERF` 0.15, matching `ribbon_bore.py` in the swept-curve repository. `THICKNESS`
+`SHEET` is 3.0 and `KERF` 0.15, matching `ribbon_bore.rs` in the swept-curve repository. `THICKNESS`
 is 3.0 as well and is what dimensions the lattice; `SHEET` reaches only the slot
 Boxes cuts for a sheet to pass through. They are two numbers that happen to
 agree, so moving `SHEET` moves no airway.

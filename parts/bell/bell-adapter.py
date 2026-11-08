@@ -15,7 +15,7 @@ change: the top ring here presents exactly the face the bore's end presents, a
 10mm square hole in a 16mm square, so bell-round.py's ring 0 lands on it as it was
 always going to land on the bore.
 
-WHY THE PORT IS NOT SQUARE is set out in ribbon_bore.py beside PORT_ACROSS, and it
+WHY THE PORT IS NOT SQUARE is set out in ribbon_bore.rs beside PORT_ACROSS, and it
 is worth repeating because it is what this part exists to undo. The tab slots run
 up both cheek walls the whole length of the bore, so what a port has to clear is
 measured ACROSS the run and nothing else. Length ALONG the run is free. A 7 x 14
@@ -59,7 +59,7 @@ import math, os, pathlib, sys
 RISE, LAP, MINWALL = 3.0, 3.0, 2.0   # ply, the seat per side, the thinnest wall
 BORE  = 10.0        # the bore's air channel, and the bell's throat
 PLATE = 16.0        # the bore's outside, and the face the bell's ring 0 covers
-PORT_ACROSS, PORT_ALONG = 7.0, 14.0  # ribbon_bore.py's port, as CUT
+PORT_ACROSS, PORT_ALONG = 7.0, 14.0  # ribbon_bore.rs's port, as CUT
 
 args = [a for a in sys.argv[1:]]
 opts = dict(a[2:].split("=", 1) for a in args if a.startswith("--") and "=" in a)

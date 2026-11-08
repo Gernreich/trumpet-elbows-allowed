@@ -144,7 +144,7 @@ moves it.
 ## The adapter is what makes a ported bore take a bell
 
 `bell-adapter.py` is a third part and not a third bell. A ported bore does not open at
-its mouth; it opens through the **7 x 14 mm slot** in the cheek that `ribbon_bore.py`
+its mouth; it opens through the **7 x 14 mm slot** in the cheek that `ribbon_bore.rs`
 cuts, and a bell's throat is the bore's own 10 mm square. The adapter is the stack of
 rings that turns one into the other, and it is why the bell needs no change at all:
 its last ring is a **collar, 10 mm square in a 16 mm square face**, which is exactly the
@@ -204,7 +204,7 @@ floors are solved in closed form in `stations()`; do not reduce it to one.
 `bell-view.py` and `mouthpiece-view.py` each draw ONE fixed isometric SVG. That
 is the right thing for a page and no use for looking at an object.
 `part-view.py` draws the same geometry as a solid you can drag, in the family
-of the bore viewers in the swept-curve repository (`ribbon_view.py`), and writes `<name>-turn.html` beside the
+of the bore viewers in the swept-curve repository (`ribbon_view.rs`), and writes `<name>-turn.html` beside the
 PART — climbing out of `cut-files/`, because a turn page is not a cut file.
 
 ```sh
@@ -212,13 +212,14 @@ python3 part-view.py bell/cut-files/bell-round10-153mm-17rings-x3-rim86-cut-file
 python3 part-view.py mouthpiece/cut-files/mouthpiece-bore10-trumpet-parts-cut-files.svg
 ```
 
-**Two viewers read this file.** `../tools/viewer.py` and swept-curve's
-`ribbon_view.py --ends` both import `part-view.py` and call its
-`data_for(path, n)` to put this bell and this mouthpiece on every trumpet page
-they draw (2026-10-14): the block pages at IN and OUT, the swept-curve pages on
-the tube ends or in the port. Changing that function's arguments or what it
-returns breaks those pages, and redrawing either part makes them stale, which
-the page gates report.
+**Two viewers read these parts.** `../tools/viewer.py` imports `part-view.py`
+and calls its `data_for(path, n)`, and swept-curve's `ribbon_view --ends` does
+the same reading in Rust (`ribbon_view.rs`, since 2026-11-07), to put this bell
+and this mouthpiece on every trumpet page they draw (2026-10-14): the block
+pages at IN and OUT, the swept-curve pages on the tube ends or in the port.
+Changing that function's arguments or what it returns breaks the block pages, a
+change to how it reads a sheet has to be made in `ribbon_view.rs` too, and
+redrawing either part makes both stale, which the page gates report.
 
 It reads the ring sizes with **`bell-view.py`'s own `sections()`**, executed out
 of that file rather than copied, so the two cannot come to disagree about what

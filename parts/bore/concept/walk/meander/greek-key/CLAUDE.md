@@ -40,7 +40,7 @@ two sheets within 1.5 mm of the bed width:
 
 | sheet | width | margin | gated by |
 |---|---|---|---|
-| `double-volute` narrow panels | 598.85 mm | 1.15 mm | `ribbon_bore.py` |
+| `double-volute` narrow panels | 598.85 mm | 1.15 mm | `ribbon_bore.rs` |
 | `hilbert/open` section 14 | 598.60 mm | 1.40 mm | `check.py` |
 
 **Two gates, one bed**: each sees only its own sheets, so read a change against both.

@@ -168,13 +168,13 @@ BLOCK, PIN = 16.0, 1.5              # block pitch, tab reach
 # set to 2*burn. Every use of BURN in this file spends it as 2*BURN for the same
 # reason.
 #
-# The two are NOT the same number, and this file and ribbon_bore.py do not agree
+# The two are NOT the same number, and this file and ribbon_bore.rs do not agree
 # on what the name means -- ribbon_bore draws its own outlines, offsets by
 # BURN/2 a side, and its BURN is the full width. Setting 0.13 here, as was done
 # earlier today, tells Boxes the kerf is 0.26mm and compensates every part by
 # twice what the laser removes. The old 0.1 was the same mistake at a different
 # size: it meant a 0.2mm kerf.
-# 0.15 from 2026-09-13, on the author's instruction, matching ribbon_bore.py
+# 0.15 from 2026-09-13, on the author's instruction, matching ribbon_bore.rs
 # next door. It is the FULL WIDTH here, and BURN below halves it for Boxes --
 # get that backwards and every part is compensated by twice what the laser
 # takes, which is the mistake the paragraph above records twice.
@@ -194,7 +194,7 @@ BURN = KERF / 2                     # what Boxes.py wants: the radius
 # agree with the object, and it shortens the three wall runs that carry a
 # thickness in their length by exactly 0.06mm each.
 #
-# ribbon_bore.py is the opposite, and this is the whole reason the two files
+# ribbon_bore.rs is the opposite, and this is the whole reason the two files
 # treat their sheet differently: there the airway IS drawn, at
 # wall_off = (BORE + THICK)/2, so putting the sheet in THICK moves the bore.
 # There the sheet reaches the slot only. Here it reaches everything, correctly.
