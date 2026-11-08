@@ -12,16 +12,16 @@
 #
 # It also matters more here than elsewhere: these generators WRITE when you run
 # them. A stray argument used to be dropped in silence and the defaults drawn,
-# so `bell.py --help` wrote eight sheets rather than printing anything. They
+# so `bell.rs --help` wrote eight sheets rather than printing anything. They
 # refuse a valueless switch now, and this manifest is what says the sheets they
 # do write are the ones that shipped.
 
-cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg :: python3 bell-round.py 17 --bore=10 --length=152 --mouth=80 --out=$OUT
+cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg :: ../../target/release/bell-round 17 --bore=10 --length=152 --mouth=80 --out=$OUT
 
 # The two display drawings. Both are read back OUT of the cut file above rather
 # than recomputed, so they cannot describe a bell the sheet does not cut.
-bell-round10-153mm-17rings-x3-rim86-section.svg :: python3 bell-section.py cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg $OUT
-bell-round10-153mm-17rings-x3-rim86-view.svg :: python3 bell-view.py cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg $OUT
+bell-round10-153mm-17rings-x3-rim86-section.svg :: ../../target/release/bell-section cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg $OUT
+bell-round10-153mm-17rings-x3-rim86-view.svg :: ../../target/release/bell-view cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg $OUT
 
 # The preview. all-gates.sh walks every previews/ directory and checks this one
 # too; it is claimed here as well so that nothing under this directory is
@@ -33,7 +33,7 @@ previews/bell-round10-153mm-17rings-x3-rim86-cut-files.svg :: ../../../lasermade
 # artefact that no gate reached until .repro learned to walk *.html -- doc-audit
 # pairs a page with a markdown document of the same name, and this one has no
 # markdown at all, so it sat outside every check there was.
-bell-round10-153mm-17rings-x3-rim86-turn.html :: python3 ../part-view.py cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg $OUT
+bell-round10-153mm-17rings-x3-rim86-turn.html :: ../../target/release/part-view cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg $OUT
 
 # The port-to-bell adapter, added 2026-09-13. It carries the 7 x 14mm port of a
 # swept-curve bore into the 10mm round throat this bell starts at, over seven
@@ -41,5 +41,5 @@ bell-round10-153mm-17rings-x3-rim86-turn.html :: python3 ../part-view.py cut-fil
 # unclaimed here for the three days it existed, which is exactly the hole the
 # header above describes: a generator nothing ran, shipping a sheet nothing
 # compared. repro-svg reported it as UNCLAIMED and that is how it was found.
-cut-files/bell-adapter-port7x14-to-bore10-7rings-x1-cut-files.svg :: python3 bell-adapter.py --out=$OUT
+cut-files/bell-adapter-port7x14-to-bore10-7rings-x1-cut-files.svg :: ../../target/release/bell-adapter --out=$OUT
 previews/bell-adapter-port7x14-to-bore10-7rings-x1-cut-files.svg :: ../../../lasermade-tools/target/release/make-preview cut-files/bell-adapter-port7x14-to-bore10-7rings-x1-cut-files.svg $OUT

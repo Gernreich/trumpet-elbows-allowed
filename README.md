@@ -121,8 +121,8 @@ instrument**. Both live in `parts/`, both take `--bore`, and both close onto the
 same 10 mm square in a 16 mm face.
 
 ```sh
-cd parts/mouthpiece && python3 mouthpiece-round.py
-cd parts/bell && python3 bell-round.py 17 --bore=10 --length=152 --mouth=80
+cd parts/mouthpiece && ../../target/release/mouthpiece-round
+cd parts/bell && ../../target/release/bell-round 17 --bore=10 --length=152 --mouth=80
 ```
 
 Each rebuilds its shipped sheet byte for byte and writes it into its own

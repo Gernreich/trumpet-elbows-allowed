@@ -48,15 +48,15 @@ writing it where it belongs. Three things to know:
 
 - **A generated sheet lands in the generator's own `cut-files/`**, not
   loose beside the script, and a bare run there rebuilds the shipped sheet byte for byte.
-  So there is nothing to name and nothing to move: `mouthpiece-round.py` and
-  `bell-round.py 17 --bore=10 --length=152 --mouth=80` write
+  So there is nothing to name and nothing to move: `mouthpiece-round.rs` and
+  `bell-round.rs 17 --bore=10 --length=152 --mouth=80` write
   `mouthpiece-bore10-trumpet-parts-cut-files.svg` and
   `bell-round10-153mm-17rings-x3-rim86-cut-files.svg` where the readers already look.
-- **A bare `bell-round.py` writes four budgets, not one.** The shipped sheet is among them
+- **A bare `bell-round.rs` writes four budgets, not one.** The shipped sheet is among them
   and comes back identical; the other three are scratch in the same directory. Pass a ring
   budget to write one.
 - **The generators number their own rings.** Every sheet there carries a
-  `<g id="ring-numbers">`, and `bell-round.py` and `mouthpiece-round.py` write it themselves
+  `<g id="ring-numbers">`, and `bell-round.rs` and `mouthpiece-round.rs` write it themselves
   as the last step, so a regenerate keeps it, and writes an orientation tick beside each
   number with it. `--numbers=no` opts out; a numbering failure
   deletes the sheet rather than leaving an unnumbered one to be cut.
@@ -304,12 +304,12 @@ own `cut-files/`, and engraves the ring numbers itself, so these two commands ar
 whole job:
 
 ```sh
-cd ../../../../../mouthpiece && python3 mouthpiece-round.py
-cd ../bell && python3 bell-round.py 17 --bore=10 --length=152 --mouth=80
+cd ../../../../../mouthpiece && ../../target/release/mouthpiece-round
+cd ../bell && ../../target/release/bell-round 17 --bore=10 --length=152 --mouth=80
 ```
 
 Both rebuild the shipped sheet byte for byte from a clean tree; the bell's line also
-writes nothing else, where a bare `bell-round.py` would add three more budgets.
+writes nothing else, where a bare `bell-round.rs` would add three more budgets.
 
 **The refusal is off by default in this copy, and `--refuse-elbows` turns it on.**
 `FOLD_TURNS` only biases the split toward folding; `REFUSE_ELBOWS` rejects an elbow
@@ -328,7 +328,7 @@ cd $S && ~/Software/boxes/venv/bin/python regress.py      # every design in the 
 The gate prints its check count for this bore, and `regress.py` covers every
 design in its `DESIGNS`. A check count that moves is worth chasing to the reason, which is the
 whole argument of the section below. It does not look at the bell or the mouthpiece at all — those are checked by
-`bell-round.py` and `mouthpiece-round.py` themselves, before they write, in
+`bell-round.rs` and `mouthpiece-round.rs` themselves, before they write, in
 `../../../../../../..`. Nothing here should be cut from a file that has not passed one or the
 other.
 

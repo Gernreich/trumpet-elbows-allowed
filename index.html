@@ -168,8 +168,8 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <p><strong>Do not size a bore from a pipe formula.</strong> F4 lands on no simple mode of the 1.321m tube it was measured on — 1339 mm less the 18 mm the built mouthpiece is short: it is 2.69 times the open-open fundamental (<code>c/2L</code> = 130 Hz) and 5.38 times the closed-open one (<code>c/4L</code> = 65 Hz), and neither multiple is a whole number. That is what a bell and a mouthpiece do — they pull the resonances away from where a plain tube would put them, and how far is not something either formula knows. Length still sets the register, which is why the four truncations above are worth cutting: their bores are an exact 1:2:3:4, so what the ends actually contribute is measurable rather than assumed.</p>
 <h3 id="the-mouthpiece-and-the-bell-are-shared">The mouthpiece and the bell are shared</h3>
 <p>Neither end is touched by the way a bore turns, so <strong>only the tube belongs to an instrument</strong>. Both live in <code>parts/</code>, both take <code>--bore</code>, and both close onto the same 10 mm square in a 16 mm face.</p>
-<pre class="sh"><code>cd parts/mouthpiece &amp;&amp; python3 mouthpiece-round.py
-cd parts/bell &amp;&amp; python3 bell-round.py 17 --bore=10 --length=152 --mouth=80</code></pre>
+<pre class="sh"><code>cd parts/mouthpiece &amp;&amp; ../../target/release/mouthpiece-round
+cd parts/bell &amp;&amp; ../../target/release/bell-round 17 --bore=10 --length=152 --mouth=80</code></pre>
 <p>Each rebuilds its shipped sheet byte for byte and writes it into its own <code>cut-files/</code>.</p>
 <p>The joint at each end is a <strong>square annulus of ply 3 mm wide</strong> — 10 mm inside, 16 mm out. The bell's ring 0 is a flange that covers all of it: a 22 mm square with a 10 mm hole, standing 3 mm proud. The throat is taken from the bore's channel, so ring 0 lands squarely on the face it seals.</p>
 <h2 id="a-page-for-each">A page for each</h2>

@@ -14,3 +14,6 @@
 # The pattern matches any directory named "old" at any depth, which is every
 # one of them: twenty-one folders, 169 files.
 old/
+
+# Rust builds
+/target/

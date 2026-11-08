@@ -111,8 +111,8 @@ cd $S && ~/Software/boxes/venv/bin/python regress.py      # every design in the 
 The ends, from `parts/` (each rebuilds the shipped sheet byte for byte):
 
 ```sh
-cd ../../../../../mouthpiece && python3 mouthpiece-round.py
-cd ../bell && python3 bell-round.py 17 --bore=10 --length=152 --mouth=80
+cd ../../../../../mouthpiece && ../../target/release/mouthpiece-round
+cd ../bell && ../../target/release/bell-round 17 --bore=10 --length=152 --mouth=80
 ```
 
 ## Publishing

@@ -1,0 +1,66 @@
+[package]
+name = "trumpet-elbows-allowed"
+version = "0.1.0"
+edition = "2021"
+authors = ["Michael Gernreich", "Claude (Anthropic) <noreply@anthropic.com>"]
+description = "Laser-cut trumpets: block bores on a lattice, and the bell and mouthpiece every bore shares"
+license-file = "LICENSE"
+publish = false
+autobins = false
+
+# Rust since 2026-11-07, Python until then: the move changed no byte of any
+# file these programs write. Each program sits beside the Python it replaced.
+
+[[bin]]
+name = "number_rings"
+path = "parts/bell/number_rings.rs"
+
+[[bin]]
+name = "bell"
+path = "parts/bell/bell.rs"
+
+[[bin]]
+name = "bell-round"
+path = "parts/bell/bell-round.rs"
+
+[[bin]]
+name = "bell-adapter"
+path = "parts/bell/bell-adapter.rs"
+
+[[bin]]
+name = "mouthpiece"
+path = "parts/mouthpiece/mouthpiece.rs"
+
+[[bin]]
+name = "mouthpiece-round"
+path = "parts/mouthpiece/mouthpiece-round.rs"
+
+[[bin]]
+name = "mouthpiece-cup"
+path = "parts/mouthpiece/mouthpiece-cup.rs"
+
+[[bin]]
+name = "bell-section"
+path = "parts/bell/bell-section.rs"
+
+[[bin]]
+name = "bell-view"
+path = "parts/bell/bell-view.rs"
+
+[[bin]]
+name = "verify_bell"
+path = "parts/bell/verify_bell.rs"
+
+[[bin]]
+name = "mouthpiece-view"
+path = "parts/mouthpiece/mouthpiece-view.rs"
+
+[[bin]]
+name = "part-view"
+path = "parts/part-view.rs"
+
+[dependencies]
+lasermade-tools = { path = "../lasermade-tools" }
+
+[profile.release]
+opt-level = 3

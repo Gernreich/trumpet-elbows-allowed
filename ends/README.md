@@ -58,25 +58,25 @@ number — a numbering failure deletes the sheet rather than leaving an unnumber
 one to be cut.
 
 ```
-cd parts/bell && python3 bell-round.py 17 --bore=10 --length=152 --mouth=80 \
+cd parts/bell && ../../target/release/bell-round 17 --bore=10 --length=152 --mouth=80 \
     --out=cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg
 ```
 
-A bare `bell-round.py` writes four ring budgets, not one; the shipped sheet is
+A bare `bell-round.rs` writes four ring budgets, not one; the shipped sheet is
 among them and comes back identical, the other three are scratch. Pass a budget
 to write one.
 
 ### The adapter
 
 A swept-curve bore leaves its cheek through a **7 × 14 mm port**, not a 10 mm
-square, so it cannot meet this bell directly. `bell-adapter.py` draws the piece
+square, so it cannot meet this bell directly. `bell-adapter.rs` draws the piece
 that carries one into the other: **7 rings of one ply, 21 mm**, holding area
 across the change on a smoothstep so both ends are tangent. The last ring is a
 collar — 10 mm square in a 16 mm square face, which is the bore's own end face, so
 the bell stacks on it unchanged.
 
 ```
-cd parts/bell && python3 bell-adapter.py \
+cd parts/bell && ../../target/release/bell-adapter \
     --out=cut-files/bell-adapter-port7x14-to-bore10-7rings-x1-cut-files.svg
 ```
 
@@ -121,7 +121,7 @@ the section is a true circle from the 9.026 mm station on, so the throat and the
 whole cup are round.
 
 ```
-cd parts/mouthpiece && python3 mouthpiece-round.py \
+cd parts/mouthpiece && ../../target/release/mouthpiece-round \
     cut-files/mouthpiece-bore10-trumpet-parts-cut-files.svg
 ```
 
