@@ -1,7 +1,7 @@
 //! Generate the adapter that carries the 7 x 14 port up to the bell's throat.
 //! Rust since 2026-11-07 (bell-adapter.py until then; the move changed no
 //! byte of the sheet). Usage and the reasoning are in DOC below, and in
-//! NOTES.md [The adapter is what makes a ported bore take a bell].
+//! NOTES.md [The adapter is what makes a 7 x 14 port take a bell].
 #[path = "../common.rs"]
 mod common;
 use common::*;
@@ -256,8 +256,10 @@ const DOC: &str = r##"Generate the adapter that carries the 7 x 14 port up to th
     target/release/bell-adapter --port=7x14      # a different port
     target/release/bell-adapter --out=FILE.svg   # somewhere other than cut-files/
 
-A ported bore does not open at its mouth; it opens through a 7 x 14mm slot in the
-cheek, and the bell's throat is the bore's own 10mm square. Those two are the same
+A ported bore does not open at its mouth; it opens through a slot in the cheek.
+With --port-square that slot is the bore's own 10mm square and the bell seats on
+it directly; no adapter. Without it the slot is 7 x 14mm, and the bell's throat is
+the bore's own 10mm square. Those two are the same
 area to within 2mm2 and nothing like the same shape, so something has to turn one
 into the other. This is that part, and it is the reason the bell itself needs no
 change: the top ring here presents exactly the face the bore's end presents, a

@@ -68,8 +68,10 @@ to write one.
 
 ### The adapter
 
-A swept-curve bore leaves its cheek through a **7 × 14 mm port**, not a 10 mm
-square, so it cannot meet this bell directly. `bell-adapter.rs` draws the piece
+A ported swept-curve bore leaves its cheek through a slot. Cut with `--port-square`,
+as the built spiral was, that slot is a 10 mm square, the bell's own throat, and the
+bell sits in it directly. Without it the port is **7 × 14 mm**, which cannot meet
+this bell directly, and `bell-adapter.rs` draws the piece
 that carries one into the other: **7 rings of one ply, 21 mm**, holding area
 across the change on a smoothstep so both ends are tangent. The last ring is a
 collar — 10 mm square in a 16 mm square face, which is the bore's own end face, so

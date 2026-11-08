@@ -141,11 +141,14 @@ moves it.
   exactly rather than being inflated by it. That is why all four bells reach the same
   129.0 mm rim.
 
-## The adapter is what makes a ported bore take a bell
+## The adapter is what makes a 7 x 14 port take a bell
 
 `bell-adapter.rs` is a third part and not a third bell. A ported bore does not open at
-its mouth; it opens through the **7 x 14 mm slot** in the cheek that `ribbon_bore.rs`
-cuts, and a bell's throat is the bore's own 10 mm square. The adapter is the stack of
+its mouth; it opens through a slot in the cheek that `ribbon_bore.rs` cuts. With
+`--port-square` that slot is the bore's own 10 mm square, the bell's throat, and the
+bell seats on it directly: that is the port the built spiral was cut with, and it needs
+no adapter. Without it the slot is **7 x 14 mm**, and a bell's throat is the bore's
+own 10 mm square. The adapter is the stack of
 rings that turns one into the other, and it is why the bell needs no change at all:
 its last ring is a **collar, 10 mm square in a 16 mm square face**, which is exactly the
 end face the bore presents, so `bell-round.rs`'s ring 0 seats on it as it was always
@@ -157,6 +160,9 @@ bore, so a port's clearance is measured **across** the run and nothing else; len
 **along** the run is free. 7 x 14 clears by 1.66 mm where a bore-square 10 x 10 clears
 by 0.16 mm, and buys the area back in the direction that costs nothing. The price is an
 opening the wrong shape for a horn, and it is paid here rather than in the bore.
+`--port-square` gets round the 0.16 mm another way, by folding the lead panel into the
+facet it lies on so the square port has a whole facet to sit in (swept-curve's NOTES.md),
+and that is why a square-ported bore takes the bell with no adapter.
 
 **Area is the schedule and the aspect ratio is what moves** — 98mm2 to 100mm2 while the
 two half-widths run 2:1 down to 1:1. Interpolating the half-widths straight is the

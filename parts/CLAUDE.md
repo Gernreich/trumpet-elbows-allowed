@@ -47,9 +47,10 @@ Read that section before changing the code it names.
   caliper, don't trust them. The lap is 3 mm, not 1.5.
 - **Ring sizes are not monotonic.** Never recover assembly order by sorting on outer
   diameter; sort on aperture, or use file order.
-- `bell-adapter.rs` turns the 7 x 14 port into the bell's 10 mm square. The area is the
+- `bell-adapter.rs` turns the 7 x 14 port into the bell's 10 mm square. A
+  `--port-square` port is already that square and takes the bell with no adapter. The area is the
   schedule (smoothstep, both ends tangent); a half-width moves at most 1 mm a ring, so
-  three rings is the floor. [The adapter is what makes a ported bore take a bell]
+  three rings is the floor. [The adapter is what makes a 7 x 14 port take a bell]
 - `bell.rs` bells are square; `bell-round.rs` bells morph square-to-round and follow
   **area**. The 2 mm wall floor is directional: keep both floors in `stations()`.
   [Two bell families]

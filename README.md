@@ -393,8 +393,8 @@ would settle it, and `--play` is the flag that cuts it.
 2. Cut the bell from
    `parts/bell/cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg` —
    17 rings, **three passes**, 51 pieces. Cut once and you get a 51 mm stub
-   instead of a 153 mm bell. The adapter sheet beside it is for a port, not
-   this bore.
+   instead of a 153 mm bell. The adapter sheet beside it is for a swept-curve
+   bore's 7 × 14 mm port only: neither this bore nor a square port needs it.
 3. Cut the mouthpiece from
    `parts/mouthpiece/cut-files/mouthpiece-bore10-trumpet-parts-cut-files.svg` —
    30 rings, one pass.

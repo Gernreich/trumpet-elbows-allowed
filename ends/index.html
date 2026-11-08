@@ -196,7 +196,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
     --out=cut-files/bell-round10-153mm-17rings-x3-rim86-cut-files.svg</code></pre>
 <p>A bare <code>bell-round.rs</code> writes four ring budgets, not one; the shipped sheet is among them and comes back identical, the other three are scratch. Pass a budget to write one.</p>
 <h3 id="the-adapter">The adapter</h3>
-<p>A swept-curve bore leaves its cheek through a <strong>7 × 14 mm port</strong>, not a 10 mm square, so it cannot meet this bell directly. <code>bell-adapter.rs</code> draws the piece that carries one into the other: <strong>7 rings of one ply, 21 mm</strong>, holding area across the change on a smoothstep so both ends are tangent. The last ring is a collar — 10 mm square in a 16 mm square face, which is the bore's own end face, so the bell stacks on it unchanged.</p>
+<p>A ported swept-curve bore leaves its cheek through a slot. Cut with <code>--port-square</code>, as the built spiral was, that slot is a 10 mm square, the bell's own throat, and the bell sits in it directly. Without it the port is <strong>7 × 14 mm</strong>, which cannot meet this bell directly, and <code>bell-adapter.rs</code> draws the piece that carries one into the other: <strong>7 rings of one ply, 21 mm</strong>, holding area across the change on a smoothstep so both ends are tangent. The last ring is a collar — 10 mm square in a 16 mm square face, which is the bore's own end face, so the bell stacks on it unchanged.</p>
 <pre><code>cd parts/bell &amp;&amp; ../../target/release/bell-adapter \
     --out=cut-files/bell-adapter-port7x14-to-bore10-7rings-x1-cut-files.svg</code></pre>
 <h2 id="the-mouthpiece">The mouthpiece</h2>
