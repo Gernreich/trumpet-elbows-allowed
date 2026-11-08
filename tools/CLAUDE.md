@@ -78,6 +78,10 @@ Programs: `bore_split_main.rs`, `check_main.rs`, `viewer_main.rs`,
 
 ## Viewer
 
+- `viewer PAGE --solidcraft FILE [switches]` (solidcraft_design.rs) writes a bore page's
+  SolidCraft design; it refuses unless its blocks are the page's. Each page's
+  `solidcraft/` and `step/` are redrawn by lane B of lasermade-tools' all-gates.sh.
+
 - `viewer::build_sets()` is the only page builder; a gallery is more sets in the same
   viewer, never a second viewer. Rebuild everything derived from `D` when the set
   changes; the switch keeps the camera. [One viewer, one bore or several]

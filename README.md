@@ -451,8 +451,36 @@ STEP files, to open or import in a CAD program such as SolidCraft, Fusion or
 FreeCAD: one solid body per ply of 3 mm ply, in millimetres, stacked as the 3D
 views show them. Every face is flat, so the round rings come in as short straight
 runs. They are written from the two `-turn.html` pages by lasermade-tools'
-`step-export`, and each folder's `.repro` checks them. The bore pages have none:
-they draw the bore's path as cells, not the plates that are cut.
+`step-export`, and each folder's `.repro` checks them.
+
+## SolidCraft designs
+
+Every bore page also has its bore as a parametric SolidCraft design beside it:
+`solidcraft/NAME.sc`, the script it was built from (`solidcraft/NAME.solidcraft.json`),
+and the STEP file SolidCraft builds from it (`step/NAME.step`), where NAME is the
+page's name, or its design folder's for a page called `bore.html`. One solid body per
+piece, as the page draws it: its blocks joined, with the square airway cut through
+them. North is +Y, east +X and up +Z.
+
+| Parameter | Default | What it is |
+| --- | --- | --- |
+| `bore` | 10 mm | the airway, square |
+| `ply` | 3 mm | every wall, nominal |
+| `block` | read only | bore + 2 ply, the lattice's pitch |
+| `straight` | 30 mm, or `block` | a straight block's length on a stretched lattice; on a cubic one it is the block |
+
+Every corner is a whole number of half blocks and half straights from the mouth, so
+the whole bore follows these. The walk is the design itself: a different walk is a
+different script (`target/release/viewer PAGE-OR-WALK --solidcraft FILE`, with
+bore_split's switches such as `--bore=10 --straight=30`). The pieces are solid blocks:
+no finger joints, laps or flats, no ports, and no mouthpiece or bell.
+
+**Checked**: the script is written only if its blocks are the page's own. Built by
+SolidCraft, every piece of all twenty designs has the volume of its blocks less its
+airway, no two pieces overlap, and the airway is the page's length times the bore's
+square. Changed to a 12 mm bore, the fold-2 coil (stretched) and the first trumpet
+(cubic) match the generator's `--bore=12` piece for piece. The gate redraws all three
+files of every design.
 
 The files:
 

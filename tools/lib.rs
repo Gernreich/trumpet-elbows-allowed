@@ -7,6 +7,7 @@ pub mod designs;
 pub mod check;
 pub mod geom;
 pub mod snakebox;
+pub mod solidcraft_design;
 pub mod viewer;
 pub mod pyrandom;
 pub mod render;
