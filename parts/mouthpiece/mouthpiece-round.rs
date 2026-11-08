@@ -6,6 +6,8 @@
 //! to be] and [The mouthpiece has two layouts].
 #[path = "../common.rs"]
 mod common;
+#[path = "../rings_solidcraft.rs"]
+mod rings_solidcraft;
 use common::*;
 use lasermade_tools::py::{self, g, powf};
 
@@ -24,8 +26,8 @@ fn main() {
         exit(format!("{b} takes a value: write it as {b}=VALUE. Nothing has been drawn."));
     }
     for k in opts.keys() {
-        if !["taper", "seat", "rim", "bowl", "layout", "backbore", "power", "bore", "numbers"].contains(&k) {
-            exit(format!("unknown option --{k}: taper, seat, rim, bowl, layout, backbore, power, bore or numbers"));
+        if !["taper", "seat", "rim", "bowl", "layout", "backbore", "power", "bore", "numbers", "solidcraft"].contains(&k) {
+            exit(format!("unknown option --{k}: taper, seat, rim, bowl, layout, backbore, power, bore, numbers or solidcraft"));
         }
     }
     let taper = opts.float("taper", 2.5); // 4.0 cannot be made square
@@ -162,6 +164,69 @@ fn main() {
         exit(format!("  {out_path} not written: {} problem(s)", fails.len()));
     }
 
+    // the mouthpiece as a parametric SolidCraft design (2026-11-08)
+    if let Some(f) = opts.get("solidcraft") {
+        if layout_ != "trumpet" {
+            exit("--solidcraft draws the trumpet layout; the legacy one is a record of what was built before it");
+        }
+        use lasermade_tools::solidcraft::{n as nn, Script};
+        let mut s = Script::new();
+        s.len("bore", format!("{} mm", nn(bore)), "the bore the mouthpiece meets, square");
+        s.len("throat", format!("{} mm", nn(THROAT)), "the throat, round: a #27 drill");
+        s.len("rim", format!("{} mm", nn(rim)), "the cup's rim, inside");
+        s.num("power", nn(back_p), "how the backbore opens: 1 is a cone, higher opens later");
+        s.len("seat", format!("{} mm", nn(minseat)), "the least every joint seats on, flats and corners alike");
+        s.len("ply", format!("{} mm", nn(WALL)), "the ply: each ring's rise, and its least wall");
+        s.num("nbb", nn(nbb as f64), "read only: backbore rings, the default build's");
+        s.num("nbowl", nn(bowl_n as f64), "read only: bowl rings, the default build's");
+        let ro = |s: &mut Script, k: &str, e: String| s.num(k, e, "read only");
+        ro(&mut s, "B_", "bore/(1 mm)".into());
+        ro(&mut s, "T_", "throat/(1 mm)".into());
+        ro(&mut s, "W_", "ply/(1 mm)".into());
+        ro(&mut s, "S_", "seat/(1 mm)".into());
+        ro(&mut s, "RR_", "rim/(1 mm)/2".into());
+        // the profile: the backbore's power law, then the elliptic bowl
+        let mut pe: Vec<String> = (0..=nbb).map(|k| format!("T_ + (B_ - T_)*({}/nbb)^power", nbb - k)).collect();
+        pe.extend((0..bowl_n).map(|k| format!("2*sqrt(RR_^2 - (RR_^2 - (T_/2)^2)*((nbowl*W_ - W_*{})/(nbowl*W_))^2)", k + 1)));
+        for (i, e) in pe.iter().enumerate() {
+            ro(&mut s, &format!("p_{i}"), e.clone());
+            ro(&mut s, &format!("h_{i}"), format!("p_{i}/2"));
+        }
+        // each ring's wall: the ply, or wider where the next station steps
+        let mut we: Vec<String> = vec!["W_".into(); n];
+        for i in 1..n {
+            if profile[i] - profile[i - 1] > 0.0 {
+                we[i - 1] = format!("max({}, S_ + (p_{i} - p_{})/2)", we[i - 1], i - 1);
+            } else {
+                we[i] = format!("max({}, S_ - (p_{i} - p_{})/2)", we[i], i - 1);
+            }
+        }
+        for (i, e) in we.iter().enumerate() {
+            ro(&mut s, &format!("w_{i}"), e.clone());
+        }
+        // each corner: as round as the seat on the station below allows
+        ro(&mut s, "c_0", "0".into());
+        for i in 1..n {
+            let room = if hs[i] > hs[i - 1] { format!("w_{}", i - 1) } else { format!("w_{i}") };
+            let prev = format!("((h_{0} - c_{0})*sqrt(2) + c_{0})", i - 1);
+            ro(&mut s, &format!("c_{i}"), format!("(h_{i}*sqrt(2) - max(h_{i}, {prev} - ({room} - S_)))/(sqrt(2) - 1)"));
+        }
+        let rs: Vec<rings_solidcraft::Ring> = (0..n)
+            .map(|i| {
+                let (o, c) = if i == 0 { ("(B_ + 2*W_)/2".to_string(), "0".to_string()) } else { (format!("(h_{i} + w_{i})"), format!("(c_{i} + w_{i})")) };
+                rings_solidcraft::Ring { e: [format!("h_{i}"), format!("c_{i}"), o, c], v: [hs[i], cs[i], oh[i], oc[i]] }
+            })
+            .collect();
+        rings_solidcraft::stack(&mut s, &rs, 1, "ply");
+        write(f, &s.text());
+        println!("  wrote {f}: {n} rings");
+        if std::env::var("SC_VOLUMES").is_ok() {
+            for v in rings_solidcraft::volumes(&rs, 1, WALL) {
+                println!("{v:.4}");
+            }
+        }
+        std::process::exit(0);
+    }
     let key = |p: usize| {
         let (_, w, h) = layout(p);
         (py::round_dp(py::max(w, h), 6), py::round_dp(w * h, 6))

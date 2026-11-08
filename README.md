@@ -447,11 +447,30 @@ Mojang Studios; this project is not affiliated with Mojang or Microsoft.
 ## STEP files
 
 `parts/bell/step/` and `parts/mouthpiece/step/` hold the bell and the mouthpiece as
-STEP files, to open or import in a CAD program such as SolidCraft, Fusion or
-FreeCAD: one solid body per ply of 3 mm ply, in millimetres, stacked as the 3D
-views show them. Every face is flat, so the round rings come in as short straight
-runs. They are written from the two `-turn.html` pages by lasermade-tools'
-`step-export`, and each folder's `.repro` checks them.
+STEP files, to open or import in a CAD program such as Fusion or FreeCAD: one solid
+body per ply, in millimetres, stacked up Z. SolidCraft builds them from the parametric
+designs beside them, `parts/bell/solidcraft/bell-round10-153mm-17rings-x3-rim86.sc` and
+`parts/mouthpiece/solidcraft/mouthpiece-bore10-trumpet-parts.sc` (each with the
+`.solidcraft.json` script it was built from), which `bell-round --solidcraft=FILE` and
+`mouthpiece-round --solidcraft=FILE` write. Each folder's `.repro` checks all three.
+
+Every ring is worked out from the parameters as the generator works it out, step by
+step, its `max()` included; the rings are true rounded squares, so the round ones come
+in as circles, not facets.
+
+- **The bell**: `bore`, `length`, `mouth`, `gamma`, `lap`, `overhang`, `ply` and
+  `min_wall`. Changed to a 150 mm length, an 90 mm mouth and gamma 0.8, it matches
+  the generator at those numbers ply for ply.
+- **The mouthpiece**: `bore`, `throat`, `rim`, `power`, `seat` and `ply`. Changed to an
+  18 mm rim, power 2.5 and a 1.2 mm seat, it matches the generator the same way.
+
+How many rings each has, and how many plies a bell ring is, are the default build's.
+Every ring's outside matches its cut file to the file's 0.0001 mm.
+
+The files:
+
+- `parts/bell/step/bell-round10-153mm-17rings-x3-rim86.step`
+- `parts/mouthpiece/step/mouthpiece-bore10-trumpet-parts.step`
 
 ## SolidCraft designs
 
@@ -481,11 +500,6 @@ airway, no two pieces overlap, and the airway is the page's length times the bor
 square. Changed to a 12 mm bore, the fold-2 coil (stretched) and the first trumpet
 (cubic) match the generator's `--bore=12` piece for piece. The gate redraws all three
 files of every design.
-
-The files:
-
-- `parts/bell/step/bell-round10-153mm-17rings-x3-rim86.step`
-- `parts/mouthpiece/step/mouthpiece-bore10-trumpet-parts.step`
 
 ## Credits
 

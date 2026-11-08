@@ -4,6 +4,8 @@
 //! prints, and in NOTES.md [Two bell families].
 #[path = "../common.rs"]
 mod common;
+#[path = "../rings_solidcraft.rs"]
+mod rings_solidcraft;
 use common::*;
 use lasermade_tools::py::{self, g, powf};
 use std::f64::consts::PI;
@@ -201,6 +203,76 @@ fn emit(bl: &Bell, rings: &[Ring], plies: i64, step: f64, path: &str, morph: &st
     (w, h)
 }
 
+/// The bell as a parametric SolidCraft design (2026-11-08), `--solidcraft=FILE`:
+/// the bore, the length, the mouth (or rim), gamma, the lap, the overhang,
+/// the ply and the wall are parameters, and every ring's size is worked out
+/// from them as stations() works it out, the max() at each step included. How
+/// many rings there are and how many plies each are the default build's.
+fn solidcraft(bl: &Bell, rings: &[Ring], plies: i64, by_mouth: bool, morph: &str, law: &str) -> (String, Vec<f64>) {
+    use lasermade_tools::solidcraft::{n as nn, Script};
+    let mut s = Script::new();
+    s.len("bore", format!("{} mm", nn(bl.bore)), "the bore the bell meets, square");
+    s.len("length", format!("{} mm", nn(bl.l)), "the horn's length, throat to rim, on the profile");
+    let rim = if by_mouth {
+        let m = 2.0 * bl.rim / if law == "area" { PI.sqrt() / 2.0 } else { 1.0 };
+        s.len("mouth", format!("{} mm", nn(m)), "the mouth: the rim's diameter if it were round of the same area");
+        if law == "area" { "mouth/(1 mm)/2*sqrt(pi)/2" } else { "mouth/(1 mm)/2" }
+    } else {
+        s.len("rim", format!("{} mm", nn(2.0 * bl.rim)), "the round rim's diameter");
+        "rim/(1 mm)/2"
+    };
+    s.num("gamma", nn(bl.gamma), "the Bessel horn's flare");
+    s.len("lap", format!("{} mm", nn(bl.lap)), "how far each ring seats on the one below, per side");
+    s.len("overhang", format!("{} mm", nn(bl.overhang)), "the flange past the bore's outside");
+    s.len("ply", format!("{} mm", nn(RISE)), "the ply: each lamination's rise, and the bore's walls");
+    s.len("min_wall", format!("{} mm", nn(MINWALL)), "the thinnest a ring's wall may be, flats and corners alike");
+    s.num("plies", nn(plies as f64), "laminations a ring; the rings are numbered and placed as the default build's");
+    let ro = |s: &mut Script, k: &str, e: String| s.num(k, e, "read only");
+    ro(&mut s, "B_", "bore/(1 mm)".into());
+    ro(&mut s, "L_", "length/(1 mm)".into());
+    ro(&mut s, "RT_", "B_/2".into());
+    ro(&mut s, "RIM_", rim.into());
+    ro(&mut s, "U0_", "L_/((RIM_/RT_)^(1/gamma) - 1)".into());
+    ro(&mut s, "BB_", "RT_*(L_ + U0_)^gamma".into());
+    ro(&mut s, "STEP_", "plies*ply/(1 mm)".into());
+    ro(&mut s, "LAP_", "lap/(1 mm)".into());
+    ro(&mut s, "MW_", "min_wall/(1 mm)".into());
+    let rad = |z: &str| format!("BB_*((L_ - ({z})) + U0_)^(-gamma)");
+    let n = rings.len();
+    ro(&mut s, "r_0", "RT_".into());
+    ro(&mut s, "h_0", "RT_".into());
+    ro(&mut s, "c_0", "0".into());
+    for k in 1..=n {
+        let (z0, z1) = (format!("min({}*STEP_, L_)", k - 1), format!("min({k}*STEP_, L_)"));
+        ro(&mut s, &format!("r_{k}"), format!("r_{} + max({} - {}, MW_ - LAP_)", k - 1, rad(&z1), rad(&z0)));
+        let t = match morph {
+            "flare" => format!("({} - RT_)/(RIM_ - RT_)", rad(&z1)),
+            "early" => format!("min(1, 2*{z1}/L_)"),
+            _ => format!("{z1}/L_"),
+        };
+        ro(&mut s, &format!("t_{k}"), t);
+        let raw = if law == "width" { format!("r_{k}") } else { format!("r_{k}*2/sqrt(4 - (4 - pi)*t_{k}^2)") };
+        let (hl, cl) = (format!("h_{}", k - 1), format!("c_{}", k - 1));
+        ro(
+            &mut s,
+            &format!("h_{k}"),
+            format!("max(max({raw}, {hl} + MW_ - LAP_), (MW_ - LAP_ + (({hl} - {cl})*sqrt(2) + {cl}))/((1 - t_{k})*sqrt(2) + t_{k}))"),
+        );
+        ro(&mut s, &format!("c_{k}"), format!("t_{k}*h_{k}"));
+    }
+    let mut rs = vec![];
+    for (k, r) in rings.iter().enumerate() {
+        let (oh, oc) = if k == 0 {
+            ("max(h_1 + LAP_, (B_ + 2*ply/(1 mm))/2 + overhang/(1 mm))".to_string(), "0".to_string())
+        } else {
+            (format!("(h_{} + LAP_)", k + 1), format!("(c_{} + LAP_)", k + 1))
+        };
+        rs.push(rings_solidcraft::Ring { e: [format!("h_{k}"), format!("c_{k}"), oh, oc], v: [r.ah, r.ac, r.oh, r.oc] });
+    }
+    rings_solidcraft::stack(&mut s, &rs, plies as usize, "ply");
+    (s.text(), rings_solidcraft::volumes(&rs, plies as usize, RISE))
+}
+
 fn main() {
     let a = argv();
     help(&a, DOC);
@@ -210,8 +282,8 @@ fn main() {
         exit(format!("{b} takes a value: write it as {b}=VALUE. Nothing has been drawn."));
     }
     for k in opts.keys() {
-        if !["morph", "law", "length", "rim", "mouth", "gamma", "lap", "overhang", "bore", "numbers", "out"].contains(&k) {
-            exit(format!("unknown option --{k}: morph, law, length, rim, mouth, gamma, lap, overhang, bore, numbers or out"));
+        if !["morph", "law", "length", "rim", "mouth", "gamma", "lap", "overhang", "bore", "numbers", "out", "solidcraft"].contains(&k) {
+            exit(format!("unknown option --{k}: morph, law, length, rim, mouth, gamma, lap, overhang, bore, numbers, out or solidcraft"));
         }
     }
     let numbers = opts.str("numbers", "yes").to_string();
@@ -292,6 +364,17 @@ fn main() {
         }
         if !fails.is_empty() {
             exit(format!("  {name} not written: {} problem(s)", fails.len()));
+        }
+        if let Some(f) = opts.get("solidcraft") {
+            let (js, vols) = solidcraft(&bl, &rings, plies, opts.has("mouth"), &morph, &law);
+            write(f, &js);
+            println!("    wrote {f}: {} bodies", vols.len());
+            if opts.has("volumes") || std::env::var("SC_VOLUMES").is_ok() {
+                for v in vols {
+                    println!("{v:.4}");
+                }
+            }
+            std::process::exit(0);
         }
         let (w, h) = emit(&bl, &rings, plies, step, &name, &morph, &law);
         if numbers == "yes" {

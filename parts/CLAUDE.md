@@ -21,6 +21,10 @@ Read that section before changing the code it names.
 
 ## Generator rules
 
+- `bell-round --solidcraft=FILE` and `mouthpiece-round --solidcraft=FILE` write the
+  part's SolidCraft design (`rings_solidcraft.rs` draws the stack); `step/` is built
+  from it by `solidcraft-cli`, not by step-export, and `.repro` checks all three.
+
 - `--bore=N` on `bell-round.rs` and `mouthpiece-round.rs` sets the channel only; the
   plate is N + 6. Ply stays 3 mm, throat stays ø3.66, rim stays trumpet-sized.
   **Do not add `--bore` to `bell.rs` or `mouthpiece.rs`** without being asked.

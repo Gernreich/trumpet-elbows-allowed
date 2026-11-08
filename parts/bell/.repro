@@ -44,6 +44,8 @@ bell-round10-153mm-17rings-x3-rim86-turn.html :: ../../target/release/part-view 
 cut-files/bell-adapter-port7x14-to-bore10-7rings-x1-cut-files.svg :: ../../target/release/bell-adapter --out=$OUT
 previews/bell-adapter-port7x14-to-bore10-7rings-x1-cut-files.svg :: ../../../lasermade-tools/target/release/make-preview cut-files/bell-adapter-port7x14-to-bore10-7rings-x1-cut-files.svg $OUT
 
-# The 3D view's rings as STEP solids for a CAD program, one body per ply,
-# written from the page by lasermade-tools' step-export.
-step/bell-round10-153mm-17rings-x3-rim86.step :: ../../../lasermade-tools/target/release/step-export bell-round10-153mm-17rings-x3-rim86-turn.html --name=bell-round10-153mm-17rings-x3-rim86 --out=$(dirname $OUT)
+# The SolidCraft design (2026-11-08): its script, the design (slimmed by
+# sc-slim so it is the same every run), and the STEP file SolidCraft builds
+solidcraft/bell-round10-153mm-17rings-x3-rim86.solidcraft.json :: ../../target/release/bell-round 17 --bore=10 --length=152 --mouth=80 --solidcraft=$(dirname $OUT)/bell-round10-153mm-17rings-x3-rim86.solidcraft.json
+solidcraft/bell-round10-153mm-17rings-x3-rim86.sc :: ../../target/release/bell-round 17 --bore=10 --length=152 --mouth=80 --solidcraft=$(dirname $OUT)/bell-round10-153mm-17rings-x3-rim86.solidcraft.json >/dev/null && solidcraft-cli run $(dirname $OUT)/bell-round10-153mm-17rings-x3-rim86.solidcraft.json --save $OUT --quiet && ../../../lasermade-tools/target/release/sc-slim $OUT
+step/bell-round10-153mm-17rings-x3-rim86.step :: ../../target/release/bell-round 17 --bore=10 --length=152 --mouth=80 --solidcraft=$(dirname $OUT)/bell-round10-153mm-17rings-x3-rim86.solidcraft.json >/dev/null && solidcraft-cli run $(dirname $OUT)/bell-round10-153mm-17rings-x3-rim86.solidcraft.json --out $OUT --quiet
