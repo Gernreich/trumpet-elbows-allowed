@@ -85,6 +85,8 @@ Read that section before changing the code it names.
 - `bell-view.rs` and `mouthpiece-view.rs` draw fixed isometrics; `part-view.rs` draws a
   turnable solid and writes `<name>-turn.html` beside the part, outside `cut-files/`.
   It reads rings with the same `sections()` as `bell-view.rs`: one copy, in `views.rs`.
+  Its page is `part_view_page.rs`, browser code kept as written. What every tool
+  shares (options, file paths, running `number_rings`) is `common.rs`.
   [Three viewers, and only one of them turns]
 - `mouthpiece-view.rs` draws the **old** mouthpiece only; don't point it at the trumpet
   sheet. It takes `--src=`; a bare argument is the **output**.
