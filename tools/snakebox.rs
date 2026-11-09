@@ -639,6 +639,13 @@ impl Turtle {
     }
 
     /// polygonWall with a callback by edge number; `mirror` for "mirror right"
+    /// How far back a plain border may run before polygon_wall draws it
+    /// straight instead. Not zero: a border exactly as long as its corner
+    /// allowance (l = 0, common) must keep polygonWall's pieces under a small
+    /// change of size, since the SolidCraft design fits each point as a
+    /// linear function of the sizes; every real stub runs 1 mm back.
+    const STUB: f64 = 0.1;
+
     fn polygon_wall(&mut self, borders: &[f64], edges: &[Edge], mirror: bool, mut cb: Option<&mut dyn FnMut(&mut Turtle, usize) -> R>) -> R {
         let t = self.thickness;
         let (minx, miny, maxx, maxy) = self.close_polygon_ext(borders, edges);
@@ -664,13 +671,16 @@ impl Turtle {
             lc = if next_angle < 0.0 { t * tan(py::radians(-next_angle / 2.0)) } else { 0.0 };
             l -= lc;
             let e = edges[(i / 2) % edges.len()];
-            if l < 0.0 && matches!(e, Edge::Plain) {
+            if l < -Self::STUB && matches!(e, Edge::Plain) {
                 // a plain border shorter than its inside-corner allowances
                 // (a 2 mm step beside a pin or a turn's corner): polygonWall
                 // drew it back and forth, -1 mm then +3, and the laser cut
-                // the 0.93 mm stub that left; drawn straight it ends at the
-                // same point
-                self.edge(borders[i])?;
+                // the 0.93 mm stub that left. The same three pieces, none
+                // backwards, end at the same point.
+                let after = (lc + l).max(0.0);
+                self.edge(borders[i] - after)?;
+                self.edge(0.0)?;
+                self.edge(after)?;
             } else {
                 self.edge(lc_before)?;
                 self.draw(&e, l)?;

@@ -102,7 +102,10 @@ sheets. SolidCraft's round trip found them on 2026-11-09: a solid cannot
 carry a line of no width, so `sc-flatten` redrew every face plate of the
 built coil without them and `sc-compare` showed 0.93 mm against the
 committed sheets. Since 2026-11-09 such a border is drawn as one straight
-line. The only change to each sheet is that stub's vertex, removed. The six
+line when it runs back more than 0.1 mm (`STUB`). The bar is not zero because a
+border exactly as long as its allowance is common, and the SolidCraft design
+fits each outline point as a linear function of the sizes by nudging them: a
+rule that changed at zero put a kink there and stopped 19 of its 20 designs. The only change to each sheet is that stub's vertex, removed. The six
 pinned `coil-10x10x30-1.5t` sheets keep their stubs, because the wood was cut that way.
 
 ## The switches must reach the gate
