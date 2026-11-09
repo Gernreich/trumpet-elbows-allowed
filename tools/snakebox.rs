@@ -103,6 +103,13 @@ impl Affine {
         let Affine(sa, sb, sc, sd, se, sf) = *self;
         (vx * sa + vy * sb + sc, vx * sd + vy * se + sf)
     }
+    /// The map back: a page point to the frame this one maps from.
+    fn inverse(&self) -> Affine {
+        let Affine(a, b, c, d, e, f) = *self;
+        let det = a * e - b * d;
+        let (ia, ib, id, ie) = (e / det, -b / det, -d / det, a / det);
+        Affine(ia, ib, -(ia * c + ib * f), id, ie, -(id * c + ie * f))
+    }
 }
 
 /// cos and sin of an angle in degrees, exact at the multiples of 90
@@ -167,6 +174,9 @@ struct Params {
 struct Path {
     cmds: Vec<Cmd>,
     p: Params,
+    /// the part's own frame when it was stroked: render_local() reads the
+    /// path back in it, for the SolidCraft design
+    frame: Affine,
 }
 
 #[derive(Default)]
@@ -179,7 +189,7 @@ impl Part {
     fn append(&mut self, c: Cmd) {
         self.path.push(c);
     }
-    fn stroke(&mut self, p: Params) {
+    fn stroke(&mut self, p: Params, frame: Affine) {
         if self.path.is_empty() {
             return;
         }
@@ -195,7 +205,7 @@ impl Part {
                 }
             }
         }
-        self.pathes.push(Path { cmds: std::mem::take(&mut self.path), p });
+        self.pathes.push(Path { cmds: std::mem::take(&mut self.path), p, frame });
     }
     fn move_to(&mut self, x: f64, y: f64) {
         let m = Cmd { k: Kind::M, v: [x, y, 0.0, 0.0, 0.0, 0.0], tup: false };
@@ -250,6 +260,8 @@ struct Ctx {
     mxy: (f64, f64),
     lw: f64,
     rgb: (f64, f64, f64),
+    /// the frame the part being drawn is laid out in (see Path::frame)
+    frame: Affine,
 }
 
 impl Ctx {
@@ -315,7 +327,7 @@ impl Ctx {
     fn stroke(&mut self) {
         let p = Params { rgb: self.rgb, lw: self.lw };
         let c = self.s.cur;
-        self.s.parts[c].stroke(p);
+        self.s.parts[c].stroke(p, self.frame);
         self.xy = (0.0, 0.0);
     }
 }
@@ -430,6 +442,7 @@ impl Turtle {
             mxy: (0.0, 0.0),
             lw: 0.0,
             rgb: (0.0, 0.0, 0.0),
+            frame: Affine::translation(0.0, 0.0),
         };
         ctx.mxy = ctx.m.apply(ctx.xy);
         ctx.lw = py::max(2.0 * s.burn, 0.05);
@@ -631,6 +644,7 @@ impl Turtle {
         let terms: &[&str] = if mirror { &["mirror", "right"] } else { &["right"] };
         self.place(tw, th, terms, true);
         self.move_to(-minx, -miny, 0.0);
+        self.ctx.frame = self.ctx.m;
         let mut lc = 0.0f64;
         let mut i = 0;
         while i < borders.len() {
@@ -1415,6 +1429,7 @@ impl Snake {
             };
             tt.move_to(left.spacing() + tt.spacing + lx, 0.0, 0.0);
             tt.ctx.save();
+            tt.ctx.frame = tt.ctx.m;
             tt.draw(&bottom, length)?;
             tt.edge_corner(&bottom, &right, 90.0)?;
             if r_lap {
@@ -1451,6 +1466,38 @@ impl Snake {
 
     /// Draw the piece: the two face plates, then the walls.
     pub fn render(&self) -> Result<Groups, String> {
+        Ok(self.draw()?.finish())
+    }
+
+    /// The parts as render() draws them, each path read back in its part's
+    /// own frame rather than laid out on the sheet: a plate in the snake's
+    /// (u, v) frame from its first corner (the mirror plate unmirrored), a
+    /// wall along its run from its first corner, up its height. Each path
+    /// is its points (one per command) and its colour. For the SolidCraft
+    /// design, which places the parts in 3D.
+    #[allow(clippy::type_complexity)]
+    pub fn render_local(&self) -> Result<Vec<Vec<(Vec<(f64, f64)>, (f64, f64, f64))>>, String> {
+        let mut tt = self.draw()?;
+        tt.ctx.stroke();
+        let mut out = vec![];
+        for part in &tt.ctx.s.parts {
+            if part.pathes.is_empty() {
+                continue;
+            }
+            let mut paths = vec![];
+            for path in &part.pathes {
+                if path.cmds.iter().any(|c| c.k == Kind::C) {
+                    return Err("render_local: a curve in a part; the design takes straight edges only".into());
+                }
+                let inv = path.frame.inverse();
+                paths.push((path.cmds.iter().map(|c| inv.apply(c.xy())).collect(), path.p.rgb));
+            }
+            out.push(paths);
+        }
+        Ok(out)
+    }
+
+    fn draw(&self) -> Result<Turtle, String> {
         let mut tt = Turtle::new(&Settings { thickness: self.thickness, burn: self.burn, spacing: self.spacing });
         let (borders, tips, caps, ports, tab_run, plains) = self.geometry()?;
         let (pb, pe, ps) = self.plate_borders(&borders, &tips, &caps, tab_run, &plains)?;
@@ -1496,6 +1543,6 @@ impl Snake {
         }
         let laps = self.lap_runs(&runs, &ends, &ports)?;
         self.snake_walls(&mut tt, &borders, &tips, &laps, tab_run, &plains)?;
-        Ok(tt.finish())
+        Ok(tt)
     }
 }

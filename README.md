@@ -477,29 +477,54 @@ The files:
 Every bore page also has its bore as a parametric SolidCraft design beside it:
 `solidcraft/NAME.sc`, the script it was built from (`solidcraft/NAME.solidcraft.json`),
 and the STEP file SolidCraft builds from it (`step/NAME.step`), where NAME is the
-page's name, or its design folder's for a page called `bore.html`. One solid body per
-piece, as the page draws it: its blocks joined, with the square airway cut through
-them. North is +Y, east +X and up +Z.
+page's name, or its design folder's for a page called `bore.html`. North is +Y, east
++X and up +Z.
+
+The design is the parts you cut, finger joints and all, set where they sit in the
+assembled bore: each piece's two face plates and its side walls, one body each. Every
+outline is the one snakebox draws for the cut sheet, with the burn left out: the
+plates' fingers, the walls' slots and corner fingers, the coupling pins and their
+slots, the lap tongues, the flat ends, and any ports and mouths. The mouthpiece and
+the bell are their own designs (above). Until 2026-11-08 each piece was one solid
+body, its blocks less the airway, with no joints.
 
 | Parameter | Default | What it is |
 | --- | --- | --- |
 | `bore` | 10 mm | the airway, square |
-| `ply` | 3 mm | every wall, nominal |
+| `ply` | 3 mm | every part, nominal |
 | `block` | read only | bore + 2 ply, the lattice's pitch |
 | `straight` | 30 mm, or `block` | a straight block's length on a stretched lattice; on a cubic one it is the block |
+| `pin_w` | 6 mm | the coupling pin's width |
+| `pin_play` | 0.025 mm | the pin slot's clearance per side |
+| `pin_len` | 3 mm | how far a pin stands out of its piece |
+| `pin_seat` | 0.2 mm | how much deeper a slot is than its pin |
 
-Every corner is a whole number of half blocks and half straights from the mouth, so
-the whole bore follows these. The walk is the design itself: a different walk is a
-different script (`target/release/viewer PAGE-OR-WALK --solidcraft FILE`, with
-bore_split's switches such as `--bore=10 --straight=30`). The pieces are solid blocks:
-no finger joints, laps or flats, no ports, and no mouthpiece or bell.
+Every point of every outline is a sum of these times fixed numbers. How many fingers
+an edge has is fixed at the default sizes. The numbers come from snakebox itself:
+`viewer` draws each piece at the defaults and again with each parameter nudged
+0.001 mm, and reads them off the differences. The walk is the design: a different walk
+is a different script (`target/release/viewer PAGE-OR-WALK --solidcraft FILE`, with
+bore_split's switches such as `--bore=10 --straight=30`; `--volumes` prints each
+part's volume).
 
-**Checked**: the script is written only if its blocks are the page's own. Built by
-SolidCraft, every piece of all twenty designs has the volume of its blocks less its
-airway, no two pieces overlap, and the airway is the page's length times the bore's
-square. Changed to a 12 mm bore, the fold-2 coil (stretched) and the first trumpet
-(cubic) match the generator's `--bore=12` piece for piece. The gate redraws all three
-files of every design.
+**Checked**:
+
+- **Before writing.** `viewer` refuses unless the page's blocks are the ones its
+  switches give. It also draws every piece a third time with every parameter moved,
+  and every point of the design must land where snakebox puts it.
+- **After building.** Every part of all twenty designs has its outline's area times
+  the ply. In 19 of the twenty, no two parts overlap.
+- **Against the old solid pieces.** Each piece's parts, joined, match the old solid
+  piece except at the couplings: 54 mm³ pins standing out at one end and 58 mm³
+  slots let in at the other, and a 3 × 3 × 10 mm corner column at each lone turn. A neighbour's lap tongue
+  fills that column, or it stays open where bore_split reports the turn as unfilled.
+- **The one overlap.** It is in the minimal coil, at its 19th piece, a lone turn: the
+  pieces either side both lap into its corner, so their tongues collide. That coil
+  has no cut files.
+- **Moved parameters.** Built at a 11.5 mm bore, 2.9 mm ply and a 5 mm pin, the first
+  trumpet, the 1.5-turn coil and the tight coil still have no parts overlapping.
+
+The gate redraws all three files of every design.
 
 ## Credits
 

@@ -692,6 +692,17 @@ impl Design {
     }
 }
 
+/// A lone turn's quarter turns: snakebox draws it as an E-N or N-E elbow,
+/// which is the walk's own turn rotated this many quarter turns
+/// anticlockwise in the plane across axis k (as piece_spec works it).
+pub fn lone_turn_quarters(rec: &[Rec], i: usize, k: usize) -> i64 {
+    let a_in = flat3(neg(dirs(rec[i].inn)), k);
+    let a_out = flat3(dirs(rec[i].out), k);
+    let cross = a_in.0 * a_out.1 - a_in.1 * a_out.0;
+    let faces = if cross < 0 { ('N', 'E') } else { ('E', 'N') };
+    (0..4).find(|&r| face2d(turn2d(a_in, r)) == Some(faces.0) && face2d(turn2d(a_out, r)) == Some(faces.1)).unwrap()
+}
+
 pub fn fits_bed(mm: (f64, f64)) -> bool {
     let (a, b) = (py::max(mm.0, mm.1), py::min(mm.0, mm.1));
     a <= BED_W && b <= BED_H

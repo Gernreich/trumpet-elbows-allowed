@@ -500,7 +500,8 @@ ends/</code></pre>
 <li><code>parts/mouthpiece/step/mouthpiece-bore10-trumpet-parts.step</code></li>
 </ul>
 <h2 id="solidcraft-designs">SolidCraft designs</h2>
-<p>Every bore page also has its bore as a parametric SolidCraft design beside it: <code>solidcraft/NAME.sc</code>, the script it was built from (<code>solidcraft/NAME.solidcraft.json</code>), and the STEP file SolidCraft builds from it (<code>step/NAME.step</code>), where NAME is the page's name, or its design folder's for a page called <code>bore.html</code>. One solid body per piece, as the page draws it: its blocks joined, with the square airway cut through them. North is +Y, east +X and up +Z.</p>
+<p>Every bore page also has its bore as a parametric SolidCraft design beside it: <code>solidcraft/NAME.sc</code>, the script it was built from (<code>solidcraft/NAME.solidcraft.json</code>), and the STEP file SolidCraft builds from it (<code>step/NAME.step</code>), where NAME is the page's name, or its design folder's for a page called <code>bore.html</code>. North is +Y, east +X and up +Z.</p>
+<p>The design is the parts you cut, finger joints and all, set where they sit in the assembled bore: each piece's two face plates and its side walls, one body each. Every outline is the one snakebox draws for the cut sheet, with the burn left out: the plates' fingers, the walls' slots and corner fingers, the coupling pins and their slots, the lap tongues, the flat ends, and any ports and mouths. The mouthpiece and the bell are their own designs (above). Until 2026-11-08 each piece was one solid body, its blocks less the airway, with no joints.</p>
 <div class="tw">
 <table>
 <thead>
@@ -519,7 +520,7 @@ ends/</code></pre>
 <tr>
 <td><code>ply</code></td>
 <td>3 mm</td>
-<td>every wall, nominal</td>
+<td>every part, nominal</td>
 </tr>
 <tr>
 <td><code>block</code></td>
@@ -531,11 +532,39 @@ ends/</code></pre>
 <td>30 mm, or <code>block</code></td>
 <td>a straight block's length on a stretched lattice; on a cubic one it is the block</td>
 </tr>
+<tr>
+<td><code>pin_w</code></td>
+<td>6 mm</td>
+<td>the coupling pin's width</td>
+</tr>
+<tr>
+<td><code>pin_play</code></td>
+<td>0.025 mm</td>
+<td>the pin slot's clearance per side</td>
+</tr>
+<tr>
+<td><code>pin_len</code></td>
+<td>3 mm</td>
+<td>how far a pin stands out of its piece</td>
+</tr>
+<tr>
+<td><code>pin_seat</code></td>
+<td>0.2 mm</td>
+<td>how much deeper a slot is than its pin</td>
+</tr>
 </tbody>
 </table>
 </div>
-<p>Every corner is a whole number of half blocks and half straights from the mouth, so the whole bore follows these. The walk is the design itself: a different walk is a different script (<code>target/release/viewer PAGE-OR-WALK --solidcraft FILE</code>, with bore_split's switches such as <code>--bore=10 --straight=30</code>). The pieces are solid blocks: no finger joints, laps or flats, no ports, and no mouthpiece or bell.</p>
-<p><strong>Checked</strong>: the script is written only if its blocks are the page's own. Built by SolidCraft, every piece of all twenty designs has the volume of its blocks less its airway, no two pieces overlap, and the airway is the page's length times the bore's square. Changed to a 12 mm bore, the fold-2 coil (stretched) and the first trumpet (cubic) match the generator's <code>--bore=12</code> piece for piece. The gate redraws all three files of every design.</p>
+<p>Every point of every outline is a sum of these times fixed numbers. How many fingers an edge has is fixed at the default sizes. The numbers come from snakebox itself: <code>viewer</code> draws each piece at the defaults and again with each parameter nudged 0.001 mm, and reads them off the differences. The walk is the design: a different walk is a different script (<code>target/release/viewer PAGE-OR-WALK --solidcraft FILE</code>, with bore_split's switches such as <code>--bore=10 --straight=30</code>; <code>--volumes</code> prints each part's volume).</p>
+<p><strong>Checked</strong>:</p>
+<ul>
+<li><strong>Before writing.</strong> <code>viewer</code> refuses unless the page's blocks are the ones its switches give. It also draws every piece a third time with every parameter moved, and every point of the design must land where snakebox puts it.</li>
+<li><strong>After building.</strong> Every part of all twenty designs has its outline's area times the ply. In 19 of the twenty, no two parts overlap.</li>
+<li><strong>Against the old solid pieces.</strong> Each piece's parts, joined, match the old solid piece except at the couplings: 54 mm³ pins standing out at one end and 58 mm³ slots let in at the other, and a 3 × 3 × 10 mm corner column at each lone turn. A neighbour's lap tongue fills that column, or it stays open where bore_split reports the turn as unfilled.</li>
+<li><strong>The one overlap.</strong> It is in the minimal coil, at its 19th piece, a lone turn: the pieces either side both lap into its corner, so their tongues collide. That coil has no cut files.</li>
+<li><strong>Moved parameters.</strong> Built at a 11.5 mm bore, 2.9 mm ply and a 5 mm pin, the first trumpet, the 1.5-turn coil and the tight coil still have no parts overlapping.</li>
+</ul>
+<p>The gate redraws all three files of every design.</p>
 <h2 id="credits">Credits</h2>
 <p>Made by Michael Gernreich with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude</a> (Anthropic), working in Claude Code, which co-wrote the code and the documentation. Commits Claude made carry a <code>Co-Authored-By: Claude</code> line.</p>
 </main>

@@ -5,7 +5,8 @@
 //! `viewer WALK --solidcraft FILE [--volumes] [design switches]` writes the
 //! bore as a parametric SolidCraft design instead (solidcraft_design.rs), the
 //! switches (--straight=, --bore= and the rest) as bore_split takes them;
-//! --volumes prints each piece's volume the design should build to.
+//! --volumes prints each part's name and the volume the design should build
+//! it to.
 use trumpet::bore::{walk_text, Design};
 
 fn main() {
@@ -56,8 +57,8 @@ fn main() {
         }
         let got = walk_text(&rest.join(" ")).and_then(|t| {
             if vols {
-                for v in trumpet::solidcraft_design::volumes(&d, &t)? {
-                    println!("{v:.3}");
+                for (name, v) in trumpet::solidcraft_design::volumes(&d, &t)? {
+                    println!("{name}\t{v:.3}");
                 }
             }
             trumpet::solidcraft_design::script(&d, &t)

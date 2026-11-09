@@ -79,7 +79,9 @@ Programs: `bore_split_main.rs`, `check_main.rs`, `viewer_main.rs`,
 ## Viewer
 
 - `viewer PAGE --solidcraft FILE [switches]` (solidcraft_design.rs) writes a bore page's
-  SolidCraft design; it refuses unless its blocks are the page's. Each page's
+  SolidCraft design: every plate and wall as snakebox cuts it (`Snake::render_local`,
+  burn 0), placed in 3D, points fitted as sums of the parameters by nudging each one.
+  It refuses unless its blocks are the page's. Each page's
   `solidcraft/` and `step/` are redrawn by lane B of lasermade-tools' all-gates.sh.
 
 - `viewer::build_sets()` is the only page builder; a gallery is more sets in the same
