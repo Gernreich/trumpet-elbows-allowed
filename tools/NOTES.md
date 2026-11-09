@@ -65,7 +65,8 @@ checkout, which supplied the finger joints, burn compensation and SVG writer, an
 second copy was installed there, and a gate had to ask whether the two still
 matched. `snakebox.rs` is the generator and those parts of Boxes.py together, in
 Rust, compiled into every program that draws: one copy, nothing installed, and the
-paths it draws are the ones Boxes.py drew, to the byte, over 608 recorded calls.
+paths it draws are the ones Boxes.py drew, to the byte, over 608 recorded calls,
+with one deliberate change since ([The stub Boxes.py drew]).
 
 **Boxes.py is Florian Festi's**, GPL-3.0-or-later, at
 <https://github.com/florianfesti/boxes>.
@@ -87,6 +88,22 @@ code or metadata, so the sheets stay CC0.
 variable cell widths, no ports, no laps, no plain ends — is not part of this toolchain:
 `snakebox.rs` ports only `SnakeBoxVar`, and `bore_split`, `check` and `piece_render` all
 draw through it.
+
+
+## The stub Boxes.py drew
+
+`polygonWall` takes `thickness × tan(45°)`, 3 mm, off each edge that meets an
+inside corner, and draws that 3 mm separately. A plain border 2 mm long, the
+step beside a pin end or a turn's corner, has 2 − 3 = −1 mm left: the turtle
+went back 1 mm, then forward 3. It ended at the right point, but the path
+doubled back on itself, and the laser cut that 0.93 mm stub (after burn) as a
+nick past the corner. There were 320 of them, two per face plate, on 103 live
+sheets. SolidCraft's round trip found them on 2026-11-09: a solid cannot
+carry a line of no width, so `sc-flatten` redrew every face plate of the
+built coil without them and `sc-compare` showed 0.93 mm against the
+committed sheets. Since 2026-11-09 such a border is drawn as one straight
+line. The only change to each sheet is that stub's vertex, removed. The six
+pinned `coil-10x10x30-1.5t` sheets keep their stubs, because the wood was cut that way.
 
 ## The switches must reach the gate
 

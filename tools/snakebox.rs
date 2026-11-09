@@ -23,7 +23,9 @@
 //! snakeboxvar.py's SnakeBoxVar, and the turtle, finger joints, polygon wall,
 //! path joining and SVG path writing of Boxes.py that it used. Until
 //! 2026-11-08 bore_split ran Boxes.py's own `scripts/boxes SnakeBoxVar` for
-//! every piece; this draws the same paths, to the byte, without it.
+//! every piece; this draws the same paths, to the byte, without it, but
+//! for one deliberate change (2026-11-09): a plain plate border shorter
+//! than its inside-corner allowances is drawn straight (see polygon_wall).
 //!
 //! Both ends are open. The end frame is a square annulus of width
 //! `thickness`: the two face plates cover the middle of the top and bottom
@@ -656,14 +658,24 @@ impl Turtle {
                 self.ctx.restore();
                 self.ctx.move_to(0.0, 0.0);
             }
-            self.edge(lc)?;
+            let lc_before = lc;
             let mut l = borders[i] - lc;
             let next_angle = borders[i + 1];
             lc = if next_angle < 0.0 { t * tan(py::radians(-next_angle / 2.0)) } else { 0.0 };
             l -= lc;
             let e = edges[(i / 2) % edges.len()];
-            self.draw(&e, l)?;
-            self.edge(lc)?;
+            if l < 0.0 && matches!(e, Edge::Plain) {
+                // a plain border shorter than its inside-corner allowances
+                // (a 2 mm step beside a pin or a turn's corner): polygonWall
+                // drew it back and forth, -1 mm then +3, and the laser cut
+                // the 0.93 mm stub that left; drawn straight it ends at the
+                // same point
+                self.edge(borders[i])?;
+            } else {
+                self.edge(lc_before)?;
+                self.draw(&e, l)?;
+                self.edge(lc)?;
+            }
             self.corner(next_angle, 0.0)?;
             i += 2;
         }

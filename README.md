@@ -319,7 +319,9 @@ generator, draws it: its finger joints, burn compensation and SVG path writing.
 Until 2026-11-08 the tools were Python and ran a Boxes.py checkout for every
 piece; they are Rust now, and `snakebox.rs` carries those parts of Boxes.py,
 ported line for line, so no Boxes.py checkout is needed. The port
-draws the same paths to the byte. Boxes.py is GPL-3.0-or-later, so
+draws the same paths to the byte, but for one fix (2026-11-09): Boxes.py left
+a 0.93 mm stub where a 2 mm plate border meets an inside corner, and the port
+draws that border straight. Boxes.py is GPL-3.0-or-later, so
 `snakebox.rs` is too; the licence note at the end says which files and why.
 
 Every tool is a program in `target/release/`, built by `cargo build --release`

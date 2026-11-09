@@ -42,7 +42,8 @@ Programs: `bore_split_main.rs`, `check_main.rs`, `viewer_main.rs`,
 
 - `snakebox.rs` is `snakeboxvar.py` and the parts of Boxes.py (Florian Festi's,
   GPL-3.0-or-later) it drew through, ported to the byte: no Boxes.py checkout is needed.
-  [The dependency graph]
+  One deliberate departure: short plain plate borders are drawn straight, not as
+  Boxes.py's 0.93 mm stub. [The dependency graph] [The stub Boxes.py drew]
 - **`SnakeBoxVar` is the only generator.** The old `snakebox.py` is not part of this
   toolchain.
 - `snakebox.rs`, `check.rs`, `check_main.rs` and `piece_render.rs` are
