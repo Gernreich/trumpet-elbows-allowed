@@ -107,6 +107,12 @@ border exactly as long as its allowance is common, and the SolidCraft design
 fits each outline point as a linear function of the sizes by nudging them: a
 rule that changed at zero put a kink there and stopped 19 of its 20 designs. The only change to each sheet is that stub's vertex, removed. The six
 pinned `coil-10x10x30-1.5t` sheets keep their stubs, because the wood was cut that way.
+Two sets `repro` does not redraw kept theirs until the full round trip of every
+design found them the same evening: `square-rise3`'s four plate sheets (16), now
+byte for byte what `bore_split` draws for its page's walk, and the tight coil's
+bed sheet `bore10-coil-tight-sheet1of1.svg` (64), packed by the Python
+bed_sheets before the port and not redrawn, since today's packing differs; only the stub
+vertices were taken out of it. No other committed sheet runs back on itself.
 
 ## The switches must reach the gate
 
