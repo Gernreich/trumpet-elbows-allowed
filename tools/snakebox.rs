@@ -82,7 +82,7 @@ pub fn floordiv(vx: f64, wx: f64) -> f64 {
 // --- affine ------------------------------------------------------------------
 
 /// The `affine` package's Affine: (a, b, c, d, e, f), x' = a x + b y + c.
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Affine(f64, f64, f64, f64, f64, f64);
 
 impl Affine {
@@ -424,7 +424,28 @@ pub struct Settings {
     pub spacing: (f64, f64),
 }
 
+/// One finger edge as finger() drew it, for the SolidCraft design: where
+/// it runs (surface numbers, and the part frame then), which way the
+/// fingers go, and Boxes' own count, first finger's offset, finger width,
+/// space and depth.
+#[derive(Clone, Copy, Debug)]
+pub struct FingerEdge {
+    pub a: (f64, f64),
+    pub b: (f64, f64),
+    pub positive: bool,
+    pub n: i64,
+    pub off: f64,
+    pub w: f64,
+    pub space: f64,
+    pub depth: f64,
+    part: usize,
+    frame: Affine,
+}
+
 struct Turtle {
+    /// draw each finger edge straight, recording it in `fingers` instead
+    plain: bool,
+    fingers: Vec<FingerEdge>,
     ctx: Ctx,
     thickness: f64,
     burn: f64,
@@ -450,7 +471,7 @@ impl Turtle {
         ctx.lw = py::max(2.0 * s.burn, 0.05);
         ctx.rgb = (0.0, 0.0, 0.0);
         let spacing = 2.0 * s.burn + s.spacing.0 * t + s.spacing.1;
-        Turtle { ctx, thickness: t, burn: s.burn, spacing, fs }
+        Turtle { plain: false, fingers: vec![], ctx, thickness: t, burn: s.burn, spacing, fs }
     }
 
     fn move_to(&mut self, x: f64, y: f64, degrees: f64) {
@@ -546,8 +567,16 @@ impl Turtle {
             s -= play;
             leftover -= play;
         }
-        self.edge(leftover / 2.0)?;
         let (l1, l2) = st.finger_length();
+        if self.plain {
+            let c = &self.ctx;
+            let a = c.m.apply(c.xy);
+            let b = c.m.apply((c.xy.0 + length, c.xy.1));
+            let fe = FingerEdge { a, b, positive, n: fingers, off: leftover / 2.0, w: f, space: s, depth: l1 - l2, part: c.s.cur, frame: c.frame };
+            self.fingers.push(fe);
+            return self.edge(length);
+        }
+        self.edge(leftover / 2.0)?;
         let h = l1 - l2;
         for i in 0..fingers {
             if i != 0 {
@@ -1499,13 +1528,32 @@ impl Snake {
     /// design, which places the parts in 3D.
     #[allow(clippy::type_complexity)]
     pub fn render_local(&self) -> Result<Vec<Vec<(Vec<(f64, f64)>, (f64, f64, f64))>>, String> {
-        let mut tt = self.draw()?;
+        Ok(self.render_local_with(false)?.0)
+    }
+
+    /// render_local(), and with `plain` every finger edge drawn straight and
+    /// returned beside: for each part, each finger edge in that part's
+    /// frame and the index of the path it belongs to (the first drawn in
+    /// its frame; a plate's holes share the plate's frame).
+    #[allow(clippy::type_complexity)]
+    pub fn render_local_with(&self, plain: bool) -> Result<(Vec<Vec<(Vec<(f64, f64)>, (f64, f64, f64))>>, Vec<Vec<(usize, FingerEdge)>>), String> {
+        let mut tt = self.draw_with(plain)?;
         tt.ctx.stroke();
         let mut out = vec![];
-        for part in &tt.ctx.s.parts {
+        let mut edges = vec![];
+        for (pn, part) in tt.ctx.s.parts.iter().enumerate() {
             if part.pathes.is_empty() {
                 continue;
             }
+            let mut mine = vec![];
+            for fe in tt.fingers.iter().filter(|f| f.part == pn) {
+                let Some(pi) = part.pathes.iter().position(|p| p.frame == fe.frame) else {
+                    return Err("render_local: a finger edge outside every path".into());
+                };
+                let inv = fe.frame.inverse();
+                mine.push((pi, FingerEdge { a: inv.apply(fe.a), b: inv.apply(fe.b), ..*fe }));
+            }
+            edges.push(mine);
             let mut paths = vec![];
             for path in &part.pathes {
                 if path.cmds.iter().any(|c| c.k == Kind::C) {
@@ -1516,11 +1564,16 @@ impl Snake {
             }
             out.push(paths);
         }
-        Ok(out)
+        Ok((out, edges))
     }
 
     fn draw(&self) -> Result<Turtle, String> {
+        self.draw_with(false)
+    }
+
+    fn draw_with(&self, plain: bool) -> Result<Turtle, String> {
         let mut tt = Turtle::new(&Settings { thickness: self.thickness, burn: self.burn, spacing: self.spacing });
+        tt.plain = plain;
         let (borders, tips, caps, ports, tab_run, plains) = self.geometry()?;
         let (pb, pe, ps) = self.plate_borders(&borders, &tips, &caps, tab_run, &plains)?;
         let cells = self.cells()?;

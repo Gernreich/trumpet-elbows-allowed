@@ -12,12 +12,19 @@
 //! Parameters: the bore and the ply (the block is bore + 2 ply), the
 //! straight on a stretched lattice, and the coupling pin's width, play,
 //! length and seat. Every point of every outline is a sum of those times
-//! fixed numbers; the finger counts are fixed at the defaults' sizes. The
-//! numbers are not derived here by hand: snakebox draws the piece at the
-//! defaults and again with each parameter nudged, and the differences are
-//! the numbers. Before writing, the design is checked against snakebox
-//! drawing it a third time, with every parameter moved: each point must
-//! land where snakebox puts it.
+//! fixed numbers. The numbers are not derived here by hand: snakebox draws
+//! the piece at the defaults and again with each parameter nudged, and the
+//! differences are the numbers. Before writing, the design is checked
+//! against snakebox drawing it a third time, with every parameter moved:
+//! each point must land where snakebox puts it.
+//!
+//! The fingers follow the sizes (since 2026-11-11; fixed at the defaults'
+//! counts before). snakebox draws every finger edge straight for the
+//! design, so no outline depends on how many fingers fit, and each finger
+//! edge becomes one finger (or slot) box patterned along it, its count,
+//! width and first offset written as Boxes' calcFingers at the edge's
+//! length (finger_exprs). check_fingers holds those against what snakebox
+//! draws at the defaults and at sizes well away from them.
 //!
 //! North is +Y, east +X and up +Z, as the 3D page draws it; the page's z
 //! points south, so world y = -page z.
@@ -39,6 +46,51 @@ struct Placed {
     dir: f64,
     outline: Vec<[f64; 3]>,
     holes: Vec<Vec<[f64; 3]>>,
+    fingers: Vec<Fing>,
+}
+
+/// A finger edge in place: the outline edge it runs along (world), the
+/// world axis and sign its fingers stand out or cut in along, and what
+/// snakebox drew there.
+#[derive(Clone, Debug)]
+struct Fing {
+    a: [f64; 3],
+    b: [f64; 3],
+    across: (usize, f64),
+    fe: crate::snakebox::FingerEdge,
+}
+
+/// Inside the closed polygon (even-odd)?
+fn inside(p: (f64, f64), poly: &[(f64, f64)]) -> bool {
+    let mut c = false;
+    let n = poly.len();
+    for i in 0..n {
+        let (a, b) = (poly[i], poly[(i + 1) % n]);
+        if (a.1 > p.1) != (b.1 > p.1) && p.0 < a.0 + (p.1 - a.1) * (b.0 - a.0) / (b.1 - a.1) {
+            c = !c;
+        }
+    }
+    c
+}
+
+/// A finger edge in a part's own frame to world: its ends, and the way its
+/// fingers go (out of the outline for fingers, into it for slots).
+fn fing(fe: &crate::snakebox::FingerEdge, poly: &[(f64, f64)], to_w: &dyn Fn((f64, f64)) -> [f64; 3]) -> Result<Fing, String> {
+    let (a, b) = (fe.a, fe.b);
+    let l = (b.0 - a.0).hypot(b.1 - a.1);
+    let d = ((b.0 - a.0) / l, (b.1 - a.1) / l);
+    let nl = (-d.1, d.0);
+    let mid = ((a.0 + b.0) / 2.0, (a.1 + b.1) / 2.0);
+    let left_in = inside((mid.0 + 0.25 * nl.0, mid.1 + 0.25 * nl.1), poly);
+    let right_in = inside((mid.0 - 0.25 * nl.0, mid.1 - 0.25 * nl.1), poly);
+    if left_in == right_in {
+        return Err("a finger edge that is not on its part's outline".into());
+    }
+    // fingers stand out of the part, slots cut into it
+    let side = if left_in != fe.positive { nl } else { (-nl.0, -nl.1) };
+    let (wa, ws) = (to_w(a), to_w((a.0 + side.0, a.1 + side.1)));
+    let o = (0..3).find(|&j| (ws[j] - wa[j]).abs() > 0.5).ok_or("a finger edge at a slant")?;
+    Ok(Fing { a: wa, b: to_w(b), across: (o, (ws[o] - wa[o]).signum()), fe: *fe })
 }
 
 /// The page frame (x east, y up, z south) to the world (x east, y north, z up).
@@ -87,7 +139,9 @@ fn placed(d: &Design, text: &str, e: &Env) -> Result<Vec<Placed>, String> {
     let mut out = vec![];
     for (pi, spec) in sp.plan.iter().enumerate() {
         let snake = Snake::from_args(&snake_args(&d2, spec, e))?;
-        let parts = snake.render_local()?;
+        // every finger edge drawn straight: the outlines no longer depend
+        // on how many fingers fit, and each edge's fingers are its own feature
+        let (parts, fedges) = snake.render_local_with(true)?;
         let cells = snake.cells()?;
         let (runs, turns) = snake.outline(&cells)?;
         let (_, tips, _, _, _, _) = snake.geometry()?;
@@ -121,6 +175,7 @@ fn placed(d: &Design, text: &str, e: &Env) -> Result<Vec<Placed>, String> {
             let low = if hi { frame.block_k - t } else { 0.0 };
             let lift = |q: &(f64, f64)| world(page((p0.0 + q.0, p0.1 + q.1), low));
             let (outer, rest) = split_outline(paths)?;
+            let fingers = fedges[which].iter().map(|(_, fe)| fing(fe, &outer, &|q| lift(&q))).collect::<Result<Vec<_>, _>>()?;
             // extruded from the face at `low` up one ply along page k
             let base = world(page(p0, low))[wk];
             out.push(Placed {
@@ -130,6 +185,7 @@ fn placed(d: &Design, text: &str, e: &Env) -> Result<Vec<Placed>, String> {
                 dir: ws,
                 outline: outer.iter().map(lift).collect(),
                 holes: rest.iter().map(|h| h.iter().map(lift).collect()).collect(),
+                fingers,
             });
         }
         // walls: one per run that is not a tip, in run order
@@ -153,6 +209,7 @@ fn placed(d: &Design, text: &str, e: &Env) -> Result<Vec<Placed>, String> {
             let (o, i) = (at(0.0, 0.0, 0.0), at(0.0, 0.0, 1.0));
             let mw = (0..3).find(|&j| (i[j] - o[j]).abs() > 0.5).unwrap();
             let outline: Vec<[f64; 3]> = pts.iter().map(|q| at(q.0, q.1, 0.0)).collect();
+            let fingers = fedges[2].iter().filter(|(pi, _)| *pi == w).map(|(_, fe)| fing(fe, &pts, &|q| at(q.0, q.1, 0.0))).collect::<Result<Vec<_>, _>>()?;
             out.push(Placed {
                 name: format!("piece {} wall {}", pi + 1, w + 1),
                 normal: mw,
@@ -160,6 +217,7 @@ fn placed(d: &Design, text: &str, e: &Env) -> Result<Vec<Placed>, String> {
                 dir: (i[mw] - o[mw]).signum(),
                 outline,
                 holes: vec![],
+                fingers,
             });
         }
     }
@@ -299,6 +357,102 @@ impl Lin {
     }
 }
 
+impl Lin {
+    fn minus(&self, o: &Lin) -> Lin {
+        Lin(std::array::from_fn(|i| self.0[i] - o.0[i]))
+    }
+    fn times(&self, k: f64) -> Lin {
+        Lin(std::array::from_fn(|i| if self.0[i] == 0.0 { 0.0 } else { self.0[i] * k }))
+    }
+}
+
+// --- fingers -------------------------------------------------------------------
+
+/// Boxes' calcFingers for an edge L long in ply t, as the design's
+/// expressions write it (finger_exprs): fingers 2t wide and 2t apart, as
+/// many as fit with a space at each end, the leftover split between the
+/// ends; one 2t finger on an edge longer than 3t that holds none, and one
+/// L/2 wide on an edge from 0.75t to 3t. (n, width, first finger's offset.)
+fn finger_rule(l: f64, t: f64) -> (i64, f64, f64) {
+    let n0 = ((l - 2.0 * t) / (4.0 * t) + 1e-9).floor();
+    let n = n0.max(1f64.min((l / (0.75 * t) - 1e-9).floor()));
+    let w = (2.0 * t).min((l / 2.0).max(2.0 * t * 1f64.min((l / (3.0 * t) - 1e-9).floor())));
+    (n as i64, w, (l - n * (2.0 * t + w) + 2.0 * t) / 2.0)
+}
+
+/// finger_rule as SolidCraft expressions of an edge's length.
+fn finger_exprs(l: &str) -> (String, String, String) {
+    let n = format!("max(floor(({l} - 2*ply)/(4*ply) + 1e-9), min(1, floor({l}/(0.75*ply) - 1e-9)))");
+    let w = format!("min(2*ply, max({l}/2, 2*ply*min(1, floor({l}/(3*ply) - 1e-9))))");
+    let off = format!("({l} - {n}*(2*ply + {w}) + 2*ply)/2");
+    (n, w, off)
+}
+
+/// The world axis a finger edge runs along, and which way.
+fn along(f: &Fing) -> (usize, f64) {
+    let a = (0..3).max_by(|&i, &j| (f.b[i] - f.a[i]).abs().total_cmp(&(f.b[j] - f.a[j]).abs())).unwrap();
+    (a, (f.b[a] - f.a[a]).signum())
+}
+
+/// Check the design's fingers against snakebox's at the defaults and at
+/// sizes well away from them (another ply, bore and straight): each edge's
+/// length as the design writes it, and finger_rule's count, width and
+/// offset at that length, must be what snakebox draws. A part whose
+/// outline changes shape at a size is left out there; the defaults and the
+/// small moves fit() checks always count.
+fn check_fingers(d: &Design, f: &Fitted, e0: &Env, dr: &mut Draws) -> Result<(), String> {
+    let cubic = d.cubic();
+    let mut envs = vec![*e0];
+    for (dt, db, ds) in [(-0.5, 0.0, 0.0), (1.0, 0.0, 0.0), (0.0, 4.0, 0.0), (0.0, -2.0, 0.0), (-1.0, -3.0, 0.0), (0.0, 0.0, 7.0)] {
+        if cubic && ds != 0.0 {
+            continue;
+        }
+        let mut e = *e0;
+        e[2] += dt;
+        e[0] += db;
+        e[1] = if cubic { e[0] } else { e[1] + ds };
+        envs.push(e);
+    }
+    for (k, e) in envs.iter().enumerate() {
+        let Some(ps) = dr.at(e).cloned() else {
+            if k == 0 {
+                return Err("snakebox cannot draw the defaults".into());
+            }
+            continue;
+        };
+        for (pi, p) in f.parts.iter().enumerate() {
+            if !same_part(p, &ps[pi]) {
+                if k == 0 {
+                    return Err(format!("{}: drawn twice, two shapes", p.name));
+                }
+                continue;
+            }
+            for (j, g) in ps[pi].fingers.iter().enumerate() {
+                let (ax, sg) = along(&p.fingers[j]);
+                let [la, lb] = &f.fingers[pi][j];
+                let l = lb[ax].minus(&la[ax]).times(sg).val(e);
+                let drawn = (g.b[ax] - g.a[ax]) * sg;
+                let t = e[2];
+                let (n, w, off) = finger_rule(l, t);
+                let fe = &g.fe;
+                let bad = (l - drawn).abs() > 1e-7 || n != fe.n || n < 1 || (w - fe.w).abs() > 1e-7 || (off - fe.off).abs() > 1e-7 || (fe.depth - t).abs() > 1e-9 || (fe.space - 2.0 * t).abs() > 1e-9;
+                if bad {
+                    return Err(format!(
+                        "{} finger edge {}: at ply {t} block {}, the design gives {n} fingers {w} wide from {off} on {l} mm, snakebox {} {} wide from {} on {drawn} mm",
+                        p.name,
+                        j + 1,
+                        e[0],
+                        fe.n,
+                        fe.w,
+                        fe.off
+                    ));
+                }
+            }
+        }
+    }
+    Ok(())
+}
+
 /// The nearest multiple of 1/64, if the number is that close to one.
 fn snap(x: f64) -> Option<f64> {
     let r = (x * 64.0).round() / 64.0;
@@ -315,10 +469,14 @@ struct Fitted {
     face: Vec<Lin>,
     pts: Vec<Vec<[Lin; 3]>>,
     holes: Vec<Vec<Vec<[Lin; 3]>>>,
+    /// each finger edge's two ends
+    fingers: Vec<Vec<[[Lin; 3]; 2]>>,
 }
 
 fn same_part(p: &Placed, q: &Placed) -> bool {
     p.name == q.name && p.normal == q.normal && p.dir == q.dir && p.outline.len() == q.outline.len() && p.holes.len() == q.holes.len() && p.holes.iter().zip(&q.holes).all(|(h, g)| h.len() == g.len())
+        && p.fingers.len() == q.fingers.len()
+        && p.fingers.iter().zip(&q.fingers).all(|(f, g)| f.across == g.across && f.fe.positive == g.fe.positive)
 }
 
 /// A part's numbers in order: its face, its outline's points, its holes'.
@@ -331,6 +489,10 @@ fn flatten(p: &Placed) -> Vec<f64> {
         for q in h {
             v.extend(q);
         }
+    }
+    for f in &p.fingers {
+        v.extend(f.a);
+        v.extend(f.b);
     }
     v
 }
@@ -379,7 +541,7 @@ fn fit(d: &Design, text: &str) -> Result<(Fitted, Env), String> {
         }
         e
     };
-    let (mut face, mut pts, mut holes) = (vec![], vec![], vec![]);
+    let (mut face, mut pts, mut holes, mut fingers) = (vec![], vec![], vec![], vec![]);
     for (pi, p) in b.iter().enumerate() {
         let fb = flatten(p);
         let mut coef = vec![[0.0f64; 8]; fb.len()];
@@ -430,14 +592,23 @@ fn fit(d: &Design, text: &str) -> Result<(Fitted, Env), String> {
         face.push(nx());
         pts.push(p.outline.iter().map(|_| [nx(), nx(), nx()]).collect());
         holes.push(p.holes.iter().map(|h| h.iter().map(|_| [nx(), nx(), nx()]).collect()).collect());
+        fingers.push(p.fingers.iter().map(|_| [[nx(), nx(), nx()], [nx(), nx(), nx()]]).collect());
     }
-    Ok((Fitted { parts: b, face, pts, holes }, e0))
+    let f = Fitted { parts: b, face, pts, holes, fingers };
+    check_fingers(d, &f, &e0, &mut dr)?;
+    Ok((f, e0))
 }
 
 /// The two in-plane world axes of a part, in the order that makes the
 /// sketch's normal +normal.
 fn plane(normal: usize) -> (usize, usize) {
     [(1, 2), (2, 0), (0, 1)][normal]
+}
+
+fn unit_s(a: usize, s: f64) -> [f64; 3] {
+    let mut v = [0.0; 3];
+    v[a] = s;
+    v
 }
 
 fn unit(a: usize) -> [f64; 3] {
@@ -477,6 +648,48 @@ pub fn script(d: &Design, text: &str) -> Result<String, String> {
             s.finish();
             s.extrude(&sk, "ply", p.dir < 0.0, "cut", &[&p.name], &hn);
         }
+        // each finger edge: one finger (or slot) as a box, patterned along
+        // the edge as many times as finger_exprs counts at its length
+        let nk = p.normal;
+        let lo = if p.dir > 0.0 { f.face[i].e() } else { format!("{} - ply", f.face[i].e()) };
+        for (j, g) in p.fingers.iter().enumerate() {
+            let (ax, sg) = along(g);
+            let [la, lb] = &f.fingers[i][j];
+            let (n, w, off) = finger_exprs(&lb[ax].minus(&la[ax]).times(sg).e());
+            let (o, so) = g.across;
+            let cut = !g.fe.positive;
+            // a slot's box runs 1 mm past the faces it opens, so no face of it lies on the part's
+            let over = if cut { 1.0 } else { 0.0 };
+            let mut corner: [String; 3] = Default::default();
+            let mut size: [String; 3] = Default::default();
+            corner[ax] = if sg > 0.0 { format!("{} + {off}", la[ax].e()) } else { format!("{} - {off} - {w}", la[ax].e()) };
+            size[ax] = w.clone();
+            // across: out of the edge for a finger, in for a slot, one ply;
+            // a finger also sinks 0.5 mm into its part and a slot runs 1 mm out
+            let back = if cut { over } else { 0.5 };
+            corner[o] = if so > 0.0 { format!("{} - {} mm", la[o].e(), nn(back)) } else { format!("{} - ply", la[o].e()) };
+            size[o] = format!("ply + {} mm", nn(back));
+            // through the ply: 1 mm proud of both faces, fingers too, which
+            // the trim below takes back off. A join flush with both faces can
+            // fail on a face already split many times ("join cannot preserve
+            // the original faces": the expanding spiral at a 16 mm bore,
+            // where a finger lines up with two across the plate).
+            corner[nk] = format!("{lo} - 1 mm");
+            size[nk] = "ply + 2 mm".into();
+            let name = format!("{} fingers {}", p.name, j + 1);
+            s.bx(&name, corner, size, if cut { "cut" } else { "join" }, &[&p.name]);
+            s.pattern(&name, unit_s(ax, sg), format!("max(1, {n})"), format!("2*ply + {w}"));
+        }
+        if p.fingers.iter().any(|g| g.fe.positive) {
+            // the fingers' 1 mm either side of the ply, cut back off
+            for (side, at) in [("below", format!("{lo} - 2 mm")), ("above", format!("{lo} + ply"))] {
+                let mut corner: [String; 3] = std::array::from_fn(|_| "-5000 mm".to_string());
+                let mut size: [String; 3] = std::array::from_fn(|_| "10000 mm".to_string());
+                corner[nk] = at;
+                size[nk] = "2 mm".into();
+                s.bx(&format!("{} trim {side}", p.name), corner, size, "cut", &[&p.name]);
+            }
+        }
     }
     s.measure();
     Ok(s.text())
@@ -496,7 +709,9 @@ pub fn volumes(d: &Design, text: &str) -> Result<Vec<(String, f64)>, String> {
             for h in &p.holes {
                 r = r.difference(&crate::geom::region(&flat(h)));
             }
-            (p.name.clone(), crate::geom::area(&r) * d.sheet)
+            // fingers add their area, slots take theirs away
+            let f: f64 = p.fingers.iter().map(|g| g.fe.n as f64 * g.fe.w * g.fe.depth * if g.fe.positive { 1.0 } else { -1.0 }).sum();
+            (p.name.clone(), (crate::geom::area(&r) + f) * d.sheet)
         })
         .collect())
 }

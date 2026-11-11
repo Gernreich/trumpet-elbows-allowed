@@ -501,10 +501,18 @@ body, its blocks less the airway, with no joints.
 | `pin_len` | 3 mm | how far a pin stands out of its piece |
 | `pin_seat` | 0.2 mm | how much deeper a slot is than its pin |
 
-Every point of every outline is a sum of these times fixed numbers. How many fingers
-an edge has is fixed at the default sizes. The numbers come from snakebox itself:
-`viewer` draws each piece at the defaults and again with each parameter nudged
-0.001 mm, and reads them off the differences. The walk is the design: a different walk
+Every point of every outline is a sum of these times fixed numbers. The numbers come
+from snakebox itself: `viewer` draws each piece at the defaults and again with each
+parameter nudged 0.001 mm, and reads them off the differences.
+
+The fingers follow the sizes. Each finger edge is one finger (or slot) patterned
+along it. How many there are, how wide, and where the first starts are written the
+way Boxes counts them: fingers and spaces 2 ply wide, as many fingers as fit with a
+space at each end, and the leftover split between the two ends. An edge too short for
+that gets one finger, 2 ply wide if the edge is over 3 ply, half the edge if shorter.
+A finger stands 1 mm proud of both faces of its part, and two cuts trim it back. A join
+flush with both faces sometimes failed in SolidCraft. Until 2026-11-11 the counts were
+fixed at the default sizes. The walk is the design: a different walk
 is a different script (`target/release/viewer PAGE-OR-WALK --solidcraft FILE`, with
 bore_split's switches such as `--bore=10 --straight=30`; `--volumes` prints each
 part's volume).
@@ -513,9 +521,19 @@ part's volume).
 
 - **Before writing.** `viewer` refuses unless the page's blocks are the ones its
   switches give. It also draws every piece a third time with every parameter moved,
-  and every point of the design must land where snakebox puts it.
-- **After building.** Every part of all twenty designs has its outline's area times
-  the ply. In 19 of the twenty, no two parts overlap.
+  and every point of the design must land where snakebox puts it. Every finger edge's
+  count, width and offset must be the ones snakebox draws, at the defaults and at sizes
+  well away from them: ply 2.5 and 4 mm, block 14 and 20 mm, 2 mm ply on a 13 mm
+  block, and on a stretched lattice a straight 7 mm longer.
+- **Following the sizes.** Each of the twenty designs was built with its bore set to 16
+  and to 7 mm, and the four stretched ones with the straight at 41 mm. Each of those
+  builds matched the design drawn fresh at that size, part for part: the same volume,
+  faces and centre of mass.
+  Changing the ply does not follow yet. At the default sizes the ply and the pin's
+  length are both 3 mm, and one point on each pin-end plate is fitted to the ply
+  rather than the pin.
+- **After building.** Every part of all twenty designs has its outline's area, plus
+  its fingers' and less its slots', times the ply. In 19 of the twenty, no two parts overlap.
 - **Against the old solid pieces.** Each piece's parts, joined, match the old solid
   piece except at the couplings: 54 mm³ pins standing out at one end and 58 mm³
   slots let in at the other, and a 3 × 3 × 10 mm corner column at each lone turn. A neighbour's lap tongue
