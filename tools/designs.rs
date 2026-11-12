@@ -12,10 +12,10 @@ pub type Entry = (&'static str, &'static str, Option<&'static str>, &'static [&'
 
 pub const UNIFORM: &[Entry] = &[
     ("first trumpet", "N10 U2 W2 S7 U2 E4 N9 W2 D2 N4", Some("../parts/bore/concept/walk/meander/first"), &[]),
-    ("spiral trumpet", "U2 N2 W2 S4 E4 U2 N6 W6 S8 E8 U2 N10 W10 S12 E12 U4", None, &[]),
-    ("minimal coil", "U2 N1 E1 S1 U1 W1 U1 N1 E1 S1 U1 W1 U1 N1 E1 S1 U1 W1 U2", None, &[]),
-    ("square rise 1", "W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U4", None, &[]),
-    ("telescope", "U2 N1 W1 S2 E2 N3 U1 W2 S3 E3 N4 U1 W4 S5 E5 N6 U1 W6 S7 E7 N8 U1 W8 S9 E9 N10 U2", None, &[]),
+    ("spiral trumpet", "U2 N2 W2 S4 E4 U2 N6 W6 S8 E8 U2 N10 W10 S12 E12 U4", Some("../parts/bore/concept/walk/spiral/expanding"), &[]),
+    ("minimal coil", "U2 N1 E1 S1 U1 W1 U1 N1 E1 S1 U1 W1 U1 N1 E1 S1 U1 W1 U2", Some("../parts/bore/concept/walk/coil/minimal"), &[]),
+    ("square rise 1", "W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U4", Some("../parts/bore/concept/walk/coil/square-rise1"), &[]),
+    ("telescope", "U2 N1 W1 S2 E2 N3 U1 W2 S3 E3 N4 U1 W4 S5 E5 N6 U1 W6 S7 E7 N8 U1 W8 S9 E9 N10 U2", Some("../parts/bore/concept/walk/spiral/telescope"), &[]),
     ("helix, rise 2", "N4 U2 E4 U2 S4 U2 W4 U2 N4", None, &[]),
     ("helix, rise 1", "N4 U1 E4 U1 S4 U1 W4 U1 N4", None, &[]),
     ("helix, side 6", "N6 U2 E6 U2 S6 U2 W6 U2 N6 U2 E6", None, &[]),
@@ -38,6 +38,11 @@ pub const UNIFORM: &[Entry] = &[
     ("ziggurat", "walks/ziggurat.txt", Some("../parts/bore/concept/walk/spiral/ziggurat/bore"), &[]),
     ("hilbert open", "walks/hilbert_open.txt", Some("../parts/bore/concept/walk/hilbert/open"), &[]),
     ("greek spiral", "walks/greek_spiral.txt", Some("../parts/bore/concept/walk/meander/greek-key/bore"), &["--bore=10"]),
+    ("coil 2x2 134", "walks/coil-2x2-134.txt", Some("../parts/bore/concept/walk/coil/2x2-134"), &[]),
+    ("coil 3x3 54", "walks/coil-3x3-54.txt", Some("../parts/bore/concept/walk/coil/3x3-54"), &[]),
+    ("coil 4x4 50", "walks/coil-4x4-50.txt", Some("../parts/bore/concept/walk/coil/4x4-50"), &[]),
+    ("coil 5x5 50", "walks/coil-5x5-50.txt", Some("../parts/bore/concept/walk/coil/5x5-50"), &[]),
+    ("three-side coil", "walks/coil-three-side.txt", Some("../parts/bore/concept/walk/coil/three-side"), &[]),
     ("closed loop 52, flat, mouth past a plain cap", "walks/closed_loop_52.txt", None, &["--bore=10", "--flat", "--mouth-at=31,34"]),
 ];
 

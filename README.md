@@ -233,10 +233,10 @@ Five designs trumpet-elbows-not-allowed deleted on 2026-09-15 are back, in the s
 | design | walk | elbows | touches itself | what is in the folder |
 | --- | --- | ---: | --- | --- |
 | `meander/first` | `N10 U2 W2 S7 U2 E4 N9 W2 D2 N4` | 3 | no | cut files and a viewer |
-| `spiral/expanding` | `U2 N2 W2 S4 E4 U2 N6 W6 S8 E8 U2 N10 W10 S12 E12 U4` | 3 | no | a viewer and two renders |
-| `coil/minimal` | `U2 N1 E1 S1 U1 W1 U1 N1 E1 S1 U1 W1 U1 N1 E1 S1 U1 W1 U2` | 18 | yes | a viewer |
-| `coil/square-rise1` | `W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U4` | 16 | yes | a viewer |
-| `spiral/telescope` | `U2 N1 W1 S2 E2 N3 U1 W2 S3 E3 N4 U1 W4 S5 E5 N6 U1 W6 S7 E7 N8 U1 W8 S9 E9 N10 U2` | 11 | yes | a viewer |
+| `spiral/expanding` | `U2 N2 W2 S4 E4 U2 N6 W6 S8 E8 U2 N10 W10 S12 E12 U4` | 3 | no | cut files, a viewer and two renders |
+| `coil/minimal` | `U2 N1 E1 S1 U1 W1 U1 N1 E1 S1 U1 W1 U1 N1 E1 S1 U1 W1 U2` | 18 | yes | cut files and a viewer |
+| `coil/square-rise1` | `W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U4` | 16 | yes | cut files and a viewer |
+| `spiral/telescope` | `U2 N1 W1 S2 E2 N3 U1 W2 S3 E3 N4 U1 W4 S5 E5 N6 U1 W6 S7 E7 N8 U1 W8 S9 E9 N10 U2` | 11 | yes | cut files and a viewer |
 
 `first` is the design the regression suite calls the first trumpet, and its eight
 sheets regenerate byte-identical to the ones deleted. The pages are redrawn by
@@ -276,7 +276,8 @@ bore, its six open siblings, and four closed rings.
 `parts/bore/concept/walk/coil/` holds four coils promoted out of a
 search of fourteen, each because it won a category outright or tied for one.
 Each carries a `why.txt` with its walk, its win, and twelve metrics recomputed
-from that walk:
+from that walk, and a `cut-files/` folder drawn by `bore_split` (2026-11-12, with
+`coil/three-side`, which has no category win; all are in `tools/designs.rs`):
 
 | coil | wins |
 | --- | --- |
@@ -363,7 +364,7 @@ refuses to leave a folder unchecked; `regress` runs the whole library
 cd tools && ../target/release/regress
 ```
 
-**32 designs, 0 failed, 10306 individual checks.**
+**37 designs, 0 failed, 16805 individual checks.**
 
 It checks that each section closes round its bore, that the assembled bore is one
 sealed passage, that its volume matches the walk, that no feature is under 1.5 mm,
@@ -543,8 +544,8 @@ part's volume).
   slots let in at the other, and a 3 × 3 × 10 mm corner column at each lone turn. A neighbour's lap tongue
   fills that column, or it stays open where bore_split reports the turn as unfilled.
 - **The one overlap.** It is in the minimal coil, at its 19th piece, a lone turn: the
-  pieces either side both lap into its corner, so their tongues collide. That coil
-  has no cut files.
+  pieces either side both lap into its corner, so their tongues collide. Its cut
+  files (drawn 2026-11-12) carry the collision: do not cut piece 19 as drawn.
 - **Moved parameters.** Built at a 11.5 mm bore, 2.9 mm ply and a 5 mm pin, the first
   trumpet, the 1.5-turn coil and the tight coil still have no parts overlapping.
 

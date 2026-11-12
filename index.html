@@ -254,28 +254,28 @@ ends/</code></pre>
 <td><code>U2 N2 W2 S4 E4 U2 N6 W6 S8 E8 U2 N10 W10 S12 E12 U4</code></td>
 <td style="text-align: right;">3</td>
 <td>no</td>
-<td>a viewer and two renders</td>
+<td>cut files, a viewer and two renders</td>
 </tr>
 <tr>
 <td><code>coil/minimal</code></td>
 <td><code>U2 N1 E1 S1 U1 W1 U1 N1 E1 S1 U1 W1 U1 N1 E1 S1 U1 W1 U2</code></td>
 <td style="text-align: right;">18</td>
 <td>yes</td>
-<td>a viewer</td>
+<td>cut files and a viewer</td>
 </tr>
 <tr>
 <td><code>coil/square-rise1</code></td>
 <td><code>W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U1 W1 S2 E2 U4</code></td>
 <td style="text-align: right;">16</td>
 <td>yes</td>
-<td>a viewer</td>
+<td>cut files and a viewer</td>
 </tr>
 <tr>
 <td><code>spiral/telescope</code></td>
 <td><code>U2 N1 W1 S2 E2 N3 U1 W2 S3 E3 N4 U1 W4 S5 E5 N6 U1 W6 S7 E7 N8 U1 W8 S9 E9 N10 U2</code></td>
 <td style="text-align: right;">11</td>
 <td>yes</td>
-<td>a viewer</td>
+<td>cut files and a viewer</td>
 </tr>
 </tbody>
 </table>
@@ -315,7 +315,7 @@ ends/</code></pre>
 </div>
 <p>The lattice walk is what the built instrument uses, and it is the more expensive per turn by a wide margin. It buys packing: a walk folds into a box a smooth curve does not reach. The swept curve — a rectangle swept along a planar curve, two faces flat and two faceted — was a folder here until 2026-10-14, and is now <strong><a href="https://gernreich.github.io/swept-curve/" target="_blank" rel="noopener">swept-curve</a></strong>: the built spiral bore, its six open siblings, and four closed rings.</p>
 <h3 id="the-coil-search">The coil search</h3>
-<p><code>parts/bore/concept/walk/coil/</code> holds four coils promoted out of a search of fourteen, each because it won a category outright or tied for one. Each carries a <code>why.txt</code> with its walk, its win, and twelve metrics recomputed from that walk:</p>
+<p><code>parts/bore/concept/walk/coil/</code> holds four coils promoted out of a search of fourteen, each because it won a category outright or tied for one. Each carries a <code>why.txt</code> with its walk, its win, and twelve metrics recomputed from that walk, and a <code>cut-files/</code> folder drawn by <code>bore_split</code> (2026-11-12, with <code>coil/three-side</code>, which has no category win; all are in <code>tools/designs.rs</code>):</p>
 <div class="tw">
 <table>
 <thead>
@@ -460,7 +460,7 @@ ends/</code></pre>
 <h2 id="the-gate">The gate</h2>
 <p>Nothing here is cut on trust. <code>bore_split --write</code> runs the checks itself and refuses to leave a folder unchecked; <code>regress</code> runs the whole library (<code>tools/designs.rs</code> is its table).</p>
 <pre class="sh"><code>cd tools &amp;&amp; ../target/release/regress</code></pre>
-<p><strong>32 designs, 0 failed, 10306 individual checks.</strong></p>
+<p><strong>37 designs, 0 failed, 16805 individual checks.</strong></p>
 <p>It checks that each section closes round its bore, that the assembled bore is one sealed passage, that its volume matches the walk, that no feature is under 1.5 mm, that every sheet fits the bed, that every seam is one tab side and one slot side, and that no engraving lands in a slot or off the material. A mouth is checked for where it is, not only that it exists: over the block it names, on the right cheek, opening onto the airway, and with the plate around it counted as material.</p>
 <blockquote>
 <p>A passing gate means no check failed, not that the part is buildable: its floor is 1.5 mm, and nothing compares a feature against the features beside it.</p>
@@ -563,7 +563,7 @@ ends/</code></pre>
 <li><strong>Following the sizes.</strong> Each of the twenty designs was built with its bore set to 16 and to 7 mm, and the four stretched ones with the straight at 41 mm. Each of those builds matched the design drawn fresh at that size, part for part: the same volume, faces and centre of mass. The ply follows too, since 2026-11-11. At the default sizes the ply and the pin's length are both 3 mm, and until then one corner beside each pin was fitted to the ply rather than the pin. Each design is now checked against snakebox with the ply moved 0.3 mm either way and the pin 0.5 mm. Each of the twenty, built with its ply set to 2.7 and to 3.3 mm (and the pin width to what that ply gives), matched the design drawn fresh at that ply, part for part.</li>
 <li><strong>After building.</strong> Every part of all twenty designs has its outline's area, plus its fingers' and less its slots', times the ply. In 19 of the twenty, no two parts overlap.</li>
 <li><strong>Against the old solid pieces.</strong> Each piece's parts, joined, match the old solid piece except at the couplings: 54 mm³ pins standing out at one end and 58 mm³ slots let in at the other, and a 3 × 3 × 10 mm corner column at each lone turn. A neighbour's lap tongue fills that column, or it stays open where bore_split reports the turn as unfilled.</li>
-<li><strong>The one overlap.</strong> It is in the minimal coil, at its 19th piece, a lone turn: the pieces either side both lap into its corner, so their tongues collide. That coil has no cut files.</li>
+<li><strong>The one overlap.</strong> It is in the minimal coil, at its 19th piece, a lone turn: the pieces either side both lap into its corner, so their tongues collide. Its cut files (drawn 2026-11-12) carry the collision: do not cut piece 19 as drawn.</li>
 <li><strong>Moved parameters.</strong> Built at a 11.5 mm bore, 2.9 mm ply and a 5 mm pin, the first trumpet, the 1.5-turn coil and the tight coil still have no parts overlapping.</li>
 </ul>
 <p>The gate redraws all three files of every design.</p>
