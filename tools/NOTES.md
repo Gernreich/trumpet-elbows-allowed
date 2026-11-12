@@ -106,7 +106,7 @@ line when it runs back more than 0.1 mm (`STUB`). The bar is not zero because a
 border exactly as long as its allowance is common, and the SolidCraft design
 fits each outline point as a linear function of the sizes by nudging them: a
 rule that changed at zero put a kink there and stopped 19 of its 20 designs. The only change to each sheet is that stub's vertex, removed. The six
-pinned `coil-10x10x30-1.5t` sheets keep their stubs, because the wood was cut that way.
+pinned `coil-10x10x30-1.5t/as-cut/` sheets keep their stubs, because the wood was cut that way.
 Two sets `repro` does not redraw kept theirs until the full round trip of every
 design found them the same evening: `square-rise3`'s four plate sheets (16), now
 byte for byte what `bore_split` draws for its page's walk, and the tight coil's
@@ -291,9 +291,9 @@ and ignores directories, so a superseded sheet archived beside a design never
 disturbs the gate. Every `old/` is gitignored: they sit on the working disk, a
 fresh clone does not carry them, and no gate can see them.
 
-**`coil-10x10x30-1.5t` is the only folder here whose sheets describe an object
-rather than an intention.** Six pins in `as-built.sha256`; `repro` redraws the
-other 59 sheets and holds these 6 frozen. Redrawing it SHOULD differ, and that
+**`coil-10x10x30-1.5t/as-cut/` holds the only sheets here that describe an object
+rather than an intention.** Six pins in `as-built.sha256`; `repro` redraws every
+`cut-files/`, that folder's included (since 2026-11-12), and holds these 6 frozen. Redrawing it SHOULD differ, and that
 difference failing the gate is the entire point of the mechanism. Pinning a
 redrawn sheet would claim it records wood when it does not.
 

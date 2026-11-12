@@ -19,21 +19,22 @@ before changing what it names.
 | folder | blocks | status |
 | --- | ---: | --- |
 | `coil-10x10x30-0.75t/` | 11 | uncut |
-| `coil-10x10x30-1.5t/` | 22 | **cut, pinned**: same walk file as `../fold2` |
+| `coil-10x10x30-1.5t/` | 22 | **cut**; `as-cut/` pinned, `cut-files/` redrawn: same walk file as `../fold2` |
 | `coil-10x10x30-2.25t/` | 33 | uncut |
 | `coil-10x10x30-3t/` | 44 | built, lives in `../../../../../../built/coil-fold2-long-straight-3t` |
 
 - The bell and mouthpiece are in `../../../../../bell` and `../../../../../mouthpiece`.
   **Name them, never copy them.**
 
-## The pinned folder
+## The pinned record
 
-**`coil-10x10x30-1.5t/` records wood that was cut**, at a 0.1 mm kerf where the generator
-now assumes 0.15. **Do not cut from it as it stands**: its slots come out about 0.05 mm
-wide. Regenerate it first (switches in `tools/designs.rs`), knowing that overwrites the
-record. Its six sheets are pinned by hash in `tools/as-built.sha256`, and `tools/repro.rs`
-fails with *this file describes wood that was cut* if one changes. Re-pin only with
-`repro --update`, as a deliberate act. **Ask before any rebuild that changes it.**
+**`coil-10x10x30-1.5t/as-cut/` records wood that was cut**, at a 0.1 mm kerf and with the
+zero-width stubs of the time. **Never cut from `as-cut/`**: its slots come out about
+0.05 mm wide. Cut from `cut-files/`, an ordinary redraw that `repro` reproduces like any
+other (since 2026-11-12). The six `as-cut/` sheets are pinned by hash in
+`tools/as-built.sha256`, and `tools/repro.rs` fails with *this file describes wood that was
+cut* if one changes. Re-pin only with `repro --update`, as a deliberate act. **Ask before
+any change to `as-cut/`.**
 
 ## Toolchain rules
 

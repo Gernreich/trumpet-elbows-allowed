@@ -7,12 +7,13 @@
 //! folder, checked in opposite directions:
 //!
 //!   LIVE      redraw it and the bytes must match. Ordinary reproduction.
-//!   AS-BUILT  the file describes wood that exists. It was deliberately NOT
-//!             regenerated when the sheet was calipered at 2.94mm and the kerf
-//!             at 0.13mm, because a record of what was cut is worth more than a
-//!             file nobody is cutting -- see fold2-long-straight/CLAUDE.md.
-//!             Redrawing it therefore SHOULD differ, and what must not change
-//!             is the file itself. Pinned by hash in as-built.sha256.
+//!   AS-BUILT  its as-cut/ holds the sheets the wood was cut from, drawn at
+//!             the 3.0 mm and 0.1 mm of the time, before the kerf and stub
+//!             changes -- see fold2-long-straight/CLAUDE.md. A redraw SHOULD
+//!             differ from them, so what must not change is the file itself:
+//!             pinned by hash in as-built.sha256. Its cut-files/ is LIVE like
+//!             any other (until 2026-11-12 the record WAS its cut-files/, and
+//!             the folder had no sheet anyone should cut).
 //!
 //! `--update` re-pins them, and is the explicit act the prose asks for when it
 //! says to know that you are overwriting the record of the instrument.
@@ -70,7 +71,7 @@ fn main() {
         .map(|&(_, walk, folder, sw)| {
             let f = folder?;
             let rel = rel_of(f);
-            if AS_BUILT.contains(&rel.as_str()) || !isdir(&format!("{here}/{f}/cut-files")) {
+            if !isdir(&format!("{here}/{f}/cut-files")) {
                 return None;
             }
             let dest = format!("{tmp}/{rel}");
@@ -103,9 +104,11 @@ fn main() {
         }
         let committed = svgs(&sheets);
         if AS_BUILT.contains(&rel.as_str()) {
-            for f in &committed {
-                let key = format!("{rel}/cut-files/{f}");
-                let got = sha(&format!("{sheets}/{f}"));
+            let record = format!("{here}/{folder}/as-cut");
+            let kept = if isdir(&record) { svgs(&record) } else { vec![] };
+            for f in &kept {
+                let key = format!("{rel}/as-cut/{f}");
+                let got = sha(&format!("{record}/{f}"));
                 honoured.insert(key.clone());
                 if update {
                     lines.push(format!("{got}  {key}"));
@@ -121,9 +124,8 @@ fn main() {
                 }
             }
             if !update {
-                o.push_str(&format!("  frozen    {name:<22} {} as cut\n", committed.len()));
+                o.push_str(&format!("  frozen    {name:<22} {} as cut\n", kept.len()));
             }
-            continue;
         }
         let r = run.expect("a live design is always redrawn");
         let out = format!("{tmp}/{rel}/cut-files");
@@ -167,7 +169,7 @@ fn main() {
     }
     if update {
         lines.sort();
-        let head = "# The cut files that describe wood which has already been cut.\n#\n# These were NOT regenerated on 2026-09-09 with the rest of the tree, when\n# the sheet was calipered at 2.94mm and the kerf at 0.13mm. They are drawn\n# at the old 3.0mm and 0.1mm because they record an instrument that exists.\n# repro checks them against these hashes instead of redrawing them, so a\n# regenerate sweep that overwrites the record fails the gate rather than\n# passing every invariant in silence.\n#\n# Rewrite with: repro --update -- and only when you have decided to\n# overwrite the record, which is what fold2-long-straight/CLAUDE.md asks.\n";
+        let head = "# The cut files that describe wood which has already been cut.\n#\n# These were NOT regenerated on 2026-09-09 with the rest of the tree, when\n# the sheet was calipered at 2.94mm and the kerf at 0.13mm. They are drawn\n# at the old 3.0mm and 0.1mm because they record an instrument that exists.\n# Since 2026-11-12 they live in as-cut/, beside a cut-files/ redrawn today.\n# repro checks them against these hashes instead of redrawing them, so a\n# regenerate sweep that overwrites the record fails the gate rather than\n# passing every invariant in silence.\n#\n# Rewrite with: repro --update -- and only when you have decided to\n# overwrite the record, which is what fold2-long-straight/CLAUDE.md asks.\n";
         std::fs::write(&pins_path, format!("{head}{}", lines.iter().map(|l| format!("{l}\n")).collect::<String>())).expect("write pins");
         o.push_str(&format!("\n  pinned {frozen} as-built files\n"));
         print!("{o}");

@@ -127,8 +127,8 @@ Programs: `bore_split_main.rs`, `check_main.rs`, `viewer_main.rs`,
   [bore_split's guards]
 - `doc-audit` and `flat-part-check` have not been tested against bad input yet.
 - `old/` folders are gitignored and invisible to `repro`.
-- `coil-10x10x30-1.5t` is **pinned by hash** in `as-built.sha256`: its sheets describe wood.
-  Redrawing it should differ. Re-pin only with `repro --update`, deliberately.
+- `coil-10x10x30-1.5t/as-cut/` is **pinned by hash** in `as-built.sha256`: its sheets describe
+  wood; its `cut-files/` is an ordinary redraw. A redraw should differ from `as-cut/`. Re-pin only with `repro --update`, deliberately.
 
 ## Before pushing
 

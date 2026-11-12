@@ -53,8 +53,8 @@ turn count from that tool without checking it closes.
 
 - **`coil-10x10x30-0.75t/`** — 11 blocks, 274 mm, 3 sections. The shortest the walk goes.
   Uncut.
-- **`coil-10x10x30-1.5t/`** — 22 blocks, 548 mm. **All six parts are cut**; treat its files
-  as describing wood. It is `../fold2`'s walk exactly — one file,
+- **`coil-10x10x30-1.5t/`** — 22 blocks, 548 mm. **All six parts are cut**; `as-cut/` holds the
+  sheets they were cut from, `cut-files/` today's redraw. It is `../fold2`'s walk exactly — one file,
   `tools/walks/coil_fold2.txt`, named by both.
 - **`coil-10x10x30-2.25t/`** — 33 blocks, 822 mm, 9 sections. Uncut.
 - **`coil-10x10x30-3t/`** — 44 blocks, 1096 mm, and the longest; it is the one that was
@@ -68,20 +68,21 @@ turn count from that tool without checking it closes.
   out for this lattice. Nothing cut yet.
 
 
-**One folder here is pinned rather than reproduced.** `coil-10x10x30-1.5t/` holds
-six sheets drawn to a 0.1 mm kerf where the generator assumes 0.15, because those
-files describe wood that exists and a record of what was cut is worth more than a
-file nobody is cutting.
+**One folder here keeps a pinned record beside its redraw.** `coil-10x10x30-1.5t/as-cut/`
+holds the six sheets the wood was cut from, drawn to a 0.1 mm kerf where the generator
+assumes 0.15 and with the zero-width stubs the generator has drawn as straight lines
+since 2026-11-09, because a record of what was cut is worth keeping.
 
-**So do not cut from it as it stands.** A slot drawn for a narrower kerf than the
-machine takes comes out about 0.05 mm wide, and the joints are slack to match.
-Regenerate the folder first -- the switches are in `tools/designs.rs`, which is
-what drives every other folder -- and know that you are then overwriting the
-record.
+**Do not cut from `as-cut/`.** A slot drawn for a narrower kerf than the machine takes
+comes out about 0.05 mm wide, and the joints are slack to match. `cut-files/` is the
+redraw to cut from. Until 2026-11-12 the record WAS `cut-files/`, so the folder had no
+sheet anyone should cut and its SolidCraft design could not round-trip to it (0.905 mm,
+the stubs); since then `repro` redraws `cut-files/` like every other folder, the way
+`built/coil-fold2-long-straight-3t` has been since 2026-09-13.
 
-That is enforced rather than hoped for. The six sheets are pinned by hash in
+That is enforced rather than hoped for. The six `as-cut/` sheets are pinned by hash in
 `tools/as-built.sha256`, and `tools/repro.rs` checks them against those hashes
-instead of redrawing them -- redrawing them *should* differ, which is why an
+-- a redraw *should* differ from them, which is why an
 ordinary reproduction gate cannot protect them. Overwrite one and the gate fails
 with the line *this file describes wood that was cut*. Re-pin with
 `repro --update`, which is the deliberate act this paragraph asks for; nothing
