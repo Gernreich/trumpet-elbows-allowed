@@ -503,7 +503,8 @@ body, its blocks less the airway, with no joints.
 
 Every point of every outline is a sum of these times fixed numbers. The numbers come
 from snakebox itself: `viewer` draws each piece at the defaults and again with each
-parameter nudged 0.001 mm, and reads them off the differences.
+parameter nudged 0.001 mm (the ply and the pin's length 0.05 mm), and reads them off
+the differences.
 
 The fingers follow the sizes. Each finger edge is one finger (or slot) patterned
 along it. How many there are, how wide, and where the first starts are written the
@@ -529,9 +530,12 @@ part's volume).
   and to 7 mm, and the four stretched ones with the straight at 41 mm. Each of those
   builds matched the design drawn fresh at that size, part for part: the same volume,
   faces and centre of mass.
-  Changing the ply does not follow yet. At the default sizes the ply and the pin's
-  length are both 3 mm, and one point on each pin-end plate is fitted to the ply
-  rather than the pin.
+  The ply follows too, since 2026-11-11. At the default sizes the ply and the pin's
+  length are both 3 mm, and until then one corner beside each pin was fitted to the
+  ply rather than the pin. Each design is now checked against snakebox with the ply
+  moved 0.3 mm either way and the pin 0.5 mm. Each of the twenty, built with its ply
+  set to 2.7 and to 3.3 mm (and the pin width to what that ply gives), matched the
+  design drawn fresh at that ply, part for part.
 - **After building.** Every part of all twenty designs has its outline's area, plus
   its fingers' and less its slots', times the ply. In 19 of the twenty, no two parts overlap.
 - **Against the old solid pieces.** Each piece's parts, joined, match the old solid

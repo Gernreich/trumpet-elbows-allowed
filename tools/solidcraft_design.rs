@@ -26,6 +26,12 @@
 //! length (finger_exprs). check_fingers holds those against what snakebox
 //! draws at the defaults and at sizes well away from them.
 //!
+//! The ply follows too (since 2026-11-11). The ply and the pin's length are
+//! both 3 mm at the defaults, and one corner beside each pin had been
+//! fitted to the ply rather than the pin; the two are nudged further apart
+//! now, and check_far holds every point against snakebox with each moved
+//! a few tenths.
+//!
 //! North is +Y, east +X and up +Z, as the 3D page draws it; the page's z
 //! points south, so world y = -page z.
 use crate::bore::{Design, Rec, Spec};
@@ -529,8 +535,14 @@ fn fit(d: &Design, text: &str) -> Result<(Fitted, Env), String> {
     let e0 = base_env(d);
     let cubic = d.cubic();
     let free: Vec<usize> = (0..7).filter(|&i| !(cubic && i == 1)).collect();
-    // 0.001: the stretched lattice's widths reach snakebox as %g, six figures
-    let delta = 0.001;
+    // 0.001: the stretched lattice's widths reach snakebox as %g, six
+    // figures. The ply and the pin's length 0.05: both are 3 mm at the
+    // defaults, so beside each pin snakebox draws a step pin_len - ply
+    // long, zero there, and open() drops a step under 0.02 mm. Nudged
+    // less, the step stayed hidden and the corner past it was fitted to the
+    // ply instead of the pin (until 2026-11-11: a 3.3 mm ply put eleven
+    // points of the first trumpet 0.3 mm wrong)
+    let delta_of = |i: usize| if i == 2 || i == 5 { 0.05 } else { 0.001 };
     let mut dr = Draws { d, text, seen: vec![] };
     let b = dr.at(&e0).cloned().ok_or_else(|| placed(d, text, &e0).unwrap_err())?;
     let moved = |e: &Env, i: usize, by: f64| -> Env {
@@ -549,7 +561,7 @@ fn fit(d: &Design, text: &str) -> Result<(Fitted, Env), String> {
         for &i in &free {
             let mut got = None;
             for sg in [1.0, -1.0] {
-                if let Some(ps) = dr.at(&moved(&e0, i, sg * delta)) {
+                if let Some(ps) = dr.at(&moved(&e0, i, sg * delta_of(i))) {
                     if same_part(p, &ps[pi]) {
                         got = Some((sg, flatten(&ps[pi])));
                         break;
@@ -559,7 +571,7 @@ fn fit(d: &Design, text: &str) -> Result<(Fitted, Env), String> {
             let (sg, fp) = got.ok_or_else(|| format!("{}: {} cannot move either way without a finger count changing", p.name, VARS[i]))?;
             signs[i] = sg;
             for (j, c) in coef.iter_mut().enumerate() {
-                let x = (fp[j] - fb[j]) / (sg * delta);
+                let x = (fp[j] - fb[j]) / (sg * delta_of(i));
                 c[i + 1] = snap(x).ok_or_else(|| format!("{} number {j}: {} has a coefficient of {x}, not a simple number", p.name, VARS[i]))?;
             }
         }
@@ -577,7 +589,7 @@ fn fit(d: &Design, text: &str) -> Result<(Fitted, Env), String> {
         // the check: every parameter moved at once, each the way it could
         let mut e2 = e0;
         for &i in &free {
-            e2 = moved(&e2, i, signs[i] * 3.0 * delta);
+            e2 = moved(&e2, i, signs[i] * 3.0 * delta_of(i));
         }
         let q = dr.at(&e2).map(|ps| ps[pi].clone()).filter(|q| same_part(p, q)).ok_or_else(|| format!("{}: moving every parameter at once changes a finger count", p.name))?;
         let f2 = flatten(&q);
@@ -596,7 +608,43 @@ fn fit(d: &Design, text: &str) -> Result<(Fitted, Env), String> {
     }
     let f = Fitted { parts: b, face, pts, holes, fingers };
     check_fingers(d, &f, &e0, &mut dr)?;
+    check_far(d, &f, &e0, &mut dr)?;
     Ok((f, e0))
+}
+
+/// Check every point against snakebox with the ply and the pin's length
+/// moved well apart, one at a time: the ply 0.3 mm either way (the bore
+/// held, so the block moves twice that) and the pin 0.5 mm. A step zero
+/// long at the defaults is tenths of a millimetre long there, so a corner
+/// fitted to the wrong one of the two shows.
+fn check_far(d: &Design, f: &Fitted, e0: &Env, dr: &mut Draws) -> Result<(), String> {
+    for (i, by) in [(2, 0.3), (2, -0.3), (5, 0.5), (5, -0.5)] {
+        let mut e = *e0;
+        e[i] += by;
+        if i == 2 {
+            e[0] += 2.0 * by;
+            if d.cubic() {
+                e[1] = e[0];
+            }
+        }
+        let ps = dr.at(&e).cloned().ok_or_else(|| format!("snakebox cannot draw the bore with {} moved {by} mm", VARS[i]))?;
+        for (pi, p) in f.parts.iter().enumerate() {
+            if !same_part(p, &ps[pi]) {
+                return Err(format!("{}: moving {} {by} mm changes its shape", p.name, VARS[i]));
+            }
+            let drawn = flatten(&ps[pi]);
+            let mut lins: Vec<&Lin> = vec![&f.face[pi]];
+            lins.extend(f.pts[pi].iter().flatten());
+            lins.extend(f.holes[pi].iter().flatten().flatten());
+            lins.extend(f.fingers[pi].iter().flatten().flatten());
+            for (j, l) in lins.iter().enumerate() {
+                if (l.val(&e) - drawn[j]).abs() > 1e-7 {
+                    return Err(format!("{} number {j}: with {} moved {by} mm the design puts it at {} and snakebox at {}", p.name, VARS[i], l.val(&e), drawn[j]));
+                }
+            }
+        }
+    }
+    Ok(())
 }
 
 /// The two in-plane world axes of a part, in the order that makes the
